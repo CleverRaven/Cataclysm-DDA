@@ -4011,9 +4011,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 #else
     ( void ) terminal_size_changed;
 #endif
-
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
-
+    if( ingame ) {
+        refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    }
     return "";
 }
 

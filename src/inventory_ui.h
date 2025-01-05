@@ -21,6 +21,7 @@
 #include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"

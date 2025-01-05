@@ -1,5 +1,17 @@
 [
   {
+    "method": "json",
+    "nested_mapgen_id": "24x24_gutter_horizontal",
+    "type": "mapgen",
+    "object": { "mapgensize": [ 24, 24 ], "set": [ { "line": "terrain", "id": "t_gutter", "x": 0, "y": 0, "x2": 23, "y2": 0 } ] }
+  },
+  {
+    "method": "json",
+    "nested_mapgen_id": "24x24_gutter_vertical",
+    "type": "mapgen",
+    "object": { "mapgensize": [ 24, 24 ], "set": [ { "line": "terrain", "id": "t_gutter", "x": 0, "y": 0, "x2": 0, "y2": 23 } ] }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "roof_4x4_holdout",

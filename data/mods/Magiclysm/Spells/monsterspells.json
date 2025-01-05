@@ -517,6 +517,28 @@
     "duration_increment": 2400
   },
   {
+    "id": "necrotic_gaze_monster",
+    "type": "SPELL",
+    "name": { "str": "Necrotic Gaze Monster", "//~": "NO_I18N" },
+    "description": { "str": "Like the animist spell, but for monsters", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "line",
+    "flags": [ "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "SPLIT_DAMAGE" ],
+    "min_damage": 30,
+    "max_damage": 80,
+    "min_range": 3,
+    "max_range": 5,
+    "range_increment": 0.1,
+    "max_level": 25,
+    "difficulty": 3,
+    "base_casting_time": 100,
+    "min_aoe": 1,
+    "max_aoe": 3,
+    "aoe_increment": 0.1,
+    "damage_type": "necrotic"
+  },
+  {
     "id": "ethereal_grasp_monster",
     "type": "SPELL",
     "name": { "str": "Ethereal Grasp", "//~": "NO_I18N" },
@@ -572,5 +594,29 @@
     "max_dot": 0.3,
     "dot_increment": 0.01,
     "damage_type": "stab"
+  },
+  {
+    "id": "natural_spirit_zombie_decay",
+    "type": "SPELL",
+    "name": { "str": "Nature spirit anti-zombie spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "Cause zombies to rot away into nothingness.  You can't get this spell, though, you're not in tune with nature enough.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "RANDOM_DURATION", "RANDOM_AOE", "IGNORE_WALLS", "NO_PROJECTILE", "NO_HANDS" ],
+    "damage_type": "biological",
+    "max_level": 25,
+    "min_range": 15,
+    "max_range": 15,
+    "min_duration": 1000,
+    "max_duration": 2500,
+    "min_aoe": 4,
+    "max_aoe": 7,
+    "min_dot": 5,
+    "max_dot": 10,
+    "targeted_monster_species": [ "ZOMBIE" ]
   }
 ]

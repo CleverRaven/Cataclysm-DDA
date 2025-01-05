@@ -136,6 +136,16 @@
     "type": "oter_id_migration",
     "//": "migrated in 0.I",
     "oter_ids": {
+      "full_basic_lab_roof_north": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_east": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_south": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_west": "full_mutagen_lab_roof"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
       "dirt_road_turnback_north": "rural_road_end_north",
       "dirt_road_turnback_east": "rural_road_end_east",
       "dirt_road_turnback_south": "rural_road_end_south",

@@ -37,6 +37,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "WARG",
+    "description": "a gigantic lupine beast",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
     "id": "ORC",
     "description": "a stocky, green-skinned humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]

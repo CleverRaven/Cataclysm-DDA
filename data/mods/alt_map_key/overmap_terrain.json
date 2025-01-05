@@ -9,14 +9,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "open_air",
-    "copy-from": "open_air",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "crater",
     "copy-from": "crater",
     "name": "crater",
@@ -98,9 +90,8 @@
     "type": "overmap_terrain",
     "id": "river_center",
     "copy-from": "river_center",
-    "name": "river",
     "sym": "~",
-    "color": "blue"
+    "uniform_terrain": "t_water_moving_dp"
   },
   {
     "type": "overmap_terrain",
@@ -2104,14 +2095,6 @@
     "id": "basement",
     "copy-from": "basement",
     "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "empty_rock",
-    "copy-from": "empty_rock",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",

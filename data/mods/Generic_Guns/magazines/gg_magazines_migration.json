@@ -173,7 +173,6 @@
       "40_speedloader6",
       "44_speedloader6",
       "454_speedloader5",
-      "460_speedloader6",
       "500_speedloader5",
       "8x40_speedloader5",
       "9mm_speedloader7",
@@ -372,6 +371,11 @@
     "id": [ "hk_g80mag" ],
     "type": "MIGRATION",
     "replace": "rifle_rail_mag"
+  },
+  {
+    "id": [ "caotel_plasma_ring" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_mag"
   },
   {
     "id": [ "clip223_10rd" ],

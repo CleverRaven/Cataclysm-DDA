@@ -168,7 +168,7 @@ static void ClearScreen()
 static void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#if defined(SOUND)
+#if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
     int ret;
@@ -2709,7 +2709,7 @@ static void CheckMessages()
 
                 Character &player_character = get_player_character();
                 // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-                if( !player_character.get_hostile_creatures( 60 ).empty() ) {
+                if( !player_character.get_hostile_creatures( MAX_VIEW_DISTANCE ).empty() ) {
                     // Only prioritize movement options if we're not driving.
                     if( !player_character.controlling_vehicle ) {
                         actions.insert( ACTION_CYCLE_MOVE );

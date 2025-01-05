@@ -12,6 +12,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "full_basic_lab_roof",
+    "name": "science lab roof",
+    "vision_levels": "roof_or_air",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lab_stairs",
     "vision_levels": "underground_stone",
     "name": "science lab",
@@ -329,13 +339,10 @@
     "type": "overmap_terrain",
     "id": [
       "lab_surface_parking_blockA2",
-      "lab_surface_parking_blockA2_roof",
       "lab_surface_parking_blockE2",
-      "lab_surface_parking_blockE2_roof",
       "lab_surface_parking_blockA0",
       "lab_surface_parking_blockB0",
       "lab_surface_parking_blockC0",
-      "lab_surface_parking_blockC0_roof",
       "lab_surface_parking_blockD0",
       "lab_surface_parking_blockE0",
       "lab_surface_parking_blockA1",
@@ -660,13 +667,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "full_basic_lab_roof", "lab_security_z0S_roof", "lab_security_z0N_roof" ],
-    "name": "Trans-Coast Logistics Roof",
+    "id": "full_mutagen_lab_roof",
+    "name": "Trans-Coast Logistics roof",
     "vision_levels": "roof_or_air",
     "sym": "F",
     "color": "light_gray",
-    "see_cost": "full_high",
-    "flags": [ "RISK_EXTREME" ]
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_security_z0S_roof", "lab_security_z0N_roof" ],
+    "copy-from": "full_mutagen_lab_roof",
+    "delete": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",

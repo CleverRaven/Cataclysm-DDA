@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bio_ley_energy_blaster_spell",
+    "type": "SPELL",
+    "name": { "str": "Levinbolt Projector Targeting", "//~": "NO_I18N" },
+    "description": { "str": "Blast someone with magical energy just like in anime.", "//~": "NO_I18N" },
+    "message": "You unleash a levinbolt.",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_FAIL" ],
+    "spell_class": "NONE",
+    "effect": "attack",
+    "shape": "line",
+    "damage_type": "nether",
+    "min_damage": 25,
+    "max_damage": 60,
+    "min_range": 8,
+    "max_range": 8,
+    "field_id": "fd_laser",
+    "energy_source": "MANA",
+    "base_casting_time": 25,
+    "base_energy_cost": 75,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_chance": 1
+  }
+]

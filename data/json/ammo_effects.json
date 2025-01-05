@@ -272,6 +272,12 @@
     "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
   },
   {
+    "id": "PLASMA_FAN",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_plasma_fan" }
+  },
+  {
     "id": "EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 360 }
