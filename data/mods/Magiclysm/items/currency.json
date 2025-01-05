@@ -23,7 +23,10 @@
           "//": "We must start our search from a road, otherwise the route reveal will fail. For whatever reason.",
           "condition": { "u_near_om_location": "road" },
           "effect": [
-            { "u_location_variable": { "context_val": "forge_location" }, "target_params": { "om_terrain": "forge_3B", "z": 0 } },
+            {
+              "u_location_variable": { "context_val": "forge_location" },
+              "target_params": { "om_terrain": "forge_x2y2z1", "z": 0 }
+            },
             { "reveal_map": { "context_val": "forge_location" }, "radius": 4 },
             {
               "u_location_variable": { "context_val": "current_location_nearest_road" },
