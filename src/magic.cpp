@@ -1706,6 +1706,9 @@ int spell_type::get_level( int experience ) const
     if( get_level_formula_id.has_value() ) {
         return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
                                                std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
+    } else if ( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
+        return std::max( static_cast<int>( std::floor( magic_type.value()->get_level_formula_id.value()->eval( dialogue(
+                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
     }
 
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
@@ -1792,6 +1795,9 @@ int spell_type::exp_for_level( int level ) const
     }
     if( exp_for_level_formula_id.has_value() ) {
         return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
+                          nullptr ), { static_cast<double>( level ) } ) );
+    } else if ( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
+        return std::ceil( magic_type.value()->exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
                           nullptr ), { static_cast<double>( level ) } ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;

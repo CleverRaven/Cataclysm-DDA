@@ -19,6 +19,7 @@
 #include "dialogue_helpers.h"
 #include "enum_bitset.h"
 #include "event_subscriber.h"
+#include "magic_type.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"
@@ -225,6 +226,8 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        std::optional<magic_type_id> magic_type;
 
         requirement_id spell_components;
 
