@@ -54,12 +54,13 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
 }
 
 static void test_projectile_attack( const std::string &target_type, bool killable,
-                                    dealt_projectile_attack &attack, const std::string &weapon_type )
+                                    dealt_projectile_attack &attack, const std::string &weapon_type,
+                                    const bool headshot )
 {
     for( int i = 0; i < 10; ++i ) {
         monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
-        attack.missed_by = accuracy_critical * 0.75;
+        attack.missed_by = headshot ? accuracy_headshot * 0.75 : accuracy_critical;
         target.deal_projectile_attack( nullptr, attack, false );
         CAPTURE( target_type );
         CAPTURE( target.get_hp() );
@@ -71,7 +72,8 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
 }
 
 static void test_archery_balance( const std::string &weapon_type, const std::string &ammo_type,
-                                  const std::string &killable, const std::string &unkillable )
+                                  const std::string &killable, const std::string &unkillable,
+                                  const bool headshot )
 {
     item weapon( weapon_type );
     weapon.ammo_set( itype_id( ammo_type ), 1 );
@@ -86,10 +88,10 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
         test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms::zero, accuracy_critical * 0.75
     };
     if( !killable.empty() ) {
-        test_projectile_attack( killable, true, attack, weapon_type );
+        test_projectile_attack( killable, true, attack, weapon_type, headshot );
     }
     if( !unkillable.empty() ) {
-        test_projectile_attack( unkillable, false, attack, weapon_type );
+        test_projectile_attack( unkillable, false, attack, weapon_type, headshot );
     }
     test_projectile_hitting_wall( "t_wall", false, attack, weapon_type );
     // Use "can't kill anything" as an indication that it can't break a window either.
@@ -103,18 +105,23 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     // undodgable bolt fired with a guaranteed crit 10 times
 
     // Selfbow can't kill a turkey
-    test_archery_balance( "selfbow", "arrow_metal", "", "mon_turkey" );
-    test_archery_balance( "rep_crossbow", "bolt_steel", "", "mon_turkey" );
+    test_archery_balance( "selfbow", "arrow_wood_heavy", "", "test_mon_turkey", true );
+    test_archery_balance( "rep_crossbow", "bolt_makeshift", "", "test_mon_turkey", true );
     // Shortbow can kill turkeys, but not deer
-    test_archery_balance( "shortbow", "arrow_metal", "mon_turkey", "mon_deer" );
-    test_archery_balance( "hand_crossbow", "bolt_steel", "mon_turkey", "mon_deer" );
-    // Fiberglass recurve can kill deer, but not bear
-    test_archery_balance( "recurbow", "arrow_metal", "mon_deer", "mon_bear" );
-    test_archery_balance( "compositecrossbow", "bolt_steel", "mon_deer", "mon_bear" );
+    test_archery_balance( "shortbow", "arrow_metal", "test_mon_turkey", "test_mon_deer", true );
+    test_archery_balance( "hand_crossbow", "bolt_steel", "test_mon_turkey", "test_mon_deer", true );
+    // Fiberglass recurve can kill deer with an accurate hit, but not bear
+    test_archery_balance( "recurbow", "arrow_metal", "", "test_mon_deer", false );
+    test_archery_balance( "compositecrossbow", "bolt_steel", "", "test_mon_deer", false );
+    test_archery_balance( "recurbow", "arrow_metal", "test_mon_deer", "test_mon_bear", true );
+    test_archery_balance( "compositecrossbow", "bolt_steel", "test_mon_deer", "test_mon_bear", true );
     // Medium setting compound bow can kill Bear
-    test_archery_balance( "compbow", "arrow_metal", "mon_bear", "" );
+    test_archery_balance( "compbow", "arrow_metal", "", "test_mon_bear", false );
+    test_archery_balance( "compbow", "arrow_metal", "test_mon_bear", "", true );
     // High setting modern compund bow can kill Moose
-    // Currently disabled as it was not possible to make moose realistically tough while keeping the tests functional. Our bleeding isn't strong enough, and the tests are only hooked up to check instakills. Check the comments under PR #74554 for more detailed explanation.
-    // test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );
-    // test_archery_balance( "compbow_high", "arrow_metal", "mon_moose", "" );
+    // Use a 3x damage weakpoint to keep the tests functional.
+    test_archery_balance( "compcrossbow", "bolt_steel", "", "test_mon_moose", false );
+    test_archery_balance( "compbow_high", "arrow_metal", "", "test_mon_moose", false );
+    test_archery_balance( "compcrossbow", "bolt_steel", "test_mon_moose", "", true );
+    test_archery_balance( "compbow_high", "arrow_metal", "test_mon_moose", "", true );
 }
