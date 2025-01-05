@@ -1250,6 +1250,19 @@
           "miss_msg_npc": "%s reaches for <npcname> but they dodge!"
         },
         {
+          "id": "psi_porter2_reactive_displacement",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_reactive_displacement_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_teleport_reactive_displacement_monster" } }
+            ]
+          },
+          "monster_message": "The space around %1$s distorts."
+        },
+        {
           "type": "leap",
           "cooldown": { "math": [ "1 + rand(2)" ] },
           "move_cost": 50,
@@ -1315,6 +1328,19 @@
           "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
         },
         {
+          "id": "psi_porter3_reactive_displacement",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_reactive_displacement_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_teleport_reactive_displacement_monster" } }
+            ]
+          },
+          "monster_message": "The space around %1$s distorts."
+        },
+        {
           "type": "leap",
           "cooldown": 1,
           "move_cost": 50,
@@ -1322,6 +1348,14 @@
           "max_range": 16,
           "message": "%1$s vanishes and reappears elsewhere!",
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        },
+        {
+          "id": "psi_teleport3_breach",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_breach_monster", "min_level": 10 },
+          "cooldown": { "math": [ "17 + rand(32)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "The lights around %1$s waver and shapes appear near %3$s!."
         }
       ],
       "flags": [ "CLIMBS", "HARDTOSHOOT", "TELEPORT_IMMUNE" ]

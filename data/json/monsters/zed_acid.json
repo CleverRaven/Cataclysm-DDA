@@ -21,6 +21,7 @@
     "name": { "str": "corrosive zombie" },
     "description": "This zombie has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated, leathery body.  It moves clumsily, but spits from a large reserve of acid with uncanny accuracy.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "diff": 15,
     "volume": "108500 ml",
     "weight": "120 kg",

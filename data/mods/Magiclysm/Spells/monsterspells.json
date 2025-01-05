@@ -517,6 +517,28 @@
     "duration_increment": 2400
   },
   {
+    "id": "necrotic_gaze_monster",
+    "type": "SPELL",
+    "name": { "str": "Necrotic Gaze Monster", "//~": "NO_I18N" },
+    "description": { "str": "Like the animist spell, but for monsters", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "line",
+    "flags": [ "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "SPLIT_DAMAGE" ],
+    "min_damage": 30,
+    "max_damage": 80,
+    "min_range": 3,
+    "max_range": 5,
+    "range_increment": 0.1,
+    "max_level": 25,
+    "difficulty": 3,
+    "base_casting_time": 100,
+    "min_aoe": 1,
+    "max_aoe": 3,
+    "aoe_increment": 0.1,
+    "damage_type": "necrotic"
+  },
+  {
     "id": "ethereal_grasp_monster",
     "type": "SPELL",
     "name": { "str": "Ethereal Grasp", "//~": "NO_I18N" },

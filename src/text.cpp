@@ -223,16 +223,16 @@ static void TextEx( const std::string_view str, float wrap_width, uint32_t color
             // a paragraph, undo just that small extra spacing.
             ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
             drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
-        }
-
-        if( color ) {
-            ImGui::PushStyleColor( ImGuiCol_Text, color );
-        }
-        ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
-        // see above
-        ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
-        if( color ) {
-            ImGui::PopStyleColor();
+        } else {
+            if( color ) {
+                ImGui::PushStyleColor( ImGuiCol_Text, color );
+            }
+            ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
+            // see above
+            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            if( color ) {
+                ImGui::PopStyleColor();
+            }
         }
 
         if( textStart == drawEnd || drawEnd == textEnd ) {

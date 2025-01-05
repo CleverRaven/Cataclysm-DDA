@@ -1,21 +1,20 @@
 {
-  "//1": "If more than one font is specified for a typeface the list is treated as a fallback order.",
-  "//2": "unifont will always be used as a 'last resort' fallback even if not listed here.",
+  "//1": "See docs/FONT_OPTIONS.md for how to configure your fonts.",
   "typeface": [
-    "data/font/Terminus.ttf",
+    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "gui_typeface": [
-    "data/font/Roboto-Medium.ttf",
-    "data/font/Terminus.ttf",
+    { "path": "data/font/Roboto-Medium.ttf", "hinting": "Light" },
+    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "map_typeface": [
-    "data/font/Terminus.ttf",
+    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],
   "overmap_typeface": [
-    "data/font/Terminus.ttf",
+    { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ]
 }

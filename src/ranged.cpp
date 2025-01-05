@@ -321,10 +321,9 @@ class target_ui
 
         // Compact layout
         bool compact = false;
-        // Tiny layout - when extremely short on space
+        // Tiny layout - when extremely short on height
         bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
+        // Narrow layout - when short on width
         bool narrow = false;
 
         // Create window and set up input context
@@ -1951,14 +1950,20 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     int width = getmaxx( w ) - 2; // window width minus borders
     const int bars_pad = 3;
     bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     nc_color col = c_light_gray;
 
-    // Start printing by panel type, inside each branch whether to output numbers or "bars"
-    if( panel_type == "legacy_labels_narrow_sidebar" || panel_type == "legacy_compact_sidebar" ) {
-        bool narrow = panel_type == "legacy_labels_narrow_sidebar";
-        // TODO: who uses this? this is broken likely since work started
-        // on sidebar widgets and yet nobody complains...
+
+    const auto &current_steadiness_it = std::find_if( sorted.begin(),
+    sorted.end(), []( const aim_type_prediction & atp ) {
+        return atp.is_default;
+    } );
+    if( current_steadiness_it != sorted.end() ) {
+        line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
+    }
+
+    // Start printing by available width of aim window
+    if( narrow ) {
         std::vector<std::string> t_aims( 4 );
         std::vector<std::string> t_confidence( 20 );
         int aim_iter = 0;
@@ -2020,19 +2025,10 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             line_number = line_number + 4; // 4 to account for the tables
         }
         return line_number;
-    } else { // print the "legacy classic" one
-        // there's more legacy sidebars but appear to not be used
-
-        const auto &current_steadiness_it = std::find_if( sorted.begin(),
-        sorted.end(), []( const aim_type_prediction & atp ) {
-            return atp.is_default;
-        } );
-        if( current_steadiness_it != sorted.end() ) {
-            line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
-        }
+    } else { // print normally
 
         int column_number = 1;
-        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+        if( !narrow ) {
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
@@ -2880,16 +2876,14 @@ target_handler::trajectory target_ui::run()
 
 void target_ui::init_window_and_input()
 {
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
-
     int top = 0;
-    int width;
+    int width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
     int height;
+    narrow = width <= 42;
     if( narrow ) {
-        // Narrow layout removes the list of controls. This allows us
-        // to have small window size and not suffer from it.
-        width = 34;
+        if( width < 34 ) {
+            width = 34;
+        }
         height = 24;
         compact = true;
     } else {
@@ -3801,6 +3795,9 @@ void target_ui::draw_ui_window()
         }
     }
 
+    // Narrow layout removes the list of controls. This allows us
+    // to have small window size and not suffer from it.
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     if( !narrow ) {
         draw_controls_list( text_y );
     }

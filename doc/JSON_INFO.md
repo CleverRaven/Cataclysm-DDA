@@ -156,7 +156,6 @@ Use the `Home` key to return to the top.
     - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
-      - [`move_cost_mod`](#move_cost_mod)
       - [`keg_capacity`](#keg_capacity)
       - [`deployed_item`](#deployed_item)
       - [`lockpick_result`](#lockpick_result)
@@ -173,7 +172,6 @@ Use the `Home` key to return to the top.
       - [`surgery_skill_multiplier`](#surgery_skill_multiplier)
     - [Terrain](#terrain)
       - [`type`](#type-2)
-      - [`move_cost`](#move_cost)
       - [`heat_radiation`](#heat_radiation)
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
@@ -199,6 +197,7 @@ Use the `Home` key to return to the top.
       - [`connects_to`](#connects_to)
       - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
+      - [`move_cost_mod`](#move_cost_mod)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
       - [`fall_damage_reduction`](#fall_damage_reduction)
@@ -5113,17 +5112,13 @@ Fixed string, must be `furniture` to identify the JSON object as such.
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost_mod`
-
-Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
-
 #### `keg_capacity`
 
-Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
 
 #### `deployed_item`
 
-Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
+(Optional) Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
 
 #### `lockpick_result`
 
@@ -5135,7 +5130,7 @@ Item id string used to create furniture. Allows player to interact with the furn
 
 #### `light_emitted`
 
-How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `boltcut`
@@ -5323,17 +5318,13 @@ Fixed string, must be "terrain" to identify the JSON object as such.
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost`
-
-Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
-
 #### `heat_radiation`
 
-Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
+(Optional) Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
 
 #### `light_emitted`
 
-How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `lockpick_result`
@@ -5586,9 +5577,13 @@ Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
 
+#### `move_cost_mod`
+
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
 #### `comfort`
 
-How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
+(Optional) How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
     uncomfortable = -999,
     neutral = 0,
     slightly_comfortable = 3,
@@ -5597,15 +5592,15 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+(Optional) Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
 
 #### `fall_damage_reduction`
 
-Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
+(Optional) Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 
-Increase warmth received on feet from nearby fire  (default = 300)
+(Optional) Increase warmth received on feet from nearby fire  (default = 300)
 
 #### `looks_like`
 
@@ -5619,7 +5614,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `coverage`
 
-The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
+(Optional) The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
 
 #### `max_volume`
 

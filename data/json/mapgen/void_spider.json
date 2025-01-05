@@ -28,7 +28,11 @@
             "prob": 10
           },
           {
-            "collection": [ { "item": "holo_cloak" }, { "item": "standard_template_construct" }, { "item": "plasma_gun" } ],
+            "collection": [
+              { "item": "holo_cloak" },
+              { "item": "standard_template_construct" },
+              { "item": "exodii_plasma_projectile", "contents-item": [ "condenser_pristine" ] }
+            ],
             "prob": 10
           },
           {

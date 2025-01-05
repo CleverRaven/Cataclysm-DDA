@@ -1149,29 +1149,31 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
     wattroff( wbar, c_white );
 
-    wattron( wbar, c_magenta );
-    mvwprintw( wbar, point( 1, 12 ), _( "Use movement keys to pan." ) );
-    mvwprintw( wbar, point( 1, 13 ), _( string_format( "Press %s to preview route.",
-                                        inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
-    mvwprintw( wbar, point( 1, 14 ), _( "Press again to confirm." ) );
-    wattroff( wbar, c_magenta );
-    int y = 16;
-
     const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
-        y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, color, string_format( _( "%s - %s" ),
-                             inp_ctxt.get_desc( action ),
-                             inp_ctxt.get_action_name( action ) ) );
+        lines += fold_and_print( wbar, point( 1, lines ), getmaxx( wbar ) - 1, color,
+                                 string_format( _( "%s - %s" ),  inp_ctxt.get_desc( action ), inp_ctxt.get_action_name( action ) ) );
     };
 
     if( data.debug_editor ) {
+        lines++;
         print_hint( "REVEAL_MAP", c_light_blue );
         print_hint( "LONG_TELEPORT", c_light_blue );
         print_hint( "PLACE_SPECIAL", c_light_blue );
         print_hint( "PLACE_TERRAIN", c_light_blue );
         print_hint( "SET_SPECIAL_ARGS", c_light_blue );
         print_hint( "MODIFY_HORDE", c_light_blue );
-        ++y;
+        lines--;
+    } else {
+        lines = 11;
     }
+
+    wattron( wbar, c_magenta );
+    mvwprintw( wbar, point( 1, ++lines ), _( "Use movement keys to pan." ) );
+    mvwprintw( wbar, point( 1, ++lines ), _( string_format( "Press %s to preview route.",
+               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
+    mvwprintw( wbar, point( 1, ++lines ), _( "Press again to confirm." ) );
+    lines += 2;
+    wattroff( wbar, c_magenta );
 
     const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
     const bool is_explored = overmap_buffer.is_explored( cursor_pos );

@@ -4,13 +4,56 @@
     "attack_type": "melee",
     "id": "hypo_pkill",
     "cooldown": 5,
-    "move_cost": 150,
+    "move_cost": 0,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 15, "armor_multiplier": 0.2 } ],
     "effects": [ { "id": "pkill3", "duration": 300 }, { "id": "pkill2", "duration": 600 } ],
     "hit_dmg_u": "%1$s injects you with a syringe!",
     "hit_dmg_npc": "%1$s injects <npcname> with a syringe!",
     "no_dmg_msg_u": "%1$s tries to inject you, but fails to penetrate your armor!",
     "no_dmg_msg_npc": "%1$s tries to inject <npcname>, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "zenit_control",
+    "cooldown": 3,
+    "move_cost": 0,
+    "range": 35,
+    "dodgeable": false,
+    "blockable": false,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+    "eoc": [ "EOC_ZENIT_CONTROL" ],
+    "hit_dmg_u": "",
+    "hit_dmg_npc": "",
+    "miss_msg_u": "",
+    "miss_msg_npc": "",
+    "no_dmg_msg_u": "",
+    "no_dmg_msg_npc": ""
+  },
+  {
+    "id": "shock_mine_control",
+    "type": "SPELL",
+    "name": { "str": "Sock mine control", "//~": "NO_I18N" },
+    "description": { "str": "Shock mines control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SHOCK_MINE_CONTROL"
+  },
+  {
+    "id": "EOC_SHOCK_MINE_CONTROL",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "math": [ "has_var(u_death_timer)" ] },
+        "then": [ { "if": { "math": [ "time_since(u_death_timer) > time(' 8 h')" ] }, "then": [ "u_die" ] } ],
+        "else": [ { "math": [ "u_death_timer = time('now')" ] } ]
+      }
+    ]
   },
   {
     "type": "monster_attack",

@@ -13,7 +13,6 @@
           { "item": "bio_alarm", "prob": 20 },
           { "item": "bio_flashlight", "prob": 30 },
           { "item": "bio_jointservo", "prob": 15 },
-          { "item": "bio_lockpick", "prob": 30 },
           { "item": "bio_tattoo_led", "prob": 40 },
           { "item": "bio_ar", "prob": 25 },
           { "item": "bio_soporific", "prob": 20 },
@@ -26,7 +25,8 @@
           { "item": "bio_ethanol", "prob": 50 },
           { "item": "bio_fuel_cell_gasoline", "prob": 50 },
           { "item": "bio_torsionratchet", "prob": 200 },
-          { "item": "bio_fuel_cell_blood", "prob": 15 }
+          { "item": "bio_mana_to_bionic_power", "prob": 25 },
+          { "item": "bio_fuel_cell_blood", "prob": 5 }
         ],
         "prob": 50
       },
@@ -59,7 +59,8 @@
           { "item": "bio_meteorologist", "prob": 5 },
           { "item": "bio_night_vision", "prob": 4 },
           { "item": "bio_ground_sonar", "prob": 2 },
-          { "item": "bio_infrared", "prob": 8 }
+          { "item": "bio_infrared", "prob": 8 },
+          { "item": "bio_see_wizards_eyes", "prob": 8 }
         ],
         "prob": 35
       },
@@ -78,5 +79,24 @@
         "prob": 10
       }
     ]
+  },
+  {
+    "id": "Zomborg_CBM_harvest_ranged_weapons",
+    "copy-from": "Zomborg_CBM_harvest_ranged_weapons",
+    "type": "item_group",
+    "subtype": "distribution",
+    "extend": { "items": [ { "item": "bio_ley_energy_blaster", "prob": 5 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier2",
+    "copy-from": "EXODII_CBM_Store_Tier2",
+    "extend": { "items": [ { "item": "bio_mana_to_bionic_power", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_CBM_Store_Tier3",
+    "copy-from": "EXODII_CBM_Store_Tier3",
+    "extend": { "items": [ { "item": "bio_see_wizards_eyes", "prob": 10 }, { "item": "bio_ley_energy_blaster", "prob": 10 } ] }
   }
 ]

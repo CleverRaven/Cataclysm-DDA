@@ -66,6 +66,8 @@ UNIT_UNITS = {
 GUNS_BLACKLIST = {
     # Well named, faction-specific weapon, with weird ammo
     "brogyeki",
+    "exodii_plasma_fan",
+    "exodii_plasma_projectile",
 }
 AMMO_BLACKLIST = {
     "arrow",
@@ -79,6 +81,7 @@ AMMO_BLACKLIST = {
 }
 VARIANT_CHECK_BLACKLIST = {
     "pamd68rubik",
+
 }
 VARIANT_CHECK_PAIR_BLACKLIST = {
     # FIXME: fix and remove these

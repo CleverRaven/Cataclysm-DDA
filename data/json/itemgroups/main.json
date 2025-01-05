@@ -19,7 +19,6 @@
       { "item": "laser_rifle", "prob": 10 },
       { "item": "optical_cloak", "prob": 10 },
       { "item": "holo_cloak", "prob": 10 },
-      { "item": "plasma_rifle", "prob": 10 },
       { "item": "portal", "prob": 10 },
       { "item": "rm13_armor", "prob": 10 },
       { "item": "high_density_capacitor", "prob": 10 },

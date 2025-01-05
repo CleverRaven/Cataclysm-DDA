@@ -245,5 +245,25 @@
     "name": "active oxygen bomb",
     "price": "0 USD",
     "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!"
+  },
+  {
+    "id": "afs_reactor_unstable",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "unstable fusion reactor",
+    "looks_like": "c4armed",
+    "description": "A pressurized plasma reactor that is on the verge of a catastrophic explosion.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": "0 cent",
+    "to_hit": -5,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "countdown_interval": "3 seconds",
+    "explode_in_fire": true,
+    "explosion": { "power": 28000, "max_noise": 150, "distance_factor": 0.15 },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 28000, "max_noise": 150, "distance_factor": 0.15 } },
+    "flags": [ "BOMB", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   }
 ]
