@@ -28,6 +28,7 @@
         "S.Sttt.SSSI&q#xxxx"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 5, 13 ], "y": [ 5, 13 ], "repeat": [ 2, 3 ] } ],
       "palettes": [ "gun_store_palette_occupied" ]
     }
   },
@@ -60,7 +61,6 @@
         "SS!!SSS!S!I&q#...."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 5, 13 ], "y": [ 5, 13 ], "repeat": [ 2, 3 ] } ],
       "nested": { "0": { "chunks": [ [ "gunstore_barricaded_safes_a", 50 ], [ "gunstore_barricaded_handloading_a", 50 ] ] } },
       "palettes": [ "gun_store_palette_unlooted" ],
       "place_loot": [ { "group": "SUS_gunstore_optics_display", "x": 10, "y": [ 8 ], "repeat": [ 10, 20 ] } ]
@@ -89,26 +89,33 @@
         ",,''''''''''''''''",
         "''''''''''''''''''",
         "##:::##+##########",
-        "!pppppjjj$3.pISSSS",
-        "S.........3.pIS..S",
-        "!.JJ.YYY..3.pIS..S",
-        "!.JJ..Y...p..III+I",
-        "S.ll.Y!...p..D...g",
-        "S.44.Y!...ppcI...n",
+        "!gggggjjj$3.pI1   ",
+        "S.........3.pI    ",
+        "!0...YYY..3.pI    ",
+        "!.....Y...H..I    ",
+        "S....Y!...H..D...g",
+        "S....Y!...kHcI...n",
         "S............D...f",
-        "S.YY.YY.Y...pIn..q",
-        "!.YY.YYY....pInA.r",
-        "S.YYY.Y.Y...pInA.l",
-        "S.YYY.Y.Y....###+#",
-        "!.YY.YYY.Y...+...w",
-        "!.YY.YY.!.IID#....",
+        "S.YK.ii.J...hIn..q",
+        "!.Yt.iiJ....hInA.r",
+        "S.Ytt.i.J...hInA.l",
+        "S.Ooo.i.J....###+#",
+        "!.Oo.iiJ.J...+...w",
+        "!.Oo.ii.!.IID#....",
         "S.........I..#w...",
         "SS!!SSS!S!I&q#w..."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looted" ],
+      "palettes": [ "gun_store_palette_looter" ],
       "nested": {
+        "0": { "chunks": [ [ "gunstore_looted_safes_a", 50 ], [ "gunstore_looted_handloading_a", 50 ] ] },
+        "1": { "chunks": [ [ "gunstore_looted_storage_a", 85 ], [ "gunstore_unlooted_storage_a", 15 ] ] },
         "Y": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        "O": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        "t": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        "i": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        "K": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
+        "J": { "chunks": [ [ "destroyed_furniture_concrete_floor", 30 ], [ "null", 70 ] ] },
         ".": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
       }
     }
@@ -187,6 +194,79 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gun_store_palette_unlooted" ],
       "place_item": [ { "item": "press", "x": 1, "y": 3 }, { "item": "press", "x": 2, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_looted_safes_a",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".LL.",
+        ".LL.",
+        ".//.",
+        ".44."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_looter" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_looted_handloading_a",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".``.",
+        "..`.",
+        ".`..",
+        ".33."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_looter" ],
+      "place_item": [ { "item": "press", "x": [ 1, 2 ], "y": 3, "chance": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_looted_storage_a",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BB.B",
+        "B..B",
+        "B..F",
+        "II+I"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_looter" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "nested_mapgen_id": "gunstore_unlooted_storage_a",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BBBB",
+        "B..B",
+        "B..F",
+        "II+I"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gun_store_palette_unlooted" ]
     }
   }
 ]

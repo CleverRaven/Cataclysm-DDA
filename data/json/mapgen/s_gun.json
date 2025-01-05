@@ -47,8 +47,8 @@
         "0": {
           "chunks": [
             [ "gunstore_barricaded_a", 0 ],
-            [ "gunstore_occupied_a", 1 ],
-            [ "gunstore_looted_a", 0 ],
+            [ "gunstore_occupied_a", 0 ],
+            [ "gunstore_looted_a", 1 ],
             [ "gunstore_ransacked_a", 0 ]
           ]
         }
