@@ -278,6 +278,23 @@
     }
   },
   {
+    "id": "bot_shock_mine",
+    "type": "TOOL",
+    "copy-from": "bot_hack_base",
+    "name": "inactive shock-mine",
+    "description": "A less-than-lethal mine that emits a powerful electrical shock when triggered.  Activate this item to deploy the mine, which will have a lifetime of 10 hours after activation.",
+    "color": "yellow",
+    "volume": "1 L",
+    "weight": "1200 g",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_shock_mine",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "traps", "computer" ]
+    }
+  },
+  {
     "abstract": "bot_medibot_base",
     "type": "TOOL",
     "looks_like": "mon_tripod",
