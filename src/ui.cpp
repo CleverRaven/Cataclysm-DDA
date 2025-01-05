@@ -1285,7 +1285,7 @@ void uilist::show( ui_adaptor &ui )
         callback->refresh( this );
     }
 }
-
+#endif
 
 
 int uilist::scroll_amount_from_action( const std::string &action )
@@ -1307,7 +1307,6 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return 0;
     }
 }
-#endif
 
 /**
  * check for valid scrolling keypress and handle. return false if invalid keypress
@@ -1439,9 +1438,8 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
     }
     return result;
 }
-
-
 #endif
+
 
 /**
  * Handle input and update display

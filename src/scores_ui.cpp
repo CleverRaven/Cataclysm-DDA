@@ -182,196 +182,201 @@ void scores_ui_impl::init_data()
         npc_kills_data.emplace_back( entry );
     }
     std::sort( npc_kills_data.begin(), npc_kills_data.end(), localized_compare );
+}
 
-
-    void scores_ui_impl::draw_achievements_text( bool use_conducts ) const {
-        if( !g->achievements().is_enabled() ) {
-            ImGui::TextWrapped( "%s",
-                                use_conducts
-                                ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
-                                     "the debug menu to work around a game bug, then you can re-enable conducts via the "
-                                     "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
-                                : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
-                                     "the debug menu to work around a game bug, then you can re-enable achievements via the "
-                                     "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
-            return;
-        }
-        if( use_conducts && conducts_text.empty() ) {
-            ImGui::TextWrapped( "%s", _( "This game has no valid conducts." ) );
-            return;
-        }
-        if( !use_conducts && achievements_text.empty() ) {
-            ImGui::TextWrapped( "%s", _( "This game has no valid achievements." ) );
-            return;
-        }
-        for( const std::string &entry : use_conducts ? conducts_text : achievements_text ) {
-            cataimgui::draw_colored_text( entry );
-            ImGui::Separator();
-        }
-        ImGui::NewLine();
+void scores_ui_impl::draw_achievements_text( bool use_conducts ) const
+{
+    if( !g->achievements().is_enabled() ) {
         ImGui::TextWrapped( "%s",
                             use_conducts
-                            ? _( "Note that only conducts that existed when you started this game and still exist now will appear here." )
-                            : _( "Note that only achievements that existed when you started this game and still exist now will appear here." )
-                          );
+                            ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
+                                 "the debug menu to work around a game bug, then you can re-enable conducts via the "
+                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
+                            : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
+                                 "the debug menu to work around a game bug, then you can re-enable achievements via the "
+                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
+        return;
     }
+    if( use_conducts && conducts_text.empty() ) {
+        ImGui::TextWrapped( "%s", _( "This game has no valid conducts." ) );
+        return;
+    }
+    if( !use_conducts && achievements_text.empty() ) {
+        ImGui::TextWrapped( "%s", _( "This game has no valid achievements." ) );
+        return;
+    }
+    for( const std::string &entry : use_conducts ? conducts_text : achievements_text ) {
+        cataimgui::draw_colored_text( entry );
+        ImGui::Separator();
+    }
+    ImGui::NewLine();
+    ImGui::TextWrapped( "%s",
+                        use_conducts
+                        ? _( "Note that only conducts that existed when you started this game and still exist now will appear here." )
+                        : _( "Note that only achievements that existed when you started this game and still exist now will appear here." )
+                      );
+}
 
-    void scores_ui_impl::draw_scores_text() const {
-        if( scores_text.empty() ) {
-            ImGui::TextWrapped( "%s", _( "This game has no valid scores." ) );
-            return;
-        }
-        for( const std::string &entry : scores_text ) {
-            ImGui::TextWrapped( "%s", entry.c_str() );
-        }
+void scores_ui_impl::draw_scores_text() const
+{
+    if( scores_text.empty() ) {
+        ImGui::TextWrapped( "%s", _( "This game has no valid scores." ) );
+        return;
+    }
+    for( const std::string &entry : scores_text ) {
+        ImGui::TextWrapped( "%s", entry.c_str() );
+    }
+    ImGui::NewLine();
+    ImGui::TextWrapped( "%s",
+                        _( "Note that only scores that existed when you started this game and still exist now will appear here." )
+                      );
+}
+
+void scores_ui_impl::draw_kills_text() const
+{
+    if( get_option<bool>( "STATS_THROUGH_KILLS" ) &&
+        ImGui::CollapsingHeader( _( "Stats through kills:" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
+        ImGui::TextWrapped( _( "Total kills: %d" ), total_kills );
         ImGui::NewLine();
-        ImGui::TextWrapped( "%s",
-                            _( "Note that only scores that existed when you started this game and still exist now will appear here." )
-                          );
+        ImGui::TextWrapped( _( "Experience: %d (%d points available)" ),
+                            get_avatar().kill_xp,
+                            get_avatar().free_upgrade_points() );
     }
 
-    void scores_ui_impl::draw_kills_text() const {
-        if( get_option<bool>( "STATS_THROUGH_KILLS" ) &&
-            ImGui::CollapsingHeader( _( "Stats through kills:" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            ImGui::TextWrapped( _( "Total kills: %d" ), total_kills );
-            ImGui::NewLine();
-            ImGui::TextWrapped( _( "Experience: %d (%d points available)" ),
-                                get_avatar().kill_xp,
-                                get_avatar().free_upgrade_points() );
-        }
+    if( ImGui::CollapsingHeader( string_format( _( "Monster kills (%d):" ), monster_kills ).c_str(),
+                                 monster_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
+        if( monster_kills == 0 ) {
+            ImGui::TextWrapped( "%s", _( "You haven't killed any monsters yet!" ) );
+        } else {
+            for( const auto &entry : monster_kills_data ) {
+                const int num_kills = std::get<0>( entry );
+                const std::string &symbol = std::get<1>( entry );
+                nc_color color = std::get<2>( entry );
+                const std::string &name = std::get<3>( entry );
 
-        if( ImGui::CollapsingHeader( string_format( _( "Monster kills (%d):" ), monster_kills ).c_str(),
-                                     monster_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            if( monster_kills == 0 ) {
-                ImGui::TextWrapped( "%s", _( "You haven't killed any monsters yet!" ) );
-            } else {
-                for( const auto &entry : monster_kills_data ) {
-                    const int num_kills = std::get<0>( entry );
-                    const std::string &symbol = std::get<1>( entry );
-                    nc_color color = std::get<2>( entry );
-                    const std::string &name = std::get<3>( entry );
-
-                    cataimgui::PushMonoFont();
-                    ImGui::TextColored( c_light_gray, "%5d ", num_kills );
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::TextColored( color, "%s", symbol.c_str() );
-                    ImGui::PopFont();
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::TextColored( c_light_gray, " %s", name.c_str() );
-                }
-            }
-        }
-        if( ImGui::CollapsingHeader( string_format( _( "NPC kills (%d):" ), npc_kills ).c_str(),
-                                     npc_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
-            if( npc_kills == 0 ) {
-                ImGui::TextWrapped( "%s", _( "You haven't killed any NPCs yet!" ) );
-            } else {
-                for( const std::string &npc_name : npc_kills_data ) {
-                    cataimgui::PushMonoFont();
-                    ImGui::TextColored( c_light_gray, "%5d ", 1 );
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::TextColored( c_magenta, "%s", "@" );
-                    ImGui::PopFont();
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::TextColored( c_light_gray, " %s", npc_name.c_str() );
-                }
+                cataimgui::PushMonoFont();
+                ImGui::TextColored( c_light_gray, "%5d ", num_kills );
+                ImGui::SameLine( 0, 0 );
+                ImGui::TextColored( color, "%s", symbol.c_str() );
+                ImGui::PopFont();
+                ImGui::SameLine( 0, 0 );
+                ImGui::TextColored( c_light_gray, " %s", name.c_str() );
             }
         }
     }
-
-    void scores_ui_impl::draw_controls() {
-        ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
-
-        if( last_action == "QUIT" ) {
-            return;
-        } else if( last_action == "TOGGLE_MONSTER_GROUP" ) {
-            monster_group_collapsed = !monster_group_collapsed;
-        } else if( last_action == "TOGGLE_NPC_GROUP" ) {
-            npc_group_collapsed = !npc_group_collapsed;
-        } else if( last_action == "UP" ) {
-            s = cataimgui::scroll::line_up;
-        } else if( last_action == "DOWN" ) {
-            s = cataimgui::scroll::line_down;
-        } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
-            s = cataimgui::scroll::begin;
-            switch_tab = selected_tab;
-            ++switch_tab;
-        } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
-            s = cataimgui::scroll::begin;
-            switch_tab = selected_tab;
-            --switch_tab;
-        } else if( last_action == "PAGE_UP" ) {
-            s = cataimgui::scroll::page_up;
-        } else if( last_action == "PAGE_DOWN" ) {
-            s = cataimgui::scroll::page_down;
-        } else if( last_action == "HOME" ) {
-            s = cataimgui::scroll::begin;
-        } else if( last_action == "END" ) {
-            s = cataimgui::scroll::end;
+    if( ImGui::CollapsingHeader( string_format( _( "NPC kills (%d):" ), npc_kills ).c_str(),
+                                 npc_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
+        if( npc_kills == 0 ) {
+            ImGui::TextWrapped( "%s", _( "You haven't killed any NPCs yet!" ) );
+        } else {
+            for( const std::string &npc_name : npc_kills_data ) {
+                cataimgui::PushMonoFont();
+                ImGui::TextColored( c_light_gray, "%5d ", 1 );
+                ImGui::SameLine( 0, 0 );
+                ImGui::TextColored( c_magenta, "%s", "@" );
+                ImGui::PopFont();
+                ImGui::SameLine( 0, 0 );
+                ImGui::TextColored( c_light_gray, " %s", npc_name.c_str() );
+            }
         }
+    }
+}
 
-        ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+void scores_ui_impl::draw_controls()
+{
+    ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
 
-        if( ImGui::BeginTabBar( "##TAB_BAR" ) ) {
-            flags = ImGuiTabItemFlags_None;
-            if( switch_tab == scores_ui_tab::achievements ) {
-                flags = ImGuiTabItemFlags_SetSelected;
-                switch_tab = enum_traits<scores_ui_tab>::last;
-            }
-            if( ImGui::BeginTabItem( _( "ACHIEVEMENTS" ), nullptr, flags ) ) {
-                selected_tab = scores_ui_tab::achievements;
-                ImGui::EndTabItem();
-            }
-            flags = ImGuiTabItemFlags_None;
-            if( switch_tab == scores_ui_tab::conducts ) {
-                flags = ImGuiTabItemFlags_SetSelected;
-                switch_tab = enum_traits<scores_ui_tab>::last;
-            }
-            if( ImGui::BeginTabItem( _( "CONDUCTS" ), nullptr, flags ) ) {
-                selected_tab = scores_ui_tab::conducts;
-                ImGui::EndTabItem();
-            }
-            flags = ImGuiTabItemFlags_None;
-            if( switch_tab == scores_ui_tab::scores ) {
-                flags = ImGuiTabItemFlags_SetSelected;
-                switch_tab = enum_traits<scores_ui_tab>::last;
-            }
-            if( ImGui::BeginTabItem( _( "SCORES" ), nullptr, flags ) ) {
-                selected_tab = scores_ui_tab::scores;
-                ImGui::EndTabItem();
-            }
-            flags = ImGuiTabItemFlags_None;
-            if( switch_tab == scores_ui_tab::kills ) {
-                flags = ImGuiTabItemFlags_SetSelected;
-                switch_tab = enum_traits<scores_ui_tab>::last;
-            }
-            if( ImGui::BeginTabItem( _( "KILLS" ), nullptr, flags ) ) {
-                selected_tab = scores_ui_tab::kills;
-                ImGui::EndTabItem();
-            }
-            ImGui::EndTabBar();
-        }
-
-        if( selected_tab == scores_ui_tab::achievements ) {
-            draw_achievements_text();
-        }
-        if( selected_tab == scores_ui_tab::conducts ) {
-            draw_achievements_text( true );
-        }
-        if( selected_tab == scores_ui_tab::scores ) {
-            draw_scores_text();
-        }
-        if( selected_tab == scores_ui_tab::kills ) {
-            draw_kills_text();
-        }
-
-        cataimgui::set_scroll( s );
+    if( last_action == "QUIT" ) {
+        return;
+    } else if( last_action == "TOGGLE_MONSTER_GROUP" ) {
+        monster_group_collapsed = !monster_group_collapsed;
+    } else if( last_action == "TOGGLE_NPC_GROUP" ) {
+        npc_group_collapsed = !npc_group_collapsed;
+    } else if( last_action == "UP" ) {
+        s = cataimgui::scroll::line_up;
+    } else if( last_action == "DOWN" ) {
+        s = cataimgui::scroll::line_down;
+    } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
+        s = cataimgui::scroll::begin;
+        switch_tab = selected_tab;
+        ++switch_tab;
+    } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
+        s = cataimgui::scroll::begin;
+        switch_tab = selected_tab;
+        --switch_tab;
+    } else if( last_action == "PAGE_UP" ) {
+        s = cataimgui::scroll::page_up;
+    } else if( last_action == "PAGE_DOWN" ) {
+        s = cataimgui::scroll::page_down;
+    } else if( last_action == "HOME" ) {
+        s = cataimgui::scroll::begin;
+    } else if( last_action == "END" ) {
+        s = cataimgui::scroll::end;
     }
 
-    void show_scores_ui() {
-        scores_ui new_instance;
-        new_instance.draw_scores_ui();
+    ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+
+    if( ImGui::BeginTabBar( "##TAB_BAR" ) ) {
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == scores_ui_tab::achievements ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = enum_traits<scores_ui_tab>::last;
+        }
+        if( ImGui::BeginTabItem( _( "ACHIEVEMENTS" ), nullptr, flags ) ) {
+            selected_tab = scores_ui_tab::achievements;
+            ImGui::EndTabItem();
+        }
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == scores_ui_tab::conducts ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = enum_traits<scores_ui_tab>::last;
+        }
+        if( ImGui::BeginTabItem( _( "CONDUCTS" ), nullptr, flags ) ) {
+            selected_tab = scores_ui_tab::conducts;
+            ImGui::EndTabItem();
+        }
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == scores_ui_tab::scores ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = enum_traits<scores_ui_tab>::last;
+        }
+        if( ImGui::BeginTabItem( _( "SCORES" ), nullptr, flags ) ) {
+            selected_tab = scores_ui_tab::scores;
+            ImGui::EndTabItem();
+        }
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == scores_ui_tab::kills ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = enum_traits<scores_ui_tab>::last;
+        }
+        if( ImGui::BeginTabItem( _( "KILLS" ), nullptr, flags ) ) {
+            selected_tab = scores_ui_tab::kills;
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
     }
+
+    if( selected_tab == scores_ui_tab::achievements ) {
+        draw_achievements_text();
+    }
+    if( selected_tab == scores_ui_tab::conducts ) {
+        draw_achievements_text( true );
+    }
+    if( selected_tab == scores_ui_tab::scores ) {
+        draw_scores_text();
+    }
+    if( selected_tab == scores_ui_tab::kills ) {
+        draw_kills_text();
+    }
+
+    cataimgui::set_scroll( s );
+}
+
+void show_scores_ui()
+{
+    scores_ui new_instance;
+    new_instance.draw_scores_ui();
+}
 #else
 static std::string get_achievements_text( const achievements_tracker &achievements,
         bool use_conducts, int width )

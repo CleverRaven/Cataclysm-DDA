@@ -167,6 +167,9 @@ CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
+ifndef IMGUI
+  IMGUI = 1
+endif
 ifeq ($(IMGUI), 1)
 IMGUI_DIR = $(SRC_DIR)/third-party/imgui
 IMTUI_DIR = $(SRC_DIR)/third-party/imtui
@@ -218,10 +221,6 @@ endif
 # Disable running tests by default
 ifndef RUNTESTS
   RUNTESTS = 0
-endif
-
-ifndef IMGUI
-  IMGUI = 1
 endif
 
 # Can't run tests if we aren't going to build them
@@ -941,6 +940,7 @@ endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 ifeq ($(IMGUI), 0)
+  # ImGui files we don't want/need
   BAD_IMGUI_SOURCES := $(SRC_DIR)/cata_imgui.cpp \
                        $(SRC_DIR)/input_popup.cpp \
                        $(SRC_DIR)/ui_iteminfo.cpp \
@@ -953,9 +953,13 @@ ifeq ($(IMGUI), 0)
                        $(SRC_DIR)/text.h \
                        $(SRC_DIR)/imgui_demo.h \
                        $(SRC_DIR)/ui_extended_description.h
-  SOURCES := $(filter-out $(BAD_IMGUI_SOURCES), $(SOURCES))
-  HEADERS := $(filter-out $(BAD_IMGUI_HEADERS), $(HEADERS))
+else
+  # non-ImGui files that ImGui doesn't need/want
+  BAD_IMGUI_SOURCES := $(SRC_DIR)/descriptions.cpp
+  BAD_IMGUI_HEADERS := 
 endif
+SOURCES := $(filter-out $(BAD_IMGUI_SOURCES), $(SOURCES))
+HEADERS := $(filter-out $(BAD_IMGUI_HEADERS), $(HEADERS))
 OBJECT_CREATOR_SOURCES := $(wildcard $object_creator/*.cpp)
 OBJECT_CREATOR_HEADERS := $(wildcard $object_creator/*.h)
 TESTSRC := $(wildcard tests/*.cpp)

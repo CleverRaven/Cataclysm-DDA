@@ -314,5 +314,7 @@ struct string_input_params {
     static string_input_params parse_string_input_params( const JsonObject &jo );
 };
 
+#if !defined(IMGUI)
 #define string_input_popup_imgui string_input_popup
+#endif
 #endif // CATA_SRC_STRING_INPUT_POPUP_H
