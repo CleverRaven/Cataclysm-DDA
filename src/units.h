@@ -1152,11 +1152,14 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "kg", 1_kilogram },
     }
 };
+// NOTE: Due to string matching, any string that is a subset of another must come after the one it partially matches.
+// Because e.g. 'cent' will be read as a valid unit before 'cents', our order-of-iteration must check if the string is actually
+// 'cents' first, otherwise it will assume it is 'cent' and fail when parsing the 's' in 'cents'.
 const std::vector<std::pair<std::string, money>> money_units = { {
-        { "cent", 1_cent },
         { "cents", 1_cent },
-        { "dollar", 1_USD },
+        { "cent", 1_cent },
         { "dollars", 1_USD },
+        { "dollar", 1_USD },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
