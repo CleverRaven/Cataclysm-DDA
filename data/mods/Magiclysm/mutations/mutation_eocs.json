@@ -24,10 +24,7 @@
       "true_eocs": [
         {
           "id": "EOC_IRON_ALLERGY_WEARING_IRON_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_iron_allergy_wearing_iron", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
-          ]
+          "effect": [ { "u_add_effect": "effect_iron_allergy_wearing_iron", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -66,11 +63,7 @@
       "true_eocs": [
         {
           "id": "EOC_IRON_ALLERGY_WEARING_STEEL_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_iron_allergy_wearing_steel", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
-          ],
-          "false_effect": [ { "u_lose_effect": "effect_iron_allergy_wearing_steel" } ]
+          "effect": [ { "u_add_effect": "effect_iron_allergy_wearing_steel", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -80,6 +73,14 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IRON_ALLERGY_WEARING_IRON_OR_STEEL_RECURRING_CHECK",
+    "condition": { "u_has_trait": "IRON_ALLERGY" },
+    "deactivate_condition": { "not": { "u_has_trait": "IRON_ALLERGY" } },
+    "recurrence": 1,
+    "effect": [ { "run_eocs": [ "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP" ] } ]
   },
   {
     "type": "effect_on_condition",
