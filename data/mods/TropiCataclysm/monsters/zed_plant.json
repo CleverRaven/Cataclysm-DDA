@@ -471,8 +471,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "weakpoints": [
-      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 15,

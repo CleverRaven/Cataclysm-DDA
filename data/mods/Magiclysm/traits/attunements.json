@@ -903,7 +903,7 @@
     "valid": false,
     "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.\n\nSpirits: Your Shaman abilities double your natural mana regeneration.",
     "prereqs": [ "ANIMIST", "DRUID" ],
-    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
+    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_keeper_of_the_glades", 5 ] ],
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ],
     "cancels": [
       "ALCHEMIST",

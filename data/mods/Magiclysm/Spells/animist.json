@@ -1170,5 +1170,26 @@
     "energy_source": "MANA",
     "base_casting_time": 75,
     "base_energy_cost": 350
+  },
+  {
+    "id": "animist_detect_wizards",
+    "type": "SPELL",
+    "name": "Witchsight",
+    "description": "Open your senses up to look for the bright corporeal ley lines of those who spent their lives frequently expending their mana.  This also applies to creatures or alien beings that frequently use spells.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "max_level": 20,
+    "spell_class": "ANIMIST",
+    "effect": "attack",
+    "effect_str": "effect_animist_detect_wizards",
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 3,
+    "min_duration": 90000,
+    "max_duration": 690000,
+    "duration_increment": 30000,
+    "energy_source": "MANA",
+    "base_casting_time": 150,
+    "base_energy_cost": 275
   }
 ]

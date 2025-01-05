@@ -52,7 +52,7 @@
   {
     "id": "HARDTOSHOOT",
     "type": "monster_flag",
-    "//": "It's one size smaller for ranged attacks, no less then creature_size::tiny"
+    "//": "It's one size smaller for ranged attacks, no less than creature_size::tiny"
   },
   {
     "id": "GRABS",

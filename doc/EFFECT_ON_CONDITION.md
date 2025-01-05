@@ -4022,6 +4022,7 @@ You or NPC is teleported to `target_var` coordinates
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are.
 
 ##### Valid talkers:
 

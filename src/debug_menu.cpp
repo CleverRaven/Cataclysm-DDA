@@ -48,6 +48,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -272,6 +273,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
 		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
         case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
+        case debug_menu::debug_menu_index::IMGUI_DEMO: return "IMGUI_DEMO";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -900,6 +902,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
             { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
+            { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -3775,6 +3778,14 @@ static void wind_speed()
     }
 }
 
+
+
+static void run_imgui_demo()
+{
+    imgui_demo_ui demo;
+    demo.run();
+}
+
 static void write_city_list()
 {
     write_to_file( "cities.output", [&]( std::ostream & testfile ) {
@@ -4336,6 +4347,10 @@ void debug()
 
         case debug_menu_index::WRITE_CITY_LIST:
             write_city_list();
+            break;
+
+        case debug_menu_index::IMGUI_DEMO:
+            run_imgui_demo();
             break;
 
         case debug_menu_index::TALK_TOPIC:

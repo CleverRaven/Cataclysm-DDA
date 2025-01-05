@@ -250,7 +250,12 @@
       "e": "f_bookcase",
       "E": "f_bookcase",
       "F": "f_filing_cabinet",
-      "g": "f_generator_broken",
+      "g": [
+        [ "f_generator_broken", 25 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "h": "f_anesthetic",
       "H": "f_armchair",
       "k": "f_sink",

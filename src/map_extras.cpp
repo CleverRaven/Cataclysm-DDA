@@ -120,7 +120,6 @@ static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_withered( "withered" );
 
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
-static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
@@ -142,7 +141,6 @@ static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
-static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
 
 static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
@@ -165,7 +163,6 @@ static const ter_str_id ter_t_grass_white( "t_grass_white" );
 static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_pavement( "t_pavement" );
-static const ter_str_id ter_t_pavement_y( "t_pavement_y" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const ter_str_id ter_t_sand( "t_sand" );
@@ -187,8 +184,6 @@ static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
 static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
-static const trap_str_id tr_blade( "tr_blade" );
-static const trap_str_id tr_engine( "tr_engine" );
 static const trap_str_id tr_landmine( "tr_landmine" );
 static const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
 
@@ -1857,54 +1852,6 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
-{
-    //First, find a city
-    // TODO: fix point types
-    const city_reference c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) );
-    const tripoint_abs_omt city_center_omt =
-        project_to<coords::omt>( c.abs_sm_pos );
-
-    //Then fill vector with all roads inside the city radius
-    std::vector<tripoint_abs_omt> valid_omt;
-    for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, c.city->size ) ) {
-        if( overmap_buffer.check_ot( "road", ot_match_type::prefix, p ) ) {
-            valid_omt.push_back( p );
-        }
-    }
-
-    const tripoint_abs_omt road_omt = random_entry( valid_omt, city_center_omt );
-
-    tinymap compmap;
-    compmap.load( road_omt, false );
-
-    const tripoint_omt_ms trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
-    bool empty_3x3_square = false;
-
-    //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
-    for( const tripoint_omt_ms &p : points_in_radius( trap_center, 1 ) ) {
-        const ter_id &t = compmap.ter( p );
-        if( ( t == ter_t_pavement || t == ter_t_pavement_y ) &&
-            compmap.tr_at( p ).is_null() &&
-            compmap.furn( p ) == furn_str_id::NULL_ID() &&
-            !compmap.veh_at( p ) ) {
-            empty_3x3_square = true;
-            break;
-        }
-    }
-
-    //Finally, place a spinning blade trap...
-    if( empty_3x3_square ) {
-        for( const tripoint_omt_ms &p : points_in_radius( trap_center, 1 ) ) {
-            compmap.trap_set( p, tr_blade );
-        }
-        compmap.trap_set( trap_center, tr_engine );
-        //... and a loudspeaker to attract zombies
-        compmap.place_spawns( GROUP_TURRET_SPEAKER, 1, trap_center.xy(), trap_center.xy(), 1, true );
-    }
-    return true;
-}
-
 static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
 {
     // Find suitable location for fungal spire to spawn (grass, dirt etc)
@@ -1969,7 +1916,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_casings, mx_casings },
     { map_extra_mx_looters, mx_looters },
     { map_extra_mx_corpses, mx_corpses },
-    { map_extra_mx_city_trap, mx_city_trap },
     { map_extra_mx_reed, mx_reed },
     { map_extra_mx_fungal_zone, mx_fungal_zone },
     { map_extra_mx_sandy_beach, mx_sandy_beach },

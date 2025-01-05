@@ -1667,7 +1667,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zasmosaurus_brute",
-    "name": { "str": "Crashing Chasm", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Crashing Chasm" },
     "copy-from": "mon_zasmosaurus",
     "description": "A massive, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1689,7 +1689,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zentaceratops_brute",
-    "name": { "str": "Five Horn Death Punch", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Pentapanic" },
     "copy-from": "mon_zentaceratops",
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -5395,7 +5395,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_acid",
-    "name": { "str": "dilophosaurus acidic zombie" },
+    "name": { "str_sp": "acid dilophosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
@@ -5446,7 +5446,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_acid",
-    "name": { "str": "ceratosaurus acidic zombie" },
+    "name": { "str_sp": "acid ceratosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",

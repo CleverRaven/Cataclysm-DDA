@@ -934,16 +934,20 @@ class map
         */
         // TODO: fix point types (remove the first overload)
         bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
-                       bool avoid_creatures = false );
+                       bool avoid_creatures = false, bool allow_on_open_air = false );
         bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
-                       bool furn_reset = false, bool avoid_creatures = false );
+                       bool furn_reset = false, bool avoid_creatures = false, bool allow_on_open_air = false );
         // TODO: Get rid of untyped overload.
         bool furn_set( const point &p, const furn_id &new_furniture,
-                       bool avoid_creatures = false ) { // TODO: Get rid of untyped version.
-            return furn_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_furniture, false, avoid_creatures );
+                       bool avoid_creatures = false, bool allow_on_open_air =
+                           false ) { // TODO: Get rid of untyped version.
+            return furn_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_furniture, false, avoid_creatures,
+                             allow_on_open_air );
         }
-        bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
-            return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
+        bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false,
+                       bool allow_on_open_air = false ) {
+            return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures,
+                             allow_on_open_air );
         }
         // TODO: Get rid of untyped overload.
         void furn_clear( const tripoint_bub_ms &p ) {
@@ -2247,7 +2251,8 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint_bub_ms &origin, int target_z, int extension_range = 60,
+        void build_seen_cache( const tripoint_bub_ms &origin, int target_z,
+                               int extension_range = MAX_VIEW_DISTANCE,
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
@@ -2596,8 +2601,6 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point_rel_sm &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
-// Returns the terrain to apply if the terrain is uniform, and t_null otherwise.
-ter_str_id uniform_terrain( const oter_id &oter );
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter );
 bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 

@@ -1,0 +1,89 @@
+[
+  {
+    "result": "portable_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "1cyl_combustion_med", 1 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "plastic_chunk", 35 ] ],
+      [ [ "chunk_rubber", 70 ] ],
+      [ [ "scrap", 16 ] ],
+      [ [ "nuts_bolts", 25 ] ]
+    ]
+  },
+  {
+    "result": "diesel_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "i1_diesel", 1 ] ],
+      [ [ "alternator_car", 1 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "plastic_chunk", 50 ] ],
+      [ [ "chunk_rubber", 60 ] ],
+      [ [ "scrap", 24 ] ],
+      [ [ "nuts_bolts", 120 ] ]
+    ]
+  },
+  {
+    "result": "military_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "i4_diesel", 1 ] ],
+      [ [ "alternator_truck", 1 ] ],
+      [ [ "sheet_metal", 45 ] ],
+      [ [ "sheet_metal_small", 120 ] ],
+      [ [ "plastic_chunk", 64 ] ],
+      [ [ "chunk_rubber", 200 ] ],
+      [ [ "scrap", 460 ] ],
+      [ [ "nuts_bolts", 300 ] ],
+      [ [ "steel_chunk", 300 ] ]
+    ]
+  },
+  {
+    "result": "12000_gasoline_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "v2_combustion", 1 ] ],
+      [ [ "alternator_truck", 1 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "sheet_metal_small", 20 ] ],
+      [ [ "plastic_chunk", 50 ] ],
+      [ [ "chunk_rubber", 80 ] ],
+      [ [ "scrap", 40 ] ],
+      [ [ "nuts_bolts", 150 ] ]
+    ]
+  }
+]

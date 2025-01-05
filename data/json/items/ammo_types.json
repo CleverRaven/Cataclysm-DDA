@@ -223,12 +223,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "460",
-    "name": ".460",
-    "default": "460_rowland"
-  },
-  {
-    "type": "ammunition_type",
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
@@ -827,6 +821,12 @@
     "id": "33naval",
     "name": "3.3 naval cartridge",
     "default": "33naval_ball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "caotel_cell",
+    "name": "Caotel cell",
+    "default": "caotel_cell"
   },
   {
     "type": "ammunition_type",

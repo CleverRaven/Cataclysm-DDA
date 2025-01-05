@@ -121,6 +121,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "chunk_magnetite",
+    "category": "spare_parts",
+    "price": "2 USD 50 cent",
+    "name": { "str": "chunk of magnetite", "str_pl": "chunks of magnetite" },
+    "symbol": "U",
+    "color": "brown",
+    "description": "A large chunk of magnetite, a ferrimagnetic oxide of iron.  It can be magnetized to become a permanent magnet itself.",
+    "material": "stone",
+    "volume": "1 L",
+    "//": "One liter, roughly 5.04 grams per cubic centimeter.",
+    "weight": "5040 g",
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "GENERIC",
     "id": "chunk_cinnabar",
     "category": "spare_parts",
     "price": "2 USD 50 cent",

@@ -112,6 +112,8 @@ static const recipe_id recipe_test_tallow2( "test_tallow2" );
 static const recipe_id recipe_test_waist_apron_long( "test_waist_apron_long" );
 static const recipe_id
 recipe_test_waist_apron_long_pink_apron_cotton( "test_waist_apron_long_pink_apron_cotton" );
+static const recipe_id
+recipe_test_xl_waist_apron_long_pink_apron_cotton( "test_xl_waist_apron_long_pink_apron_cotton" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -2247,11 +2249,12 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             tools.emplace_back( "scissors" );
             tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
             tools.insert( tools.end(), 10, item( "thread" ) );
-            prep_craft( recipe_test_waist_apron_long, tools, true );
-            actually_test_craft( recipe_test_waist_apron_long, INT_MAX, 10 );
+            const recipe_id apron_recipe = recipe_test_waist_apron_long;
+            prep_craft( apron_recipe, tools, true );
+            actually_test_craft( apron_recipe, INT_MAX, 10 );
             item_location apron = player_character.get_wielded_item();
 
-            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long->result() );
+            REQUIRE( apron->type->get_id() == apron_recipe->result() );
             REQUIRE( apron->has_itype_variant() );
 
             if( variant_counts.count( apron->itype_variant().id ) == 0 ) {
@@ -2275,11 +2278,12 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             tools.emplace_back( "scissors" );
             tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
             tools.insert( tools.end(), 10, item( "thread" ) );
-            prep_craft( recipe_test_waist_apron_long_pink_apron_cotton, tools, true );
-            actually_test_craft( recipe_test_waist_apron_long_pink_apron_cotton, INT_MAX, 10 );
+            const recipe_id apron_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
+            prep_craft( apron_recipe, tools, true );
+            actually_test_craft( apron_recipe, INT_MAX, 10 );
             item_location apron = player_character.get_wielded_item();
 
-            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long_pink_apron_cotton->result() );
+            REQUIRE( apron->type->get_id() == apron_recipe->result() );
             REQUIRE( apron->has_itype_variant() );
 
             if( apron->itype_variant().id == "pink_apron_cotton" ) {
@@ -2287,6 +2291,14 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             }
         }
         CHECK( specific_variant_count == max_iters );
+    }
+    SECTION( "recipe names" ) {
+        const recipe_id basic_recipe = recipe_test_waist_apron_long;
+        CHECK( basic_recipe.obj().result_name() == "long waist apron" );
+        const recipe_id variant_recipe = recipe_test_waist_apron_long_pink_apron_cotton;
+        CHECK( variant_recipe.obj().result_name() == "pink long waist apron" );
+        const recipe_id variant_prefix_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
+        CHECK( variant_prefix_recipe.obj().result_name() == "XL pink long waist apron" );
     }
 }
 
