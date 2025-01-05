@@ -72,6 +72,19 @@
     "faults": [ "fault_engine_starter" ]
   },
   {
+    "id": "1cyl_combustion_med",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": { "str": "0.2 L medium 1-cylinder engine" },
+    "//": "150 cc generator engine",
+    "description": "A high-compression, 150 cc single-cylinder 4-stroke combustion engine.",
+    "weight": "15 kg",
+    "volume": "43793 ml",
+    "price": "130 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
     "id": "engine_1cyl_diesel_large",
     "copy-from": "engine_diesel",
     "type": "ENGINE",
@@ -130,6 +143,14 @@
     "volume": "166 L",
     "price": "160 USD",
     "price_postapoc": "12 USD 50 cent"
+  },
+  {
+    "id": "i1_diesel",
+    "copy-from": "i4_diesel",
+    "//": "KS 520HD-V",
+    "type": "ENGINE",
+    "name": { "str": "1.6 L I1 diesel engine" },
+    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine."
   },
   {
     "id": "i6_diesel",

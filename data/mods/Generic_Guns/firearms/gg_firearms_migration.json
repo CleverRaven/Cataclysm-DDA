@@ -475,6 +475,16 @@
     "replace": "shot_short_pump"
   },
   {
+    "id": [ "exodii_plasma_projectile" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_projectile"
+  },
+  {
+    "id": [ "exodii_plasma_fan" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_fan"
+  },
+  {
     "id": [ "varmint_airgun" ],
     "type": "MIGRATION",
     "replace": "pellet_airgun"

@@ -773,6 +773,134 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_TELEPORT_dilated_gateway_SELECT_01",
+          "EOC_TELEPORT_dilated_gateway_SELECT_02",
+          "EOC_TELEPORT_dilated_gateway_SELECT_03",
+          "EOC_TELEPORT_dilated_gateway_SELECT_04",
+          "EOC_TELEPORT_dilated_gateway_SELECT_05",
+          "EOC_TELEPORT_dilated_gateway_SELECT_06",
+          "EOC_TELEPORT_dilated_gateway_SELECT_07",
+          "EOC_TELEPORT_dilated_gateway_SELECT_08",
+          "EOC_TELEPORT_dilated_gateway_SELECT_09",
+          "EOC_TELEPORT_dilated_gateway_SELECT_10"
+        ],
+        "names": [
+          "Dilated Gateway: <u_val:gateway_destination_name_1>",
+          "Dilated Gateway: <u_val:gateway_destination_name_2>",
+          "Dilated Gateway: <u_val:gateway_destination_name_3>",
+          "Dilated Gateway: <u_val:gateway_destination_name_4>",
+          "Dilated Gateway: <u_val:gateway_destination_name_5>",
+          "Dilated Gateway: <u_val:gateway_destination_name_6>",
+          "Dilated Gateway: <u_val:gateway_destination_name_7>",
+          "Dilated Gateway: <u_val:gateway_destination_name_8>",
+          "Dilated Gateway: <u_val:gateway_destination_name_9>",
+          "Dilated Gateway: <u_val:gateway_destination_name_10>"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
+        "descriptions": [
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination.",
+          "Teleport target to a destination."
+        ],
+        "hide_failing": true,
+        "allow_cancel": true
+      },
+      {
+        "if": { "not": { "compare_string": [ { "u_val": "dilated_gateway_location" }, "" ] } },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_others", "message": "" } },
+          { "u_cast_spell": { "id": "teleport_dilated_gateway_teleport_self", "message": "" } }
+        ]
+      },
+      { "set_string_var": "", "target_var": { "u_val": "dilated_gateway_location" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "effect": [
+      {
+        "set_string_var": "<npc_val:dilated_gateway_location>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "u_teleport": { "var_val": "temp_var" }, "force_safe": true },
+      { "message": "<u_name> vanishes!" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_01",
+    "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_1", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_02",
+    "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_2", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_03",
+    "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_3", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_04",
+    "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_4", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_05",
+    "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_5", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_06",
+    "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_6", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_07",
+    "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_7", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_08",
+    "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_8", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_09",
+    "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_9", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_dilated_gateway_SELECT_10",
+    "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
+    "effect": [ { "set_string_var": "npc_gateway_destination_10", "target_var": { "u_val": "dilated_gateway_location" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SUMMON",
     "effect": [
       { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 1, 3 ], "min_radius": 2, "max_radius": 6 }
@@ -785,5 +913,18 @@
     "effect": [
       { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 2, 6 ], "min_radius": 2, "max_radius": 6 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "condition": { "u_has_effect": "effect_teleport_loci_establishment" },
+    "effect": [
+      {
+        "u_teleport": { "u_val": "teleporter_loci_establishment_loc" },
+        "success_message": "You feel a moment of darkness and terrible cold, but you are quickly back at your established locus.",
+        "fail_message": "Something goes wrong with the Loci Technique!"
+      }
+    ],
+    "false_effect": [ { "u_message": "You are currently not concentrating on [Ψ]Loci Establishment!" } ]
   }
 ]
