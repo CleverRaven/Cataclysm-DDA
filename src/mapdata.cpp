@@ -1321,6 +1321,13 @@ void furn_t::check() const
                       e.str().c_str() );
         }
     }
+    if( plant && !plant->transform.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant transform in furn %s", plant->transform.c_str(),
+                  id.c_str() );
+    }
+    if( plant && !plant->base.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant base in furn %s", plant->base.c_str(), id.c_str() );
+    }
 }
 
 int activity_byproduct::roll() const

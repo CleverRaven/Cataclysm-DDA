@@ -43,6 +43,10 @@
 #include <langinfo.h>
 #endif
 
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
 #if defined(IMGUI)
 std::unique_ptr<cataimgui::client> imclient;
 #endif
@@ -368,6 +372,14 @@ void catacurses::init_interface()
     // Sometimes the TERM variable is not set properly and mousemask won't turn on mouse pointer events.
     // The below line tries to force the mouse pointer events to be turned on anyway. ImTui misbehaves without them.
     printf( "\033[?1003h\n" );
+#endif
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
 #endif
 }
 

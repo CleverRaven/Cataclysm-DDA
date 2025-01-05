@@ -1074,7 +1074,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                 }
                 targets_hit[ shot.hit_critter ].first++;
             }
-            if( shot.missed_by <= .1 ) {
+            if( shot.headshot ) {
                 headshot = true;
             }
             if( proj.count > 1 && shot.proj.count == 1 ) {
@@ -1103,7 +1103,6 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
             }
         }
         if( headshot ) {
-            // TODO: check head existence for headshot
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
         curshot++;
@@ -1563,11 +1562,10 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     const double missed_by = dealt_attack.missed_by;
 
-    if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
+    if( critter && dealt_attack.hit_critter != nullptr && dealt_attack.headshot &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
         !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
-        // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
