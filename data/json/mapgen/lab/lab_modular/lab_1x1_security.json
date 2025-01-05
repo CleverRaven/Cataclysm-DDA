@@ -400,6 +400,7 @@
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
       "terrain": { "¥": "t_card_science_security_magenta", "ƶ": "t_card_science_security_black" },
+      "place_furniture": [ { "furn": "f_diesel_generator", "x": [ 16, 21 ], "y": [ 14, 15 ] } ],
       "place_monsters": [ { "monster": "GROUP_LAB_MILITARY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "place_nested": [
         { "chunks": [ [ "lab_security_10x10_S", 100 ], [ "null", 0 ] ], "x": 1, "y": 1 },
@@ -408,7 +409,6 @@
         { "chunks": [ [ "lab_cargo_5x5", 100 ] ], "x": 18, "y": 18 }
       ],
       "place_vehicles": [
-        { "vehicle": "portable_generator", "x": [ 16, 21 ], "y": [ 14, 15 ], "chance": 30, "rotation": 90 },
         { "vehicle": "handjack", "x": [ 16, 22 ], "y": 16, "chance": 30, "rotation": 90 },
         { "vehicle": "forklift_vehicles", "x": 18, "y": 9, "chance": 30, "rotation": 90 }
       ]
