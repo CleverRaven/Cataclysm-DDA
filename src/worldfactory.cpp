@@ -186,34 +186,27 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
 static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
-#if defined(IMGUI)
     string_input_popup_imgui popup( 50, cur_worldname );
     popup.set_max_input_length( max_worldname_len );
     popup.set_label( title );
+
     input_context ctxt( "STRING_INPUT" );
     popup.set_description( string_format(
                                _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
                                ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+
+#if defined(IMGUI)
     popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
-        popup.set_text( get_next_valid_worldname() );
 #else
-    string_input_popup popup;
-    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
-    input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
-    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
     popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
-        popup.text( get_next_valid_worldname() );
 #endif
+        popup.set_text( get_next_valid_worldname() );
         return true;
     } );
-#if defined(IMGUI)
     std::string message = popup.query();
+#if defined(IMGUI)
     return message;
 #else
-    std::string message = popup.query_string();
     return !popup.cancelled() ? std::optional<std::string>( message ) : std::optional<std::string>();
 #endif
 }
