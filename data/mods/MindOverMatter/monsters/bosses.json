@@ -14,6 +14,20 @@
           "monster_message": "%1$s glances at %3$s and the world lurches."
         },
         {
+          "id": "psi_lab_devourer_reactive_displacement",
+          "type": "spell",
+          "spell_data": { "id": "teleporter_reactive_displacement_monster_self", "hit_self": true },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "math": [ "u_hp('ALL') < 100" ] },
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_teleport_reactive_displacement_monster" } }
+            ]
+          },
+          "monster_message": "The space around %1$s distorts."
+        },
+        {
           "id": "psi_lab_devourer_breach",
           "type": "spell",
           "spell_data": { "id": "teleporter_breach_lab_devourer", "min_level": 10 },

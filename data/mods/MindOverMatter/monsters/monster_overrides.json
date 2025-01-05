@@ -78,12 +78,6 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
   },
   {
-    "id": "mon_devourer_lab_sec",
-    "copy-from": "mon_devourer_lab_sec",
-    "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ]
-  },
-  {
     "id": "mon_sludge_crawler",
     "copy-from": "mon_sludge_crawler",
     "type": "MONSTER",
