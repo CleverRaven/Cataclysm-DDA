@@ -65,6 +65,6 @@
     "min_bash_scaling": 2,
     "max_bash_scaling": 2,
     "base_casting_time": 200,
-    "flags": [ "IGNORES_WALLS", "NO_FAIL"]
+    "flags": [ "IGNORES_WALLS", "NO_FAIL" ]
   }
 ]
