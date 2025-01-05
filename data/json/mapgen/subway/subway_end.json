@@ -34,34 +34,13 @@
             [ "24x24_subway_end_single_west", 1 ],
             [ "24x24_subway_end_single_east", 1 ]
           ],
+          "else_chunks": [ "24x24_subway_end_double" ],
           "x": 0,
           "y": 0,
           "neighbors": {
             "south": [
               { "om_terrain": "subway_straight", "om_terrain_match_type": "SUBTYPE" },
               { "om_terrain": "lab_subway_straight", "om_terrain_match_type": "SUBTYPE" }
-            ]
-          }
-        },
-        {
-          "chunks": [ "24x24_subway_end_single_west" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "south_east": [
-              { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
-              { "om_terrain": "lab_subway", "om_terrain_match_type": "TYPE" }
-            ]
-          }
-        },
-        {
-          "chunks": [ "24x24_subway_end_single_east" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "south_west": [
-              { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
-              { "om_terrain": "lab_subway", "om_terrain_match_type": "TYPE" }
             ]
           }
         }
@@ -101,7 +80,7 @@
         " ..^XD/^XD/...-x---x-.. ",
         " ..^D/^^D/....^X^^^X^.. "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -138,7 +117,7 @@
         " ..-x---x-.../DX^/DX^.. ",
         " ..^X^^^X^..../D^^/D^.. "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -175,7 +154,7 @@
         "  ...D/^^D/...-x---x-.. ",
         " ...D/^^D/....^X^^^X^.. "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -212,7 +191,44 @@
         " ..-x---x-.../D^^/D..   ",
         " ..^X^^^X^..../D^^/D..  "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_end_double",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "  ....................  ",
+        " ...................... ",
+        " ..^^^^^^^....^^^^^^^.. ",
+        " ..^S^^^S^....^S^^^S^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. "
+      ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

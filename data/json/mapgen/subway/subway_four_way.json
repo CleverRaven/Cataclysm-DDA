@@ -23,6 +23,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_subway_four_way",
+    "//TODO": "Could do with conditional nests based on adjacent diagonals to prevent double backs",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -52,7 +53,7 @@
         ".^/DX^/DX^....^XD/^XD/^.",
         " .^/D^^/D^....^D/^^D/^. "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

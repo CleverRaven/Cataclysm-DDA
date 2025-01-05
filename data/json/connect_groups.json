@@ -37,7 +37,19 @@
   },
   {
     "type": "connect_group",
+    "id": "GRAVEL"
+  },
+  {
+    "type": "connect_group",
     "id": "RAIL"
+  },
+  {
+    "type": "connect_group",
+    "id": "RAIL_D"
+  },
+  {
+    "type": "connect_group",
+    "id": "RAIL_TIE"
   },
   {
     "type": "connect_group",

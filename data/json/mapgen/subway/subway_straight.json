@@ -52,9 +52,25 @@
         " ..-x---x-....-x---x-.. ",
         " ..^X^^^X^....^X^^^X^.. "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [ { "chunks": [ [ "24x24_subway_cross_se", 1 ], [ "24x24_subway_cross_sw", 1 ], [ "null", 2 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_subway_cross_se", 1 ], [ "24x24_subway_cross_sw", 1 ], [ "null", 10 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              { "om_terrain": "subway_straight", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_straight", "om_terrain_match_type": "SUBTYPE" }
+            ],
+            "south": [
+              { "om_terrain": "subway_straight", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_straight", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        }
+      ]
     }
   },
   {
@@ -65,7 +81,6 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "1                      1",
         "                        ",
         "                        ",
         "                        ",
@@ -77,20 +92,21 @@
         "                        ",
         "                        ",
         "                        ",
-        "    2   2               ",
-        "     2   2              ",
-        "     32  32             ",
-        "      32 432            ",
-        "       324432           ",
-        "         24432          ",
-        "         324432         ",
-        "          324432        ",
-        "           3244 2       ",
-        "            324 32      ",
-        "             32  32     ",
-        "1             32  32   1"
+        "                        ",
+        "   DD  DD               ",
+        "    DD  DD              ",
+        "     DD  DD             ",
+        "      DD ^DD            ",
+        "       DD^^DD           ",
+        "        DD^^DD          ",
+        "         DD^^DD         ",
+        "          DD^^DD        ",
+        "           DD^^DD       ",
+        "            DD^ DD      ",
+        "             DD  DD     ",
+        "              DD  DD    "
       ],
-      "palettes": [ "subway_tmp_palette2" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -102,7 +118,6 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "1                      1",
         "                        ",
         "                        ",
         "                        ",
@@ -114,20 +129,21 @@
         "                        ",
         "                        ",
         "                        ",
-        "               2   2    ",
-        "              2   2     ",
-        "             23  23     ",
-        "            234 23      ",
-        "           234423       ",
-        "          23442         ",
-        "         234423         ",
-        "        234423          ",
-        "       2 4423           ",
-        "      23 423            ",
-        "     23  23             ",
-        "1   23  23             1"
+        "                        ",
+        "               DD  DD   ",
+        "              DD  DD    ",
+        "             DD  DD     ",
+        "            DD^ DD      ",
+        "           DD^^DD       ",
+        "          DD^^DD        ",
+        "         DD^^DD         ",
+        "        DD^^DD          ",
+        "       DD^^DD           ",
+        "      DD ^DD            ",
+        "     DD  DD             ",
+        "    DD  DD              "
       ],
-      "palettes": [ "subway_tmp_palette2" ],
+      "palettes": [ "subway_underground" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -176,7 +192,7 @@
         " ********************** ",
         " ********************** "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "terrain": {
         "z": "t_railroad_ramp_down_high",
         "d": "t_concrete_ramp_down_high",
@@ -217,7 +233,7 @@
         " ''-x---x-''''-x---x-'' ",
         " ''^X^^^X^''''^X^^^X^'' "
       ],
-      "palettes": [ "subway_tmp_palette" ],
+      "palettes": [ "subway_underground" ],
       "terrain": {
         "z": "t_railroad_ramp_up_low",
         "d": "t_concrete_ramp_up_low",
