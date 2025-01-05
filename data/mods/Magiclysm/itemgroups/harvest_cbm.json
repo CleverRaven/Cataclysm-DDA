@@ -20,6 +20,7 @@
     "entries": [
       { "item": "bio_ethanol", "prob": 50 },
       { "item": "bio_fuel_cell_gasoline", "prob": 50 },
+      { "item": "bio_mana_to_bionic_power", "prob": 25 },
       { "item": "bio_fuel_cell_blood", "prob": 5 },
       { "item": "bio_torsionratchet", "prob": 200 }
     ]
