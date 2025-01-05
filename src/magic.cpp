@@ -3516,7 +3516,7 @@ static void draw_spellbook_info( const spell_type &sp )
              false );
 
         ImGui::EndTable();
-	}
+    }
 }
 
 float spellbook_callback::desired_extra_space_right( )

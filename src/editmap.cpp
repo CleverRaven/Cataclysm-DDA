@@ -1294,6 +1294,7 @@ void editmap::edit_fld()
             if( fmenu.ret > 0 ) {
 #if defined(IMGUI)
                 shared_ptr_fast<uilist_impl> fmenu_ui = fmenu.create_or_get_ui();
+
 #else
                 shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
 #endif

@@ -179,7 +179,7 @@ struct uilist_entry {
                                              explicit uilist_entry( Enum e, Args && ... args ) :
                                                  uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
         {}
-    
+
 #if !defined(IMGUI)
         std::optional<inclusive_rectangle<point>> drawn_rect;
 #endif
@@ -524,6 +524,15 @@ class uilist // NOLINT(cata-xy)
         int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
+#if defined(IMGUI)
+        ImVec2 calculated_menu_size;
+        cataimgui::bounds calculated_bounds;
+        float calculated_hotkey_width;
+        float calculated_label_width;
+        float calculated_secondary_width;
+        float extra_space_left;
+        float extra_space_right;
+#endif
         std::vector<int> fentries;
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };

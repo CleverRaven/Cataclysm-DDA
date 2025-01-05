@@ -2459,11 +2459,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'o':
                     if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
-                        game_menus::inv::common( locThisItem, u );
+                        game_menus::inv::common( locThisItem );
                     }
                     break;
                 case '=':
-                    game_menus::inv::reassign_letter( u, oThisItem );
+                    game_menus::inv::reassign_letter( oThisItem );
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
@@ -8936,7 +8936,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
-            game_menus::inv::compare( u, active_pos );
+            game_menus::inv::compare( active_pos );
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();

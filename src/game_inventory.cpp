@@ -243,15 +243,9 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     return inv_s.execute();
 }
 
-#if defined(IMGUI)
 void game_menus::inv::common()
-#else
-void game_menus::inv::common( avatar &you )
-#endif
 {
-#if defined(IMGUI)
     avatar &you = get_avatar();
-#endif
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
@@ -289,14 +283,9 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-#if !defined(IMGUI)
-void game_menus::inv::common( item_location &loc, avatar &you )
-{
-#else
 void game_menus::inv::common( item_location &loc )
 {
     avatar &you = get_avatar();
-#endif
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
@@ -2614,8 +2603,9 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
+void game_menus::inv::compare( const std::optional<tripoint> &offset )
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
@@ -2647,8 +2637,9 @@ void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offse
     } while( true );
 }
 
-void game_menus::inv::reassign_letter( avatar &you, item &it )
+void game_menus::inv::reassign_letter( item &it )
 {
+    avatar &you = get_avatar();
     while( true ) {
         const int invlet = popup_getkey(
                                _( "Enter new letter.  Press SPACE to clear a manually-assigned letter, ESCAPE to cancel." ) );
@@ -2671,8 +2662,9 @@ void game_menus::inv::reassign_letter( avatar &you, item &it )
     }
 }
 
-void game_menus::inv::swap_letters( avatar &you )
+void game_menus::inv::swap_letters()
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
@@ -2706,7 +2698,7 @@ void game_menus::inv::swap_letters( avatar &you )
             break;
         }
 
-        reassign_letter( you, *loc );
+        reassign_letter( *loc );
     }
 }
 

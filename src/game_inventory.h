@@ -17,9 +17,6 @@
 class Character;
 struct tripoint;
 
-#if !defined(IMGUI)
-class avatar;
-#endif
 class repair_item_actor;
 class salvage_actor;
 
@@ -65,19 +62,11 @@ drop_locations titled_multi_filter_menu( const item_location_filter &filter, Cha
 */
 /*@{*/
 
-#if defined(IMGUI)
 void common();
 void common( item_location &loc );
 void compare( const std::optional<tripoint> &offset );
 void reassign_letter( item &it );
 void swap_letters();
-#else
-void common( avatar &you );
-void common( item_location &loc, avatar &you );
-void compare( avatar &you, const std::optional<tripoint> &offset );
-void reassign_letter( avatar &you, item &it );
-void swap_letters( avatar &you );
-#endif
 
 /**
 * Compares two items, if confirm_message isn't empty then it will be printed
