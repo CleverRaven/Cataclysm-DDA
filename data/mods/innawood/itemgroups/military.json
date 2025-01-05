@@ -1,8 +1,0 @@
-[
-  {
-    "type": "item_group",
-    "id": "military",
-    "subtype": "distribution",
-    "entries": [ { "group": "guns_improvised", "prob": 200 }, { "group": "museum_primitive", "prob": 100 } ]
-  }
-]
