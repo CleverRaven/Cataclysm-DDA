@@ -27,14 +27,9 @@
 #define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
 #define LIST_BLOCK_MAX 2048
 
-#define LIST_CONSTEXPR
-#define LIST_NOEXCEPT_SWAP(the_allocator) noexcept
-#define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
-
-// TODO: Switch to these when we move to C++17
-// #define LIST_CONSTEXPR constexpr
-// #define LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-// #define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
+#define LIST_CONSTEXPR constexpr
+#define LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
+#define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 
 // Note: GCC creates faster code without forcing inline
 #if defined(_MSC_VER)
@@ -185,7 +180,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 nodes = std::move( source.nodes );
                 free_list_head = std::move( source.free_list_head );
                 beyond_end = std::move( source.beyond_end );
-                number_of_elements = std::move( source.number_of_elements );
+                number_of_elements = source.number_of_elements;
                 source.nodes = nullptr;
                 source.beyond_end = nullptr;
                 return *this;
@@ -769,7 +764,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     return node_pointer == rh.node_pointer;
                 }
 
-                inline LIST_FORCE_INLINE bool operator!=( const list_iterator rh ) const noexcept {
+                inline LIST_FORCE_INLINE bool operator!=( const list_iterator &rh ) const noexcept {
                     return node_pointer != rh.node_pointer;
                 }
 
@@ -1215,7 +1210,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
     public:
 
-        iterator insert( const iterator it, const element_type &element ) {
+        iterator insert( const iterator &it, const element_type &element ) {
             // ie. list is not empty
             if( last_endpoint != nullptr ) {
                 // No erased nodes available for reuse
@@ -1401,7 +1396,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // This is almost identical to the insert implementations above with the only changes being std::forward of element parameters
         template<typename... arguments>
-        iterator emplace( const iterator it, arguments &&... parameters ) {
+        iterator emplace( const iterator &it, arguments &&... parameters ) {
             if( last_endpoint != nullptr ) {
                 if( node_allocator_pair.number_of_erased_nodes == 0 ) {
                     if( last_endpoint == groups.last_endpoint_group->beyond_end ) {
@@ -1662,7 +1657,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Range insert
         template <class iterator_type>
-        iterator insert( const iterator it,
+        iterator insert( const iterator &it,
                          typename plf_enable_if_c < !std::numeric_limits<iterator_type>::is_integer,
                          iterator_type >::type first, const iterator_type last ) {
             if( first == last ) {
@@ -1679,7 +1674,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         // Initializer-list insert
-        inline iterator insert( const iterator it,
+        inline iterator insert( const iterator &it,
                                 const std::initializer_list<element_type> &element_list ) {
             // use range insert:
             return insert( it, element_list.begin(), element_list.end() );
@@ -1702,7 +1697,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Single erase:
         // if uninitialized/invalid iterator supplied, function could generate an exception, hence no noexcept
-        iterator erase( const const_iterator it ) {
+        iterator erase( const const_iterator &it ) {
             cata_assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
             cata_assert( it.node_pointer != nullptr );
             cata_assert( it.node_pointer != end_iterator.node_pointer );
