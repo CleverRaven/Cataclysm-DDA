@@ -137,7 +137,7 @@
     "name": { "str": "Levinbolt Projector" },
     "description": "Implants in your arm's ley lines allow you to project bolts of magical energy from your hands.  This draws on your personal mana stores, not your bionic power.",
     "occupied_bodyparts": [ [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "spell_on_activation": "bio_ley_energy_blaster_spell",
+    "spell_on_activation": { "id": "bio_ley_energy_blaster_spell" },
     "activated_close_ui": true
   }
 ]
