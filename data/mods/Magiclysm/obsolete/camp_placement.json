@@ -6,10 +6,6 @@
   },
   {
     "type": "camp_migration",
-    "camp_migrations": { "name": "Healer's respite", "overmap_terrain": "magic_shop", "faction": "healers_grey" }
-  },
-  {
-    "type": "camp_migration",
     "camp_migrations": { "name": "Old Wizard", "overmap_terrain": "lake_retreat_z3", "faction": "wizards_ancient" }
   }
 ]
