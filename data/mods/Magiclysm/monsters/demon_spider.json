@@ -36,7 +36,7 @@
     "vision_day": 5,
     "vision_night": 7,
     "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
-    "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 150, "bullet": 8 },
+    "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 150, "bullet": 8, "cold": -20 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }
   },
   {
@@ -96,7 +96,7 @@
         "monster_message": "%1$s drinks in the flames!"
       }
     ],
-    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 250, "bullet": 60, "cold": -20 }
+    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 250, "bullet": 60, "cold": -35 }
   },
   {
     "id": "mon_demon_spider_queen",
@@ -161,6 +161,6 @@
         }
       ]
     },
-    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 999, "bullet": 120, "cold": -50 }
+    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 999, "bullet": 120, "cold": -65 }
   }
 ]
