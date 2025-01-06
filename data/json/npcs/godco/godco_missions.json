@@ -777,10 +777,17 @@
     "type": "mission_definition",
     "name": { "str": "Renewable Energy" },
     "description": "Find a solar panel for Corrie.",
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "ground_solar_panel", "amount": 1 },
+        { "item": "ground_solar_panel_v2", "amount": 1 },
+        { "item": "solar_panel", "amount": 4 },
+        { "item": "solar_panel_v2", "amount": 4 }
+      ]
+    },
     "difficulty": 1,
     "value": 0,
-    "item": "solar_panel",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -797,6 +804,14 @@
     },
     "end": {
       "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "ground_solar_panel", "amount": 1 },
+            { "item": "ground_solar_panel_v2", "amount": 1 },
+            { "item": "solar_panel", "amount": 4 },
+            { "item": "solar_panel_v2", "amount": 4 }
+          ]
+        },
         { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
       ],
