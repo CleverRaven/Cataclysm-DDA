@@ -570,12 +570,7 @@
     "value": 20000,
     "destination": "dairy_farm_isherwood_W",
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "dairy_farm_isherwood_W",
-        "om_special": "Isherwood Farm Mutable",
-        "reveal_radius": 3,
-        "search_range": 240
-      }
+      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farm Mutable", "reveal_radius": 3 }
     },
     "end": {
       "effect": [
