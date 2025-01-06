@@ -29,7 +29,7 @@ struct callback_input {
                ( key != INT_MIN && key == rhs.key );
     }
 };
-
+#ifndef IMGUI_DISABLE
 class input_popup : public cataimgui::window
 {
     public:
@@ -114,4 +114,7 @@ class number_input_popup : public input_popup
         std::optional<T> step_size = std::nullopt;
         std::optional<T> fast_step_size = std::nullopt;
 };
+#else
+#include "string_input_popup.h"
+#endif // IMGUI_DISABLE
 #endif // CATA_SRC_INPUT_POPUP_H

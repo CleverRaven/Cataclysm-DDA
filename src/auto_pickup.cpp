@@ -21,9 +21,7 @@
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
-#if defined(IMGUI)
 #include "input_popup.h"
-#endif
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -38,7 +36,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"

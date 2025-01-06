@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
+#ifndef IMGUI_DISABLE
+
 #include "font_loader.h"
 
 class nc_color;
@@ -170,3 +172,6 @@ void EndRightAlign();
 // for elements not explicitly specified.
 void init_colors();
 } // namespace cataimgui
+#else
+#include "imgui_facade.h"
+#endif // IMGUI_DISABLE

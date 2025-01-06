@@ -25,9 +25,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
@@ -37,9 +35,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#if defined(IMGUI)
 #include "imgui/imgui.h"
-#endif
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -65,9 +61,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#if defined(IMGUI)
 #include "ui_iteminfo.h"
-#endif
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -2108,14 +2102,10 @@ class query_destination_callback : public uilist_callback
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
-#if defined(IMGUI)
     ImGui::TableSetColumnIndex( 0 );
     ImGui::NewLine();
     ImGui::NewLine();
     ImGui::NewLine();
-#else
-    int ofs = -25 - 4;
-#endif
     cata_assert( menu->entries.size() >= 9 );
     int sel = 0;
     if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < menu->entries.size() ) {
@@ -2151,6 +2141,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
     }
     ImGui::PopFont();
 #else
+    const int ofs = -25 - 4;
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
         std::string key = _adv_inv.get_location_key( loc );

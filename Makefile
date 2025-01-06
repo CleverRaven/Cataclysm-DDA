@@ -944,16 +944,16 @@ ifeq ($(IMGUI), 0)
                        $(SRC_DIR)/text.cpp \
                        $(SRC_DIR)/imgui_demo.cpp \
                        $(SRC_DIR)/ui_extended_description.cpp
-  BAD_IMGUI_HEADERS := $(SRC_DIR)/cata_imgui.h \
-                       $(SRC_DIR)/input_popup.h \
+  BAD_IMGUI_HEADERS := $(SRC_DIR)/input_popup.h \
                        $(SRC_DIR)/ui_iteminfo.h \
                        $(SRC_DIR)/text.h \
                        $(SRC_DIR)/imgui_demo.h \
                        $(SRC_DIR)/ui_extended_description.h
 else
   # non-ImGui files that ImGui doesn't need/want
-  BAD_IMGUI_SOURCES := $(SRC_DIR)/descriptions.cpp
-  BAD_IMGUI_HEADERS := 
+  BAD_IMGUI_SOURCES := $(SRC_DIR)/descriptions.cpp \
+                       $(SRC_DIR)/imgui_facade.cpp
+  BAD_IMGUI_HEADERS := $(SRC_DIR)/imgui_facade.h
 endif
 SOURCES := $(filter-out $(BAD_IMGUI_SOURCES), $(SOURCES))
 HEADERS := $(filter-out $(BAD_IMGUI_HEADERS), $(HEADERS))
@@ -998,6 +998,8 @@ else
 endif
 
 SOURCES += $(IMGUI_SOURCES)
+else
+	DEFINES += -DIMGUI_DISABLE
 endif
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)

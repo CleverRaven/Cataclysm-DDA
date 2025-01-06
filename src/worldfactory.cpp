@@ -20,9 +20,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "input_context.h"
-#if defined(IMGUI)
 #include "input_popup.h"
-#endif
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"

@@ -53,9 +53,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -117,9 +115,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
-#if defined(IMGUI)
 #include "input_popup.h"
-#endif
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -201,9 +197,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
-#if defined(IMGUI)
 #include "ui_extended_description.h"
-#endif
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"

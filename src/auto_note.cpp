@@ -14,18 +14,13 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
-#if defined(IMGUI)
 #include "input_popup.h"
-#endif
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
-#if !defined(IMGUI)
-#include "string_input_popup.h"
-#endif
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"

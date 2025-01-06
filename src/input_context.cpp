@@ -31,10 +31,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
-#endif
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter

@@ -14,9 +14,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -24,9 +22,7 @@
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
-#if defined(IMGUI)
 #include "imgui/imgui.h"
-#endif
 #include "input.h"
 #include "input_context.h"
 #include "item.h"

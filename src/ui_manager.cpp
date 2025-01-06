@@ -13,9 +13,7 @@
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>

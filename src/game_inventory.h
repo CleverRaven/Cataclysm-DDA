@@ -6,9 +6,7 @@
 #include <list>
 #include <utility>
 
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"

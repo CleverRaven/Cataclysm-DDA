@@ -1,9 +1,7 @@
 #include "cached_options.h"
 #include "game.h"
 #include "handle_liquid.h"
-#if defined(IMGUI)
 #include "imgui/imgui.h"
-#endif
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"

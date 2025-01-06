@@ -20,9 +20,7 @@
 enum class kb_menu_status;
 
 class hotkey_queue;
-#if defined(IMGUI)
 class keybindings_ui;
-#endif
 namespace catacurses
 {
 class window;
@@ -40,9 +38,7 @@ class window;
  */
 class input_context
 {
-#if defined(IMGUI)
         friend class keybindings_ui;
-#endif
     public:
 #if defined(__ANDROID__)
         // Whatever's on top is our current input context.

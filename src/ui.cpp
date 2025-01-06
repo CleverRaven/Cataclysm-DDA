@@ -21,13 +21,9 @@
 #include "input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
-#else
-#include "string_input_popup.h"
-#endif
 
 #if defined(__ANDROID__)
 #include <jni.h>

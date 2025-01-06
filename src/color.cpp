@@ -16,9 +16,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
-#if defined(IMGUI)
 #include "imgui/imgui.h"
-#endif
 #include "input_context.h"
 #include "json.h"
 #include "output.h"
@@ -29,9 +27,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 
 #if defined(IMGUI)
 nc_color::operator ImVec4()

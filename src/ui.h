@@ -13,17 +13,13 @@
 #include <vector>
 
 #include "cata_assert.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#if defined(IMGUI)
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #undef IMGUI_DEFINE_MATH_OPERATORS
-#endif
 #include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"

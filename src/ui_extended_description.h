@@ -1,6 +1,7 @@
 #pragma once
 #ifndef CATA_SRC_UI_EXTENDED_DESCRIPTION_H
 #define CATA_SRC_UI_EXTENDED_DESCRIPTION_H
+#ifndef IMGUI_DISABLE
 
 #include "cata_imgui.h"
 #include "coordinates.h"
@@ -47,4 +48,5 @@ class extended_description_window : public cataimgui::window
         std::vector<std::string> veh_app_description;
 };
 
+#endif // IMGUI_DISABLE
 #endif // CATA_SRC_UI_EXTENDED_DESCRIPTION_H
