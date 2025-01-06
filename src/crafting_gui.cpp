@@ -1907,18 +1907,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                   w_iteminfo );
             data.handle_scrolling = true;
             data.arrow_scrolling = true;
-#if defined(IMGUI)
             const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
             const int info_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+#if defined(IMGUI)
             iteminfo_window info_window( data, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 ),
                                          info_width, info_height );
             info_window.execute();
 #else
-            draw_item_info( []() -> catacurses::window {
-                const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
-                const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
-                return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
-            }, data );
+            draw_item_info( catacurses::newwin( info_height, info_width, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 )), data );
 #endif
         } else if( action == "FILTER" ) {
             int max_example_length = 0;

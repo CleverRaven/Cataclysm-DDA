@@ -7,9 +7,7 @@
 #include <type_traits>
 
 #include "avatar.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
-#endif
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -17,13 +15,9 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
-#if defined(IMGUI)
 #include "imgui/imgui.h"
-#endif
 #include "input.h"
-#if defined(IMGUI)
 #include "input_popup.h"
-#endif
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -39,9 +33,6 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#if !defined(IMGUI)
-#include "string_input_popup.h"
-#endif
 #include "translations.h"
 #include "ui.h"
 #include "units.h"

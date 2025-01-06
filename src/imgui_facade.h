@@ -4,7 +4,7 @@
 
 namespace ImGui
 {
-   void NewLine();
-   bool TableSetColumnIndex(int column_n);
+    void NewLine();
+    bool TableSetColumnIndex(int column_n);
 }
 #endif // IMGUI_DISABLE

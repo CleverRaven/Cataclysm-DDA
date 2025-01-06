@@ -17,9 +17,7 @@
 #endif
 
 class ui_adaptor;
-#if defined(IMGUI)
 class query_popup_impl;
-#endif
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -41,9 +39,7 @@ class query_popup_impl;
 
 class query_popup
 {
-#if defined(IMGUI)
         friend class query_popup_impl;
-#endif
     public:
         /**
          * Query result returned by `query_once` and `query`.

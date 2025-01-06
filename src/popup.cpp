@@ -11,11 +11,9 @@
 #include "output.h"
 #include "ui_manager.h"
 #include "ui.h"
-#if defined(IMGUI)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 #include "color.h"
-#endif
 
 #if defined(IMGUI)
 class query_popup_impl : public cataimgui::window
@@ -254,7 +252,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 #if defined(IMGUI)
         const int this_query_width = get_text_width( remove_color_tags( desc ) ) + horz_padding;
 #else
-        const int this_query_width = utf8_width( desc, true ) + horz_padding;
+        const int this_query_width = utf8_width( remove_color_tags( desc ), true ) + horz_padding;
 #endif
         ++query_cnt;
         query_width += this_query_width;
