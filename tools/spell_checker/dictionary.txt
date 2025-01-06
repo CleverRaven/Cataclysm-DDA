@@ -994,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1117,6 +1118,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -2071,6 +2075,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -4647,6 +4652,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -5561,6 +5568,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -6259,7 +6267,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese

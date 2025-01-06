@@ -137,6 +137,23 @@ diag_assign_dbl_f addiction_turns_ass( char scope, std::vector<diag_value> const
     };
 }
 
+diag_eval_dbl_f health_eval( char scope, std::vector<diag_value> const & /* params */,
+                             diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_health();
+    };
+}
+
+diag_assign_dbl_f health_ass( char scope, std::vector<diag_value> const & /* params */,
+                              diag_kwargs const & /* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
+        const int current_health = d.actor( beta )->get_health();
+        return d.actor( beta )->mod_livestyle( val - current_health );
+    };
+}
+
 diag_eval_dbl_f armor_eval( char scope, std::vector<diag_value> const &params,
                             diag_kwargs const & /* kwargs */ )
 {
@@ -268,19 +285,28 @@ diag_assign_dbl_f faction_trust_ass( char /* scope */, std::vector<diag_value> c
 }
 
 diag_eval_dbl_f faction_food_supply_eval( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( const_dialogue const & d ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( const_dialogue const & d ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            return static_cast<double>( fac->food_supply.get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
+        }
         return static_cast<double>( fac->food_supply.calories );
     };
 }
 
 diag_assign_dbl_f faction_food_supply_ass( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( dialogue const & d, double val ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( dialogue const & d, double val ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            fac->food_supply.add_vitamin( vitamin_id( vit_val.str( d ) ), val );
+            return;
+        }
         fac->food_supply.calories = val;
     };
 }
@@ -517,6 +543,21 @@ diag_assign_dbl_f hp_ass( char scope, std::vector<diag_value> const &params,
     };
 }
 
+diag_eval_dbl_f degradation_eval( char scope, std::vector<diag_value> const & /* params */,
+                                  diag_kwargs const & )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_degradation();
+    };
+}
+diag_assign_dbl_f degradation_ass( char scope, std::vector<diag_value> const & /* params */,
+                                   diag_kwargs const & /* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
+        d.actor( beta )->set_degradation( val );
+    };
+}
+
 diag_assign_dbl_f spellcasting_adjustment_ass( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
@@ -644,6 +685,14 @@ diag_eval_dbl_f attack_speed_eval( char scope, std::vector<diag_value> const & /
     };
 }
 
+diag_eval_dbl_f move_speed_eval( char scope, std::vector<diag_value> const & /* params */,
+                                 diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_speed();
+    };
+}
+
 diag_eval_dbl_f melee_damage_eval( char scope, std::vector<diag_value> const &params,
                                    diag_kwargs const & /* kwargs */ )
 {
@@ -716,6 +765,9 @@ bool _filter_character( Character const *beta, Character const &guy, int radius,
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
@@ -831,6 +883,9 @@ bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int r
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 template <class ID>
 diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const &params,
                                        diag_kwargs const &kwargs, f_monster_match<ID> f )
@@ -1098,8 +1153,15 @@ diag_eval_dbl_f spell_exp_eval( char scope, std::vector<diag_value> const &param
 diag_eval_dbl_f spell_exp_for_level_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[level = params[0]]( const_dialogue const & d ) -> double {
-        return spell::exp_for_level( level.dbl( d ) );
+    return[sid = params[0], level = params[1]]( const_dialogue const & d ) -> double {
+        std::string sid_str = sid.str( d );
+        spell_id spell( sid_str );
+        if( spell.is_valid() )
+        {
+            return spell->exp_for_level( level.dbl( d ) );
+        }
+
+        throw math::runtime_error( R"(Unknown spell id "%s" for spell_exp_for_level)", sid_str );
     };
 }
 
@@ -1442,6 +1504,14 @@ diag_eval_dbl_f test_str_len( char /* scope */, std::vector<diag_value> const &p
     return _test_func( params, kwargs, _test_len );
 }
 
+diag_eval_dbl_f ugliness_eval( char scope, std::vector<diag_value> const & /* params */,
+                               diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_ugliness();
+    };
+}
+
 diag_eval_dbl_f value_or_eval( char /* scope */, std::vector<diag_value> const &params,
                                diag_kwargs const & /* kwargs */ )
 {
@@ -1644,8 +1714,10 @@ diag_eval_dbl_f vitamin_eval( char scope, std::vector<diag_value> const &params,
             return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
         if( item_location const *const itm = actor->get_const_item(); itm != nullptr ) {
-            const nutrients &nutrient_data = default_character_compute_effective_nutrients( *itm->get_item() );
-            return static_cast<int>( nutrient_data.vitamins().count( vitamin_id( id.str( d ) ) ) );
+            const std::map<vitamin_id, int> &vitamin_data =
+                default_character_compute_effective_nutrients( *itm->get_item() ).vitamins();
+            const auto &v = vitamin_data.find( vitamin_id( id.str( d ) ) );
+            return v != vitamin_data.end() ? v->second : 0;
         }
         throw math::runtime_error( "Tried to access vitamins of a non-Character/non-item talker" );
     };
@@ -1757,13 +1829,16 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
+    { "degradation", { "un", 0, degradation_eval, degradation_ass } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "effect_duration", { "un", 1, effect_duration_eval } },
+    { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
@@ -1803,7 +1878,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_level_sum", { "un", 0, spell_sum_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass }},
-    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
+    { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval, spell_level_ass }},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval, spell_level_adjustment_ass } },
     { "time", { "g", 1, time_eval, time_ass } },
@@ -1816,6 +1891,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "npc_fear", { "un", 0, npc_fear_eval, npc_fear_ass } },
     { "npc_value", { "un", 0, npc_value_eval, npc_value_ass } },
     { "npc_trust", { "un", 0, npc_trust_eval, npc_trust_ass } },
+    { "ugliness", { "un", 0, ugliness_eval } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval, vitamin_ass } },

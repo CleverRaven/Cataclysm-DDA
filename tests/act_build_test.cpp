@@ -36,7 +36,7 @@ void run_activities( Character &u, int max_moves )
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
-            u.setpos( get_map().bub_from_abs( tripoint_abs_ms( *u.destination_point ) ) );
+            u.setpos( get_map().bub_from_abs( *u.destination_point ) );
             get_map().build_map_cache( u.posz() );
             u.start_destination_activity();
         }
@@ -86,11 +86,11 @@ construction setup_testcase( Character &u, std::string const &constr,
     tripoint_abs_ms const build_abs = here.getglobal( build_loc );
     faction_id const fac = u.get_faction()->id;
 
-    zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs.raw(),
-              loot_abs.raw() );
+    zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs,
+              loot_abs );
 
     zmgr.add( constr + " construction zone", zone_type_CONSTRUCTION_BLUEPRINT, fac, false,
-              true, build_abs.raw(), build_abs.raw(), options );
+              true, build_abs, build_abs, options );
 
     for( auto const *cons : constructions_by_group( build.group ) ) {
         for( auto const &comp : cons->requirements->get_components() ) {
@@ -136,7 +136,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
-        u.setpos( tripoint_bub_ms{ ACTIVITY_SEARCH_DISTANCE - 1, 0, 0} );
+        u.setpos( tripoint_bub_ms{ MAX_VIEW_DISTANCE - 1, 0, 0} );
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =

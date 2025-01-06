@@ -285,8 +285,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
-
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
@@ -904,9 +902,9 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
-            sounds::sound( who.pos_bub(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true,
-                           "environment",
-                           "alarm" );
+            sounds::sound( who.pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::music, _( "an alarm sound!" ),
+                           true,
+                           "environment", "alarm" );
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -1667,7 +1665,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms::zero ) {
+    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -6613,7 +6611,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( pos, direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7244,13 +7242,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     if( stage == INIT ) {
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
@@ -8089,8 +8087,8 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                 }
 
                 float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += 100 / std::max( 0.25f,
-                                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
+                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
+                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
                 if( stamina_ratio < 0.33 || you.is_npc() ) {
                     you.set_moves( std::min( 0, you.get_moves() - moves ) );
                     return;

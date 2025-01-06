@@ -1266,7 +1266,7 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            explosion_handler::explosion( driver, p.raw(), veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            explosion_handler::explosion( driver, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
             // Don't damage wheels with very high durability, such as roller drums or rail wheels
         } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
@@ -1291,7 +1291,7 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
             const trap &tr = here.tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
-                player_character.add_known_trap( p.raw(), tr );
+                player_character.add_known_trap( p, tr );
             }
             if( seen && !known ) {
                 // hard to miss!
@@ -2288,7 +2288,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos.raw(), m_bad,
+                add_msg_if_player_sees( part_pos, m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }

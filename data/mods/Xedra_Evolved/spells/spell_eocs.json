@@ -99,7 +99,7 @@
         "math": [
           "u_spell_exp('xedra_dreamer_generate_accelerated_time')",
           "+=",
-          "spell_exp_diff(u_spell_level('xedra_dreamer_generate_accelerated_time'))/spell_train_factor(200)"
+          "(spell_exp_for_level('xedra_dreamer_generate_accelerated_time', u_spell_level('xedra_dreamer_generate_accelerated_time')+1) - spell_exp_for_level('xedra_dreamer_generate_accelerated_time', u_spell_level('xedra_dreamer_generate_accelerated_time')))/spell_train_factor(200)"
         ]
       }
     ],
@@ -143,7 +143,7 @@
         "math": [
           "u_spell_exp('spell_ethereal_wings')",
           "+=",
-          "spell_exp_diff(u_spell_level('spell_ethereal_wings'))/spell_train_factor(200)"
+          "(spell_exp_for_level('spell_ethereal_wings', u_spell_level('spell_ethereal_wings')+1) - spell_exp_for_level('spell_ethereal_wings', u_spell_level('spell_ethereal_wings')))/spell_train_factor(200)"
         ]
       }
     ],
@@ -184,7 +184,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
+        "math": [
+          "u_spell_exp('spell_karma_arms')",
+          "+=",
+          "(spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')+1) - spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [
@@ -218,7 +222,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "spell_exp_diff(u_spell_level('spell_devil_tail'))/spell_train_factor(100)" ]
+        "math": [
+          "u_spell_exp('spell_devil_tail')",
+          "+=",
+          "(spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')+1) - spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')))/spell_train_factor(100)"
+        ]
       }
     ],
     "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
@@ -258,7 +266,7 @@
         "math": [
           "u_spell_exp('spell_stalker_eyes')",
           "+=",
-          "spell_exp_diff(u_spell_level('spell_stalker_eyes'))/spell_train_factor(200)"
+          "(spell_exp_for_level('spell_stalker_eyes', u_spell_level('spell_stalker_eyes')+1) - spell_exp_for_level('spell_stalker_eyes', u_spell_level('spell_stalker_eyes')))/spell_train_factor(200)"
         ]
       }
     ],

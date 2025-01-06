@@ -207,10 +207,7 @@ static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
@@ -238,7 +235,6 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_tree( "t_tree" );
@@ -479,6 +475,32 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
+static bool do_cannibalism_piss_people_off( Character &you )
+{
+    if( !you.is_avatar() ) {
+        return true; // NPCs dont accidentally cause player hate
+    }
+
+    if( !query_yn(
+            _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+        return false; // player cancels
+    }
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && guy.sees( you ) && !guy.okay_with_eating_humans() ) {
+            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+            // massive opinion penalty
+            guy.op_of_u.trust -= 5;
+            guy.op_of_u.value -= 5;
+            guy.op_of_u.anger += 5;
+            if( guy.turned_hostile() ) {
+                guy.make_angry();
+            }
+        }
+    }
+    return true;
+}
+
 static void set_up_butchery( player_activity &act, Character &you, butcher_type action )
 {
     const int factor = you.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
@@ -529,15 +551,15 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     const requirement_id butchery_requirement = butchery_requirements.second;
 
     if( !butchery_requirement->can_make_with_inventory(
-            you.crafting_inventory( you.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+            you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
         std::string popup_output = _( "You can't butcher this; you are missing some tools.\n" );
 
         for( const std::string &str : butchery_requirement->get_folded_components_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
             popup_output += str + '\n';
         }
         for( const std::string &str : butchery_requirement->get_folded_tools_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos(), PICKUP_RANGE ) ) ) {
+                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ) ) ) {
             popup_output += str + '\n';
         }
 
@@ -597,20 +619,18 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL ) ) &&
-                          !corpse.in_species( species_ZOMBIE ) );
+    // TODO: Extract this bool into a function
+    const bool is_human = corpse.id == mtype_id::NULL_ID() ||
+                          corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL );
 
     // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
-                if( query_yn(
-                        _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+                if( do_cannibalism_piss_people_off( you ) ) {
                     //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -638,7 +658,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         } else {
             //this runs if the butcherer does NOT have prof_dissect_humans
             if( you.is_avatar() ) {
-                if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                if( do_cannibalism_piss_people_off( you ) ) {
                     //random message and morale penalty
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -667,8 +687,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     // applies to only dissections, so that dissect_humans training makes a difference.
-    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && action == butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
@@ -1632,7 +1651,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
-            liquid.set_item_temperature( std::max( get_weather().get_temperature( you->pos() ),
+            liquid.set_item_temperature( std::max( get_weather().get_temperature( you->pos_bub() ),
                                                    temperatures::cold ) );
         }
 
@@ -3192,7 +3211,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 }
 
                 you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
-                                      act->str_values[installer_name], bid->canceled_mutations, you->pos() );
+                                      act->str_values[installer_name], bid->canceled_mutations, you->pos_bub() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 you->remove_effect( effect_under_operation );

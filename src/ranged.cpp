@@ -321,10 +321,9 @@ class target_ui
 
         // Compact layout
         bool compact = false;
-        // Tiny layout - when extremely short on space
+        // Tiny layout - when extremely short on height
         bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
+        // Narrow layout - when short on width
         bool narrow = false;
 
         // Create window and set up input context
@@ -903,7 +902,7 @@ bool Character::handle_gun_overheat( item &it )
             add_msg_if_player( m_bad, _( "Your %s detonates!" ),
                                it.tname() );
             it.faults.insert( fault_overheat_melting );
-            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
+            explosion_handler::explosion( this, this->pos_bub(), 1200, 0.4 );
             return false;
         } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
             add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
@@ -1075,7 +1074,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                 }
                 targets_hit[ shot.hit_critter ].first++;
             }
-            if( shot.missed_by <= .1 ) {
+            if( shot.headshot ) {
                 headshot = true;
             }
             if( proj.count > 1 && shot.proj.count == 1 ) {
@@ -1104,7 +1103,6 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
             }
         }
         if( headshot ) {
-            // TODO: check head existence for headshot
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
         curshot++;
@@ -1564,11 +1562,10 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     const double missed_by = dealt_attack.missed_by;
 
-    if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
+    if( critter && dealt_attack.hit_critter != nullptr && dealt_attack.headshot &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
         !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
-        // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
@@ -1951,14 +1948,20 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     int width = getmaxx( w ) - 2; // window width minus borders
     const int bars_pad = 3;
     bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     nc_color col = c_light_gray;
 
-    // Start printing by panel type, inside each branch whether to output numbers or "bars"
-    if( panel_type == "legacy_labels_narrow_sidebar" || panel_type == "legacy_compact_sidebar" ) {
-        bool narrow = panel_type == "legacy_labels_narrow_sidebar";
-        // TODO: who uses this? this is broken likely since work started
-        // on sidebar widgets and yet nobody complains...
+
+    const auto &current_steadiness_it = std::find_if( sorted.begin(),
+    sorted.end(), []( const aim_type_prediction & atp ) {
+        return atp.is_default;
+    } );
+    if( current_steadiness_it != sorted.end() ) {
+        line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
+    }
+
+    // Start printing by available width of aim window
+    if( narrow ) {
         std::vector<std::string> t_aims( 4 );
         std::vector<std::string> t_confidence( 20 );
         int aim_iter = 0;
@@ -2020,19 +2023,10 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             line_number = line_number + 4; // 4 to account for the tables
         }
         return line_number;
-    } else { // print the "legacy classic" one
-        // there's more legacy sidebars but appear to not be used
-
-        const auto &current_steadiness_it = std::find_if( sorted.begin(),
-        sorted.end(), []( const aim_type_prediction & atp ) {
-            return atp.is_default;
-        } );
-        if( current_steadiness_it != sorted.end() ) {
-            line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
-        }
+    } else { // print normally
 
         int column_number = 1;
-        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+        if( !narrow ) {
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
@@ -2268,7 +2262,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !here.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? pos : random_entry( tiles );
+    tripoint_bub_ms eject{ tiles.empty() ? pos : random_entry( tiles ) };
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
@@ -2880,16 +2874,14 @@ target_handler::trajectory target_ui::run()
 
 void target_ui::init_window_and_input()
 {
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
-
     int top = 0;
-    int width;
+    int width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
     int height;
+    narrow = width <= 42;
     if( narrow ) {
-        // Narrow layout removes the list of controls. This allows us
-        // to have small window size and not suffer from it.
-        width = 34;
+        if( width < 34 ) {
+            width = 34;
+        }
         height = 24;
         compact = true;
     } else {
@@ -3220,7 +3212,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint_bub_ms &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint_bub_ms local_lt = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
+    tripoint_bub_ms local_lt = get_map().bub_from_abs( *you->last_target_pos );
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3269,10 +3261,10 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 void target_ui::set_last_target()
 {
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().getglobal( dst ).raw() ) {
+        you->last_target_pos.value() != get_map().getglobal( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getglobal( dst ).raw();
+    you->last_target_pos = get_map().getglobal( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3437,7 +3429,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos_bub();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
+        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos );
     } else {
         curr_recoil_pos = src;
     }
@@ -3801,6 +3793,9 @@ void target_ui::draw_ui_window()
         }
     }
 
+    // Narrow layout removes the list of controls. This allows us
+    // to have small window size and not suffer from it.
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     if( !narrow ) {
         draw_controls_list( text_y );
     }

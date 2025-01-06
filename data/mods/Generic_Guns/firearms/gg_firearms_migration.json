@@ -62,7 +62,6 @@
       "modular_deagle_357",
       "modular_deagle_44",
       "modular_deagle_50",
-      "m1911-460",
       "draco",
       "draco_mini",
       "draco_micro"
@@ -474,6 +473,16 @@
     "id": [ "remington_870_breacher" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
+  },
+  {
+    "id": [ "exodii_plasma_projectile" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_projectile"
+  },
+  {
+    "id": [ "exodii_plasma_fan" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_fan"
   },
   {
     "id": [ "varmint_airgun" ],

@@ -1479,7 +1479,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` }, { "intensity", `int` }</br> | character / NONE |
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
@@ -3670,28 +3670,6 @@ Would pick a random swear from `<swear>` snippet, and always would be the same (
 { "u_make_sound": "<swear>", "snippet": true, "same_snippet": true }
 ```
 
-
-#### `u_mod_healthy`, `npc_mod_healthy`
-Increases or decreases your healthiness (respond for disease immunity and regeneration).
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
-| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-Your health is decreased by 1, but not smaller than -200
-```json
-{ "u_mod_healthy": -1, "cap": -200 }
-```
-
-
 #### `u_add_morale`, `npc_add_morale`
 Your character or the NPC will gain a morale bonus
 
@@ -4044,6 +4022,7 @@ You or NPC is teleported to `target_var` coordinates
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are.
 
 ##### Valid talkers:
 

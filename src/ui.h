@@ -172,8 +172,8 @@ struct uilist_entry {
         {}
 
     public:
-        const std::string _txt_nocolor();  // what it says on the tin
-        const std::string _ctxt_nocolor(); // second column text
+        const std::string &_txt_nocolor();  // what it says on the tin
+        const std::string &_ctxt_nocolor(); // second column text
     private:
         std::string _txt_nocolor_cached;   // cached return values of the above
         std::string _ctxt_nocolor_cached;
@@ -556,7 +556,7 @@ class pointmenu_cb : public uilist_callback
 
         pimpl<impl_t> impl;
     public:
-        explicit pointmenu_cb( const std::vector< tripoint > &pts );
+        explicit pointmenu_cb( const std::vector< tripoint_bub_ms > &pts );
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };

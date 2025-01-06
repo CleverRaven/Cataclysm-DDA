@@ -115,8 +115,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -133,7 +133,17 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },

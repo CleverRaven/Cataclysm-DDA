@@ -2,12 +2,12 @@
   {
     "type": "mutation",
     "id": "CHANGING",
-    "name": { "str": "Changing" },
+    "name": { "str": "Changing", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "description": "You shouldn't see this.  This makes you mutate.",
+    "description": { "str": "You shouldn't see this.  This makes you mutate.", "//~": "NO_I18N" },
     "flags": [ "CHANGING" ]
   },
   {
@@ -2931,7 +2931,7 @@
   {
     "type": "mutation",
     "id": "DOWN",
-    "name": { "str": "Down" },
+    "name": { "str": "Down", "ctxt": "mutation" },
     "points": 0,
     "vitamin_cost": 60,
     "visibility": 4,
@@ -7886,6 +7886,7 @@
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
     "types": [ "DIET" ],
     "prereqs": [ "VEGETARIAN", "VEGAN" ],
+    "flags": "HERBIVORE_DIET",
     "leads_to": [ "RUMINANT" ],
     "category": [ "CATTLE", "RABBIT" ]
   },
@@ -9345,9 +9346,9 @@
   {
     "type": "mutation",
     "id": "NPC_BRANDY",
-    "name": { "str": "Carries Brandy" },
+    "name": { "str": "Carries Brandy", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries brandy!",
+    "description": { "str": "This Bartender now carries brandy!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9355,9 +9356,9 @@
   {
     "type": "mutation",
     "id": "NPC_RUM",
-    "name": { "str": "Carries Rum" },
+    "name": { "str": "Carries Rum", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries rum!",
+    "description": { "str": "This Bartender now carries rum!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9365,9 +9366,9 @@
   {
     "type": "mutation",
     "id": "NPC_WHISKEY",
-    "name": { "str": "Carries Whiskey" },
+    "name": { "str": "Carries Whiskey", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries whiskey!",
+    "description": { "str": "This Bartender now carries whiskey!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9375,9 +9376,9 @@
   {
     "type": "mutation",
     "id": "NPC_MISSION_LEV_1",
-    "name": { "str": "Has Level 1 Companion Missions" },
+    "name": { "str": "Has Level 1 Companion Missions", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New mission options have become available!",
+    "description": { "str": "New mission options have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9385,9 +9386,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_1",
-    "name": { "str": "Has Level 1 Construction Built" },
+    "name": { "str": "Has Level 1 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9395,9 +9396,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_2",
-    "name": { "str": "Has Level 2 Construction Built" },
+    "name": { "str": "Has Level 2 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9405,9 +9406,9 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": { "str": "Starting NPC" },
+    "name": { "str": "Starting NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for starting NPCs",
+    "description": { "str": "Marker for starting NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9415,9 +9416,9 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": { "str": "Static NPC" },
+    "name": { "str": "Static NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for static NPCs",
+    "description": { "str": "Marker for static NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9425,45 +9426,48 @@
   {
     "type": "mutation",
     "id": "HALLUCINATION",
-    "name": { "str": "Hallucination" },
+    "name": { "str": "Hallucination", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "description": { "str": "NPC trait that makes them be hallucination.  It is a bug if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "IGNORE_SOUND",
-    "name": { "str": "Ignores Sounds" },
+    "name": { "str": "Ignores Sounds", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
+    "description": { "str": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "NO_BASH",
-    "name": { "str": "Will Not Bash" },
+    "name": { "str": "Will Not Bash", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
+    "description": { "str": "NPC will not bash to reach things.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "RETURN_TO_START_POS",
-    "name": { "str": "Returns to Start POS" },
+    "name": { "str": "Returns to Start POS", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will return to its spawn position on idle.",
+    "description": { "str": "NPC will return to its spawn position on idle.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "id": "GETS_RANDOM_MISSION",
     "type": "mutation",
-    "name": { "str": "Assign Random Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random Mission", "//~": "NO_I18N" },
+    "description": { "str": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9474,8 +9478,11 @@
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
     "type": "mutation",
-    "name": { "str": "Assign Random No-move Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random No-move Mission", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9659,7 +9666,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_MANA_FURNACE_active",
-    "name": { "str": "Debug Mana Furnace (ON) " },
+    "name": { "str": "Debug Mana Furnace (ON)" },
     "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly.",
     "copy-from": "DEBUG_MANA_FURNACE",
     "cost": 100,
@@ -9786,20 +9793,20 @@
   {
     "type": "mutation",
     "id": "BEE",
-    "name": { "str": "Bee" },
+    "name": { "str": "Bee", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+    "description": { "str": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "Mycus friend" },
+    "name": { "str": "Mycus friend", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "description": { "str": "NPC trait that makes fungaloid monsters see this NPC as a friend.", "//~": "NO_I18N" },
     "player_display": false
   },
   {
@@ -10248,10 +10255,13 @@
   {
     "type": "mutation",
     "id": "CARNIVORE_FAKE",
-    "name": { "str": "Imitation Carnivore" },
+    "name": { "str": "Imitation Carnivore", "//~": "NO_I18N" },
     "points": 0,
     "vitamin_cost": 160,
-    "description": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+    "description": {
+      "str": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+      "//~": "NO_I18N"
+    },
     "category": [ "URSINE" ],
     "threshreq": [ "THRESH_URSINE" ],
     "player_display": false
@@ -10287,8 +10297,8 @@
   {
     "type": "mutation",
     "id": "TAINTED_SHADOW",
-    "name": { "str": "Tainted Shadow" },
-    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "name": { "str": "Tainted Shadow", "//~": "NO_I18N" },
+    "description": { "str": "You shouldn't see this.  This makes you spawn tainted shadows.", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,

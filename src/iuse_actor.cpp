@@ -386,7 +386,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         item tmp = item( target );
         if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
             !tmp.has_flag( flag_SEMITANGIBLE ) ) {
-            for( const trait_id &mut : p.get_mutations() ) {
+            for( const trait_id &mut : p.get_functioning_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     return ret_val<void>::make_failure( _( "Your %1$s mutation prevents you from doing that." ),
@@ -406,7 +406,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
+    inv.form_from_map( p.pos_bub(), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -696,14 +696,14 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
                 source = g->find_npc( thrower );
             }
         }
-        explosion_handler::explosion( source, pos.raw(), explosion );
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
         explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        explosion_handler::flashbang( pos.raw(), flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     map &here = get_map();
     if( fields_radius >= 0 && fields_type.id() ) {
@@ -715,12 +715,12 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {
-            explosion_handler::scrambler_blast( dest.raw() );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, emp_blast_radius ) ) {
-            explosion_handler::emp_blast( dest.raw() );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
@@ -1214,8 +1214,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    get_map().furn_set( suitable.value(), furn_type );
-    get_map().drop_furniture( suitable.value() );
+    get_map().furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -2325,7 +2324,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub(), volume ) ) {
         // Sound code doesn't describe noises at the player position
         if( desc != "music" ) {
             p->add_msg_if_player( m_info, desc );
@@ -3958,7 +3957,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos.raw(), p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -3972,7 +3971,7 @@ static void place_and_add_as_known( Character &p, const tripoint_bub_ms &pos,
     here.trap_set( pos, id );
     const trap &tr = here.tr_at( pos );
     if( !tr.can_see( pos, p ) ) {
-        p.add_known_trap( pos.raw(), tr );
+        p.add_known_trap( pos, tr );
     }
 }
 
@@ -4661,7 +4660,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint_bu
         link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
                                         string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
-            link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
+            link_menu.addentry( 0, has_loose_end, -1,
+                                _( "Attach to dashboard, electronics control unit or appliance" ) );
         }
         if( targets.count( link_state::vehicle_battery ) > 0 ) {
             link_menu.addentry( 1, has_loose_end, -1, _( "Attach to vehicle battery or appliance" ) );
@@ -5701,6 +5701,11 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint_bub_ms &point ) const
 {
+    if( it.type->comestible ) {
+        debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved.  Rather than a use_action, use the consumption_effect_on_conditions JSON parameter on the comestible" );
+        return 0;
+    }
+
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return std::nullopt;
@@ -5732,6 +5737,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
+    // NOTE: Because this section and/or calling stack does not check if the item exists in the surrounding tiles
+    // it will not properly decrement any item of type `comestible` if consumed via the `E` `Consume item` menu.
+    // Therefore, it is not advised to use items of type `comestible` with a `use_action` of type
+    // `effect_on_conditions` until/unless this section is properly updated to actually consume said item.
     if( p && !p->has_item( it ) ) {
         return 0;
     }

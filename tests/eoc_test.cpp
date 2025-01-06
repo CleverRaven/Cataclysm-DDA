@@ -331,7 +331,10 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
     clear_avatar();
     clear_map();
-    standard_npc npc( "Mr. Testerman" );
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    npc &npc = *guy;
+    clear_character( npc );
     std::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
         return p.xy() != get_avatar().pos().xy();
     } );
@@ -756,7 +759,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
     item hammer( "hammer" ) ;
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint::zero );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
     d2_copy.set_value( "suppress", "1" );
@@ -780,7 +783,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint::zero );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
     dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );
@@ -1229,7 +1232,6 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
     npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
@@ -1249,7 +1251,6 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
     monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );

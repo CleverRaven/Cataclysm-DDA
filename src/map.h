@@ -133,7 +133,7 @@ struct visibility_variables {
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
-    tripoint last_pos;
+    tripoint_bub_ms last_pos;
 };
 
 struct bash_params {
@@ -304,7 +304,7 @@ struct drawsq_params {
 
 struct tile_render_info {
     struct common {
-        const tripoint pos;
+        const tripoint_bub_ms pos;
         // accumulator for 3d tallness of sprites rendered here so far;
         int height_3d = 0;
 
@@ -633,6 +633,8 @@ class map
         bool is_open_air( const tripoint & ) const;
         bool is_open_air( const tripoint_bub_ms &p ) const;
 
+        bool try_fall( const tripoint_bub_ms &p, Creature *c ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -932,16 +934,20 @@ class map
         */
         // TODO: fix point types (remove the first overload)
         bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
-                       bool avoid_creatures = false );
+                       bool avoid_creatures = false, bool allow_on_open_air = false );
         bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
-                       bool furn_reset = false, bool avoid_creatures = false );
+                       bool furn_reset = false, bool avoid_creatures = false, bool allow_on_open_air = false );
         // TODO: Get rid of untyped overload.
         bool furn_set( const point &p, const furn_id &new_furniture,
-                       bool avoid_creatures = false ) { // TODO: Get rid of untyped version.
-            return furn_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_furniture, false, avoid_creatures );
+                       bool avoid_creatures = false, bool allow_on_open_air =
+                           false ) { // TODO: Get rid of untyped version.
+            return furn_set( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_furniture, false, avoid_creatures,
+                             allow_on_open_air );
         }
-        bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
-            return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
+        bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false,
+                       bool allow_on_open_air = false ) {
+            return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures,
+                             allow_on_open_air );
         }
         // TODO: Get rid of untyped overload.
         void furn_clear( const tripoint_bub_ms &p ) {
@@ -987,9 +993,6 @@ class map
                                        const std::bitset<NUM_TERCONN> &connect_group,
                                        const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture
-        // TODO: Get rid of untyped overload.
-        uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                         const std::map<tripoint, furn_id> &override = {} ) const;
         uint8_t get_known_connections_f( const tripoint_bub_ms &p,
                                          const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint_bub_ms, furn_id> &override = {} ) const;
@@ -1957,9 +1960,9 @@ class map
         // TODO: Get rid of untyped overload
         bool has_vehicle_floor( const tripoint &p ) const;
         bool has_vehicle_floor( const tripoint_bub_ms &p ) const;
-
+    private:
         /**
-         * Handles map objects of given type (not creatures) falling down.
+         * Handles map objects of given type falling down.
          */
         /*@{*/
         void drop_everything( const tripoint_bub_ms &p );
@@ -1967,8 +1970,9 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
+        void drop_creature( const tripoint_bub_ms &p ) const;
         /*@}*/
-
+    public:
         /**
          * Invoked @ref drop_everything on cached dirty tiles.
          */
@@ -2201,7 +2205,7 @@ class map
         * Removes the tree at 'p' and produces a trunk_yield length line of trunks in the 'dir'
         * direction from 'p', leaving a stump behind at 'p'.
         */
-        void cut_down_tree( tripoint_bub_ms p, point dir );
+        void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
     protected:
         /**
          * Radiation-related plant (and fungus?) death.
@@ -2244,7 +2248,8 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint_bub_ms &origin, int target_z, int extension_range = 60,
+        void build_seen_cache( const tripoint_bub_ms &origin, int target_z,
+                               int extension_range = MAX_VIEW_DISTANCE,
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
@@ -2394,6 +2399,7 @@ class map
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint_bub_ms &p, const item_stack &items );
+        void add_item_light_recursive( const tripoint_bub_ms &p, const item &it );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
@@ -2592,8 +2598,6 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point_rel_sm &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
-// Returns the terrain to apply if the terrain is uniform, and t_null otherwise.
-ter_str_id uniform_terrain( const oter_id &oter );
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter );
 bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 
@@ -2611,7 +2615,7 @@ class tinymap : private map
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
         // This operation cannot be used with tinymap due to a lack of zlevel support, but are carried through for use by smallmap.
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             map::cut_down_tree( rebase_bub( p ), dir );
         };
 
@@ -2917,7 +2921,7 @@ class smallmap : public tinymap
     public:
         smallmap() : tinymap( 2, true ) {}
 
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             tinymap::cut_down_tree( p, dir );
         };
 };

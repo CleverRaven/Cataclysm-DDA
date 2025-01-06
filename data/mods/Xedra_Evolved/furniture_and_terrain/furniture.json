@@ -264,6 +264,19 @@
   },
   {
     "type": "furniture",
+    "id": "xedra_chronomancer_memorized_terrain",
+    "name": "memorized location",
+    "symbol": "+",
+    "description": "You remember the exact moment of time your were at this spot.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
     "id": "f_ierde_lithic_gaol_fang",
     "name": "Rocky fang",
     "description": "A thick, jagged spike of rock.",
@@ -336,5 +349,17 @@
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_frozen_person_dead",
+    "name": "unmoving figure",
+    "looks_like": "f_statue",
+    "description": "A person stands before you, completely motionless in spite of the horrific wound marring their body.  Every part of their figure is leeched of color, and you are completely incapable of affecting them in any way.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1
   }
 ]

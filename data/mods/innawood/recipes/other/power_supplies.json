@@ -29,6 +29,42 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_hand_crank_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "90 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "casting_mold_small", -1 ], [ "casting_mold_small", -1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_redsmithing" }
+    ],
+    "components": [
+      [ [ "2x4", 3 ] ],
+      [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
+      [ [ "stick", 1 ] ],
+      [ [ "copper_wire", 2 ] ],
+      [ [ "rope_any_short", 2, "LIST" ] ],
+      [ [ "chunk_magnetite", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "condensor_coil",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",

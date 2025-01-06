@@ -83,6 +83,7 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
+static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_counter( "f_counter" );
@@ -97,7 +98,6 @@ static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
-
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 
@@ -116,6 +116,7 @@ static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
 
+static const itype_id itype_ash( "ash" );
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
@@ -236,9 +237,9 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                     // Generate uniform submaps immediately and cheaply.
                     // This causes them to be available for "proper" overlays even if on a lower Z level.
-                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
-                    if( ter != t_null.id() ) {
-                        getsubmap( grid_pos )->set_all_ter( ter, true );
+                    const std::optional<ter_str_id> ter = overmap_buffer.ter( { p.xy(), gridz } )->get_uniform_terrain();
+                    if( ter ) {
+                        getsubmap( grid_pos )->set_all_ter( *ter, true );
                         getsubmap( grid_pos )->last_touched = calendar::turn;
                     }
                 } else {
@@ -265,6 +266,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         const tripoint_abs_sm p_sm = { p_sm_base.xy(), gridz };
         set_abs_sub( p_sm );
 
+        const oter_id &terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
+
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
@@ -272,14 +275,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                 if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
-                    uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+                    !terrain_type->has_uniform_terrain() ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
                     setsubmap( grid_pos, new submap() );
                 }
             }
         }
-
-        oter_id terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
 
         // This attempts to scale density of zombies inversely with distance from the nearest city.
         // In other words, make city centers dense and perimeters sparse.
@@ -300,7 +301,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
-            uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+            !terrain_type->has_uniform_terrain() ) {
             draw_map( dat );
         }
 
@@ -1074,6 +1075,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
+    setmap_opmap[ "burn" ] = JMAPGEN_SETMAP_BURN;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
     std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
     jmapgen_setmap_op tmpop;
@@ -1125,8 +1127,9 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
-                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_BURN ||
+                   tmpop == JMAPGEN_SETMAP_ITEM_REMOVE || tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ||
+                   tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = pjo.get_string( "id" );
@@ -3134,7 +3137,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
             if( is_boring_wall || act_trap == apply_action::act_erase ) {
                 dat.m.remove_trap( p );
             } else if( act_trap == apply_action::act_dismantle ) {
-                dat.m.tr_at( p ).on_disarmed( dat.m, p.raw() );
+                dat.m.tr_at( p ).on_disarmed( dat.m, p );
             }
 
             if( is_boring_wall || act_item == apply_action::act_erase ) {
@@ -3485,7 +3488,7 @@ class jmapgen_zone : public jmapgen_piece
                                           dat.zlevel() + z.get() ) );
             const tripoint_abs_ms end = dat.m.getglobal( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
                                         dat.zlevel() + z.get() ) );
-            mapgen_place_zone( start.raw(), end.raw(), chosen_zone_type, chosen_faction, name, filter, &dat.m );
+            mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3524,8 +3527,8 @@ class jmapgen_remove_vehicles : public jmapgen_piece
     public:
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
-            for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.emplace_back( item_id );
+            for( std::string vehicle_prototype_id : jo.get_string_array( "vehicles" ) ) {
+                vehicles_to_remove.emplace_back( vehicle_prototype_id );
             }
         }
         mapgen_phase phase() const override {
@@ -3533,18 +3536,17 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-
             const tripoint_bub_ms start( int( x.val ), int( y.val ), dat.zlevel() + z.get() );
             const tripoint_bub_ms end( int( x.valmax ), int( y.valmax ), dat.zlevel() + z.get() );
             const tripoint_range<tripoint_bub_ms> range = tripoint_range<tripoint_bub_ms>( start, end );
+            auto is_in_vehicles_to_remove = [&]( vproto_id & vproto ) -> bool {
+                return std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(), vproto ) != vehicles_to_remove.end();
+            };
             for( const tripoint_bub_ms &p : range ) {
-                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
-                    const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
-                                                vp->vehicle().type );
-                    if( rit != vehicles_to_remove.end() ) {
-                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
-                        dat.m.destroy_vehicle( &vp->vehicle() );
-                    }
+                optional_vpart_position vp = dat.m.veh_at( p );
+                if( vp && ( vehicles_to_remove.empty() || is_in_vehicles_to_remove( vp->vehicle().type ) ) ) {
+                    get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
+                    dat.m.destroy_vehicle( &vp->vehicle() );
                 }
             }
         }
@@ -4956,6 +4958,7 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
+        case JMAPGEN_SETMAP_BURN:
         case JMAPGEN_SETMAP_VARIABLE:
         case JMAPGEN_SETMAP_LINE_RADIATION:
         case JMAPGEN_SETMAP_SQUARE_RADIATION:
@@ -5048,7 +5051,43 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_BASH: {
-                m.bash( target_pos, 9999 );
+                m.bash( target_pos, 9999, true );
+                break;
+            }
+            case JMAPGEN_SETMAP_BURN: {
+                const furn_str_id &furn = m.furn( target_pos ).id();
+                const ter_str_id &ter = m.ter( target_pos ).id();
+                if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE ) ||
+                    ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
+                    while( m.is_bashable( target_pos ) ) { // one is not enough
+                        m.bash( target_pos, 9999, true );
+                    }
+                    if( one_in( 5 ) && !ter->has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                        // This gives very little *wood* ash because the terrain is not flagged as flammable
+                        m.spawn_item( target_pos, itype_ash, 1, rng( 1, 10 ) );
+                    }
+                } else if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
+                    while( m.is_bashable( target_pos ) ) {
+                        m.bash( target_pos, 9999, true );
+                    }
+                    if( !m.is_open_air( target_pos ) ) {
+                        m.furn_set( target_pos, furn_f_ash );
+                        if( !ter->has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                            m.spawn_item( target_pos, itype_ash, 1, rng( 10, 1000 ) );
+                        }
+                    }
+                }
+                while( m.flammable_items_at( target_pos ) ) {
+                    map_stack stack = m.i_at( target_pos );
+                    for( auto it = stack.begin(); it != stack.end(); ) {
+                        if( it->flammable() ) {
+                            m.create_burnproducts( target_pos, *it, it->weight() );
+                            it = stack.erase( it );
+                        } else {
+                            it++;
+                        }
+                    }
+                }
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
@@ -5349,11 +5388,16 @@ void mapgen_function_json::generate( mapgendata &md )
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
-        const std::string function_key = predecessor_md.terrain_type()->get_mapgen_id();
-        bool success = run_mapgen_func( function_key, predecessor_md );
+        const std::optional<ter_str_id> uniform_ter = predecessor_md.terrain_type()->get_uniform_terrain();
+        if( uniform_ter ) {
+            m->draw_fill_background( *uniform_ter );
+        } else {
+            const std::string function_key = predecessor_md.terrain_type()->get_mapgen_id();
+            bool success = run_mapgen_func( function_key, predecessor_md );
 
-        if( !success ) {
-            debugmsg( "predecessor mapgen with key %s failed", function_key );
+            if( !success ) {
+                debugmsg( "predecessor mapgen with key %s failed", function_key );
+            }
         }
     };
 
@@ -7042,10 +7086,10 @@ computer *map::add_computer( const tripoint_bub_ms &p, const std::string &name, 
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
-        static computer null_computer = computer( name, security, p.raw() );
+        static computer null_computer = computer( name, security, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p.raw() ) );
+    place_on_submap->set_computer( l, computer( name, security, p ) );
     return place_on_submap->get_computer( l );
 }
 

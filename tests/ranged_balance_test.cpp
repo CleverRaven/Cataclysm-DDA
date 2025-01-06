@@ -220,7 +220,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
     }
 }
 
-static constexpr tripoint shooter_pos( 60, 60, 0 );
+static constexpr tripoint_bub_ms shooter_pos( 60, 60, 0 );
 
 // Test the aiming speed and accuracy of the weapon in the first shot
 
@@ -449,7 +449,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
     const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
     std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter",
-                                            shooter_pos.raw(),
+                                            shooter_pos,
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
     int other_check_success = 0;
     do {
@@ -561,7 +561,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     // Unarmored target
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_test_shotgun_0_bullet" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_test_shotgun_0_bullet" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 185, "mon_test_shotgun_0_bullet" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_test_shotgun_0_bullet" );
     // Triviallly armored target (armor_bullet: 1)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 32, "mon_zombie_tough" );

@@ -55,6 +55,7 @@ static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
 static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
 static const efftype_id effect_bounced( "bounced" );
 
@@ -173,7 +174,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt.raw(), dropped_item );
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -231,9 +232,18 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     creature_tracker &creatures = get_creature_tracker();
     Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
-    double target_size = target_critter != nullptr ?
-                         target_critter->ranged_target_size() :
-                         here.ranged_target_size( target_arg );
+    double target_size;
+    if( target_critter != nullptr ) {
+        const monster *mon = target_critter->as_monster();
+        if( mon && proj_arg.proj_effects.count( ammo_effect_WIDE ) ) {
+            // ammo with ammo_effect_WIDE ignores mon_flag_HARDTOSHOOT
+            target_size = occupied_tile_fraction( mon->get_size() );
+        } else {
+            target_size = target_critter->ranged_target_size();
+        }
+    } else {
+        target_size = here.ranged_target_size( target_arg );
+    }
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
@@ -314,7 +324,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
         if( first ) {
             sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
-                                     sfx::get_heard_angle( target.raw() ) );
+                                     sfx::get_heard_angle( target ) );
         }
         // TODO: Z dispersion
     }
@@ -527,7 +537,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp.raw(),
+        explosion_handler::explosion( null_source ? nullptr : origin, tp,
                                       proj.get_custom_explosion() );
     }
 
@@ -554,7 +564,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
         }
     }
 

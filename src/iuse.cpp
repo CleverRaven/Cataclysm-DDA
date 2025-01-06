@@ -729,7 +729,7 @@ std::optional<int> iuse::fungicide( Character *p, item *, const tripoint_bub_ms 
                 if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( !critter.type->in_species( species_FUNGUS ) ) {
-                        add_msg_if_player_sees( dest.raw(), m_warning, _( "The %s is covered in tiny spores!" ),
+                        add_msg_if_player_sees( dest, m_warning, _( "The %s is covered in tiny spores!" ),
                                                 critter.name() );
                     }
                     if( !critter.make_fungus() ) {
@@ -3263,7 +3263,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
                             rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-    if( !get_avatar().can_hear( pos.raw(), 6 ) ) {
+    if( !get_avatar().can_hear( pos, 6 ) ) {
         // can not hear it, but may have alarmed other creatures
         return 1;
     }
@@ -3342,7 +3342,7 @@ std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms 
             found = here.passable( goop ) && here.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
         if( found ) {
-            add_msg_if_player_sees( goop.raw(), m_warning,
+            add_msg_if_player_sees( goop, m_warning,
                                     _( "A nearby splatter of goo forms into a goo pit." ) );
             here.trap_set( goop, tr_goo );
         } else {
@@ -3536,7 +3536,7 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
             here.add_field( flame, fd_fire, rng( 0, 2 ) );
         }
     }
-    explosion_handler::explosion( p, pos.raw(), 8, 0.8, true );
+    explosion_handler::explosion( p, pos, 8, 0.8, true );
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 2 ) ) {
         here.add_field( dest, fd_incendiary, 3 );
     }
@@ -3865,7 +3865,7 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     std::string sound = "music";
 
     auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
-        return p && p->can_hear( source.raw(), volume ) && !p->in_sleep_state();
+        return p && p->can_hear( source, volume ) && !p->in_sleep_state();
     };
 
     auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
@@ -4146,7 +4146,7 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
         // number of nearby friends with gaming devices
         std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
             return n.is_player_ally() && p->sees( n ) &&
-                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+                   n.can_hear( p->pos_bub(), p->get_shout_volume() ) &&
             n.has_item_with( [&it]( const item & i ) {
                 return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
             } );
@@ -5477,18 +5477,18 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             // Build a list of all unfriendly robots in range.
             // TODO: change into vector<Creature*>
             std::vector< shared_ptr_fast< monster> > mons;
-            std::vector< tripoint > locations;
+            std::vector< tripoint_bub_ms > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
                 if( robotcontrol_can_target( p, candidate ) ) {
                     mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    tripoint seen_loc;
+                    tripoint_bub_ms seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos_bub().raw();
+                        seen_loc = candidate.pos_bub();
                     } else {
-                        seen_loc = p->pos_bub().raw();
+                        seen_loc = p->pos_bub();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -7165,7 +7165,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint_bub_
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), 60 ) ) {
+    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), MAX_VIEW_DISTANCE ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
@@ -7379,10 +7379,10 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
             vehs.push_back( v );
         }
     }
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub().raw() );
+        locations.push_back( veh->pos_bub() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7864,7 +7864,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
             meal.heat_up();
         } else {
             meal.set_item_temperature( std::max( temperatures::cold,
-                                                 get_weather().get_temperature( pos.raw() ) ) );
+                                                 get_weather().get_temperature( pos ) ) );
         }
 
         it->active = false;
@@ -7896,7 +7896,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const units::temperature player_local_temp = weather.get_temperature( p->pos_bub().raw() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -8218,8 +8218,8 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 
 static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
 {
-    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select an appliance." ),
-                                       _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
+    const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
+            _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
     if( !pt ) {
         p->add_msg_if_player( m_info, _( "You haven't selected any appliance." ) );
         return std::nullopt;
@@ -8251,7 +8251,7 @@ static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( C
                     p->add_msg_if_player( m_info, _( "You haven't selected any heater." ) );
                     return std::nullopt;
                 } else {
-                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
+                    return std::make_pair( pt.value().raw(), pseudo_tools[app_menu.ret] );
                 }
 
             }
@@ -8862,7 +8862,7 @@ std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_m
 {
     if( p->is_avatar() ) {
         std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
-            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
         } );
         int fcount = followers.size();
         if( fcount > 0 ) {

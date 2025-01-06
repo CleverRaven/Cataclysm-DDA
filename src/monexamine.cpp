@@ -176,8 +176,9 @@ void push( monster &z )
         return;
     }
 
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint_bub_ms( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    // Attempt to double the vector between the player and monster
+    const tripoint_rel_ms delta = z.pos_bub() - player_character.pos_bub();
+    if( z.move_to( z.pos_bub() + delta.xy() ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
@@ -309,7 +310,7 @@ bool give_items_to( monster &z )
         return true;
     }
     z.add_effect( effect_controlled, 5_turns );
-    player_character.drop( to_move, z.pos(), true );
+    player_character.drop( to_move, z.pos_bub(), true );
     // Print an appropriate message for the inserted item or items
     if( to_move.size() > 1 ) {
         add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),

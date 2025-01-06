@@ -141,6 +141,7 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -579,14 +580,14 @@ static void pldrive( point d )
 static void open()
 {
     avatar &player_character = get_avatar();
-    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                           ACTION_OPEN, false );
+    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+            ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
     }
-    const tripoint_bub_ms openp = tripoint_bub_ms( *openp_ );
+    const tripoint_bub_ms openp = *openp_;
     map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -664,7 +665,7 @@ static void open()
 
 static void close()
 {
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight_bub_ms(
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
                 _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
@@ -998,7 +999,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
+        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
@@ -1376,7 +1377,7 @@ static void sleep()
             active.push_back( info.name.translated() );
         }
     }
-    for( auto &mut : player_character.get_mutations() ) {
+    for( auto &mut : player_character.get_functioning_mutations() ) {
         const mutation_branch &mdata = mut.obj();
         if( mdata.cost > 0 && player_character.has_active_mutation( mut ) ) {
             active.push_back( player_character.mutation_name( mut ) );
@@ -1830,7 +1831,7 @@ static void open_movement_mode_menu()
     }
 }
 
-static void cast_spell()
+static void cast_spell( bool recast_spell = false )
 {
     Character &player_character = get_player_character();
     player_character.magic->clear_opens_spellbook_data();
@@ -1872,17 +1873,25 @@ static void cast_spell()
         }
     }
 
-    spell &sp = player_character.magic->select_spell( player_character );
+    if( recast_spell && player_character.magic->last_spell.is_null() ) {
+        popup( _( "Cast a spell first" ) );
+        return;
+    }
+
+    spell &sp = recast_spell
+                ? player_character.magic->get_spell( player_character.magic->last_spell )
+                : player_character.magic->select_spell( player_character );
     // if no spell was selected
     if( sp.id().is_null() ) {
         return;
     }
+    player_character.magic->last_spell = sp.id();
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const std::optional<tripoint> &target = std::nullopt )
+                            const std::optional<tripoint_bub_ms> &target = std::nullopt )
 {
     if( is_armed() && !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
@@ -2402,10 +2411,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
-                    // Check tiles around player character for open air
-                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                        if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                    // If levitating, just move straight down if possible.
+                    if( player_character.has_flag( json_flag_LEVITATION ) &&
+                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        pts.push_back( player_character.pos_bub() );
+                    }
+
+                    if( pts.empty() ) {
+                        // Check tiles around player character for open air
+                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                                pts.push_back( p );
+                            }
                         }
                     }
 
@@ -2616,12 +2633,21 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
         }
 
+        case ACTION_THROW_WIELDED: {
+            avatar_action::plthrow_wielded( player_character );
+            break;
+        }
+
         case ACTION_FIRE:
             fire();
             break;
 
         case ACTION_CAST_SPELL:
             cast_spell();
+            break;
+
+        case ACTION_RECAST_SPELL:
+            cast_spell( true );
             break;
 
         case ACTION_FIRE_BURST: {

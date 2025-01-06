@@ -260,7 +260,6 @@
     "category": "container",
     "name": "grenade container",
     "description": "A small, thick cylindrical container.  Designed to store a single grenade, it seems.",
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "411 g",
     "volume": "590 ml",
     "material": [ { "type": "cardboard" } ],
@@ -292,7 +291,6 @@
     "name": "double 84mm HEDP container",
     "description": "Huge metal container, in a shape of two massive rockets.",
     "//": "84mm heat 551 container, 265x700x124mm",
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "1400 g",
     "volume": "23000 ml",
     "pocket_data": [
@@ -340,7 +338,6 @@
     "description": "Relatively small metal box.  On one side it has label \"EXPLOSIVE\"",
     "//": "84mm heat551 transport box, 610x400x290mm",
     "looks_like": "box_oversize_metal",
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "1400 g",
     "volume": "70760 ml",
     "pocket_data": [
@@ -401,7 +398,6 @@
     "symbol": "#",
     "color": "brown",
     "material": [ "paper" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "14 g",
     "volume": "105 ml",
     "pocket_data": [
@@ -490,7 +486,6 @@
     "symbol": "#",
     "color": "brown",
     "material": [ "paper" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "34 g",
     "volume": "175 ml",
     "pocket_data": [
@@ -542,7 +537,6 @@
     "symbol": "#",
     "color": "brown",
     "material": [ "paper" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "28 g",
     "volume": "235 ml",
     "pocket_data": [
@@ -643,7 +637,6 @@
     "symbol": "#",
     "color": "brown",
     "material": [ "paper" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "44 g",
     "volume": "480 ml",
     "longest_side": "14 cm",

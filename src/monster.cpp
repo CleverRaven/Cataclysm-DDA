@@ -380,6 +380,14 @@ bool monster::can_upgrade() const
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
 
+void monster::gravity_check()
+{
+    map &here = get_map();
+    if( here.is_open_air( pos_bub() ) && !flies() ) {
+        here.try_fall( pos_bub(), this );
+    }
+}
+
 // For master special attack.
 void monster::hasten_upgrade()
 {
@@ -1718,7 +1726,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
+        for( const trait_id &mut : u->get_functioning_mutations() ) {
             const mutation_branch &branch = *mut;
             if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
                 continue;
@@ -2006,11 +2014,13 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 }
 
 const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                      damage_instance &dam )
+                                      damage_instance &dam, const weakpoint &wp )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
-    wp->apply_to( r );
+    const weakpoint *wkpt = attack.accuracy == -1.0 ?
+                            type->weakpoints.select_weakpoint( attack ) :
+                            &wp;
+    wkpt->apply_to( r );
     for( damage_unit &elem : dam.damage_units ) {
         adjust_taken_damage_by_enchantments( elem );
         add_msg_debug( debugmode::DF_MONSTER,
@@ -2018,16 +2028,16 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
                        elem.type.c_str(), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
-                       wp->id, wp->armor_mult.count( elem.type ) > 0 ? wp->armor_mult.at( elem.type ) : 0.f,
-                       wp->armor_penalty.count( elem.type ) > 0 ? wp->armor_penalty.at( elem.type ) : 0.f,
+                       wkpt->id, wkpt->armor_mult.count( elem.type ) > 0 ? wkpt->armor_mult.at( elem.type ) : 0.f,
+                       wkpt->armor_penalty.count( elem.type ) > 0 ? wkpt->armor_penalty.at( elem.type ) : 0.f,
                        r.get_effective_resist( elem ) );
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
         adjust_taken_damage_by_enchantments_post_absorbed( elem );
     }
 
-    wp->apply_to( dam, attack.is_crit );
-    return wp;
+    wkpt->apply_to( dam, attack.is_crit );
+    return wkpt;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -2250,11 +2260,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     if( missed_by > 1.0 ) {
         // Total miss
         return;
-    }
-
-    // if it's a headshot with no head, make it not a headshot
-    if( missed_by < accuracy_headshot && has_flag( mon_flag_NOHEAD ) ) {
-        missed_by = accuracy_headshot;
     }
 
     Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
@@ -2854,16 +2859,16 @@ void monster::process_turn()
                     }
                 }
                 if( zap != pos_bub() ) {
-                    explosion_handler::emp_blast( zap.raw() ); // Fries electronics due to the intensity of the field
+                    explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const ter_id &t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
-                        add_msg_if_player_sees( zap.raw(), m_warning, _( "The %s explodes in a fiery inferno!" ),
+                        explosion_handler::explosion( this, pos_bub(), 40, 0.8, true );
+                        add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {
-                        add_msg_if_player_sees( zap.raw(), m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
+                        add_msg_if_player_sees( zap, m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
                                                 name(), here.tername( zap ) );
                         here.add_field( zap, fd_fire, 1, 2_turns );
                     }
@@ -3523,7 +3528,7 @@ bool monster::make_fungus()
     const std::string old_name = name();
     poly( type->fungalize_into );
 
-    add_msg_if_player_sees( pos(), m_info, _( "The spores transform %1$s into a %2$s!" ),
+    add_msg_if_player_sees( pos_bub(), m_info, _( "The spores transform %1$s into a %2$s!" ),
                             old_name, name() );
 
     return true;

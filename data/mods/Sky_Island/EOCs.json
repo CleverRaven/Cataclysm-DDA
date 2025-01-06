@@ -375,8 +375,26 @@
       { "u_lose_effect": "fetid_goop" },
       { "u_lose_effect": "sap" },
       { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" }
+      { "u_lose_effect": "bleed" },
+      {
+        "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MAGICLYSM_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MIND_OVER_MATTER_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_XEDRA_EVOLVED_PROBLEMS",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",

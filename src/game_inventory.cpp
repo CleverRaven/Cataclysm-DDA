@@ -1462,7 +1462,8 @@ class read_inventory_preset: public pickup_inventory_preset
 
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
                    ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
-                     p_loc->energy_remaining() >= 1_kJ );
+                     !p_loc->uses_energy() ||
+                     p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2308,10 +2309,7 @@ game_menus::inv::compare_item_menu::compare_item_menu( const item &first, const 
         ctxt.register_action( "CONFIRM" );
     }
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_navigate_ui_list();
     ctxt.set_timeout( 10 );
 
     // todo: regen info when toggling language?
@@ -2388,6 +2386,10 @@ bool game_menus::inv::compare_item_menu::show()
             s = cataimgui::scroll::page_up;
         } else if( action == "PAGE_DOWN" ) {
             s = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            s = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            s = cataimgui::scroll::end;
         } else if( action == "CONFIRM" ) {
             return true;
         } else if( action == "QUIT" ) {

@@ -267,12 +267,12 @@ npc::npc()
     }
 }
 
-standard_npc::standard_npc( const std::string &name, const tripoint &pos,
+standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
                             const std::vector<std::string> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    set_pos_only( tripoint_bub_ms( pos ) );
+    set_pos_only( pos );
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
@@ -737,7 +737,7 @@ void npc::catchup_skills()
 
 void npc::clear_personality_traits()
 {
-    for( const trait_id &trait : get_mutations() ) {
+    for( const trait_id &trait : get_functioning_mutations() ) {
         if( trait.obj().personality_score ) {
             unset_mutation( trait );
         }
@@ -773,7 +773,7 @@ void npc::randomize_personality()
 
 void npc::learn_ma_styles_from_traits()
 {
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         if( !iter->initial_ma_styles.empty() ) {
             std::vector<matype_id> shuffled_trait_styles = iter->initial_ma_styles;
             std::shuffle( shuffled_trait_styles.begin(), shuffled_trait_styles.end(), rng_get_engine() );
@@ -1136,7 +1136,6 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 
 void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
-    // TODO: fix point types
     const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
     spawn_at_omt( pos );
     const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
@@ -1397,7 +1396,7 @@ void npc::do_npc_read( bool ebook )
 
     book = book.obtain( *npc_character );
     if( can_read( *book, fail_reasons ) ) {
-        add_msg_if_player_sees( pos(), _( "%s starts reading." ), disp_name() );
+        add_msg_if_player_sees( pos_bub(), _( "%s starts reading." ), disp_name() );
 
         // NPCs can't read to other NPCs yet
         const time_duration time_taken = time_to_read( *book, *this );
@@ -1554,7 +1553,7 @@ bool npc::wield( item &it )
     return true;
 }
 
-void npc::drop( const drop_locations &what, const tripoint &target,
+void npc::drop( const drop_locations &what, const tripoint_bub_ms &target,
                 bool stash )
 {
     Character::drop( what, target, stash );
@@ -1654,18 +1653,8 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         npc_values.fear += 6;
     }
 
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
-    }
+    int u_ugly = you.ugliness();
+
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
 
@@ -2890,18 +2879,18 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( tripoint_bub_ms &pos, const point &d )
+static void maybe_shift( tripoint_bub_ms &pos, const point_rel_ms &d )
 {
     if( !pos.is_invalid() ) {
-        pos += d;
+        pos += d.raw();  // TODO: Make += etc. available to corresponding relative coordinates.
     }
 }
 
-void npc::shift( const point &s )
+void npc::shift( const point_rel_sm &s )
 {
-    const point shift = coords::project_to<coords::ms>( point_rel_sm( s ) ).raw();
+    const point_rel_ms shift = coords::project_to<coords::ms>( s );
     // TODO: convert these to absolute coords and get rid of shift()
-    maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( wanted_item_pos, -shift );
     path.clear();
 }
 
@@ -2936,7 +2925,7 @@ void npc::reboot()
     ai_cache.ally.reset();
     ai_cache.can_heal.clear_all();
     ai_cache.sound_alerts.clear();
-    ai_cache.s_abs_pos = tripoint::zero;
+    ai_cache.s_abs_pos = tripoint_abs_ms::zero;
     ai_cache.stuck = 0;
     ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
@@ -3295,6 +3284,7 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
+    gravity_check();
     if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
         !here.has_vehicle_floor( pos_bub() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );

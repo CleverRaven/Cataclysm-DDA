@@ -511,7 +511,7 @@
     "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
-      "volume": 24,
+      "volume": 75,
       "fun": 2,
       "fun_bonus": 2,
       "description_frequency": 20,
