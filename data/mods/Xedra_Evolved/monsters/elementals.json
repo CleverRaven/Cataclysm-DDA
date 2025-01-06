@@ -43,7 +43,7 @@
     "type": "MONSTER",
     "name": { "str": "monstrous badger" },
     "description": "A fairly large badger burrowed up through the ground near you.  It is both larger than garden variety badgers and strangely seems to have more intelligence in it.",
-    "default_faction": "worm",
+    "default_faction": "ierde",
     "bodytype": "snake",
     "species": [ "IERDE" ],
     "volume": "30500 ml",
