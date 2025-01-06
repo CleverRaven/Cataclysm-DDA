@@ -4107,6 +4107,9 @@ std::vector<std::pair<std::string, std::string>> monster::get_overlay_ids() cons
     // get effects
     // at this moment we share id for effect overlay for character and for monster
     if( show_creature_overlay_icons ) {
+        // if at one point there would be more overlay types than one
+        // someone would need to tinker pre-allocation
+        rval.reserve( effects->size() );
         for( const auto &eff_pr : *effects ) {
             rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
         }
