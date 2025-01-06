@@ -379,8 +379,10 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
     for( ; it != std::end( io_typefaces ); ++it ) {
         if( !file_exist( it->path ) ) {
             debugmsg( "Font file '%s' does not exist.", it->path );
+        } else
+        {
+            break;
         }
-        break;
     }
     if( it == std::end( io_typefaces ) ) {
         debugmsg( "No fonts were found in the fontdata file." );
