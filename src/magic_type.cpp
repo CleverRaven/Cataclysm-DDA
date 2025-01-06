@@ -42,7 +42,7 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
         debugmsg( "magic_type id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
                   id.c_str() );
     }
-
+    optional( jo, was_loaded, "energy_source", energy_source );
 }
 
 void magic_type::serialize( JsonOut &json ) const
@@ -51,9 +51,9 @@ void magic_type::serialize( JsonOut &json ) const
 
     json.member( "type", "magic_type" );
     json.member( "id", id );
-
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
+    json.member( "energy_source", energy_source );
 
     json.end_object();
 }

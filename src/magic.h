@@ -99,15 +99,6 @@ enum class spell_flag : int {
     LAST
 };
 
-enum class magic_energy_type : int {
-    hp,
-    mana,
-    stamina,
-    bionic,
-    none,
-    last
-};
-
 enum class spell_target : int {
     ally,
     hostile,
@@ -127,11 +118,6 @@ enum class spell_shape : int {
     // aoe is radius of the arc
     cone,
     num_shapes
-};
-
-template<>
-struct enum_traits<magic_energy_type> {
-    static constexpr magic_energy_type last = magic_energy_type::last;
 };
 
 template<>
@@ -357,7 +343,7 @@ class spell_type
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        magic_energy_type energy_source = magic_energy_type::none;
+        magic_energy_type get_energy_source() const;
 
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
@@ -449,6 +435,7 @@ class spell_type
         static const int base_casting_time_default;
         static const float casting_time_increment_default;
 
+        std::optional<magic_energy_type> energy_source;
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
 };

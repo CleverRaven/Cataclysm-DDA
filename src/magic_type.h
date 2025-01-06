@@ -9,6 +9,20 @@
 #include "enum_bitset.h"
 #include "type_id.h"
 
+enum class magic_energy_type : int {
+    hp,
+    mana,
+    stamina,
+    bionic,
+    none,
+    last
+};
+
+template<>
+struct enum_traits<magic_energy_type> {
+    static constexpr magic_energy_type last = magic_energy_type::last;
+};
+
 class magic_type
 {
     public:
@@ -28,6 +42,8 @@ class magic_type
         // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
+
+        std::optional<magic_energy_type> energy_source;
 
         static const std::vector<magic_type> &get_all();
         static void check_consistency();
