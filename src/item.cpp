@@ -149,6 +149,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
@@ -13075,7 +13076,8 @@ int item::processing_speed() const
 
     if( active || ethereal || wetness || has_link_data() ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
-        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ) {
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ||
+        has_fault( fault_emp_reboot ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -14659,8 +14661,24 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
+        if( faults.count( fault_emp_reboot ) ) {
+            if( one_in( 60 ) ) {
+                if( !one_in( 20 ) ) {
+                    faults.erase( fault_emp_reboot );
+                    if( carrier ) {
+                        carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
+                    }
+                } else {
+                    faults.erase( fault_emp_reboot );
+                    set_fault( faults::random_of_type( "shorted" ) );
+                    if( carrier ) {
+                        carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
+                    }
+                }
+            }
+            return false;
+        }
     }
-
     return false;
 }
 
