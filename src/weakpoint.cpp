@@ -417,6 +417,9 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_bool( "is_good" ) ) {
         assign( jo, "is_good", is_good );
     }
+    if( is_good && jo.has_bool( "is_head" ) ) {
+        assign( jo, "is_head", is_head );
+    }
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
     }
@@ -506,9 +509,13 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
         if( is_crit ) {
             if( crit_mult.count( elem.type ) > 0 ) {
                 elem.damage_multiplier *= crit_mult.at( elem.type );
+                add_msg_debug( debugmode::DF_MONSTER, "%s crit_mult %f",
+                               elem.type.str(), crit_mult.at( elem.type ) );
             }
         } else if( damage_mult.count( elem.type ) > 0 ) {
             elem.damage_multiplier *= damage_mult.at( elem.type );
+            add_msg_debug( debugmode::DF_MONSTER, "%s damage_mult %f",
+                           elem.type.str(), damage_mult.at( elem.type ) );
         }
     }
 }
@@ -576,10 +583,10 @@ static float reweigh( float base, float rolls )
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f",
+                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f, Accuracy %.3f",
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
-                   attack.wp_skill );
+                   attack.wp_skill, attack.accuracy );
     float rolls = std::max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
     // The base probability of hitting a more preferable weak point.
     float base = 0.0f;

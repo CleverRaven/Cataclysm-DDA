@@ -835,9 +835,6 @@ else
 endif # TILES
 
 ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
-    $(error "SOUND=1 only works with TILES=1")
-  endif
   ifeq ($(NATIVE),osx)
     ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
@@ -1271,7 +1268,6 @@ ifdef LANGUAGES
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
-ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
 endif  # ifeq ($(SOUND), 1)
@@ -1284,7 +1280,6 @@ ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
-endif  # ifdef TILES
 	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/
 
 dmgdistclean:

@@ -1029,6 +1029,11 @@ int talker_character_const::get_age() const
     return me_chr_const->age();
 }
 
+int talker_character_const::get_ugliness() const
+{
+    return me_chr_const->ugliness();
+}
+
 int talker_character_const::get_bmi_permil() const
 {
     return std::round( me_chr_const->get_bmi_fat() * 1000.0f );

@@ -1294,6 +1294,7 @@ void item::add_automatic_whitelist()
     if( pkts.size() == 1 && contents_only_one_type() ) {
         pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
         pkts.front()->settings.set_priority( 100 );
+        pkts.front()->settings.set_collapse( true );
     }
 }
 
