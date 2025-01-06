@@ -85,7 +85,10 @@
         { "not": { "npc_has_flag": "SHADOW_MONSTER_IMMUNE" } }
       ]
     },
-    "effect": [ { "npc_add_effect": "blind", "duration": "3 s" }, { "u_message": "A bit of shadowstuff settles over your eyes, blocking your vision!", "type": "bad" } ]
+    "effect": [
+      { "npc_add_effect": "blind", "duration": "3 s" },
+      { "u_message": "A bit of shadowstuff settles over your eyes, blocking your vision!", "type": "bad" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -115,7 +118,7 @@
     "melee_combat_info": { "order": 999903, "show_type": false },
     "ablative_info": { "order": 999903, "show_type": false }
   },
-{
+  {
     "id": "xe_void_damage",
     "type": "damage_type",
     "physical": false,
@@ -138,16 +141,23 @@
         { "not": { "npc_has_flag": "VOID_MONSTER_IMMUNE" } }
       ]
     },
-    "effect": [ 
-    { "u_message": "Visions of the outer darkness lock your muscles in place!", "type": "bad" },
+    "effect": [
+      { "u_message": "Visions of the outer darkness lock your muscles in place!", "type": "bad" },
       { "npc_add_effect": "stun", "duration": "1 s" }
-       ]
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_STARING_INTO_THE_VOID",
     "//": "dimensional effects don't take against dimensionally anchored foes.",
-    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "VOID_CHAR_IMMUNE" }, { "npc_has_flag": "VOIDWALKER" } ] },
+    "condition": {
+      "or": [
+        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" },
+        { "npc_has_flag": "DIMENSIONAL_ANCHOR" },
+        { "npc_has_flag": "VOID_CHAR_IMMUNE" },
+        { "npc_has_flag": "VOIDWALKER" }
+      ]
+    },
     "effect": { "u_message": "You feel the attention of something malevolent pass you by.", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARING_INTO_THE_VOID2" ] }
   },
@@ -156,7 +166,10 @@
     "id": "EOC_STARING_INTO_THE_VOID2",
     "condition": "player_see_npc",
     "effect": [
-      { "u_message": "The <npc_name> stares at you, and you feel the attention of something in the deep dark turn towards you.", "type": "bad" },
+      {
+        "u_message": "The <npc_name> stares at you, and you feel the attention of something in the deep dark turn towards you.",
+        "type": "bad"
+      },
       { "run_eocs": [ "EOC_VOID_STARE_EFF" ] }
     ],
     "false_effect": [
@@ -179,12 +192,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VOID_STARE_EFF2",
-    "condition": { "math": [ "u_effect_intensity('void_stares_back') = 5" ] }, 
+    "condition": { "math": [ "u_effect_intensity('void_stares_back') = 5" ] },
     "effect": [
-      {
-        "u_add_effect": "void_stares_back",
-        "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] }
-      },
+      { "u_add_effect": "void_stares_back", "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] } },
       { "u_add_effect": "voidmarked", "duration": [ "24 hours", "120 hours" ] }
     ]
   },
