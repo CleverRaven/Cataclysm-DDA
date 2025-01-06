@@ -4422,10 +4422,10 @@ void cata_tiles::draw_entity_with_overlays( const monster &mon, const tripoint_b
         if( find_overlay_looks_like( true, overlay.first, overlay.second, draw_id ) ) {
             int overlay_height_3d = height_3d;
             if( mon.facing == FacingDirection::RIGHT ) {
-                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p.raw(), corner, /*rota:*/ 0, ll,
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 0, ll,
                                      false, overlay_height_3d );
             } else if( mon.facing == FacingDirection::LEFT ) {
-                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p.raw(), corner, /*rota:*/ -1, ll,
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ -1, ll,
                                      false, overlay_height_3d );
             }
 
