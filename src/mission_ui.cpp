@@ -71,9 +71,13 @@ class mission_ui_impl : public cataimgui::window
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
 
-        size_t window_width = str_width_to_pixels( TERMX ) / 2;
-        size_t window_height = str_height_to_pixels( TERMY ) / 2;
-        size_t table_column_width = window_width / 2;
+        float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                         ImGui::GetMainViewport()->Size.x / 2,
+                                         ImGui::GetMainViewport()->Size.x );
+        float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                          ImGui::GetMainViewport()->Size.y / 2,
+                                          ImGui::GetMainViewport()->Size.y );
+        float table_column_width = window_width / 2;
 
         cataimgui::scroll s = cataimgui::scroll::none;
 

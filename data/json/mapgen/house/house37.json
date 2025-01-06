@@ -26,9 +26,9 @@
         "..#|JJ_|| E    R| @@ o..",
         ".^#6___F|  xxx R|I@@I#..",
         "..#4___7##oo#oo###oo##..",
-        "..#O____*`yy`....!!!!%..",
+        "..#O____*`££`....!!!!%..",
         "..#3251n#````.....X.....",
-        "..##o#o##y```.!![!!.!%..",
+        "..##o#o##£```.!![!!.!%..",
         ".......%%%%%%%%%%%%%%%.."
       ],
       "palettes": [
@@ -41,6 +41,7 @@
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
         "~": "t_thconc_floor",
+        "£": "t_concrete",
         "q": "t_thconc_floor",
         "U": "t_thconc_floor",
         "A": "t_thconc_floor",
@@ -50,6 +51,7 @@
         "$": "t_screened_porch_wall",
         ";": "t_screen_door_c"
       },
+      "furniture": { "£": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 16, "y": 20, "chance": 35 },
         { "item": "lawnmower", "x": 15, "y": 20, "chance": 35 },

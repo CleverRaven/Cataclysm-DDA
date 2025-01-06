@@ -196,7 +196,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "chunk_hematite", 1 ] ],
+      [ [ "chunk_hematite", 1 ], [ "chunk_magnetite", 1 ] ],
       [ [ "material_shrd_limestone", 1 ], [ "material_limestone", 10 ] ],
       [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ]
     ]
@@ -219,7 +219,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "chunk_hematite", 1 ] ],
+      [ [ "chunk_hematite", 1 ], [ "chunk_magnetite", 1 ] ],
       [ [ "material_shrd_limestone", 1 ], [ "material_limestone", 10 ] ],
       [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ]
     ]
@@ -242,7 +242,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "chunk_hematite", 1 ] ],
+      [ [ "chunk_hematite", 1 ], [ "chunk_magnetite", 1 ] ],
       [ [ "material_shrd_limestone", 1 ], [ "material_limestone", 10 ] ],
       [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ]
     ]

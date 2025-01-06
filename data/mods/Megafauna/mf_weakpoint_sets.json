@@ -6,6 +6,7 @@
       {
         "id": "head_normal",
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "damage_mult": { "all": 1.25 },
         "crit_mult": { "all": 1.25 },
@@ -40,6 +41,7 @@
         "id": "head_down",
         "//": "if animal is downed,  hitting the head should be way easier too!",
         "name": "the downed %s head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "damage_mult": { "all": 1.25 },
         "crit_mult": { "all": 1.25 },
@@ -100,6 +102,7 @@
       {
         "name": "the downed %s eyes",
         "//": "downed eye variant.  easier to hit with melee, but ranged unchanged",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -119,6 +122,7 @@
       {
         "name": "the eyes",
         "//": "standing animal, eyes are nigh impossible to hit (with non point weapons.  actually, reach weapons, but not possible here, so point it is)",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
