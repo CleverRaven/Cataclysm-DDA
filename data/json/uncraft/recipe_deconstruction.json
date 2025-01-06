@@ -3075,15 +3075,6 @@
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
-    "result": "kiln_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 m",
-    "components": [ [ [ "charcoal", 5000 ] ], [ [ "char_kiln", 1 ] ] ]
-  },
-  {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "knife_large",
