@@ -3,6 +3,7 @@
 #define CATA_SRC_ENUMS_H
 
 #include <type_traits>
+#include <cstdint>
 
 template<typename T> struct enum_traits;
 
