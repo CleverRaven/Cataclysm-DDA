@@ -157,7 +157,10 @@
     "category": "prof_psionic",
     "name": { "str": "Psionic Crafting" },
     "description": "You are capable of using psi and can craft things that require active psionic channeling.",
-    "can_learn": false
+    "can_learn": false,
+    "teachable": false,
+    "default_time_multiplier": 1,
+    "time_to_learn": "1 h"
   },
   {
     "type": "proficiency",

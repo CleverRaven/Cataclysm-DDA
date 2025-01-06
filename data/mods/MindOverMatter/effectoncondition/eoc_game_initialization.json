@@ -164,6 +164,6 @@
         "VITAKINETIC"
       ]
     },
-    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'percent') += 100" ] } ]
+    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'permille') += 1000" ] } ]
   }
 ]
