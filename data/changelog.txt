@@ -197,6 +197,7 @@ Prompt before oxytorch activity if you don't have enough gas
 Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
+audio now works on curses mode, not just tiles mode
 
 
 ## Content:
@@ -417,6 +418,9 @@ Some houses are under construction
 Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
 fungalize stages for rest of zombies
 Basic beach decorations
+Changed lore primer to accommodate eyebot removal.
+Add an new plasma gun for sale by the Exodii
+Added a small kindergarten
 
 
 ## Interface:
@@ -552,6 +556,14 @@ Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 Migrate compare item menu to imgui
 Various misc improvements to camp crafting flow and feedback
+Better skill requirement UI for martial arts
+Scale spell window to spell list and terminal size
+Add recast last spell (Repeat last supernatural ability)
+Specify which parts you can connect to in extension cord prompt
+Make font-hinting user-configurable
+Set minimum sizes for missions menu UI
+Fix compact aim window
+Fix NPC rules window scaling for small terminal sizes
 
 
 ## Mods:
@@ -914,6 +926,35 @@ Aftershock: Shield bionics deploy Riemman shields
 [Xedra Evolved] Add time magic class / scenario
 [Magiclysm] Spells cost 1/5 of their normal cost on spell failure
 [Magiclysm] The Great Damage Randomization and Normalization
+[Magiclysm] Add technomantic augmentation clinic
+[DinoMod] shorter names
+energy_increment fix
+[Magiclysm] Add the aenor, a giant heron riding mount
+[Magiclysm] Stop workshop elves and their workshop from spawning
+[Magiclysm] Add zombie dwarves to mines
+Removes superceded sees_player_retro mod
+[DinoMod] more accurate adulthood numbers
+[Magiclysm] Set feral wizards to copy-from
+Adding the "WOODEN_WEAPON" flag to the wooden spear
+[innawood] fix modern dog drops
+[Magiclysm] More Forge price adjustments
+[Magiclysm] Obsolete shambling mound, give shaman the Keeper of the Glades summon
+[Magicylysm] Forge of Wonders Redesigned
+[Magiclysm] Augmentation clinic adjustments
+[Magiclysm] Add Witchsight Animist spell and Witchfinder Eye CBM
+[MoM] Ephemeral riftwalkers can use Breach
+[Magiclysm] Forge values denarii but no one else does
+[Magiclysm] Krabgeks get their union breaks
+[DinoMod] shonisaurus
+Magic Shop can now spawn without the healer NPC
+Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
+[Magiclysm] Change Iron Intolerance trait to use a recurring EoC
+[Magiclysm] Add a couple more CBMs
+[MOM] Add a couple Teleporter Powers
+[innawood] Add Makeshift hand-crank charger and magnetite ore.
+[Magiclysm] Demon spider rework
+Audit Magiclysm Organization Part 1
+[MoM] Melded Teleporter Force
 
 
 ## Balance:
@@ -1043,6 +1084,12 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
+wp_skill makes you avoid weakpoint not beneficial
+Zombified humans are still humans for butchery purposes
+Zombie Humanity Audit
+Combine crit hit and wp hit and tweak damage calculation for ranged attack
+Prices better reflect rifles' characteristics
+Thermal electric gear power draw reduction + medium battery for TE suit
 
 
 ## Bugfixes:
@@ -1418,6 +1465,22 @@ Fixes displaying of stats for ablative armor
 Fixes SegFault w/ flashlights & attached power
 Peeking out of elevated windows no longer causes you to fall
 Heat radiance now can spread through gas-permeable tiles like chain link fence
+Fixed atmic smarphone and intergrated AR unable to read stored books.
+Polish up nanofab recipes
+Fix some crafted canned products not being sealed in the container on output
+Prune a few military related itemgroups
+Remove a few nonsense recipes
+Fix title menu tileset layering error
+color tags texts drawn in item info
+make ammo_effect_WIDE actually work
+Fix Ancilla template seller speech training exploit
+Fixes item prefixes (XL/XS) sometimes not being shown in crafting menu
+Update more comestibles to use effect_on_consumption
+Fix vehicle not moving when being remotely controlled
+Update some battery related recipes
+Fix crash when zone-harvesting crops with bad data
+kickboxing and boxing technique conditions
+Innawoods - Fixes trails spawning manmade stuff
 
 
 ## Performance:
@@ -1459,6 +1522,7 @@ Cache item info for crafting GUI full-text search
 Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
+Cache item info, reducing time of crafting filter `d:` to ~32%
 
 
 ## Infrastructure:
@@ -1577,6 +1641,8 @@ Improve test coverage of mod combinations with mod_interactions
 Tests now run in a guaranteed order (lexicographic) by default (can be overriden with cli argument)
 Streamline Vertical Movement While Levitating and Flying
 Make enchantment mutations work again
+Added Imgui demo screen (and style editor) to the debug menu
+clang-tidy output is a bit more readable on windows
 
 ## Build:
 Support Mac arm64 build
