@@ -820,6 +820,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Water Walking (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 50<br />
+*Effects*: Lift yourself up just enough to allow surface tension to support your weight, allowing you to walk on water.  You can also walk across sludge without being slowed by it.<br />
+*Prerequisites*: Slowfall 6, Momentum Alteration 6<br />
+
 ## Lifting Field (C)
 *Difficulty*: 4<br />
 *Target*: Self<br />
@@ -881,7 +890,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
 *Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Slowfall 9, Force Shove 12 *or* Lift Vehicle 5<br />
+*Prerequisites*: Slowfall 9, Force Shove 12 *or* Water Walking 8<br />
 
 # Megakinesis
 *Difficulty*: 8<br />
