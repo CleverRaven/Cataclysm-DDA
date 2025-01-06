@@ -4168,6 +4168,7 @@
     "vitamin_cost": 60,
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
+    "flags": [ "VENOM1" ],
     "changes_to": [ "POISONOUS2" ],
     "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD", "CHIMERA", "BATRACHIAN" ]
   },
@@ -4179,6 +4180,7 @@
     "vitamin_cost": 160,
     "description": "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
     "prereqs": [ "POISONOUS" ],
+    "flags": [ "VENOM2" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
   },
@@ -4779,14 +4781,7 @@
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 1 }
-    }
+    "integrated_armor": ["integrated_saberteeth"]
   },
   {
     "type": "mutation",
@@ -5593,15 +5588,7 @@
     "leads_to": [ "PROBOSCIS" ],
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
-    "integrated_armor": [ "integrated_mandibles" ],
-    "attacks": {
-      "attack_text_u": "You bite %s with your fangs!",
-      "attack_text_npc": "%1$s bites %2$s with their fangs!",
-      "blocker_mutations": [ "FANGS_SPIDER" ],
-      "body_part": "mouth",
-      "chance": 22,
-      "base_damage": { "damage_type": "cut", "amount": 12 }
-    }
+    "integrated_armor": [ "integrated_mandibles" ]
   },
   {
     "type": "mutation",
@@ -9150,14 +9137,7 @@
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "social_modifiers": { "intimidate": 5 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
-      "body_part": "mouth",
-      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 }
-    },
+    "integrated_armor": ["integrated_sharkteeth"],
     "purifiable": false
   },
   {

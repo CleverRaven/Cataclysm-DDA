@@ -620,7 +620,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "techniques": ["MANDIBLES_BITE", "MANDIBLES_BITE_NATURAL", "MANDIBLES_BITE_CRIT"],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -628,7 +629,8 @@
         "coverage": 40,
         "encumbrance": 3
       }
-    ]
+    ],
+    "melee_damage": { "cut": 5 }
   },
   {
     "id": "integrated_fangs_spider",
@@ -644,7 +646,8 @@
     "symbol": ";",
     "color": "brown",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
+    "techniques": ["SPIDER_BITE", "SPIDER_BITE_NATURAL", "SPIDER_BITE_CRIT", "WEB_SPIDER_BITE", "WEB_SPIDER_BITE_NATURAL"],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -652,7 +655,8 @@
         "coverage": 40,
         "encumbrance": 5
       }
-    ]
+    ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "integrated_chitin",
@@ -1732,5 +1736,61 @@
       }
     ],
     "melee_damage": { "stab": 15 }
+  },
+  {
+    "id": "integrated_sharkteeth",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "shark teeth" },
+    "description": "A wicked pair of fangs, pointed and surgically sharp.",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "SHARKTEETH_BITE", "SHARKTEETH_BITE_NATURAL", "SHARKTEETH_BITE_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES"],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 20 }
+  },
+  {
+    "id": "integrated_saberteeth",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "saber teeth" },
+    "description": "A wicked pair of fangs, pointed and surgically sharp.",
+    "weight": "400 g",
+    "volume": "800 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 2 ] ],
+    "techniques": [ "SABER_TEETH_BITE", "SABER_TEETH_BITE_CRIT", "SABER_TEETH_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES"],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 5 }
   }
 ]
