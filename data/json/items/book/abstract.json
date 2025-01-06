@@ -244,7 +244,7 @@
     "name": { "str": "Lorn and Loan Romance Novel" },
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -400, "intelligence": 1, "fun": -1 }
+    "relative": { "price_postapoc": "-400 cents", "intelligence": 1, "fun": -1 }
   },
   {
     "abstract": "paperback_romance_vanilla",
