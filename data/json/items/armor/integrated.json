@@ -1770,7 +1770,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "saber teeth" },
-    "description": "A wicked pair of fangs, pointed and surgically sharp.",
+    "description": "A ridiculously large pair of fangs - not good for masks, insanely good for biting chunks out of your enemies. ",
     "weight": "400 g",
     "volume": "800 ml",
     "price": "0 cent",
@@ -1783,7 +1783,7 @@
     "techniques": [ "SABER_TEETH_BITE", "SABER_TEETH_BITE_CRIT", "SABER_TEETH_BITE_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES"],
     "armor": [
-      {
+      { 
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_lips" ],
