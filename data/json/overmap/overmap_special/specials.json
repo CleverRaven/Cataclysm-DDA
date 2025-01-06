@@ -3853,9 +3853,7 @@
       { "point": [ 0, 1, -4 ], "overmap": "sub_ramp_below_north" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 1, -1 ],
     "occurrences": [ 0, 3 ],
-    "rotate": false,
     "connections": [
       { "point": [ 0, -1, -2 ], "terrain": "subway", "connection": "subway_tunnel", "from": [ 0, 0, -2 ] },
       { "point": [ 0, 2, -4 ], "terrain": "lab_subway", "connection": "subway_tunnel", "from": [ 0, 1, -4 ] }
@@ -3872,8 +3870,7 @@
       { "point": [ 0, 3, -5 ], "overmap": "void_spider_lair_a2_north" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 1, -1 ],
-    "occurrences": [ 2, 2 ],
+    "occurrences": [ 100, 100 ],
     "rotate": false,
     "flags": [ "OVERMAP_UNIQUE" ],
     "connections": [ { "point": [ 0, 0, -4 ], "terrain": "lab_subway", "connection": "subway_tunnel", "from": [ 0, 1, -4 ] } ]
