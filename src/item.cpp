@@ -3002,18 +3002,17 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                iteminfo::is_decimal, ammo.range_multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
-            info.emplace_back( "AMMO", _( "Dispersion: " ), "",
-                               iteminfo::lower_is_better, ammo.dispersion );
+            info.emplace_back( "AMMO", _( "Dispersion: " ), "<num> MOA",
+                               iteminfo::is_decimal | iteminfo::lower_is_better, ammo.dispersion / 100.0 );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
-            info.emplace_back( "AMMO", _( "Recoil: " ), "",
-                               iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
+            info.emplace_back( "AMMO", _( "Recoil: " ), "<num> MOA",
+                               iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil / 100.0 );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
             info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
-            std::string barrel_details;
             const units::length small = 150_mm;
             const units::length medium = 400_mm;
             const units::length large = 600_mm;
@@ -3032,24 +3031,27 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 const std::string small_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( small ),
                                                  length_units( small ) );
-                info.emplace_back( "AMMO", small_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                info.emplace_back( "AMMO", small_string, _( " damage = <num>" ), iteminfo::no_newline,
                                    small_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
-                                   iteminfo::no_name | iteminfo::lower_is_better, small_dispersion );
+                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
+                                   iteminfo::no_name | iteminfo::is_decimal | iteminfo::lower_is_better,
+                                   small_dispersion / 100.0 );
                 const std::string medium_string = string_format( " <info>%d %s</info>: ",
                                                   convert_length( medium ),
                                                   length_units( medium ) );
-                info.emplace_back( "AMMO", medium_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                info.emplace_back( "AMMO", medium_string, _( " damage = <num>" ), iteminfo::no_newline,
                                    medium_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
-                                   iteminfo::no_name  | iteminfo::lower_is_better, medium_dispersion );
+                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
+                                   iteminfo::no_name  | iteminfo::is_decimal | iteminfo::lower_is_better,
+                                   medium_dispersion / 100.0 );
                 const std::string large_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( large ),
                                                  length_units( large ) );
-                info.emplace_back( "AMMO", large_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                info.emplace_back( "AMMO", large_string, _( " damage = <num>" ), iteminfo::no_newline,
                                    large_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
-                                   iteminfo::no_name | iteminfo::lower_is_better, large_dispersion );
+                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
+                                   iteminfo::no_name | iteminfo::is_decimal | iteminfo::lower_is_better,
+                                   large_dispersion / 100.0 );
             }
         }
     }
@@ -3288,22 +3290,22 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_DISPERSION ) ) {
         info.emplace_back( "GUN", _( "Dispersion: " ), "",
-                           iteminfo::no_newline | iteminfo::lower_is_better,
-                           mod->gun_dispersion( false, false ) );
+                           iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline,
+                           mod->gun_dispersion( false, false ) / 100.0 );
     }
     if( mod->ammo_required() ) {
         int ammo_dispersion = curammo->ammo->dispersion_considering_length( barrel_length() );
         // ammo_dispersion and sum_of_dispersion don't need to translate.
         if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
             info.emplace_back( "GUN", "ammo_dispersion", "",
-                               iteminfo::no_newline | iteminfo::lower_is_better |
-                               iteminfo::no_name | iteminfo::show_plus,
-                               ammo_dispersion );
+                               iteminfo::is_decimal |  iteminfo::lower_is_better | iteminfo::no_name | iteminfo::no_newline |
+                               iteminfo::show_plus,
+                               ammo_dispersion / 100.0 );
         }
         if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) ) {
-            info.emplace_back( "GUN", "sum_of_dispersion", _( " = <num>" ),
-                               iteminfo::lower_is_better | iteminfo::no_name,
-                               loaded_mod->gun_dispersion( true, false ) );
+            info.emplace_back( "GUN", "sum_of_dispersion", _( " = <num> MOA" ),
+                               iteminfo::is_decimal |  iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_dispersion( true, false ) / 100.0 );
         }
     }
     info.back().bNewLine = true;
@@ -3318,20 +3320,20 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( parts->test( iteminfo_parts::GUN_DISPERSION_SIGHT ) ) {
         if( point_shooting_limit <= eff_disp ) {
             info.emplace_back( "GUN", _( "Sight dispersion (point shooting): " ), "",
-                               iteminfo::no_newline | iteminfo::lower_is_better,
-                               point_shooting_limit );
+                               iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
+                               point_shooting_limit / 100.0 );
         } else {
             info.emplace_back( "GUN", _( "Sight dispersion: " ), "",
-                               iteminfo::no_newline | iteminfo::lower_is_better,
-                               act_disp );
+                               iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
+                               act_disp / 100.0 );
 
             if( adj_disp ) {
                 info.emplace_back( "GUN", "sight_adj_disp", "",
-                                   iteminfo::no_newline | iteminfo::lower_is_better |
-                                   iteminfo::no_name | iteminfo::show_plus, adj_disp );
-                info.emplace_back( "GUN", "sight_eff_disp", _( " = <num>" ),
-                                   iteminfo::lower_is_better | iteminfo::no_name,
-                                   eff_disp );
+                                   iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better |
+                                   iteminfo::no_name | iteminfo::show_plus, adj_disp / 100.0 );
+                info.emplace_back( "GUN", "sight_eff_disp", _( " = <num> MOA" ),
+                                   iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_name,
+                                   eff_disp / 100.0 );
             }
         }
     }
@@ -3340,21 +3342,21 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     info.back().bNewLine = true;
     if( loaded_mod->gun_recoil( player_character ) ) {
         if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
-            info.emplace_back( "GUN", _( "Effective recoil: " ), "",
-                               iteminfo::no_newline | iteminfo::lower_is_better,
-                               loaded_mod->gun_recoil( player_character ) );
+            info.emplace_back( "GUN", _( "Effective recoil: " ), "<num> MOA",
+                               iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
+                               loaded_mod->gun_recoil( player_character ) / 100.0 );
         }
         if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
-            info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
-                               iteminfo::lower_is_better | iteminfo::no_name,
-                               loaded_mod->gun_recoil( player_character, true ) );
+            info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num> MOA)" ),
+                               iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_recoil( player_character, true ) / 100.0 );
         }
 
         if( parts->test( iteminfo_parts::GUN_RECOIL_THEORETICAL_MINIMUM ) ) {
             info.back().bNewLine = true;
-            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "",
-                               iteminfo::no_newline | iteminfo::lower_is_better, loaded_mod->gun_recoil( player_character, true,
-                                       true ) );
+            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "<num> MOA",
+                               iteminfo::is_decimal | iteminfo::no_newline | iteminfo::lower_is_better,
+                               loaded_mod->gun_recoil( player_character, true, true ) / 100.0 );
         }
         if( parts->test( iteminfo_parts:: GUN_IDEAL_STRENGTH ) ) {
             info.emplace_back( "GUN", "ideal_strength", _( " (when strength reaches: <num>)" ),
@@ -3576,13 +3578,13 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( mod.dispersion != 0 && parts->test( iteminfo_parts::GUNMOD_DISPERSION ) ) {
-        info.emplace_back( "GUNMOD", _( "Dispersion modifier: " ), "",
-                           iteminfo::lower_is_better | iteminfo::show_plus,
-                           mod.dispersion );
+        info.emplace_back( "GUNMOD", _( "Dispersion modifier: " ), "<num> MOA",
+                           iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.dispersion / 100.0 );
     }
     if( mod.sight_dispersion != -1 && parts->test( iteminfo_parts::GUNMOD_DISPERSION_SIGHT ) ) {
-        info.emplace_back( "GUNMOD", _( "Sight dispersion: " ), "",
-                           iteminfo::lower_is_better, mod.sight_dispersion );
+        info.emplace_back( "GUNMOD", _( "Sight dispersion: " ), "<num> MOA",
+                           iteminfo::is_decimal | iteminfo::lower_is_better, mod.sight_dispersion / 100.0 );
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_FIELD_OF_VIEW ) ) {
         if( mod.field_of_view >= MAX_RECOIL ) {
