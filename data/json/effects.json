@@ -4328,7 +4328,7 @@
     "max_intensity": 1000,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
-    "miss_messages": [ [ "You despair at the pointlessness of it all.", 1 ] ]
+    "miss_messages": [ [ "You dejectedly consider the pointlessness of it all.", 1 ] ]
   },
   {
     "type": "effect_type",
