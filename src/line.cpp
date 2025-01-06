@@ -755,7 +755,8 @@ std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const po
     result.reserve( tmp.size() );
 
     for( const point_bub_ms &point : tmp ) {
-        result.emplace_back( point_omt_ms( point.raw() ) );
+        const point_omt_ms work_around = point_omt_ms( point.raw() );
+        result.emplace_back( work_around );
     }
 
     return result;
