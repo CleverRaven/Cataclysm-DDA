@@ -186,6 +186,14 @@
         "cooldown": 300,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s antennae point at %2$s and you could swear you see a gaping maw overlay %3$s for half a second while you hear a spectral scream."
+      },
+      {
+        "id": "migo_void_priest_teeth_void",
+        "type": "spell",
+        "spell_data": { "id": "xe_teeth_void", "min_level": 4 },
+        "cooldown": 60,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s antennae point at %2$s and condensation forms in a vaguely mouthlike shape near %2$s."
       }
     ],
     "flags": [
