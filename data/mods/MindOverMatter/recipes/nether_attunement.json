@@ -44,6 +44,7 @@
     "time": "1 h",
     "book_learn": [ [ "phavian_report_psionic_drain", 5 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false }
     ],
