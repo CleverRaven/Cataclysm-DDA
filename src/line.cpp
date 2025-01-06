@@ -673,7 +673,7 @@ std::string direction_arrow( const direction dir )
     return arrow;
 }
 
-std::string direction_suffix( const tripoint &p, const tripoint &q )
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
@@ -687,36 +687,37 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to )
 {
-    std::vector<tripoint> adjacent_closer_squares;
+    std::vector<tripoint_bub_ms> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint d( -from + to );
-    const point a( std::abs( d.x ), std::abs( d.y ) );
-    if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+    const tripoint_rel_ms d( to - from );
+    const point a( std::abs( d.x() ), std::abs( d.y() ) );
+    if( d.z() != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x() ), sgn( d.y() ), sgn( d.z() ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
-        if( d.y != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), -1 ) );
+        if( d.y() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
         }
     } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
-        if( d.x != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y() ) ) );
+        if( d.x() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
         }
-    } else if( d.x != 0 ) {
+    } else if( d.x() != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
     }
 
     return adjacent_closer_squares;
@@ -724,27 +725,40 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     int junk = 0;
-    point center_square = line_to( p1, p2, junk )[0];
-    std::vector<point> adjacent_squares;
+    point_bub_ms center_square = line_to( p1, p2, junk )[0];
+    std::vector<point_bub_ms> adjacent_squares;
     adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
-    if( p1.x == center_square.x ) {
+    if( p1.x() == center_square.x() ) {
         // Horizontally adjacent.
-        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
-        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
-    } else if( p1.y == center_square.y ) {
+        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
+        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
+    } else if( p1.y() == center_square.y() ) {
         // Vertically adjacent.
-        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
-        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.emplace_back( p1.x, center_square.y );
-        adjacent_squares.emplace_back( center_square.x, p1.y );
+        adjacent_squares.emplace_back( p1.x(), center_square.y() );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() );
     }
     return adjacent_squares;
+}
+
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
+{
+    const std::vector<point_bub_ms> tmp = squares_in_direction( rebase_bub( p1 ), rebase_bub( p2 ) );
+    std::vector<point_omt_ms> result;
+    result.reserve( tmp.size() );
+
+    for( const point_bub_ms &point : tmp ) {
+        result.emplace_back( point_omt_ms( point.raw() ) );
+    }
+
+    return result;
 }
 
 rl_vec2d rl_vec3d::xy() const
@@ -975,4 +989,36 @@ units::angle coord_to_angle( const tripoint &a, const tripoint &b )
         rad += 2_pi_radians;
     }
     return rad;
+}
+
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return FastDistanceApproximation(
+               ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) +
+               ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) +
+               ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) );
+}
+
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
+{
+    const tripoint_rel_ms d = ( loc1 - loc2 ).abs();
+    return FastDistanceApproximation( std::max( { d.x(), d.y(), d.z() } ) );
+}
+
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b )
+{
+    return rl_dist_fast( tripoint_bub_ms( a, 0 ), tripoint_bub_ms( b, 0 ) );
+}
+
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return std::sqrt( static_cast<double>( ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) ) +
+                      ( ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) ) +
+                      ( ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) ) );
+}
+
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 )
+{
+    return trig_dist( tripoint_bub_ms( loc1, 0 ), tripoint_bub_ms( loc2, 0 ) );
 }

@@ -51,7 +51,8 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
            " PER: " << pstats.per << " SKL: " << pstats.skill_lvl;
 }
 
-static void reset_player( Character &you, const throw_test_pstats &pstats, const tripoint &pos )
+static void reset_player( Character &you, const throw_test_pstats &pstats,
+                          const tripoint_bub_ms &pos )
 {
     clear_character( you );
     CHECK( !you.in_vehicle );
@@ -93,7 +94,7 @@ static void test_throwing_player_versus(
 
     max_throws = std::max( min_throws, max_throws );
     do {
-        reset_player( you, pstats, player_start.raw() );
+        reset_player( you, pstats, player_start );
         you.set_moves( 1000 );
         you.set_stamina( you.get_stamina_max() );
 
@@ -248,7 +249,7 @@ static void test_player_kills_monster(
         int num_items = 0;
         int last_range = -1;
 
-        reset_player( you, pstats, player_start.raw() );
+        reset_player( you, pstats, player_start );
 
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );

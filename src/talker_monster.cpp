@@ -38,7 +38,7 @@ int talker_monster_const::posz() const
 
 tripoint talker_monster_const::pos() const
 {
-    return me_mon_const->pos();
+    return me_mon_const->pos_bub().raw();
 }
 
 tripoint_bub_ms talker_monster_const::pos_bub() const

@@ -1545,7 +1545,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                         // Add scent type to the overlay_strings list for every visible tile when
                         // displaying scent
                         if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
-                            const scenttype_id scent_type = get_scent().get_type( pos.raw() );
+                            const scenttype_id scent_type = get_scent().get_type( pos );
                             if( !scent_type.is_empty() ) {
                                 here.overlay_strings_cache.emplace( player_to_screen( point_bub_ms( x, y ) ) + half_tile,
                                                                     formatted_text( scent_type.c_str(),

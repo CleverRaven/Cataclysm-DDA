@@ -193,7 +193,7 @@ static int RAS_time( const Character &p, const item_location &loc );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
@@ -1154,7 +1154,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         }
 
         if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+            cycle_action( gun, current_ammo, pos_bub() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -2253,13 +2253,13 @@ int RAS_time( const Character &p, const item_location &loc )
     return time;
 }
 
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
+    std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint_bub_ms & e ) {
         return !here.passable( e );
     } ), tiles.end() );
     tripoint_bub_ms eject{ tiles.empty() ? pos : random_entry( tiles ) };

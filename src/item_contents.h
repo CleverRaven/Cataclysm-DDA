@@ -292,9 +292,9 @@ class item_contents
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy, item *avoid = nullptr );
-        bool spill_contents( const tripoint &pos );
+        bool spill_contents( const tripoint_bub_ms &pos );
         // spill items that don't fit in the container
-        void overflow( const tripoint &pos, const item_location &loc );
+        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
         // clears all items from magazine type pockets
         void clear_magazines();
@@ -313,8 +313,6 @@ class item_contents
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
-        // TODO: Get rid of untyped overload.
-        int ammo_consume( int qty, const tripoint &pos, float fuel_efficiency = -1.0 );
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
         std::set<ammotype> ammo_types() const;
@@ -354,11 +352,12 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
+        void process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
                       bool watertight_container = false );
 
-        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+        void leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                   item_pocket *pocke = nullptr );
 
         bool item_has_uses_recursive() const;
         bool stacks_with( const item_contents &rhs, int depth = 0, int maxdepth = 2 ) const;
