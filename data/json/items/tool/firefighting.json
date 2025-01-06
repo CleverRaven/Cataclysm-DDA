@@ -54,7 +54,7 @@
     "id": "fire_ax",
     "type": "TOOL",
     "name": { "str": "fire axe" },
-    "description": "A large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
+    "description": "A large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.  The pickhead is for spiking into doors and glass and is not effective at hooking limbs of opponents.",
     "weight": "3448 g",
     "volume": "2 L",
     "price": "200 USD",
@@ -67,7 +67,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "weapon_category": [ "GREAT_AXES" ],
     "use_action": [ "CROWBAR" ],
     "pocket_data": [
       {

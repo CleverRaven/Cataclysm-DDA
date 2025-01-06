@@ -358,7 +358,7 @@ class monster : public Creature
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill() const;
 

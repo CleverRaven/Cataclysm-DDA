@@ -16,7 +16,8 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 3 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "//": "Wood axes also lack the ability to hook appropriately in combat, for the same reason they work well against trees.  Straight axe head instead of curved.",
+    "weapon_category": [ "GREAT_AXES" ],
     "melee_damage": { "bash": 14, "cut": 28 }
   },
   {
