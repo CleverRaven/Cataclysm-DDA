@@ -3,13 +3,19 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "pouch_wild_druid",
-    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+    "entries": [ { "item": "fur", "count": 3 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "quiver_mooserider",
     "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_elven_ceremonial_guard",
+    "entries": [ { "item": "arrow_cf", "count": 40 } ]
   },
   {
     "type": "profession",
@@ -359,7 +365,11 @@
     "id": "ranger",
     "name": "Introspectionist",
     "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
-    "spells": [ { "id": "magic_missile", "level": 4 }, { "id": "classless_watch_spell", "level": 2 } ],
+    "spells": [
+      { "id": "magic_missile", "level": 4 },
+      { "id": "classless_watch_spell", "level": 2 },
+      { "id": "magus_far_hand_pull", "level": 3 }
+    ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "MAGUS" ],
@@ -419,7 +429,8 @@
     "spells": [
       { "id": "create_atomic_lamp", "level": 8 },
       { "id": "invisibility", "level": 2 },
-      { "id": "technomancer_conjure_ups", "level": 3 }
+      { "id": "technomancer_conjure_ups", "level": 3 },
+      { "id": "technomancer_recharge_vehicle", "level": 5 }
     ],
     "points": 5,
     "skills": [
@@ -462,7 +473,9 @@
     "spells": [
       { "id": "freezing_touch", "level": 3 },
       { "id": "glide_ice", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 3 }
+      { "id": "kelvinist_anti_heat", "level": 3 },
+      { "id": "kelvinist_extinguish_fire_spell", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 5 }
     ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
     "points": 2,
@@ -602,7 +615,8 @@
       { "id": "eshaper_spawn_tools", "level": 3 },
       { "id": "move_earth", "level": 2 },
       { "id": "earthshaper_pillar", "level": 1 },
-      { "id": "classless_watch_spell", "level": 1 }
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "earthshaper_harden_earth", "level": 4 }
     ],
     "traits": [ "EARTHSHAPER" ],
     "items": {
@@ -621,7 +635,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "light_minus_disposable_cell", "charges": 100 },
-          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+          { "group": "hat_hard_flashlight", "prob": 40 }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -641,6 +655,7 @@
       { "id": "magus_force_jar", "level": 3 },
       { "id": "magus_haste", "level": 2 },
       { "id": "cats_grace", "level": 1 },
+      { "id": "magus_far_hand_pull", "level": 5 },
       { "id": "classless_watch_spell", "level": 1 }
     ],
     "traits": [ "MAGUS" ],
@@ -686,7 +701,7 @@
       { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_knives_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_butchering_basic", "prof_skinning_basic" ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "items": {
       "both": {
@@ -711,9 +726,17 @@
     "type": "profession",
     "id": "archer_druid",
     "name": "Archer Druid",
-    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living off of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
-    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
@@ -849,14 +872,15 @@
     "type": "profession",
     "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
     "points": 4,
     "proficiencies": [ "prof_alchemy" ],
     "spells": [
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
       { "id": "create_atomic_light", "level": 3 },
-      { "id": "protection_aura", "level": 3 }
+      { "id": "protection_aura", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 2 }
     ],
     "skills": [
       { "level": 1, "name": "melee" },
@@ -969,7 +993,7 @@
       { "id": "recover_stamina", "level": 2 }
     ],
     "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "unarmed" },
@@ -998,9 +1022,9 @@
     "name": "Illicit Fleshmender",
     "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients.  Now that they all want to kill you, the lack of a license is the least of your worries.",
     "points": 4,
-    "spells": [ { "id": "light_healing", "level": 3 } ],
+    "spells": [ { "id": "light_healing", "level": 3 }, { "id": "biomancer_cure_disease_minor", "level": 3 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -1028,7 +1052,16 @@
     "name": "Wildborne Rider",
     "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
     "points": 6,
-    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping", "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_fibers",
+      "prof_knapping",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy"
+    ],
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
@@ -1070,7 +1103,12 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
+    "spells": [
+      { "id": "create_lighter", "level": 4 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "frost_armor", "level": 3 },
+      { "id": "kelvinist_anti_cold", "level": 4 }
+    ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -1079,7 +1117,13 @@
       { "level": 2, "name": "survival" },
       { "level": 1, "name": "fabrication" }
     ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_gun_cleaning",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "KELVINIST" ],
     "items": {
       "both": {
@@ -1183,7 +1227,8 @@
     "spells": [
       { "id": "chilling_touch", "level": 3 },
       { "id": "frost_spray", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 4 }
+      { "id": "kelvinist_anti_heat", "level": 4 },
+      { "id": "kelvinist_summon_freezer_spell", "level": 6 }
     ],
     "skills": [
       { "level": 2, "name": "speech" },
@@ -1239,6 +1284,83 @@
       },
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "elven_ceremonial_guard",
+    "name": "Hy-Brasilean ambassadorial honor guard",
+    "description": "You were a ceremonial guard for the Hy-Brasilean ambassador to the United States, equipped to bring to mind the elven forest warriors of old.  You were trained in archery, since you had to use your bow to impress foreign dignitaries, but you never expected you'd actually have to take it into a real battle.  Then the Cataclysm hit.  The ambassador and most of your fellow guards are dead, and you'll probably never see home again, but hopefully your skills will keep you alive.",
+    "points": 12,
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "archery" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 6, "name": "survival" },
+      { "level": 5, "name": "speech" }
+    ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_spotting" ],
+    "traits": [
+      "THRESH_SPECIES_ELF",
+      "ANIMALEMPATH2",
+      "ELVEN_BUILD",
+      "ELVEN_SIGHT",
+      "ELVEN_BEAUTY",
+      "ELVEN_SLEEP",
+      "ELFA_EARS",
+      "ELVEN_HEARING",
+      "LIGHTSTEP",
+      "WILDWALKER",
+      "ANTIJUNK",
+      "WEAKSTOMACH",
+      "DISIMMUNE",
+      "PICKYEATER"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "officer_uniform" },
+          { "item": "gloves_black" },
+          { "item": "socks" },
+          { "item": "wristwatch" },
+          { "item": "cloak_of_elvenkind" },
+          { "item": "boots_of_elvenkind" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "bow_sling", "contents-item": [ "bow_of_elvenkind" ] },
+          { "item": "quiver_of_holding_plus_one", "contents-group": [ "quiver_elven_ceremonial_guard" ] },
+          { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
+          { "item": "sheath", "contents-item": [ "knife_hunting_plus_one" ] },
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shifter_druid",
+    "name": "Shifter Druid",
+    "description": "The ancient druidic art of taking animal forms had mostly fallen out of favor by the modern era, since most people didn't need to be a bear in their daily lives and even if they did transform into a raven, they still had to physically fly to their destination and couldn't check the internet for directions.  You, however, studied the ancient arts and gained the ability to transform yourself.  It's come in very handy since the world ended.",
+    "points": 6,
+    "spells": [ { "id": "druid_natures_commune", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "spellcraft" } ],
+    "traits": [ "DRUID", "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "cloak" },
+          { "item": "leather_pouch" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
     }
   }
 ]

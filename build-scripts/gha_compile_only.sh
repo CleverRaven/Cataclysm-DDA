@@ -26,6 +26,8 @@ then
 
     tools/json_tools/generic_guns_validator.py
 
+    tools/json_tools/gun_variant_validator.py -v -cin data/json
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
@@ -38,7 +40,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 5G
+ccache -M 20G
 ccache --show-stats --verbose
 
 if [ "$CMAKE" = "1" ]
@@ -62,7 +64,7 @@ then
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1
+    make -j "$num_jobs" CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 DEBUG_SYMBOLS=1
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]

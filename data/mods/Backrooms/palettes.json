@@ -57,7 +57,6 @@
       "l": [ "f_watercooler" ],
       "m": [ "f_rack_coat" ],
       "n": [ "f_trashcan" ],
-      "p": [ "f_vending_reinforced" ],
       "r": [ [ "f_null", 5 ], [ "f_shredder", 10 ] ],
       "s": [ [ "f_null", 5 ], [ "f_server", 10 ] ],
       "t": [ "f_bookcase" ],
@@ -81,12 +80,12 @@
       "i": [ { "item": "backrooms_master_filing", "chance": 85 } ],
       "m": [ { "item": "backrooms_master_coat_rack", "chance": 65 } ],
       "n": [ { "item": "backrooms_master_trash", "chance": 40 } ],
-      "p": [ { "item": "backrooms_master_vending", "chance": 95 } ],
       "t": [ { "item": "backrooms_master_bookshelf", "chance": 80 } ],
       "x": [ { "item": "backrooms_master_rubble", "chance": 80 } ],
       "y": [ { "item": "backrooms_master_rubble", "chance": 80 } ],
       "A": [ { "item": "backrooms_master_cardboard", "chance": 50 } ]
     },
+    "vendingmachines": { "p": { "item_group": "backrooms_master_vending", "reinforced": true, "powered": true } },
     "nested": {
       "!": { "chunks": [ [ "null", 10 ], [ "mx_backroom_micro_common", 20 ], [ "mx_backroom_micro_storage", 4 ] ] },
       "@": { "chunks": [ [ "mx_backroom_micro_storage", 20 ] ] },

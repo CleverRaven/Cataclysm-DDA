@@ -49,20 +49,19 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
     "id": "mon_shotgunbot",
     "type": "MONSTER",
     "name": { "str": "shotgun bot" },
-    "description": "Heavy, but quick drone of a two legs, that hold a massive shotgun system above himself.  Effectively a machinegun with legs.",
+    "description": "A heavy, but quick two-legged drone that holds a massive shotgun system above himself.  Effectively a machinegun with legs.",
     "copy-from": "mon_sniperbot",
     "species": [ "ROBOT" ],
     "tracking_distance": 4,
@@ -88,7 +87,7 @@
     "id": "mon_meleebot",
     "type": "MONSTER",
     "name": { "str": "cutthroater" },
-    "description": "Tiny arachnid-like bot with three manipulator with telescopic razor-sharp blades.",
+    "description": "A tiny arachnid-like bot with three manipulators with telescopic razor-sharp blades.",
     "default_faction": "player",
     "species": [ "ROBOT" ],
     "volume": "30 L",
@@ -108,19 +107,8 @@
     "armor": { "bash": 14, "cut": 14, "bullet": 11, "electric": 5 },
     "vision_day": 50,
     "revert_to_itype": "bot_meleebot",
-    "path_settings": { "max_dist": 9 },
+    "path_settings": { "max_dist": 9, "avoid_dangerous_fields": true, "avoid_traps": true },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "ELECTRONIC",
-      "COLDPROOF",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
-      "STUN_IMMUNE"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ]
   }
 ]

@@ -2,12 +2,19 @@
 #ifndef CATA_SRC_CHARACTER_MODIFIER_H
 #define CATA_SRC_CHARACTER_MODIFIER_H
 
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "bodypart.h"
-#include "json.h"
 #include "translation.h"
 #include "type_id.h"
+
+class Character;
+class JsonObject;
+template <typename T> class generic_factory;
 
 struct character_modifier {
     public:

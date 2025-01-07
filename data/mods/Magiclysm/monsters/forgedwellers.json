@@ -2,7 +2,7 @@
   {
     "id": "mon_forgeborn",
     "type": "MONSTER",
-    "name": { "str": "forge born" },
+    "name": { "str_sp": "forge born" },
     "description": "The most elaborate, gaudy and overwrought clockwork creature that you've ever seen.  Each one has its face designed in a mask displaying a single emotion.  Blades extend from the wrists in combat.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
@@ -29,7 +29,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "manatouched_seeker_bolts", "min_level": 5 }, "cooldown": 60 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ],
+    "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 32, "cut": 32, "heat": 30, "bullet": 26 }
   },
   {
@@ -101,7 +101,7 @@
     "harvest": "demihuman_large_fur",
     "death_function": { "effect": { "id": "summon_vengeance", "hit_self": false } },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "demon_breath_fire", "min_level": 7 }, "cooldown": 10 }, [ "scratch", 15 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREATHE" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "ANIMAL", "PATH_AVOID_DANGER", "NO_BREATHE" ],
     "armor": { "acid": 80, "heat": 50 }
   },
   {
@@ -153,7 +153,7 @@
     "description": "A squat humanoid that looks quite sturdily built.  They style their hair in mohawks and other strange fashions that seem to be dictated by what parts of their skin aren't scarred from burns.  Their clothes are designed to protect them from the intense environment they work in.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
-    "species": [ "MUTANT" ],
+    "species": [ "DWARF" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
@@ -173,15 +173,15 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "HUMAN", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 23, "cut": 32, "heat": 35, "bullet": 26 }
   },
   {
     "id": "mon_forgehounds",
     "type": "MONSTER",
-    "name": { "str_sp": "forge hounds" },
+    "name": { "str": "forge hound" },
     "description": "A metallic hound steps out of a nearby angle and growls at you.  Run!!!",
     "default_faction": "wonder_forge",
     "copy-from": "mon_hound_tindalos"

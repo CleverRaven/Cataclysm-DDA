@@ -370,7 +370,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75L" }
+    "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -520,7 +520,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -658,7 +658,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -680,7 +680,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
   },
   {
     "type": "furniture",

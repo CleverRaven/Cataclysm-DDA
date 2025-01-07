@@ -58,6 +58,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle_foreign": 10 } } ]
   },
   {
+    "id": "rifle_mag_cannon",
+    "copy-from": "ree_33_4_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "cannon rifle magazine" },
+    "description": "Small magazine for exodii cannon rifle.",
+    "ammo_type": [ "ammo_rifle_cannon" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle_cannon": 4 } } ]
+  },
+  {
+    "id": "rifle_mag_cannon_big",
+    "copy-from": "ree_33_53_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "cannon rifle box magazine" },
+    "description": "Bulky box magazine for exodii cannon rifle.",
+    "ammo_type": [ "ammo_rifle_cannon" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle_cannon": 53 } } ]
+  },
+  {
     "id": "rifle_rail_mag",
     "copy-from": "hk_g80mag",
     "type": "MAGAZINE",

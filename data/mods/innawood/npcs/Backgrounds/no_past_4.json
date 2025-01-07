@@ -31,7 +31,10 @@
   {
     "id": "BGSS_NO_PAST_4_DROPIT",
     "type": "talk_topic",
-    "dynamic_line": "Listen.  I said it clearly, and if you keep picking at it I'm gonna get mad.  Who I was is gone.  Dead.  I don't give a shit about your 'healthy', don't <swear> ask again.",
+    "dynamic_line": {
+      "gendered_line": "Listen.  I said it clearly, and if you keep picking at it I'm gonna get mad.  Who I was is gone.  Dead.  I don't give a shit about your 'healthy', don't <swear> ask again.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "What were you saying before?", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {

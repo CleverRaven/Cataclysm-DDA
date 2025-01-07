@@ -32,5 +32,27 @@
     "default_time_multiplier": 3,
     "default_skill_penalty": 0.25,
     "time_to_learn": "20 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_treesinging",
+    "category": "prof_survival",
+    "name": { "str": "Skilled Treesinging" },
+    "description": "The trees always hearken to your voice and wood practically molds itself like clay in your hands.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "16 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_treesinging_equipment",
+    "category": "prof_survival",
+    "name": { "str": "Artisan Treesinging" },
+    "description": "Not only can you create furniture and other large constructs using treesinging, you can mold treesung wood into weapons and armor as well.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "24 h"
   }
 ]

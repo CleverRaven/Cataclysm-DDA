@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "dda_tutorial",
+    "name": "Tutorial",
+    "description": "Tutorial for Cataclysm-DDA",
+    "category": "content",
+    "//": "Marked as obsolete so it doesn't appear in the mod selection list",
+    "obsolete": true
+  }
+]

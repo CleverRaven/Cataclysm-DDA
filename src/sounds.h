@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
@@ -15,7 +16,6 @@ class JsonObject;
 class item;
 class monster;
 class translation;
-struct tripoint;
 template <typename E> struct enum_traits;
 
 namespace sounds
@@ -23,6 +23,7 @@ namespace sounds
 enum class sound_t : int {
     background = 0,
     weather,
+    sensory, // Sonar etc. Ensures this sound will usually get a visual marker so the player can see it.
     music,
     movement,
     speech,
@@ -52,16 +53,17 @@ enum class sound_t : int {
  * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
-void sound( const tripoint &p, int vol, sound_t category, const std::string &description,
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const std::string &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
-void sound( const tripoint &p, int vol, sound_t category, const translation &description,
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const translation &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
-void ambient_sound( const tripoint &p, int vol, sound_t category, const std::string &description );
+void ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
-void add_footstep( const tripoint &p, int volume, int distance, monster *source,
+void add_footstep( const tripoint_bub_ms &p, int volume, int distance, monster *source,
                    const std::string &footstep );
 
 /* Make sure the sounds are all reset when we start a new game. */
@@ -75,11 +77,11 @@ void process_sounds();
 void process_sound_markers( Character *you );
 
 // Return list of points that have sound events the player can hear.
-std::vector<tripoint> get_footstep_markers();
+std::vector<tripoint_bub_ms> get_footstep_markers();
 // Return list of all sounds and the list of sound cluster centroids.
-std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
+std::pair<std::vector<tripoint_bub_ms>, std::vector<tripoint_bub_ms>> get_monster_sounds();
 // retrieve the sound event(s?) at a location.
-std::string sound_at( const tripoint &location );
+std::string sound_at( const tripoint_bub_ms &location );
 /** Tells us if sound has been enabled in options */
 extern bool sound_enabled;
 } // namespace sounds
@@ -132,7 +134,7 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    fatigue         //SFX related to fatigue
+    low_stamina         //SFX related to low_stamina
 };
 
 void load_sound_effects( const JsonObject &jsobj );
@@ -159,13 +161,13 @@ void play_activity_sound( const std::string &id, const std::string &variant,
                           const std::string &season, int volume );
 void end_activity_sounds();
 void generate_gun_sound( const Character &source_arg, const item &firing );
-void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
+void generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
-int get_heard_volume( const tripoint &source );
-units::angle get_heard_angle( const tripoint &source );
+int get_heard_volume( const tripoint_bub_ms &source );
+units::angle get_heard_angle( const tripoint_bub_ms &source );
 void do_footstep();
 void do_danger_music();
 void do_ambient();
@@ -182,7 +184,7 @@ void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
-void do_fatigue();
+void do_low_stamina_sfx();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx

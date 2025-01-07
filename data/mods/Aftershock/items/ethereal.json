@@ -6,7 +6,7 @@
     "description": "A thick layer of something that smells worse than walrus fat.  But it keeps you warm.",
     "weight": "1g",
     "volume": "1ml",
-    "price": 3646,
+    "price": "36 USD 46 cent",
     "symbol": "o",
     "warmth": 150,
     "color": "green",
@@ -21,7 +21,6 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
-      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
@@ -38,7 +37,7 @@
     "description": "The last word in cold snap protection designed to give short term protection in the event of a suit breach in vacuum.",
     "weight": "1g",
     "volume": "1ml",
-    "price": 3646,
+    "price": "36 USD 46 cent",
     "symbol": "o",
     "warmth": 150,
     "color": "green",
@@ -53,7 +52,6 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
-      "TRANSPARENT",
       "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },

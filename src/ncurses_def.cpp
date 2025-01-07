@@ -1,10 +1,11 @@
-#if !(defined(TILES) || defined(_WIN32))
+#if !(defined(TILES))
 
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
 #include "point.h"
 #include "translations.h"
+#include "cata_imgui.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -21,7 +22,6 @@
 #include <cstdint>
 #include <cstring>
 #include <iosfwd>
-#include <langinfo.h>
 #include <memory>
 #include <stdexcept>
 
@@ -35,11 +35,33 @@
 #include "output.h"
 #include "ui_manager.h"
 
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include <langinfo.h>
+#endif
+
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
+std::unique_ptr<cataimgui::client> imclient;
+
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
         // TODO: debug message
     }
+}
+
+int get_window_width()
+{
+    return TERMX;
+}
+
+int get_window_height()
+{
+    return TERMY;
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
@@ -192,6 +214,7 @@ void catacurses::erase()
 
 void catacurses::endwin()
 {
+    ui_manager::reset();
     return curses_check_result( ::endwin(), OK, "endwin" );
 }
 
@@ -282,24 +305,31 @@ static_assert( catacurses::white == COLOR_WHITE,
 
 void catacurses::init_pair( const short pair, const base_color f, const base_color b )
 {
+    if( imclient ) {
+        imclient->upload_color_pair( pair, static_cast<int>( f ), static_cast<int>( b ) );
+    }
     return curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
                                 OK, "init_pair" );
 }
 
-catacurses::window catacurses::newscr;
 catacurses::window catacurses::stdscr;
+#if !defined(USE_PDCURSES)
+catacurses::window catacurses::newscr;
+#endif
 
 void catacurses::resizeterm()
 {
+#if !defined(USE_PDCURSES)
     const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
-    if( ::is_term_resized( new_x, new_y ) ) {
+    if( ::is_term_resized( new_x, new_y ) )
+#endif
+    {
         game_ui::init_ui();
         ui_manager::screen_resized();
         catacurses::doupdate();
     }
 }
-
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
@@ -309,23 +339,40 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
+#if !defined(USE_PDCURSES)
     newscr = window( std::shared_ptr<void>( ::newscr, []( void *const ) { } ) );
     if( !newscr ) {
         throw std::runtime_error( "null newscr" );
     }
-#if !defined(__CYGWIN__)
-    // ncurses mouse registration
-    mousemask( ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
+#if !defined(USE_PDCURSES)
     set_escdelay( 10 ); // Make Escape actually responsive
+#endif
     // TODO: error checking
     start_color();
+    imclient = std::make_unique<cataimgui::client>();
     init_colors();
+#if !defined(__CYGWIN__)
+    // ncurses mouse registration
+    mouseinterval( 0 );
+    mousemask( ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr );
+    // Sometimes the TERM variable is not set properly and mousemask won't turn on mouse pointer events.
+    // The below line tries to force the mouse pointer events to be turned on anyway. ImTui misbehaves without them.
+    printf( "\033[?1003h\n" );
+#endif
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()
@@ -380,7 +427,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             const int prev_timeout = input_timeout;
             set_timeout( 0 );
             do {
-                newch = getch();
+                newch = wgetch( stdscr );
             } while( newch != ERR && newch == key );
             set_timeout( prev_timeout );
             // If we read a different character than the one we're going to act on, re-queue it.
@@ -403,11 +450,11 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             if( getmouse( &event ) == OK ) {
                 rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
-                if( event.bstate & BUTTON1_CLICKED ) {
+                if( event.bstate & BUTTON1_CLICKED || event.bstate & BUTTON1_RELEASED ) {
                     rval.add_input( MouseInput::LeftButtonReleased );
                 } else if( event.bstate & BUTTON1_PRESSED ) {
                     rval.add_input( MouseInput::LeftButtonPressed );
-                } else if( event.bstate & BUTTON3_CLICKED ) {
+                } else if( event.bstate & BUTTON3_CLICKED || event.bstate & BUTTON3_RELEASED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
                     // If curses version is prepared for a 5-button mouse, enable mousewheel
 #if defined(BUTTON5_PRESSED)
@@ -449,7 +496,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard_char );
+                input_event tmp_event( key, input_event_t::keyboard_char );
+                imclient->process_input( &tmp_event );
+                return tmp_event;
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -465,6 +514,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             // as it would  conflict with the special keys defined by ncurses
             rval.add_input( key );
         }
+        imclient->process_input( &rval );
     } while( key == KEY_RESIZE );
 
     return rval;
@@ -479,17 +529,17 @@ void input_manager::set_timeout( const int delay )
 
 nc_color nc_color::from_color_pair_index( const int index )
 {
-    return nc_color( COLOR_PAIR( index ) );
+    return nc_color( COLOR_PAIR( index ), index );
 }
 
 int nc_color::to_color_pair_index() const
 {
-    return PAIR_NUMBER( attribute_value );
+    return ( attribute_value & 0x03fe0000 ) >> 17;
 }
 
 nc_color nc_color::bold() const
 {
-    return nc_color( attribute_value | A_BOLD );
+    return nc_color( attribute_value | A_BOLD, index );
 }
 
 bool nc_color::is_bold() const
@@ -499,7 +549,7 @@ bool nc_color::is_bold() const
 
 nc_color nc_color::blink() const
 {
-    return nc_color( attribute_value | A_BLINK );
+    return nc_color( attribute_value | A_BLINK, index );
 }
 
 bool nc_color::is_blink() const
@@ -519,18 +569,18 @@ void ensure_term_size()
     while( TERMY < minHeight || TERMX < minWidth ) {
         catacurses::erase();
         if( TERMY < minHeight && TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
                                "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else if( TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
                                "requires a minimum terminal size of %dx%d to function.  It just won't work "
                                "with only %dx%d.  Can you stretch it out sideways a bit?" ),
                             minWidth, minHeight, TERMX, TERMY );
         } else {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point::zero, TERMX, c_white,
                             _( "Woah, woah, we're just a little short on space here.  The game requires a "
                                "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
@@ -549,7 +599,11 @@ void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
+#if defined(_WIN32)
+    if( CP_UTF8 != GetConsoleOutputCP() ) {
+#else
     if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
+#endif
         // do not use ui_adaptor here to avoid re-entry
         int key = ERR;
         do {
@@ -558,7 +612,7 @@ void check_encoding()
                    "characters (e.g. empty boxes or question marks). You have been warned." );
             catacurses::erase();
             const int maxx = getmaxx( catacurses::stdscr );
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
+            fold_and_print( catacurses::stdscr, point::zero, maxx, c_white, unicode_error_msg );
             catacurses::refresh();
             // do not use input_manager or input_context here to avoid re-entry
             key = getch();

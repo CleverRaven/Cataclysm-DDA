@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "effect_on_condition.h"
@@ -45,6 +46,7 @@ static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -160,9 +162,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
     if( abstract ) {
-        ident_ = recipe_id( jo.get_string( "abstract" ) );
+        id = recipe_id( jo.get_string( "abstract" ) );
     } else if( type == "practice" ) {
-        ident_ = recipe_id( jo.get_string( "id" ) );
+        id = recipe_id( jo.get_string( "id" ) );
         if( jo.has_member( "result" ) ) {
             jo.throw_error_at( "result", "Practice recipes should not have result (use byproducts)" );
         }
@@ -171,7 +173,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                "Practice recipes should not have difficulty (use practice_data)" );
         }
     } else if( type == "nested_category" ) {
-        ident_ = recipe_id( jo.get_string( "id" ) );
+        id = recipe_id( jo.get_string( "id" ) );
         if( jo.has_member( "result" ) ) {
             jo.throw_error_at( "result", "nested category should not have result" );
         }
@@ -187,23 +189,23 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe missing result" );
             } else {
                 mandatory( jo, false, "name", name_ );
-                ident_ = recipe_id( jo.get_string( "id" ) );
+                id = recipe_id( jo.get_string( "id" ) );
             }
         } else {
-            ident_ = recipe_id( result_.str() );
+            id = recipe_id( result_.str() );
         }
     }
 
     if( type == "recipe" ) {
         optional( jo, was_loaded, "variant", variant_ );
         if( !variant_.empty() && !abstract ) {
-            ident_ = recipe_id( ident_.str() + "_" + variant_ );
+            id = recipe_id( id.str() + "_" + variant_ );
         }
         if( jo.has_string( "id_suffix" ) ) {
             if( abstract ) {
                 jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
             }
-            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+            id = recipe_id( id.str() + "_" + jo.get_string( "id_suffix" ) );
         }
     }
 
@@ -226,6 +228,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // automatically set contained if we specify as container
     assign( jo, "contained", contained, strict );
     contained |= assign( jo, "container", container, strict );
+    optional( jo, false, "container_variant", container_variant );
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
@@ -276,7 +279,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // Remove after 0.H
     if( exertion_str == "fake" ) {
         debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  ident_.c_str(), src );
+                  id.c_str(), src );
         exertion_str = "MODERATE_EXERCISE";
     }
     const auto it = activity_levels_map.find( exertion_str );
@@ -371,7 +374,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
             byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
-                              "collection", "byproducts of recipe " + ident_.str() );
+                              "collection", "byproducts of recipe " + id.str() );
         }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
@@ -419,7 +422,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     default_reqs.skills = { blueprint_skills.begin(), blueprint_skills.end() };
                 }
                 if( jneeds.has_member( "inline" ) ) {
-                    const requirement_id req_id( "inline_blueprint_" + type + "_" + ident_.str() );
+                    const requirement_id req_id( "inline_blueprint_" + type + "_" + id.str() );
                     requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
                     default_reqs.raw_reqs.emplace( req_id, 1 );
                 }
@@ -448,7 +451,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
             byproduct_group = item_group::load_item_group( jo.get_member( "byproduct_group" ),
-                              "collection", "byproducts of recipe " + ident_.str() );
+                              "collection", "byproducts of recipe " + id.str() );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -463,7 +466,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         jo.throw_error_at( "type", "unknown recipe type" );
     }
 
-    const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
+    const requirement_id req_id( "inline_" + type + "_" + id.str() );
     requirement_data::load_requirement( jo, req_id );
     reqs_internal.emplace_back( req_id, 1 );
 }
@@ -476,7 +479,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs = id->funcs();
     if( funcs.size() != 1 ) {
         debugmsg( "update_mapgen %s used for blueprint, but has %zu versions, where it should have exactly one",
-                  funcs.size() );
+                  id.c_str(), funcs.size() );
         return result;
     }
 
@@ -598,27 +601,30 @@ void recipe::finalize()
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( itype_null );
+        if( item::find_type( result_ )->default_container_variant.has_value() ) {
+            container_variant = item::find_type( result_ )->default_container_variant.value();
+        }
     }
 
     std::set<proficiency_id> required;
     std::set<proficiency_id> used;
     for( recipe_proficiency &rpof : proficiencies ) {
         if( !rpof.id.is_valid() ) {
-            debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), ident_.str() );
+            debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), id.str() );
         }
 
         if( rpof.required && rpof.time_multiplier != 0.0f ) {
             debugmsg( "proficiencies in recipes cannot be both required and provide a malus in %s",
-                      rpof.id.str(), ident_.str() );
+                      rpof.id.str(), id.str() );
         }
         if( required.count( rpof.id ) || used.count( rpof.id ) ) {
             debugmsg( "proficiency %s listed twice recipe %s", rpof.id.str(),
-                      ident_.str() );
+                      id.str() );
         }
 
         if( rpof.time_multiplier < 1.0f && rpof.id->default_time_multiplier() < 1.0f ) {
             debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s",
-                      rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
+                      rpof.id.str(), id.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
         }
 
         if( rpof.time_multiplier == 0.0f ) {
@@ -631,7 +637,7 @@ void recipe::finalize()
 
         if( rpof.skill_penalty < 0.f && rpof.id->default_skill_penalty() < 0.f ) {
             debugmsg( "proficiency %s provides a skill bonus for not being known in recipe %s skill penalty: %g default multiplier: %g",
-                      rpof.id.str(), ident_.str(), rpof.skill_penalty, rpof.id->default_skill_penalty() );
+                      rpof.id.str(), id.str(), rpof.skill_penalty, rpof.id->default_skill_penalty() );
         }
 
         // Now that we've done the error checking, log that a proficiency with this id is used
@@ -657,7 +663,7 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( category == "CC_BUILDING" ) {
+    if( category.is_valid() && category->is_building ) {
         if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
             return std::string();
         }
@@ -751,7 +757,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
     }
 
     if( contained ) {
-        newit = newit.in_container( container, amount, sealed );
+        newit = newit.in_container( container, amount, sealed, container_variant );
         return { newit };
     } else if( newit.count_by_charges() ) {
         newit.charges = amount;
@@ -1212,17 +1218,21 @@ std::string recipe::result_name( const bool decorated ) const
 {
     std::string name;
     if( !name_.empty() ) {
+        // if the recipe has an explicit name (such as for proficiency training) - use that
         name = name_.translated();
-    } else if( !variant().empty() ) {
-        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
-        [this]( const itype_variant_data & itvar ) {
-            return itvar.id == variant();
-        } );
-        if( iter_var != result_->variants.end() ) {
-            name = iter_var->alt_name.translated();
-        }
     } else {
-        name = item::nname( result_ );
+        // Names are tricky, so we have to create a temporary fake result item to get one.
+        // As of 2025-01-01 there's no better way around this.
+        item temp_item( result_ );
+        // Use generic item name by default.
+        tname::segment_bitset segs = tname::base_item_name;
+        if( !variant().empty() ) {
+            // ..but if the recipe calls for a specific varaint - then use that variant.
+            // Note that `temp_item` is likely to already have a random variant set at the time of creation.
+            temp_item.set_itype_variant( variant() );
+            segs = tname::item_identity_name;
+        }
+        name = temp_item.tname( 1, segs );
     }
     if( decorated &&
         uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
@@ -1316,12 +1326,12 @@ bool recipe::npc_can_craft( std::string &reason ) const
         return false;
     }
     if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
         return false;
     }
     for( const auto& [bp, _] : get_byproducts() ) {
         if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
             return false;
         }
     }
@@ -1465,7 +1475,7 @@ void recipe::check_blueprint_requirements()
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
                   "~~~ end-auto-update",
-                  ident_.str(), os.str() );
+                  id.str(), os.str() );
     }
 }
 

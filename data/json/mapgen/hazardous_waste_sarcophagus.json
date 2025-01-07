@@ -55,7 +55,8 @@
         " ffffffffffffffffffffffffffffffffffffffffffffff ",
         "                                                "
       ],
-      "fill_ter": "t_linoleum_white",
+      "palettes": [ "parametrized_linoleum_palette" ],
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "terrain": {
         " ": [ [ "t_region_groundcover", 40 ], [ "t_region_shrub", 2 ], [ "t_region_tree", 1 ] ],
         "f": "t_chainfence",
@@ -119,6 +120,11 @@
         "c": { "item": "office_supplies", "chance": 60 },
         "b": { "item": "lab_bookshelves", "chance": 60, "repeat": 2 },
         "l": { "item": "cleaning", "chance": 85, "repeat": 2 },
+        "A": [
+          { "item": "toxic_dump_equipment", "chance": 85, "repeat": [ 1, 2 ] },
+          { "item": "tools_common", "chance": 85, "repeat": [ 1, 2 ] },
+          { "item": "cleaning", "chance": 85, "repeat": 2 }
+        ],
         "F": { "item": "office_paper", "chance": 50 }
       },
       "place_item": [ { "item": "id_military", "x": 22, "y": 20 }, { "item": "cleansuit", "x": 28, "y": 24 } ],
@@ -154,6 +160,66 @@
         }
       },
       "place_vehicles": [ { "vehicle": "military_cargo_trucks", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "haz_sar_1_2_2", "haz_sar_1_1_2" ], [ "haz_sar_1_4_2", "haz_sar_1_3_2" ] ],
+    "object": {
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                        -----   ",
+        "                                        -...-   ",
+        "                                        -...-   ",
+        "                                        -----   ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                           ---------------      ",
+        "                           -.............-      ",
+        "                           -.............-      ",
+        "                           -.............-      ",
+        "   ----------------------- -.............-      ",
+        "   -.....................- -.............-      ",
+        "   -.....................- -.............-      ",
+        "   -.....................- -.............-      ",
+        "   -.....................- -.............-      ",
+        "   -.....................- -.............-      ",
+        "   ----------------------- -.............-      ",
+        "                           -.............-      ",
+        "         -------------------|||||||||||||--     ",
+        "        --||||||||||||||||||||||||||||||||--    ",
+        "       --||||||||||||||||||||||||||||||||||-    ",
+        "      --|||||||||||||||||||||||||||||||||||-    ",
+        "     --||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     -|||||||||||||||||||||||||||||||||||||-    ",
+        "     --|||||||||||||||||||||||||||||||||||--    ",
+        "      --|||||||||||||||||||||||||||||||||--     ",
+        "       --|||||||||||||||||||||||||||||||--      ",
+        "        --|||||||||||||||||||||||||||||--       ",
+        "         -------------------------------        ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "fill_ter": "t_open_air",
+      "palettes": [ "roof_palette" ],
+      "terrain": { "|": "t_concrete" }
     }
   },
   {
@@ -332,8 +398,8 @@
     "id": "hazardous_waste",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
+      { "item": "water_sewage", "container-item": "55gal_drum", "charges": [ 26, 126 ], "prob": 40 },
       { "prob": 2, "group": "meat_tainted_55gal_drum_3_20" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 }
@@ -351,6 +417,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "55gal_drum",
-    "entries": [ { "item": "meat_tainted", "count-min": 3, "count-max": 20 } ]
+    "entries": [ { "item": "meat_tainted", "count": [ 3, 20 ] } ]
   }
 ]

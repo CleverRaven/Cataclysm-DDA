@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["Experimental Release"]
     types: [completed]
-    branches: [master]
+    branches: [master, 0.H-branch]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -21,6 +21,7 @@ class enum_bitset
         enum_bitset() = default;
         enum_bitset( const enum_bitset & ) = default;
         enum_bitset &operator=( const enum_bitset & ) = default;
+        explicit constexpr enum_bitset( unsigned long long val ) noexcept : bits( val ) {}
 
         bool operator==( const enum_bitset &rhs ) const noexcept {
             return bits == rhs.bits;
@@ -49,6 +50,11 @@ class enum_bitset
             return *this;
         }
 
+        enum_bitset &set() noexcept {
+            bits.set();
+            return *this;
+        }
+
         enum_bitset &reset( E e ) {
             bits.reset( get_pos( e ) );
             return *this;
@@ -61,6 +67,18 @@ class enum_bitset
 
         bool test( E e ) const {
             return bits.test( get_pos( e ) );
+        }
+
+        bool any() const noexcept {
+            return bits.any();
+        }
+
+        bool all() const noexcept {
+            return bits.all();
+        }
+
+        bool none() const noexcept {
+            return bits.none();
         }
 
         static constexpr size_t size() noexcept {
@@ -86,5 +104,21 @@ class enum_bitset
 
         std::bitset<enum_bitset<E>::size()> bits;
 };
+
+template <typename E>
+enum_bitset<E> operator&( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret &= rhs;
+    return ret;
+}
+
+template <typename E>
+enum_bitset<E> operator|( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret |= rhs;
+    return ret;
+}
 
 #endif // CATA_SRC_ENUM_BITSET_H

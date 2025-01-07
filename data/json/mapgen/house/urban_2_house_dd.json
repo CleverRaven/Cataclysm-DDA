@@ -33,7 +33,7 @@
       ],
       "rubble": { "Ю": { "rubble_type": "f_rubble" } },
       "place_rubble": [ { "x": 23, "y": 3 }, { "x": 23, "y": 4 }, { "x": 24, "y": 4 } ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -42,30 +42,29 @@
         "=": "t_door_metal_locked",
         "_": "t_pavement",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "'": "t_thconc_floor",
         "q": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
         "U": "t_thconc_floor",
         "`": "t_concrete",
-        ",": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "6": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "n": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "0": "t_linoleum_white"
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "O": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "2": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "3": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "n": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool" },
       "place_loot": [
@@ -78,10 +77,10 @@
       ],
       "place_fields": [ { "field": "fd_blood", "x": 24, "y": 3, "intensity": 2, "age": 20 } ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 23, "y": 23, "chance": 80, "status": 0 },
         { "vehicle": "suburban_home", "x": 33, "y": 11, "chance": 30, "rotation": 270 },
         { "vehicle": "suburban_home", "x": 40, "y": 11, "chance": 30, "rotation": 270 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 23, "y": 23 } ]
     }
   },
   {
@@ -117,19 +116,18 @@
         "````````````````````````````````````````````````"
       ],
       "rubble": { "!": { "rubble_type": "f_rubble" } },
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
       "terrain": {
         "`": "t_open_air",
         "№": "t_open_air",
-        "#": "t_brick_wall",
         ".": "t_shingle_flat_roof",
         "!": "t_gutter_drop",
         "-": "t_gutter",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        ",": "t_linoleum_white"
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": { "&": "f_chimney" }
     }

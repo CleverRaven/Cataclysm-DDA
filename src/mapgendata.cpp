@@ -58,8 +58,8 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , mission_( miss )
     , zlevel_( over.z() )
     , predecessors_( overmap_buffer.predecessors( over ) )
-    , t_above( overmap_buffer.ter( over + tripoint_above ) )
-    , t_below( overmap_buffer.ter( over + tripoint_below ) )
+    , t_above( overmap_buffer.ter( over + tripoint::above ) )
+    , t_below( overmap_buffer.ter( over + tripoint::below ) )
     , region( overmap_buffer.get_settings( over ) )
     , m( mp )
     , default_groundcover( region.default_groundcover )
@@ -79,14 +79,20 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     set_neighbour( 6, direction::SOUTHWEST );
     set_neighbour( 7, direction::NORTHWEST );
     if( std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
-        if( *maybe_args ) {
+        if( *maybe_args && !overmap_buffer.externally_set_args ) {
             mapgen_args_ = **maybe_args;
         } else {
             // We are the first omt from this overmap_special to be generated,
             // so now is the time to generate the arguments
             if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
                 const overmap_special &special = **s;
-                *maybe_args = special.get_args( *this );
+                mapgen_arguments internally_set_args = special.get_args( *this );
+                if( overmap_buffer.externally_set_args ) {
+                    maybe_args->value().map.merge( internally_set_args.map );
+                    overmap_buffer.externally_set_args = false;
+                } else {
+                    *maybe_args = internally_set_args;
+                }
                 mapgen_args_ = **maybe_args;
             } else {
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
@@ -212,7 +218,7 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
+void mapgendata::square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }
@@ -241,7 +247,7 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
 ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
-    return tid != nullptr ? *tid : t_null;
+    return tid != nullptr ? *tid : ter_str_id::NULL_ID().id();
 }
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const

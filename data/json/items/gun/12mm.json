@@ -9,8 +9,8 @@
     "weight": "3914 g",
     "volume": "4958 ml",
     "longest_side": "1005 mm",
-    "price": 1920000,
-    "price_postapoc": 12000,
+    "price": "19 kUSD 200 USD",
+    "price_postapoc": "120 USD",
     "to_hit": -1,
     "material": [ "steel" ],
     "ammo": [ "12mm" ],
@@ -19,9 +19,10 @@
     "dispersion": 45,
     "durability": 8,
     "energy_drain": "5 kJ",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -29,7 +30,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
     "melee_damage": { "bash": 12 }
   }

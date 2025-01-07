@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "railroad_level_crossing" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [

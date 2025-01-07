@@ -216,9 +216,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 {
     // this test case is mainly for checking the format of debug messages.
     // the text style check itself is tested in the lit test of clang-tidy.
-    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
-    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
-    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    restore_on_out_of_scope restore_error_log_format( error_log_format );
+    restore_on_out_of_scope restore_check_plural( check_plural );
+    restore_on_out_of_scope error_colors( json_error_output_colors );
     error_log_format = error_log_format_t::human_readable;
     check_plural = check_plural_t::certain;
     json_error_output_colors = json_error_output_colors_t::no_colors;
@@ -395,7 +395,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
         R"~({"str": "bar", "str_pl": "bar", "//NOLINT(cata-text-style)": "blah"})~" );
 
     {
-        restore_on_out_of_scope<check_plural_t> restore_check_plural_2( check_plural );
+        restore_on_out_of_scope restore_check_plural_2( check_plural );
         check_plural = check_plural_t::none;
         test_pl_translation_text_style_check(
             Catch::Equals( "" ),
@@ -468,8 +468,8 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 
 TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )
 {
-    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
-    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    restore_on_out_of_scope restore_error_log_format( error_log_format );
+    restore_on_out_of_scope error_colors( json_error_output_colors );
     error_log_format = error_log_format_t::human_readable;
     json_error_output_colors = json_error_output_colors_t::no_colors;
 
@@ -533,10 +533,71 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
     // NOLINTEND(cata-text-style)
 }
 
+TEST_CASE( "report_unvisited_members", "[json]" )
+{
+    restore_on_out_of_scope restore_error_log_format( error_log_format );
+    restore_on_out_of_scope error_colors( json_error_output_colors );
+    error_log_format = error_log_format_t::human_readable;
+    json_error_output_colors = json_error_output_colors_t::no_colors;
+
+    // NOLINTBEGIN(cata-text-style)
+    SECTION( "unvisited members" ) {
+        const std::string json = R"({"foo": "foo", "bar": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:22: Invalid or misplaced field name "bar" in JSON data)"
+                "\n\n"
+                R"({"foo": "foo", "bar": "bar"})" "\n"
+                R"(                    ▲▲▲)" "\n" ) );
+    }
+
+    SECTION( "comments" ) {
+        const std::string json = R"({"foo": "foo", "//": "foobar", "//bar": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT( dmsg, Catch::Equals( "" ) );
+    }
+
+    SECTION( "misplaced translator comments" ) {
+        const std::string json = R"({"foo": "foo", "//~": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:22: "//~" should be within a text object and contain comments for translators.)"
+                "\n\n"
+                R"({"foo": "foo", "//~": "bar"})" "\n"
+                R"(                    ▲▲▲)" "\n" ) );
+    }
+
+    SECTION( "valid translator comments" ) {
+        const std::string json = R"({"str": "foo", "//~": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonValue jv = json_loader::from_string( json );
+            translation msg;
+            jv.read( msg );
+        } );
+        CHECK_THAT( dmsg, Catch::Equals( "" ) );
+    }
+    // NOLINTEND(cata-text-style)
+}
+
 TEST_CASE( "correct_cursor_position_for_unicode_json_error", "[json]" )
 {
-    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
-    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    restore_on_out_of_scope restore_error_log_format( error_log_format );
+    restore_on_out_of_scope error_colors( json_error_output_colors );
     error_log_format = error_log_format_t::human_readable;
     json_error_output_colors = json_error_output_colors_t::no_colors;
 
@@ -594,8 +655,8 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 
 TEST_CASE( "jsonin_get_string", "[json]" )
 {
-    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
-    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    restore_on_out_of_scope restore_error_log_format( error_log_format );
+    restore_on_out_of_scope error_colors( json_error_output_colors );
     error_log_format = error_log_format_t::human_readable;
     json_error_output_colors = json_error_output_colors_t::no_colors;
 

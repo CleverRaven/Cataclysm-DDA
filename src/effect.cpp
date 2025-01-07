@@ -1,26 +1,35 @@
 #include "effect.h"
 
 #include <algorithm>
-#include <cstddef>
 #include <map>
+#include <memory>
 #include <optional>
+#include <type_traits>
 #include <unordered_set>
 
 #include "bodypart.h"
-#include "color.h"
+#include "cata_assert.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "effect_source.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "json_error.h"
+#include "magic_enchantment.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "units.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
@@ -81,6 +90,18 @@ void limb_score_effect::load( const JsonObject &jo )
 }
 
 void limb_score_effect::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void effect_dur_mod::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "effect_id", effect_id );
+    mandatory( jo, false, "modifier", modifier );
+    optional( jo, false, "same_bp", same_bp, false );
+}
+
+void effect_dur_mod::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
@@ -166,6 +187,7 @@ void weed_msg( Character &p )
             case 5:
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
                                          translation() ) );
+                return;
             default:
                 return;
         }
@@ -250,6 +272,7 @@ void weed_msg( Character &p )
             case 4:
                 // re-roll
                 weed_msg( p );
+                return;
             case 5:
             default:
                 return;
@@ -452,16 +475,16 @@ void effect_type::load_mod_data( const JsonObject &j )
         {"perspiration_tick",        mod_action::TICK},
     } );
 
-    // Then fatigue
-    extract_effect( to_extract, "FATIGUE", {
-        {"fatigue_amount",      mod_action::AMOUNT},
-        {"fatigue_min",         mod_action::MIN},
-        {"fatigue_max",         mod_action::MAX},
-        {"fatigue_min_val",     mod_action::MIN_VAL},
-        {"fatigue_max_val",     mod_action::MAX_VAL},
-        {"fatigue_chance",      mod_action::CHANCE_TOP},
-        {"fatigue_chance_bot",  mod_action::CHANCE_BOT},
-        {"fatigue_tick",        mod_action::TICK},
+    // Then sleepiness
+    extract_effect( to_extract, "SLEEPINESS", {
+        {"sleepiness_amount",      mod_action::AMOUNT},
+        {"sleepiness_min",         mod_action::MIN},
+        {"sleepiness_max",         mod_action::MAX},
+        {"sleepiness_min_val",     mod_action::MIN_VAL},
+        {"sleepiness_max_val",     mod_action::MAX_VAL},
+        {"sleepiness_chance",      mod_action::CHANCE_TOP},
+        {"sleepiness_chance_bot",  mod_action::CHANCE_BOT},
+        {"sleepiness_tick",        mod_action::TICK},
     } );
 
     // Then stamina
@@ -473,6 +496,42 @@ void effect_type::load_mod_data( const JsonObject &j )
         {"stamina_chance",      mod_action::CHANCE_TOP},
         {"stamina_chance_bot",  mod_action::CHANCE_BOT},
         {"stamina_tick",        mod_action::TICK},
+    } );
+
+    // Then blood pressure. No min/max val, as they are handled internally.
+    extract_effect( to_extract, "BLOOD_PRESSURE", {
+        {"blood_pressure_amount",      mod_action::AMOUNT},
+        {"blood_pressure_min",         mod_action::MIN},
+        {"blood_pressure_max",         mod_action::MAX},
+        {"blood_pressure_max_val",     mod_action::MAX_VAL},
+        {"blood_pressure_min_val",     mod_action::MIN_VAL},
+        {"blood_pressure_chance",      mod_action::CHANCE_TOP},
+        {"blood_pressure_chance_bot",  mod_action::CHANCE_BOT},
+        {"blood_pressure_tick",        mod_action::TICK},
+    } );
+
+    // Then Heart Rate
+    extract_effect( to_extract, "HEART_RATE", {
+        {"heart_rate_amount",      mod_action::AMOUNT},
+        {"heart_rate_min",         mod_action::MIN},
+        {"heart_rate_max",         mod_action::MAX},
+        {"heart_rate_max_val",     mod_action::MAX_VAL},
+        {"heart_rate_min_val",     mod_action::MIN_VAL},
+        {"heart_rate_chance",      mod_action::CHANCE_TOP},
+        {"heart_rate_chance_bot",  mod_action::CHANCE_BOT},
+        {"heart_rate_tick",        mod_action::TICK},
+    } );
+
+    // Then Respirato Rate
+    extract_effect( to_extract, "RESPIRATORY_RATE", {
+        {"respiratory_rate_amount",      mod_action::AMOUNT},
+        {"respiratory_rate_min",         mod_action::MIN},
+        {"respiratory_rate_max",         mod_action::MAX},
+        {"respiratory_rate_max_val",     mod_action::MAX_VAL},
+        {"respiratory_rate_min_val",     mod_action::MIN_VAL},
+        {"respiratory_rate_chance",      mod_action::CHANCE_TOP},
+        {"respiratory_rate_chance_bot",  mod_action::CHANCE_BOT},
+        {"respiratory_rate_tick",        mod_action::TICK},
     } );
 
     // Then coughing
@@ -818,7 +877,7 @@ std::string effect::disp_desc( bool reduced ) const
 
     // Handle limb score modifiers if we have any
     if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
-        std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? "Global" : "Local";
+        const std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? _( "Global" ) : _( "Local" );
         for( limb_score_effect &effect : get_limb_score_data() ) {
             // Only print modifiers if they are global or if the limb has the score in the first place
             if( bp->has_limb_score( effect.score_id ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
@@ -834,6 +893,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    values.reserve( 9 ); // Pre-allocate space for each value.
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
     int val = 0;
@@ -845,15 +905,15 @@ std::string effect::disp_desc( bool reduced ) const
                          _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
     values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
-                         _( "stamina recovery" ), _( "fatigue" ) );
+                         _( "stamina recovery" ), _( "sleepiness" ) );
     val = get_avg_mod( "THIRST", reduced );
     values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
                          _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );
-    val = get_avg_mod( "FATIGUE", reduced );
-    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+    val = get_avg_mod( "SLEEPINESS", reduced );
+    values.emplace_back( get_percentage( "SLEEPINESS", val, reduced ), val, _( "sleepiness" ),
                          _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
     values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
@@ -1026,8 +1086,8 @@ void effect::set_duration( const time_duration &dur, bool alert )
 
     // Force intensity if it is duration based
     if( eff_type->int_dur_factor != 0_turns ) {
-        // + 1 here so that the lowest is intensity 1, not 0
-        set_intensity( duration / eff_type->int_dur_factor + 1, alert );
+        const int intensity = std::ceil( duration / eff_type->int_dur_factor );
+        set_intensity( std::max( 1, intensity ), alert );
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
@@ -1446,7 +1506,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( const JsonObject &jo )
+void load_effect_type( const JsonObject &jo, const std::string_view src )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
@@ -1510,6 +1570,7 @@ void load_effect_type( const JsonObject &jo )
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
     optional( jo, false, "limb_score_mods", new_etype.limb_score_data );
+    optional( jo, false, "effect_dur_scaling", new_etype.effect_dur_scaling );
     optional( jo, false, "chance_kill", new_etype.kill_chance );
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
@@ -1547,7 +1608,7 @@ void load_effect_type( const JsonObject &jo )
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
                                        enchant_num++ );
-        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
     effect_types[new_etype.id] = new_etype;
 }
@@ -1560,6 +1621,11 @@ bool effect::has_flag( const flag_id &flag ) const
 std::vector<limb_score_effect> effect::get_limb_score_data() const
 {
     return eff_type->limb_score_data;
+}
+
+std::vector<effect_dur_mod> effect::get_effect_dur_scaling() const
+{
+    return eff_type->effect_dur_scaling;
 }
 
 bool effect::kill_roll( bool reduced ) const
@@ -1634,14 +1700,7 @@ void effect::deserialize( const JsonObject &jo )
     jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-
-    // TEMPORARY until 0.F
-    if( jo.has_int( "bp" ) ) {
-        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
-    } else {
-        jo.read( "bp", bp );
-    }
-
+    jo.read( "bp", bp );
     jo.read( "permanent", permanent );
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;

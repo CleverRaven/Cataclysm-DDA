@@ -2,7 +2,10 @@
   {
     "id": "BGSS_PRISONER_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was in jail for <the_cataclysm>, but I escaped.  Hell of a story.",
+    "dynamic_line": {
+      "gendered_line": "I was in jail for <the_cataclysm>, but I escaped.  Hell of a story.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So tell me this 'hell of a story'", "topic": "BGSS_PRISONER_1_STORY2" },
       {
@@ -171,7 +174,7 @@
         },
         "topic": "BGSS_PRISONER_1_IN_FOR_OTHER"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -184,13 +187,19 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON",
     "type": "talk_topic",
-    "dynamic_line": "It's a bit of a… it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
+    "dynamic_line": {
+      "gendered_line": "It's a bit of a… it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PRISONER_1_IN_FOR_TAXEVASION",
     "type": "talk_topic",
-    "dynamic_line": "Tax evasion.  I was an accountant, and I helped my boss move a hell of a lot of money in some very clever ways.  Not clever enough, it turns out…",
+    "dynamic_line": {
+      "gendered_line": "Tax evasion.  I was an accountant, and I helped my boss move a hell of a lot of money in some very clever ways.  Not clever enough, it turns out…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -208,7 +217,10 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_METH",
     "type": "talk_topic",
-    "dynamic_line": "Multiple counts of possession.  I used to be really hung up on meth.",
+    "dynamic_line": {
+      "gendered_line": "Multiple counts of possession.  I used to be really hung up on meth.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -226,7 +238,10 @@
   {
     "id": "BGSS_PRISONER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Okay, well, I was in the wrong place at the wrong time.  There was a big fight, I didn't stay clear of it, and me and a bunch of others got tossed in solitary while a few more landed in the infirmary.  Some looked pretty bad, now I kinda wonder if any of them were our first <zombies>.",
+    "dynamic_line": {
+      "gendered_line": "Okay, well, I was in the wrong place at the wrong time.  There was a big fight, I didn't stay clear of it, and me and a bunch of others got tossed in solitary while a few more landed in the infirmary.  Some looked pretty bad, now I kinda wonder if any of them were our first <zombies>.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "How did you get out of lockup?", "topic": "BGSS_PRISONER_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -236,7 +251,10 @@
   {
     "id": "BGSS_PRISONER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes… I believed him.",
+    "dynamic_line": {
+      "gendered_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes… I believed him.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do from there?", "topic": "BGSS_PRISONER_1_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -266,7 +284,10 @@
   {
     "id": "BGSS_PRISONER_1_STORY6",
     "type": "talk_topic",
-    "dynamic_line": "The guard took off on his own.  Didn't trust us, and I don't blame him.  The other two wanted to set up a bandit gig.  Didn't sit right with me, so I split on pretty good terms.  I ran into the guard a couple more times.  Thought of seeing if he'd travel with me, but I dunno.  I don't think he'd take the offer, I'll always be a con to him.  If you want to try, I can tell you where I saw him last.  Wasn't long before I met you, and he had a good thing going, might still be there.",
+    "dynamic_line": {
+      "gendered_line": "The guard took off on his own.  Didn't trust us, and I don't blame him.  The other two wanted to set up a bandit gig.  Didn't sit right with me, so I split on pretty good terms.  I ran into the guard a couple more times.  Thought of seeing if he'd travel with me, but I dunno.  I don't think he'd take the offer, I'll always be a con to him.  If you want to try, I can tell you where I saw him last.  Wasn't long before I met you, and he had a good thing going, might still be there.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "TK: Add two mission options, to go find the guard survivor and the bandits",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }

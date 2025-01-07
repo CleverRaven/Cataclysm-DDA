@@ -20,19 +20,19 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "special_field",
+    "om_terrain": [ "special_field", "pasture", "special_field_highway" ],
     "object": { "predecessor_mapgen": "field" }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "special_forest",
+    "om_terrain": [ "special_forest", "special_forest_isherwood" ],
     "object": { "predecessor_mapgen": "forest" }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "special_forest_thick",
+    "om_terrain": [ "special_forest_thick", "special_forest_thick_isherwood" ],
     "object": { "predecessor_mapgen": "forest_thick" }
   },
   {

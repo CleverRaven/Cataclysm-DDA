@@ -1,0 +1,83 @@
+[
+  {
+    "id": "mon_zombie_monochrome",
+    "copy-from": "mon_zombie_base",
+    "type": "MONSTER",
+    "name": { "str": "monochrome zombie" },
+    "description": "What stands in front of you is one of the healthiest zombies you've ever seen.  If not for the black muck oozing from its orifices and shambling gait, you might even think it human.  Every part of this zombie, even its clothes, is colored some shade of gray, and every couple of seconds it flickers.",
+    "symbol": "Z",
+    "color": "light_gray",
+    "special_attacks": [
+      { "id": "grab", "cooldown": 1 },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "zombie_monochrome_reset_hp_attack",
+        "type": "spell",
+        "condition": { "math": [ "u_hp('ALL') < u_hp_max('bp_null')" ] },
+        "spell_data": { "id": "zombie_monochrome_reset_hp" },
+        "allow_no_target": true,
+        "cooldown": 10,
+        "monster_message": "%1$s flickers and all of its injuries disappear!"
+      }
+    ],
+    "upgrades": { "half_life": 25, "into_group": "GROUP_ZOMBIE_MONOCHROME_UPGRADE" }
+  },
+  {
+    "id": "mon_zombie_monochrome_2",
+    "copy-from": "mon_zombie_base",
+    "type": "MONSTER",
+    "name": { "str": "distorted zombie" },
+    "description": "This zombie is partially obscured by the gray, distorted air around it.  From what you can see it doesn't have a single wound on its body, and it moves much quicker than a zombie should.  Every few seconds the distortions surge.",
+    "symbol": "Z",
+    "color": "light_gray",
+    "proportional": { "speed": 1.5, "hp": 1.5 },
+    "special_attacks": [
+      { "id": "grab", "cooldown": 1 },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "zombie_monochrome_reset_hp_attack",
+        "type": "spell",
+        "condition": { "math": [ "u_hp('ALL') < u_hp_max('bp_null')" ] },
+        "spell_data": { "id": "zombie_monochrome_reset_hp" },
+        "allow_no_target": true,
+        "cooldown": 5,
+        "monster_message": "%1$s flickers and all of its injuries disappear!"
+      }
+    ],
+    "upgrades": { "half_life": 25, "into": "mon_zombie_monochrome_3" },
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "id": "mon_zombie_monochrome_3",
+    "copy-from": "mon_zombie_base",
+    "type": "MONSTER",
+    "name": { "str": "zombie timewound" },
+    "description": "Every bit of color around this zombie has been sapped a distorted gray.  In contrast with its healthy appearance, the surrounding environment seems to slowly erode, even after it swiftly moves away.  It sharply flickers every few seconds.",
+    "symbol": "Z",
+    "color": "dark_gray",
+    "proportional": { "speed": 2, "hp": 2 },
+    "special_attacks": [
+      { "id": "grab", "cooldown": 1 },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "zombie_monochrome_reset_hp_special",
+        "type": "spell",
+        "condition": { "math": [ "u_hp('ALL') < u_hp_max('bp_null')" ] },
+        "spell_data": { "id": "zombie_monochrome_reset_hp" },
+        "allow_no_target": true,
+        "cooldown": 2,
+        "monster_message": "%1$s flickers and all of its injuries disappear!"
+      },
+      {
+        "id": "xedra_monster_erosion_buff_special",
+        "type": "spell",
+        "condition": { "not": { "u_has_effect": "effect_xedra_monster_erosion" } },
+        "spell_data": { "id": "xedra_monster_erosion_buff" },
+        "allow_no_target": true,
+        "monster_message": "The ground around %1$s starts eroding into nothingness."
+      }
+    ],
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] },
+    "upgrades": false
+  }
+]

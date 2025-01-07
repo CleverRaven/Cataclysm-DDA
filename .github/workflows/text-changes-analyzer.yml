@@ -26,9 +26,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip gettext
-          sudo pip3 install polib pyspellchecker
+          sudo pip3 install polib pyspellchecker regex
       - name: "Checkout test merge commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: "Compute base commit and test merge commit"
         id: get-commit-hash
         run: |
@@ -41,7 +41,7 @@ jobs:
           ./lang/update_pot.sh
           cp lang/po/cataclysm-dda.pot ~/merge.pot
       - name: "Checkout base commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-commit-hash.outputs.base_commit }}
       - name: "Generate translation template on base commit"
@@ -50,7 +50,7 @@ jobs:
           ./lang/update_pot.sh
           cp lang/po/cataclysm-dda.pot ~/base.pot
       - name: "Checkout test merge commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-commit-hash.outputs.test_merge_commit }}
       - name: "List text changes"
@@ -59,6 +59,9 @@ jobs:
       - name: "Write text changes"
         run: |
           python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot -j ~/pot_diff.json
+      - name: "Run spell checker unit tests"
+        run: |
+          python3 ./tools/spell_check_unit_test.py
       - name: "Spell check on text changes"
         run: |
           python3 ./tools/spell_check_pr.py -i ~/pot_diff.json > spell_check_output
@@ -68,15 +71,15 @@ jobs:
           wc -c spell_check_output | grep -o '[0-9]*' > spell_check_retcode
           echo "length=$(cat spell_check_retcode)" >> $GITHUB_OUTPUT
       - run: echo ${{ github.event.number }} > pull_request_id
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         with:
           name: pull_request_id
           path: pull_request_id
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         with:
           name: spell_check_retcode
           path: spell_check_retcode
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         if: steps.get_length.outputs.length >= 1
         with:
           name: spell_check_output

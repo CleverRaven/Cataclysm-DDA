@@ -1,6 +1,42 @@
 [
   {
     "type": "mapgen",
+    "nested_mapgen_id": "fema_entrance_01_roof",
+    "//": "entrance. bottom edge",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     --------------     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     -............-     ",
+        "     --------------     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "FEMA_entrance",
     "//": "entrance. bottom edge",
     "weight": 250,
@@ -36,7 +72,8 @@
       "rotation": 2,
       "palettes": [ "FEMA_camp" ],
       "terrain": { "z": "t_dirt" },
-      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_zombie_soldier" } }
+      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_zombie_soldier" } },
+      "place_nested": [ { "chunks": [ "fema_entrance_01_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

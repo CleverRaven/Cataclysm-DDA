@@ -5,7 +5,6 @@
 
 #include "cata_generators.h"
 #include "cata_catch.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "point.h"
 
@@ -16,7 +15,128 @@ static_assert( tripoint::dimension == 3 );
 static_assert( point_abs_omt::dimension == 2 );
 static_assert( tripoint_abs_omt::dimension == 3 );
 
-TEST_CASE( "coordinate_strings", "[point][coords]" )
+// Out of bounds coords can be implicitly constructed from inbounds ones. This is used
+// to ensure a return type is NOT an inbounds one, before it can be converted.
+#define assert_not_ib(p) \
+    (([](auto&& _p) { \
+        using _t = decltype(_p); \
+        static_assert(!std::decay_t<_t>::is_inbounds); \
+        return std::forward<_t>(_p); } \
+     )(p))
+
+// Code moved from the obsolete coodinates_conversions.cpp file, as its only remaining
+// usage is in these tests.
+
+static int divide( int v, int m )
+{
+    if( v >= 0 ) {
+        return v / m;
+    }
+    return ( v - m + 1 ) / m;
+}
+
+static int divide( int v, int m, int &r )
+{
+    const int result = divide( v, m );
+    r = v - result * m;
+    return result;
+}
+
+static point omt_to_om_copy( const point &p )
+{
+    return point( divide( p.x, OMAPX ), divide( p.y, OMAPY ) );
+}
+
+static tripoint omt_to_om_copy( const tripoint &p )
+{
+    return tripoint( divide( p.x, OMAPX ), divide( p.y, OMAPY ), p.z );
+}
+
+static point omt_to_om_remain( int &x, int &y )
+{
+    return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
+}
+
+static point omt_to_om_remain( point &p )
+{
+    return omt_to_om_remain( p.x, p.y );
+}
+
+static point sm_to_omt_copy( const point &p )
+{
+    return point( divide( p.x, 2 ), divide( p.y, 2 ) );
+}
+
+static point sm_to_omt_remain( int &x, int &y )
+{
+    return point( divide( x, 2, x ), divide( y, 2, y ) );
+}
+
+static point sm_to_omt_remain( point &p )
+{
+    return sm_to_omt_remain( p.x, p.y );
+}
+
+static point sm_to_om_copy( const point &p )
+{
+    return point( divide( p.x, 2 * OMAPX ), divide( p.y, 2 * OMAPY ) );
+}
+
+static point sm_to_om_remain( int &x, int &y )
+{
+    return point( divide( x, 2 * OMAPX, x ), divide( y, 2 * OMAPY, y ) );
+}
+
+static point sm_to_om_remain( point &p )
+{
+    return sm_to_om_remain( p.x, p.y );
+}
+
+static point omt_to_sm_copy( const point &p )
+{
+    return point( p.x * 2, p.y * 2 );
+}
+
+static point om_to_sm_copy( const point &p )
+{
+    return point( p.x * 2 * OMAPX, p.y * 2 * OMAPX );
+}
+
+static point ms_to_sm_copy( const point &p )
+{
+    return point( divide( p.x, SEEX ), divide( p.y, SEEY ) );
+}
+
+// Note: this gives you the map square coordinates of the top-left corner
+// of the given submap.
+static point sm_to_ms_copy( const point &p )
+{
+    return point( p.x * SEEX, p.y * SEEY );
+}
+
+static point ms_to_omt_copy( const point &p )
+{
+    return point( divide( p.x, SEEX * 2 ), divide( p.y, SEEY * 2 ) );
+}
+
+static point ms_to_omt_remain( int &x, int &y )
+{
+    return point( divide( x, SEEX * 2, x ), divide( y, SEEY * 2, y ) );
+}
+
+static point ms_to_omt_remain( point &p )
+{
+    return ms_to_omt_remain( p.x, p.y );
+}
+
+static tripoint omt_to_seg_copy( const tripoint &p )
+{
+    return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
+}
+
+// End of moved code.
+
+TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
 {
     CHECK( point_abs_omt( point( 3, 4 ) ).to_string() == "(3,4)" );
 
@@ -27,7 +147,7 @@ TEST_CASE( "coordinate_strings", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_operations", "[point][coords]" )
+TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
 {
     SECTION( "construct_from_raw_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -66,7 +186,9 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
         point p1 = t1.xy();
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
+        tripoint_bub_ms_ib bub_ibt0 = tripoint_bub_ms_ib::make_unchecked( t0 );
         point_abs_ms abs0( p0 );
+        point_bub_ms_ib bub_ib0 = point_bub_ms_ib::make_unchecked( p0 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
         SECTION( "rel + rel -> rel" ) {
@@ -79,18 +201,40 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
             tripoint_abs_ms sum_t = abst0 + rel1;
             CHECK( sum_t.raw() == t0 + p1 );
         }
+        SECTION( "bub_ib + rel -> bub" ) {
+            point_bub_ms sum = assert_not_ib( bub_ib0 + rel1 );
+            CHECK( sum.raw() == p0 + p1 );
+            tripoint_bub_ms sum_t = assert_not_ib( bub_ibt0 + rel1 );
+            CHECK( sum_t.raw() == t0 + p1 );
+        }
         SECTION( "abs + raw -> abs" ) {
             point_abs_ms sum = abs0 + p1;
+            CHECK( sum.raw() == p0 + p1 );
+        }
+        SECTION( "bub_ib + raw -> bub" ) {
+            point_bub_ms sum = assert_not_ib( bub_ib0 + p1 );
             CHECK( sum.raw() == p0 + p1 );
         }
         SECTION( "rel + abs -> abs" ) {
             point_abs_ms sum = rel1 + abs0;
             CHECK( sum.raw() == p0 + p1 );
         }
+        SECTION( "rel + bub_ib -> bub" ) {
+            point_bub_ms sum = assert_not_ib( rel1 + bub_ib0 );
+            CHECK( sum.raw() == p0 + p1 );
+            tripoint_bub_ms sum_t = assert_not_ib( rel1 + bub_ibt0 );
+            CHECK( sum_t.raw() == t0 + p1 );
+        }
         SECTION( "raw + abs -> abs" ) {
             point_abs_ms sum = p1 + abs0;
             CHECK( sum.raw() == p0 + p1 );
             tripoint_abs_ms sum_t = t1 + abs0;
+            CHECK( sum_t.raw() == p0 + t1 );
+        }
+        SECTION( " raw + bub_ib -> bub" ) {
+            point_bub_ms sum = assert_not_ib( p1 + bub_ib0 );
+            CHECK( sum.raw() == p0 + p1 );
+            tripoint_bub_ms sum_t = assert_not_ib( t1 + bub_ib0 );
             CHECK( sum_t.raw() == p0 + t1 );
         }
         SECTION( "rel += rel" ) {
@@ -114,6 +258,7 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
         point_abs_ms abs0( p0 );
+        point_bub_ms_ib bub_ib0 = point_bub_ms_ib::make_unchecked( p0 );
         point_abs_ms abs1( p1 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
@@ -125,8 +270,16 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
             point_abs_ms diff = abs0 - rel1;
             CHECK( diff.raw() == p0 - p1 );
         }
+        SECTION( "bub_ib - rel -> bub" ) {
+            point_bub_ms diff = assert_not_ib( bub_ib0 - rel1 );
+            CHECK( diff.raw() == p0 - p1 );
+        }
         SECTION( "abs - raw -> abs" ) {
             point_abs_ms diff = abs0 - p1;
+            CHECK( diff.raw() == p0 - p1 );
+        }
+        SECTION( "bub_ib - raw -> bub" ) {
+            point_bub_ms diff = assert_not_ib( bub_ib0 - p1 );
             CHECK( diff.raw() == p0 - p1 );
         }
         SECTION( "abs - abs -> rel" ) {
@@ -150,7 +303,7 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_comparison", "[point][coords]" )
+TEST_CASE( "coordinate_comparison", "[point][coords][nogame]" )
 {
     SECTION( "compare_points" ) {
         point p0 = GENERATE( take( num_trials, random_points() ) );
@@ -181,7 +334,7 @@ TEST_CASE( "coordinate_comparison", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_hash", "[point][coords]" )
+TEST_CASE( "coordinate_hash", "[point][coords][nogame]" )
 {
     SECTION( "point_hash" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -196,7 +349,7 @@ TEST_CASE( "coordinate_hash", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
+TEST_CASE( "coordinate_conversion_consistency", "[point][coords][nogame]" )
 {
     // Verifies that the new coord_point-based conversions yield the same
     // results as the legacy conversion functions.
@@ -289,10 +442,26 @@ TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
         CHECK( old_conversion == new_conversion.raw() );
     }
 
+    SECTION( "ms_to_sm_point_ib" ) {
+        point p = GENERATE( take( num_trials, random_points() ) ).abs();
+        CAPTURE( p );
+        point_bub_sm_ib new_conversion = project_to<coords::sm>( point_bub_ms_ib::make_unchecked( p ) );
+        point old_conversion = ms_to_sm_copy( p );
+        CHECK( old_conversion == new_conversion.raw() );
+    }
+
     SECTION( "sm_to_ms_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
         CAPTURE( p );
         point_abs_ms new_conversion = project_to<coords::ms>( point_abs_sm( p ) );
+        point old_conversion = sm_to_ms_copy( p );
+        CHECK( old_conversion == new_conversion.raw() );
+    }
+
+    SECTION( "sm_to_ms_point_ib" ) {
+        point p = GENERATE( take( num_trials, random_points() ) ).abs();
+        CAPTURE( p );
+        point_bub_ms_ib new_conversion = project_to<coords::ms>( point_bub_sm_ib::make_unchecked( p ) );
         point old_conversion = sm_to_ms_copy( p );
         CHECK( old_conversion == new_conversion.raw() );
     }
@@ -325,7 +494,7 @@ TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
     }
 }
 
-TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
+TEST_CASE( "combine_is_opposite_of_remain", "[point][coords][nogame]" )
 {
     SECTION( "point_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -357,9 +526,29 @@ TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
         tripoint_abs_sm recombined = project_combine( quotient, remainder );
         CHECK( recombined == orig );
     }
+    SECTION( "tripoint_point_ib" ) {
+        tripoint p = GENERATE( take( num_trials, random_tripoints() ) ).abs();
+        CAPTURE( p );
+        tripoint_bub_ms_ib orig = tripoint_bub_ms_ib::make_unchecked( p );
+        tripoint_bub_sm_ib quotient;
+        point_sm_ms_ib remainder;
+        std::tie( quotient, remainder ) = project_remain<coords::sm>( orig );
+        tripoint_bub_ms_ib recombined = project_combine( quotient, remainder );
+        CHECK( recombined == orig );
+    }
+    SECTION( "tripoint_point_implicit_ib" ) {
+        tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
+        CAPTURE( p );
+        tripoint_bub_ms orig( p );
+        tripoint_bub_sm quotient;
+        point_sm_ms_ib remainder;
+        std::tie( quotient, remainder ) = project_remain<coords::sm>( orig );
+        tripoint_bub_ms recombined = assert_not_ib( project_combine( quotient, remainder ) );
+        CHECK( recombined == orig );
+    }
 }
 
-TEST_CASE( "coord_point_distances", "[point][coords]" )
+TEST_CASE( "coord_point_distances", "[point][coords][nogame]" )
 {
     point_abs_omt p0;
     point_abs_omt p1( 10, 10 );
@@ -381,7 +570,7 @@ TEST_CASE( "coord_point_distances", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coord_point_midpoint", "[point][coords]" )
+TEST_CASE( "coord_point_midpoint", "[point][coords][nogame]" )
 {
     point_abs_omt p0( 2, 2 );
     point_abs_omt p1( 8, 17 );

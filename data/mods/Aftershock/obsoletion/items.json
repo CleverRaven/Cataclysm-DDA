@@ -1,0 +1,15 @@
+[
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": [
+      "afs_electrokinetic_ups_1",
+      "afs_electrokinetic_ups_2",
+      "afs_electrokinetic_ups_3",
+      "afs_electrokinetic_ups_4",
+      "afs_electrokinetic_ups_5",
+      "afs_electrokinetic_ups_6"
+    ],
+    "replace": "manual_swimming"
+  }
+]

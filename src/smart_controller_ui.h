@@ -3,7 +3,7 @@
 #define CATA_SRC_SMART_CONTROLLER_UI_H
 
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 
 /**
  * Configurable settings for the Smart Controller.

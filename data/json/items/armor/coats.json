@@ -7,9 +7,8 @@
     "description": "A heavy protective coat worn by firefighters, highly resistant to heat and flame.",
     "weight": "1930 g",
     "volume": "5 L",
-    "price": 91000,
-    "price_postapoc": 1500,
-    "to_hit": -1,
+    "price": "910 USD",
+    "price_postapoc": "15 USD",
     "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -44,7 +43,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "cassock",
@@ -53,9 +52,8 @@
     "description": "A piece of clerical clothing, usually worn by Christian priests.",
     "weight": "1200 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -82,9 +80,8 @@
     "description": "A fur coat with a couple small pockets.  Extremely warm.",
     "weight": "1677 g",
     "volume": "5750 ml",
-    "price": 500000,
-    "price_postapoc": 500,
-    "to_hit": -5,
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
     "material": [ "fur", "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -133,7 +130,7 @@
       {
         "id": "coat_fox_arctic_fur",
         "name": { "str": "arctic fox jacket" },
-        "description": "Fluffy and insulating, this expensive fur coat is composed of a small battalion’s worth of snowy-white arctic fox pelts with silver tips.  A straight section forms the back and lower sweep, while triangularly cut furs are sown in an inverse pattern to form the rest of the jacket.",
+        "description": "Fluffy and insulating, this expensive fur coat is composed of a small battalion's worth of snowy-white arctic fox pelts with silver tips.  A straight section forms the back and lower sweep, while triangularly cut furs are sown in an inverse pattern to form the rest of the jacket.",
         "color": "white",
         "weight": 10
       },
@@ -154,21 +151,21 @@
       {
         "id": "coat_chinchilla _fur",
         "name": { "str": "chinchilla jacket" },
-        "description": "Luxuriously velvety and ridiculously extra, this warm, gray-hued coat is ribbed with patterns of black and white highlights.  Composed of a small army’s worth of dead chinchilla pelts and naturally hypoallergenic, the world might be going to hell, but at least you’ll look like a celebrity while enveloped within this dreamily soft, timelessly stylish coat.",
+        "description": "Luxuriously velvety and ridiculously extra, this warm, gray-hued coat is ribbed with patterns of black and white highlights.  Composed of a small army's worth of dead chinchilla pelts and naturally hypoallergenic, the world might be going to hell, but at least you'll look like a celebrity while enveloped within this dreamily soft, timelessly stylish coat.",
         "color": "light_gray",
         "weight": 8
       },
       {
         "id": "coat_rabbit_fur",
         "name": { "str": "rabbit overcoat" },
-        "description": "Prey and predator are brought together within this luxurious fir coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
+        "description": "Prey and predator are brought together within this luxurious fur coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
         "color": "white",
         "weight": 6
       },
       {
         "id": "bomber_beaver_fur",
         "name": { "str": "beaver skin bomber jacket" },
-        "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it’s safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
+        "description": "The skins of what used to be several beavers have taken to the skies within the composition of this sleek-fitting flight jacket, or, rather, they would if the coat were in any way designed to be a practical piece of kit.  With a soft spread of brown fur lining the inside of this wide-necked overcoat and its exterior finished in a bold, glossy black color, it's safe to say that this garment belongs more within a ski chalet than the cockpit of a fighter craft.",
         "color": "black",
         "weight": 6
       },
@@ -182,7 +179,7 @@
       {
         "id": "coat_lynx_fur",
         "name": { "str": "lynx coat" },
-        "description": "Possessing bell-bottom sleeves, a tapered waist, and a snowy-white fox fur trim around the collar, hem, and cuffs, this pure white fur coat dappled with striking spots would make any self-respecting aristocrat’s heart swell in admiration.  Sown from sections of long and silky abdominal lynx fur and featuring two side pockets, the coat is extremely warm, elegant, and, thanks to the Cataclysm, completely free.",
+        "description": "Possessing bell-bottom sleeves, a tapered waist, and a snowy-white fox fur trim around the collar, hem, and cuffs, this pure white fur coat dappled with striking spots would make any self-respecting aristocrat's heart swell in admiration.  Sown from sections of long and silky abdominal lynx fur and featuring two side pockets, the coat is extremely warm, elegant, and, thanks to the Cataclysm, completely free.",
         "color": "white",
         "weight": 4
       },
@@ -196,14 +193,14 @@
       {
         "id": "coat_coyote_fur",
         "name": { "str": "coyote jacket" },
-        "description": "Before the Cataclysm, this fur coat would have likely been termed \"ruggedly handsome,\" a nice way of saying that, while it’s not as nice or as luxurious as other fur garments, its price was the same.  Regardless, the jacket’s cinnamon brown fur and rust-red undercoat give it a pleasing aesthetic, while its long hairs are also both dense and durable.",
+        "description": "Before the Cataclysm, this fur coat would have likely been termed \"ruggedly handsome,\" a nice way of saying that, while it's not as nice or as luxurious as other fur garments, its price was the same.  Regardless, the jacket's cinnamon brown fur and rust-red undercoat give it a pleasing aesthetic, while its long hairs are also both dense and durable.",
         "color": "brown",
         "weight": 2
       },
       {
         "id": "coat_tiger_fur",
         "name": { "str": "tiger-skin overcoat" },
-        "description": "This is a vintage tiger skin jacket smelling distinctly of mothballs, possessing an alternating blend of orange, white, and black striations ribbing its shaggy exterior, broadly flaring hips, and an interior lining of velvety chinchilla fur.  Illegal, before the Cataclysm, to either produce or sell, this coat is almost certainly one of the last of its kind and would make for a killer fashion statement, if you don’t mind wearing the skin of a murdered, endangered animal, that is.",
+        "description": "This is a vintage tiger skin jacket smelling distinctly of mothballs, possessing an alternating blend of orange, white, and black striations ribbing its shaggy exterior, broadly flaring hips, and an interior lining of velvety chinchilla fur.  Illegal, before the Cataclysm, to either produce or sell, this coat is almost certainly one of the last of its kind and would make for a killer fashion statement, if you don't mind wearing the skin of a murdered, endangered animal, that is.",
         "color": "red"
       }
     ]
@@ -211,19 +208,18 @@
   {
     "id": "xl_coat_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur coat" },
+    "name": { "str": "fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
-    "looks_like": "coat_fur",
-    "name": { "str": "XS fur coat" },
+    "name": { "str": "fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_faux_fur",
@@ -234,25 +230,24 @@
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 70
   },
   {
     "id": "xl_coat_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_faux_fur",
-    "looks_like": "coat_faux_fur",
-    "name": { "str": "XS faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab",
@@ -261,9 +256,8 @@
     "description": "A long white coat with several large pockets.  Comes with a very nice pocket protector.",
     "weight": "580 g",
     "volume": "2250 ml",
-    "price": 2500,
-    "price_postapoc": 100,
-    "to_hit": -2,
+    "price": "25 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -304,12 +298,11 @@
     "id": "coat_rain",
     "type": "ARMOR",
     "name": { "str": "rain coat" },
-    "description": "A plastic coat with a hood and two very large pockets, meant to provide protection from rain.",
+    "description": "A vinyl coat with a hood and two very large pockets, meant to provide protection from rain.",
     "weight": "960 g",
     "volume": "1750 ml",
-    "price": 7900,
-    "price_postapoc": 50,
-    "material": [ "plastic", "cotton" ],
+    "price": "79 USD",
+    "price_postapoc": "50 cent",
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
@@ -318,9 +311,21 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper", "torso_lower" ],
         "coverage": 100,
-        "encumbrance": [ 7, 15 ]
+        "encumbrance": [ 7, 15 ],
+        "material": [
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ],
+        "material": [
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -339,64 +344,8 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
-  },
-  {
-    "id": "folding_poncho",
-    "type": "ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "white",
-    "name": { "str": "rain poncho" },
-    "description": "A lightweight transparent plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
-    "price": 5000,
-    "price_postapoc": 50,
-    "material": [ "plastic" ],
-    "weight": "280 g",
-    "volume": "250 ml",
-    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT", "TRANSPARENT" ],
-    "environmental_protection": 1,
-    "material_thickness": 0.1,
-    "variant_type": "generic",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
-        "coverage": 100
-      },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
-    ]
-  },
-  {
-    "id": "coat_straw",
-    "type": "ARMOR",
-    "name": { "str": "straw cape" },
-    "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
-    "weight": "907 g",
-    "volume": "4 L",
-    "price": 9000,
-    "price_postapoc": 25,
-    "material": [ "dry_plant" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 80, "encumbrance": 12 },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_r", "leg_knee_l", "leg_hip_r", "leg_hip_l" ],
-        "coverage": 100
-      },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 10 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 }
-    ],
-    "warmth": 15,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
     "id": "coat_gut",
@@ -405,8 +354,8 @@
     "description": "An intricately sewn coat of treated and split intestines, prized for its light weight and waterproof qualities among the indigenous peoples of the arctic.",
     "weight": "200 g",
     "volume": "1250 ml",
-    "price": 13000,
-    "price_postapoc": 750,
+    "price": "130 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "gutskin" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -414,7 +363,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ],
+    "flags": [ "VARSIZE", "RAINPROOF", "HOOD", "OUTER" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 12 },
       {
@@ -432,9 +381,8 @@
     "description": "A padded coat with deep pockets and a hood.  Very warm.",
     "weight": "1340 g",
     "volume": "6750 ml",
-    "price": 14000,
-    "price_postapoc": 750,
-    "to_hit": -2,
+    "price": "140 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -485,9 +433,8 @@
     "description": "A rugged full-length duster coat.  Has many pockets for storage.",
     "weight": "2800 g",
     "volume": "5750 ml",
-    "price": 15500,
-    "price_postapoc": 1000,
-    "to_hit": -1,
+    "price": "155 USD",
+    "price_postapoc": "10 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -550,7 +497,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "duster_fur",
@@ -559,9 +506,8 @@
     "description": "A thick fur full-length duster.  Has many pockets for storage.",
     "weight": "2362 g",
     "volume": "9750 ml",
-    "price": 97900,
-    "price_postapoc": 1000,
-    "to_hit": -1,
+    "price": "979 USD",
+    "price_postapoc": "10 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -624,41 +570,39 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "xl_duster_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur duster" },
+    "name": { "str": "fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "looks_like": "duster_fur",
-    "name": { "str": "XS fur duster" },
+    "name": { "str": "fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_duster",
     "type": "ARMOR",
-    "name": { "str": "XL duster" },
+    "name": { "str": "duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster",
     "type": "ARMOR",
     "copy-from": "duster",
-    "looks_like": "duster",
-    "name": { "str": "XS duster" },
+    "name": { "str": "duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_faux_fur",
@@ -668,25 +612,24 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
     "id": "xl_duster_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_faux_fur",
-    "looks_like": "duster_faux_fur",
-    "name": { "str": "XS faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_leather",
@@ -695,9 +638,8 @@
     "description": "A thick leather full-length duster.  Has many pockets for storage.",
     "weight": "2655 g",
     "volume": "7 L",
-    "price": 24500,
-    "price_postapoc": 1250,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "duster",
@@ -760,24 +702,23 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "xl_duster_leather",
     "type": "ARMOR",
-    "name": { "str": "XL leather duster" },
+    "name": { "str": "leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_leather",
     "type": "ARMOR",
     "copy-from": "duster_leather",
-    "looks_like": "duster_leather",
-    "name": { "str": "XS leather duster" },
+    "name": { "str": "leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "greatcoat",
@@ -786,9 +727,8 @@
     "description": "A heavy, full-length wool coat.  Cumbersome, but warm and with deep pockets.",
     "weight": "2428 g",
     "volume": "8 L",
-    "price": 18000,
-    "price_postapoc": 500,
-    "to_hit": -3,
+    "price": "180 USD",
+    "price_postapoc": "5 USD",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -843,12 +783,12 @@
   {
     "id": "hakama_gi",
     "type": "ARMOR",
-    "name": { "str": "hakama" },
+    "name": { "str_sp": "hakama" },
     "description": "Plain black hakama for use in kendo and other martial arts.",
     "weight": "350 g",
     "volume": "1 L",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -869,12 +809,12 @@
   {
     "id": "hakama",
     "type": "ARMOR",
-    "name": { "str": "hakama" },
+    "name": { "str_sp": "hakama" },
     "description": "A flowing, pleated garment which can be worn over a kimono.",
     "weight": "500 g",
     "volume": "1500 ml",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "skirt",
@@ -899,9 +839,8 @@
     "description": "An outer garment of absorbent, towel-like material traditionally worn to cover one's nakedness to and from the bath.  It makes you wish you had running water to bathe with.",
     "weight": "580 g",
     "volume": "2 L",
-    "price": 2200,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "22 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_lab",
@@ -937,72 +876,189 @@
     "warmth": 20,
     "material_thickness": 0.8,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "OVERSIZE" ]
+    "flags": [ "OUTER" ]
   },
   {
     "id": "jacket_army",
+    "//": "Intended to be, and modeled off of, an M65 combat jacket.",
+    "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
-    "name": { "str": "army jacket" },
-    "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
-    "weight": "780 g",
-    "volume": "3 L",
-    "price": 3500,
-    "price_postapoc": 750,
-    "material": [ "nylon" ],
-    "symbol": "[",
     "looks_like": "coat_winter",
+    "name": { "str": "army jacket" },
+    "description": "A vintage article of military surplus with an adjustable waist drawstring, or at least a civilian reproduction of one — it's resplendent with a cotton liner, an integral hood tucked away in a zip-up pouch in the collar, and epaulettes upon the shoulders.",
+    "weight": "1400 g",
+    "volume": "3 L",
+    "price": "141 USD 47 cent",
+    "//3": "The price of a surplus jacket would be much, much cheaper, but such is the compromise when you're simulating new and old in the same basket.",
+    "price_postapoc": "4 USD 25 cent",
+    "material": [ { "type": "nylon", "portion": 3 }, { "type": "cotton_quilted", "portion": 1 } ],
+    "//4": "The shell is made from a midweight NyCo blend wind resistant sateen, fully lined with a lightweight NyCo blend wind resistant poplin: https://omegamilitaria.com/blogs/reference-guides/the-ultimate-visual-buyers-guide-to-the-m65-field-jacket",
+    "//5": "M65 jackets have a quilted liner of cotton that's generally removable. Considering that the player isn't able to extract the liner from this garment, we're assuming that the liner is in all the time, hence the quilted cotten material.",
+    "symbol": "[",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 9 ] }
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "cotton_quilted", "covered_by_mat": 60, "thickness": 0.4 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 8, 12 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "//": "4 inches tall, 2 inches wide, and 1 inch deep.",
+        "max_contains_volume": "131 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
+        "description": "Velcro-fastened internal pocket.",
+        "moves": 150
       }
     ],
     "warmth": 20,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "m65_woodland",
+        "//": "Intended to be US M81 woodland camo.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Tried and true, the US military's antiquated 4-tone woodland camouflage pattern covers this particular jacket: large, high-contrast patches of green, black, brown, and sand hues, all rather faded from years and ware.",
+        "color": "green",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_desert",
+        "//": "Intended to be US DCU camo.",
+        "name": { "str": "desert-camo combat jacket" },
+        "description": "This jacket's brass zipper runs from collar to hem, a river of metallic brown knitting together the coat's arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "m65_olive",
+        "//": "Either original Vietnam M65 jackets, before M81 camo, or modern reproductions.",
+        "name": { "str": "olive-drab combat jacket" },
+        "description": "Lacking much frills and fanfare, this simple, traditional jacket is dyed a solid shade of olive green with a brass zipper and buttons.",
+        "color": "green",
+        "weight": 35,
+        "append": true
+      },
+      {
+        "id": "m65_flecktarn",
+        "name": { "str": "mottled-camo combat jacket" },
+        "description": "This particular garment has a base hue of dark tan, coated by myriad spots, blobs, and splotches of green, reddish brown, black, and grayish green to form a mottled, disruptive camouflage pattern.",
+        "color": "green",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "m65_ocean",
+        "name": { "str": "ocean-camouflage combat jacket" },
+        "description": "This jacket's exterior shell is dyed a mix of blue and gray hues, with extra patches and disruptive striations, flipping between black and dark gray, covering the garment from collar to hem.  Chrome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_digital",
+        "//": "Intended to be US military UCP camo.",
+        "name": { "str": "digital-camo combat jacket" },
+        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army's former combat uniform, combining a sand-brown base with disruptive patterns of urban gray and sage green, as well as plastic zips and buttons.",
+        "color": "green",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "m65_black",
+        "name": { "str": "urban black combat jacket" },
+        "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
+        "color": "black",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_swedish",
+        "//": "Intended to be Swedish M90 camo. This is a civilian variant, and, yes, for some reason, out of all camo patterns, this exists: https://www.epicmilitaria.com/brandit-m65-giant-jacket-swedish-camo.html",
+        "name": { "str": "splinter-camo combat jacket" },
+        "description": "This particular jacket is sown from fabric dyed a base color of stoney gray with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, gray, and hues of deep naval blue.",
+        "color": "dark_gray",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_coyote",
+        "name": { "str": "coyote combat jacket" },
+        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively handsome coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "m65_player",
+        "//": "Only used as a cosmetic variant for player professions that start with army jackets: currently the old veteran.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Dyed in a 4-tone blend of worn green, black, sand, and brown hues, this particular overcoat had been your own issued service jacket when you'd still been in the forces, with your name stitched upon the right lapel and insignia pinned to the appropriate shoulder board.",
+        "color": "green",
+        "weight": 0,
+        "append": true
+      }
+    ]
   },
   {
     "id": "jacket_army_modern",
@@ -1011,8 +1067,8 @@
     "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
     "weight": "650 g",
     "volume": "3 L",
-    "price": 6400,
-    "price_postapoc": 750,
+    "price": "64 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_army",
@@ -1070,8 +1126,8 @@
     "description": "A double-breasted uniform to protect against the heat of the kitchen.",
     "weight": "720 g",
     "volume": "1750 ml",
-    "price": 7000,
-    "price_postapoc": 250,
+    "price": "70 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_lab",
@@ -1175,15 +1231,30 @@
     "description": "A bright, cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
     "weight": "197 g",
     "volume": "2250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
-    "material": [ "plastic", "cotton" ],
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "cyan",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 13, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 15 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.3 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 13 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.3 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -1203,18 +1274,18 @@
     ],
     "warmth": 25,
     "material_thickness": 0.15,
-    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",
     "type": "ARMOR",
     "name": { "str": "flannel jacket" },
-    "description": "A jacket made from flannel-style denim, favored by outdoorsy types.",
+    "description": "A jacket made from flannel, favored by outdoorsy types.",
     "weight": "958 g",
     "volume": "4250 ml",
-    "price": 6000,
-    "price_postapoc": 250,
-    "material": [ "denim" ],
+    "price": "60 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
@@ -1239,7 +1310,6 @@
       }
     ],
     "warmth": 35,
-    "//": "Moderate weight 9 oz jacket.",
     "material_thickness": 0.7,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1248,45 +1318,100 @@
     "type": "ARMOR",
     "name": { "str": "jean jacket" },
     "description": "A jacket made from denim.",
+    "//": "Mediumweight 14 oz denim jacket.",
     "weight": "800 g",
     "volume": "3250 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": "80 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 10 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
         "moves": 80
       }
     ],
-    "warmth": 10,
-    "material_thickness": 0.55,
-    "//": "Lightweight 8 oz denim jacket.",
+    "warmth": 15,
+    "material_thickness": 0.95,
     "snippet_category": [
       {
-        "id": "patched",
+        "id": "patchedjacket",
         "text": "A jacket made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackjacket", "text": "A jacket made from denim, dyed black." },
+      { "id": "patterned", "text": "A denim jacket ornamented with yellow filament patterns." },
+      {
+        "id": "old",
+        "text": "An old denim jacket.  It has wears in several places and has lost its blue color, but its overall integrity is preserved."
       }
     ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "vest_jean",
+    "type": "ARMOR",
+    "name": { "str": "jean vest" },
+    "description": "A vest made from denim.",
+    "weight": "600 g",
+    "volume": "2450 ml",
+    "price": "65 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "denim" ],
+    "symbol": "[",
+    "looks_like": "vest_leather",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 0.95,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "snippet_category": [
+      {
+        "id": "patchedvest",
+        "text": "A vest made from denim.  This one is haphazardly covered with patches featuring metal band logos."
+      },
+      { "id": "blackvest", "text": "A vest made from denim, dyed black." },
+      { "id": "stonewashed", "text": "A stone washed blue vest made from denim." },
+      {
+        "id": "ripped",
+        "text": "A vest made from denim.  Its armholes have filament and torn fabric sticking out, as if someone just ripped the sleeves off."
+      }
+    ]
   },
   {
     "id": "jacket_ninja",
@@ -1295,8 +1420,8 @@
     "description": "This is a wrap over black jacket.  Commonly used by stealthy individuals hiding in the dark of the night.  It includes a pair of cotton gauntlets and a sash.",
     "weight": "120 g",
     "volume": "1550 ml",
-    "price": 7000,
-    "price_postapoc": 200,
+    "price": "70 USD",
+    "price_postapoc": "2 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jacket",
@@ -1340,12 +1465,11 @@
     "id": "jacket_leather",
     "type": "ARMOR",
     "name": { "str": "leather jacket" },
-    "description": "A jacket made from thick leather.  Offers more protection than your average jacket.",
+    "description": "A jacket made from leather.  Offers more protection than your average cotton or denim jacket.",
     "weight": "1450 g",
     "volume": "2000 ml",
-    "price": 17900,
-    "price_postapoc": 750,
-    "to_hit": 1,
+    "price": "179 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
@@ -1397,9 +1521,8 @@
     "description": "A candy-apple-red leather jacket with black strips and shoulder protrusions.  It has a number of zippers and snaps in the front and a low-cut neck.  The leather it's made of isn't especially thick, so it's not as protective as you might have liked.",
     "weight": "1000 g",
     "volume": "1500 ml",
-    "price": 17900,
-    "price_postapoc": 500,
-    "to_hit": 1,
+    "price": "179 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
@@ -1451,9 +1574,8 @@
     "description": "A light cotton padded nylon jacket with a white surface.  It has two pockets on the front, mainly for putting your hands in.  A golden scorpion is embedded on its back.  Fit for a real human being, and a real hero.",
     "weight": "900 g",
     "volume": "1500 ml",
-    "price": 8000,
-    "price_postapoc": 250,
-    "to_hit": 1,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
@@ -1482,7 +1604,7 @@
     "warmth": 15,
     "material_thickness": 0.8,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "jacket_light",
@@ -1491,8 +1613,8 @@
     "description": "A thin cotton jacket with a hood.  Good for brisk weather.",
     "weight": "227 g",
     "volume": "2250 ml",
-    "price": 4500,
-    "price_postapoc": 250,
+    "price": "45 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
@@ -1528,8 +1650,8 @@
     "description": "A light synthetic jacket with a hood.  Not very warm, but will keep out the rain.",
     "weight": "280 g",
     "volume": "2250 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "10 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_light",
@@ -1564,7 +1686,17 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "windbreaker_fbi",
+        "name": { "str": "FBI raid jacket" },
+        "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification.",
+        "color": "blue",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "jacket_varsity",
@@ -1573,8 +1705,8 @@
     "description": "A cotton varsity jacket, the type that the jocks in a highschool or a college would wear.",
     "weight": "700 g",
     "volume": "1500 ml",
-    "price": 6000,
-    "price_postapoc": 100,
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "warmth": 15,
@@ -1606,7 +1738,7 @@
       {
         "id": "black_white_varsity_jacket",
         "name": { "str": "black and white varsity jacket" },
-        "description": "This one is is black except the white arms, and has no discerning emblem or writing.",
+        "description": "This one is black except the white arms, and has no discerning emblem or writing.",
         "color": "white",
         "weight": 10,
         "append": true
@@ -1630,7 +1762,7 @@
       {
         "id": "red_beige_varsity_jacket",
         "name": { "str": "red and beige varsity jacket" },
-        "description": "This one has a red torso and beige looking arms.  \"'93\" is embedded on both its arms, and there is a crest you can't recognise on its front right.",
+        "description": "This one has a red torso and beige looking arms.  \"'93\" is embedded on both its arms, and there is a crest you can't recognize on its front right.",
         "color": "red",
         "weight": 10,
         "append": true
@@ -1654,7 +1786,7 @@
       {
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
-        "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Accross the front writes \"BULLS\".",
+        "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
         "color": "black",
         "weight": 10,
         "append": true
@@ -1678,7 +1810,7 @@
       {
         "id": "pink_white_varsity_jacket",
         "name": { "str": "pink and white varsity jacket" },
-        "description": "This one has a pink torso and white arms.  Somone has sewn an equally pink heart on its front right.",
+        "description": "This one has a pink torso and white arms.  Someone has sewn an equally pink heart on its front right.",
         "color": "pink",
         "weight": 10,
         "append": true
@@ -1688,12 +1820,12 @@
   {
     "id": "judo_gi",
     "type": "ARMOR",
-    "name": { "str": "judo gi" },
+    "name": { "str_sp": "judo gi" },
     "description": "Plain white judo gi.",
     "weight": "1000 g",
     "volume": "1500 ml",
-    "price": 5000,
-    "price_postapoc": 50,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1711,12 +1843,12 @@
   {
     "id": "karate_gi",
     "type": "ARMOR",
-    "name": { "str": "karate gi" },
+    "name": { "str_sp": "karate gi" },
     "description": "Plain white karate gi.  Made from loose and flowing cotton.",
     "weight": "400 g",
     "volume": "1500 ml",
-    "price": 5000,
-    "price_postapoc": 50,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "judo_gi",
@@ -1734,13 +1866,12 @@
   {
     "id": "kariginu",
     "type": "ARMOR",
-    "name": { "str": "kariginu" },
+    "name": { "str_sp": "kariginu" },
     "description": "A traditional, ankle-length Shinto robe with several layers and very wide sleeves.",
     "weight": "1400 g",
     "volume": "5500 ml",
-    "price": 30000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "300 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1757,9 +1888,8 @@
     "description": "A traditional, ankle-length Buddhist robe, stitched together from three pieces of traditional saffron dyed cloth.",
     "weight": "1550 g",
     "volume": "5000 ml",
-    "price": 20000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kimono",
@@ -1782,12 +1912,12 @@
   {
     "id": "keikogi",
     "type": "ARMOR",
-    "name": { "str": "keikogi" },
+    "name": { "str_sp": "keikogi" },
     "description": "Plain white keikogi for use in martial arts.",
     "weight": "250 g",
     "volume": "750 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "judo_gi",
@@ -1813,9 +1943,8 @@
     "description": "A traditional, ankle-length Japanese robe, wrapped around the body with a sash.",
     "weight": "1200 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1843,18 +1972,17 @@
     ],
     "warmth": 20,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "yukata",
     "type": "ARMOR",
-    "name": { "str": "yukata" },
+    "name": { "str_sp": "yukata" },
     "description": "An easy-to-wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": "900 g",
     "volume": "3 L",
-    "price": 5000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kimono",
@@ -1887,20 +2015,19 @@
   {
     "id": "haori",
     "type": "ARMOR",
-    "name": { "str": "haori" },
+    "name": { "str_sp": "haori" },
     "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": "800 g",
     "volume": "2 L",
-    "price": 30000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "300 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "house_coat",
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 80, "encumbrance": 3 },
       {
@@ -1919,9 +2046,8 @@
     "description": "A white, knee-length cotton robe, traditionally worn by Jews on special occasions.",
     "weight": "1000 g",
     "volume": "4 L",
-    "price": 20000,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1944,13 +2070,12 @@
   {
     "id": "leather_police_jacket",
     "type": "ARMOR",
-    "name": { "str": "leather riding jacket" },
+    "name": { "str": "motorcycle jacket" },
     "description": "A thick and heavy leather jacket used most commonly by motorcyclists, equestrians and Australian vigilantes.",
     "weight": "2700 g",
     "volume": "3500 ml",
-    "price": 30000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
+    "price": "300 USD",
+    "price_postapoc": "15 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "motorbike_armor",
@@ -1997,7 +2122,7 @@
     "variants": [
       {
         "id": "leather_police_jacket",
-        "name": { "str": "leather police jacket" },
+        "name": { "str": "motorcycle police jacket" },
         "description": "It is emblazoned with the insignia of the local police force.",
         "weight": 0,
         "append": true
@@ -2012,7 +2137,7 @@
       },
       {
         "id": "leather_riding_jacket",
-        "name": { "str": "leather riding jacket" },
+        "name": { "str": "motorcycle jacket" },
         "description": "This one is plain, lacking any particular decals.",
         "color": "brown",
         "weight": 80,
@@ -2027,9 +2152,8 @@
     "description": "A heavy wool coat, warm and with deep pockets.",
     "weight": "1800 g",
     "volume": "3 L",
-    "price": 18000,
-    "price_postapoc": 500,
-    "to_hit": -3,
+    "price": "180 USD",
+    "price_postapoc": "5 USD",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -2071,7 +2195,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
   {
     "id": "robe",
@@ -2080,9 +2204,8 @@
     "description": "A loose-fitting outer garment with sleeves and a mysterious amount of well-hidden pockets.",
     "weight": "1000 g",
     "volume": "5 L",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2165,9 +2288,8 @@
     "description": "A white hooded ghost's robe characteristic of souls that haunt the living world.",
     "weight": "348 g",
     "volume": "500 ml",
-    "price": 2800,
-    "price_postapoc": 80,
-    "to_hit": -1,
+    "price": "28 USD",
+    "price_postapoc": "80 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2192,7 +2314,7 @@
     ],
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "ghost_robe_sheet",
@@ -2201,9 +2323,8 @@
     "description": "A cheap ghost costume comprised of a white sheet with two eye holes cut out.  A simple hat is worn underneath to keep the sheet in place.",
     "weight": "880 g",
     "volume": "550 ml",
-    "price": 2000,
-    "price_postapoc": 60,
-    "to_hit": -1,
+    "price": "20 USD",
+    "price_postapoc": "60 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "sheet",
@@ -2239,9 +2360,8 @@
     "description": "A black hooded grim reaper's robe with a face cover to hide the user's lack of facial skin.  It pairs nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
     "weight": "453 g",
     "volume": "550 ml",
-    "price": 3500,
-    "price_postapoc": 90,
-    "to_hit": -1,
+    "price": "35 USD",
+    "price_postapoc": "90 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2273,7 +2393,7 @@
     },
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "grim_reaper_robe_faceless",
@@ -2314,8 +2434,8 @@
     "description": "A mysterious and arcane-looking robe, signifying status in the wizarding world.  It has a hood and some pockets for your magical artifacts.",
     "weight": "911 g",
     "volume": "5 L",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -2369,9 +2489,8 @@
     "description": "A traditional, double-layered Buddhist coat.  Used as an outer cloak for various occasions.",
     "weight": "800 g",
     "volume": "2250 ml",
-    "price": 6500,
-    "price_postapoc": 50,
-    "to_hit": -5,
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -2394,13 +2513,12 @@
   {
     "id": "santa_jacket",
     "type": "ARMOR",
-    "name": { "str": "santa jacket" },
+    "name": { "str": "Santa jacket" },
     "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
     "weight": "1500 g",
     "volume": "4500 ml",
-    "price": 45000,
-    "price_postapoc": 500,
-    "to_hit": -5,
+    "price": "450 USD",
+    "price_postapoc": "5 USD",
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "red",
@@ -2454,13 +2572,12 @@
   {
     "id": "santa_jacket_short",
     "type": "ARMOR",
-    "name": { "str": "short santa jacket" },
+    "name": { "str": "short Santa jacket" },
     "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
     "weight": "1200 g",
     "volume": "2000 ml",
-    "price": 18000,
-    "price_postapoc": 70,
-    "to_hit": -5,
+    "price": "180 USD",
+    "price_postapoc": "70 cent",
     "symbol": "[",
     "looks_like": "jacket_leather_red",
     "color": "red",
@@ -2502,14 +2619,22 @@
     "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
     "weight": "1105 g",
     "volume": "5 L",
-    "price": 18000,
-    "price_postapoc": 500,
-    "material": [ "cotton", "plastic" ],
+    "price": "180 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 22 ] },
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 22 ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 }
+        ]
+      },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
     ],
     "pocket_data": [
@@ -2543,7 +2668,6 @@
       }
     ],
     "warmth": 80,
-    "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "SOFT" ]
   },
@@ -2555,9 +2679,8 @@
     "description": "A rugged full-length duster that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "2380 g",
     "volume": "4500 ml",
-    "price": 13175,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "131 USD 75 cent",
+    "price_postapoc": "5 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duster",
@@ -2625,7 +2748,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_fur",
@@ -2635,9 +2758,8 @@
     "description": "A thick fur full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "2007 g",
     "volume": "8250 ml",
-    "price": 83215,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "832 USD 15 cent",
+    "price_postapoc": "5 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "duster_fur",
@@ -2705,7 +2827,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_faux_fur",
@@ -2714,7 +2836,7 @@
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -2725,9 +2847,8 @@
     "description": "A thick leather full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "2257 g",
     "volume": "6 L",
-    "price": 20825,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "208 USD 25 cent",
+    "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -2795,7 +2916,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_trenchcoat",
@@ -2805,9 +2926,8 @@
     "description": "A thick canvas trenchcoat that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "1904 g",
     "volume": "3750 ml",
-    "price": 13175,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "131 USD 75 cent",
+    "price_postapoc": "5 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster",
@@ -2823,7 +2943,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       {
@@ -2854,9 +2974,8 @@
     "description": "A thick fur trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "1487 g",
     "volume": "6750 ml",
-    "price": 83215,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "832 USD 15 cent",
+    "price_postapoc": "5 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_fur",
@@ -2902,7 +3021,7 @@
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -2913,9 +3032,8 @@
     "description": "A thick leather trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "1672 g",
     "volume": "4250 ml",
-    "price": 20825,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "208 USD 25 cent",
+    "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_leather",
@@ -2961,9 +3079,8 @@
     "description": "A sleeveless cloth garment that covers the torso and legs.",
     "weight": "240 g",
     "volume": "1 L",
-    "price": 4000,
-    "price_postapoc": 100,
-    "to_hit": -5,
+    "price": "40 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -2995,9 +3112,8 @@
     "description": "A long, loose-fitting robe with wide sleeves.  A traditional Arab garment.",
     "weight": "1200 g",
     "volume": "4500 ml",
-    "price": 10000,
-    "price_postapoc": 100,
-    "to_hit": -5,
+    "price": "100 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -3014,9 +3130,8 @@
     "description": "A thick canvas trenchcoat, lined with pockets.  Great for storage.",
     "weight": "2240 g",
     "volume": "4250 ml",
-    "price": 15500,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "155 USD",
+    "price_postapoc": "5 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -3048,7 +3163,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "trenchcoat_fur",
@@ -3057,9 +3172,8 @@
     "description": "A thick fur trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1750 g",
     "volume": "7250 ml",
-    "price": 97900,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "979 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "trenchcoat_leather",
@@ -3100,7 +3214,7 @@
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "warmth": 40
   },
   {
@@ -3110,9 +3224,8 @@
     "description": "A thick leather trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1967 g",
     "volume": "5250 ml",
-    "price": 24500,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -3153,9 +3266,8 @@
     "description": "A simple garment long enough to cover down to the knees.",
     "weight": "250 g",
     "volume": "1250 ml",
-    "price": 4200,
-    "price_postapoc": 100,
-    "to_hit": -5,
+    "price": "42 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "sweatshirt",
@@ -3183,8 +3295,8 @@
     "description": "A poorly-made long tunic with a string tied around the waist to keep it all in place.",
     "weight": "683 g",
     "volume": "1 L",
-    "price": 70,
-    "price_postapoc": 60,
+    "price": "70 cent",
+    "price_postapoc": "60 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tunic",
@@ -3211,9 +3323,8 @@
     "description": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
     "weight": "1587 g",
     "volume": "5500 ml",
-    "price": 21000,
-    "price_postapoc": 750,
-    "to_hit": -5,
+    "price": "210 USD",
+    "price_postapoc": "7 USD 50 cent",
     "symbol": "[",
     "looks_like": "suit",
     "color": "dark_gray",
@@ -3278,8 +3389,8 @@
     "description": "An elegant waistcoat.  Ideal for those occasions when wearing only a shirt would be too casual and a suit would be overdoing it.",
     "weight": "516 g",
     "volume": "1 L",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blazer",
@@ -3327,8 +3438,8 @@
     "description": "A hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
     "weight": "1000 g",
     "volume": "3 L",
-    "price": 4375,
-    "price_postapoc": 750,
+    "price": "43 USD 75 cent",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -3383,7 +3494,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
   {
     "id": "trenchcoat_steampunk",
@@ -3392,9 +3503,8 @@
     "description": "A thick black leather steampunk themed trenchcoat.  Unlike a regular trenchcoat, this one has no pockets.",
     "weight": "1967 g",
     "volume": "5250 ml",
-    "price": 24500,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -3418,7 +3528,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "plaguedoctor_robe",
@@ -3427,9 +3537,8 @@
     "description": "A dark robbed cassock worn by plague doctors.",
     "weight": "1300 g",
     "volume": "5 L",
-    "price": 800,
-    "price_postapoc": 60,
-    "to_hit": -5,
+    "price": "8 USD",
+    "price_postapoc": "60 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cassock",
@@ -3456,9 +3565,8 @@
     "description": "A dark piece of clerical clothing.  Typically worn by Christian nuns.",
     "weight": "1200 g",
     "volume": "5 L",
-    "price": 1000,
-    "price_postapoc": 80,
-    "to_hit": -5,
+    "price": "10 USD",
+    "price_postapoc": "80 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cassock",
@@ -3480,163 +3588,217 @@
   },
   {
     "id": "tacjacket",
+    "//": "Based off of: https://www.helikon-tex.com/en_eur/ku-gun-fm-gunfighter-jacket-shark-skin-windblocker.html",
     "type": "ARMOR",
-    "name": { "str": "tactical jacket" },
-    "description": "A jacket with a hood and several pockets.",
-    "weight": "227 g",
-    "volume": "2250 ml",
-    "price": 4500,
-    "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
-    "symbol": "[",
-    "color": "blue",
     "looks_like": "jacket_army",
+    "name": { "str": "tactical jacket" },
+    "description": "A hefty camouflage jacket rattling with a spade of zippers, press-studs, and attachment points, featuring a high mandarin collar, Velcro cuffs, plates for ID tags, and enough pockets to make your internal Militiaman weep for joy.",
+    "weight": "1052 g",
+    "volume": "2250 ml",
+    "price": "142 USD 22 cent",
+    "price_postapoc": "3 USD 75 cent",
+    "material": [ { "type": "nylon", "portion": 6 }, { "type": "cotton", "portion": 2 } ],
+    "symbol": "[",
+    "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 4, 8 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 12 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "arm_lower_l", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": [ 5, 7 ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "cotton_quilted", "covered_by_mat": 85, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      }
     ],
+    "//2": "Pocket dimensions are sourced from the reliable fountain of knowledge known as: I made a plausible enough guess after measuring the pockets of several other jackets that aren't this particular one to extrapolate them out into what they might feasibly be.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "14 cm",
+        "max_contains_volume": "812 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
         "moves": 80,
-        "description": "Side pocket."
+        "description": "Zip-up chest pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "14 cm",
+        "max_contains_volume": "812 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
         "moves": 80,
-        "description": "Side pocket."
+        "description": "Zip-up chest pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "300 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
-        "moves": 120,
-        "description": "Arm pocket."
+        "max_contains_volume": "442 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 150,
+        "description": "Velcro-fastened internal pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "300 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
+        "max_contains_volume": "348 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "12 cm",
         "moves": 120,
-        "description": "Arm pocket."
+        "description": "Upper arm pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "348 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "12 cm",
+        "moves": 120,
+        "description": "Upper arm pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "114 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "9 cm",
+        "moves": 120,
+        "description": "Zip-up left sleeve pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1176 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "moves": 350,
+        "description": "rear channel pocket."
       }
     ],
     "warmth": 15,
-    "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "HOOD", "OUTER" ],
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
-        "id": "generic_tacjacket",
-        "name": { "str": "tactical jacket", "str_pl": "pairs of tactical jackets" },
-        "description": "A jacket with a hood and several pockets.  Perfect for hunting.",
-        "weight": 10
-      },
-      {
         "id": "tacjacket_woodland",
-        "name": { "str": "woodland-camo tactical jacket", "str_pl": "pairs of woodland-camo tactical jackets" },
-        "description": "Not too dissimilar from the pattern adopted by older US Marine uniforms, this otherwise conventional tactical jacket is printed with a green, brown, and black woodland camouflage pattern.",
+        "name": { "str": "forest-camo tactical jacket" },
+        "description": "Paying homage to the field-proven camouflage pattern of old US military uniforms, this huntsman's jacket is printed with a green, brown, and black woodland camouflage pattern.",
         "color": "green",
-        "weight": 6
+        "weight": 30,
+        "append": true
       },
       {
         "id": "tacjacket_jungle",
-        "name": { "str": "jungle-camo tactical jacket", "str_pl": "pairs of jungle-camo tactical jackets" },
-        "description": "Similar in color to the old frog skin uniforms issued to Marine Raiders during the Second World War, this warm, comfortable tactical jacket is dyed a greenish gray hue.  Completely conventional in every other respect, the patterning would be incredibly helpful if you were planning to take a trip down to the Amazon any time soon.",
+        "name": { "str": "jungle-camo tactical jacket" },
+        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerrilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_grassland",
-        "name": { "str": "grassland-camo tactical jacket", "str_pl": "pairs of grassland-camo tactical jackets" },
-        "description": "Possessing reinforced knees and a hardy construction, this tactical jacket is resplendent in a camouflage pattern of mixed light greens, browns, and beige tones.  With a set of deep pockets and an insulated design, it's an ideal piece for outdoor ventures.",
+        "name": { "str": "savanna tactical jacket" },
+        "description": "This adventurous-looking jacket would be at home on a safari to the Horn of Africa, dyed, as it is, in light greens, browns, and beige tones.  Then again, you suppose that every day's a safari now.  You're just not sure who's meant to be the hunter: you or the dead.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_marshland",
-        "name": { "str": "marshland-camo tactical jacket", "str_pl": "pairs of marshland-camo tactical jackets" },
-        "description": "The faithful friend of waterfowl hunters, this tactical jacket is printed with a brown, gray, tan, and green camouflage pattern designed to blend in with the vegetation and reeds present in swamps and marshlands.",
+        "name": { "str": "marshland-camo tactical jacket" },
+        "description": "A staple companion of gamesmen whose trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, gray, green, and black hues.",
         "color": "brown",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_desert",
-        "name": { "str": "desert-camo tactical jacket", "str_pl": "pairs of desert-camo tactical jackets" },
-        "description": "Dyed a mix of brown, tan, and yellowish beige hues, this tactical jacket is designed to seamlessly blend into arid environments.  That being said, the fact that New England is famously devoid of deserts means that the pattern’s only utility is in looking cool.",
+        "name": { "str": "arid tactical jacket" },
+        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is, is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_alpine",
-        "name": { "str": "alpine-camo tactical jacket", "str_pl": "pairs of alpine-camo tactical jackets" },
-        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed tactical jacket possess a network of jagged shapes and mottled lines, designed to break up the wearer’s profile and better conceal them against the background landscape of mountains.",
+        "name": { "str": "alpine-camo tactical jacket" },
+        "description": "A comfortable overcoat for the summer-time mountaineer, hiker, or alpine hunter, this predominantly gray jacket is coated in jagged lines and geometric shapes of brown and white dye.",
         "color": "light_gray",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_urban",
-        "name": { "str": "urban-camo tactical jacket", "str_pl": "pairs of urban-camo tactical jackets" },
-        "description": "A rugged yet comfortable tactical jacket dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer’s silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular tactical jacket contains 50 shades of gray.",
+        "name": { "str": "urban-camo tactical jacket" },
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colors — blacks, grays, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
-        "weight": 6
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_ocean",
-        "name": { "str": "ocean-camo tactical jacket", "str_pl": "pairs of ocean-camo tactical jackets" },
-        "description": "Printed with a camouflage pattern most commonly associated with naval vessels or aircraft, this tactical jacket is festooned with a wide array of blue hues and disruptive lines, with a touch of light gray also making its presence known.  Possessing a number of deep pockets, this comfortable tactical jacket would do an admirable job of concealing you in maritime environments.  You have yet to come up with a reason why you’d ever be in a maritime environment.",
+        "name": { "str": "maritime tactical jacket" },
+        "description": "Resplendent in a wide assortment of blue and light gray tones, this versatile outerwear is the garment of choice for ocean-side activities, namely ocean activities with less fun sea-side paddling and more marine security and over-the-beach gunfights.",
         "color": "blue",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_river",
-        "name": { "str": "river-camo tactical jacket", "str_pl": "pairs of river-camo tactical jackets" },
-        "description": "Employed by anglers and river-side hunters for camouflage in freshwater habitats, this tactical jacket incorporates shades of green, brown, blue, and gray, along with sizable pockets and a construction favoring heat retention.",
-        "color": "green",
-        "weight": 6
+        "name": { "str": "river-camo tactical jacket" },
+        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and gray — that would make it at home with any river-based huntsman or angler.  Its water-repellent construction ensures that one's possessions are protected from river spray.",
+        "color": "blue",
+        "weight": 12,
+        "append": true
       },
       {
         "id": "tacjacket_arctic",
-        "name": { "str": "arctic-camo tactical jacket", "str_pl": "pairs of arctic-camo tactical jackets" },
-        "description": "Featuring a camouflage pattern consisting of white, shades of gray, and a slight tinge of brown, this tactical jacket is fit for snowy tundra and polar regions—or it would be, had the garment not been only moderately warmer than a light jacket.  You have yet to grasp their point for existing.",
+        "name": { "str": "poler-camo tactical jacket" },
+        "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, gray, and a hint of light brown.",
         "color": "white",
-        "weight": 6
+        "weight": 5,
+        "append": true
       },
       {
         "id": "tacjacket_grey",
-        "name": { "str": "wolf tactical jacket", "str_pl": "pairs of wolf tactical jackets" },
-        "description": "This particular tactical jacket is dyed a muted, beige-like shade of wolf gray.",
-        "color": "blue",
-        "weight": 6
+        "name": { "str": "wolf tactical jacket" },
+        "description": "Subtle and unassuming, save for the purely ludicrous number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of gray verging into beige.",
+        "color": "dark_gray",
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_coyote",
-        "name": { "str": "coyote tactical jacket", "str_pl": "pairs of coyote tactical jackets" },
-        "description": "This tactical jacket is predominantly an earthy shade of coyote brown.",
-        "color": "green",
-        "weight": 6
+        "name": { "str": "coyote-brown tactical jacket" },
+        "description": "Modest and relatively plain, as far as tactical equipment goes, this particular jacket is dyed a solid shade of earthen brown.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_green",
-        "name": { "str": "olive-drab tactical jacket", "str_pl": "pairs of olive-drab tactical jackets" },
-        "description": "This remarkably drab, traditional camouflage tactical jacket is dyed a muted shade of OD green, much like old US Army battle dress.",
+        "name": { "str": "olive-drab tactical jacket" },
+        "description": "The venerable shade of old military equipment, modern reproductions, and prepper camo-closets, this particular jacket is completely dyed a traditional shade of olive green.",
         "color": "green",
-        "weight": 6
+        "weight": 25,
+        "append": true
       },
       {
         "id": "tacjacket_black_camo",
-        "name": { "str": "black-camo tactical jacket", "str_pl": "pairs of black-camo tactical jackets" },
-        "description": "Dyed a deep hue of urban black, this tactical jacket is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While it’s a simple tactical jacket given a stealth-black paint job and don’t hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you’re Spetsnaz.",
+        "name": { "str": "urban-black tactical jacket" },
+        "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
         "color": "black",
-        "weight": 6
+        "weight": 15,
+        "append": true
       }
     ]
   }

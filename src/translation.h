@@ -8,6 +8,7 @@
 #include "translation_cache.h"
 #include "value_ptr.h"
 
+class JsonObject;
 class JsonValue;
 
 /**
@@ -62,6 +63,7 @@ class translation
          * or converted using `make_plural()`.
          **/
         void deserialize( const JsonValue &jsin );
+        void deserialize( const JsonObject &jsobj );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns

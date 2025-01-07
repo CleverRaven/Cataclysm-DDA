@@ -10,7 +10,7 @@
       [ "steel_mill_4_1", "steel_mill_4_2", "steel_mill_4_3", "steel_mill_rail_2" ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_no_roof",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv._______,,_______.vvvvvvvvvvvvvvvvvvvvvvvvvvv",
         "v..................................................._______,,_______...........................v",

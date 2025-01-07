@@ -1,0 +1,106 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_DWARF_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombie_tough", "weight": 110 },
+      { "monster": "mon_zombie_grabber", "weight": 30 },
+      { "monster": "mon_zombie_grappler", "weight": 120 },
+      { "monster": "mon_zombie_hunter", "weight": 100 },
+      { "monster": "mon_skeleton", "weight": 150 },
+      { "monster": "mon_zombie_smoker", "weight": 50 },
+      { "monster": "mon_zombie_gasbag", "weight": 30 },
+      { "monster": "mon_zombie_acidic", "weight": 110 },
+      { "monster": "mon_zombie_necro", "weight": 15 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 12 },
+      { "monster": "mon_boomer", "weight": 90 },
+      { "monster": "mon_zombie_brute", "weight": 25 },
+      { "monster": "mon_zombie_bruiser", "weight": 35 },
+      { "monster": "mon_zombie_master", "weight": 3 },
+      { "monster": "mon_zombie_lashing", "weight": 40 },
+      { "monster": "mon_zombie_ocular", "weight": 5 },
+      { "monster": "mon_zombie_hollow", "weight": 3 },
+      { "monster": "mon_zombie_thorny", "weight": 25 },
+      { "monster": "mon_zombie_static", "weight": 50 },
+      { "monster": "mon_zombie_regenerating", "weight": 15 },
+      { "monster": "mon_zombie_pupa", "weight": 10 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_ELF_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombie_tough", "weight": 25 },
+      { "monster": "mon_zombie_grabber", "weight": 25 },
+      { "monster": "mon_zombie_grappler", "weight": 50 },
+      { "monster": "mon_zombie_hunter", "weight": 60 },
+      { "monster": "mon_zombie_runner", "weight": 165 },
+      { "monster": "mon_zombie_smoker", "weight": 30 },
+      { "monster": "mon_zombie_shady", "weight": 30 },
+      { "monster": "mon_zombie_shrieker", "weight": 90 },
+      { "monster": "mon_zombie_acidic", "weight": 80 },
+      { "monster": "mon_zombie_necro", "weight": 25 },
+      { "monster": "mon_zombie_brute", "weight": 15 },
+      { "monster": "mon_zombie_bruiser", "weight": 15 },
+      { "monster": "mon_zombie_master", "weight": 8 },
+      { "monster": "mon_zombie_lashing", "weight": 75 },
+      { "monster": "mon_zombie_ocular", "weight": 12 },
+      { "monster": "mon_zombie_hollow", "weight": 10 },
+      { "monster": "mon_zombie_thorny", "weight": 80 },
+      { "monster": "mon_zombie_static", "weight": 40 },
+      { "monster": "mon_zombie_winged", "weight": 50 },
+      { "monster": "mon_zombie_regenerating", "weight": 10 },
+      { "monster": "mon_zombie_pupa", "weight": 10 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_GOBLIN_UPGRADE",
+    "//": "Child-type zombies that evoke no guilt.",
+    "monsters": [
+      { "monster": "mon_zombie_anklebiter", "weight": 300 },
+      { "monster": "mon_zombie_sproglodyte", "weight": 100 },
+      { "monster": "mon_zombie_creepy", "weight": 300 },
+      { "monster": "mon_zombie_snotgobbler", "weight": 300 },
+      { "monster": "mon_zombie_wretch", "weight": 100 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombie_necro", "weight": 30 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 20 },
+      { "monster": "mon_boomer", "weight": 200 },
+      { "monster": "mon_zombie_master", "weight": 10 },
+      { "monster": "mon_zombie_winged", "weight": 750 },
+      { "monster": "mon_zombie_pupa", "weight": 200 },
+      { "monster": "mon_zombie_pupa_decoy", "weight": 100 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE",
+    "//": "Heavily weighted toward the more feral variants but with some other options too.",
+    "monsters": [
+      { "monster": "mon_zombie_hunter", "weight": 200 },
+      { "monster": "mon_skeleton", "weight": 200 },
+      { "monster": "mon_zombie_smoker", "weight": 30 },
+      { "monster": "mon_zombie_shady", "weight": 30 },
+      { "monster": "mon_zombie_biter", "weight": 500 },
+      { "monster": "mon_zombie_shrieker", "weight": 90 },
+      { "monster": "mon_zombie_necro", "weight": 15 },
+      { "monster": "mon_zombie_necro_boomer", "weight": 12 },
+      { "monster": "mon_boomer", "weight": 90 },
+      { "monster": "mon_zombie_brute", "weight": 20 },
+      { "monster": "mon_zombie_bruiser", "weight": 30 },
+      { "monster": "mon_zombie_master", "weight": 3 },
+      { "monster": "mon_zombie_lashing", "weight": 60 },
+      { "monster": "mon_zombie_static", "weight": 50 },
+      { "monster": "mon_zombie_winged", "weight": 60 },
+      { "monster": "mon_zombie_regenerating", "weight": 10 }
+    ]
+  }
+]

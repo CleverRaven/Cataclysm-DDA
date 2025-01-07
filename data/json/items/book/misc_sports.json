@@ -39,7 +39,7 @@
     "weight": "227 g",
     "volume": "535 ml",
     "longest_side": "20 cm",
-    "price": 1799,
+    "price": "17 USD 99 cent",
     "copy-from": "book_fict_soft_tpl"
   },
   {
@@ -72,7 +72,7 @@
     "weight": "363 g",
     "volume": "640 ml",
     "longest_side": "20 cm",
-    "price": 1899,
+    "price": "18 USD 99 cent",
     "copy-from": "book_fict_hard_tpl"
   },
   {
@@ -84,7 +84,7 @@
     "weight": "245 g",
     "volume": "679 ml",
     "longest_side": "21 cm",
-    "price": 1299,
+    "price": "12 USD 99 cent",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "fun": 1, "intelligence": 1 }
   },
@@ -97,7 +97,7 @@
     "weight": "408 g",
     "volume": "654 ml",
     "longest_side": "20 cm",
-    "price": 1399,
+    "price": "13 USD 99 cent",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "fun": 1 }
   },
@@ -123,7 +123,7 @@
     "weight": "272 g",
     "volume": "400 ml",
     "longest_side": "22 cm",
-    "price": 3999,
+    "price": "39 USD 99 cent",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "fun": -1, "intelligence": 1 }
   },
@@ -131,12 +131,12 @@
     "id": "book_nonf_hard_sports_bike",
     "type": "BOOK",
     "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Legendary Bike Rides" },
-    "description": "This unwieldy coffeetable book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
+    "description": "This unwieldy coffee table book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
     "//isbn13": 9781760340834,
     "weight": "1589 g",
     "volume": "1660 ml",
     "longest_side": "27 cm",
-    "price": 2999,
+    "price": "29 USD 99 cent",
     "chapters": 40,
     "time": "8 m",
     "copy-from": "book_nonf_hard_tpl",
@@ -152,7 +152,7 @@
     "weight": "167 g",
     "volume": "289 ml",
     "longest_side": "18 cm",
-    "price": 1299,
+    "price": "12 USD 99 cent",
     "copy-from": "book_fict_hard_tpl",
     "relative": { "fun": 1, "intelligence": 2, "chapters": -10 }
   },
@@ -165,7 +165,7 @@
     "weight": "818 g",
     "volume": "1114 ml",
     "longest_side": "23 cm",
-    "price": 2699,
+    "price": "26 USD 99 cent",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "chapters": 8 }
   }

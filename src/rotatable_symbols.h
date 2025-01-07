@@ -3,7 +3,6 @@
 #define CATA_SRC_ROTATABLE_SYMBOLS_H
 
 #include <cstdint>
-#include <iosfwd>
 #include <string>
 
 class JsonObject;

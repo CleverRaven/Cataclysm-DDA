@@ -248,6 +248,7 @@
         "                        ",
         "                        "
       ],
+      "terrain": { "z": "t_floor" },
       "furniture": { "H": "f_home_furnace", "W": [ "f_water_heater", "f_water_heater_family" ], "z": "f_cardboard_box" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],

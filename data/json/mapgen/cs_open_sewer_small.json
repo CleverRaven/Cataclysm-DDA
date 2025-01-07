@@ -44,6 +44,7 @@
       [ "glasses_safety", 30 ],
       [ "crowbar", 15 ],
       [ "mask_filter", 30 ],
+      { "item": "mask_gas_half", "prob": 25, "charges": [ 0, 100 ] },
       [ "electric_lantern", 30 ]
     ]
   },
@@ -113,6 +114,42 @@
         { "signage": "Caution: Work in Progress", "x": 2, "y": 2 },
         { "signage": "Caution: Work in Progress", "x": 21, "y": 2 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_open_sewer_roof" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
     }
   },
   {

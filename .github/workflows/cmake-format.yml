@@ -23,7 +23,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: install cmakelang
       run: python3 -m pip install -U cmakelang
     - name: run cmake-lint

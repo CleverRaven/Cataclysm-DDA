@@ -1,0 +1,18 @@
+[
+  {
+    "id": "dimensional_anchor",
+    "copy-from": "dimensional_anchor",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "5-point anchor" },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ] }
+  },
+  {
+    "id": "dimensional_anchor_on",
+    "copy-from": "dimensional_anchor_on",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "5-point anchor (on)", "str_pl": "5-point anchors (on)" },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ] }
+  }
+]

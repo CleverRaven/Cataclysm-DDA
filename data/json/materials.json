@@ -253,30 +253,6 @@
   },
   {
     "type": "material",
-    "id": "acidchitin",
-    "name": "Biosilicified Chitin",
-    "density": 4.5,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
-    "latent_heat": 333,
-    "chip_resist": 8,
-    "breathability": "GOOD",
-    "salvaged_into": "acidchitin_piece",
-    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
-    "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "chipped",
-    "//": "Normal chitin has low but non-zero flammability according to the US NFPA.",
-    "burn_data": [
-      { "fuel": 0, "smoke": 0, "burn": 0.0001 },
-      { "fuel": 0.2, "smoke": 3, "burn": 0.005, "volume_per_turn": "200 ml" },
-      { "fuel": 0.35, "smoke": 5, "burn": 0.015, "volume_per_turn": "200 ml" }
-    ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2.3, "cut": 3.7, "acid": 16, "heat": 4, "bullet": 1.2 },
-    "repair_difficulty": 8
-  },
-  {
-    "type": "material",
     "id": "bone",
     "name": "Bone",
     "density": 1.4,
@@ -288,7 +264,6 @@
     "chip_resist": 8,
     "wind_resist": 90,
     "repaired_with": "bone",
-    "salvaged_into": "skewer_bone",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
@@ -423,6 +398,21 @@
   },
   {
     "type": "material",
+    "id": "yrax_quartz",
+    "name": "Quartz",
+    "//": "Density value assumes Titanium Diboride",
+    "density": 4.5,
+    "specific_heat_liquid": 1,
+    "specific_heat_solid": 1,
+    "latent_heat": 333,
+    "chip_resist": 2000,
+    "dmg_adj": [ "chipped", "cracked", "resonating", "fractal" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 4, "cut": 8, "acid": 14, "heat": 14, "bullet": 6 }
+  },
+  {
+    "type": "material",
     "id": "damaged_ceramic",
     "name": "Compromised Ceramic",
     "copy-from": "ceramic",
@@ -485,6 +475,30 @@
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2.5, "cut": 4, "acid": 6, "heat": 2.5, "bullet": 1.4 },
+    "repair_difficulty": 5
+  },
+  {
+    "type": "material",
+    "id": "acidchitin",
+    "name": "Biosilicified Chitin",
+    "density": 1.45,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "chip_resist": 7,
+    "breathability": "GOOD",
+    "wind_resist": 90,
+    "salvaged_into": "acidchitin_piece",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.0001 },
+      { "fuel": 0.2, "smoke": 3, "burn": 0.001, "volume_per_turn": "200 ml" },
+      { "fuel": 0.35, "smoke": 5, "burn": 0.05, "volume_per_turn": "200 ml" }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 1, "cut": 6, "acid": 20, "heat": 4, "bullet": 1.2 },
     "repair_difficulty": 5
   },
   {
@@ -610,6 +624,14 @@
     "repaired_with": "null",
     "wind_resist": 75,
     "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 0, "bullet": 1.5 }
+  },
+  {
+    "type": "material",
+    "id": "cotton_quilted_salted",
+    "name": "Salt Hardened Quilted Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
   },
   {
     "type": "material",
@@ -762,7 +784,8 @@
     "type": "material",
     "id": "drug_filler",
     "name": "Drug filler",
-    "copy-from": "flesh",
+    "copy-from": "powder",
+    "vitamins": [  ],
     "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
   },
@@ -1146,6 +1169,17 @@
   },
   {
     "type": "material",
+    "id": "crude_oil",
+    "density": 0.8,
+    "name": "Crude oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": "38000 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "iflesh",
     "name": "Insect Flesh",
     "density": 1.1,
@@ -1178,11 +1212,11 @@
     "latent_heat": 247,
     "conductive": true,
     "chip_resist": 15,
-    "repaired_with": "scrap",
+    "repaired_with": "scrap_cast_iron",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 0.5 ] ],
+    "burn_products": [ [ "scrap_cast_iron", 0.5 ] ],
     "resist": { "bash": 4, "cut": 4, "acid": 5, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
   },
@@ -1334,6 +1368,31 @@
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 1, "cut": 3, "acid": 4, "heat": 2, "bullet": 2 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "leather_treated",
+    "name": "Treated Leather",
+    "//": "Regular leather made waterproof with wax, oil, chrome tanning, etc",
+    "density": 1.1,
+    "specific_heat_liquid": 1.5,
+    "specific_heat_solid": 1.5,
+    "latent_heat": 273,
+    "soft": true,
+    "chip_resist": 10,
+    "repaired_with": "leather",
+    "salvaged_into": "leather",
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced",
+    "burn_data": [
+      { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
+      { "fuel": 0.1, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
+      { "fuel": 0.2, "smoke": 10, "burn": 0.004, "volume_per_turn": "1 L" }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 2, "bullet": 2 },
     "repair_difficulty": 3
   },
   {
@@ -1517,7 +1576,7 @@
     "type": "material",
     "id": "paraffin_wax",
     "name": "Paraffin Wax",
-    "density": 0.9,
+    "density": 0.86,
     "specific_heat_liquid": 2.9,
     "specific_heat_solid": 3.7,
     "latent_heat": 210,
@@ -1610,6 +1669,7 @@
     "copy-from": "plastic",
     "name": "Transparent Impact Resistant Plastic",
     "//2": "This one represents various transparent impact-resistant plastics, like polycarbonate.  Prime material for visors and safety goggles.",
+    "density": 1.2,
     "resist": { "bash": 4, "cut": 3, "acid": 9, "heat": 1, "bullet": 1.5 },
     "repair_difficulty": 4
   },
@@ -1784,6 +1844,19 @@
     ],
     "resist": { "bash": 5, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "butyl_rubber",
+    "copy-from": "rubber",
+    "name": "malleable rubber",
+    "density": 1.2,
+    "soft": true,
+    "chip_resist": 5,
+    "repaired_with": "chunk_rubber",
+    "dmg_adj": [ "compromised", "mangled", "shredded", "ruined" ],
+    "bash_dmg_verb": "mangled",
+    "cut_dmg_verb": "sliced"
   },
   {
     "type": "material",
@@ -2164,6 +2237,20 @@
   },
   {
     "type": "material",
+    "id": "quicklime",
+    "name": "Quicklime",
+    "copy-from": "stone",
+    "density": 3.34
+  },
+  {
+    "type": "material",
+    "id": "cement",
+    "name": "Cement",
+    "copy-from": "stone",
+    "density": 1.44
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2171,10 +2258,25 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
+    "id": "ballistic_shield",
+    "name": "Ballistic Barrier",
+    "density": 1,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
+    "bash_dmg_verb": "agitated",
+    "cut_dmg_verb": "agitated",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 100 }
   },
   {
     "type": "material",
@@ -2185,7 +2287,7 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
@@ -2341,7 +2443,7 @@
   {
     "type": "material",
     "id": "veggy",
-    "name": "Vegetable Matter",
+    "name": "Plant Matter",
     "density": 1.1,
     "specific_heat_liquid": 3.9,
     "specific_heat_solid": 1.9,
@@ -2476,6 +2578,18 @@
       { "fuel": 0, "smoke": 5, "burn": 0.005 }
     ],
     "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "mold",
+    "name": "Mold",
+    "copy-from": "mushroom"
+  },
+  {
+    "type": "material",
+    "id": "yeast",
+    "name": "Yeast",
+    "copy-from": "mushroom"
   },
   {
     "type": "material",
@@ -2836,7 +2950,7 @@
     "id": "sand",
     "name": "Sand",
     "copy-from": "soil",
-    "density": 1.52
+    "density": 1.6
   },
   {
     "type": "material",
@@ -2970,6 +3084,29 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "resist": { "bash": 2, "cut": 5, "acid": 10, "heat": 20, "bullet": 2 }
+  },
+  {
+    "type": "material",
+    "id": "mut_feather",
+    "name": "Mutant Feather",
+    "density": 0.8,
+    "specific_heat_liquid": 0.5,
+    "specific_heat_solid": 0.5,
+    "latent_heat": 200,
+    "soft": true,
+    "chip_resist": 8,
+    "breathability": "POOR",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 0.6, "smoke": 1, "burn": 0.02 },
+      { "fuel": 1, "smoke": 1, "burn": 0.04 },
+      { "fuel": 1, "smoke": 1, "burn": 0.06 }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "wind_resist": 100,
+    "resist": { "bash": 0.5, "cut": 0.1, "bullet": 0.1, "acid": 0, "heat": 0 }
   },
   {
     "type": "material",

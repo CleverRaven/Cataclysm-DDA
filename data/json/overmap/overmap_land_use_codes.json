@@ -48,7 +48,7 @@
     "id": "mining",
     "land_use_code": 5,
     "name": "Mining",
-    "detailed_definition": "Includes sand and gravel pits, mines and quarries.  The boundaries extend to the edges of the site’s activities, including on-site machinery, parking lots, roads and buildings.",
+    "detailed_definition": "Includes sand and gravel pits, mines and quarries.  The boundaries extend to the edges of the site's activities, including on-site machinery, parking lots, roads and buildings.",
     "sym": "M",
     "color": "red_white"
   },

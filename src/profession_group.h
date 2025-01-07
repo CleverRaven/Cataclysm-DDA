@@ -11,7 +11,7 @@ struct profession_group {
         void load( const JsonObject &jo, const std::string_view & );
         static const std::vector<profession_group> &get_all();
         static void check_profession_group_consistency();
-        bool was_loaded;
+        bool was_loaded = false;
 
         std::vector<profession_id> get_professions() const;
         profession_group_id get_id() const;

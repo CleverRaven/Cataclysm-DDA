@@ -8,8 +8,8 @@
     "looks_like": "scrap",
     "name": { "str": "exposed-wiring prototype" },
     "description": "Some kind of prototypical electronic device with exposed wiring.  Some of the wires have bare ends that could be connected together.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic", "copper" ],
     "weight": "32 g",
     "volume": "26 ml"
@@ -23,8 +23,8 @@
     "looks_like": "toaster",
     "name": { "str": "Bakelite phone" },
     "description": "A vintage, bright-red Bakelite phone of famous Swedish design.  It would look almost normal, if not for the fact that its rotary dial has been replaced with a doorknob.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "iron", "plastic" ],
     "weight": "725 g",
     "volume": "750 ml"
@@ -38,8 +38,8 @@
     "looks_like": "comb_pocket",
     "name": { "str": "golden comb" },
     "description": "A small, delicate golden comb.  It was once carefully engraved, but time has smoothed its designs to illegibility.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "weight": "650 g",
     "volume": "40 ml"
@@ -53,8 +53,8 @@
     "looks_like": "old_key",
     "name": { "str": "shifting keyring" },
     "description": "A smooth ring of steel, heavy under the weight of numerous keys.  The designs of the keys change over time, but none will fit any keyhole you have ever found.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "2000 g",
     "volume": "750 ml"
@@ -68,8 +68,8 @@
     "looks_like": "art_lamp",
     "name": { "str": "engraved cube" },
     "description": "A small cube of smooth rock.  A uniform grid of nine squares is engraved in each of its faces.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "stone" ],
     "weight": "510 g",
     "volume": "185 ml"
@@ -82,8 +82,8 @@
     "color": "light_gray",
     "name": { "str": "Utah teapot" },
     "description": "A squat teapot with a minimalist design.  Its surface shines under the glow of unseen light sources.",
-    "price": 1000,
-    "price_postapoc": 10
+    "price": "10 USD",
+    "price_postapoc": "10 cent"
   },
   {
     "type": "GENERIC",
@@ -94,8 +94,8 @@
     "looks_like": "wristwatch",
     "name": { "str": "glitching stopwatch", "str_pl": "glitching stopwatches" },
     "description": "A small digital stopwatch, looking slightly old by today's standards.  Its digital display prints ever-changing gibberish.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "weight": "165 g",
     "volume": "165 ml"

@@ -4,20 +4,9 @@
     "id": "ig_vp_frame",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ig_vp_prison_bench",
-    "subtype": "collection",
-    "entries": [
-      { "item": "steel_lump", "count": [ 3, 6 ] },
-      { "item": "steel_chunk", "count": [ 3, 6 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "chain", "count": [ 1, 4 ] }
     ]
   },
   {
@@ -25,8 +14,8 @@
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "lc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -47,8 +36,8 @@
     "id": "ig_vp_sheet_metal",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 3, 4 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "sheet_metal_small", "count": [ 2, 8 ] },
+      { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
       { "item": "scrap", "count": [ 8, 10 ] }
     ]
   },
@@ -57,8 +46,8 @@
     "id": "ig_vp_steel_plate",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 5, 6 ] },
+      { "item": "lc_steel_lump", "count": [ 4, 7 ] },
+      { "item": "lc_steel_chunk", "count": [ 5, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -76,7 +65,7 @@
   {
     "type": "vehicle_part",
     "id": "null",
-    "name": { "str": "null part" },
+    "name": { "str": "null part", "//~": "NO_I18N" },
     "categories": [ "other" ],
     "color": "red",
     "broken_color": "red",
@@ -151,7 +140,12 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "breaks_into": "ig_vp_frame",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "charges": [ 4, 8 ] },
+      { "item": "splinter", "count": [ 5, 9 ] }
+    ],
     "flags": [
       "ENGINE",
       "BOARDABLE",
@@ -181,14 +175,14 @@
     "item": "pipe",
     "m2c": 90,
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
-    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "150 s", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
+    "breaks_into": [ { "item": "scrap", "charges": [ 4, 6 ] } ],
     "flags": [
       "ENGINE",
       "BOARDABLE",
@@ -213,12 +207,12 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100  L",
+    "size": "100 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
     "location": "center",
-    "//": "10cm weld per damage quadrant to repair, 30cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 30 cm weld to install",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "welding_standard", 30 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -229,7 +223,13 @@
       }
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
-    "breaks_into": "ig_vp_seat",
+    "breaks_into": [
+      { "count": [ 0, 2 ], "item": "sheet_cotton" },
+      { "count": [ 0, 5 ], "item": "cotton_patchwork" },
+      { "count": [ 9, 50 ], "item": "scrap_cotton" },
+      { "count": [ 0, 16 ], "item": "hc_wire" },
+      { "charges": [ 3, 8 ], "item": "scrap" }
+    ],
     "damage_reduction": { "all": 3, "bash": 5 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
@@ -242,7 +242,7 @@
     "broken_color": "light_cyan",
     "durability": 30,
     "description": "A pair of handles.  You can mount other items on top of it.",
-    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
+    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
     "folded_volume": "750 ml",
     "item": "pipe",
     "location": "structure",
@@ -252,11 +252,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 1 ] }, { "item": "scrap", "charges": [ 3, 7 ] } ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "^", "symbols_broken": "#" } ]
   },
@@ -293,7 +289,11 @@
     "description": "A pair of handles.  You can mount other items on top of it.",
     "item": "frame_wood_light",
     "location": "structure",
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 5, 8 ] },
+      { "item": "string_36", "count": [ 1, 3 ] },
+      { "item": "string_6", "count": [ 1, 4 ] }
+    ],
     "requirements": {
       "install": { "skills": [ [ "fabrication", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
@@ -312,7 +312,7 @@
     "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
-    "//": ".5m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
+    "//": ".5 m square sheet of metal, likely affixed with bolts in places, assume 200 cm weld to install and 50 cm weld to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -324,10 +324,15 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
-    "breaks_into": "ig_vp_sheet_metal",
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 0, 1 ] },
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 4, 8 ] }
+    ],
     "damage_reduction": { "all": 28 },
     "variants": [
       { "id": "horizontal", "label": "Horizontal", "symbols": "┃┃━┃┃┃━┃", "symbols_broken": "#" },
@@ -360,6 +365,7 @@
     "description": "A collapsible aisle.",
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 11 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "flags": [ "AISLE", "BOARDABLE", "CARGO" ]
   },
   {
@@ -389,7 +395,12 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "CARGO_PASSABLE", "LOCKABLE_CARGO", "COVERED" ],
-    "breaks_into": "ig_vp_sheet_metal",
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 1, 3 ] },
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 8 ] },
+      { "item": "scrap", "charges": [ 11, 17 ] }
+    ],
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
@@ -434,7 +445,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_sheet_metal",
@@ -464,7 +475,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_steel_plate",
@@ -496,9 +507,13 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 3 ] }
+      { "item": "RAM", "prob": 10 },
+      { "item": "steel_lump", "count": [ 0, 2 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 5, 12 ] },
+      { "item": "e_scrap", "count": [ 2, 5 ] },
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
+      { "item": "cable", "charges": [ 9, 17 ] }
     ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "A", "symbols_broken": "#" } ]
@@ -513,7 +528,7 @@
     "durability": 300,
     "description": "A battery case for storage batteries.  Allows quick removal or addition of a storage battery, if you can lift the battery.",
     "item": "it_battery_mount",
-    "//": "40cm weld to affix",
+    "//": "40 cm weld to affix",
     "location": "fuel_source",
     "requirements": {
       "install": {
@@ -532,7 +547,7 @@
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 3 ] }
+      { "item": "scrap", "charges": [ 0, 3 ] }
     ],
     "damage_reduction": { "all": 8, "bash": 10 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
@@ -555,7 +570,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
     "flags": [ "HANDHELD_BATTERY_MOUNT" ],
-    "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "charges": [ 1, 4 ] } ],
     "damage_reduction": { "all": 4, "bash": 5 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
@@ -573,129 +588,39 @@
       "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
     },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 0, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "e_scrap", "count": [ 1, 2 ] }
-    ],
+    "breaks_into": [ { "item": "black_box" } ],
     "damage_reduction": { "all": 80 },
     "variants": [ { "symbols": ";", "symbols_broken": "*" } ]
   },
   {
     "type": "vehicle_part",
-    "id": "minireactor",
-    "name": { "str": "minireactor" },
-    "categories": [ "energy" ],
-    "color": "light_green",
-    "broken_color": "red",
-    "damage_modifier": 80,
-    "durability": 580,
-    "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on, will generate a lot of electrical power.",
-    "power": "100 W",
-    "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
-    "epower": "149200 W",
-    "fuel_type": "plut_cell",
-    "item": "minireactor",
-    "location": "fuel_source",
-    "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 6 ] ],
-        "time": "30 m",
-        "using": [ [ "welding_standard", 5 ], [ "vehicle_bolt_install", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "30 m",
-        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
-      },
-      "repair": {
-        "skills": [ [ "mechanics", 7 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
-      }
-    },
-    "flags": [ "REACTOR" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 11 ] },
-      { "item": "steel_chunk", "count": [ 6, 11 ] },
-      { "item": "scrap", "count": [ 6, 11 ] }
-    ],
-    "damage_reduction": { "all": 50 },
-    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+    "id": "minifridge",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_minifridge"
   },
   {
     "type": "vehicle_part",
-    "id": "minifridge",
-    "name": { "str": "minifridge" },
-    "looks_like": "f_fridge",
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "light_blue",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30W ~ 260kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10W is good too and very close to real world variant ",
-    "epower": "-24 W",
-    "size": "75 L",
-    "item": "minifridge",
-    "location": "center",
-    "//1": "20cm weld per quadrant of damage",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "20 m",
-        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 3, 6 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+    "id": "big_portable_fridge",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_big_portable_fridge"
   },
   {
     "type": "vehicle_part",
     "id": "minifreezer",
-    "name": { "str": "minifreezer" },
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "blue",
-    "looks_like": "minifridge",
-    "damage_modifier": 80,
-    "durability": 100,
-    "epower": "-36 W",
-    "size": "75 L",
-    "item": "minifreezer",
-    "location": "center",
-    "//1": "20cm weld per quadrant of damage",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "20 m",
-        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 5, 8 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_minifreezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "chest_minifreezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_chest_minifreezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "big_portable_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_big_portable_freezer"
   },
   {
     "type": "vehicle_part",
@@ -712,7 +637,7 @@
     "item": "washing_machine",
     "size": "40 L",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -726,8 +651,11 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "damage_reduction": { "all": 32 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
@@ -747,7 +675,7 @@
     "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -761,8 +689,11 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "variants": [ { "symbols": "d", "symbols_broken": "#" } ]
   },
@@ -781,7 +712,7 @@
     "item": "vh_autoclave",
     "size": "76 L",
     "location": "center",
-    "//1": "20cm weld per quadrant of damage",
+    "//1": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -789,10 +720,13 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "AUTOCLAVE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 10 ] },
-      { "item": "steel_chunk", "count": [ 6, 10 ] },
-      { "item": "scrap", "count": [ 6, 10 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "variants": [ { "symbols": "A", "symbols_broken": "#" } ]
   },
@@ -809,7 +743,7 @@
     "size": "300 L",
     "//": "300 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
     "item": "frame",
-    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
+    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -822,7 +756,7 @@
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
     "breaks_into": "ig_vp_frame",
@@ -842,7 +776,7 @@
     "size": "200 L",
     "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
     "item": "frame",
-    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
+    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -855,7 +789,7 @@
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "SIMPLE_PART", "HALF_BOARD" ],
     "breaks_into": "ig_vp_frame",
@@ -876,7 +810,11 @@
     "item": "frame_wood_light",
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "HUGE_OK", "CARGO_PASSABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 5, 8 ] },
+      { "item": "string_36", "count": [ 1, 3 ] },
+      { "item": "string_6", "count": [ 1, 4 ] }
+    ],
     "requirements": {
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
@@ -927,7 +865,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 7 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 4 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -949,12 +887,8 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -976,12 +910,8 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
+    "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1004,11 +934,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 7 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1024,7 +950,7 @@
     "size": "30 L",
     "item": "workbench",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1032,13 +958,14 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
-      { "item": "pipe", "count": [ 4, 6 ] },
-      { "item": "sheet_metal", "count": [ 0, 1 ] },
-      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
-      { "item": "scrap", "count": [ 12, 24 ] }
+      { "item": "pipe", "prob": 25 },
+      { "item": "sheet_metal", "prob": 5 },
+      { "item": "sheet_metal_small", "count": [ 5, 14 ] },
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 7, 12 ] },
+      { "item": "scrap", "charges": [ 15, 30 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" },
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30 L" },
     "damage_reduction": { "all": 29 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1051,7 +978,7 @@
     "bonus": 15,
     "epower": "-50 W",
     "item": "workbench_with_recharger",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1059,18 +986,18 @@
     },
     "flags": [ "CARGO", "MOUNTABLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
     "breaks_into": [
-      { "item": "pipe", "count": [ 4, 6 ] },
-      { "item": "sheet_metal", "count": [ 0, 1 ] },
-      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
-      { "item": "steel_chunk", "count": [ 4, 8 ] },
-      { "item": "scrap", "count": [ 12, 24 ] },
+      { "item": "pipe", "prob": 25 },
+      { "item": "sheet_metal", "prob": 5 },
+      { "item": "sheet_metal_small", "count": [ 5, 14 ] },
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 7, 12 ] },
+      { "item": "scrap", "charges": [ 15, 30 ] },
       { "item": "plastic_chunk", "prob": 50 },
       { "item": "cable", "charges": [ 1, 4 ] },
-      { "item": "e_scrap", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
+      { "item": "e_scrap", "count": [ 0, 2 ] }
     ],
     "size": "29500 ml",
-    "workbench": { "volume": "29L" },
+    "workbench": { "volume": "29 L" },
     "damage_reduction": { "all": 29 }
   },
   {
@@ -1151,7 +1078,7 @@
     "durability": 240,
     "item": "sheet_metal",
     "location": "under",
-    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
+    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -1163,7 +1090,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "FLOATS" ],
     "breaks_into": "ig_vp_sheet_metal",
@@ -1199,7 +1126,7 @@
     "looks_like": "inflatable_airbag",
     "categories": [ "hull" ],
     "color": "green",
-    "size": "15 L",
+    "size": "85 L",
     "durability": 50,
     "item": "inflatable_section",
     "location": "structure",
@@ -1263,7 +1190,7 @@
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
     "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "STABLE", "UNMOUNT_ON_DAMAGE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 1, 3 ] } ],
     "variants": [ { "symbols": "M", "symbols_broken": "#" } ]
   },
   {
@@ -1300,7 +1227,7 @@
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] },
       { "item": "cable", "charges": [ 0, 4 ] }
     ],
     "damage_reduction": { "all": 6 },
@@ -1337,7 +1264,7 @@
       { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
       { "item": "rubber_tire_chunk", "count": [ 0, 8 ] },
       { "item": "clamp", "count": [ 0, 1 ] },
-      { "item": "scrap", "count": [ 0, 2 ] }
+      { "item": "scrap", "charges": [ 0, 2 ] }
     ],
     "variants": [ { "symbols": ",", "symbols_broken": "," } ]
   },
@@ -1379,7 +1306,12 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK", "CABLE_PORTS" ],
-    "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 2 ] },
+      { "item": "plastic_chunk", "count": [ 4, 8 ] },
+      { "item": "e_scrap", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 2 ] }
+    ],
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },
   {
@@ -1391,7 +1323,7 @@
     "categories": [ "utility" ],
     "color": "red",
     "durability": 400,
-    "//": "700W average assuming relatively small target-actual difference",
+    "//": "700 W average assuming relatively small target-actual difference",
     "epower": "-700 W",
     "bonus": 10,
     "requirements": {
@@ -1401,7 +1333,12 @@
     },
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
     "emissions": [ "emit_heater_vehicle" ],
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "element", "count": [ 0, 2 ] }
+    ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": ";", "symbols_broken": ":" } ]
   },
@@ -1421,7 +1358,12 @@
     },
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
     "emissions": [ "emit_hot_air2_stream" ],
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "element", "prob": 80 }
+    ],
     "damage_reduction": { "all": 15 }
   },
   {
@@ -1433,7 +1375,12 @@
     "location": "",
     "name": { "str": "small integrated heater" },
     "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
-    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
+    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } },
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 70 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] }
+    ]
   },
   {
     "id": "mountable_cooler",
@@ -1454,7 +1401,12 @@
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER" ],
     "emissions": [ "emit_cooler_vehicle" ],
     "exhaust": [ "emit_heater_vehicle" ],
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 2, 10 ] }
+    ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
   },
@@ -1492,7 +1444,11 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 10 ] ] }
     },
     "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "CABLE_PORTS" ],
-    "breaks_into": "ig_vp_device",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 1 ] },
+      { "item": "plastic_chunk", "count": [ 2, 4 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] }
+    ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },
@@ -1522,9 +1478,9 @@
     },
     "flags": [ "MUFFLER" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 5 ] },
-      { "item": "steel_chunk", "count": [ 3, 5 ] },
-      { "item": "scrap", "count": [ 3, 5 ] }
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 4, 9 ] }
     ],
     "damage_reduction": { "all": 9 },
     "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
@@ -1651,7 +1607,11 @@
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
     "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW", "SIMPLE_PART" ],
-    "breaks_into": [  ],
+    "breaks_into": [
+      { "item": "sheet_cotton", "count": [ 1, 3 ] },
+      { "item": "cotton_patchwork", "count": [ 5, 11 ] },
+      { "item": "scrap_cotton", "count": [ 8, 19 ] }
+    ],
     "variants": [ { "symbols": "\"", "symbols_broken": "0" } ]
   },
   {
@@ -1677,7 +1637,11 @@
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
     "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE", "SIMPLE_PART" ],
-    "breaks_into": [  ],
+    "breaks_into": [
+      { "item": "sheet_cotton", "count": [ 1, 3 ] },
+      { "item": "cotton_patchwork", "count": [ 5, 11 ] },
+      { "item": "scrap_cotton", "count": [ 8, 19 ] }
+    ],
     "variants": [ { "symbols": "\"", "symbols_broken": "0" } ]
   },
   {
@@ -1699,7 +1663,14 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "250 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "rope_natural_short", 1 ] ] }
     },
-    "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 40, 60 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 6, 15 ] },
+      { "item": "cable", "charges": [ 90, 180 ] },
+      { "item": "nail", "charges": [ 21, 35 ] },
+      { "item": "nuts_bolts", "charges": [ 3, 6 ] }
+    ],
     "damage_reduction": { "all": 15, "stab": 6, "cut": 8 },
     "variants": [ { "symbols": "*", "symbols_broken": "x" } ]
   },
@@ -1723,7 +1694,15 @@
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "750 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 s", "using": [ [ "rope_natural_short", 2 ] ] }
     },
-    "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 60, 100 ] },
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 4, 9 ] },
+      { "item": "scrap", "charges": [ 20, 35 ] },
+      { "item": "cable", "charges": [ 225, 400 ] },
+      { "item": "nail", "charges": [ 80, 130 ] },
+      { "item": "nuts_bolts", "charges": [ 5, 12 ] }
+    ],
     "damage_reduction": { "all": 16, "stab": 6, "cut": 8 },
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
@@ -1753,7 +1732,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 2, 4 ] },
       { "item": "solar_cell", "count": [ 1, 4 ] }
     ],
     "variants": [ { "symbols": "#", "symbols_broken": "x" } ]
@@ -1771,7 +1750,7 @@
     "epower": "1 W",
     "item": "wind_turbine",
     "location": "on_roof",
-    "//": "20cm weld per quadrant of damage",
+    "//": "20 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1783,9 +1762,13 @@
     },
     "flags": [ "WIND_TURBINE" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] }
+      { "item": "scrap", "charges": [ 2, 6 ] },
+      { "item": "e_scrap", "count": [ 2, 4 ] },
+      { "item": "splinter", "count": [ 2, 8 ] },
+      { "item": "cable", "charges": [ 80, 115 ] },
+      { "item": "nail", "charges": [ 2, 6 ] }
     ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "T", "symbols_broken": "X" } ]
@@ -1805,7 +1788,7 @@
     "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": "-3000 W",
-    "//": "30cm weld per quadrant of damage",
+    "//": "30 cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1817,9 +1800,14 @@
     },
     "flags": [ "WIND_TURBINE", "EXTRA_DRAG" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 6, 12 ] }
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "charges": [ 10, 20 ] },
+      { "item": "e_scrap", "count": [ 8, 16 ] },
+      { "item": "splinter", "count": [ 25, 50 ] },
+      { "item": "cable", "charges": [ 300, 500 ] },
+      { "item": "nail", "charges": [ 8, 15 ] },
+      { "item": "nuts_bolts", "charges": [ 4, 7 ] }
     ],
     "damage_reduction": { "all": 9 },
     "variants": [ { "symbols": "Y", "symbols_broken": "X" } ]
@@ -1846,7 +1834,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "scrap", "charges": [ 4, 7 ] },
       { "item": "solar_cell", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 12 }
@@ -1871,7 +1859,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 2, 4 ] },
       { "item": "solar_cell_v2", "count": [ 1, 6 ] }
     ]
   },
@@ -1898,7 +1886,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "scrap", "charges": [ 4, 7 ] },
       { "item": "solar_cell", "count": [ 1, 6 ] }
     ],
     "damage_reduction": { "all": 10 }
@@ -1914,7 +1902,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "//": "40cm of weld per damage quadrant",
+    "//": "40 cm of weld per damage quadrant",
     "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
@@ -1927,7 +1915,7 @@
     },
     "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
-      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "scrap", "charges": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
@@ -1946,14 +1934,14 @@
     "durability": 45,
     "folded_volume": "250 ml",
     "item": "water_faucet",
-    "//": "10cm weld per damage quadrant",
+    "//": "10 cm weld per damage quadrant",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "pseudo_tools": [ { "id": "water_faucet" } ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [ { "item": "scrap", "charges": [ 1, 3 ] } ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "u", "symbols_broken": "-" } ]
   },
@@ -1968,7 +1956,7 @@
     "description": "A towel hanger with towels.",
     "durability": 45,
     "folded_volume": "2500 ml",
-    "//": "10cm weld per damage quadrant",
+    "//": "10 cm weld per damage quadrant",
     "item": "towel_hanger",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1976,7 +1964,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "pseudo_tools": [ { "id": "towel", "hotkey": "t" } ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
+    "breaks_into": [ { "item": "scrap", "charges": [ 1, 3 ] }, { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
     "variants": [ { "symbols": "h", "symbols_broken": "-" } ]
   },
   {
@@ -1995,7 +1983,12 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "ARMOR" ],
-    "breaks_into": "ig_vp_wood_plate",
+    "breaks_into": [
+      { "item": "splinter", "count": [ 4, 8 ] },
+      { "item": "string_36", "count": [ 2, 3 ] },
+      { "item": "string_6", "count": [ 3, 6 ] },
+      { "item": "nail", "charges": [ 1, 3 ] }
+    ],
     "damage_reduction": { "all": 16, "cut": 8, "stab": 8 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },
@@ -2009,7 +2002,7 @@
     "durability": 660,
     "item": "steel_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -2021,7 +2014,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
     },
     "flags": [ "ARMOR" ],
     "breaks_into": "ig_vp_steel_plate",
@@ -2038,7 +2031,7 @@
     "durability": 600,
     "item": "alloy_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2056,7 +2049,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "scrap", "charges": [ 4, 6 ] }
     ],
     "damage_reduction": { "all": 56 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
@@ -2073,7 +2066,7 @@
     "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
     "item": "spiked_plate",
     "location": "armor",
-    "//": "240cm weld to install, 60cm weld per damage quadrant",
+    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -2089,10 +2082,10 @@
     },
     "flags": [ "ARMOR", "SHARP" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "spike", "count": [ 0, 2 ] }
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 5, 8 ] },
+      { "item": "spike", "count": [ 1, 2 ] }
     ],
     "damage_reduction": { "all": 48 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
@@ -2107,7 +2100,7 @@
     "durability": 780,
     "item": "hard_plate",
     "location": "armor",
-    "//": "300cm weld to install, 80cm weld per damage quadrant",
+    "//": "300 cm weld to install, 80 cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2124,8 +2117,8 @@
     "flags": [ "ARMOR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "steel_chunk", "count": [ 5, 8 ] },
+      { "item": "scrap", "charges": [ 6, 12 ] }
     ],
     "damage_reduction": { "all": 70 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
@@ -2140,7 +2133,7 @@
     "durability": 700,
     "item": "mil_plate",
     "location": "armor",
-    "//": "300cm weld to install",
+    "//": "300 cm weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 6 ] ],
@@ -2157,7 +2150,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "scrap", "charges": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
     "damage_reduction": { "all": 60, "bullet": 105 },
@@ -2181,7 +2174,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "HORN" ],
-    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap_aluminum", "prob": 10 }, { "item": "plastic_chunk", "prob": 35 } ],
     "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
@@ -2201,7 +2194,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 1 ] ] }
     },
     "flags": [ "HORN" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
+    "breaks_into": [ { "item": "scrap", "charges": [ 0, 2 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
@@ -2221,7 +2214,11 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [ "HORN" ],
-    "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ],
+    "breaks_into": [
+      { "item": "steel_chunk", "prob": 50 },
+      { "item": "scrap", "charges": [ 0, 2 ] },
+      { "item": "plastic_chunk", "count": [ 1, 2 ] }
+    ],
     "variants": [ { "symbols": "*", "symbols_broken": "*" } ]
   },
   {
@@ -2254,8 +2251,8 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "size": "500 L",
-    "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonable amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
-    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
+    "//": "Based roughly on a quarter of a 2 m x 1.2 m pickup truck bed, assuming a reasonable amount of piling up (about 80 cm, ie. sticking up around 20 cm over the sides if really stacked).  Could definitely use more subtypes.",
+    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
@@ -2273,9 +2270,12 @@
     },
     "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
+      { "item": "steel_lump", "count": [ 12, 19 ] },
+      { "item": "steel_chunk", "count": [ 7, 12 ] },
+      { "item": "scrap", "charges": [ 14, 25 ] },
+      { "item": "rope_6", "count": [ 0, 2 ] },
+      { "item": "string_36", "count": [ 10, 25 ] },
+      { "item": "string_6", "count": [ 15, 28 ] }
     ],
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
@@ -2289,7 +2289,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
+    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
     "size": "300 L",
     "comfort": 2,
     "item": "livestock_carrier",
@@ -2311,7 +2311,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
+      { "item": "scrap", "charges": [ 6, 8 ] }
     ],
     "damage_reduction": { "all": 30 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
@@ -2326,7 +2326,7 @@
     "size": "50 L",
     "item": "animal_locker",
     "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "charges": [ 3, 4 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2351,7 +2351,7 @@
     "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "scrap", "charges": [ 1, 2 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
     ],
     "damage_reduction": { "all": 10 },
@@ -2393,7 +2393,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "STEREO", "ENABLED_DRAINS_EPOWER", "SIMPLE_PART" ],
     "breaks_into": "ig_vp_device",
     "variants": [ { "symbols": "&", "symbols_broken": "&" } ]
   },
@@ -2416,11 +2416,11 @@
     "flags": [ "CHIMES", "ENABLED_DRAINS_EPOWER" ],
     "location": "on_roof",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 3, 5 ] },
-      { "item": "steel_chunk", "count": [ 3, 5 ] },
-      { "item": "scrap", "count": [ 3, 5 ] },
-      { "item": "cable", "count": [ 1, 3 ] },
-      { "item": "e_scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "charges": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 2, 4 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "scrap_aluminum", "prob": 80 },
+      { "item": "plastic_chunk", "count": [ 0, 2 ] }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "&" } ]
   },
@@ -2439,7 +2439,7 @@
     "item": "jumper_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "cable", "charges": [ 10, 30 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -2457,7 +2457,7 @@
     "item": "extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "cable", "charges": [ 45, 90 ] }, { "item": "plastic_chunk", "count": [ 2, 3 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -2471,11 +2471,11 @@
     "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
-    "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
+    "description": "An extra long 30 m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
     "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "cable", "charges": [ 135, 270 ] }, { "item": "plastic_chunk", "count": [ 4, 6 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -2493,7 +2493,7 @@
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
+    "breaks_into": [ { "item": "cable", "charges": [ 97, 195 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -2509,7 +2509,13 @@
     "item": "hd_tow_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 7, 14 ] },
+      { "item": "scrap", "charges": [ 17, 34 ] },
+      { "item": "grip_hook", "prob": 80 },
+      { "item": "cable", "charges": [ 1, 3 ] }
+    ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -2547,7 +2553,11 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 4, 6 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 4, 7 ] },
+      { "item": "string_36", "count": [ 3, 6 ] },
+      { "item": "string_6", "count": [ 9, 18 ] }
+    ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
@@ -2565,14 +2575,14 @@
     "comfort": 1,
     "item": "frame_wood",
     "location": "center",
-    "size": "62500 ml",
+    "size": "85 L",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 6, 12 ] } ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
@@ -2582,6 +2592,7 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
+    "size": "95 L",
     "description": "A benchlike place to sit."
   },
   {
@@ -2600,7 +2611,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "ROOF" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 6, 12 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -2619,7 +2630,13 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "ARMOR" ],
-    "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "breaks_into": [
+      { "item": "chitin_piece", "count": [ 4, 8 ] },
+      { "item": "meal_chitin_piece", "count": [ 2, 6 ] },
+      { "item": "rope_6", "prob": 75 },
+      { "item": "string_36", "count": [ 2, 4 ] },
+      { "item": "string_6", "count": [ 7, 14 ] }
+    ],
     "damage_reduction": { "all": 20 },
     "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },
@@ -2630,7 +2647,13 @@
     "name": { "str": "biosilicified chitin plating" },
     "proportional": { "durability": 1.1 },
     "item": "acidchitin_plate",
-    "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
+    "breaks_into": [
+      { "item": "acidchitin_piece", "count": [ 6, 19 ] },
+      { "item": "meal_chitin_piece", "count": [ 2, 6 ] },
+      { "item": "rope_6", "prob": 75 },
+      { "item": "string_36", "count": [ 2, 4 ] },
+      { "item": "string_6", "count": [ 7, 14 ] }
+    ],
     "damage_reduction": { "all": 24 }
   },
   {
@@ -2650,7 +2673,12 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
     "flags": [ "BOARD_INTERNAL", "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 3, 7 ] },
+      { "item": "e_scrap", "prob": 75 },
+      { "item": "bearing", "count": [ 0, 2 ] }
+    ],
     "damage_reduction": { "all": 12 },
     "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
@@ -2664,7 +2692,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
-    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
+    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
     "folded_volume": "2500 ml",
     "item": "drive_by_wire_controls",
     "requirements": {
@@ -2707,7 +2735,11 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [ "VISION", "CAMERA", "CAMERA_CONTROL", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [ { "item": "e_scrap", "count": [ 4, 10 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [
+      { "item": "e_scrap", "count": [ 4, 10 ] },
+      { "item": "plastic_chunk", "count": [ 2, 8 ] },
+      { "item": "cable", "charges": [ 2, 4 ] }
+    ],
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
   {
@@ -2723,7 +2755,7 @@
     "folded_volume": "2 L",
     "bonus": 24,
     "item": "omnicamera",
-    "//": "Cameras without a DVR can run on under 10W",
+    "//": "Cameras without a DVR can run on under 10 W",
     "epower": "-10 W",
     "location": "on_roof",
     "requirements": {
@@ -2732,7 +2764,12 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [ { "item": "e_scrap", "count": [ 4, 16 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [
+      { "item": "e_scrap", "count": [ 3, 7 ] },
+      { "item": "cable", "charges": [ 3, 7 ] },
+      { "item": "plastic_chunk", "count": [ 4, 10 ] },
+      { "item": "lens", "prob": 35 }
+    ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
@@ -2750,7 +2787,13 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [
+      { "item": "e_scrap", "count": [ 3, 7 ] },
+      { "item": "cable", "charges": [ 3, 7 ] },
+      { "item": "plastic_chunk", "count": [ 4, 10 ] },
+      { "item": "lens", "prob": 35 },
+      { "item": "scrap", "charges": [ 1, 3 ] }
+    ],
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
   {
@@ -2764,7 +2807,7 @@
     "description": "A set of controls to allow a vehicle to drive itself, or you to drive it remotely using a controller.",
     "item": "robot_controls",
     "folded_volume": "1250 ml",
-    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
+    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -2806,7 +2849,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "damage_reduction": { "bash": 5 },
     "variants": [ { "symbols": ":", "symbols_broken": ";" } ]
@@ -2935,7 +2978,7 @@
     "size": "100 L",
     "damage_modifier": 10,
     "item": "v_scoop_item",
-    "//1": "100cm weld to install, 30cm weld per damage quadrant to repair",
+    "//1": "100 cm weld to install, 30 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -2951,7 +2994,15 @@
     },
     "flags": [ "SCOOP", "CARGO", "ENABLED_DRAINS_EPOWER" ],
     "location": "under",
-    "breaks_into": [ { "item": "scrap", "count": [ 2, 5 ] }, { "item": "plastic_chunk", "count": [ 1, 5 ] } ],
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+      { "item": "scrap", "charges": [ 21, 42 ] },
+      { "item": "bearing", "count": [ 1, 3 ] },
+      { "item": "e_scrap", "count": [ 2, 6 ] },
+      { "item": "cable", "charges": [ 300, 600 ] },
+      { "item": "plastic_chunk", "count": [ 1, 2 ] },
+      { "item": "nuts_bolts", "count": [ 2, 5 ] }
+    ],
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "R", "symbols_broken": ";" } ]
   },
@@ -2974,7 +3025,12 @@
     },
     "flags": [  ],
     "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "charges": [ 1, 3 ] },
+      { "item": "glass_shard", "count": [ 2, 5 ] },
+      { "item": "cable", "charges": [ 0, 2 ] },
+      { "item": "hose", "prob": 25 }
+    ],
     "damage_reduction": { "all": 26 },
     "variants": [ { "symbols": "&", "symbols_broken": "*" } ]
   },
@@ -2989,9 +3045,10 @@
     "durability": 200,
     "description": "A plow.  Use the vehicle controls to turn it on or off.  When turned on, it will create a furrow in any dirt it travels over, making it suitable for planting seeds.  It should be placed in front of any seed drills on the vehicle.",
     "item": "v_plow_item",
-    "location": "under",
-    "power": "-300 W",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "location": "structure",
+    "power": "-6000 W",
+    "//2": "~8 hp for a moldboard plow depth of 8 inches",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
       "install": {
@@ -3007,7 +3064,16 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "TRANSFORM_TERRAIN", "PLOW", "EXTRA_DRAG" ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 21, 40 ] },
+      { "item": "scrap", "charges": [ 108, 215 ] },
+      { "item": "nuts_bolts", "count": [ 7, 15 ] },
+      { "item": "pipe_fittings", "prob": 30 },
+      { "item": "rubber_tire_chunk", "prob": 35 },
+      { "item": "chunk_rubber", "count": [ 8, 19 ] },
+      { "item": "shredded_rubber", "count": [ 8, 20 ] }
+    ],
     "damage_reduction": { "all": 46 },
     "variants": [ { "symbols": "&", "symbols_broken": "*" } ]
   },
@@ -3024,8 +3090,9 @@
     "item": "v_planter_item",
     "location": "structure",
     "size": "12500 ml",
-    "power": "-700 W",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "power": "-1200 W",
+    "//2": "~1.5 hp for seed drill depth of 1.5 inches",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3039,8 +3106,15 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 3, 6 ] },
+      { "item": "scrap", "charges": [ 10, 21 ] },
+      { "item": "nuts_bolts", "count": [ 3, 6 ] },
+      { "item": "rubber_tire_chunk", "prob": 80 },
+      { "item": "chunk_rubber", "count": [ 16, 38 ] },
+      { "item": "shredded_rubber", "count": [ 16, 40 ] }
+    ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "8", "symbols_broken": "*" } ]
   },
@@ -3057,8 +3131,9 @@
     "item": "v_planter_item_advanced",
     "location": "structure",
     "power": "-700 W",
+    "epower": "-1 W",
     "size": "17500 ml",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3072,12 +3147,17 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "sheet_metal_small", "count": [ 3, 6 ] },
+      { "item": "scrap", "charges": [ 10, 21 ] },
+      { "item": "nuts_bolts", "count": [ 3, 6 ] },
+      { "item": "rubber_tire_chunk", "prob": 80 },
+      { "item": "chunk_rubber", "count": [ 16, 38 ] },
+      { "item": "shredded_rubber", "count": [ 16, 40 ] }
     ],
     "damage_reduction": { "all": 18 },
     "variants": [ { "symbols": "8", "symbols_broken": "*" } ]
@@ -3090,12 +3170,13 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-700 W",
+    "power": "-1500 W",
+    "//2": "about 2 hp",
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
     "item": "v_reaper_item",
     "location": "structure",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3110,7 +3191,16 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "REAPER", "PROTRUSION", "EXTRA_DRAG" ],
-    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 2, 4 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "sheet_metal_small", "count": [ 3, 6 ] },
+      { "item": "scrap", "charges": [ 15, 30 ] },
+      { "item": "nuts_bolts", "count": [ 3, 6 ] },
+      { "item": "rubber_tire_chunk", "prob": 80 },
+      { "item": "chunk_rubber", "count": [ 16, 38 ] },
+      { "item": "shredded_rubber", "count": [ 16, 40 ] }
+    ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "/", "symbols_broken": "*" } ]
   },
@@ -3122,13 +3212,13 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-1050 W",
+    "power": "-2000 W",
     "durability": 200,
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
-    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
-    "location": "under",
+    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "location": "structure",
     "size": "87500 ml",
     "requirements": {
       "install": {
@@ -3149,7 +3239,14 @@
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
       { "item": "plastic_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 2, 6 ] }
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "sheet_metal_small", "count": [ 3, 6 ] },
+      { "item": "scrap", "charges": [ 15, 30 ] },
+      { "item": "nuts_bolts", "count": [ 3, 6 ] },
+      { "item": "rubber_tire_chunk", "prob": 80 },
+      { "item": "chunk_rubber", "count": [ 16, 38 ] },
+      { "item": "shredded_rubber", "count": [ 16, 40 ] }
     ],
     "damage_reduction": { "all": 12 },
     "variants": [ { "symbols": "=", "symbols_broken": "*" } ]
@@ -3170,8 +3267,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CARGO_LOCKING", "INTERNAL" ],
-    "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "flags": [ "CARGO_LOCKING", "INTERNAL", "SIMPLE_PART" ],
+    "breaks_into": [ { "item": "clockworks", "prob": 15 }, { "item": "scrap", "prob": 75 } ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "+", "symbols_broken": "+" } ]
   },
@@ -3184,7 +3281,7 @@
     "durability": 320,
     "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
-    "//1": "60cm weld to install and 15cm weld per damage quadrant to repair",
+    "//1": "60 cm weld to install and 15 cm weld per damage quadrant to repair",
     "item": "turret_mount",
     "requirements": {
       "install": {
@@ -3196,7 +3293,15 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "TURRET_MOUNT" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 10, 20 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "plastic_chunk", "count": [ 1, 2 ] },
+      { "item": "bearing", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 6, 12 ] },
+      { "item": "nuts_bolts", "count": [ 3, 6 ] }
+    ],
     "damage_reduction": { "all": 54 },
     "variants": [ { "symbols": "X", "symbols_broken": "X" } ]
   },
@@ -3220,8 +3325,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ], "time": "12 m", "using": [ [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE" ],
-    "breaks_into": [ { "item": "clockworks", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
+    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE", "SIMPLE_PART" ],
+    "breaks_into": [ { "item": "clockworks", "prob": 30 }, { "item": "scrap", "prob": 75 } ],
     "damage_reduction": { "all": 60 }
   },
   {
@@ -3262,7 +3367,7 @@
     "durability": 200,
     "item": "aluminum_boat_hull",
     "location": "under",
-    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
+    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3277,7 +3382,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_alloys", 6 ] ] }
     },
     "flags": [ "FLOATS" ],
-    "breaks_into": "ig_vp_sheet_metal",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 6, 14 ] } ],
     "damage_reduction": { "all": 18 },
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
@@ -3300,90 +3405,5 @@
     },
     "flags": [  ],
     "variants": [ { "symbols": "t", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "stowed_fridge",
-    "name": { "str": "tied-down fridge" },
-    "categories": [ "other" ],
-    "color": "white",
-    "damage_modifier": 5,
-    "durability": 200,
-    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
-    "bonus": 300,
-    "item": "stowed_fridge",
-    "location": "on_roof",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
-    },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "flags": [ "EXTRA_DRAG" ],
-    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "stowed_glass_fridge",
-    "name": { "str": "tied-down glass door fridge" },
-    "categories": [ "other" ],
-    "color": "white",
-    "damage_modifier": 5,
-    "durability": 100,
-    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
-    "bonus": 300,
-    "item": "stowed_glass_fridge",
-    "location": "on_roof",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
-    },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 16 },
-    "flags": [ "EXTRA_DRAG" ],
-    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "stowed_freezer",
-    "name": { "str": "tied-down freezer" },
-    "categories": [ "other" ],
-    "color": "white",
-    "damage_modifier": 5,
-    "durability": 200,
-    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
-    "bonus": 300,
-    "item": "stowed_freezer",
-    "location": "on_roof",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
-    },
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] }
-    ],
-    "damage_reduction": { "all": 32 },
-    "flags": [ "EXTRA_DRAG" ],
-    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
   }
 ]

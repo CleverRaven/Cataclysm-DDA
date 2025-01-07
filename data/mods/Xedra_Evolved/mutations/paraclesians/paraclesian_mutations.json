@@ -34,12 +34,17 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "cthonic_poultice" ],
     "description": "A spirit of earth and stone.",
     "anger_relations": [ [ "IERDE", -20 ], [ "SYLPH", 20 ] ],
     "allowed_category": [ "IERDE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -77,14 +82,19 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "verdant_poultice" ],
     "description": "A spirit of leaf and bark.",
     "anger_relations": [ [ "ARVORE", -20 ], [ "HOMULLUS", 20 ] ],
     "allowed_category": [ "ARVORE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS" ]
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -121,12 +131,17 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "charred_sacrifice" ],
     "description": "A spirit of fire.",
     "anger_relations": [ [ "SALAMANDER", -20 ], [ "UNDINE", 20 ] ],
     "allowed_category": [ "SALAMANDER" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -140,10 +155,17 @@
     "purifiable": false,
     "profession": true,
     "points": 2,
-    "weakness_to_water": -2,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "WEAKNESS_TO_WATER", "add": -0.000347 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SWEAT_MULTIPLIER", "multiply": -1 }
+        ]
+      }
+    ],
     "ignored_by": [ "UNDINE" ],
     "scent_type": "sc_fae",
-    "thirst_modifier": -1.0,
     "cancels": [
       "THIRST",
       "THIRST2",
@@ -167,12 +189,17 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "cerulean_poultice" ],
     "description": "You are born of the deep waters.",
     "anger_relations": [ [ "UNDINE", -20 ], [ "SALAMANDER", 20 ] ],
     "allowed_category": [ "UNDINE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -210,12 +237,16 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "doll_repair_paste" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "description": "A spirit of the image of humans given life.",
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
-    "allowed_category": [ "HOMULLUS" ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
   {
     "type": "mutation",
@@ -252,13 +283,273 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"
+      "NOHEAL",
+      "DREAMER",
+      "DREAMSMITH",
+      "EATER",
+      "INVENTOR"
     ],
     "can_heal_with": [ "ethereal_draught" ],
     "description": "A spirit of air and wind.",
     "anger_relations": [ [ "SYLPH", -20 ], [ "IERDE", 20 ] ],
     "allowed_category": [ "SYLPH" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_STR_DEX_1",
+    "name": { "str": "Fae Prowess" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_STR_DEX_2" ],
+    "prereqs": [
+      "ARVORE_SKIN_1",
+      "IERDE_SKIN_1",
+      "HOMULLUS_SKIN_1",
+      "SALAMANDER_SKIN_1",
+      "SYLPH_SKIN_1",
+      "UNDINE_SKIN_1",
+      "UNKNOWING_CHANGELING_NOBLE",
+      "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+      "UNKNOWING_CHANGELING_COMMONER_POOKA",
+      "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+      "UNKNOWING_CHANGELING_COMMONER_TROW"
+    ],
+    "description": "You have gained a portion of the might of your fae ancestors.  +1 Strength and Dexterity.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 }, { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_STR_DEX_2",
+    "name": { "str": "Fae Puissance" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
+    "prereqs2": [
+      "ARVORE_SKIN_3",
+      "IERDE_SKIN_3",
+      "HOMULLUS_SKIN_3",
+      "SALAMANDER_SKIN_3",
+      "SYLPH_SKIN_3",
+      "UNDINE_SKIN_3",
+      "UNKNOWING_CHANGELING_NOBLE",
+      "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+      "UNKNOWING_CHANGELING_COMMONER_POOKA",
+      "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+      "UNKNOWING_CHANGELING_COMMONER_TROW"
+    ],
+    "description": "You have gained the might of your fae ancestors.  +2 Strength and Dexterity.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_ARVORE",
+      "THRESH_IERDE",
+      "THRESH_HOMULLUS",
+      "THRESH_SALAMANDER",
+      "THRESH_SYLPH",
+      "THRESH_UNDINE",
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_INT_PER_1",
+    "name": { "str": "Fae Discernment" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_INT_PER_2" ],
+    "prereqs": [
+      "ARVORE_SKIN_1",
+      "IERDE_SKIN_1",
+      "HOMULLUS_SKIN_1",
+      "SALAMANDER_SKIN_1",
+      "SYLPH_SKIN_1",
+      "UNDINE_SKIN_1",
+      "UNKNOWING_CHANGELING_NOBLE",
+      "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+      "UNKNOWING_CHANGELING_COMMONER_POOKA",
+      "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+      "UNKNOWING_CHANGELING_COMMONER_TROW"
+    ],
+    "description": "You have gained a portion of the wits of your fae ancestors.  +1 Intelligence and Perception.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 }, { "value": "PERCEPTION", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_INT_PER_2",
+    "name": { "str": "Fae Acumen" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_INT_PER_1" ],
+    "prereqs2": [
+      "ARVORE_SKIN_3",
+      "IERDE_SKIN_3",
+      "HOMULLUS_SKIN_3",
+      "SALAMANDER_SKIN_3",
+      "SYLPH_SKIN_3",
+      "UNDINE_SKIN_3",
+      "UNKNOWING_CHANGELING_NOBLE",
+      "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+      "UNKNOWING_CHANGELING_COMMONER_POOKA",
+      "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+      "UNKNOWING_CHANGELING_COMMONER_TROW"
+    ],
+    "description": "You have gained the wits of your fae ancestors.  +2 Intelligence and Perception.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_ARVORE",
+      "THRESH_IERDE",
+      "THRESH_HOMULLUS",
+      "THRESH_SALAMANDER",
+      "THRESH_SYLPH",
+      "THRESH_UNDINE",
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "PERCEPTION", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_1",
+    "name": { "str": "Fae Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
+    "prereqs": [
+      "ARVORE_EYES",
+      "HOMULLUS_SKIN_1",
+      "IERDE_EYES",
+      "SALAMANDER_EYES",
+      "SYLPH_EYES",
+      "UNDINE_EYES",
+      "UNKNOWING_CHANGELING_NOBLE",
+      "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+      "UNKNOWING_CHANGELING_COMMONER_POOKA",
+      "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+      "UNKNOWING_CHANGELING_COMMONER_TROW"
+    ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.  It has a small chance to cost some of your mana each turn it is in use.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_ON" ],
+    "processed_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_FAE_SIGHT_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PARACLESIAN_FAE_SIGHT_2",
+    "name": { "str": "Wyrd Sight" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1" ],
+    "description": "You can sense other nearby creatures from the Bright Lands.  Activate to enable your fae senses.",
+    "category": [
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SALAMANDER",
+      "SYLPH",
+      "UNDINE",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_ARVORE",
+      "THRESH_IERDE",
+      "THRESH_HOMULLUS",
+      "THRESH_SALAMANDER",
+      "THRESH_SYLPH",
+      "THRESH_UNDINE",
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_ON" ],
+    "deactivated_eocs": [ "EOC_PARACLESIAN_WYRD_SIGHT_OFF" ]
   },
   {
     "type": "mutation",
@@ -278,7 +569,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create a cloud of damaging steam.",
+    "description": "Upon gaining this ability the Undine gains the ability to create a cloud of damaging steam.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "cloud_of_steam_undine", 1 ] ]
   },
@@ -300,7 +591,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph gains the ability to create light.",
+    "description": "Upon gaining this ability the Salamander gains the ability to create light.",
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "create_light_salamander", 1 ] ]
   },
@@ -314,7 +605,7 @@
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 500 } ] } ]
   },
   {
     "type": "mutation",
@@ -327,7 +618,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -339,7 +630,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2000 } ] } ]
   },
   {
     "type": "mutation",
@@ -361,9 +652,19 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Like your fae ancestors, you can turn gossamer into clothing and armor.  Activate this trait to learn a gossamer recipe (once per week).",
-    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
-    "active": true,
-    "activated_eocs": [ "EOC_PARACLESIAN_GOSSAMER_RECIPES" ]
+    "category": [
+      "UNDINE",
+      "SALAMANDER",
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SYLPH",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ]
   },
   {
     "type": "mutation",
@@ -374,8 +675,99 @@
     "ugliness": 0,
     "description": "Your manipulation of gossamer has advanced to the point where you can make it yourself out of mundane cotton and moonlight.",
     "prereqs": [ "PARACLESIAN_LEARN_GOSSAMER_RECIPES" ],
-    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
-    "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
+    "category": [
+      "UNDINE",
+      "SALAMANDER",
+      "ARVORE",
+      "IERDE",
+      "HOMULLUS",
+      "SYLPH",
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_UNDINE",
+      "THRESH_SALAMANDER",
+      "THRESH_ARVORE",
+      "THRESH_IERDE",
+      "THRESH_HOMULLUS",
+      "THRESH_SYLPH",
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": {
+      "category": [
+        "UNDINE",
+        "ARVORE",
+        "IERDE",
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": {
+      "category": [
+        "UNDINE",
+        "ARVORE",
+        "IERDE",
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_WISHES_TO_CONVERSE",
+    "name": { "str": "Desire for Conversation" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin casts this spell to force a conversation with anyone, once.  If they've heard the Dollkin out and decided they wish not to speak again it will not work.",
+    "category": [ "HOMULLUS" ],
+    "active": true,
+    "starts_active": true,
+    "spells_learned": [ [ "homullus_spell_wish_to_converse", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FINAL_DISCUSSION",
+    "name": { "str": "FINAL DISCUSSION" },
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "This person won't speak with them again if this goes poorly."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIANS_CANNOT_USE_PURIFIER",
+    "//": "Paraclesians are elemental spirits, not humans, and purifier is human mutagen",
+    "recurrence": "10 m",
+    "condition": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] } },
+    "effect": [ { "math": [ "u_vitamin('mutagen_human') = 0" ] } ]
   }
 ]

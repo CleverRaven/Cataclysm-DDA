@@ -83,13 +83,13 @@ TEST_CASE( "map_test_case_transform_consistency", "[map_test_case]" )
     SECTION( tst.generate_transform_combinations() ) {
     }
 
-    // assumes tst.anchor_map_pos == tripoint_zero
-    CHECK( tst.get_origin() == tripoint_north_west );
-    tst.validate_anchor_point( tripoint_zero );
+    // assumes tst.anchor_map_pos == tripoint::zero
+    CHECK( tst.get_origin() == tripoint_bub_ms( tripoint::north_west ) );
+    tst.validate_anchor_point( tripoint_bub_ms::zero );
 
     std::set<tripoint> tiles;
     tst.for_each_tile( [&]( mtc::tile t ) {
-        tiles.emplace( t.p );
+        tiles.emplace( t.p.raw() );
     } );
 
     CHECK( tiles.size() == 9 );
@@ -98,13 +98,13 @@ TEST_CASE( "map_test_case_transform_consistency", "[map_test_case]" )
         std::begin( eight_horizontal_neighbors ),
         std::end( eight_horizontal_neighbors )
     );
-    neigh_vec.push_back( tripoint_zero );
+    neigh_vec.push_back( tripoint::zero );
     CHECK_THAT( std::vector<tripoint>( tiles.begin(), tiles.end() ),
                 Catch::UnorderedEquals( neigh_vec ) );
 
     tst.for_each_tile( [&]( mtc::tile t ) {
         CHECK( t.expect_c == t.setup_c );
-        CHECK( tiles.count( t.p ) == 1 );
+        CHECK( tiles.count( t.p.raw() ) == 1 );
     } );
 }
 
@@ -125,7 +125,7 @@ TEST_CASE( "map_test_case_transform_non_square", "[map_test_case]" )
 
     SECTION( tst.generate_transform_combinations() ) {
     }
-    tst.validate_anchor_point( tripoint_zero );
+    tst.validate_anchor_point( tripoint_bub_ms::zero );
 
     CAPTURE( tst.get_width(), tst.get_height() );
     CHECK(
@@ -135,8 +135,8 @@ TEST_CASE( "map_test_case_transform_non_square", "[map_test_case]" )
 
     CAPTURE( tst.get_origin() );
     CHECK( std::set<tripoint> {
-        tripoint_zero, {-4, 0, 0}, {0, -4, 0}
-    } .count( tst.get_origin() ) );
+        tripoint::zero, {-4, 0, 0}, {0, -4, 0}
+    } .count( tst.get_origin().raw() ) );
 
     tst.for_each_tile( [&]( mtc::tile t ) {
         CHECK( t.expect_c - 'a' == t.setup_c - '1' );

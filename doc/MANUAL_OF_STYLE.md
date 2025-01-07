@@ -19,3 +19,11 @@ Follow these conventions when adding or editing in-game text. Theses conventions
 10. Brand names do not need to be avoided as we are covered under fair use.  However, as CDDA-Earth is a parallel universe, nonexistent brands are also allowed.
 11. Don't avoid using Unicode letters, which includes proper names and alphabets when needed, or symbols as ® or ™.
 12. Always make sure that all descriptions follow a sentence case, i.e. they start with a big letter and end with a full stop, even if they are just for testing purposes (they can still appear by mistake and can be seen in debug menus).
+
+For writing NPC dialogues with mentioned conditional checks:
+
+1. When specifying stats, use the abbreviated form, e.g `[PER 10] I can see something weird.`. Avoid: `[PER 10+]` or `[PERCEPTION 10]`.
+2. When specifying skills, use regular sentence case, e.g `[Tailoring 2] I can patch it up for you!`
+3. When specifying traits, write it in all uppercase, e.g `[SWEET TOOTH] Do you have something more sugary than fruit?`
+4. When specifying that an item will be used (not used up), use e.g `[Use Stethoscope] Let's see if this one is still alive.`
+5. When specifying an action without any dialogue, use e.g `[Push the button.]`.

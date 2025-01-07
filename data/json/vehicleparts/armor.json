@@ -9,7 +9,7 @@
     "color": "dark_gray",
     "durability": 150,
     "folded_volume": "1 L",
-    "//": "4x80cm rebars arranged in a # or //// pattern. Half the surface area is welded (40 cm per rebar)",
+    "//": "4 cm x 80 cm rebars arranged in a # or //// pattern. Half the surface area is welded (40 cm per rebar)",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 160 ] ] },
@@ -32,7 +32,7 @@
     "durability": 340,
     "bonus": 50,
     "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
-    "//": "1x1m sq metal plate + 3 9cm springs ~= 400cm weld or so, 50 cm per damage quadrant to repair",
+    "//": "1 m x 1 m sq metal plate + 3 9 cm springs ~= 400 cm weld or so, 50 cm per damage quadrant to repair",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "70 m", "using": [ [ "welding_standard", 400 ] ] },

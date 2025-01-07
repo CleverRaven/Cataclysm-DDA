@@ -81,7 +81,7 @@
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF "
       ],
       "palettes": [ "farm" ],
-      "terrain": { "│": "t_hole" },
+      "terrain": { "│": "t_open_air" },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
@@ -119,8 +119,8 @@
         "!_!__!~!.#1 6| hfh     #",
         "!______!.#2 6|||||||+||#",
         "!______!.#|+||rrr T   d#",
-        "!_!__!_!.#B`t| h     @@o",
-        "!______!.#B``+       @@#",
+        "!_!__!_!.#B't| h     @@o",
+        "!______!.#B''+       @@#",
         "!qq__qq!.#8S8|RRR  E  d#",
         "!!!**!!!.##o########oo##",
         ",,,,,...................",
@@ -130,10 +130,10 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "!": "t_wall_wood",
-        "`": "t_linoleum_gray",
         ",": "t_region_soil",
         "0": "t_water_pump",
         "$": "t_region_shrub_decorative",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "q": "t_dirtfloor",
         "_": "t_dirtfloor",
         "~": "t_dirtmoundfloor"
@@ -175,8 +175,8 @@
         "!_!__!~!.#1 6| hfh     #",
         "!______!.#2 6|||||||+||#",
         "!______!.#|+||rrr T   d#",
-        "!_!__!_!.#B`t| h     @@o",
-        "!______!.#B``+       @@#",
+        "!_!__!_!.#B't| h     @@o",
+        "!______!.#B''+       @@#",
         "!qq__qq!.#8S8|RRR  E  d#",
         "!!!**!!!.##o########oo##",
         ",,,,,...................",
@@ -187,10 +187,10 @@
       "terrain": {
         "o": [ "t_window_boarded", "t_window_boarded_noglass" ],
         "!": "t_wall_wood",
-        "`": "t_linoleum_gray",
         ",": "t_region_soil",
         "0": "t_water_pump",
         "$": "t_region_shrub_decorative",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "q": "t_dirtfloor",
         "_": "t_dirtfloor",
         "~": "t_dirtmoundfloor"
@@ -570,6 +570,93 @@
         "                        ",
         "                        ",
         "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary" ] ],
+    "//": "Apiary",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "                        ",
+        "     FFFFFFFFFFFFFFFFFF ",
+        "     F         ,      F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,  F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,,,g,,,,,     ,,    F ",
+        "  ,,,g,,,,   ,        F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "   , F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "     F               ,F ",
+        "    ,FFFFFFFFFFFFFFFFFF ",
+        "     ,,                 ",
+        "           ,      ##### ",
+        "               , ♦#r♠♥# ",
+        "                ,,+___# ",
+        "                  ##### ",
+        "                        ",
+        " FFFFFFFFFFFFFFFFFFFFFF ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F "
+      ],
+      "terrain": { "⬡": [ [ "t_apiary", 5 ], [ "t_apiary_empty", 95 ] ] },
+      "items": {
+        "♠": [
+          { "item": "hive", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "tools_common", "chance": 50 }
+        ],
+        "r": { "item": "honey_market_stall", "repeat": [ 4, 12 ] }
+      },
+      "furniture": { "♥": "f_machinery_light", "♠": "f_locker", "♦": "f_woodchips" },
+      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
+      "palettes": [ "farm" ],
+      "place_monster": [
+        { "group": "GROUP_BEEKEEPER", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": 1, "chance": 10 },
+        { "group": "GROUP_BEE", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": [ 2, 4 ], "chance": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary_roof" ] ],
+    "weight": 250,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  ..... ",
+        "                  ...=. ",
+        "                  ..... ",
+        "                  ..... ",
         "                        ",
         "                        ",
         "                        ",

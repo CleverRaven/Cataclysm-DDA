@@ -46,33 +46,31 @@ endif()
 message(STATUS "${PROJECT_NAME} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-if (NOT CMAKE_BUILD_TYPE)
+get_property(GENERATOR_IS_MULTI_CONFIG GLOBAL
+    PROPERTY GENERATOR_IS_MULTI_CONFIG
+)
+if (NOT CMAKE_BUILD_TYPE AND NOT GENERATOR_IS_MULTI_CONFIG)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
 
 add_definitions(-DCMAKE)
 
-include(GetGitRevisionDescription)
-git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
-if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
-    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
-    file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
-            "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
+# Retrieve version from git into GIT_VERSION and creates VERSION.txt
+execute_process(COMMAND ${CMAKE_COMMAND}
+    -DGIT_BINARY=${GIT_BINARY}
+    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+    ERROR_VARIABLE GIT_VERSION
+    ERROR_STRIP_TRAILING_WHITESPACE
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
+if (GIT_VERSION)
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
-
-    # get_git_head_revision() does not work with worktrees in Windows
-    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        OUTPUT_VARIABLE _sha1
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-    string(TIMESTAMP _timestamp %Y-%m-%d-%H%M)
-    file(WRITE VERSION.txt "\
-build type: ${BUILD_PRESET_NAME}\n\
-build number: ${_timestamp}\n\
-commit sha: ${_sha1}\n\
-commit url: https://github.com/CleverRaven/Cataclysm-DDA/commit/${_sha1}"
-    )
+else()
+    message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package
+    or use -DGIT_BINARY to set path to git binary.")
+    set(VERSION "NULL")
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -80,8 +78,10 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
-    set(_OS_FREEBSD_ 1)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
+    set(_OS_BSD_ 1)
 endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
@@ -94,6 +94,10 @@ endif ()
 
 include(CheckCXXCompilerFlag)
 
+if(DEFINED ENV{MSYSTEM})
+    set(MSYS2 True)
+    add_definitions(-DMSYS2)
+endif()
 #FIXME: Add dest build choice: m32 for 32 bit or m64 for 64 bit version
 #add_definitions("-m32")
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
@@ -310,8 +314,46 @@ if (CURSES)
     message(STATUS "Searching for Curses library --")
     set(CURSES_NEED_NCURSES TRUE)
     set(CURSES_NEED_WIDE TRUE)
-    find_package(Curses)
-    if (NOT CURSES_FOUND)
+    if (WIN32 AND VCPKG_MANIFEST_MODE)
+        find_package(unofficial-pdcurses CONFIG)
+        if(TARGET unofficial::pdcurses::pdcurses)
+            get_target_property(_IMPORTED_CONFIGURATIONS unofficial::pdcurses::pdcurses
+                IMPORTED_CONFIGURATIONS
+            )
+            if (RELEASE AND "Release" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_RELEASE)
+            elseif("Debug" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_DEBUG)
+            endif()
+            set_target_properties(unofficial::pdcurses::pdcurses PROPERTIES
+                IMPORTED_LOCATION ${_IMPORTED_LOCATION})
+            set(USE_PDCURSES TRUE)
+        endif()
+    elseif(MSYS2)
+        if(True) # GNU NCURSES: mingw-w64-ucrt-x86_64-ncurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libncursesw.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/ncursesw
+            )
+            set(USE_PDCURSES FALSE)
+        else() # PDCursesMOD: mingw-w64-ucrt-x86_64-pdcurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libpdcurses_wingui.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/pdcurses
+                INTERFACE_COMPILE_DEFINITIONS
+                "PDC_WIDE;PDC_FORCE_UTF8;PDC_NCMOUSE;PDC_RGB;CHTYPE_32"
+            )
+            set(USE_PDCURSES TRUE)
+        endif()
+        set(CURSES_FOUND True)
+    else ()
+        find_package(Curses)
+    endif ()
+    if (NOT (CURSES_FOUND OR TARGET unofficial::pdcurses::pdcurses))
         message(FATAL_ERROR
                 "This project requires ncurses to be installed to be compiled in text-only mode. \
                  Please install the ncurses development libraries, \
@@ -324,14 +366,6 @@ if (CURSES)
 endif ()
 
 if (SOUND)
-    # You need TILES to be able to use SOUND
-    if (NOT TILES)
-        message(FATAL_ERROR
-                "You must enable graphical support with -DTILES=1 \
-                 to be able to enable sound support. \
-                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
-
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
@@ -348,6 +382,9 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
+    endif ()
+    if (_OS_BSD_)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lexecinfo")
     endif ()
 endif ()
 

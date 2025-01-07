@@ -1,0 +1,45 @@
+[
+  {
+    "type": "palette",
+    "id": "open_air_market_palette",
+    "parameters": {
+      "topleft_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
+      },
+      "topright_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
+      },
+      "midleft_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
+      },
+      "midright_market_variant_nests": { "type": "nested_mapgen_id", "default": { "distribution": [ "market_clothes", "market_botanical", "market_books" ] } },
+      "bottomleft_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_meat", "market_grocery", "market_fish", "market_confectionery", "market_bees" ] }
+      },
+      "bottomright_market_variant_nests": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
+      }
+    },
+    "terrain": { ",": "t_thconc_floor_no_roof" }
+  },
+  {
+    "type": "palette",
+    "id": "open_air_stall_palette",
+    "terrain": { ",": "t_thconc_floor_no_roof" },
+    "furniture": {
+      "c": "f_large_canvas_wall",
+      "d": "f_displaycase",
+      "f": "f_glass_fridge",
+      "h": "f_chair",
+      "t": "f_table",
+      "r": "f_rack_wood",
+      "C": "f_large_canvas_door",
+      "T": "f_table"
+    }
+  }
+]

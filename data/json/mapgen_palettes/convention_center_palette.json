@@ -13,7 +13,7 @@
       }
     ],
     "terrain": {
-      "│": "t_hole",
+      "│": "t_open_air",
       "_": "t_concrete",
       "A": "t_concrete",
       "f": "t_chainfence",
@@ -55,7 +55,7 @@
     },
     "furniture": {
       "e": "f_fridge",
-      "é": "f_fridge",
+      "é": "f_heavy_duty_fridge",
       "m": "f_glass_fridge",
       "r": "f_utility_shelf",
       "O": "f_oven",

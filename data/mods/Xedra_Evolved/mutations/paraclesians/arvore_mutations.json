@@ -23,7 +23,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
-    "thirst_modifier": -0.3,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ],
     "integrated_armor": [ "integrated_vegital_cuticle" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -53,7 +53,33 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_bark_skin" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
+  },
+  {
+    "id": "ARVORE_MOSS",
+    "type": "mutation",
+    "name": { "str": "Patches of Moss" },
+    "points": 1,
+    "visibility": 5,
+    "ugliness": 3,
+    "bodytemp_modifiers": [ 250, 600 ],
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 0.5 } ] } ],
+    "wet_protection": [
+      { "part": "head", "neutral": 4, "good": 5 },
+      { "part": "leg_l", "neutral": 8, "good": 15 },
+      { "part": "leg_r", "neutral": 8, "good": 15 },
+      { "part": "foot_l", "neutral": 3, "good": 5 },
+      { "part": "foot_r", "neutral": 3, "good": 5 },
+      { "part": "arm_l", "neutral": 8, "good": 14 },
+      { "part": "arm_r", "neutral": 8, "good": 14 },
+      { "part": "hand_l", "neutral": 3, "good": 4 },
+      { "part": "hand_r", "neutral": 3, "good": 4 },
+      { "part": "torso", "neutral": 15, "good": 27 }
+    ],
+    "description": "A viridian moss has grown on your skin, forming whorls and eldritch patterns, providing some protection from the cold and the wet.  It also provides a small amount of armor against acid or fire.",
+    "armor": [ { "part_types": [ "ALL" ], "acid": 2, "heat": 4 } ],
+    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "category": [ "ARVORE" ]
   },
   {
     "type": "mutation",
@@ -66,6 +92,7 @@
     "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.",
     "category": [ "ARVORE" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
+    "changes_to": [ "GREENSTRIDE_UPGRADE" ],
     "enchantments": [
       {
         "condition": {
@@ -93,6 +120,47 @@
   },
   {
     "type": "mutation",
+    "id": "GREENSTRIDE_UPGRADE",
+    "name": { "str": "Forestwalker" },
+    "purifiable": false,
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The trees recognize you as one of their own and allow you to pass easily beneath their boughs.  The grass moves under your feet to speed your passage, and shrubs bend out of the way.  When walking on grass, trees, or other natural foliage, your movement speed is increased.  In addition, when in a forest, the trees bend out of your way, allowing you to pass",
+    "category": [ "ARVORE" ],
+    "prereqs": [ "ARVORE_DEX_BONUS" ],
+    "prereqs2": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      },
+      {
+        "condition": { "or": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }, { "u_at_om_location": "forest_trail" } ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_NURTURING_THE_GREEN",
     "name": { "str": "Nurturing the Green" },
     "points": 2,
@@ -105,8 +173,24 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_SEED_BEARER",
+    "name": { "str": "Seed Bearer" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Arvore with this ability have a seed pocket on their body that over time fills with a set of from this region of the world.  Each time new seeds appear they will all be of the same type, but the types will vary at random.",
+    "category": [ "ARVORE" ],
+    "active": true,
+    "mana": true,
+    "cost": 500,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_ARVORE_SEED_BEARER_activated" ],
+    "//": "This is currently character creation only, ideally there will be ways to get this later in game."
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_WALL",
-    "name": { "str": "Forest Shelter" },
+    "name": { "str": "The Forest Offers Shelter" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
@@ -145,11 +229,10 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to transport themselves from tree to nearby tree while within a forest.",
-    "prereqs": [ "GREENSTRIDE" ],
+    "prereqs": [ "GREENSTRIDE_UPGRADE" ],
     "prereqs2": [ "ARVORE_FOREST_STEALTH" ],
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_traverse_the_wilds", 1 ] ],
-    "//": "Ideally this would require the destination as well as the departure point to be in a forest (in which case, maybe it could be expanded to fields), but no way to do that for now."
+    "spells_learned": [ [ "arvore_traverse_the_wilds", 1 ] ]
   },
   {
     "type": "mutation",
@@ -160,6 +243,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore gains the ability to induce decay and dissolution in the surrounding area.",
     "prereqs": [ "ARVORE_VERDANT_INFUSION" ],
+    "prereqs2": [ "ARVORE_TURN_INTO_TREE" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "spells_learned": [ [ "arvore_cause_decay", 1 ] ]
@@ -167,7 +251,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_SPIRIT",
-    "name": { "str": "Summon Wood Spirit" },
+    "name": { "str": "Call the Children of the Roots" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
@@ -182,11 +266,38 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_ROOTS_SPELL" ],
+    "prereqs": [ "ARVORE_SUMMON_GRASS_FIELD" ],
     "leads_to": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "description": "Upon gaining this ability, the Arvore gains the ability to summon semitangible roots that will shatter walls and furniture.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_roots_crack_the_foundation", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_FOREST_TRANSLOCATION",
+    "name": { "str": "From Root to Root the Forest Is Joined" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_FOREST_TELEPORT" ],
+    "description": "Upon gaining this ability, the Arvore gains the ability to travel great distances, even dozens of miles, in moments, as long as they start and end their journey within the depths of a forest.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "spells_learned": [ [ "arvore_forest_translocate", 1 ], [ "arvore_forest_translocate_attune", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_TURN_INTO_TREE",
+    "name": { "str": "Overgrowth" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_SUMMON_BRIARS" ],
+    "prereqs2": [ "ARVORE_SUMMON_WOOD_WALL" ],
+    "description": "Upon gaining this ability, the Arvore gains the ability to cause rapid plant growth in a radius around themselves.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "spells_learned": [ [ "arvore_overgrowth_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -195,14 +306,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [
-      "ARVORE_SUN_NUTRIENTS_AND_MANA",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
-      "ARVORE_SUN_MANA_BONUS",
-      "ARVORE_SUN_MANA_BONUS_ON",
-      "ARVORE_SUN_POWER_MANA_STATS",
-      "ARVORE_SUN_POWER_MANA_STATS_ON"
-    ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "description": "Upon gaining this ability the Arvore gains the ability to bind their soul to the heart of the forest, rebirthing themselves when on the verge of death.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -228,31 +332,35 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
-    "prereqs2": [
-      "ARVORE_SUN_NUTRIENTS",
-      "ARVORE_SUN_NUTRIENTS_ON",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
-      "ARVORE_SUN_MANA_BONUS",
-      "ARVORE_SUN_MANA_BONUS_ON",
-      "ARVORE_SUN_POWER_MANA_STATS",
-      "ARVORE_SUN_POWER_MANA_STATS_ON"
-    ],
+    "prereqs2": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "description": "Upon gaining this ability the Arvore gains the ability to infuse their companions with the vitality of the forest.",
     "category": [ "ARVORE" ],
     "spells_learned": [ [ "arvore_verdant_infusion", 1 ] ]
   },
   {
     "type": "mutation",
-    "id": "ARVORE_ROOTS_SPELL",
-    "name": { "str": "Command the Roots" },
+    "id": "ARVORE_SUMMON_GRASS_FIELD",
+    "name": { "str": "Commanding the Grasses" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "leads_to": [ "ARVORE_TERRAIN_BASH_SPELL" ],
-    "description": "Upon gaining this ability the Arvore gains the ability to call up grasping roots from the ground.",
+    "description": "Upon gaining this ability the Arvore gains the ability to cause grass to rapidly grow on fertile terrain, slowing their enemies.",
     "category": [ "ARVORE" ],
-    "spells_learned": [ [ "arvore_roots_spell", 1 ] ]
+    "spells_learned": [ [ "arvore_summon_grass_field_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_CLIMBING_VINE_SPELL",
+    "name": { "str": "Creeper Ascends the Wall" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_NURTURING_THE_GREEN" ],
+    "prereqs2": [ "ARVORE_SUMMON_GRASS_FIELD" ],
+    "description": "Upon gaining this ability the Arvore gains the ability to summon a thick climbing vine from diggable ground.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_climbing_vine_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -285,11 +393,29 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_FOREST_DETECT" ],
+    "prereqs": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "description": "The Arvore are closely tied with the forests and may commune with the trees to learn the layout of the land.  Activate this ability to enter the communion.",
     "category": [ "ARVORE" ],
     "active": true,
     "cost": 0
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_WOOD_WEAPON_DAMAGE",
+    "name": { "str": "Bramble's Bite" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ARVORE_NURTURING_THE_GREEN", "ARVORE_SUMMON_BRIARS" ],
+    "prereqs2": [ "ARVORE_SKIN_1", "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
+    "description": "Drawing out the power inherent in growing wood makes weapons composed of it more deadly in your hands.  You do increased damage when wielding a weapon primarily made of wood.",
+    "category": [ "ARVORE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "WOODEN_WEAPON" },
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 }, { "value": "RANGED_DAMAGE", "multiply": 0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -302,11 +428,29 @@
     "active": true,
     "activated_is_setup": true,
     "time": 120,
-    "thirst": true,
+    "mana": true,
     "cost": 1,
+    "activation_msg": "Your skin itches.",
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
-    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ],
-    "//": "Ideally this would be powered by mana, but thirst will work for now"
+    "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_POISON_POLLEN",
+    "name": { "str": "Scent of Night-Blooming Flowers" },
+    "points": 5,
+    "description": "The Arvore may release clouds of pollen that ruin the coordination of their enemies when breathed in.",
+    "prereqs": [ "ARVORE_FLORAL_SCENT", "ARVORE_MIND_CONTROL_POLLEN" ],
+    "prereqs2": [ "ARVORE_TOXIC_FLESH" ],
+    "category": [ "ARVORE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "time": 45,
+    "mana": true,
+    "cost": 1,
+    "activation_msg": "The air fills with clouds of pollen.",
+    "activated_eocs": [ "EOC_ARVORE_POISON_POLLEN_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_POISON_POLLEN_OFF" ]
   },
   {
     "type": "mutation",
@@ -318,35 +462,18 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients and heal slightly faster.",
     "category": [ "ARVORE" ],
     "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
-    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SUN_NUTRIENTS_ON",
-    "name": { "str": "Solar Rejuvenation (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients and will heal slightly faster.",
-    "category": [ "ARVORE" ],
-    "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
-    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
-    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "triggers": [
-      [
-        {
-          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
+        ],
+        "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
+      }
     ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
+    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
   },
   {
     "type": "mutation",
@@ -359,37 +486,49 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
-    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON", "msg_transform": "", "active": false, "moves": 0 },
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
+        ],
+        "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
+      }
+    ],
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
   },
   {
     "type": "mutation",
-    "id": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
-    "name": { "str": "Solar Revitalization (active)" },
+    "id": "ARVORE_MOOD_CHANGES_WITH_SEASONS",
+    "name": { "str": "The Eternal Cycle" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, and your mana is regenerating quicker.",
+    "mixed_effect": true,
+    "description": "Your energy changes with the seasons: in spring and summer, you're more awake and need less sleep, and the reverse is true in autumn and winter.",
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "category": [ "ARVORE" ],
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
-    "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
-    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
-    "mana_regen_multiplier": 1.5,
-    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "triggers": [
-      [
-        {
-          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [
+      {
+        "condition": { "is_season": "spring" },
+        "values": [ { "value": "SLEEPINESS", "multiply": -0.1 }, { "value": "SLEEPINESS_REGEN", "multiply": 0.1 } ]
+      },
+      {
+        "condition": { "is_season": "summer" },
+        "values": [ { "value": "SLEEPINESS", "multiply": -0.25 }, { "value": "SLEEPINESS_REGEN", "multiply": 0.25 } ]
+      },
+      {
+        "condition": { "is_season": "autumn" },
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.1 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.1 } ]
+      },
+      {
+        "condition": { "is_season": "winter" },
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.25 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -398,100 +537,11 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [
-      "ARVORE_SUN_NUTRIENTS_AND_MANA",
-      "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
-      "ARVORE_SUN_POWER_MANA_STATS",
-      "ARVORE_SUN_MANA_BONUS_ON",
-      "ARVORE_SUN_POWER_MANA_STATS",
-      "ARVORE_SUN_POWER_MANA_STATS_ON"
-    ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, you absorb its energy as food.  You still need to drink water and you will still get hungry.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "is_day",
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_is_on_terrain": "t_dirt" },
-                  { "u_is_on_terrain": "t_dirtmound" },
-                  { "u_is_on_terrain": "t_clay" },
-                  { "u_is_on_terrain": "t_sand" },
-                  { "u_is_on_terrain": "t_sandmound" },
-                  { "u_is_on_terrain": "t_grave" },
-                  { "u_is_on_terrain": "t_forestfloor" },
-                  { "u_is_on_terrain": "t_grass" },
-                  { "u_is_on_terrain": "t_grass_long" },
-                  { "u_is_on_terrain": "t_grass_tall" },
-                  { "u_is_on_terrain": "t_grass_dead" },
-                  { "u_is_on_terrain": "t_mud" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-                  { "u_is_on_terrain": "t_moss" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_SUN_FOODS_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SUN_FOODS_ON",
-    "name": { "str": "Solar Repast (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
-    "category": [ "ARVORE" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "enchantments": [ "ench_arvore_sun_foods_on" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_is_on_terrain": "t_dirt" } },
-                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
-                  { "not": { "u_is_on_terrain": "t_clay" } },
-                  { "not": { "u_is_on_terrain": "t_sand" } },
-                  { "not": { "u_is_on_terrain": "t_sandmound" } },
-                  { "not": { "u_is_on_terrain": "t_grave" } },
-                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
-                  { "not": { "u_is_on_terrain": "t_grass" } },
-                  { "not": { "u_is_on_terrain": "t_grass_long" } },
-                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
-                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_mud" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_moss" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_arvore_sun_foods_on" ]
   },
   {
     "type": "mutation",
@@ -508,45 +558,49 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_VINE_DRAG",
+    "name": { "str": "Entangling Vines" },
+    "points": 6,
+    "description": "At will, you can extend a cluster of grasping vines to grab one target and drag them in.  They have a range equal to 1/2 your Dexterity.",
+    "prereqs": [ "ARVORE_CLIMBING_VINE_SPELL" ],
+    "category": [ "ARVORE" ],
+    "activated_is_setup": false,
+    "active": true,
+    "mana": true,
+    "cost": 25,
+    "activation_msg": "Vines lash out toward your target.",
+    "activated_eocs": [ "EOC_ARVORE_VINE_DRAG_activated" ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_WOOD_CLAWS",
     "name": { "str": "Jagged Wooden Claws" },
     "points": 2,
-    "active": true,
     "description": "At will, you can transform your hands into jagged wooden claws.  They are potent weapons but make anything other than combat more difficult.",
     "types": [ "CLAWS" ],
     "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
-    "transform": {
-      "target": "ARVORE_WOOD_CLAWS_active",
-      "msg_transform": "Your fingers itch as jagged wood rapidly covers them.",
-      "active": false,
-      "moves": 10
-    },
-    "cost": 0
+    "activated_is_setup": true,
+    "active": true,
+    "activation_msg": "Your fingers itch as jagged wood rapidly covers them.",
+    "activated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_WOOD_CLAWS_active",
-    "name": { "str": "Jagged Wooden Claws (active)" },
+    "name": { "str": "Jagged Wooden Claws Extended" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
     "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
-    "transform": {
-      "target": "ARVORE_WOOD_CLAWS",
-      "msg_transform": "The wood covering your hands receeds, leaving no trace behind.",
-      "active": false,
-      "moves": 10
-    },
     "cost": 0,
-    "copy-from": "ARVORE_WOOD_CLAWS",
+    "player_display": false,
     "valid": false,
-    "active": true,
     "integrated_armor": [ "integrated_arvore_claws" ],
-    "crafting_speed_multiplier": 0.75
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -575,6 +629,30 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_KNOW_TIME",
+    "name": { "str": "Sensing the Sun" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By the places of the sun and the moon, you can always tell exactly what time it is, as long as you're not underground.",
+    "category": [ "ARVORE" ],
+    "enchantments": [ "ench_arvore_sense_sun" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SURVIVAL_BONUS",
+    "name": { "str": "Among the Wilds" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "GREENSTRIDE", "GREENSTRIDE_UPGRADE" ],
+    "prereqs2": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
+    "description": "The wilderness welcomes you as one of its own, and you have an easier time surviving there and making things from its bounty.  +1.5 Survival skill.",
+    "category": [ "ARVORE" ],
+    "craft_skill_bonus": [ [ "survival", 6 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_DEX_BONUS",
     "name": { "str": "Supple As a Reed" },
     "points": 2,
@@ -584,7 +662,7 @@
     "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
     "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
     "category": [ "ARVORE" ],
-    "passive_mods": { "dex_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -596,7 +674,7 @@
     "changes_to": [ "ARVORE_STR_BONUS_2" ],
     "description": "Like the seedling poking through the soil, you have great strength hidden within you.  +1 Strength.",
     "category": [ "ARVORE" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -610,7 +688,7 @@
     "changes_to": [ "ARVORE_STR_BONUS_3" ],
     "description": "Like the young tree reaching for the sun, your limbs are filled with power.  +3 Strength.",
     "category": [ "ARVORE" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -623,7 +701,7 @@
     "prereqs2": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
     "category": [ "ARVORE" ],
-    "passive_mods": { "str_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -634,9 +712,9 @@
     "ugliness": 0,
     "description": "When one tree in a grove is attacked by insects, soon all trees will produce the deterrent.  +3 Perception.",
     "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
-    "prereqs2": [ "ARVORE_FOREST_DETECT" ],
+    "prereqs2": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "category": [ "ARVORE" ],
-    "passive_mods": { "per_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -645,68 +723,10 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The forest recognizes your kinship and will hide you beneath its boughs.",
+    "description": "The forest recognizes your kinship and will hide you beneath its boughs.  When in a forest or in thick foliage, enemies will have a harder time spotting you.",
     "category": [ "ARVORE" ],
     "//": "Ideally there'd be some way to detect what sort of terrain was nearby and you'd need a critical mass of foliage, but the below will work for now.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_is_on_terrain": "t_grass_long" },
-                  { "u_at_om_location": "forest" },
-                  { "u_at_om_location": "forest_thick" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_STEALTH_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "//2": "No messages so you aren't constantly spammed while you're walking around the overmap."
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_FOREST_STEALTH_ON",
-    "name": { "str": "Shadow of the Trees (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "The forest is hiding you from your enemies.",
-    "category": [ "ARVORE" ],
-    "stealth_modifier": 60,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "not": "u_is_outside" },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_is_on_terrain": "t_grass_long" } },
-                  { "not": { "u_at_om_location": "forest" } },
-                  { "not": { "u_at_om_location": "forest_thick" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_STEALTH", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_arvore_forest_stealth" ]
   },
   {
     "type": "mutation",
@@ -749,13 +769,12 @@
     "points": 7,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air.  They are immune to losing any significant amount of blood and will not bleed.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds.  They will bleed more slowly than normal.",
     "prereqs": [ "ARVORE_BLOOD" ],
     "changes_to": "ARVORE_BLOOD_3",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "//": "Ideally this would greatly slow the rate of blood loss, not eliminate it.",
-    "flags": [ "BLEED_IMMUNE" ]
+    "flags": [ "BLEEDSLOW" ]
   },
   {
     "type": "mutation",
@@ -764,12 +783,12 @@
     "points": 10,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and has potent defensive properties.  They will not bleed and are immune to parasites and infection.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and has potent defensive properties.  They will bleed more slowly than normal and are immune to parasites and infection.",
     "prereqs": [ "ARVORE_BLOOD_2" ],
     "changes_to": "ARVORE_BLOOD_4",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE" ]
+    "flags": [ "BLEEDSLOW", "PARAIMMUNE", "INFECTION_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -778,12 +797,32 @@
     "points": 13,
     "visibility": 2,
     "ugliness": 1,
-    "description": "The Arvore's blood is a sticky sap that quickly hardens on contact with air and aggressively fights back against invading organisms.  They will not bleed, are immune to parasites and infection, and cannot be transformed by the Mycus.",
+    "description": "The Arvore's blood is a sticky sap that oozes rather than gushes from their wounds and aggressively fights back against invading organisms.  They will bleed much more slowly than normal, are immune to parasites and infection, and cannot be transformed by the Mycus.",
     "prereqs": [ "ARVORE_BLOOD_3" ],
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "BLEED_IMMUNE", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
+    "flags": [ "BLEEDSLOW2", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_VINES",
+    "name": { "str": "Writhing Vines" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "At will, the Arvore can grow long vines from their shoulders and back.  They can be used to climb or to lash at enemies, and can also be detached to serve as a rope if necessary.  Activate to toggle vines on and off.",
+    "prereqs": [ "ARVORE_VINE_DRAG" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "category": [ "ARVORE" ],
+    "activated_is_setup": true,
+    "active": true,
+    "time": 20,
+    "mana": true,
+    "cost": 1,
+    "activation_msg": "Lashing vines grow from your shoulders.",
+    "activated_eocs": [ "EOC_ARVORE_VINES_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_VINES_OFF" ]
   },
   {
     "type": "mutation",
@@ -793,69 +832,24 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ARVORE_EYES" ],
+    "changes_to": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of nearby creatures.  While the forest can distinguish between a bird and a zombie, some fine distinctions are still lost to it.",
     "category": [ "ARVORE" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_at_om_location": "forest" },
-                  { "u_at_om_location": "forest_thick" },
-                  { "u_at_om_location": "forest_water" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT_ON", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "arvore_forest_detect_enemies" ]
   },
   {
     "type": "mutation",
-    "id": "ARVORE_FOREST_DETECT_ON",
-    "name": { "str": "The Forests' Warning (active)" },
-    "points": 2,
+    "id": "ARVORE_FOREST_DETECT_AND_OVERMAP",
+    "name": { "str": "The Whispers of the Leaves" },
+    "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "valid": false,
-    "prereqs": [ "ARVORE_EYES" ],
+    "prereqs": [ "ARVORE_FOREST_DETECT" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby.",
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of nearby creatures.  While the forest can distinguish between a bird and a zombie, some fine distinctions are still lost to it.  Also, you can see further when you're standing in a forest.",
     "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "not": "u_is_outside" },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_at_om_location": "forest" } },
-                  { "not": { "u_at_om_location": "forest_thick" } },
-                  { "not": { "u_at_om_location": "forest_water" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "arvore_forest_detect_enemies", "arvore_forest_see_overmap" ]
   },
   {
     "type": "mutation",
@@ -892,36 +886,28 @@
     "description": "Every rose has its thorn and so do you.  With a moment's concentration, you can exude thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
     "active": true,
-    "transform": {
-      "target": "ARVORE_THORN_SKIN_ON",
-      "msg_transform": "Woody thorns push through your skin!",
-      "active": true,
-      "moves": 50
-    }
+    "activated_is_setup": true,
+    "activation_msg": "Stiff wooden thorns push out from your skin.",
+    "activated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_THORN_SKIN_ON",
-    "name": { "str": "Unveiled Thorns (active)" },
+    "name": { "str": "Unveiled Thorns Extended" },
     "points": 7,
     "visibility": 8,
     "ugliness": 4,
     "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
-    "active": true,
+    "player_display": false,
     "valid": false,
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
     "integrated_armor": [ "integrated_arvore_thorns" ],
     "enchantments": [ "ench_arvore_thorns_mut" ],
-    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
-    "transform": {
-      "target": "ARVORE_THORN_SKIN",
-      "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
-      "active": false,
-      "moves": 50
-    }
+    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ]
   },
   {
     "type": "mutation",
@@ -933,39 +919,34 @@
     "types": [ "SCENT" ],
     "prereqs": [ "ARVORE_FLORAL_SCENT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  At will, you can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You can enhance this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
     "active": true,
-    "transform": {
-      "target": "ARVORE_MIND_CONTROL_POLLEN_ON",
-      "msg_transform": "A cloying scent fills the air.",
-      "active": true,
-      "moves": 0
-    }
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 180,
+    "activation_msg": "A sweet scent fills the air.",
+    "activated_eocs": [ "EOC_MIND_CONTROL_POLLEN_ON" ],
+    "deactivated_eocs": [ "EOC_MIND_CONTROL_POLLEN_OFF" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_MIND_CONTROL_POLLEN_ON",
-    "name": { "str": "Enchanting Aroma (active)" },
+    "name": { "str": "Enchanting Aroma (active)", "//~": "NO_I18N" },
     "points": 4,
     "visibility": 0,
-    "ugliness": -10,
-    "description": "The flowers in your hair produce an intoxicating smell.  You no longer smell anything like a human and other beings will react to you appropriately.  You are enhancing this scent to an overpowering level, beguiling humans and making them more suggestible at the cost of greatly increasing the range at which others can smell you.",
+    "ugliness": -8,
+    "description": { "str": "The active version of Enchanting Aroma.  Should not be player visible.", "//~": "NO_I18N" },
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "scent_type": "sc_flower",
     "scent_intensity": 1200,
     "social_modifiers": { "persuade": 25, "lie": 10 },
     "valid": false,
-    "active": true,
-    "transform": {
-      "target": "ARVORE_MIND_CONTROL_POLLEN",
-      "msg_transform": "The scent filling the air fades away.",
-      "active": false,
-      "moves": 0
-    }
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -980,107 +961,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              {
-                "or": [
-                  "u_is_outside",
-                  { "u_is_on_terrain": "t_barkfloor" },
-                  { "u_is_on_terrain": "t_bramble_door_c" },
-                  { "u_is_on_terrain": "t_bramble_door_o" },
-                  { "u_is_on_terrain": "t_root_floor" }
-                ]
-              },
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_is_on_terrain": "t_dirt" },
-                  { "u_is_on_terrain": "t_dirtmound" },
-                  { "u_is_on_terrain": "t_clay" },
-                  { "u_is_on_terrain": "t_sand" },
-                  { "u_is_on_terrain": "t_sandmound" },
-                  { "u_is_on_terrain": "t_grave" },
-                  { "u_is_on_terrain": "t_forestfloor" },
-                  { "u_is_on_terrain": "t_grass" },
-                  { "u_is_on_terrain": "t_grass_long" },
-                  { "u_is_on_terrain": "t_grass_tall" },
-                  { "u_is_on_terrain": "t_grass_dead" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-                  { "u_is_on_terrain": "t_mud" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-                  { "u_is_on_terrain": "t_moss" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_HEAL_LIMB_REGEN_ON",
-    "name": { "str": "Leaves Return When Winter Ends (active)" },
-    "//": "Once limb loss is possible, this mutation should allow the Arvore to regrow lost limbs.",
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  In this natural areas, your limbs are regenerating.",
-    "category": [ "ARVORE" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "MEND_ALL" ],
-    "mending_modifier": 20.0,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              {
-                "and": [
-                  { "not": "u_is_outside" },
-                  { "not": { "u_is_on_terrain": "t_barkfloor" } },
-                  { "not": { "u_is_on_terrain": "t_bramble_door_c" } },
-                  { "not": { "u_is_on_terrain": "t_bramble_door_o" } },
-                  { "not": { "u_is_on_terrain": "t_root_floor" } }
-                ]
-              },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_is_on_terrain": "t_dirt" } },
-                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
-                  { "not": { "u_is_on_terrain": "t_clay" } },
-                  { "not": { "u_is_on_terrain": "t_sand" } },
-                  { "not": { "u_is_on_terrain": "t_sandmound" } },
-                  { "not": { "u_is_on_terrain": "t_grave" } },
-                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
-                  { "not": { "u_is_on_terrain": "t_grass" } },
-                  { "not": { "u_is_on_terrain": "t_grass_long" } },
-                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
-                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_mud" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_moss" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_arvore_wilds_super_mending" ]
   },
   {
     "type": "mutation",
@@ -1089,14 +970,13 @@
     "points": 8,
     "description": "You may transform into a tree, extending roots and spreading leaves out to the sun.  You will heal faster, gain more benefit from sleep, and almost all monsters will ignore you, but you will only be dimly aware of the outside world and will be nearly unable to move.",
     "prereqs": [ "ARVORE_HEAL_LIMB_REGEN" ],
-    "prereqs2": [ "ARVORE_SUN_FOODS", "ARVORE_SUN_FOODS_ON" ],
+    "prereqs2": [ "ARVORE_SUN_FOODS" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your legs fuse together and your arms stretch toward the sky as you put down roots and transform into a towering tree.",
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
-    "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
-    "time": 120,
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {
@@ -1105,20 +985,12 @@
     "name": { "str": "Ancient Tree" },
     "points": 10,
     "description": "You are a tree.  You will heal much more quickly and resting is more beneficial.  You are unable to see, hear, or move, but have a dim awareness of nearby movement.",
-    "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
-    "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
-    "allow_soft_gear": true,
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "metabolism_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
-    "attackcost_modifier": 900,
-    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
+    "override_look": { "id": "t_tree", "tile_category": "terrain" },
+    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING", "IMMUNE_HEARING_DAMAGE", "CANNOT_MOVE" ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },
       { "part": "leg_l", "ignored": 40 },
@@ -1156,10 +1028,26 @@
       "ROBOT",
       "HORROR",
       "ABERRATION",
-      "HUMAN"
+      "HUMAN",
+      "VAMPIRE",
+      "NIGHTMARE",
+      "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": 900 },
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 },
+          { "value": "SLEEPY", "add": 150 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1171,40 +1059,22 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, and you gain a bonus to your maximum mana.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_NUTRIENTS_AND_MANA_ON" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
-    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "ARVORE_SUN_MANA_BONUS_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SUN_MANA_BONUS_ON",
-    "name": { "str": "Solar Empowerment (active)" },
-    "points": 10,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, and your maximum mana is increased.",
-    "category": [ "ARVORE" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
-    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
-    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
-    "triggers": [
-      [
-        {
-          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
+        ],
+        "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
+      }
     ],
-    "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
+    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
   },
   {
     "type": "mutation",
@@ -1216,38 +1086,24 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, you gain a bonus to your maximum mana, and you gain a +2 bonus to all stats.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "prereqs": [ "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_MANA_BONUS_ON" ],
-    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_SUN_POWER_MANA_STATS_ON",
-    "name": { "str": "Solar Ascendancy (active)" },
-    "points": 10,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, your maximum mana is increased, and you have +2 to all stats.",
-    "category": [ "ARVORE" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
-    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
-    "passive_mods": { "str_mod": 2, "dex_mod": 2, "int_mod": 2, "per_mod": 2 },
-    "triggers": [
-      [
-        {
-          "condition": { "or": [ { "not": "is_day" }, { "not": "u_is_outside" } ] },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
+    "prereqs": [ "ARVORE_SUN_MANA_BONUS" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 },
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "INTELLIGENCE", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 }
+        ],
+        "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
+      }
     ],
-    "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS", "msg_transform": "", "active": false, "moves": 0 }
+    "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
   }
 ]

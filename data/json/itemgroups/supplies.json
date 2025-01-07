@@ -6,7 +6,7 @@
     "items": [
       { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
       { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
-      { "item": "voltmeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 40 },
       { "item": "multimeter", "prob": 40, "charges": [ 0, 100 ] },
       { "item": "emf_detector", "prob": 20, "charges": [ 0, 100 ] },
       [ "light_detector", 5 ],
@@ -14,6 +14,7 @@
       [ "antenna", 40 ],
       [ "nuts_bolts", 15 ],
       { "group": "ammo_any_batteries_full", "prob": 100 },
+      { "group": "batteries", "prob": 60 },
       [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],
@@ -56,25 +57,25 @@
     "id": "sandbag",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_sand", "count": 2000 } ]
+    "items": [ { "item": "material_sand", "count": 2500 } ]
   },
   {
     "id": "sandbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_sand", "count": [ 400, 1500 ] } ]
+    "items": [ { "item": "material_sand", "count": [ 400, 2500 ] } ]
   },
   {
     "id": "gravelbag",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_gravel", "count": 2000 } ]
+    "items": [ { "item": "material_gravel", "count": 2500 } ]
   },
   {
     "id": "gravelbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_gravel", "count": [ 400, 1500 ] } ]
+    "items": [ { "item": "material_gravel", "count": [ 400, 2500 ] } ]
   },
   {
     "id": "earthbag",
@@ -86,7 +87,43 @@
     "id": "earthbag_part",
     "type": "item_group",
     "container-item": "bag_durasack",
-    "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
+    "items": [ { "item": "material_soil", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "concrete_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "concrete", "count": 45 } ]
+  },
+  {
+    "id": "concrete_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "concrete", "count": [ 7, 45 ] } ]
+  },
+  {
+    "id": "cement_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack_cement",
+    "items": [ { "item": "material_cement", "count": 2800 } ]
+  },
+  {
+    "id": "cement_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack_cement",
+    "items": [ { "item": "material_cement", "count": [ 400, 2800 ] } ]
+  },
+  {
+    "id": "quicklime_bag",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_quicklime", "count": 1200 } ]
+  },
+  {
+    "id": "quicklime_bag_part",
+    "type": "item_group",
+    "container-item": "bag_durasack",
+    "items": [ { "item": "material_quicklime", "count": [ 400, 1200 ] } ]
   },
   {
     "id": "paintcans",
@@ -111,7 +148,7 @@
       { "item": "paint_gray", "prob": 45, "container-group": "paintcans" },
       [ "chipper", 55 ],
       [ "paint_brush", 55 ],
-      { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
+      { "item": "chem_turpentine", "prob": 45, "charges": [ 20, -1 ] }
     ]
   },
   {
@@ -142,8 +179,9 @@
       { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
-      [ "material_quicklime", 70 ],
-      [ "concrete", 70 ],
+      { "group": "quicklime_bag", "prob": 70 },
+      { "group": "concrete_bag", "count": [ 3, 7 ], "prob": 100 },
+      { "group": "cement_bag", "count": [ 1, 3 ], "prob": 100 },
       { "item": "nuts_bolts", "prob": 60, "charges": [ 250, 500 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
@@ -153,7 +191,7 @@
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "lc_wire", "prob": 40, "count": [ 5, 10 ] },
       { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
@@ -194,11 +232,11 @@
       [ "metal_tank", 1 ],
       [ "jerrycan", 5 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
-      [ "wire", 10 ],
+      [ "lc_wire", 10 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       { "item": "duct_tape", "prob": 200, "charges": [ 50, 200 ] },
-      [ "superglue", 100 ],
+      { "group": "superglue", "prob": 100 },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rubber_cement", 50 ],
@@ -299,7 +337,7 @@
   {
     "type": "item_group",
     "id": "supplies_woodcrafts",
-    "items": [ [ "superglue", 40 ], [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
+    "items": [ { "group": "superglue", "prob": 40 }, [ "sandpaper", 40 ], [ "screwdriver", 5 ], [ "chisel", 10 ], [ "hammer", 5 ] ]
   },
   {
     "id": "supplies_hardware",
@@ -311,7 +349,10 @@
       { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
       { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
       { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
-      [ "concrete", 20 ],
+      { "group": "concrete_bag", "prob": 40 },
+      { "group": "cement_bag", "prob": 50 },
+      { "group": "sandbag", "prob": 50 },
+      { "group": "gravelbag", "prob": 50 },
       {
         "collection": [
           { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
@@ -321,8 +362,9 @@
       },
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
+      { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "group": "superglue", "prob": 30 },
       [ "rubber_cement", 25 ],
       [ "magnet", 10 ],
       [ "chain", 20 ],
@@ -350,7 +392,7 @@
       [ "metal_tank_little", 10 ],
       [ "water_faucet", 10 ],
       [ "wood_panel", 10 ],
-      { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
+      { "item": "lc_wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
       [ "duct_tape", 60 ],
       [ "compressor", 5 ],
@@ -378,8 +420,8 @@
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
-      { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
+      { "item": "chem_chromium_oxide", "prob": 5, "charges": [ 100, -1 ] },
+      { "item": "chem_zinc_powder", "prob": 5, "charges": [ 100, -1 ] },
       [ "denat_alcohol", 3 ],
       [ "methed_alcohol", 2 ],
       [ "lamp_oil", 25 ],
@@ -388,9 +430,9 @@
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
       [ "gas_forge", 15 ],
-      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 },
-      { "item": "silicone", "prob": 15, "charges-min": 29, "container-item": "squeeze_tube", "sealed": true },
-      { "item": "silicone", "prob": 35, "charges-min": 8, "container-item": "squeeze_tube_small", "sealed": true }
+      { "item": "chem_turpentine", "prob": 20, "charges": [ 20, -1 ] },
+      { "item": "silicone", "prob": 15, "charges": [ 29, -1 ], "container-item": "squeeze_tube", "sealed": true },
+      { "item": "silicone", "prob": 35, "charges": [ 8, -1 ], "container-item": "squeeze_tube_small", "sealed": true }
     ]
   },
   {
@@ -398,12 +440,12 @@
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
-      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "salt_water", "prob": 20, "charges-min": 1 },
+      { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
+      { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "detergent", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "bleach", "prob": 10, "charges-min": 10 },
-      { "item": "ammonia_liquid", "prob": 20, "charges-min": 6 },
-      { "item": "ammonia_hydroxide", "prob": 10, "charges-min": 10 },
+      { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
+      { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
+      { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],
@@ -417,40 +459,47 @@
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
-      { "item": "red_phosphorous", "prob": 5, "charges-min": 100 },
-      { "item": "bismuth", "prob": 5, "charges-min": 1 },
-      { "item": "chem_benzene", "prob": 10, "charges-min": 1 },
-      { "item": "chem_toluene", "prob": 10, "charges-min": 1 },
-      { "item": "chem_antimony_trichloride", "prob": 2, "charges-min": 1 },
-      { "item": "chem_ferric_chloride", "prob": 15, "charges-min": 1 },
-      { "item": "chem_nickel_powder", "prob": 5, "charges-min": 1 },
-      { "item": "chem_slaked_lime", "prob": 5, "charges-min": 1, "container-item": "bag_plastic", "sealed": false },
-      { "item": "chem_baking_soda", "prob": 10, "charges-min": 1 },
-      { "item": "chem_washing_soda", "prob": 10, "charges-min": 1 },
+      { "item": "red_phosphorous", "prob": 5, "charges": [ 100, -1 ] },
+      { "item": "white_phosphorous", "prob": 5, "charges": [ 100, -1 ] },
+      { "item": "bismuth", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_benzene", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_toluene", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_antimony_trichloride", "prob": 2, "charges": [ 1, -1 ] },
+      { "item": "chem_ferric_chloride", "prob": 15, "charges": [ 1, -1 ] },
+      { "item": "chem_nickel_powder", "prob": 5, "charges": [ 1, -1 ] },
+      {
+        "item": "chem_slaked_lime",
+        "prob": 5,
+        "charges": [ 1, -1 ],
+        "container-item": "bag_plastic",
+        "sealed": false
+      },
+      { "item": "chem_baking_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_calcium_chloride", "prob": 5 },
-      { "item": "chem_nitric_acid", "prob": 10, "charges-min": 1 },
-      { "item": "chem_sulphuric_acid", "prob": 10, "charges-min": 1 },
-      { "item": "chem_muriatic_acid", "prob": 10, "charges-min": 1 },
-      { "item": "chem_acetic_acid", "prob": 10, "charges-min": 1 },
-      { "item": "chem_formaldehyde", "prob": 10, "charges-min": 1 },
-      { "item": "chem_acetone", "prob": 10, "charges-min": 1 },
-      { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_caco3", "prob": 10, "charges-min": 100 },
-      { "item": "mercury", "prob": 10, "charges-min": 100 },
-      { "item": "chem_sodium", "prob": 10, "charges-min": 100 },
-      { "item": "chem_potassium", "prob": 10, "charges-min": 100 },
+      { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_sulphuric_acid", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_muriatic_acid", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_acetic_acid", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_formaldehyde", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_acetone", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_carbide", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_caco3", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "mercury", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_sodium", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_potassium", "prob": 10, "charges": [ 100, -1 ] },
       [ "chem_ammonium_nitrate", 10 ],
-      { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
-      { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges-min": 1 },
+      { "item": "chem_chromium_oxide", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_zinc_powder", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_manganese_dioxide", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
       [ "material_rocksalt", 2 ],
-      { "item": "ether", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
-      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
-      { "item": "chem_DMSO", "prob": 10, "charges-min": 100 },
-      { "item": "chem_phenol", "prob": 10, "charges-min": 100 },
-      { "item": "chem_glycerol", "prob": 10, "charges-min": 10 },
+      { "item": "ether", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
+      { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
+      { "item": "chem_DMSO", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_phenol", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_glycerol", "prob": 10, "charges": [ 10, -1 ] },
       { "prob": 10, "group": "chem_peptone_broth_bottle_plastic_small_1_inf" },
       { "prob": 10, "group": "chem_agar_bottle_plastic_small_1_inf" },
       { "prob": 10, "group": "chem_acrylamide_bottle_glass_1_inf" },
@@ -458,13 +507,13 @@
       { "item": "nitrogen_tank", "prob": 7, "charges": [ 12, 24 ] },
       { "item": "hydrogen_tank", "prob": 8, "charges": [ 12, 24 ] },
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 10, "group": "sugar_box_small_71" },
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
+      { "prob": 10, "group": "salt_bag_plastic" },
+      { "prob": 10, "group": "sugar_bag_plastic" },
+      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
       [ "oxygen_cylinder", 8 ],
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
-      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
+      { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
+      { "item": "chem_turpentine", "prob": 10, "charges": [ 20, -1 ] }
     ]
   },
   {
@@ -472,11 +521,11 @@
     "id": "supplies_fluid_catalytic_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
-      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "cooking_oil", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
+      { "item": "cooking_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
       { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges-min": 10 },
-      { "item": "lamp_oil", "prob": 100, "count": 4, "charges-min": 10 }
+      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
+      { "item": "lamp_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] }
     ]
   },
   {
@@ -492,6 +541,7 @@
       { "item": "mouse_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "rat_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "fish_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "chiropteran_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "meat_tainted", "prob": 30, "count": [ 1, 3 ] },
       { "item": "brain", "prob": 10, "count": [ 4, 12 ] },
       { "item": "rabbit_sample", "prob": 10, "count": [ 1, 3 ] },
@@ -521,8 +571,8 @@
     "items": [
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
       [ "fertilizer_liquid", 60 ],
-      [ "material_quicklime", 80 ],
-      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
+      { "group": "quicklime_bag", "prob": 80 },
+      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] }
     ]
   },
   {
@@ -554,7 +604,10 @@
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 12 ] },
-      { "item": "wire", "prob": 5 },
+      { "item": "lc_wire", "prob": 30, "count": [ 5, 10 ] },
+      { "item": "mc_wire", "prob": 5, "count": [ 1, 5 ] },
+      { "item": "hc_wire", "prob": 5, "count": [ 1, 5 ] },
+      { "item": "qt_wire", "prob": 5, "count": [ 1, 5 ] },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
       { "item": "lc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
       { "item": "lc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
@@ -699,15 +752,15 @@
       [ "file", 99 ],
       { "item": "laptop", "prob": 2, "charges": [ 0, 500 ] },
       { "item": "paper", "prob": 60, "count": [ 20, 50 ] },
-      { "item": "inhaler", "prob": 1, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 1, "charges": [ 10, 100 ] },
       [ "mbag", 2 ],
       [ "mop", 3 ],
       [ "mop_folded", 2 ],
       [ "rubber_band", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
       { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 5 },
+      { "group": "superglue", "prob": 5 },
       { "group": "ammo_pocket_batteries", "prob": 5 },
       { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "office_holepunch", 10 ],
@@ -746,7 +799,7 @@
       { "group": "writing_utensils", "prob": 35 },
       [ "file", 15 ],
       { "item": "duct_tape", "prob": 15, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 15 },
+      { "group": "superglue", "prob": 15 },
       [ "file", 15 ],
       [ "office_holepunch", 15 ],
       [ "bubblewrap", 15 ],
@@ -756,7 +809,7 @@
       { "item": "laptop", "prob": 7, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 7, "charges": [ 0, 100 ] },
       [ "usb_drive", 5 ],
-      [ "cash_card", 5 ],
+      { "item": "cash_card", "prob": 5, "charges": [ 0, 50000 ] },
       [ "record_accounting", 1 ],
       [ "money_strap_twenty", 1 ]
     ]
@@ -770,20 +823,20 @@
       [ "baseball", 100 ],
       [ "shuttlecock", 10 ],
       [ "hat_ball", 10 ],
-      [ "helmet_ball", 20 ],
+      { "item": "helmet_ball", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
       [ "bat", 80 ],
       [ "bat_metal", 40 ],
       [ "bat_nerf", 50 ],
       [ "hockey_stick", 10 ],
       [ "towel", 30 ],
       [ "pom_poms", 50 ],
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 25 },
-      [ "cheerleader_top_short", 1 ],
-      [ "cheerleader_skirt", 25 ],
-      [ "cheerleader_skirt_short", 1 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 25, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_top_short", "prob": 1, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_skirt", "prob": 25, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_skirt_short", "prob": 1, "custom-flags": [ "UNDERSIZE" ] },
       [ "football", 100 ],
-      [ "football_armor", 20 ],
-      [ "helmet_football", 20 ],
+      { "item": "football_armor", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "helmet_football", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
       [ "medical_gauze", 10 ],
       [ "heatpack", 10 ],
       [ "whistle", 5 ],
@@ -857,7 +910,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -865,7 +918,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_agar", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -873,6 +926,28 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "id": "hair_dye",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hair_dye_black", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_blond", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_blue", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_brown", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_gray", "prob": 50, "charges": 2 },
+      { "item": "hair_dye_green", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_red", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_pink", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_white", "prob": 70, "charges": 2 }
+    ]
+  },
+  {
+    "id": "hair_dye_display",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90 } ]
   }
 ]

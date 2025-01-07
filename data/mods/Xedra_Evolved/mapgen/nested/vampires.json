@@ -44,13 +44,6 @@
     "nested_mapgen_id": "5x5_corpse_pile_W",
     "object": {
       "mapgensize": [ 5, 5 ],
-      "rows": [
-        "     ",
-        "     ",
-        "     ",
-        "     ",
-        "     "
-      ],
       "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_item": [ { "item": "corpse_generic_human", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 65 } ],

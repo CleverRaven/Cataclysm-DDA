@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
     "mission": 7,
+    "age": 73,
+    "height": 184,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
@@ -53,6 +55,7 @@
           { "item": "jacket_leather" },
           { "item": "trenchcoat" },
           { "item": "jacket_jean" },
+          { "item": "vest_jean" },
           { "item": "jacket_flannel" }
         ]
       },
@@ -82,6 +85,7 @@
           { "item": "jacket_leather" },
           { "item": "trenchcoat" },
           { "item": "jacket_jean" },
+          { "item": "vest_jean" },
           { "item": "jacket_flannel" }
         ]
       },
@@ -131,13 +135,13 @@
       { "prob": 60, "group": "fish_pickled_jar_glass_sealed_2" },
       { "prob": 40, "group": "meat_canned_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 40, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
@@ -147,7 +151,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello traveler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+      "no": { "gendered_line": "Hello traveler, what brings you here?", "relevant_genders": [ "u" ] }
     },
     "responses": [
       {
@@ -169,23 +173,20 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_scavenge_for_Jack_Isherwood" } ] }
           ]
         }
       },
       {
         "text": "This is a lot of land, you been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
-        "effect": { "u_add_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_ISHERWOOD_JACK_TOPICS",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
         }
       },
       {
@@ -201,7 +202,7 @@
       },
       { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_JACK_RESTOCK" },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -219,8 +220,8 @@
     "dynamic_line": "I live here with my wife, this is our family's land.  My daughter's family and son live down the road.",
     "responses": [
       { "text": "Your whole family survived?", "topic": "TALK_ISHERWOOD_JACK2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -228,8 +229,8 @@
     "id": "TALK_ISHERWOOD_JACK2",
     "dynamic_line": "We've had our losses… now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -238,8 +239,8 @@
     "dynamic_line": "Even out here we've had some attacks and seen… other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -250,39 +251,39 @@
       {
         "text": "Sounds reasonable, I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
       },
-      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm not interested right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_JACK_WIFE",
     "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -302,7 +303,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_scavenge_for_Jack_Isherwood" } ] }
           ]
         }
       },
@@ -312,7 +313,7 @@
       { "text": "Where is your brother's place?", "topic": "TALK_JACK_BROTHER" },
       { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_JACK", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -328,7 +329,7 @@
         "material_sand",
         "clay_lump",
         "nail",
-        "wire",
+        "lc_wire",
         "rock",
         "steel_chunk",
         "steel_lump"
@@ -336,14 +337,14 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": { "str": "Find 10 3L jars" },
+    "name": { "str": "Find 10 3 L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -383,7 +384,7 @@
         { "u_spawn_item": "tomato", "count": 25 },
         { "u_spawn_item": "onion", "count": 25 },
         { "u_spawn_item": "cucumber", "count": 25 },
-        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_jack_missions", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

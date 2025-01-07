@@ -27,7 +27,8 @@
     "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "LIGHTWEIGHT" ]
+    "cancels": [ "LIGHTWEIGHT" ],
+    "enchantments": [ "DRUNKEN_ARMED", "DRUNKEN_UNARMED" ]
   },
   {
     "type": "mutation",
@@ -46,7 +47,8 @@
     "points": 2,
     "description": "Who needs weapons?  You deal more melee damage while your hands are empty.  This damage improves as your unarmed skill increases.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "enchantments": [ "KI_STRIKE" ]
   },
   {
     "type": "mutation",

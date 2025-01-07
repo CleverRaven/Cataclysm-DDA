@@ -1,0 +1,58 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_subtle_spell_flag",
+    "//": "Hidden, but provides flags for powers using SUBTLE_SPELL",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUBTLE_SPELL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_steady_flag",
+    "//": "Hidden, but provides the STEADY flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_no_scent_flag",
+    "//": "Hidden, but provides the NO_SCENT flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_enhanced_vision_flag",
+    "//": "Hidden, but provides the ENHANCED_VISION flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ENHANCED_VISION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_glare_resist_flag",
+    "//": "Hidden, but provides the GLARE_RESIST flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "GLARE_RESIST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sludge_immune_flag",
+    "//": "Hidden, but provides the SLUDGE_IMMUNE flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SLUDGE_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_sense_sun",
+    "//": "Hidden, but provides flags for Sensing the Sun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  }
+]

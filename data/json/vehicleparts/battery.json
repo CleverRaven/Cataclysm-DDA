@@ -12,9 +12,11 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "folded_volume": "10 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 9 ] },
-      { "item": "steel_chunk", "count": [ 6, 9 ] },
-      { "item": "scrap", "count": [ 6, 9 ] }
+      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -34,9 +36,11 @@
     "durability": 100,
     "folded_volume": "1500 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
     ]
   },
   {
@@ -48,9 +52,11 @@
     "durability": 30,
     "folded_volume": "750 ml",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk" },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
     ]
   },
   {
@@ -127,7 +133,7 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
-    "//": "29cm length battery, welded on at least two edges",
+    "//": "29 cm length battery, welded on at least two edges",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "welding_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": "vehicle_weld_removal" }
@@ -177,23 +183,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
     },
     "durability": 20,
-    "folded_volume": "25ml",
-    "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
-  },
-  {
-    "id": "car_light_plus_battery_cell",
-    "copy-from": "battery_car",
-    "type": "vehicle_part",
-    "name": { "str": "light battery (high-capacity)" },
-    "item": "light_plus_battery_cell",
-    "location": "on_battery_mount",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
-    },
-    "durability": 20,
-    "folded_volume": "35ml",
+    "folded_volume": "25 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
@@ -211,22 +201,6 @@
     "durability": 30,
     "folded_volume": "450 ml",
     "breaks_into": [ { "item": "light_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
-  },
-  {
-    "id": "car_medium_plus_battery_cell",
-    "copy-from": "battery_car",
-    "type": "vehicle_part",
-    "name": { "str": "medium battery (high-capacity)" },
-    "item": "medium_plus_battery_cell",
-    "location": "on_battery_mount",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
-    },
-    "durability": 30,
-    "folded_volume": "525 ml",
-    "breaks_into": [ { "item": "light_plus_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {

@@ -1,20 +1,21 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-  "name": "Cataclysm",
+  "name": "Standard",
   "build": {
     "dockerfile": "Dockerfile"
-},
-"customizations": {
-	"vscode": {
-		"extensions": [
-			"github.vscode-github-actions",
-			"ms-vscode.makefile-tools",
-			"EditorConfig.EditorConfig",
-			"chiehyu.vscode-astyle"
-		]
-	}
-}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.vscode-github-actions",
+        "ms-vscode.makefile-tools",
+        "ms-vscode.cpptools-extension-pack",
+        "EditorConfig.EditorConfig",
+        "chiehyu.vscode-astyle"
+      ]
+    }
+  }
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},

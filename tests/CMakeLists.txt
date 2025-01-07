@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.20)
 
 if (BUILD_TESTING)
     file(GLOB CATACLYSM_DDA_TEST_SOURCES
@@ -27,6 +27,7 @@ if (BUILD_TESTING)
             add_dependencies(cata_test-tiles test_mo)
         endif()
         target_link_libraries(cata_test-tiles PRIVATE cataclysm-tiles-common)
+	target_compile_definitions(cata_test-tiles PUBLIC SDL_MAIN_HANDLED)
         add_test(NAME cata.tiles.default
                 COMMAND cata_test-tiles --rng-seed time
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -36,7 +37,7 @@ if (BUILD_TESTING)
         foreach(n args IN ZIP_LISTS _n _args)
             add_test(NAME cata.tiles.gha-${n}
                     COMMAND cata_test-tiles --min-duration 20 --use-colour yes --rng-seed time
-                    --user-dir=test_user_dir_${n} ${args}
+                    --order lex --user-dir=test_user_dir_${n} ${args}
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
             set_tests_properties(cata.tiles.gha-${n} PROPERTIES LABELS "gha")
         endforeach()

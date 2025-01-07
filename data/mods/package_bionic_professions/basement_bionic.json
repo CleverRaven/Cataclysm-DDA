@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement_bionic" ],
-    "weight": 100,
+    "//": "Currently being migrated in vanilla so may not be spawning?",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -40,7 +40,7 @@
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "^": "f_exercise",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "C": "f_cupboard",
         "{": "f_bigmirror",
         "_": "f_bench",

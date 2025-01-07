@@ -1,9 +1,6 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
-#include <functional>
-#include <istream>
-#include <new>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -12,7 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -249,6 +246,7 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
+        shortcuts.reserve( 5 );
         shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
         shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
         shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset

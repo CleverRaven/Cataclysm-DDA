@@ -40,7 +40,11 @@
       },
       { "distribution": [ { "item": "vest", "prob": 80 }, { "item": "vest_leather", "prob": 40 } ], "prob": 70 },
       {
-        "distribution": [ { "item": "backpack", "prob": 80 }, { "item": "backpack_leather", "prob": 40 } ],
+        "distribution": [
+          { "item": "backpack", "prob": 80 },
+          { "item": "backpack_denim", "prob": 5 },
+          { "item": "backpack_leather", "prob": 20 }
+        ],
         "prob": 70
       },
       {

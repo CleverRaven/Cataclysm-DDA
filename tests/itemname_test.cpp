@@ -181,13 +181,13 @@ TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
 
     REQUIRE( wrapper.put_in( butter_rot1, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
-           "paper wrapper > " + butter_rot_tname + " hidden" );
+           "paper wrapper > " + butter_rot_tname );
 
     REQUIRE( wrapper.put_in( butter_rot2, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
-           "paper wrapper > " + butter_rot_tname + " (2) hidden" );
+           "paper wrapper > 2 " + butter_rot_tname );
 
     REQUIRE( wrapper.put_in( butter_std, pocket_type::CONTAINER ).success() );
     CHECK( wrapper.display_name() ==
-           "paper wrapper > 3 hidden items" );
+           "paper wrapper > 3 " + butter_std_tname );
 }

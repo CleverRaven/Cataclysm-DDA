@@ -1,0 +1,11 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_hedge_extra_lock_door",
+    "terrain": [
+      { "result": "t_door_locked", "valid_terrain": [ "t_door_c" ] },
+      { "result": "t_door_locked_peep", "valid_terrain": [ "t_door_c_peep" ] },
+      { "result": "t_door_metal_locked", "valid_terrain": [ "t_door_metal_c" ] }
+    ]
+  }
+]

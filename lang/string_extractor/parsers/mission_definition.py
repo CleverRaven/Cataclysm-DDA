@@ -1,6 +1,7 @@
 from ..helper import get_singular_name
 from ..write_text import write_text
 from .effect import parse_effect
+from .mapgen import parse_mapgen_object
 
 
 def parse_mission_definition(json, origin):
@@ -20,5 +21,10 @@ def parse_mission_definition(json, origin):
                            format(name))
 
     for key in ["start", "end", "fail"]:
-        if key in json and "effect" in json[key]:
-            parse_effect(json[key]["effect"], origin)
+        if key in json:
+            if "effect" in json[key]:
+                parse_effect(json[key]["effect"], origin)
+            if "update_mapgen" in json[key]:
+                parse_mapgen_object(json[key]["update_mapgen"], origin,
+                                    om="update on {} of mission \"{}\""
+                                    .format(key, name))

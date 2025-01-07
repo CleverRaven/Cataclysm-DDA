@@ -18,53 +18,39 @@
         ".o   |L Exx#.#  R##*o##.",
         ".#Dd +   l o.oI  |L  y#^",
         ".#||||  HHH#.#@@ |   To.",
-        ".o8;;+     o.#@@ |x  H#.",
+        ".o8~~+     o.#@@ |x  H#.",
         ".#9tS|  sRR#.o   +   H#.",
         ".#||||  ####.#DdE|  Es#.",
         ".#17F  h#^...##|||    o.",
-        ".#O;;  fo%.`YY#WZ;   R#.",
-        ".o5;;  h#%.```*;;;||+|#.",
-        ".#42;|;;#..``G#7;3|S;8#.",
-        ".###*#WZ#..``KoO;F|t;9#.",
+        ".#O==  fo%.`YY#WZ=   R#.",
+        ".o5==  h#%.```*===||+|#.",
+        ".#42=|==#..``G#7=3|S~8#.",
+        ".###*#WZ#..``KoO=F|t~9#.",
         "..G``####..```#42S##o##.",
         "..```.........##o##^%%..",
         ".......u..[....%%%......",
         "..[....................."
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen"
+      ],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
-        "#": "t_adobe_brick_wall",
-        "`": "t_concrete",
         "K": "t_concrete",
         "G": "t_concrete",
         "Y": "t_concrete",
-        "_": "t_pavement",
-        "Z": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        ";": "t_linoleum_white"
+        "Z": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 10, "y": 9 }, { "item": "television", "x": 18, "y": 12 } ],
       "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "car", "x": 8, "y": 3, "chance": 35, "rotation": 270 },
         { "vehicle": "motorcycle_sidecart", "x": 14, "y": 2, "chance": 35, "rotation": 270 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 } ]
     }
   },
   {

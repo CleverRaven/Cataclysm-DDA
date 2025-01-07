@@ -17,7 +17,7 @@
       },
       {
         "id": "mutant_kid_boss_4",
-        "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labelled with a large \"T\".",
+        "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labeled with a large \"T\".",
         "//": "TODO: when descriptions allow nesting snippets replace with a random monogram."
       },
       {
@@ -154,7 +154,7 @@
       { "name": "red postit 2", "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast\n\nMount on drone?" },
       { "name": "red postit 3", "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
       { "name": "red postit 4", "id": "lab_postit_tech_4", "text": "Need more power" },
-      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilise the compound long enough" }
+      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilize the compound long enough" }
     ]
   },
   {
@@ -165,11 +165,11 @@
     "text": [
       {
         "id": "lab_file_mutagen",
-        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE012 transports."
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 mL PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE012 transports."
       },
       {
         "id": "lab_file_mutagen_rev1",
-        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 mL PE012 delivered orally, followed by a one-hour quarantine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
       },
       {
         "id": "lab_file_mutagen_rev2",
@@ -196,7 +196,7 @@
     "text": [
       {
         "id": "test_1",
-        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with  its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series  of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function."
+        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 mL oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with  its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series  of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function."
       },
       {
         "id": "test_2",
@@ -258,7 +258,7 @@
     "text": [
       {
         "id": "dream_1",
-        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what your're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
+        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what you're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
       },
       {
         "id": "dream_2",
@@ -324,6 +324,50 @@
   },
   {
     "type": "snippet",
+    "category": "<mutation_testing>",
+    "text": [
+      {
+        "id": "mutation_testing_1",
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Some grew in unexpected places, including a few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+      },
+      {
+        "id": "mutation_testing_2",
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked for more food.\nLong term results: the size of subject's stomach was increased by 50%."
+      },
+      {
+        "id": "mutation_testing_3",
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull a sidearm from a security guard's holster."
+      },
+      {
+        "id": "mutation_testing_4",
+        "text": "Prepare subject with 500 U mutagen\nApply 2500 U primer compound\nObserve for 6 hours\nResults: Subject died shortly after injection\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_5",
+        "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_6",
+        "text": "Prepare subject with 1500 U mutagen\nOmit primer compound\nObserve for 6 hours\nResults: Subject showed no visual changes whatsoever.  Subject reported a nausea and chest pain\nLong term results: No long-term changes."
+      },
+      {
+        "id": "mutation_testing_7",
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_regen>",
+    "text": [
+      {
+        "id": "serum_testing_regen_1",
+        "text": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects were rounded off.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject cataract were not cured, for some reason."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
@@ -371,7 +415,7 @@
       "We've taken every sample I can think of from Mandrake - or rather, Mandrake's gruesome reanimated corpse - and hit nothing but dead ends.  I don't think we're going to get any further.  Some mooks from admin came and packaged him up for transport to XEDRA-12, and with the new siloed information I don't know if we'll get to find out what happened to him.  We've been put under quarantine though, so that's fun.  So much for going to the movies tomorrow night.",
       "Dr. Takatoshi personally requested we do some experiments on a sample she had retrieved from 000XE.  It was a piece of wood-like material.  The material itself was interesting, but she didn't care about that.  She wanted us to study what was \"between\" the wood.  Indeed, based on her protocols, we found spaces in the material where we could pick up detectable mass, but weren't able to interact with it with any of our spectrographs.  We're dubbing the contaminant XE037 per naming protocol.",
       "Whatever XE037 is, or is not, it's contagious, but it seems to only have an interest in biomatter, and a much higher affinity to biomatter from planes at the X locus along the theta axis.  A new team is being formed and siloed out to research it in more detail.",
-      "They've authorized experimentation with this stuff.  I can't really believe it, honestly.  We have no idea what XE037 even is, let alone how it causes mutations, but here we are playing God with them.  It's exciting, for sure.  We'll make advances that we couldn't have dreamt of a few years ago, certainly, but I'm reminded of certain other times scientists have been allowed to plow ahead with our wildest concepts without concern for the ethical ramifications like this.  I'd best keep my concerns to myself.",
+      "They've authorized experimentation with this stuff.  I can't really believe it, honestly.  We have no idea what XE037 even is, let alone how it causes mutations, but here we are playing God with them.  It's exciting, for sure.  We'll make advances that we couldn't have dreamed of a few years ago, certainly, but I'm reminded of certain other times scientists have been allowed to plow ahead with our wildest concepts without concern for the ethical ramifications like this.  I'd best keep my concerns to myself.",
       "Our chemical department has made great strides in the production of a concentrated mutagen, derived from samples of PE012.  They still can't tell us how it works, but brass has okayed experimentation anyway.  I love working here.",
       "Our chemical department has perfected an untargeted stem cell treatment based on mutagen fed self-origin raw material.  Consumption of the treatment will reverse the effects of mutation, and may even treat congenital defects.  This substance has been denoted PE018.",
       "Both PE012 and PE018 show great stability.  A subject was exposed to both substances, alternating between the mutagen and the purifier.  Ultimately, the subject returned to baseline state with no apparent side effects aside from disorientation and pain.",

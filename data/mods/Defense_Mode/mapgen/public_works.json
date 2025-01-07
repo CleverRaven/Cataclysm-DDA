@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "dm_public_works_NW", "dm_public_works_NE" ], [ "dm_public_works_SW", "dm_public_works_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -65,11 +64,11 @@
         ".": "t_floor",
         "=": "t_door_locked",
         "D": "t_door_locked_alarm",
-        "F": "t_chainfence_h",
+        "F": "t_chainfence",
         "G": "t_grate",
         "O": "t_column",
         "_": "t_pavement",
-        "f": "t_chainfence_v",
+        "f": "t_chainfence",
         "g": "t_chaingate_l",
         "s": "t_sidewalk",
         "w": "t_window",

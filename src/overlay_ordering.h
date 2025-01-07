@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_OVERLAY_ORDERING_H
 #define CATA_SRC_OVERLAY_ORDERING_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 

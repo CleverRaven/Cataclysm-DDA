@@ -17,51 +17,12 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [
-      {
-        "name": "bile splatter",
-        "sym": "}",
-        "color": "pink",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 1,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      },
-      {
-        "name": "bile stain",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 2,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      },
-      {
-        "name": "puddle of bile",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 3,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      }
-    ],
+    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
-    "half_life": "30 minutes",
+    "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
@@ -215,50 +176,15 @@
     "type": "field_type",
     "legacy_enum_id": 6,
     "intensity_levels": [
-      {
-        "name": "slime trail",
-        "color": "light_green",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 1,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      },
-      {
-        "name": "slime stain",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 2,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      },
-      {
-        "name": "puddle of slime",
-        "color": "green",
-        "effects": [
-          {
-            "effect_id": "slippery_terrain",
-            "intensity": 3,
-            "min_duration": "1 second",
-            "immune_in_vehicle": true,
-            "is_environmental": false
-          }
-        ]
-      }
+      { "name": "slime trail", "color": "light_green" },
+      { "name": "slime stain" },
+      { "name": "puddle of slime", "color": "green" }
     ],
     "description_affix": "covered_in",
     "decay_amount_factor": 2,
     "apply_slime_factor": 10,
     "is_splattering": true,
-    "half_life": "25 minutes",
+    "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
@@ -403,6 +329,21 @@
     "has_fire": true,
     "priority": 4,
     "half_life": "30 minutes",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_fire_FAKE",
+    "looks_like": "fd_fire",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glittering embers", "sym": "4", "color": "yellow", "light_emitted": 5, "translucency": 0.7 },
+      { "name": "spark shower", "color": "light_red", "light_emitted": 15, "translucency": 0.4 },
+      { "name": "wall of flames", "color": "red", "light_emitted": 40, "translucency": 0.1 }
+    ],
+    "priority": 4,
+    "half_life": "1 seconds",
     "phase": "plasma",
     "display_items": false,
     "display_field": true
@@ -622,6 +563,7 @@
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
+    "has_fume": true,
     "accelerated_decay": true,
     "display_items": false,
     "display_field": true,
@@ -965,7 +907,7 @@
         "monster_spawn_chance": 600,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+        "monster_spawn_group": "GROUP_NETHER_REALITY_TEAR_FIELD"
       }
     ],
     "description_affix": "under",
@@ -1467,6 +1409,81 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_hallucinogenic_spores",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "hallucinogenic cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the hallucinogenic cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 8,
+        "concentration": 1.5,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "4 minutes",
+            "max_duration": "5 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic acid gas",
+        "color": "green",
+        "translucency": 0,
+        "concentration": 4,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_heavy",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "5 minutes",
+            "max_duration": "6 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground swirling and fracturing from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 3,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "4 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
+  },
+  {
     "id": "fd_cold_air1",
     "type": "field_type",
     "legacy_enum_id": 41,
@@ -1910,5 +1927,176 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_construction_site",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "Construction site", "sym": ".", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true,
+    "looks_like": "fd_shadow"
+  },
+  {
+    "id": "fd_congealed_light",
+    "type": "field_type",
+    "mopsafe": false,
+    "intensity_levels": [
+      {
+        "name": "smear of congealed light",
+        "sym": "5",
+        "color": "magenta",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
+      {
+        "name": "streak of congealed light",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
+      {
+        "name": "pool of congealed light",
+        "color": "white",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
+      }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "priority": 2,
+    "half_life": "10 seconds",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_bile"
+  },
+  {
+    "id": "emit_congealed_light",
+    "type": "emit",
+    "field": "fd_congealed_light",
+    "intensity": 1,
+    "qty": 30,
+    "chance": 85
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_illuminated",
+    "name": [ "illuminated" ],
+    "desc": [ "You're covered in congealed light!" ],
+    "apply_message": "The sticky globs of light cover you, and begin to burn!",
+    "rating": "bad",
+    "max_duration": "6 seconds",
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 3 ] },
+    "scaling_mods": { "hurt_min": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_decompressed",
+    "name": [ "In Decompressed Space" ],
+    "desc": [ "For an instant, every inch of this infinite space is itself infinite, slowing you drastically." ],
+    "apply_message": "Space unfolds and extends around you!",
+    "rating": "bad",
+    "miss_messages": [ [ "You cannot make any progress in all this vastness.", 4 ] ],
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "speed_mod": [ -33 ] },
+    "scaling_mods": { "speed_mod": [ -33 ], "hit_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "show_in_info": true
+  },
+  {
+    "id": "fd_LIXA_decompression",
+    "type": "field_type",
+    "legacy_enum_id": 19,
+    "intensity_levels": [
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
+      }
+    ],
+    "priority": 2,
+    "half_life": "5 seconds",
+    "phase": "plasma",
+    "display_field": true,
+    "looks_like": "fd_fog"
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_unfolded_eff",
+    "name": [ "Unfolded" ],
+    "desc": [
+      "There is no longer an inside or outside of you.  It is all one side; flat, infinite, and everything you have ever been.  You wonder if you're having no trouble understanding it because your brain works better spread out like this."
+    ],
+    "max_intensity": 1,
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   }
 ]

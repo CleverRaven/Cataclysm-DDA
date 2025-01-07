@@ -1,103 +1,6 @@
 [
   {
     "type": "construction",
-    "id": "grow_infinitree_1",
-    "group": "infinitree_growing",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 3 ] ],
-    "time": "120 m",
-    "components": [ [ [ "warptoken", 10 ] ], [ [ "stick", 2 ], [ "twig", 6 ] ], [ [ "leaves", 8 ] ], [ [ "material_soil", 2 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_infinitree1",
-    "activity_level": "LIGHT_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "infinitree_sticks_1",
-    "group": "infinitree_sticks",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "15 m",
-    "byproducts": [
-      { "item": "stick_long", "count": [ 1, 2 ] },
-      { "item": "stick", "count": [ 1, 6 ] },
-      { "item": "twig", "count": [ 5, 12 ] },
-      { "item": "leaves", "count": [ 4, 16 ] }
-    ],
-    "pre_terrain": "f_infinitree1",
-    "post_flags": [ "keep_items" ],
-    "activity_level": "LIGHT_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "infinitree_chop_1",
-    "group": "infinitree_chop",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "AXE", "level": 1 } ] ],
-    "byproducts": [
-      { "item": "log", "count": 1 },
-      { "item": "stick_long", "count": [ 0, 2 ] },
-      { "item": "splinter", "count": [ 2, 8 ] }
-    ],
-    "pre_terrain": "f_infinitree1",
-    "post_flags": [ "keep_items" ],
-    "activity_level": "ACTIVE_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "infinitree_chop_2",
-    "group": "infinitree_chop",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
-    "byproducts": [
-      { "item": "log", "count": 1 },
-      { "item": "stick_long", "count": [ 1, 2 ] },
-      { "item": "splinter", "count": [ 2, 8 ] }
-    ],
-    "pre_terrain": "f_infinitree1",
-    "post_flags": [ "keep_items" ],
-    "activity_level": "ACTIVE_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "infinitree_chop_3",
-    "group": "infinitree_chop",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "AXE", "level": 3 } ] ],
-    "byproducts": [
-      { "item": "log", "count": 1 },
-      { "item": "stick_long", "count": [ 1, 2 ] },
-      { "item": "splinter", "count": [ 2, 8 ] }
-    ],
-    "pre_terrain": "f_infinitree1",
-    "post_flags": [ "keep_items" ],
-    "activity_level": "ACTIVE_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "infinitree_chop_4",
-    "group": "infinitree_chop",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "5 m",
-    "qualities": [ [ { "id": "AXE", "level": 4 } ] ],
-    "byproducts": [
-      { "item": "log", "count": 1 },
-      { "item": "stick_long", "count": [ 1, 2 ] },
-      { "item": "splinter", "count": [ 2, 8 ] }
-    ],
-    "pre_terrain": "f_infinitree1",
-    "post_flags": [ "keep_items" ],
-    "activity_level": "ACTIVE_EXERCISE"
-  },
-  {
-    "type": "construction",
     "id": "copy_autodoc_with_plate",
     "group": "autodoc_copy",
     "category": "OTHER",
@@ -119,6 +22,30 @@
     "components": [ [ [ "warp_autodoc_active", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_autodoc",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "upgrade_autodoc_1",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_1", 1 ] ] ],
+    "pre_terrain": "f_autodoc",
+    "post_terrain": "f_si_autodoc_2",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "upgrade_autodoc_2",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_2", 1 ] ] ],
+    "pre_terrain": "f_si_autodoc_2",
+    "post_terrain": "f_si_autodoc_3",
     "activity_level": "LIGHT_EXERCISE"
   },
   {
@@ -157,6 +84,45 @@
     "pre_terrain": "t_dirt",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grass",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_wood_floor",
+    "group": "floor_to_wood_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_wood_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_floor",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_flagstone_floor",
+    "group": "floor_to_flagstone_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_flagstone_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_stone_masonry_floor",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_sand_floor",
+    "group": "floor_to_sand_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_sand_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_sand",
     "activity_level": "NO_EXERCISE"
   },
   {
@@ -361,13 +327,18 @@
   },
   {
     "type": "construction_group",
-    "id": "infinitree_sticks",
-    "name": "Pluck Infinitree sticks"
+    "id": "floor_to_wood_floor",
+    "name": "Warp floor into a wood floor"
   },
   {
     "type": "construction_group",
-    "id": "infinitree_chop",
-    "name": "Chop some wood from Infinitree"
+    "id": "floor_to_flagstone_floor",
+    "name": "Warp floor into a worked stone floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "floor_to_sand_floor",
+    "name": "Warp floor into fine sand"
   },
   {
     "type": "construction_group",
@@ -383,11 +354,6 @@
     "type": "construction_group",
     "id": "autodoc_couch_conversion",
     "name": "Convert sofa into Autodoc couch"
-  },
-  {
-    "type": "construction_group",
-    "id": "infinitree_growing",
-    "name": "Plant Infinitree"
   },
   {
     "type": "construction_group",

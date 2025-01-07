@@ -13,7 +13,6 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 1,
     "max_aoe": 5,
@@ -22,19 +21,12 @@
     "max_range": 15,
     "range_increment": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 800,
-    "final_energy_cost": 250,
+    "base_energy_cost": 900,
+    "final_energy_cost": 350,
     "energy_increment": -55,
     "base_casting_time": 50,
-    "final_casting_time": 0,
-    "casting_time_increment": -4,
-    "learn_spells": {
-      "teleport_phase": 5,
-      "teleport_transpose": 8,
-      "teleport_farstep": 12,
-      "teleport_gateway": 18,
-      "teleport_area_attune": 18
-    }
+    "final_casting_time": 5,
+    "casting_time_increment": -3.5
   },
   {
     "id": "teleport_slow",
@@ -51,7 +43,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_teleport_slow",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 0,
     "max_aoe": 20,
@@ -69,7 +60,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('teleport_slow') * 75) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_slow') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -79,8 +70,7 @@
     "base_casting_time": 80,
     "final_casting_time": 35,
     "casting_time_increment": -4.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_collapse": 7, "teleport_stride": 10, "teleport_displacement": 12, "teleport_banish": 18 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_phase",
@@ -96,7 +86,6 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -106,12 +95,48 @@
     "max_range": 4,
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
-    "final_energy_cost": 1000,
+    "final_energy_cost": 1250,
     "energy_increment": -65,
     "base_casting_time": 65,
     "final_casting_time": 15,
-    "casting_time_increment": -3,
-    "learn_spells": { "teleport_transpose": 4, "teleport_stride": 9, "teleport_gateway": 15, "teleport_area_attune": 15 }
+    "casting_time_increment": -3
+  },
+  {
+    "id": "teleport_ephemeral_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Ephemeral Walk (C)",
+    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
+      ]
+    }
   },
   {
     "id": "teleport_stride",
@@ -131,24 +156,23 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('teleport_stride') * 300) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_stride') * 1100) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('teleport_stride') * 400) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_stride') * 3700) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((2500 - (u_spell_level('teleport_stride') * 125)), 750)"
+        "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((3500 - (u_spell_level('teleport_stride') * 95)), 1750)"
       ]
     },
     "base_casting_time": {
       "math": [ "u_effect_intensity('effect_teleport_stride') > -1 ? 10 : max((85 -(u_spell_level('teleport_stride') * 7)), 25)" ]
-    },
-    "learn_spells": { "teleport_collapse": 6, "teleport_phase": 8, "teleport_farstep": 14 }
+    }
   },
   {
     "id": "teleport_transpose",
@@ -164,7 +188,6 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -174,13 +197,12 @@
     "max_range": 80,
     "energy_source": "STAMINA",
     "base_energy_cost": 2750,
-    "final_energy_cost": 1250,
-    "energy_increment": -95,
-    "base_casting_time": 55,
-    "final_casting_time": 0,
-    "casting_time_increment": -2.75,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_displacement": 5, "teleport_stride": 7, "teleport_farstep": 9, "teleport_banish": 15 }
+    "final_energy_cost": 1500,
+    "energy_increment": -85,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_displacement",
@@ -193,24 +215,80 @@
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 5,
+    "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_teleporter_teleporting_damage",
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 1250,
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1750,
     "energy_increment": -65,
-    "base_casting_time": 75,
+    "base_casting_time": 95,
     "final_casting_time": 25,
-    "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_banish": 10 }
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_reactive_displacement",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C)",
+    "description": "Maintain a field of unstable space around you, allowing you to effortlessly teleport enemies that strike you further away.  Unfortunately, their attacks will still hurt you as normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_REACTIVE_DISPLACEMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 1000 ) + 2000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 4000 ) + 20000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 0 : max( ( 3500 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_reactive_displacement_teleport",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C) - Teleport",
+    "description": "The actual teleport effect of reactive displacement.  Having this spell is a bug.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_teleporter_teleporting_damage",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "energy_source": "NONE",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_collapse",
@@ -229,26 +307,19 @@
     "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
     "shape": "blast",
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1500,
+    "base_energy_cost": 5500,
+    "final_energy_cost": 3000,
     "energy_increment": -75,
     "base_casting_time": 80,
     "final_casting_time": 45,
     "casting_time_increment": -2,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": {
-      "teleport_displacement": 4,
-      "teleport_banish": 9,
-      "teleport_gateway": 12,
-      "teleport_area_attune": 12,
-      "teleport_summon": 15
-    }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "teleport_collapse_01",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 01",
-    "description": "Version 1 of the spacial vortex, with 2 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 01", "//~": "NO_I18N" },
+    "description": { "str": "Version 1 of the spacial vortex, with 2 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -277,8 +348,8 @@
   {
     "id": "teleport_collapse_02",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 02",
-    "description": "Version 2 of the spacial vortex, with 3 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 02", "//~": "NO_I18N" },
+    "description": { "str": "Version 2 of the spacial vortex, with 3 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -311,8 +382,8 @@
   {
     "id": "teleport_collapse_03",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 03",
-    "description": "Version 3 of the spacial vortex, with 4 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 03", "//~": "NO_I18N" },
+    "description": { "str": "Version 3 of the spacial vortex, with 4 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -346,8 +417,8 @@
   {
     "id": "teleport_collapse_04",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 04",
-    "description": "Version 4 of the spacial vortex, with 5 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 04", "//~": "NO_I18N" },
+    "description": { "str": "Version 4 of the spacial vortex, with 5 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -382,8 +453,8 @@
   {
     "id": "teleport_collapse_05",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 05",
-    "description": "Version 5 of the spacial vortex, with 6 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 05", "//~": "NO_I18N" },
+    "description": { "str": "Version 5 of the spacial vortex, with 6 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -419,8 +490,8 @@
   {
     "id": "teleport_collapse_06",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 06",
-    "description": "Version 6 of the spacial vortex, with 7 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 06", "//~": "NO_I18N" },
+    "description": { "str": "Version 6 of the spacial vortex, with 7 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -457,8 +528,8 @@
   {
     "id": "teleport_collapse_07",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex 07",
-    "description": "Version 7 of the spacial vortex, with 8 pulls in.",
+    "name": { "str": "[Ψ]Spacial Vortex 07", "//~": "NO_I18N" },
+    "description": { "str": "Version 7 of the spacial vortex, with 8 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -496,8 +567,8 @@
   {
     "id": "teleport_collapse_pull",
     "type": "SPELL",
-    "name": "[Ψ]Spacial Vortex Real",
-    "description": "The actual spacial vortex that pulls in monsters.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Spacial Vortex Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spacial vortex that pulls in monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -536,32 +607,30 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 4,
     "max_aoe": 1,
-    "aoe_increment": -0.25,
+    "aoe_increment": -0.2,
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('teleport_farstep') * 1.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        "min( (( (u_spell_level('teleport_farstep') * 2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
     "max_range": 80,
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 1750,
+    "base_energy_cost": 6500,
+    "final_energy_cost": 2750,
     "energy_increment": -105,
     "base_casting_time": 75,
     "final_casting_time": 30,
-    "casting_time_increment": -2.75,
-    "learn_spells": { "teleport_area_attune": 9, "teleport_gateway": 9, "teleport_banish": 12 }
+    "casting_time_increment": -3
   },
   {
     "id": "teleport_banish",
     "type": "SPELL",
     "name": "[Ψ]Oubliette",
     "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very powerful enemies, or succeed but cause damage to the teleporter.",
-    "message": "With a tremendous mental exertion, you hurl your target to another dimension!",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPORTER",
@@ -569,8 +638,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "banishment",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORTER_OUBLIETTE_HANDLING",
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -590,20 +659,98 @@
     "max_range": 80,
     "energy_source": "STAMINA",
     "base_energy_cost": 7500,
-    "final_energy_cost": 3500,
-    "energy_increment": -200,
+    "final_energy_cost": 4600,
+    "energy_increment": -170,
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "teleport_summon": 7 }
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_banish_self_target",
+    "type": "SPELL",
+    "name": { "str": "Oubliette Self", "//~": "NO_I18N" },
+    "description": { "str": "This is the banishment that the target casts on themselves.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "TELEPORTER",
+    "teachable": false,
+    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "min_range": 0,
+    "max_range": 0,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_loci_establishment",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Establishment (C)",
+    "description": "Start concentrating on your current location, allowing you to return here at will with the [Ψ]Loci Technique power.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 2500 ) + 12500 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 5000 ) + 25000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_loci_technique",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Technique",
+    "description": "Transport yourself through the nether to your established loci location.  You must currently be concentrating on your [Ψ]Loci Establishment (C) for this to function.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
   },
   {
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
     "description": "Transport yourself through the Nether to an attuned location.  You must attune yourself to the place you wish to travel to.",
-    "message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
@@ -611,38 +758,77 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "translocate",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_GATEWAY_SELECTOR",
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 6000,
-    "energy_increment": -300,
+    "energy_increment": -200,
     "base_casting_time": 200,
     "final_casting_time": 75,
-    "casting_time_increment": -5.5,
-    "learn_spells": { "teleport_area_attune": 1, "teleport_banish": 6 }
+    "casting_time_increment": -5.5
   },
   {
-    "id": "teleport_area_attune",
+    "id": "teleport_dilated_gateway",
     "type": "SPELL",
-    "name": "[Ψ]Attune to Area",
-    "description": "Attune to a location for later teleporting.",
+    "name": "[Ψ]Dilated Gateway",
+    "description": "Transport yourself and every adjacent creature to a chosen location.  You must have already attuned an area with [Ψ]Gateway.",
     "message": "",
     "teachable": false,
-    "valid_targets": [ "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
-    "difficulty": 1,
-    "max_level": 1,
-    "effect": "ter_transform",
-    "effect_str": "ter_teleport_location_attune",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_dilated_gateway_SELECTOR",
     "shape": "blast",
-    "min_range": 1,
     "energy_source": "STAMINA",
-    "base_energy_cost": 0,
-    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('teleport_gateway') * 108000), 180000)" ] }
+    "base_energy_cost": 12000,
+    "final_energy_cost": 8000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_others",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Others",
+    "description": "The spell that actually teleports the adjacent targets.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "min_aoe": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_self",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Self",
+    "description": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
   },
   {
     "id": "teleport_summon",
@@ -659,7 +845,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_SUMMON",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
     "shape": "blast",
     "min_damage": 1,
     "min_range": {
@@ -676,5 +861,48 @@
     "final_casting_time": 125,
     "ignored_monster_species": [ "PSI_NULL" ],
     "casting_time_increment": -6.5
+  },
+  {
+    "id": "teleport_reality_tear",
+    "type": "SPELL",
+    "name": "[Ψ]Reality Tear",
+    "description": "Make your own contribution to the Cataclysm by opening a permanent tear in reality, allowing all manners of netherium creatures access to Earth.  This might not be a good idea.",
+    "message": "The air fractures and the space nearby breaks!",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "teleport_reality_tear_effects", "hit_self": true } ],
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "shape": "blast",
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 5000,
+    "energy_increment": -250,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -10
+  },
+  {
+    "id": "teleport_reality_tear_effects",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Reality Tear - Side Effects", "//~": "NO_I18N" },
+    "description": { "str": "Side effects of Reality Tear.  Seeing this spell is a bug.", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_REALITY_TEAR_EFFECTS",
+    "shape": "blast"
   }
 ]

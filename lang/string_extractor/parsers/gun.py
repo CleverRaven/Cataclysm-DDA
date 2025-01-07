@@ -1,4 +1,5 @@
 from ..helper import get_singular_name
+from .use_action import parse_use_action
 from ..write_text import write_text
 
 
@@ -14,6 +15,9 @@ def parse_gun(json, origin):
         write_text(json["description"], origin,
                    comment="Description of gun \"{}\"".format(name))
 
+    if "use_action" in json:
+        parse_use_action(json["use_action"], origin, name)
+
     if "variants" in json:
         for variant in json["variants"]:
             variant_name = get_singular_name(variant["name"])
@@ -27,12 +31,12 @@ def parse_gun(json, origin):
     if "modes" in json:
         for mode in json["modes"]:
             write_text(mode[1], origin,
-                       comment="Firing mode of gun \"{}\"".format(name))
+                       comment="Firing mode of gun")
 
     if "skill" in json:
         if json["skill"] != "archery":
             write_text(json["skill"], origin, context="gun_type_type",
-                       comment="Skill associated with gun \"{}\"".format(name))
+                       comment="Skill associated with gun")
 
     if "reload_noise" in json:
         write_text(json["reload_noise"], origin,
@@ -41,5 +45,4 @@ def parse_gun(json, origin):
     if "valid_mod_locations" in json:
         for loc in json["valid_mod_locations"]:
             write_text(loc[0], origin,
-                       comment="Valid mod location of gun \"{}\""
-                       .format(name))
+                       comment="Valid mod location of gun")

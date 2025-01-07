@@ -39,14 +39,15 @@
   {
     "type": "terrain",
     "id": "t_wall_clearcrete_alarm",
-    "alias": [ "t_wall_clearcrete_h_alarm", "t_wall_clearcrete_v_alarm" ],
     "looks_like": "t_wall_glass",
     "name": "clearcrete wall",
     "description": "A barrier made of clearcrete, perfect for greenhouses but looks extremely fragile.  It is most definitely not fragile, and it's probably alarmed in the event of a breach.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_cyan",
     "move_cost": 0,
-    "roof": "t_flat_roof",
+    "roof": "t_clearcrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "NO_SHOOT" ],
     "bash": {
       "str_min": 200,
@@ -85,5 +86,16 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_hard_vacuum",
+    "name": "hard vacuum",
+    "symbol": " ",
+    "color": "black",
+    "description": "The cold inhospitable vacuum of space.  Going this way without an EVA pack will end in either a slow cold death as your life support fades or a slow hot death as you drop into the planet's atmosphere.",
+    "move_cost": 1000,
+    "light_emitted": 420,
+    "flags": [ "DESTROY_ITEM" ]
   }
 ]

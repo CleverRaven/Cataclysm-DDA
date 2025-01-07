@@ -3,23 +3,23 @@ version: v1
 labels:
   - label: "<Enhancement / Feature>"
     matcher:
-      body: ".*Features +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Features +\".+\"\\s*(\n|$)"
 
   - label: "Info / User Interface"
     matcher:
-      body: ".*Interface +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Interface +\".+\"\\s*(\n|$)"
 
   - label: "Mods"
     matcher:
-      body: ".*Mods +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Mods +\".+\"\\s*(\n|$)"
 
   - label: "Game: Balance"
     matcher:
-      body: ".*Balance +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Balance +\".+\"\\s*(\n|$)"
 
   - label: "<Bugfix>"
     matcher:
-      body: ".*Bugfixes +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Bugfixes +\".+\"\\s*(\n|$)"
 
   - label: "<Bugfix>"
     matcher:
@@ -27,16 +27,16 @@ labels:
 
   - label: "Code: Performance"
     matcher:
-      body: ".*Performance +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Performance +\".+\"\\s*(\n|$)"
 
   - label: "Code: Infrastructure / Style / Static Analysis"
     matcher:
-      body: ".*Infrastructure +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Infrastructure +\".+\"\\s*(\n|$)"
 
   - label: "Code: Build"
     matcher:
-      body: ".*Build +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*Build +\".+\"\\s*(\n|$)"
 
   - label: "Translation"
     matcher:
-      body: ".*I18N +\".+\".*"
+      body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)"

@@ -4,44 +4,78 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ]
+    "mutations": [ "WILDSHAPE:FISH", "WAYFARER" ]
   },
   {
     "id": "wildshape_cloak_fish",
     "type": "ARMOR",
     "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
-    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.",
+    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you put it on.",
     "looks_like": "cloak_leather",
     "weight": "2060 g",
     "volume": "3050 ml",
-    "price": 100000,
+    "price": "1 kUSD",
     "symbol": "w",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_fish", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_preshift_size = u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [  ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "10" ] } ] }
+        ]
+      },
+      { "u_add_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
+      { "u_add_trait": "BESTIAL_MIND" },
+      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP",
+    "condition": { "u_has_trait": "WILDSHAPE:FISH" },
+    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 } ],
+    "false_effect": [
+      { "u_lose_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
+      { "u_lose_trait": "BESTIAL_MIND" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [  ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "10" ] } ] }
+        ]
+      }
+    ]
   },
   {
     "id": "ench_bearform",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "INTELLIGENCE", "add": -6 }, { "value": "PERCEPTION", "add": -6 } ],
-    "mutations": [
-      "ILLITERATE",
-      "WAYFARER",
-      "DISORGANIZED",
-      "SMELLY",
-      "PSYCHOPATH",
-      "CLUMSY",
-      "FANGS",
-      "CLAWS",
-      "SHOUT3",
-      "FUR",
-      "DEFT",
-      "WILDSHAPE:BEAR"
-    ]
+    "mutations": [ "WILDSHAPE:BEAR" ]
   },
   {
     "id": "wildshape_cloak_bear",
@@ -51,32 +85,70 @@
     "looks_like": "cloak_leather",
     "weight": "2060 g",
     "volume": "3050 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "symbol": "w",
     "color": "brown",
     "material": [ "magical_material" ],
-    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_bearform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_bear", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_preshift_size = u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
+      { "u_add_trait": "BESTIAL_MIND" },
+      { "u_add_trait": "BESTIAL_MIND_COMBAT" },
+      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP",
+    "condition": { "u_has_trait": "WILDSHAPE:BEAR" },
+    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP", "time_in_future": 1 } ],
+    "false_effect": [
+      { "u_lose_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
+      { "u_lose_trait": "BESTIAL_MIND" },
+      { "u_lose_trait": "BESTIAL_MIND_COMBAT" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      }
+    ]
   },
   {
     "id": "ench_deerform",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [
-      "FUR",
-      "WILDSHAPE:DEER",
-      "FLEET2",
-      "GOODCARDIO2",
-      "QUICK",
-      "LIGHTSTEP",
-      "WEAKSCENT",
-      "DISORGANIZED",
-      "PACIFIST",
-      "WAYFARER",
-      "HUNGER2"
-    ]
+    "mutations": [ "WILDSHAPE:DEER" ]
   },
   {
     "id": "wildshape_cloak_deer",
@@ -86,12 +158,105 @@
     "looks_like": "cloak_leather",
     "weight": "2060 g",
     "volume": "3050 ml",
-    "price": 150000,
+    "price": "1 kUSD 500 USD",
     "symbol": "w",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] },
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_deer", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_preshift_size = u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 3, "effect": [  ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] } ] }
+        ]
+      },
+      { "u_add_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
+      { "u_add_trait": "BESTIAL_MIND" },
+      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP",
+    "condition": { "u_has_trait": "WILDSHAPE:DEER" },
+    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP", "time_in_future": 1 } ],
+    "false_effect": [
+      { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
+      { "u_lose_trait": "BESTIAL_MIND" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 3, "effect": [  ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "3" ] } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cloak_of_elvenkind",
+    "type": "ARMOR",
+    "name": { "str": "cloak of elvenkind", "str_pl": "cloaks of elvenkind" },
+    "description": "One of the traditional items of the ancient elven warrior societies, this cloth cloak woven with still-living leaves makes its wearer much harder to spot in forests or dense vegetation.  Infamous for their use during the Vietnam War by elves on both sides of the conflict.",
+    "looks_like": "cloak",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": "1 kUSD 500 USD",
+    "symbol": "w",
+    "color": "green",
+    "material": [ "cotton", "veggy" ],
+    "armor": [
+      { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 65,
+        "encumbrance": 3,
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 0.4,
+    "environmental_protection": 3,
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": {
+            "or": [
+              { "u_is_on_terrain_with_flag": "SHRUB" },
+              { "u_is_on_terrain": "t_tree_young" },
+              { "u_is_on_terrain": "t_bamboo_tall" },
+              { "u_is_on_terrain": "t_grass_long" },
+              { "u_at_om_location": "forest" },
+              { "u_at_om_location": "forest_thick" }
+            ]
+          },
+          "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ]
   }
 ]

@@ -12,7 +12,7 @@
     "autolearn": false,
     "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_gossamer_patchwork", 8 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "sleeveless_tunic_gossamer",
@@ -39,7 +39,12 @@
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 38 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_gossamer" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_gossamer" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "dress_gossamer",
@@ -53,7 +58,7 @@
     "autolearn": false,
     "reversible": { "time": "20 minutes" },
     "using": [ [ "tailoring_gossamer_patchwork", 20 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "gown_gossamer",
@@ -67,7 +72,11 @@
     "autolearn": false,
     "reversible": { "time": "45 minutes" },
     "using": [ [ "tailoring_gossamer_patchwork", 30 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_gossamer" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_gossamer" }
+    ]
   },
   {
     "result": "cloak_gossamer",
@@ -81,7 +90,11 @@
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 34 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_gossamer" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_gossamer" }
+    ]
   },
   {
     "result": "jacket_light_gossamer",
@@ -95,7 +108,12 @@
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 35 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_gossamer" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_gossamer" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "robe_wizard_gossamer",
@@ -109,7 +127,11 @@
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_cotton_patchwork", 42 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_gossamer" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_gossamer" }
+    ]
   },
   {
     "result": "gloves_light_gossamer",
@@ -123,7 +145,7 @@
     "reversible": { "time": "35 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "loincloth_gossamer",
@@ -137,7 +159,7 @@
     "reversible": { "time": "5 minutes" },
     "autolearn": false,
     "using": [ [ "cordage_short", 1 ], [ "tailoring_gossamer_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "pants_gossamer",
@@ -151,7 +173,11 @@
     "reversible": { "time": "60 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 20 ], [ "fastener_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "pants_no_pocket_gossamer",
@@ -165,7 +191,7 @@
     "reversible": { "time": "35 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 18 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "skirt_gossamer",
@@ -179,7 +205,11 @@
     "reversible": { "time": "45 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 7 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "skirt_long_gossamer",
@@ -193,7 +223,11 @@
     "reversible": { "time": "50 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 10 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_closures" }
+    ]
   },
   {
     "result": "socks_gossamer",
@@ -207,7 +241,7 @@
     "reversible": { "time": "15 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "stockings_gossamer",
@@ -221,7 +255,7 @@
     "reversible": { "time": "25 minutes" },
     "autolearn": false,
     "using": [ [ "tailoring_gossamer_patchwork", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" } ]
+    "proficiencies": [ { "proficiency": "prof_aelfen_tailoring" }, { "proficiency": "prof_gossamer_basic" } ]
   },
   {
     "result": "sheet_gossamer_patchwork",
@@ -264,6 +298,7 @@
       [ [ "gambeson_batting_gossamer", 153 ] ]
     ],
     "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
       { "proficiency": "prof_gossamer_basic" },
       { "proficiency": "prof_gossamer" },
       { "proficiency": "prof_closures" },
@@ -284,7 +319,12 @@
     "using": [ [ "filament_canvas", 30 ], [ "fastener_small", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet", 1 ] ], [ [ "gambeson_batting_gossamer", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_gossamer_basic" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_quilting" } ]
+    "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_gossamer_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_quilting" }
+    ]
   },
   {
     "result": "gambeson_pants_gossamer",
@@ -300,6 +340,7 @@
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet", 4 ] ], [ [ "gambeson_batting_gossamer", 21 ] ] ],
     "proficiencies": [
+      { "proficiency": "prof_aelfen_tailoring" },
       { "proficiency": "prof_gossamer_basic" },
       { "proficiency": "prof_gossamer" },
       { "proficiency": "prof_closures" },

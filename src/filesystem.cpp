@@ -12,12 +12,58 @@
 #include <type_traits>
 #include <vector>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "cata_utility.h"
 #include "debug.h"
 
 #if defined(_WIN32)
 #   include "platform_win.h"
+
+static const std::array invalid_names = {
+    std::string_view( "CON" ),
+    std::string_view( "PRN" ),
+    std::string_view( "AUX" ),
+    std::string_view( "NUL" ),
+    std::string_view( "COM0" ),
+    std::string_view( "COM1" ),
+    std::string_view( "COM2" ),
+    std::string_view( "COM3" ),
+    std::string_view( "COM4" ),
+    std::string_view( "COM5" ),
+    std::string_view( "COM6" ),
+    std::string_view( "COM7" ),
+    std::string_view( "COM8" ),
+    std::string_view( "COM9" ),
+    std::string_view( "COM¹" ),
+    std::string_view( "COM²" ),
+    std::string_view( "COM³" ),
+    std::string_view( "LPT0" ),
+    std::string_view( "LPT1" ),
+    std::string_view( "LPT2" ),
+    std::string_view( "LPT3" ),
+    std::string_view( "LPT4" ),
+    std::string_view( "LPT5" ),
+    std::string_view( "LPT6" ),
+    std::string_view( "LPT7" ),
+    std::string_view( "LPT8" ),
+    std::string_view( "LPT9" ),
+    std::string_view( "LPT¹" ),
+    std::string_view( "LPT²" ),
+    std::string_view( "LPT³" )
+};
 #endif
+
+static void setFsNeedsSync()
+{
+#if defined(EMSCRIPTEN)
+    EM_ASM( window.setFsNeedsSync(); );
+#endif
+}
+
+static const std::string invalid_chars = "\\/:?\"<>|";
 
 bool assure_dir_exist( const std::string &path )
 {
@@ -31,6 +77,7 @@ bool assure_dir_exist( const cata_path &path )
 
 bool assure_dir_exist( const fs::path &path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     bool exists{false};
     bool created{false};
@@ -39,6 +86,9 @@ bool assure_dir_exist( const fs::path &path )
     if( !is_dir ) {
         exists = fs::exists( p, ec );
         if( !exists ) {
+            if( !is_lexically_valid( p ) ) {
+                return false;
+            }
             created = fs::create_directories( p, ec );
             if( !created ) {
                 // TEMPORARY until we drop VS2019 support
@@ -99,8 +149,14 @@ bool remove_file( const std::string &path )
     return remove_file( fs::u8path( path ) );
 }
 
+bool remove_file( const cata_path &path )
+{
+    return remove_file( path.get_unrelative_path() );
+}
+
 bool remove_file( const fs::path &path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     return fs::remove( path, ec );
 }
@@ -110,8 +166,14 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
     return rename_file( fs::u8path( old_path ), fs::u8path( new_path ) );
 }
 
+bool rename_file( const cata_path &old_path, const cata_path &new_path )
+{
+    return rename_file( old_path.get_unrelative_path(), new_path.get_unrelative_path() );
+}
+
 bool rename_file( const fs::path &old_path, const fs::path &new_path )
 {
+    setFsNeedsSync();
     std::error_code ec;
     fs::rename( old_path, new_path, ec );
     return !ec;
@@ -135,6 +197,7 @@ bool remove_directory( const std::string &path )
 bool remove_directory( const fs::path &path )
 {
     std::error_code ec;
+    setFsNeedsSync();
     return fs::remove( path, ec );
 }
 
@@ -228,9 +291,15 @@ bool is_directory( const fs::directory_entry &entry )
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end )
+bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end,
+                    const bool match_path )
 {
-    std::string entry_name = entry.path().filename().u8string();
+    std::string entry_name;
+    if( match_path ) {
+        entry_name = entry.path().u8string();
+    } else {
+        entry_name = entry.path().filename().u8string();
+    }
     const size_t len_fname = entry_name.length();
     const size_t len_match = match.length();
 
@@ -368,7 +437,7 @@ std::vector<std::string> get_files_from_path( const std::string &pattern,
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, match_extension );
+        return name_contains( entry, pattern, match_extension, false );
     } );
 }
 std::vector<cata_path> get_files_from_path( const std::string &pattern,
@@ -376,7 +445,28 @@ std::vector<cata_path> get_files_from_path( const std::string &pattern,
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, match_extension );
+        return name_contains( entry, pattern, match_extension, false );
+    } );
+}
+
+std::vector<std::string> get_files_from_path_with_path_exclusion( const std::string &pattern,
+        const std::string &pattern_clash,
+        const std::string &root_path, const bool recursive_search, const bool match_extension )
+{
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, match_extension, false ) &&
+               !name_contains( entry, pattern_clash, false, true );
+    } );
+}
+std::vector<cata_path> get_files_from_path_with_path_exclusion( const std::string &pattern,
+        const std::string &pattern_clash,
+        const cata_path &root_path, const bool recursive_search, const bool match_extension )
+{
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, match_extension, false ) &&
+               !name_contains( entry, pattern_clash, false, true );
     } );
 }
 
@@ -396,7 +486,7 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
 
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, true );
+        return name_contains( entry, pattern, true, false );
     } );
 
     // Chop off the file names. Dir path MUST be splitted by '/'
@@ -418,7 +508,7 @@ std::vector<cata_path> get_directories_with( const std::string &pattern,
 
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
-        return name_contains( entry, pattern, true );
+        return name_contains( entry, pattern, true, false );
     } );
 
     // Chop off the file names. Dir path MUST be splitted by '/'
@@ -451,7 +541,7 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
-            return name_contains( entry, ext, true );
+            return name_contains( entry, ext, true, false );
         } );
     } );
 
@@ -479,7 +569,7 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
-            return name_contains( entry, ext, true );
+            return name_contains( entry, ext, true, false );
         } );
     } );
 
@@ -489,6 +579,43 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
     }
 
     //remove resulting duplicates
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
+/**
+ * Finds all directories within given path
+ * @param root_path Search root.
+ * @param recursive_search Be recurse or not.
+ * @return vector or directories without pattern filename at end.
+ */
+std::vector<std::string> get_directories( const std::string &root_path,
+        const bool recursive_search )
+{
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return dir_exist( entry.path() );
+    } );
+
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
+/**
+ * Finds all directories within given path
+ * @param root_path Search root.
+ * @param recursive_search Be recurse or not.
+ * @return vector or directories without pattern filename at end.
+ */
+std::vector<cata_path> get_directories( const cata_path &root_path, const bool recursive_search )
+{
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return dir_exist( entry.path() );
+    } );
+
     files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
 
     return files;
@@ -521,7 +648,6 @@ bool copy_file( const cata_path &source_path, const cata_path &dest_path )
 std::string ensure_valid_file_name( const std::string &file_name )
 {
     const char replacement_char = ' ';
-    const std::string invalid_chars = "\\/:?\"<>|";
 
     // do any replacement in the file name, if needed.
     std::string new_file_name = file_name;
@@ -535,3 +661,38 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
+
+#if defined(_WIN32)
+bool is_lexically_valid( const fs::path &path )
+{
+    // Windows has strict rules for file naming
+    fs::path rel = path.relative_path();
+    // "Do not end a file or directory name with a space or a period."
+    // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
+    for( auto &it : rel ) {
+        std::string item = it.generic_u8string();
+        if( item == "." || item == ".." ) {
+            continue;
+        }
+        if( !item.empty() && ( item.back() == ' ' || item.back() == '.' ) ) {
+            return false;
+        }
+        for( auto &it : item ) {
+            if( invalid_chars.find( it ) != std::string::npos ) {
+                return false;
+            }
+        }
+        for( auto &inv : invalid_names ) {
+            if( item == inv ) {
+                return false;
+            }
+            if( item.rfind( inv, 0 ) == 0 &&
+                item[ inv.size() ] == '.'
+              ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+#endif

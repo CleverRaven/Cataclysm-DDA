@@ -195,7 +195,7 @@
     "//": "Allows players to safely climb up/down or hold position against a wall.",
     "copy-from": "generic_superpower",
     "down": {
-      "menu_text": "Crawl down the wall with your sticky pads.",
+      "menu_text": "Crawl down the wall.",
       "confirm_text": "Crawl down the wall?",
       "msg_after": "You crawl down the wall.",
       "//": "Can be used repeatedly to descend 1 floor at a time.",

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "SKIN_BLUE",
+    "type": "mutation",
+    "name": { "str": "Skin tone: blue" },
+    "description": "You have a sky- or sea-colored skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_GREEN",
+    "type": "mutation",
+    "name": { "str": "Skin tone: green" },
+    "description": "You have a green skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_GRAY",
+    "type": "mutation",
+    "name": { "str": "Skin tone: gray" },
+    "description": "You have a gray skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_MIDNIGHT",
+    "type": "mutation",
+    "name": { "str": "Skin tone: midnight" },
+    "description": "You have an almost pure black skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_OPAL",
+    "type": "mutation",
+    "name": { "str": "Skin tone: opal" },
+    "description": "You have an opalescent skin tone, pale with a faint shimmering rainbow of colors.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_RED",
+    "type": "mutation",
+    "name": { "str": "Skin tone: red" },
+    "description": "You have a reddish or very ruddy skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
+  }
+]

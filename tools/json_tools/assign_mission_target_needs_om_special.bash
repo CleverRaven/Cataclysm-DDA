@@ -11,10 +11,12 @@ function Q {
 
 SPECIAL_OF_TERRAIN="$(mktemp --suffix -special-of-terrain.json )"
 Q 'def skip(to_skip): select(all(. != to_skip; .));
-    .[]
+    if type=="array" then .[] else . end
+	| select(type=="object")
 	| select(.type=="overmap_special")
 	| .id as $id
 	| .overmaps[].overmap
+    | select(. != null)
 	| sub("_(north|south|east|west)$"; "")
 	# Skip common terrains to prevent false positives
 	| skip("forest", "forest_thick", "forest_water", "field", "road_ew")
@@ -26,7 +28,8 @@ Q 'def skip(to_skip): select(all(. != to_skip; .));
 
 MISSING_OM_SPECIAL="$(mktemp --suffix -missing-om-special.json )"
 Q --slurpfile special_of_terrain "$SPECIAL_OF_TERRAIN" \
-   	'.[] 
+   	'if type=="array" then .[] else . end
+	| select(type=="object")
    	| select(.type=="mission_definition")
    	| .id as $id
    	| .start?.assign_mission_target?

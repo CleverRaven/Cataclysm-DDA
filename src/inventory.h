@@ -18,7 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"
@@ -55,6 +55,13 @@ class invlet_wrapper : private std::string
         explicit invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
         bool valid( int invlet ) const;
+
+        // Get ordinal number (first, second, third, ...) of invlet.
+        // Informs sorting order.
+        int ordinal( int invlet ) const {
+            return this->find( invlet );
+        }
+
         std::string get_allowed_chars() const {
             return *this;
         }
@@ -155,13 +162,10 @@ class inventory : public visitable
         void restack( Character &p );
         void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                              const Character *pl = nullptr, bool assign_invlet = true );
-        void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
+        void form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int range, const Character *pl = nullptr,
-                            bool assign_invlet = true,
-                            bool clear_path = true );
-        void form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+        void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                             bool assign_invlet = true );
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -243,9 +247,6 @@ class inventory : public visitable
 
         void copy_invlet_of( const inventory &other );
 
-        // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchant_cache get_active_enchantment_cache( const Character &owner ) const;
-
         int count_item( const itype_id &item_type ) const;
 
         book_proficiency_bonuses get_book_proficiency_bonuses() const;
@@ -269,6 +270,7 @@ class inventory : public visitable
 
         // specifically used to for displaying non-empty liquid container color in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;
+        bool must_use_hallu_poison( const itype_id &id, int to_use ) const;
         void update_liq_container_count( const itype_id &id, int count );
         void replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max = false );
 

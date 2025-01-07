@@ -25,6 +25,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "scrap_shadowstuff",
+    "name": "scraps of shadowstuff",
+    "default": "scrap_shadowstuff"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glamour_charge",
+    "name": "glamour",
+    "default": "glamour_charge"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "xedra_time_charge",
+    "name": "collected time",
+    "default": "xedra_time_charge"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x21mm",
     "name": "9x21mm",
     "default": "9x21mm"

@@ -1,13 +1,12 @@
 [
   {
     "id": "helmet_nomad",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "nomad cowl" },
-    "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
+    "description": "A denim cowl with additional leather padding stitched onto the head with integrated protection from a plastic visor, sun brim, and filter cartridge intake, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
     "weight": "470 g",
     "volume": "2500 ml",
-    "price_postapoc": 250,
-    "to_hit": -3,
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "denim", "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -37,7 +36,7 @@
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
@@ -46,26 +45,35 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "PADDED" ]
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "ammo": "gasfilter_s",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
   },
   {
     "id": "xl_helmet_nomad",
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
-    "name": { "str": "XL nomad cowl" },
-    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusual and enormous anatomy.",
+    "name": { "str": "nomad cowl" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_helmet_nomad",
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
-    "looks_like": "helmet_nomad",
-    "name": { "str": "XS nomad cowl" },
-    "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusually small anatomy.",
+    "name": { "str": "nomad cowl" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_survivor",
@@ -75,10 +83,9 @@
     "description": "A customized armored leather and Kevlar hood, designed to balance comfort and protection.",
     "weight": "820 g",
     "volume": "2 L",
-    "price": 58000,
-    "price_postapoc": 4000,
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "leather" ],
+    "price": "580 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "brown",
@@ -87,8 +94,7 @@
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_wsurvivor",
@@ -98,10 +104,9 @@
     "description": "A customized armored Kevlar hood.  Warm thanks to the real fur lining.",
     "weight": "870 g",
     "volume": "1500 ml",
-    "price": 58000,
-    "price_postapoc": 3500,
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "fur" ],
+    "price": "580 USD",
+    "price_postapoc": "35 USD",
+    "material": [ "kevlar", "fur" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
@@ -109,47 +114,39 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_wsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
-    "name": { "str": "XL winter survivor hood" },
-    "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the real fur lining.",
+    "name": { "str": "winter survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_wsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
-    "looks_like": "hood_wsurvivor",
-    "name": { "str": "XS winter survivor hood" },
-    "description": "A customized and undersized armored Kevlar hood.  Warm thanks to the real fur lining.",
+    "name": { "str": "winter survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_xlsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_survivor",
-    "looks_like": "hood_survivor",
-    "name": { "str": "XL survivor hood" },
-    "description": "A massive customized armored leather and Kevlar hood, designed to balance comfort and protection.",
+    "name": { "str": "survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hood_xssurvivor",
     "type": "ARMOR",
     "copy-from": "hood_survivor",
-    "looks_like": "hood_survivor",
-    "name": { "str": "XS survivor hood" },
-    "description": "A tiny customized armored leather and Kevlar hood, designed to balance comfort and protection.",
+    "name": { "str": "survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_lsurvivor",
@@ -159,10 +156,9 @@
     "description": "A customized armored cloth and Kevlar hood, light yet durable.",
     "weight": "628 g",
     "volume": "750 ml",
-    "price": 58000,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "cotton" ],
+    "price": "580 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "green",
@@ -170,27 +166,23 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_lsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_lsurvivor",
-    "name": { "str": "XL light survivor hood" },
-    "description": "A customized and oversized armored cloth and Kevlar hood, light yet durable.",
+    "name": { "str": "light survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_lsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_lsurvivor",
-    "looks_like": "hood_lsurvivor",
-    "name": { "str": "XS light survivor hood" },
-    "description": "A customized and undersized armored cloth and Kevlar hood, light yet durable.",
+    "name": { "str": "light survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_wsurvivor_nofur",
@@ -198,7 +190,7 @@
     "name": { "str": "winter faux fur survivor hood" },
     "description": "A customized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
     "copy-from": "hood_wsurvivor",
-    "material": [ "kevlar_layered", "faux_fur" ],
+    "material": [ "kevlar", "faux_fur" ],
     "symbol": "[",
     "warmth": 65,
     "looks_like": "hood_survivor",
@@ -208,23 +200,20 @@
     "id": "xl_hood_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
-    "material": [ "kevlar_layered", "faux_fur" ],
+    "material": [ "kevlar", "faux_fur" ],
     "color": "pink",
     "warmth": 65,
-    "name": { "str": "XL faux fur winter survivor hood" },
-    "description": "A customized and oversized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
+    "name": { "str": "winter faux fur survivor hood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor_nofur",
-    "looks_like": "hood_wsurvivor_nofur",
-    "name": { "str": "XS faux fur winter survivor hood" },
-    "description": "A customized and undersized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
+    "name": { "str": "winter faux fur survivor hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "flags": [ "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "hood_h20survivor",
@@ -235,9 +224,8 @@
     "//": "When/if new head clothing layering system will be implemented, move this to normal and skintight layers.",
     "weight": "860 g",
     "volume": "1500 ml",
-    "price": 58000,
-    "price_postapoc": 1500,
-    "to_hit": -1,
+    "price": "580 USD",
+    "price_postapoc": "15 USD",
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -257,7 +245,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -292,19 +279,17 @@
     "id": "xl_hood_h20survivor",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor",
-    "looks_like": "hood_h20survivor",
-    "name": { "str": "XL Kevlar wetsuit hood" },
+    "name": { "str": "Kevlar wetsuit hood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_h20survivor",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor",
-    "looks_like": "hood_h20survivor",
-    "name": { "str": "XS Kevlar wetsuit hood" },
+    "name": { "str": "Kevlar wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_h20survivor_light",
@@ -316,9 +301,8 @@
     "//2": "Basically a reduced in weight and thickness wetsuit hood with a layer of Kevlar attached.",
     "weight": "860 g",
     "volume": "1500 ml",
-    "price": 58000,
-    "price_postapoc": 1500,
-    "to_hit": -1,
+    "price": "580 USD",
+    "price_postapoc": "15 USD",
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -338,7 +322,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -373,19 +356,17 @@
     "id": "xl_hood_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor_light",
-    "looks_like": "hood_h20survivor_light",
-    "name": { "str": "XL light Kevlar wetsuit overhood" },
+    "name": { "str": "light Kevlar wetsuit overhood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor_light",
-    "looks_like": "hood_h20survivor_light",
-    "name": { "str": "XS light Kevlar wetsuit overhood" },
+    "name": { "str": "light Kevlar wetsuit overhood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_h20survivor_thick",
@@ -396,9 +377,8 @@
     "//": "When/if new head clothing layering system will be implemented, move this to skintight and normal layers.",
     "weight": "860 g",
     "volume": "1500 ml",
-    "price": 58000,
-    "price_postapoc": 1500,
-    "to_hit": -1,
+    "price": "580 USD",
+    "price_postapoc": "15 USD",
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -418,7 +398,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 10 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -453,60 +432,91 @@
     "id": "xl_hood_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor_thick",
-    "looks_like": "hood_h20survivor_thick",
-    "name": { "str": "XL thick Kevlar wetsuit hood" },
+    "name": { "str": "thick Kevlar wetsuit hood" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "hood_h20survivor_thick",
-    "looks_like": "hood_h20survivor_thick",
-    "name": { "str": "XS thick Kevlar wetsuit hood" },
+    "name": { "str": "thick Kevlar wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "helmet_scavenger",
-    "type": "ARMOR",
-    "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "type": "TOOL_ARMOR",
+    "//": "I based these changes on the OKZK cap, as a general design but with a few changes and considerations. I removed the ballistic kevlar primarily due to it being unsuitable for headwear",
+    "name": { "str": "mercenary cowl" },
+    "description": "A sturdy canvas hat and cowl extending down to the neck, fitted with a shade brim, plastic eye visor and integrated filter cartridge intake built into the mouth section.  Provides smoke protection, and is cleverly designed to be relatively unencumbering and protective.",
     "weight": "695 g",
     "volume": "2500 ml",
-    "price": 55000,
-    "price_postapoc": 3500,
-    "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
+    "price": "550 USD",
+    "price_postapoc": "35 USD",
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape", "head_ear_l", "head_ear_r", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 16
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
     ],
-    "warmth": 40,
-    "material_thickness": 3,
-    "environmental_protection": 7,
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
+    "warmth": 15,
+    "material_thickness": 2,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "ammo": "gasfilter_s",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
   },
   {
     "id": "xl_helmet_scavenger",
     "type": "ARMOR",
     "copy-from": "helmet_scavenger",
-    "name": { "str": "XL scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For oversized dangerous scavenging ventures.",
+    "name": { "str": "scavenger cowl" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "helmet_scavenger_xs",
     "type": "ARMOR",
     "copy-from": "helmet_scavenger",
-    "looks_like": "helmet_scavenger",
-    "name": { "str": "XS scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "name": { "str": "scavenger cowl" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

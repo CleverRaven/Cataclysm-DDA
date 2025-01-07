@@ -35,7 +35,7 @@ TEST_CASE( "mx_minefield_real_spawn", "[map_extra][overmap][!mayfail]" )
     // For every single bridge we found, run mapgen (which will select and apply a map extra).
     for( const tripoint_abs_omt &p : bridges ) {
         tinymap tm;
-        tm.load( project_to<coords::sm>( p ), false );
+        tm.load( p, false );
     }
 
     // Get all of the map extras that have been generated.
@@ -73,12 +73,14 @@ TEST_CASE( "mx_minefield_theoretical_spawn", "[map_extra][overmap]" )
                     road );
 
         tinymap tm;
-        tm.load( project_combine( om.pos(), project_to<coords::sm>( center ) ), false );
+        tm.load( project_combine( om.pos(), center ), false );
 
         const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield );
 
         // TODO: fix point types
-        return mx_func( tm, tm.get_abs_sub().raw() );
+        map *mp = tm.cast_to_map();
+        const tripoint pos = tm.get_abs_sub().raw();
+        return mx_func( *mp, pos );
     };
 
     // Pick a point in the middle of the overmap so we don't go out of bounds when setting up

@@ -20,13 +20,18 @@
     "type": "item_group",
     "id": "NC_FARMER_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "boots", "prob": 100 } ]
+    "entries": [ { "item": "boots", "prob": 90 }, { "item": "boots_denim", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_FARMER_shirt",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 60 }, { "item": "polo_shirt", "prob": 20 }, { "item": "tank_top", "prob": 20 } ]
+    "entries": [
+      { "item": "tshirt", "prob": 40 },
+      { "item": "polo_shirt", "prob": 20 },
+      { "item": "tank_top", "prob": 20 },
+      { "item": "denim_shirt", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -45,7 +50,8 @@
       { "item": "jacket_windbreaker", "prob": 10 },
       { "item": "jacket_leather", "prob": 20 },
       { "item": "trenchcoat", "prob": 20 },
-      { "item": "jacket_jean", "prob": 60 }
+      { "item": "jacket_jean", "prob": 60 },
+      { "item": "vest_jean", "prob": 40 }
     ]
   },
   {

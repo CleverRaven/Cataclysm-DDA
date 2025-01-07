@@ -70,6 +70,8 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
+        mtype generate_fake_pseudo_dormant_monster( const mtype &mon );
+
         void check_monster_definitions() const;
 
         std::optional<mon_action_death> get_death_function( const std::string &f ) const;

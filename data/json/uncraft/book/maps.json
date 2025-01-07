@@ -1,0 +1,10 @@
+[
+  {
+    "result": "urbexmap",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  }
+]

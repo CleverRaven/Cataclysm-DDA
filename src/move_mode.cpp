@@ -183,7 +183,7 @@ float move_mode::move_speed_mult() const
 
 units::energy move_mode::mech_power_use() const
 {
-    return units::from_kilojoule( _mech_power_use );
+    return units::from_kilojoule( static_cast<std::int64_t>( _mech_power_use ) );
 }
 
 int move_mode::swim_speed_mod() const

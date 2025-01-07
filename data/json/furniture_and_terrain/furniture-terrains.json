@@ -203,7 +203,9 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is open.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -243,6 +245,7 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "open": "f_cardboard_door_o",
     "deconstruct": {
@@ -285,6 +288,7 @@
     "move_cost_mod": 6,
     "coverage": 90,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
     "deconstruct": {
@@ -429,6 +433,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -450,6 +455,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_shelter_kit",
@@ -521,6 +527,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",
@@ -566,6 +573,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",
@@ -612,6 +620,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "tent_kit",
@@ -634,6 +643,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -654,6 +664,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_tent_kit",
@@ -677,6 +688,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -763,6 +775,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "shelter_kit",
@@ -854,6 +867,34 @@
     "id": "f_wreckage",
     "name": "metal wreckage",
     "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_sharp_metal_wreckage",
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "SMALL_HIDE",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_plane_wreckage",
+    "name": "metal wreckage from a plane",
+    "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "looks_like": "t_scrap_wall_halfway",
     "symbol": "#",
     "color": "cyan",
     "move_cost_mod": 6,
@@ -1148,7 +1189,7 @@
         { "item": "scrap", "count": 10 },
         { "item": "sheet_metal", "count": 2 },
         { "item": "rebar", "count": 2 },
-        { "item": "wire", "count": 2 }
+        { "item": "lc_wire", "count": 2 }
       ]
     },
     "bash": {
@@ -1176,6 +1217,9 @@
     "looks_like": "f_curtain",
     "flags": [ "THIN_OBSTACLE", "TRANSPARENT", "CLIMBABLE", "BLOCKSDOOR", "NOITEM", "PERMEABLE" ],
     "examine_action": "chainfence",
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 2 }, { "item": "scrap", "count": 4 }, { "item": "plastic_chunk", "count": 8 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -1366,7 +1410,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_shallow", "base": "f_dirtmound_shallow" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_shallow" },
     "examine_action": "harvest_plant_ex"
   },
   {
@@ -1548,7 +1592,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_pile", "base": "f_dirtmound_pile" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_pile" },
     "examine_action": "harvest_plant_ex"
   },
   {
@@ -1585,6 +1629,8 @@
     "description": "An area of heaped sand, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1605,6 +1651,8 @@
     "description": "An area of sand heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1627,6 +1675,8 @@
     "description": "An area of sand heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_mid" },
     "bash": {
       "str_min": 50,
@@ -1648,6 +1698,8 @@
     "description": "An area of heaped gravel, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1668,6 +1720,8 @@
     "description": "An area of gravel heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1690,6 +1744,8 @@
     "description": "An area of gravel heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_mid" },
     "bash": {
       "str_min": 50,

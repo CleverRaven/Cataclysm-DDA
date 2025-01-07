@@ -83,9 +83,9 @@ struct grab {
     // Limited to one GRAB-flagged effect per bp
     efftype_id grab_effect;
     // If true will attempt to remove all other GRAB flagged effects from the target and cancel the attack on failure
-    bool exclusive_grab;
+    bool exclusive_grab = false;
     // If true drags/pulls fail when targeting a character in a seat with seatbelts
-    bool respect_seatbelts;
+    bool respect_seatbelts = true;
     // Distance the enemy drags you on successful drag attempt (also enable dragging in the first place)
     int drag_distance;
     // Deviation of each dragging step from a straight line away from the opponent
@@ -129,6 +129,8 @@ class melee_actor : public mattack_actor
         bool blockable = true;
         // Determines if effects are only applied on damagin attacks
         bool effects_require_dmg = true;
+        // Determines if effects are only applied on non bionic limbs
+        bool effects_require_organic = false;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
         // Limits on target bodypart hit sizes
@@ -137,6 +139,8 @@ class melee_actor : public mattack_actor
         bool attack_upper = true;
         grab grab_data;
         bool is_grab = false;
+
+        std::vector<effect_on_condition_id> eoc;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -259,7 +263,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 

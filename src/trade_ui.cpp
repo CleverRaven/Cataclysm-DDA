@@ -15,6 +15,7 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "npctrade_utils.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -120,21 +121,12 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 
         zone_manager &zmgr = zone_manager::get_manager();
 
-        // FIXME: migration for traders in old saves - remove after 0.G
-        zone_data const *const fallback =
-            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
-        bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
+        std::unordered_set<tripoint_bub_ms> const src =
+            zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
 
-        if( legacy ) {
-            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
-        } else {
-            std::unordered_set<tripoint> const src =
-                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
-
-            for( tripoint const &pt : src ) {
-                _panes[_trader]->add_map_items( pt );
-                _panes[_trader]->add_vehicle_items( pt );
-            }
+        for( tripoint_bub_ms const &pt : src ) {
+            _panes[_trader]->add_map_items( pt );
+            _panes[_trader]->add_vehicle_items( pt );
         }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
@@ -146,11 +138,12 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
         _cost = trader.op_of_u.owed - cost;
     }
     _balance = _cost;
-
+    _bank = you.cash;
+    _delta_bank = 0;
     _panes[_you]->get_active_column().on_deactivate();
 
     _header_ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        _header_w = catacurses::newwin( header_size, TERMX, point_zero );
+        _header_w = catacurses::newwin( header_size, TERMX, point::zero );
         ui.position_from_window( _header_w );
         ui.invalidate_ui();
         resize();
@@ -186,13 +179,14 @@ trade_ui::trade_result_t trade_ui::perform_trade()
     if( _traded ) {
         return { _traded,
                  _balance,
+                 _delta_bank,
                  _trade_values[_you],
                  _trade_values[_trader],
                  _panes[_you]->to_trade(),
                  _panes[_trader]->to_trade() };
     }
 
-    return { false, 0, 0, 0, {}, {} };
+    return { false, 0, 0, 0, 0, {}, {} };
 }
 
 void trade_ui::recalc_values_cpane()
@@ -205,7 +199,7 @@ void trade_ui::recalc_values_cpane()
             npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane], it );
     }
     if( !_parties[_trader]->as_npc()->will_exchange_items_freely() ) {
-        _balance = _cost + _trade_values[_you] - _trade_values[_trader];
+        _balance = _cost + _trade_values[_you] - _trade_values[_trader] + _delta_bank;
     }
     _header_ui.invalidate_ui();
 }
@@ -223,6 +217,22 @@ void trade_ui::autobalance()
         _panes[_cpane]->toggle_entry( entry, entry.chosen_count +
                                       std::min( static_cast<size_t>( extra ), avail ) );
     }
+}
+
+void trade_ui::bank_balance()
+{
+    if( !get_option<bool>( "CAPITALISM" ) ) {
+        popup( _( "Your promises of digital payment mean nothing here." ) );
+        return;
+    }
+    _bank += _delta_bank;
+    _delta_bank = -( _balance - _delta_bank );
+    if( _delta_bank > 0 ) { // a withdrawal
+        _delta_bank = std::min( _delta_bank, _bank );
+        _delta_bank = std::max( _delta_bank, 0 );
+    }
+    _bank -= _delta_bank;
+    recalc_values_cpane();
 }
 
 void trade_ui::resize()
@@ -308,4 +318,14 @@ void trade_ui::_draw_header()
                                  colorize( _panes[_you]->get_ctxt()->get_desc(
                                          trade_selector::ACTION_AUTOBALANCE ),
                                            c_yellow ) ) );
+    if( get_option<bool>( "CAPITALISM" ) ) {
+        right_print( _header_w, 2, 1, c_white, string_format( _( "Bank Balance: %s" ),
+                     format_money( _bank ) ) );
+        right_print( _header_w, 1, 1, c_white,
+                     string_format( _( "%s to balance trade with bank account balance" ),
+                                    colorize( _panes[_you]->get_ctxt()->get_desc(
+                                            trade_selector::ACTION_BANKBALANCE ),
+                                              c_yellow ) ) );
+    }
+
 }

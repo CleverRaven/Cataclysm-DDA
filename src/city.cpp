@@ -1,18 +1,20 @@
-#include "city.h"             // IWYU pragma: associated
+#include "city.h"
 
-#include <algorithm>          // for max
-#include <set>                // for set
-#include <vector>             // for vector
-#include "coordinates.h"      // for point_om_omt, point_abs_om, trig_dist
-#include "debug.h"            // for realDebugmsg, debugmsg
-#include "generic_factory.h"  // for mandatory, optional, generic_factory
-#include "name.h"             // for get, nameFlags
-#include "options.h"          // for get_option
-#include "rng.h"              // for rng
+#include <algorithm>
+#include <climits>
+#include <set>
+#include <vector>
 
-#include "cube_direction.h"
-#include "omdata.h"
-#include "overmap.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
+#include "options.h"
+#include "rng.h"
+#include "text_snippets.h"
 
 generic_factory<city> &get_city_factory()
 {
@@ -43,7 +45,7 @@ void city::finalize()
 {
     for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
         if( c.name.empty() ) {
-            c.name = Name::get( nameFlags::IsTownName );
+            c.name = SNIPPET.expand( "<city_name>" );
         }
         if( c.population == 0 ) {
             c.population = rng( 1, INT_MAX );
@@ -91,7 +93,7 @@ void city::check() const
 city::city( const point_om_omt &P, int const S )
     : pos( P )
     , size( S )
-    , name( Name::get( nameFlags::IsTownName ) )
+    , name( SNIPPET.expand( "<city_name>" ) )
 {
 }
 
@@ -99,4 +101,3 @@ int city::get_distance_from( const tripoint_om_omt &p ) const
 {
     return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
-

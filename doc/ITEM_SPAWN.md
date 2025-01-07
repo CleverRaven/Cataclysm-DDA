@@ -37,11 +37,13 @@ The format is this:
 
 `subtype` is optional. It can be `collection` or `distribution`.  If unspecified, it defaults to `old`, which denotes that this item group uses the old format (essentially a distribution).
 
-`container-item` causes all the items of the group to spawn in a container,
-rather than as separate top-level items.  If the items might not all fit in the
-container, you must specify how to deal with the overflow by setting
-`on_overflow` to either `discard` to discard items at random until they fit, or
-`spill` to have the excess items be spawned alongside the container.
+`container-item` causes all the items of the group to spawn in a container, rather than as separate top-level items.  If the items might not all fit in the container, you must specify how
+to deal with the overflow by setting `on_overflow` to either `discard` to discard items at random until they fit, or `spill` to have the excess items be spawned alongside the container.
+`container-item` can also be an object containing an `item` field specifying the container and a `variant` field specifying said container's variant. Eg.
+
+```json
+    "container-item": { "item": "<container-item-id>", "variant": "<container-item-variant-id>" },
+```
 
 There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo` or `magazine`.
 
@@ -79,14 +81,9 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 ```json
 "damage": <number>|<array>,
-"damage-min": <number>,
-"damage-max": <number>,
 "count": <number>|<array>,
-"count-min": <number>,
-"count-max": <number>,
 "charges": <number>|<array>,
-"charges-min": <number>,
-"charges-max": <number>,
+"components": "<array>",
 "contents-item": "<item-id>" (can be a string or an array of strings),
 "contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
@@ -94,6 +91,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "container-group": "<group-id>",
 "entry-wrapper": "<item-id>",
 "sealed": <boolean>
+"active": <boolean>
 "custom-flags": <array of string>,
 "variant": <string>
 "artifact": <object>
@@ -109,9 +107,13 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
+`active`: If true, item would be spawned activated.  Be sure to use active versions of item, like `flashlight_on` instead of `flashlight`.  Default is `false`
+
 `custom-flags`: An array of flags that will be applied to this item.
 
 `variant`: A valid itype variant id for this item.
+
+`components`: Valid itype ids which are put into the item as its components, as may be done with in-game crafting. Note that there is no requirement for a matching recipe to exist, the components may be any existent item. You could define a spawned `hamburger` to have components of `[ "rock", "rock" ]` but it won't be good food... rocks contain no calories or nutrients!
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
 
@@ -133,13 +135,12 @@ Current possible values are:
 The procgen_id relates directly to a `relic_procgen_data` object's id. The `rules` object has three parts.  The first is `power_level`, which is the target power level of the spawned artifact; an artifact's power level is the sum of the power levels of all the parts.  The second, `max_negative_power`, is the sum of only negative power levels of the parts.  The third, `max_attributes`, is the number of parts.
 
 ```json
-"damage-min": 0,
-"damage-max": 3,
+"damage": [ 0, 3 ],
 "count": 4
 "charges": [ 10, 100 ]
 ```
 
-This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
+This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is `pick a random value between a and b`.
 
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.
 
@@ -159,7 +160,7 @@ be specified for guns and magazines in the entries array to use a non-default am
 
   If any item groups are referenced from your item group, then their ammo/magazine chances are ignored, and yours are used instead.
 
-*  Use `charges`, `charges-min`, or `charges-max` in the entries array.  A default magazine will be added for you if needed.
+*  Use `charges` in the entries array.  A default magazine will be added for you if needed.
 
 ## Shortcuts
 
@@ -250,7 +251,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [JSON_INFO.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_INFO.md)) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 
@@ -284,7 +285,7 @@ Instead of a full JSON object, one can also write a JSON array.  The default sub
 ```json
   {
     "death_drops": [
-      { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+      { "item": "sheet_cotton", "damage": 2 }, { "item": "bowling_ball" }
     ]
   }
 ```

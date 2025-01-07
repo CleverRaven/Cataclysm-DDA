@@ -9,14 +9,15 @@
     "symbol": "6",
     "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  This one has been dried for processing into a watertight container.",
     "volume": "1250 ml",
+    "container": "bag_plastic",
     "flags": [ "INEDIBLE" ]
   },
   {
     "id": "gum",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "chewing gum" },
-    "description": "Bright pink sugar-free chewing gum.",
+    "name": { "str_sp": "chewing gum" },
+    "description": "Sugar-free chewing gum.",
     "category": "food",
     "weight": "3 g",
     "volume": "2 ml",
@@ -26,7 +27,322 @@
     "color": "pink",
     "fun": 2,
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "gum_peppermint",
+        "name": { "str_sp": "chewing gum, peppermint flavored" },
+        "description": "The classic of classics, a flavor that provides a fresh and invigorating sensation in the mouth, as well as freshening breath.",
+        "weight": 70
+      },
+      {
+        "id": "gum_spearmint",
+        "name": { "str_sp": "chewing gum, spearmint flavored" },
+        "description": "Spearmint is a slightly sweeter and milder version of peppermint, providing a fresher taste and is also good for freshening breath.",
+        "weight": 60
+      },
+      {
+        "id": "gum_wintergreen",
+        "name": { "str_sp": "chewing gum, wintergreen flavored" },
+        "description": "Wintergreen has a cool and refreshing taste, similar to mint, but with a slightly sweeter flavor.",
+        "weight": 60
+      },
+      {
+        "id": "gum_cinnamon",
+        "name": { "str_sp": "chewing gum, cinnamon flavored" },
+        "description": "Cinnamon is a spicy, bold flavor that's great for clearing the sinuses and providing a burst of flavor.",
+        "weight": 50
+      },
+      {
+        "id": "gum_bubblegum",
+        "name": { "str_sp": "chewing gum, bubblegum flavored" },
+        "description": "Bubblegum is a nostalgic flavor that's reminiscent of the classic pink bubblegum flavor that kids love.  It's basically a combination of various flavors.",
+        "weight": 50
+      },
+      {
+        "id": "gum_mixedberry",
+        "name": { "str_sp": "chewing gum, mixed-berry flavored" },
+        "description": "This flavor is a combination of different berries that provides a fruity, sweet, and tart taste.",
+        "weight": 50
+      },
+      {
+        "id": "gum_strawberry",
+        "name": { "str_sp": "chewing gum, strawberry flavored" },
+        "description": "This strawberry-flavored chewing gum offers a sweet and juicy taste, reminiscent of fresh strawberries.",
+        "weight": 50
+      },
+      {
+        "id": "gum_cherry",
+        "name": { "str_sp": "chewing gum, cherry flavored" },
+        "description": "This cherry-flavored chewing gum is both sweet and tart, with a delicious fruity flavor.",
+        "weight": 50
+      },
+      {
+        "id": "gum_grape",
+        "name": { "str_sp": "chewing gum, grape flavored" },
+        "description": "This grape-flavored chewing gum is fruity and sweet, with a juicy grape flavor.",
+        "weight": 50
+      },
+      {
+        "id": "gum_orange",
+        "name": { "str_sp": "chewing gum, orange flavored" },
+        "description": "This orange-flavored chewing gum provides a fresh and fruity taste, like biting into a juicy orange.",
+        "weight": 50
+      },
+      {
+        "id": "gum_watermelon",
+        "name": { "str_sp": "chewing gum, watermelon flavored" },
+        "description": "This watermelon-flavored chewing gum has a sweet and fruity flavor, perfect for summertime.",
+        "weight": 50
+      },
+      {
+        "id": "gum_blueberry",
+        "name": { "str_sp": "chewing gum, blueberry flavored" },
+        "description": "This blueberry-flavored chewing gum has a fruity, tangy flavor with a slightly sweet taste.",
+        "weight": 50
+      },
+      {
+        "id": "gum_cranberry",
+        "name": { "str_sp": "chewing gum, cranberry flavored" },
+        "description": "This cranberry-flavored chewing gum offers a slight bitterness along with its unique and tangy taste.",
+        "weight": 50
+      },
+      {
+        "id": "gum_pineapple",
+        "name": { "str_sp": "chewing gum, pineapple flavored" },
+        "description": "This pineapple-flavored chewing gum has a sweet and tangy taste, perfect for those looking for a tropical twist.",
+        "weight": 30
+      },
+      {
+        "id": "gum_greenapple",
+        "name": { "str_sp": "chewing gum, green apple flavored" },
+        "description": "This green apple-flavored gum is crisp and refreshing, with a slightly sour and sweet taste, more sour and sweet than the regular apple-flavored one.",
+        "weight": 30
+      },
+      {
+        "id": "gum_apple",
+        "name": { "str_sp": "chewing gum, apple flavored" },
+        "description": "This apple-flavored gum is both crisp and refreshing, with a slightly sweet and sour taste.",
+        "weight": 25
+      },
+      {
+        "id": "gum_mango",
+        "name": { "str_sp": "chewing gum, mango flavored" },
+        "description": "This uncommon mango-flavored chewing gum has a sweet, tropical taste, reminiscent of fresh mangos.",
+        "weight": 17
+      },
+      {
+        "id": "gum_mcc",
+        "name": { "str_sp": "chewing gum, mint chocolate chip flavored" },
+        "description": "Mint chocolate chip is a cross between a mint and chocolate flavor, offering a sweet and slightly creamy taste.",
+        "weight": 40
+      },
+      {
+        "id": "gum_vanilla",
+        "name": { "str_sp": "chewing gum, vanilla flavored" },
+        "description": "Vanilla is a subtle flavor for chewing gum that provides a sweet and comforting taste.",
+        "weight": 40
+      },
+      {
+        "id": "gum_coconut",
+        "name": { "str_sp": "chewing gum, coconut flavored" },
+        "description": "This coconut-flavored chewing gum offers a tropical and slightly sweet flavor that's popular during summertime.",
+        "weight": 40
+      },
+      {
+        "id": "gum_lemonade",
+        "name": { "str_sp": "chewing gum, lemonade flavored" },
+        "description": "This lemonade-flavored chewing gum provides a zesty and citrusy burst of flavor.",
+        "weight": 40
+      },
+      {
+        "id": "gum_honey",
+        "name": { "str_sp": "chewing gum, honey flavored" },
+        "description": "This honey-flavored chewing gum has a unique, sweet and rich flavor, offering a unique flavor that's popular among dessert lovers.",
+        "weight": 30
+      },
+      {
+        "id": "gum_sourapple",
+        "name": { "str_sp": "chewing gum, sour apple flavored" },
+        "description": "This sour apple-flavored chewing gum offers a puckering sensation and tanginess that's popular among candy and snack lovers.",
+        "weight": 30
+      },
+      {
+        "id": "gum_pomegranate",
+        "name": { "str_sp": "chewing gum, pomegranate flavored" },
+        "description": "This pomegranate-flavored chewing gum has a blend of tart and sweet taste for a unique, fruity flavor.",
+        "weight": 30
+      },
+      {
+        "id": "gum_raspberry",
+        "name": { "str_sp": "chewing gum, raspberry flavored" },
+        "description": "This raspberry-flavored chewing gum has a fruity and tart taste with a slightly sweet finish, offering a tangy and refreshing pop of flavor.",
+        "weight": 50
+      },
+      {
+        "id": "gum_kiwi",
+        "name": { "str_sp": "chewing gum, kiwi flavored" },
+        "description": "This kiwi-flavored chewing gum provides a sweet and tangy taste, reminiscent of fresh kiwis.",
+        "weight": 20
+      },
+      {
+        "id": "gum_peach",
+        "name": { "str_sp": "chewing gum, peach flavored" },
+        "description": "This peach-flavored chewing gum offers a sweet, slightly tangy, and earthy taste, reminiscent of fresh peaches.",
+        "weight": 20
+      },
+      {
+        "id": "gum_passionf",
+        "name": { "str_sp": "chewing gum, passion fruit flavored" },
+        "description": "This passion fruit-flavored chewing gum has a calming, tart and sweet taste, offering a unique and tropical flavor.",
+        "weight": 20
+      },
+      {
+        "id": "gum_tangerine",
+        "name": { "str_sp": "chewing gum, tangerine flavored" },
+        "description": "This tangerine-flavored chewing gum offers a fresh and zesty taste, with a balance of sweetness and tartness.",
+        "weight": 20
+      },
+      {
+        "id": "gum_grapefruit",
+        "name": { "str_sp": "chewing gum, grapefruit flavored" },
+        "description": "This grapefruit-flavored chewing gum has a tangy and slightly bitter taste, with a twist of sweetness.",
+        "weight": 20
+      },
+      {
+        "id": "gum_blackberry",
+        "name": { "str_sp": "chewing gum, blackberry flavored" },
+        "description": "This blackberry-flavored gum has a sweet taste, combined with a subtle tartness, offering a fruity and refreshing flavor.",
+        "weight": 35
+      },
+      {
+        "id": "gum_lime",
+        "name": { "str_sp": "chewing gum, lime flavored" },
+        "description": "This uncommon lime-flavored chewing gum provides a tangy and refreshing taste, not exactly similar to biting into a fresh lime, because they are way too sour.",
+        "weight": 17
+      },
+      {
+        "id": "gum_peachm",
+        "name": { "str_sp": "chewing gum, peach mango flavored" },
+        "description": "This peach mango-flavored chewing gum is, obviously, a blend of two flavors, providing a sweet and tropical taste.",
+        "weight": 20
+      },
+      {
+        "id": "gum_limeade",
+        "name": { "str_sp": "chewing gum, limeade flavored" },
+        "description": "This uncommon limeade-flavored chewing gum offers a sweet yet tangy taste, perfect for those looking for a refreshing burst of flavor.",
+        "weight": 15
+      },
+      {
+        "id": "gum_strawberryl",
+        "name": { "str_sp": "chewing gum, strawberry lemonade flavored" },
+        "description": "This uncommon strawberry lemonade-flavored gum is sweet and tangy, with a cool and refreshing taste.",
+        "weight": 15
+      },
+      {
+        "id": "gum_wasabi",
+        "name": { "str_sp": "chewing gum, wasabi flavored" },
+        "description": "Wasabi is a rare spicy and bold flavor that's not often used in gum, but can offer a unique twist on traditional mint flavors.  It is quite invigorating.",
+        "weight": 1
+      },
+      {
+        "id": "gum_hibiscus",
+        "name": { "str_sp": "chewing gum, hibiscus flavored" },
+        "description": "Hibiscus is a floral and fruity flavor that's commonly used in teas, but apparently can be used in chewing gum as well.  While very rare and uncommon, it is a refreshing and unique taste that's less sweet than traditional fruit flavors.",
+        "weight": 1
+      },
+      {
+        "id": "gum_lavender",
+        "name": { "str_sp": "chewing gum, lavender flavored" },
+        "description": "Lavender is a rare, floral flavor, however, the cool thing of it is the lavender fragrance it leaves on your breath.  It can provide a slight sweetness and soothing, calming effect.",
+        "weight": 1
+      },
+      {
+        "id": "gum_bacon",
+        "name": { "str_sp": "chewing gum, bacon flavored" },
+        "description": "This rare bacon-flavored chewing gum offers a savory taste that was popular among meat lovers before the Cataclysm.  It's often associated with novelty flavors, and it's definitely an acquired taste.",
+        "weight": 1
+      },
+      {
+        "id": "gum_cola",
+        "name": { "str_sp": "chewing gum, cola flavored" },
+        "description": "Cola is a sweet and gentle flavor for those who enjoy a nice glass of cola.",
+        "weight": 5
+      },
+      {
+        "id": "gum_ghost",
+        "name": { "str_sp": "chewing gum, ghost pepper flavored" },
+        "description": "Shaped like small ghost peppers, this is a really spicy, but also sweet flavor, for those brave enough.",
+        "weight": 1
+      },
+      {
+        "id": "gum_whiskey",
+        "name": { "str_sp": "chewing gum, whiskey flavored" },
+        "description": "This rare whiskey-flavored chewing gum offers a unique taste that was once popular among adults.  It can be a great conversation starter, if you had anyone to chat with.",
+        "weight": 1
+      },
+      {
+        "id": "gum_saffron",
+        "name": { "str_sp": "chewing gum, saffron flavored" },
+        "description": "This very rare saffron-flavored chewing gum offers an exotic and unique taste, with floral and earthy undertones.  It was commonly consumed in India and areas of the Persian Gulf, and this one is clearly imported.",
+        "weight": 1
+      },
+      {
+        "id": "gum_gtea",
+        "name": { "str_sp": "chewing gum, green tea flavored" },
+        "description": "This natural matcha green tea-flavored gum provides a distinct tea flavor that's known for its health benefits.  It's a great option for those who enjoy green tea but want a more convenient way to access the benefits.",
+        "weight": 1
+      },
+      {
+        "id": "gum_anise",
+        "name": { "str_sp": "chewing gum, anise flavored" },
+        "description": "This anise-flavored chewing gum is a bit like licorice, with a sweet and slightly spicy taste.  It used to be a popular flavor in Mediterranean and Middle Eastern regions, so obviously, this one is imported.",
+        "weight": 1
+      },
+      {
+        "id": "gum_peppercorn",
+        "name": { "str_sp": "chewing gum, pink peppercorn flavored" },
+        "description": "Pink peppercorn is a very rare chewing gum flavor that provides a slightly spicy and fruity taste, with notes of citrus and berry.  The flavor pairs well with desserts and can offer a unique and unexpected taste.",
+        "weight": 1
+      },
+      {
+        "id": "gum_rose",
+        "name": { "str_sp": "chewing gum, rose menthol flavored" },
+        "description": "A flavor of chewing gum imported from Japan, also called 'man smell gum' or 'Otoko Kaoru'.  It offers a pleasant rose menthol taste.",
+        "weight": 1
+      },
+      {
+        "id": "gum_pop",
+        "name": { "str_sp": "chewing gum, popcorn flavored" },
+        "description": "Popcorn flavored chewing gum for those who once enjoyed the movies, goes well with cola chewing gum, heh.",
+        "weight": 1
+      },
+      {
+        "id": "gum_egg",
+        "name": { "str_sp": "chewing gum, eggnog flavored" },
+        "description": "Eggnog-flavored chewing gum, good all year round!",
+        "weight": 1
+      },
+      {
+        "id": "gum_chardonnay",
+        "name": { "str_sp": "chewing gum, mint chardonnay flavored" },
+        "description": "An exclusive, rare chewing gum flavor with a perfect mix of mint and chardonnay, for those who want to smell drunk, but stay sober.",
+        "weight": 1
+      },
+      {
+        "id": "gum_absinthe",
+        "name": { "str_sp": "chewing gum, absinthe flavored" },
+        "description": "Commune with your muse while chewing this absinthe-flavored gumball.",
+        "weight": 1
+      },
+      {
+        "id": "gum_cardamom",
+        "name": { "str_sp": "chewing gum, cardamom flavored" },
+        "description": "This rare cardamom-flavored chewing gum offers a warm and spicy taste, reminiscent of chai tea.  It was once a popular flavor in India and the Middle East, so this one is obviously imported.",
+        "weight": 1
+      }
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,8 +356,8 @@
     "symbol": "%",
     "calories": 174,
     "description": "A little hunk of glop that fell off a slime monster.  It doesn't seem hostile, but it does wiggle occasionally.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "volume": "250 ml",
     "fun": -10
   },
@@ -57,8 +373,8 @@
     "quench": 2,
     "calories": 436,
     "description": "A large chunk of wax filled with honey.  Very tasty.",
-    "price": 3500,
-    "price_postapoc": 300,
+    "price": "35 USD",
+    "price_postapoc": "3 USD",
     "material": [ "honey" ],
     "volume": "250 ml",
     "fun": 9
@@ -73,8 +389,8 @@
     "material": [ "beeswax" ],
     "symbol": "%",
     "description": "A large chunk of beeswax.  Despite being used in some cooking recipes, beeswax in itself is indigestible to humans.",
-    "price": 1300,
-    "price_postapoc": 10,
+    "price": "13 USD",
+    "price_postapoc": "10 cent",
     "volume": "250 ml",
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -89,8 +405,8 @@
     "symbol": "%",
     "calories": 240,
     "description": "A translucent hexagonal chunk of wax, filled with dense, milky, bitter and acidic-tasting jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still it is rich with the most beneficial substances the hive can produce.",
-    "price": 20000,
-    "price_postapoc": 400,
+    "price": "200 USD",
+    "price_postapoc": "4 USD",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "fun": -5
@@ -133,7 +449,8 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -154,7 +471,8 @@
     "price_postapoc": "1 cent",
     "material": [ "fruit" ],
     "volume": "10 ml",
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -173,7 +491,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 30
   },
   {
@@ -182,7 +500,7 @@
     "name": { "str_sp": "yeast" },
     "weight": "11 g",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -190,7 +508,7 @@
     "description": "A powder-like mix of cultured yeast, good for baking and brewing alike.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
-    "material": [ "powder" ],
+    "material": [ "yeast" ],
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10
@@ -201,7 +519,7 @@
     "name": { "str_sp": "yogurt starter culture" },
     "weight": "11 g",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -221,7 +539,7 @@
     "name": { "str_sp": "koji" },
     "weight": "11 g",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -236,38 +554,23 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "meal_bone",
-    "name": { "str_sp": "bone meal" },
-    "weight": "112 g",
-    "color": "white",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This bone meal can be used to craft fertilizer and some other things.",
-    "price": "6 cent",
-    "price_postapoc": "2 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "gelatin_powder",
     "name": { "str_sp": "powdered gelatin" },
     "weight": "11 g",
     "color": "yellow",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 6,
+    "calories": 37,
     "description": "Dried and powdered gelatin, used as a gelling agent when mixed with water.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
     "material": "powder",
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "iron", "100 μg" ], [ "calcium", "6 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -275,7 +578,7 @@
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "25 g",
@@ -286,30 +589,12 @@
     "calories": 6,
     "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
     "description": "Fresh gelatin.  Not vegan-friendly!",
-    "price": 150,
-    "price_postapoc": 50,
+    "price": "1 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "meal_bone_tainted",
-    "name": { "str_sp": "tainted bone meal" },
-    "weight": "112 g",
-    "color": "white",
-    "use_action": [ "POISON" ],
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This is a grayish bone meal made from rotten bones.",
-    "calories": 4,
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -334,27 +619,30 @@
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
-    "weight": "3 g",
+    "weight": "1360 mg",
+    "//1": "Calculated from cocktail napkins with roughly average (13lb/500sheets) thickness. 100in^2 * 13lb / 864in^2 = 1.5lb => 1.5lb / 500 = 0.003lb per napkin.",
     "color": "white",
     "symbol": "`",
     "description": "A napkin.  Can be used for fires.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "volume": "5 ml"
+    "volume": "3 ml",
+    "flags": [ "TINDER" ],
+    "//2": "Based on https://www.sizes.com/home/napkins.htm"
   },
   {
     "type": "GENERIC",
     "id": "cardboard",
-    "name": { "str": "cardboard" },
+    "name": { "str": "piece of cardboard", "str_pl": "pieces of cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
     "color": "brown",
     "symbol": "`",
     "description": "A piece of cardboard.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "volume": "25 ml"
   },
@@ -377,7 +665,7 @@
     "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -385,7 +673,7 @@
     "name": { "str_sp": "dried beans" },
     "weight": "56 g",
     "color": "light_gray",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -4,
@@ -396,7 +684,7 @@
     "material": [ "bean" ],
     "volume": "41 ml",
     "cooks_like": "beans_cooked",
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -413,13 +701,13 @@
     "quench": 1,
     "calories": 203,
     "description": "A hearty serving of cooked great northern beans.",
-    "price": 100,
-    "price_postapoc": 100,
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
     "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -432,14 +720,14 @@
     "symbol": "%",
     "calories": 130,
     "description": "Tofu, a soy protein crucial to East Asian cuisine.  It absorbs flavors very well and can be used as a meat alternative in many dishes.",
-    "price": 90,
-    "price_postapoc": 50,
+    "price": "90 cent",
+    "price_postapoc": "50 cent",
     "fun": -4,
     "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -453,12 +741,12 @@
     "fun": 10,
     "calories": 150,
     "description": "Tofu, a soy protein crucial to East Asian cuisine.  It absorbs flavors very well and can be used as a meat alternative in many dishes.",
-    "price": 90,
-    "price_postapoc": 50,
+    "price": "90 cent",
+    "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -471,11 +759,11 @@
     "symbol": "%",
     "calories": 130,
     "description": "Dehydrated tofu, sealed and still extra firm to last a long time.",
-    "price": 90,
-    "price_postapoc": 75,
+    "price": "90 cent",
+    "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -490,13 +778,13 @@
     "spoils_in": "364 days",
     "calories": 56,
     "description": "Beige colored beans.  They have many uses, but in their raw form are fairly poisonous to humans.",
-    "price": 90,
-    "price_postapoc": 50,
+    "price": "90 cent",
+    "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "smoking_result": "dry_soybean",
-    "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_5_1" },
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -519,12 +807,12 @@
     "healthy": -1,
     "calories": 56,
     "description": "Beige colored beans, dried until rock hard.  They'll need to be cooked or processed before use.",
-    "price": 90,
-    "price_postapoc": 50,
+    "price": "90 cent",
+    "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": -5,
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_1" },
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -548,11 +836,11 @@
     "spoils_in": "3 days",
     "calories": 56,
     "description": "Raw soybeans still in their pod.  They can be cooked as-is or shelled for further processing, but in their raw form, they're toxic to humans.",
-    "price": 150,
-    "price_postapoc": 50,
+    "price": "1 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
@@ -573,7 +861,8 @@
     "fun": 10,
     "material": [ "veggy", "blood" ],
     "volume": "83 ml",
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -605,8 +894,8 @@
     "symbol": "f",
     "calories": 12,
     "description": "Real foodstuff now in a pocket size format!",
-    "price": 50,
-    "price_postapoc": 500,
+    "price": "50 cent",
+    "price_postapoc": "5 USD",
     "material": [ "foodplace_foodstuff" ],
     "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN", "IRREPLACEABLE_CONSUMABLE" ],
@@ -636,9 +925,9 @@
     "color": "brown",
     "addiction_type": "caffeine",
     "addiction_potential": 1,
-    "fatigue_mod": 24,
+    "sleepiness_mod": 24,
     "stim": 8,
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Ground coffee beans.  You can boil it into a mediocre stimulant, or something better if you had an atomic coffee pot.",
@@ -656,10 +945,9 @@
     "id": "coffee_raw_kentucky",
     "copy-from": "coffee_raw",
     "name": { "str_sp": "Kentucky coffee grounds" },
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "volume": "12 ml"
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "honey_glassed",
@@ -684,7 +972,7 @@
     "type": "COMESTIBLE",
     "id": "can_tomato",
     "name": { "str_sp": "canned tomato" },
-    "weight": "128 g",
+    "weight": "120 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",
     "container": "can_food",
@@ -692,13 +980,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 55,
+    "calories": 26,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": "175 cent",
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "125 ml",
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1600 μg" ], [ "calcium", "40800 μg" ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -713,10 +1001,10 @@
     "symbol": "%",
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
-    "price": 80,
-    "price_postapoc": 0,
+    "price": "80 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml",
@@ -730,14 +1018,13 @@
     "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
     "weight": "300 g",
     "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -753,14 +1040,13 @@
     "description": "A pile of cattle fodder, about enough to feed a goat or a sheep for a day.",
     "weight": "1925 g",
     "volume": "1750 ml",
-    "price": 700,
-    "price_postapoc": 175,
-    "to_hit": -5,
+    "price": "7 USD",
+    "price_postapoc": "1 USD 75 cent",
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 1190,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -776,14 +1062,13 @@
     "description": "A big heap of cattle fodder, enough to feed a cow for a day.",
     "weight": "9900 g",
     "volume": "9000 ml",
-    "price": 36000,
-    "price_postapoc": 900,
-    "to_hit": -5,
+    "price": "360 USD",
+    "price_postapoc": "9 USD",
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 6120,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -799,19 +1084,40 @@
     "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
     "weight": "60 g",
     "volume": "250 ml",
-    "price": 20,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "20 cent",
+    "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "BIRDFOOD" ]
+  },
+  {
+    "id": "dogfood_raw",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "raw dog food" },
+    "description": "Minced meat mixed with some greens to be presented to a dog or something with a omnivorous diet.",
+    "weight": "430 g",
+    "spoils_in": "1 day",
+    "volume": "500 ml",
+    "price": "3 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "flesh", "veggy" ],
+    "symbol": "%",
+    "quench": 2,
+    "calories": 402,
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 12 ], [ "calcium", 2 ], [ "meat_allergen", 1 ] ],
+    "fun": -15,
+    "color": "red",
+    "flags": [ "LUPINE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD" ]
   },
   {
     "id": "dogfood",
@@ -823,14 +1129,13 @@
     "spoils_in": "1 day",
     "container": "can_medium",
     "volume": "500 ml",
-    "price": 300,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "3 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -847,20 +1152,41 @@
     "spoils_in": "90 days",
     "container": "bag_plastic",
     "volume": "250 ml",
-    "price": 300,
-    "price_postapoc": 400,
-    "to_hit": -5,
+    "price": "3 USD",
+    "price_postapoc": "4 USD",
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "DOGFOOD" ]
+  },
+  {
+    "id": "catfood_raw",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "raw cat food" },
+    "description": "Minced meat to be presented to a cat or something with a strict meat diet.",
+    "weight": "223 g",
+    "spoils_in": "1 day",
+    "volume": "250 ml",
+    "price": "3 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "flesh" ],
+    "symbol": "%",
+    "quench": 2,
+    "calories": 402,
+    "vitamins": [ [ "vitC", 0 ], [ "iron", 12 ], [ "calcium", 2 ], [ "meat_allergen", 1 ] ],
+    "fun": -15,
+    "color": "red",
+    "flags": [ "FELINE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD" ]
   },
   {
     "id": "catfood",
@@ -872,14 +1198,13 @@
     "spoils_in": "1 day",
     "container": "can_food",
     "volume": "250 ml",
-    "price": 300,
-    "price_postapoc": 400,
-    "to_hit": -5,
+    "price": "3 USD",
+    "price_postapoc": "4 USD",
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -896,15 +1221,14 @@
     "spoils_in": "90 days",
     "container": "bag_plastic",
     "volume": "250 ml",
-    "price": 300,
-    "price_postapoc": 400,
-    "to_hit": -5,
+    "price": "3 USD",
+    "price_postapoc": "4 USD",
     "material": [ "flesh" ],
     "symbol": ";",
     "healthy": -1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -921,10 +1245,10 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 70,
-    "vitamins": [  ],
-    "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
-    "price": 0,
-    "price_postapoc": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": { "str": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.", "//~": "NO_I18N" },
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
@@ -938,10 +1262,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 50,
-    "vitamins": [  ],
-    "description": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
-    "price": 0,
-    "price_postapoc": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": {
+      "str": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
+      "//~": "NO_I18N"
+    },
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
@@ -955,10 +1282,10 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
-    "vitamins": [  ],
-    "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
-    "price": 0,
-    "price_postapoc": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": { "str": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.", "//~": "NO_I18N" },
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
@@ -973,9 +1300,9 @@
     "symbol": "%",
     "calories": 130,
     "vitamins": [  ],
-    "description": "Some nectar.  Seeing this item is a bug.",
-    "price": 0,
-    "price_postapoc": 0,
+    "description": { "str": "Some nectar.  Seeing this item is a bug.", "//~": "NO_I18N" },
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
@@ -992,8 +1319,8 @@
     "container": "box_tea",
     "calories": 1,
     "material": [ "paper" ],
-    "price": 50,
-    "price_postapoc": 200,
+    "price": "50 cent",
+    "price_postapoc": "2 USD",
     "freezing_point": -274,
     "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of black tea."
   },
@@ -1044,8 +1371,8 @@
     "color": "brown",
     "symbol": ",",
     "material": [ "plastic" ],
-    "price": 50,
-    "price_postapoc": 200,
+    "price": "50 cent",
+    "price_postapoc": "2 USD",
     "freezing_point": -274,
     "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
   },
@@ -1062,10 +1389,10 @@
     "calories": 9,
     "quench": 6,
     "fun": -10,
-    "price": 0,
+    "price": "0 cent",
     "volume": "10L",
     "charges": 1,
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
@@ -1083,13 +1410,48 @@
     "calories": 9,
     "quench": 6,
     "fun": -10,
-    "price": 0,
+    "price": "0 cent",
     "volume": "10L",
     "charges": 1,
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_small",
+    "name": { "str": "prepared meal (small)", "str_pl": "prepared meals (small)" },
+    "description": { "str": "I am an item used in faction camps.  If you see this description, it is a bug.", "//~": "NO_I18N" },
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "100 cent",
+    "price_postapoc": "100 cent",
+    "material": [ "foodplace_foodstuff" ],
+    "symbol": "F",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "calories": 0,
+    "flags": [ "DEBUG_ONLY" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_medium",
+    "name": { "str": "prepared meal (medium)", "str_pl": "prepared meals (medium)" },
+    "weight": "600 g",
+    "volume": "600 ml",
+    "copy-from": "camp_meal_small"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_large",
+    "name": { "str": "prepared meal (large)", "str_pl": "prepared meals (large)" },
+    "weight": "1200 g",
+    "volume": "1200 ml",
+    "copy-from": "camp_meal_small"
   },
   {
     "type": "COMESTIBLE",
@@ -1099,9 +1461,8 @@
     "description": "Dry leftovers that remain after extracting the oil from nuts or seeds.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "symbol": "%",
     "color": "yellow",
@@ -1109,16 +1470,82 @@
     "calories": 200,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
-    "id": "blood_pancakes_wheat_free",
-    "copy-from": "blood_pancakes",
-    "name": { "str": "wheat-free blodplättar" },
-    "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
-    "material": [ "veggy", "blood" ],
-    "primary_material": "veggy"
+    "comestible_type": "FOOD",
+    "id": "earthworm",
+    "name": { "str": "earthworm" },
+    "description": "A common earthworm.",
+    "weight": "2 g",
+    "volume": "5 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ],
+    "symbol": "c",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "quench": 1,
+    "fun": -10,
+    "//0": "DW 0.2g protein 0.04 fat 0.04 carb... 0.2*4+0.04*4+0.04*9 = 1.326kcal",
+    "calories": 1.3,
+    "parasites": 20,
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME", "BIRD", "NUTRIENT_OVERRIDE" ],
+    "//1": "1 earthworm has such a small amount of vitamins, i'm not sure it's possible to model them.",
+    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ], [ "meat_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_handful",
+    "copy-from": "earthworm",
+    "name": { "str": "handful of earthworms", "str_pl": "handfuls of earthworms" },
+    "description": "A handful of earthworms.",
+    "weight": "20 g",
+    "volume": "20 ml",
+    "quench": 10,
+    "fun": -20,
+    "calories": 13.2,
+    "parasites": 10,
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_dried",
+    "copy-from": "earthworm_boiled",
+    "name": { "str_sp": "dried earthworms" },
+    "description": "Dried, cooked and ground earthworms.",
+    "spoils_in": "100 days",
+    "symbol": "%",
+    "quench": -1,
+    "fun": -1,
+    "flags": [ "SMOKED", "NUTRIENT_OVERRIDE" ],
+    "//": "Dried weight is about 15% of normal",
+    "weight": "3 g",
+    "volume": "3 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_fried",
+    "copy-from": "earthworm_boiled",
+    "name": { "str_sp": "fried earthworms" },
+    "description": "A handful of fried earthworms, cooked in salt.",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_boiled",
+    "copy-from": "earthworm_handful",
+    "name": { "str_sp": "boiled earthworms" },
+    "description": "A handful of common earthworms, boiled to remove impurities.",
+    "spoils_in": "5 days",
+    "fun": -5,
+    "//": "10 earthworms triple-boiled",
+    "parasites": 0,
+    "flags": [ "FREEZERBURN", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "smoking_result": "earthworm_dried"
   },
   {
     "type": "COMESTIBLE",
@@ -1133,12 +1560,13 @@
     "material": [ "flesh" ],
     "calories": 15,
     "spoils_in": "15 days",
-    "rot_spawn": "GROUP_MUTATION_SNAIL",
+    "rot_spawn": { "monster": "mon_snail_forest", "chance": 5 },
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "volume": "15 ml",
-    "fun": -20
+    "fun": -20,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1148,9 +1576,8 @@
     "description": "A mass of ground seeds that are ready to be pressed into oil.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 100,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "symbol": "%",
     "color": "brown",
@@ -1158,7 +1585,8 @@
     "calories": 100,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1168,9 +1596,8 @@
     "description": "A thick mass of ground nuts that are ready to be pressed into oil.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 100,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "nut" ],
     "symbol": "%",
     "color": "brown",
@@ -1184,17 +1611,16 @@
   {
     "id": "swarm_bees",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
     "description": "A swarm of honey bees, displaced from the hive.  Without the support and nutrients of an apiary, or taking root somewhere, they will die in a few days.",
     "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "spoils_in": "2 days",
     "flags": [ "ZERO_WEIGHT", "INEDIBLE" ],
     "volume": "500 ml",
     "symbol": "B",
-    "color": "yellow",
-    "calories": 0
+    "color": "yellow"
   }
 ]

@@ -22,7 +22,10 @@
   {
     "id": "TALK_FACTION_CAMP_START",
     "type": "talk_topic",
-    "dynamic_line": [ "Hey, I did some surveying and I believe this is a good spot to set up at." ],
+    "dynamic_line": {
+      "gendered_line": "Hey, I did some surveying and I believe this is a good spot to set up at.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's stay here, then.  I trust your decisions.",

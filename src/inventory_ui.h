@@ -6,11 +6,9 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -20,25 +18,23 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "input.h"
+#include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "map.h"
 #include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
-#include "units.h"
 #include "units_fwd.h"
 
+class basecamp;
 class Character;
 class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
+class tinymap;
 class ui_adaptor;
-struct point;
-struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -56,7 +52,6 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
-struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
@@ -77,6 +72,8 @@ class inventory_entry
         int custom_invlet = INT_MIN;
         std::string *cached_name = nullptr;
         std::string *cached_name_full = nullptr;
+        unsigned int contents_count = 0;
+        size_t cached_denial_space = 0;
 
         inventory_entry() = default;
 
@@ -619,10 +616,11 @@ class inventory_selector
         void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
-        void add_map_items( const tripoint &target );
-        void add_vehicle_items( const tripoint &target );
+        void add_character_ebooks( Character &character );
+        void add_map_items( const tripoint_bub_ms &target );
+        void add_vehicle_items( const tripoint_bub_ms &target );
         void add_nearby_items( int radius = 1 );
-        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
+        void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
@@ -642,6 +640,8 @@ class inventory_selector
         bool empty() const;
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
+        uint64_t item_entry_count() const;
+        drop_location get_only_choice() const;
 
         /** Apply filter string to all columns */
         void set_filter( const std::string &str );
@@ -686,7 +686,7 @@ class inventory_selector
         input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
-                const tripoint &pos );
+                const tripoint_bub_ms &pos );
 
         inventory_entry *add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
@@ -783,6 +783,7 @@ class inventory_selector
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
         bool _categorize_map_items = false;
+        bool force_single_column = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -797,7 +798,7 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
-        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+        void _add_map_items( tripoint_bub_ms const &target, item_category const &cat, item_stack &items,
                              std::function<item_location( item & )> const &floc );
 
     public:
@@ -945,6 +946,20 @@ class container_inventory_selector : public inventory_pick_selector
         item_location loc;
 };
 
+std::vector<item_location> get_possible_reload_targets( const item_location &target );
+class ammo_inventory_selector : public inventory_selector
+{
+    public:
+        explicit ammo_inventory_selector( Character &you, const item_location &reload_loc,
+                                          const inventory_selector_preset &preset = default_preset );
+
+        drop_location execute();
+        void set_all_entries_chosen_count();
+    private:
+        void mod_chosen_count( inventory_entry &entry, int val );
+        const item_location reload_loc;
+};
+
 class inventory_multiselector : public inventory_selector
 {
     public:
@@ -1043,7 +1058,7 @@ class pickup_selector : public inventory_multiselector
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void add_reopen_activity();
+        void reopen_menu();
         const std::optional<tripoint> where;
 };
 

@@ -4,10 +4,10 @@
     "abstract": "mutagen_sample",
     "symbol": "q",
     "color": "red",
-    "name": { "str": "abstract mutagen sample" },
-    "description": "This item needs a description defined, and is copied from abstract mutagen sample.",
-    "price": 1000,
-    "price_postapoc": 50,
+    "name": { "str": "abstract mutagen sample", "//~": "NO_I18N" },
+    "description": { "str": "This item needs a description defined, and is copied from abstract mutagen sample.", "//~": "NO_I18N" },
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE", "MUTAGEN_SAMPLE" ],
     "weight": "114 g",
@@ -272,5 +272,15 @@
     "description": "A slurry of toughness.",
     "looks_like": "medical_sample",
     "material": [ "flesh", "chitin" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "chiropteran_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "chiropteran sample" },
+    "description": "A slurry of silence.",
+    "looks_like": "medical_sample",
+    "material": [ "bone", "blood" ]
   }
 ]

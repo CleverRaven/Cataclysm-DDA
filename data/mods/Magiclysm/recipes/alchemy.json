@@ -94,7 +94,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
-    "autolearn": true
+    "book_learn": [ [ "journeyman_enchanting", 4 ], [ "alchemy_basic", 3 ] ]
   },
   {
     "type": "recipe",
@@ -108,7 +108,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
-    "autolearn": true
+    "book_learn": [ [ "journeyman_enchanting", 4 ], [ "alchemy_basic", 3 ] ]
   },
   {
     "type": "recipe",
@@ -122,7 +122,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
-    "autolearn": true
+    "book_learn": [ [ "journeyman_enchanting", 4 ], [ "alchemy_basic", 3 ] ]
   },
   {
     "result": "bundle_demon_chitin_piece",

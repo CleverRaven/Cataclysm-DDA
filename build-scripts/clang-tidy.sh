@@ -24,8 +24,8 @@ then
     cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
     # Need to specify the particular LLVM / Clang versions to use, lest it
     # use the older LLVM that comes by default on Ubuntu.
-    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-16/lib/cmake/llvm")
-    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang")
+    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-17/lib/cmake/llvm")
+    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-17/lib/cmake/clang")
 fi
 
 mkdir -p build
@@ -66,14 +66,8 @@ ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
 "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
 
-# Run clang-tidy analysis instead of regular build & test
-# We could use CMake to create compile_commands.json, but that's super
-# slow, so use compiledb <https://github.com/nickdiego/compiledb>
-# instead.
-compiledb -n make
-
 cd ..
-rm -f compile_commands.json && ln -s build/compile_commands.json
+ln -s build/compile_commands.json
 
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
@@ -81,7 +75,7 @@ set +x
 
 # Check for changes to any files that would require us to run clang-tidy across everything
 changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
-    egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
+    egrep -i "clang-tidy.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
 if [ -n "$changed_global_files" ]
 then
     first_changed_file="$(echo "$changed_global_files" | head -n 1)"
@@ -89,7 +83,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
+all_cpp_files="$(jq -r '.[].file | select(contains("third-party") | not)' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
@@ -103,10 +97,17 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed ) ) || \
         echo unknown )"
 
-    if [ "tidyable_cpp_files" == "unknown" ]
+    tidyable_cpp_files="$(echo -n "$tidyable_cpp_files" | grep -v third-party || true)"
+    if [ -z "$tidyable_cpp_files" ]
+    then
+	echo "No files to tidy, exiting";
+	set -x
+	exit 0
+    fi
+    if [ "$tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files, tidying all files"
         tidyable_cpp_files=$all_cpp_files

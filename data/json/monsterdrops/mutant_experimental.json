@@ -32,7 +32,6 @@
           { "group": "lab_files_biology", "prob": 5 }
         ]
       },
-      { "group": "mut_iv", "count": [ 3, 15 ] },
       { "item": "jumpsuit" }
     ]
   }

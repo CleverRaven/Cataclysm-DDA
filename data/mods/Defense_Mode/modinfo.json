@@ -3,7 +3,9 @@
     "type": "MOD_INFO",
     "id": "defense_mode",
     "name": "Defense Mode",
-    "description": "Enables the Defense game mode.",
+    "description": "This transforms the game into a horde-based wave defense mode.  Pick a starting location, create your character, and defend your bastion against the relentless waves of zombies, insects, aliens, you name it!  Complex customizations allow the game to be tinkered with to your hearts content, and extensive mod compatibility allows for your favorite additions to work perfectly in the new game.  It's kill or be killed!",
+    "authors": [ "Whales", "MNG-cataclysm" ],
+    "maintainers": [ "MNG-cataclysm" ],
     "category": "total_conversion",
     "dependencies": [ "dda" ]
   }

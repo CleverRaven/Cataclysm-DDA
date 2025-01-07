@@ -2,7 +2,7 @@
   {
     "type": "start_location",
     "id": "sloc_wilderness_MA",
-    "name": "Wilderness",
+    "name": { "ctxt": "start_name", "str": "Wilderness" },
     "terrain": [ "field", "forest", "forest_thick", "forest_water" ],
     "city_sizes": [ 0, 16 ],
     "city_distance": [ 0, -1 ],
@@ -59,7 +59,6 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",

@@ -1,21 +1,5 @@
 [
   {
-    "abstract": "holybook_abstract",
-    "type": "BOOK",
-    "name": { "str": "holybook abstract" },
-    "description": "theoretically this isn't a book at all",
-    "price": 550,
-    "price_postapoc": 550,
-    "material": [ "paper", "cardboard" ],
-    "symbol": "?",
-    "looks_like": "story_book",
-    "color": "dark_gray",
-    "flags": [ "INSPIRATIONAL" ],
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1
-  },
-  {
     "id": "mycenacean_hymns",
     "type": "BOOK",
     "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
@@ -55,7 +39,7 @@
     "id": "holybook_bible4",
     "type": "BOOK",
     "name": { "str": "New American Bible", "str_pl": "copies of the New American Bible" },
-    "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
+    "description": "An English translation of the Bible, first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -94,7 +78,7 @@
     "id": "holybook_bible8",
     "type": "BOOK",
     "name": { "str": "Orthodox Tewahedo Biblical Canon", "str_pl": "copies of the Orthodox Tewahedo Biblical Canon" },
-    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church’s faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
+    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church's faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
     "weight": "850 g",
     "volume": "2 L",
     "copy-from": "holybook_abstract"
@@ -106,6 +90,24 @@
     "description": "A compilation of texts and interpretations of the Christian Bible that focus on the history, culture, and religious beliefs of the Rastafarian community.  It aims to provide an alternative perspective on the origins of the world and its people, emphasizing the African roots of the Rastafarian faith.",
     "weight": "468 g",
     "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_biblechild_c",
+    "type": "BOOK",
+    "name": { "str": "Children's Catholic Bible", "str_pl": "copies of a Children's Catholic Bibles" },
+    "description": "A small, lightweight Catholic Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
+    "weight": "250 g",
+    "volume": "700 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_biblechild_p",
+    "type": "BOOK",
+    "name": { "str": "Children's Protestant Bible", "str_pl": "copies of a Children's Protestant Bibles" },
+    "description": "A small, lightweight Protestant Bible intended for children, containing a extremely easy to understand English writing and many illustrations.",
+    "weight": "250 g",
+    "volume": "700 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -157,7 +159,7 @@
     "id": "holybook_catechismmuslim",
     "type": "BOOK",
     "name": { "str": "Safinatun Najah", "str_pl": "copies of the Safinatun Najah" },
-    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi’i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
+    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi'i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
     "weight": "630 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -219,7 +221,7 @@
   {
     "id": "holybook_orthodox",
     "type": "BOOK",
-    "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
+    "name": { "str": "The Orthodox Church", "str_pl": "copies of The Orthodox Church" },
     "description": "A paperback edition of 'The Orthodox Church: An Introduction to Eastern Christianity', written by Timothy Ware.  This book provides a comprehensive overview of the history, theology, and practices of the Eastern Orthodox Church, and an introduction to the Orthodox faith for those unfamiliar with it, as well as a deeper exploration for those seeking to deepen their understanding.",
     "weight": "269 g",
     "volume": "1 L",
@@ -237,7 +239,7 @@
   {
     "id": "holybook_ladder",
     "type": "BOOK",
-    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of the The Ladder of Divine Ascent" },
+    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of The Ladder of Divine Ascent" },
     "description": "A commercial-grade, hardcover English edition of The Ladder of Divine Ascent, a well-known spiritual guidebook written in the 6th century by John Climacus, an Orthodox Christian monk.  This book is composed of many chapters, each representing a rung on the ladder, symbolizing the spiritual journey towards union with God.",
     "weight": "540 g",
     "volume": "1 L",
@@ -265,7 +267,7 @@
     "id": "holybook_anglican",
     "type": "BOOK",
     "name": { "str": "Anglican Book of Common Prayer", "str_pl": "copies of the Anglican Book of Common Prayer" },
-    "description": "A hardcover edition of the Anglican Book of Commom Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
+    "description": "A hardcover edition of the Anglican Book of Common Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
     "weight": "720 g",
     "volume": "1100 ml",
     "copy-from": "holybook_abstract"
@@ -334,6 +336,219 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_ofudekasi",
+    "type": "BOOK",
+    "name": { "str": "Ofudekasi", "str_pl": "copies of the Ofudekasi" },
+    "description": "A large English translation of the most significant of the three scriptures within the Tenrikyo religious tradition (the other two being the Mikagura-uta and Osashizu).  It serves as an essential text that provides a comprehensive understanding of the fundamental beliefs and doctrines of Tenrikyo.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_uta",
+    "type": "BOOK",
+    "name": { "str": "Mikagura-uta", "str_pl": "copies of the Mikagura-uta" },
+    "description": "A English translation of the Mikagura-uta, one of the most significant books within the Tenrikyo Religious Tradition.  It is a collection of hymns and prayers that serve as a guide for the followers of the Tenrikyo.",
+    "weight": "830 g",
+    "volume": "1050 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_osa",
+    "type": "BOOK",
+    "name": { "str": "Osashizu", "str_pl": "copies of the Osashizu" },
+    "description": "A English translation of the Osashizu, one of the most significant books within the Tenrikyo Religious Tradition.  It serves as a guide for followers of the religion or people wishing to learn about it, providing spiritual teachings, ethical principles, and practical advice on various aspects of life.",
+    "weight": "400 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tenry",
+    "type": "BOOK",
+    "name": { "str": "Doctrines of Tenrikyo", "str_pl": "copies of the Doctrines of Tenrikyo" },
+    "description": "A paperback English translation of Tenrikyo's official doctrine.  This book explains the basic teachings of the Tenrikyo Religious Tradition.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_oyasama",
+    "type": "BOOK",
+    "name": {
+      "str": "The Life of Oyasama, Foundress of Tenrikyo",
+      "str_pl": "copies of The Life of Oyasama, Foundress of Tenrikyo"
+    },
+    "description": "A paperback English translation of Tenrikyo's hagiography of Miki Nakayama, foundress of the Tenrikyo Religious Tradition.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_anecdotes",
+    "type": "BOOK",
+    "name": {
+      "str": "The Anecdotes of Oyasama, Foundress of Tenrikyo",
+      "str_pl": "copies of The Anecdotes of Oyasama, Foundress of Tenrikyo"
+    },
+    "description": "A paperback English translation of an anthology of anecdotes about Oyasama that were passed down orally by her first followers and later written down and verified.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mo",
+    "type": "BOOK",
+    "name": { "str": "Buluotuo", "str_pl": "copies of the Buluotuo" },
+    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, goddesses, prayers, practices and rituals of Moism.",
+    "weight": "370 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_guodian",
+    "type": "BOOK",
+    "name": { "str": "Guodian Texts", "str_pl": "copies of the Guodian Texts" },
+    "description": "A rare and extensive study and translation of all the manuscripts of The Guodian Chu Slips by Scott Cook.  The original slip-texts include both Taoist and Confucian works that offered fresh information for scholars studying the history of philosophical thought in ancient China.",
+    "weight": "1500 g",
+    "volume": "2300 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_maya",
+    "type": "BOOK",
+    "name": { "str": "Popol Vuh", "str_pl": "copies of the Popol Vuh" },
+    "description": "A English edition of the Popol Vuh, a sacred book of the K'iche' Maya people, a native group from the Guatemalan highlands.  It is a combination of creation myths, historical narratives, and heroic legends that revolve around the K'iche' people's origins, culture, and the deities that govern their universe.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_aztec",
+    "type": "BOOK",
+    "name": { "str": "Codex Borbonicus", "str_pl": "copies of the Codex Borbonicus" },
+    "description": "A extremely rare English edition of the Codex Borbonicus, an ancient pre-Columbian Mesoamerican manuscript that provides valuable insights into the religious and ritual practices of the Aztecs.  It contains original pictures, illustrations, detailed information about the tonalpohualli (the sacred 260-day calendar), the xiuhpohualli (the agricultural year), deities, rituals, and ceremonies.  This codex also includes depictions and information of various gods and goddesses, sacrificial rites, and astronomical phenomena.",
+    "weight": "300 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_inca",
+    "type": "BOOK",
+    "name": { "str": "Huarochirí Manuscript", "str_pl": "copies of the Huarochirí Manuscript" },
+    "description": "A uncommon English edition of the Huarochirí Manuscript, a collection of Quechua narratives that provides valuable insights into the religious beliefs, rituals, and cosmology of the Inca people.",
+    "weight": "450 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_canaanites",
+    "type": "BOOK",
+    "name": { "str": "Ugaritic Texts", "str_pl": "copies of the Ugaritic Texts" },
+    "description": "A pretty rare English translation of the Ugaritic Texts, a collection of ancient mythological, religious and literature texts regarding the Canaanites.  It contains religious epics such as the Baal Cycle, which recounts the myths surrounding the storm god Baal, as well as hymns, prayers, and rituals that shed light on the religious worldview of the ancient Canaanites and their practices.",
+    "weight": "450 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_kells",
+    "type": "BOOK",
+    "name": { "str": "Book of Kells", "str_pl": "copies of the Book of Kells" },
+    "description": "A extremely rare English translation of the Book of Kells, a highly decorated and illuminated Celtic manuscript, primarily containing the four Gospels of the New Testament.  This translation mimics perfectly the art and style of the original manuscript, including its elaborate calligraphy, with each letter meticulously designed and adorned with various motifs, including animals, humans, and knotwork patterns.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_leinster",
+    "type": "BOOK",
+    "name": { "str": "Book of Leinster", "str_pl": "copies of the Book of Leister" },
+    "description": "A incredibly rare English translation of the Book of Leinster, a significant and ancient compilation of Irish literature and history, dating back to the 12th century.  It contains annals, genealogies, historical texts, legal tracts, secular and religious poetry and stories from Irish mythology, such as the epic tale \"Táin Bó Cúailnge\", which tells the story of the legendary warrior Cú Chulainn and the cattle raid of Cooley.",
+    "weight": "1100 g",
+    "volume": "1650 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_welsh",
+    "type": "BOOK",
+    "name": { "str": "Mabinogion", "str_pl": "copies of the Mabinogion" },
+    "description": "A rare English translation of the Mabinogion, a collection of twelve medieval Welsh tales, dating back to the 11th and 12th centuries.  It provide a valuable insight into the mythology, history, religion and culture of medieval Wales.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_akkadia",
+    "type": "BOOK",
+    "name": { "str": "Atra-Hasis", "str_pl": "copies of the Atra-Hasis" },
+    "description": "A rare English translation of the Mesopotamian Epic Atra-Hasis.  Named for its protagonist, Atrahasis ('exceedingly wise'), the Atra-Hasis include both a creation myth and one of three surviving Babylonian flood myths.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sumeria",
+    "type": "BOOK",
+    "name": { "str": "Enki and Ninhursag Myth", "str_pl": "copies of the Enki and Ninhursag Myth" },
+    "description": "A pretty uncommon English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sumeria1",
+    "type": "BOOK",
+    "name": { "str": "The Descent of Inanna", "str_pl": "copies of The Descent of Inanna" },
+    "description": "A very rare English translation of the Descent of Inanna, an ancient Sumerian myth that recounts the journey of the goddess Inanna into the underworld, where she seeks to confront her sister Ereshkigal, the Queen of the Underworld.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_helliand",
+    "type": "BOOK",
+    "name": { "str": "Heliand", "str_pl": "copies of the Heliand" },
+    "description": "A English translation of the Heliand, an Old Saxon epic poem that narrates the life and passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus' childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sirach",
+    "type": "BOOK",
+    "name": { "str": "Alphabet of Sirach", "str_pl": "copies of the Alphabet of Sirach" },
+    "description": "A rare English translation of the Alphabet of Sirach, a compilation of two lists of proverbs, 22 in Jewish Babylonian Aramaic and 22 in Medieval Hebrew (all translated to English), both arranged as alphabetic acrostics, with each proverb followed by an aggadic commentary.",
+    "weight": "750 g",
+    "volume": "1200 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_navayana",
+    "type": "BOOK",
+    "name": { "str": "The Buddha and His Dhamma", "str_pl": "copies of The Buddha and His Dhamma" },
+    "description": "A English translation of The Buddha and His Dhamma by B. R. Ambedkar.  It is a interpretation of the Buddhist path and the scripture for those who follow Navayana Buddhism.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_pana",
+    "type": "BOOK",
+    "name": { "str": "Panaturan", "str_pl": "copies of the Panaturan" },
+    "description": "A extremely rare English translation of the Panaturan, the Holy Scripture of the Kaharingan religion.  It is a guide for its adherents and followers, providing them with spiritual teachings, moral lessons, and principles to live by",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_zhivo",
+    "type": "BOOK",
+    "name": { "str": "Zhivotnaya Kniga", "str_pl": "copies of the Zhivotnaya Kniga" },
+    "description": "A extremely rare English translation of the Zhivotnaya Kniga (Book of Life).  It is a collection of written and translated Doukhobor oral holy hymns, but this book also has the Russian version alongside the English translations.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_mormon",
     "type": "BOOK",
     "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
@@ -341,6 +556,426 @@
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_east",
+    "type": "BOOK",
+    "name": { "str": "Holy Books of the East", "str_pl": "copies of the Holy Books of the East" },
+    "description": "It is a monumental 50-volume set of English translations of Asian religious texts.  It incorporates the essential sacred texts of Hinduism, Buddhism, Taoism, Confucianism, Zoroastrianism, Jainism, and Islam.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "holybook_east1",
+        "name": { "str": "Sacred Book of the East Vol. 1", "str_pl": "copies of the first volume of the Sacred Books of the East" },
+        "description": "It contains The Upanishads, part 1/2: Khândogya Upanishad, Talavakâra (or Kena-Upanishad), Aitareya-Âranyaka, Kaushîtaki-Brâhmana and Vâjasaneyi-Sâmhita Upanishad.",
+        "append": true
+      },
+      {
+        "id": "holybook_east2",
+        "name": { "str": "Sacred Books of the East Vol. 2", "str_pl": "copies of the second volume of the Sacred Books of the East" },
+        "description": "It contains The Sacred Laws of the Aryas (Dharmasastra), part 1/2: Âpastamba, Gautama, Vâsishtha and Baudhâyana.",
+        "append": true
+      },
+      {
+        "id": "holybook_east3",
+        "name": { "str": "Sacred Books of the East Vol. 3", "str_pl": "copies of the third volume of the Sacred Books of the East" },
+        "description": "It contains The Sacred Books of China, part 1/6, the texts of Confucianism: The Shû King (Classic of History), Book of Thang, Books of Yu, Books of Hsiâ, Books of Shang, Books of Kâu, Shih King, the Book of Odes (Classic of Poetry, I - Odes of the Temple and the Altar, II - Minor Odes of the Kingdom, III - Major Odes of the Kingdom, IV - Lessons from the States) and The Hsiâo King (Classic of Filial Piety).",
+        "append": true
+      },
+      {
+        "id": "holybook_east4",
+        "name": { "str": "Sacred Books of the East Vol. 4", "str_pl": "copies of the fourth volume of the Sacred Books of the East" },
+        "description": "It contains The Zend-Avesta, part 1/3: Vendîdâd.",
+        "append": true
+      },
+      {
+        "id": "holybook_east5",
+        "name": { "str": "Sacred Books of the East Vol. 5", "str_pl": "copies of the fifth volume of the Sacred Books of the East" },
+        "description": "It contains the Pahlavi Texts, part 1/5: Bundahis, selections of Zâd-sparam, Bahman Yast, Shâyast lâ-Shâyast.",
+        "append": true
+      },
+      {
+        "id": "holybook_east6",
+        "name": { "str": "Sacred Books of the East Vol. 6", "str_pl": "copies of the sixth volume of the Sacred Books of the East" },
+        "description": "It contains The Holy Qur'an part 1/2, from chapters I to XVI.",
+        "append": true
+      },
+      {
+        "id": "holybook_east7",
+        "name": { "str": "Sacred Books of the East Vol. 7", "str_pl": "copies of the seventh volume of the Sacred Books of the East" },
+        "description": "It contains The Institutes of Vishnu.",
+        "append": true
+      },
+      {
+        "id": "holybook_east8",
+        "name": { "str": "Sacred Books of the East Vol. 8", "str_pl": "copies of the eighth volume of the Sacred Books of the East" },
+        "description": "It contains The Bhagavadgitâ: Sanatsugâtîya and Anugitâ.",
+        "append": true
+      },
+      {
+        "id": "holybook_east9",
+        "name": { "str": "Sacred Books of the East Vol. 9", "str_pl": "copies of the ninth volume of the Sacred Books of the East" },
+        "description": "It contains The Holy Qur'an, part 2/2, from chapters XVII to CXIV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east10",
+        "name": { "str": "Sacred Books of the East Vol. 10", "str_pl": "copies of the tenth volume of the Sacred Books of the East" },
+        "description": "It contains the Dhammapada: a collection of verses, and the Sutta-Nipâta: a collection of discourses, being one of the canonical books of the Buddhists.",
+        "append": true
+      },
+      {
+        "id": "holybook_east11",
+        "name": { "str": "Sacred Books of the East Vol. 11", "str_pl": "copies of the eleventh volume of the Sacred Books of the East" },
+        "description": "It contains the Buddhist Suttas: Mahā-parinibbāna Suttanta, Dhamma-kakka-ppavattana Sutta, Tevigga Sutta'anta, Âkankheyya Sutta'a, Ketokhila Sutta'a, Mahâ-Sudassana Sutta'anta and Sabbâsava Sutta'a.",
+        "append": true
+      },
+      {
+        "id": "holybook_east12",
+        "name": { "str": "Sacred Books of the East Vol. 12", "str_pl": "copies of the twelfth volume of the Sacred Books of the East" },
+        "description": "It contains the Satapatha Brahmana, part 1/5: Mâdhyandina Shakha from I to II.",
+        "append": true
+      },
+      {
+        "id": "holybook_east13",
+        "name": {
+          "str": "Sacred Books of the East Vol. 13",
+          "str_pl": "copies of the thirteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vinaya Texts, part 1/3: Pātimokkha and Mahâvagga, from I to IV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east14",
+        "name": {
+          "str": "Sacred Books of the East Vol. 14",
+          "str_pl": "copies of the fourteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Sacred Laws of the Aryas, part 2/2: Vâsishtha, Baudhâyana and Parisishta.",
+        "append": true
+      },
+      {
+        "id": "holybook_east15",
+        "name": {
+          "str": "Sacred Books of the East Vol. 15",
+          "str_pl": "copies of the fifteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Upanishads, part 2/2: Katha Upanishad, Mundaka Upanishad, Taittiriya Upanishad, Brhadaranyaka Upanishad, Svetasvatara Upanishad, Prasna Upanishad and Maitrayani Upanishad.",
+        "append": true
+      },
+      {
+        "id": "holybook_east16",
+        "name": {
+          "str": "Sacred Books of the East Vol. 16",
+          "str_pl": "copies of the sixteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Sacred Books of China, part 2/6, the texts of Confucianism: Yi King (I Ching).",
+        "append": true
+      },
+      {
+        "id": "holybook_east17",
+        "name": {
+          "str": "Sacred Books of the East Vol. 17",
+          "str_pl": "copies of the seventeenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vinaya Texts, part 2/3: Mahavagga, from V to X, and Kullavagga, from I to II.",
+        "append": true
+      },
+      {
+        "id": "holybook_east18",
+        "name": {
+          "str": "Sacred Books of the East Vol. 18",
+          "str_pl": "copies of the eighteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Pahlavi Texts, part 2/5: Dâdistân-i Dinik and the Epistles of Mânûskihar.",
+        "append": true
+      },
+      {
+        "id": "holybook_east19",
+        "name": {
+          "str": "Sacred Books of the East Vol. 19",
+          "str_pl": "copies of the nineteenth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Fo-sho-hing-tsan-king: a life of Buddha, by Ashvaghosha, and the Bodhisattva.",
+        "append": true
+      },
+      {
+        "id": "holybook_east20",
+        "name": { "str": "Sacred Books of the East Vol. 20", "str_pl": "copies of the twenty volume of the Sacred Books of the East" },
+        "description": "It contains the Vinaya Texts, part 3/3: Kullavagga, from IV to XII.",
+        "append": true
+      },
+      {
+        "id": "holybook_east21",
+        "name": {
+          "str": "Sacred Books of the East Vol. 21",
+          "str_pl": "copies of the twentieth-first volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Saddharma-Pundarika (or The Lotus of the True Law).",
+        "append": true
+      },
+      {
+        "id": "holybook_east22",
+        "name": {
+          "str": "Sacred Books of the East Vol. 22",
+          "str_pl": "copies of the twenty-second volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Jaina Sutras, part 1/2: Âkârânga sutra and Kalpa sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east23",
+        "name": {
+          "str": "Sacred Books of the East Vol. 23",
+          "str_pl": "copies of the twenty-third volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Zend-Avesta, part 2/3: Sîrôzahs, Yasts and Nyâyis.",
+        "append": true
+      },
+      {
+        "id": "holybook_east24",
+        "name": {
+          "str": "Sacred Books of the East Vol. 24",
+          "str_pl": "copies of the twenty-fourth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Pahlavi Texts, part 3/5: Dinai Mainog-i khirad, Sikand-Gümanik Vigar and Sad Dar.",
+        "append": true
+      },
+      {
+        "id": "holybook_east25",
+        "name": {
+          "str": "Sacred Books of the East Vol. 25",
+          "str_pl": "copies of the twenty-fifth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Laws of Manu, with extracts from seven commentaries.",
+        "append": true
+      },
+      {
+        "id": "holybook_east26",
+        "name": {
+          "str": "Sacred Books of the East Vol. 26",
+          "str_pl": "copies of the twenty-sixth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Satapatha Brahmana, part 2/5: Mâdhyandina Shakha from III to IV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east27",
+        "name": {
+          "str": "Sacred Books of the East Vol. 27",
+          "str_pl": "copies of the twenty-seventh volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Sacred Books of China, part 3/6, the texts of Confucianism: The Li Ki I (Book of Rites).",
+        "append": true
+      },
+      {
+        "id": "holybook_east28",
+        "name": {
+          "str": "Sacred Books of the East Vol. 28",
+          "str_pl": "copies of the twenty-eight volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Sacred Books of China, part 4/6, the texts of Confucianism: The Li Ki II (Book of Rites).",
+        "append": true
+      },
+      {
+        "id": "holybook_east29",
+        "name": {
+          "str": "Sacred Books of the East Vol. 29",
+          "str_pl": "copies of the twenty-ninth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Grihya-sutras, part 1/2, rules of Vedic domestic ceremonies: Sankhyayana-Grihya-sutra, Āsvalāyana-Grihya-sutra, Paraskara-Grihya-sutra and Khadia-Grihya-sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east30",
+        "name": {
+          "str": "Sacred Books of the East Vol. 30",
+          "str_pl": "copies of the thirtieth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Grihya-sutras, part 2/2, rules of Vedic domestic ceremonies: Gobhila, Hiranyakesin, Apastamba and Yajna Paribhashasutras.",
+        "append": true
+      },
+      {
+        "id": "holybook_east31",
+        "name": {
+          "str": "Sacred Books of the East Vol. 31",
+          "str_pl": "copies of the thirty-first volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Zend-Avesta, part 3/3: Yasna, Visparad, Afrinagân, Gâhs and miscellaneous fragments.",
+        "append": true
+      },
+      {
+        "id": "holybook_east32",
+        "name": {
+          "str": "Sacred Books of the East Vol. 32",
+          "str_pl": "copies of the thirty-second volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vedic Hymns, part 1/2: Hymns to the Maruts, Hymns to Rudra, Hymns to Vâyu, Hymns to Vâta and a bibliographical list of the more important publications on the Rigveda.",
+        "append": true
+      },
+      {
+        "id": "holybook_east33",
+        "name": {
+          "str": "Sacred Books of the East Vol. 33",
+          "str_pl": "copies of the thirty-third volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Minor Law-Books: Brihaspati.",
+        "append": true
+      },
+      {
+        "id": "holybook_east34",
+        "name": {
+          "str": "Sacred Books of the East Vol. 34",
+          "str_pl": "copies of the thirty-fourth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vedanta-Sutras, part 1/3: Commentary by Sankaracharya, part 1 of 2, and the Adhyâya I–II (Pâda I–II).",
+        "append": true
+      },
+      {
+        "id": "holybook_east35",
+        "name": {
+          "str": "Sacred Books of the East Vol. 35",
+          "str_pl": "copies of the thirty-fifth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Questions of King Milinda, part 1/2.",
+        "append": true
+      },
+      {
+        "id": "holybook_east36",
+        "name": {
+          "str": "Sacred Books of the East Vol. 36",
+          "str_pl": "copies of the thirty-sixth volume of the Sacred Books of the East"
+        },
+        "description": "It contains The Questions of King Milinda, part 2/2.",
+        "append": true
+      },
+      {
+        "id": "holybook_east37",
+        "name": {
+          "str": "Sacred Books of the East Vol. 37",
+          "str_pl": "copies of the thirty-seventh volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Pahlavi Texts, part 4/5: Contents of the Nasks.",
+        "append": true
+      },
+      {
+        "id": "holybook_east38",
+        "name": {
+          "str": "Sacred Books of the East Vol. 38",
+          "str_pl": "copies of the thirty-eight volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vedanta-Sutras, part 2/3: Commentary by Sankaracharya, part 2 of 2, and Adhyâya II to IV (Pâda III to IV).",
+        "append": true
+      },
+      {
+        "id": "holybook_east39",
+        "name": {
+          "str": "Sacred Books of the East Vol. 39",
+          "str_pl": "copies of the thirty-ninth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Chuang-tse, from I to XVII.",
+        "append": true
+      },
+      {
+        "id": "holybook_east40",
+        "name": {
+          "str": "Sacred Books of the East Vol. 40",
+          "str_pl": "copies of the fourtieth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Chuang-tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
+        "append": true
+      },
+      {
+        "id": "holybook_east41",
+        "name": {
+          "str": "Sacred Books of the East Vol. 41",
+          "str_pl": "copies of the forty-first volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Satapatha Brahmana, part 3/5: Mâdhyandina Shakha from V to VII.",
+        "append": true
+      },
+      {
+        "id": "holybook_east42",
+        "name": {
+          "str": "Sacred Books of the East Vol. 42",
+          "str_pl": "copies of the forty-second volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Hymns of the Atharvaveda, together With Extracts From the Ritual Books and the Commentaries.",
+        "append": true
+      },
+      {
+        "id": "holybook_east43",
+        "name": {
+          "str": "Sacred Books of the East Vol. 43",
+          "str_pl": "copies of the forty-third volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Satapatha Brahmana, part 4/5: the Mâdhyandina Shakha VII, IX and X.",
+        "append": true
+      },
+      {
+        "id": "holybook_east44",
+        "name": {
+          "str": "Sacred Books of the East Vol. 44",
+          "str_pl": "copies of the forty-fourth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Satapatha Brahmana, part 5/5: the Mâdhyandina Shakha from XI to XIV.",
+        "append": true
+      },
+      {
+        "id": "holybook_east45",
+        "name": {
+          "str": "Sacred Books of the East Vol. 45",
+          "str_pl": "copies of the forty-fifth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Jaina Sutras, part 2 of 2: Uttaradhyayana Sutra and Sutrakritânga Sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east46",
+        "name": {
+          "str": "Sacred Books of the East Vol. 46",
+          "str_pl": "copies of the forty-sixth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vedic Hymns, part 2/2: Hymns to Agni (Mandalas I to V).",
+        "append": true
+      },
+      {
+        "id": "holybook_east47",
+        "name": {
+          "str": "Sacred Books of the East Vol. 47",
+          "str_pl": "copies of the forty-seventh volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Pahlavi Texts, part 5/5: The Marvels of Zoroastrianism.",
+        "append": true
+      },
+      {
+        "id": "holybook_east48",
+        "name": {
+          "str": "Sacred Books of the East Vol. 48",
+          "str_pl": "copies of the forty-eighth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Vedanta-Sutras, part 3/3, with the commentary of Râmânuja.",
+        "append": true
+      },
+      {
+        "id": "holybook_east49",
+        "name": {
+          "str": "Sacred Books of the East Vol. 49",
+          "str_pl": "copies of the forty-ninth volume of the Sacred Books of the East"
+        },
+        "description": "It contains the Buddhist Mahayana Texts, part 1/2: Buddha-karita of Aśvaghosa, the Buddhist Mahayana Texts, part 2/2: Longer Sukhâvati-vyuha and Shorter Sukhâvati-vyuha, Vagrakkhedika, the longer Pragnâ-pâramitâ-hridaya-sutra, the shorter Pragnâ-pâramitâ-hridaya-sutra and the Amitâyur dhyâna-sutra.",
+        "append": true
+      },
+      {
+        "id": "holybook_east50",
+        "name": { "str": "Sacred Books of the East Vol. 50", "str_pl": "copies of the fiftieth volume of the Sacred Books of the East" },
+        "description": "It contains a nice general index to the names and subject-matter of the Sacred Books of the East.",
+        "append": true
+      }
+    ]
   },
   {
     "id": "holybook_nag_hammadi",
@@ -379,7 +1014,7 @@
       {
         "id": "holybook_nag_hammadi_05",
         "name": { "str": "Nag Hammadi Codex V", "str_pl": "copies of the fifth Nag Hammadi Codex" },
-        "description": "It contains Eugenostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
+        "description": "It contains Eugnostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
         "append": true
       },
       {
@@ -460,8 +1095,8 @@
     "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
     "weight": "130 g",
     "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 50,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -475,7 +1110,7 @@
     "id": "holybook_wicca",
     "type": "BOOK",
     "name": { "str": "The Book of Shadows", "str_pl": "copies of The Book of Shadows" },
-    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, there are also blank pages for you to write on.",
+    "description": "A dark hardcover copy of The Book of Shadows.  It serves as a personal journal and reference book for individual witches or covens.  Each practitioner may have their own unique version of The Book of Shadows, which contains their personal rituals, spells, invocations, herbal lore, divination methods, and other magical knowledge.  This one, apart from having a wide range of information directly printed on the pages, also has blank pages for you to write on.",
     "weight": "300 g",
     "volume": "1 L",
     "copy-from": "holybook_satanic"
@@ -505,8 +1140,8 @@
     "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
     "weight": "486 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -522,6 +1157,24 @@
     "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
     "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
     "weight": "292 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mozilla",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mozilla", "str_pl": "copies of The Book of Mozilla" },
+    "description": "A mysterious deep-red book with the title 'The Book of Mozilla' at the front.  The contents of this book are written in some sort of easy-to-understand computer language and are a collection of prophetic and apocryphal verses of unknown origin.",
+    "weight": "250 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_frog",
+    "type": "BOOK",
+    "name": { "str": "The Blue Book of the Blue Frog", "str_pl": "copies of the Blue Book of the Blue Frog" },
+    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult's followers must adhere to and also the practices, religious and political hierarchy of this cult.  Not much for a scavenger.",
+    "weight": "320 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
@@ -636,8 +1289,8 @@
   {
     "id": "holybook_golden",
     "type": "BOOK",
-    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
-    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods’ will.",
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of The Orphic Gold Tablets" },
+    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods' will.",
     "weight": "300 g",
     "volume": "900 ml",
     "copy-from": "holybook_abstract"
@@ -657,7 +1310,7 @@
     "name": { "str": "Historia Augusta", "str_pl": "copies of the Historia Augusta" },
     "description": "A large, rare hardcover English translation of the Historia Augusta, a collection of biographies of Roman emperors.  It also contains information about the Imperial Roman Cult, including its rituals, symbols, and the role of such emperors in the cult.",
     "weight": "600 g",
-    "volume": "1300 L",
+    "volume": "1300 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -672,8 +1325,8 @@
   {
     "id": "holybook_mithraic",
     "type": "BOOK",
-    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
-    "description": "A commercial-grade, paperback English edition of the The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of The Mithraic Inscriptions" },
+    "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -685,7 +1338,7 @@
       "str": "Tengriism: The Religion of Ancient Mongolia",
       "str_pl": "copies of Tengriism: The Religion of Ancient Mongolia"
     },
-    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, Shamanic Rituals and folklore.",
+    "description": "A paperback English edition of the Tengriism: The Religion of Ancient Mongolia.  This book contains epics, oral traditions and everything else related to Tengriism, including information about the Khans of Mongolia, shamanic rituals and folklore.",
     "weight": "600 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -705,7 +1358,7 @@
     "name": { "str": "Tripitaka Koreana", "str_pl": "copies of the Tripitaka Koreana" },
     "description": "An extremely large, huge English translation of the Tripitaka Koreana, a Korean collection of the Tripitaka that can be considered as the Korean Canon.",
     "weight": "15000 g",
-    "volume": "20000 L",
+    "volume": "20000 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -722,7 +1375,7 @@
     "id": "holybook_maori",
     "type": "BOOK",
     "name": { "str": "Te Ao Māori", "str_pl": "copies of the Te Ao Māori" },
-    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one’s whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
+    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one's whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -731,7 +1384,7 @@
     "id": "holybook_native",
     "type": "BOOK",
     "name": { "str": "The Native Religion of New England", "str_pl": "copies of The Native Religion of New England" },
-    "description": "A collection of written oral and recorded religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
+    "description": "A collection of written oral traditions and written records regarding the religious tradition of the many native groups and tribes of New England (such as the Wampanoag, Narragansett, Mohegan, and Penobscot).  This book also contain information regarding the deities, entities and religious characteristics and hierarchy of these groups, as well as historical, geographical, social, political and cultural information.",
     "weight": "700 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -758,7 +1411,7 @@
     "id": "holybook_egypt1",
     "type": "BOOK",
     "name": { "str": "The Coffin Texts", "str_pl": "copies of The Coffin Texts" },
-    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
+    "description": "A hardcover, English translation of The Coffin Texts, a collection of magical spells and texts originally inscribed on the inner surfaces of wooden coffins.  These texts were intended to protect the deceased and ensure their safe passage through the Egyptian afterlife.  The Coffin Texts provide a insight into the religious beliefs of ancient Egyptians and its contemporary revival, Kemeticism.",
     "weight": "600 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -776,7 +1429,7 @@
     "id": "holybook_umbanda",
     "type": "BOOK",
     "name": { "str": "Orishas and Their Deities", "str_pl": "copies of Orishas and Their Deities" },
-    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Indigenous Brazilian, and European traditions.",
+    "description": "A paperwork English edition of the Orishas and Their Deities (Orixás e Suas Divindades), written by José Honorato do Rego.  This book provides an extensive overview of the orishas and their associated deities.  It delves into the history, characteristics, and roles of these divine beings within the Umbanda religion, a syncretic Afro-Brazilian religion that combines elements of African, Native Brazilian, and European traditions.",
     "weight": "350 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -796,14 +1449,14 @@
     "name": { "str": "The Four Books and Five Classics", "str_pl": "copies of The Four Books and Five Classics" },
     "description": "A large hardcover book containing the two collections of ancient Chinese texts that have played a significant role in shaping Chinese culture, education, and philosophy.  These texts are considered foundational works in Confucianism and have been studied by scholars and students for centuries.",
     "weight": "1000 g",
-    "volume": "1700 L",
+    "volume": "1700 ml",
     "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_daime",
     "type": "BOOK",
     "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
-    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and indigenous Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
+    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and Native Brazilian beliefs.  It is considered a sacred scripture by the movement's followers.",
     "weight": "350 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -986,7 +1639,7 @@
           "str": "Talmud, Vol. 19, Tractate Pesachim (Part 1)",
           "str_pl": "copies of the Talmud, Vol. 19, Tractate Pesachim (Part 1)"
         },
-        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
+        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the proper disposal of leaven and the preparation of unleavened bread.",
         "append": true
       },
       {
@@ -1007,13 +1660,13 @@
       {
         "id": "holybook_talmud_22",
         "name": { "str": "Talmud, Vol. 22, Tractate Yoma", "str_pl": "copies of the Talmud, Vol. 22, Tractate Yoma" },
-        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
+        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
         "append": true
       },
       {
         "id": "holybook_talmud_23",
         "name": { "str": "Talmud, Vol. 23, Tractate Sukkah", "str_pl": "copies of the Talmud, Vol. 23, Tractate Sukkah" },
-        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
+        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
         "append": true
       },
       {
@@ -1162,7 +1815,7 @@
       },
       {
         "id": "holybook_talmud_43",
-        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Meztia" },
+        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Metzia" },
         "description": "This is volume 43 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
         "append": true
       },
@@ -1247,8 +1900,8 @@
     "description": "The five books of Moses, written on animal skin by a trained scribe in accordance with the laws and customs of traditional Jewish calligraphy and bound onto wooden rollers.  Once very expensive, it would now be beyond price, if there are any Jewish communities left to use it.",
     "weight": "12000 g",
     "volume": "24 L",
-    "price": 4000000,
-    "price_postapoc": 200,
+    "price": "40 kUSD",
+    "price_postapoc": "2 USD",
     "longest_side": "48 cm",
     "material": [ "leather", "wood" ],
     "copy-from": "holybook_abstract"
@@ -1284,7 +1937,7 @@
     "id": "holybook_babylon",
     "type": "BOOK",
     "name": { "str": "Enuma Elish", "str_pl": "copies of the Enuma Elish" },
-    "description": "A paperback English translation of the Enuma Elish, an ancient collection of seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
+    "description": "A paperback English translation of the Enuma Elish, an ancient collection originally written in seven tablets that contain the Babylonian creation myth and cosmology.  It describes the birth of the gods, the formation of the universe, and the struggle for power among various deities.",
     "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1299,19 +1952,37 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_asatru",
+    "id": "holybook_ginza",
     "type": "BOOK",
-    "name": { "str": "The Asatru Edda: Sacred Lore of the North", "str_pl": "copies of The Asatru Edda: Sacred Lore of the North" },
-    "description": "A commercial-grade, hardcover English translation of The Asatru Edda.  It serves as a modern guide to the religious and mythological beliefs of the followers of Asatru, a contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
-    "weight": "672 g",
-    "volume": "1368 ml",
+    "name": { "str": "Ginza Rabba", "str_pl": "copies of the Ginza Rabba" },
+    "description": "A large English translation of the Ginza Rabba, also known as The Book of Adam, a scripture Sacred for the Mandaeans.  It is a compilation of various oral teachings and written texts, including literature on a wide variety of topics such as liturgy, hymns, theological texts, didactic texts, as well as both religious and secular poetry.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ginza1",
+    "type": "BOOK",
+    "name": { "str": "Qolastā", "str_pl": "copies of the Qolastā" },
+    "description": "A English translation of the Qolastā, the canonical prayer book of the Mandaeans.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_ginza2",
+    "type": "BOOK",
+    "name": { "str": "Drasa d-Yahya", "str_pl": "copies of the Drasa d-Yahya" },
+    "description": "A English translation of the Drasa d-Yahya, also known as the Mandaean Book of John.  It contains accounts of John's life and miracles, as well as a number of polemical conversations with Jesus and tractates where Anush Uthra (Enosh) performs miracles in the style of Jesus's deeds in Jerusalem.",
+    "weight": "368 g",
+    "volume": "1 L",
     "copy-from": "holybook_abstract"
   },
   {
     "id": "holybook_bahai",
     "type": "BOOK",
     "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
-    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha’u’llah, the founder of the Baha’i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha’i life, such as marriage, family life, and the administration of the Baha’i community.",
+    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha'u'llah, the founder of the Baha'i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha'i life, such as marriage, family life, and the administration of the Baha'i community.",
     "weight": "1130 g",
     "volume": "1290 ml",
     "copy-from": "holybook_abstract"
@@ -1320,7 +1991,7 @@
     "id": "holybook_bahai1",
     "type": "BOOK",
     "name": { "str": "Kitáb-i-Íqán", "str_pl": "copies of the Kitáb-i-Íqán" },
-    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
+    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha'u'llah, the founder of the Baha'i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha'i Faith in relation to other religions.",
     "weight": "1000 g",
     "volume": "1035 ml",
     "copy-from": "holybook_abstract"
@@ -1329,7 +2000,7 @@
     "id": "holybook_bahai2",
     "type": "BOOK",
     "name": { "str": "The Hidden Words", "str_pl": "copies of The Hidden Words" },
-    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha’u’llah, the founder of the Baha’i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá’í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
+    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha'u'llah, the founder of the Baha'i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá'í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
     "weight": "900 g",
     "volume": "699 ml",
     "copy-from": "holybook_abstract"
@@ -1347,7 +2018,7 @@
     "id": "holybook_bahai4",
     "type": "BOOK",
     "name": { "str": "The Secret of Divine Civilization", "str_pl": "copies of The Secret of Divine Civilization" },
-    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by ‘Abdu’l-Bahá, the son of Bahá’u’lláh, founder of the Bahá’í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
+    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by 'Abdu'l-Bahá, the son of Bahá'u'lláh, founder of the Bahá'í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
     "weight": "826 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1356,7 +2027,7 @@
     "id": "holybook_bahai5",
     "type": "BOOK",
     "name": { "str": "'Some Answered Questions'", "str_pl": "copies of 'Some Answered Questions'" },
-    "description": "A hardcover book containing a collection of transcriptions of table talks given by ‘Abdu’l‑Bahá in ‘Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá’í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha’is and those seeking to learn more about the religion.",
+    "description": "A hardcover book containing a collection of transcriptions of table talks given by 'Abdu'l-Bahá in 'Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá'í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha'is and those seeking to learn more about the religion.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"

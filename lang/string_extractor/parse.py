@@ -32,8 +32,7 @@ def parse_json_file(file_path):
         json_objects = json_data if type(json_data) is list else [json_data]
         for json_object in json_objects:
             parse_json_object(json_object, file_path)
-    except Exception as E:
+    except Exception:
         print("Error in JSON object\n'{0}'\nfrom file: '{1}'".format(
             json.dumps(json_object, indent=2), file_path))
-        print(E)
-        exit(1)
+        raise

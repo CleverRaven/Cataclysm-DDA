@@ -1,5 +1,11 @@
 [
   {
+    "id": "modular_m4a1",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_m4_carbine", "contents-item": [ "retool_ar15_223rem_medium" ] } ]
+  },
+  {
     "id": "m4_cqbr",
     "type": "item_group",
     "subtype": "collection",
@@ -69,7 +75,7 @@
     "id": "ar15_50short",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_50beowulf_short" } ]
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_50beowulf_short" } ]
   },
   {
     "id": "ar15_450",
@@ -87,13 +93,43 @@
     "id": "ar15_450short",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_450_short" } ]
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_450_short" } ]
   },
   {
     "id": "ar15_762",
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_762" } ]
+  },
+  {
+    "id": "ar15_22",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar15", "contents-item": "retool_ar15_22" } ]
+  },
+  {
+    "id": "ar_pistol",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_223rem_pistol" } ]
+  },
+  {
+    "id": "ar_pistol_long",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_223rem_short" } ]
+  },
+  {
+    "id": "ar_pistol_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_300blk_short" } ]
+  },
+  {
+    "id": "ar_pistol_300_long",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ar_pistol", "contents-item": "retool_ar15_300blk_medium" } ]
   },
   {
     "id": "mdrx_223",
@@ -141,13 +177,13 @@
     "id": "axmc_300",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "axmc_300", "contents-item": "retool_axmc_300win" } ]
+    "entries": [ { "item": "axmc", "contents-item": "retool_axmc_300win" } ]
   },
   {
     "id": "axmc_308",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "axmc_308", "contents-item": "retool_axmc_308win" } ]
+    "entries": [ { "item": "axmc", "contents-item": "retool_axmc_308win" } ]
   },
   {
     "id": "cz600",
@@ -178,5 +214,23 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_50" } ]
+  },
+  {
+    "id": "modular_ump_9",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_9" } ]
+  },
+  {
+    "id": "modular_ump_40",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_40" } ]
+  },
+  {
+    "id": "modular_ump_45",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_45" } ]
   }
 ]

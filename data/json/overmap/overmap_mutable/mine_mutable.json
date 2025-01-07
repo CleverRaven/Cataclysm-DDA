@@ -8,6 +8,7 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "MAN_MADE" ],
     "check_for_locations": [
+      [ [ 0, -1, 0 ], [ "land", "road" ] ],
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 1, 0, 0 ], [ "land" ] ],
       [ [ 0, 1, 0 ], [ "land" ] ],

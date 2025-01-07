@@ -2,7 +2,10 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was late to evacuate when the shit hit the fan.  Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer.  Eventually I managed to weasel my way out without getting caught by the <zombies>.  I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods.  I wasn't doing a great job of it, so I'm kinda glad you showed up.",
+    "dynamic_line": {
+      "gendered_line": "I was late to evacuate when the shit hit the fan.  Got stuck in town for a few days, survived by hiding in basements eating girl scout cookies and drinking warm root beer.  Eventually I managed to weasel my way out without getting caught by the <zombies>.  I spent a few days holed up in an abandoned mall, but I needed food so I headed out to fend for myself in the woods.  I wasn't doing a great job of it, so I'm kinda glad you showed up.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -22,7 +25,7 @@
     "dynamic_line": "Okay, well, I know this sounds like an Indiana Jones B-plot, but I think someone found Pandora's Box, the actual thing or close to it.  I think they tried to somehow harness it, to use the power in it for something.  Maybe even something good, who knows, the power of the gods seems like it would be a green energy source to me.  Whatever it was, they screwed it up, and released it for real.  Not just a metaphorical thing like in the stories, but actually set the forces of Hades loose on Earth.  Yeah, I know it's farfetched, but like I said: I think I get a pass on that.",
     "responses": [
       { "text": "What?  Pandora's box?", "topic": "CWH_LEFT_FOR_DEAD_1_EXPLAIN" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -32,7 +35,7 @@
     "dynamic_line": "According to legend, Pandora was in the house of the gods and found an unopened box.  She decided to investigate, and when she opened it and unthinkable horrors and diseases spilled out.  Sound familiar?",
     "responses": [
       { "text": "Sure, what's that go to do with anything?", "topic": "CWH_LEFT_FOR_DEAD_1_IDEAS2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

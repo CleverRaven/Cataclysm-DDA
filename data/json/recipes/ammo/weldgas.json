@@ -40,10 +40,23 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
+    "time": "10 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 30 ] ] ]
+  },
+  {
+    "result": "smallweldtank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
     "time": "20 m",
     "book_learn": [ [ "welding_book", 2 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+    "components": [ [ [ "smallweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
   },
   {
     "result": "weldtank",
@@ -72,7 +85,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
@@ -81,10 +94,9 @@
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "flour_any", 1, "LIST" ], [ "paper", 3 ] ],
-      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_disposable_cell", 1 ] ],
+      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "superglue", 1 ],
         [ "bone_glue", 1 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
@@ -112,7 +124,7 @@
       { "id": "CHEM", "level": 1 }
     ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
@@ -143,7 +155,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "forge", 240 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "electrolysis_kit", 100 ] ],
@@ -155,7 +167,7 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "components": [
-      [ [ "wire", 4 ] ],
+      [ [ "any_wire", 4, "LIST" ] ],
       [ [ "copper", 1 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ]
@@ -173,7 +185,11 @@
     "time": "5 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ], [ [ "wire_draw_machine", 120 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ],
+      [ [ "wire_draw_machine", 120 ] ]
+    ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 11 ] ] ]
   },
@@ -190,7 +206,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
@@ -210,7 +226,7 @@
     "time": "2 h 45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 13 ] ] ]
   },

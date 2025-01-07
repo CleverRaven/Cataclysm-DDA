@@ -5,9 +5,8 @@
     "name": "Cure Light Wounds",
     "description": "Heals a little bit of damage on the target.",
     "valid_targets": [ "self", "ally" ],
-    "min_damage": -5,
-    "max_damage": -20,
-    "damage_increment": -1.0,
+    "min_damage": { "math": [ "(u_spell_level('light_healing') * -0.5) - 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('light_healing') * -1.1) - 4" ] },
     "max_level": 15,
     "min_range": 0,
     "max_range": 4,
@@ -16,7 +15,8 @@
     "shape": "blast",
     "base_casting_time": 300,
     "base_energy_cost": 800,
-    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "energy_source": "MANA"
@@ -31,8 +31,10 @@
     "shape": "blast",
     "base_casting_time": 100,
     "base_energy_cost": 800,
+    "//": "This is transformation because it moves wounds around, it does not actually heal anything.",
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
-    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "max_level": 1
@@ -41,7 +43,7 @@
     "id": "vicious_tentacle",
     "type": "SPELL",
     "name": "Vicious Tentacle",
-    "description": "This spell extrudes a long nasty whiplike tentacle of sharp bones and oozing acid from your body, it has a long reach attack and vicious damage.",
+    "description": "This spell extrudes a long and nasty whiplike tentacle of sharp bones and oozing acid from your body, which has a long reach attack and vicious damage.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -53,9 +55,10 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 6,
     "max_level": 15,
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "vicious_tentacle_plus": 15 },
     "energy_source": "MANA"
@@ -64,7 +67,7 @@
     "id": "vicious_tentacle_plus",
     "type": "SPELL",
     "name": "Evolved Vicious Tentacle",
-    "description": "This spell extrudes a long nasty whiplike tentacle of sharp bones and oozing acid from your body, it has a long reach attack and vicious damage.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "This spell extrudes a long and nasty whiplike tentacle of sharp bones and oozing acid from your body, which has a long reach attack and vicious damage.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -80,9 +83,10 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 7,
     "max_level": 25,
-    "flags": [ "LOUD" ],
+    "flags": [ "TRANSFORMATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -90,7 +94,7 @@
     "id": "bio_grotesque",
     "type": "SPELL",
     "name": "Grotesque Enhancement",
-    "description": "A spell that warps your body in alien ways to increase your physical abilities and strength.",
+    "description": "A spell that warps your body in foreign, unnatural ways to increase your physical abilities and strength.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "bio_boost",
@@ -98,6 +102,7 @@
     "base_casting_time": 100,
     "casting_time_increment": -2.5,
     "final_casting_time": 50,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
@@ -105,7 +110,7 @@
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 20,
-    "flags": [ "SOMATIC", "LOUD" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 60000,
@@ -126,17 +131,22 @@
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": 8,
-    "max_damage": 65,
-    "damage_increment": 4.0,
+    "min_damage": { "math": [ "(u_spell_level('bio_acidicspray') * 1.5) + 0" ] },
+    "max_damage": { "math": [ "(u_spell_level('bio_acidicspray') * 3) + 3" ] },
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
-    "flags": [ "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 1,
+    "field_chance": 3
   },
   {
     "id": "bio_fleshpouch",
@@ -154,9 +164,10 @@
     "min_duration": 360000,
     "max_duration": 9000000,
     "duration_increment": 360000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 4,
     "max_level": 20,
-    "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -176,9 +187,10 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 8,
     "max_level": 15,
-    "flags": [ "LOUD", "SOMATIC" ],
+    "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "bio_bonespear_plus": 15 },
     "energy_source": "MANA"
@@ -187,7 +199,7 @@
     "id": "bio_bonespear_plus",
     "type": "SPELL",
     "name": "Evolved Conjure Bonespear",
-    "description": "This spell creates a long shaft of bone with a wicked point and blades along its length.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "This spell creates a long shaft of bone with a wicked point and blades along its length.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -201,11 +213,12 @@
     "final_energy_cost": 100,
     "energy_increment": -0.2,
     "min_duration": 360000,
-    "max_duration": 2160000,
+    "max_duration": 21600000,
     "duration_increment": 72000,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 9,
     "max_level": 25,
-    "flags": [ "LOUD" ],
+    "flags": [ "CONJURATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -213,7 +226,7 @@
     "id": "create_rune_biomancer",
     "type": "SPELL",
     "name": { "str": "Biomancer Rune" },
-    "description": "This ritual creates a small pebble attuned to Biomancers.  You can use the rune as a catalyst for recipes.",
+    "description": "This ritual grows a small nub of flesh on you, which quickly falls off and turns into a rune attuned to Biomancers.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -221,6 +234,7 @@
     "effect_str": "rune_biomancer",
     "shape": "blast",
     "base_casting_time": 5000,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -229,7 +243,7 @@
     "max_level": 0,
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
     "id": "biomancer_paralytic_dart",
@@ -240,17 +254,17 @@
     "effect": "attack",
     "effect_str": "biomancer_dart_venom",
     "shape": "blast",
-    "flags": [ "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 80,
     "max_level": 15,
-    "min_damage": 4,
-    "max_damage": 28,
-    "damage_increment": 1.6,
-    "damage_type": "stab",
+    "min_damage": { "math": [ "(u_spell_level('biomancer_paralytic_dart') * 0.8) + 0" ] },
+    "max_damage": { "math": [ "(u_spell_level('biomancer_paralytic_dart') * 1.3) + 4" ] },
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "damage_type": "poison",
     "min_range": 3,
     "max_range": 9,
     "range_increment": 0.4,
@@ -267,8 +281,12 @@
     "effect": "attack",
     "effect_str": "badpoison",
     "shape": "blast",
-    "extra_effects": [ { "id": "biomancer_visceral_paralyze" }, { "id": "biomancer_visceral_backlash", "hit_self": true } ],
-    "flags": [ "VERBAL", "NO_HANDS" ],
+    "extra_effects": [
+      { "id": "biomancer_visceral_paralyze" },
+      { "id": "biomancer_visceral_backlash", "hit_self": true },
+      { "id": "eoc_evocation_setup", "hit_self": true }
+    ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 4,
@@ -276,9 +294,8 @@
     "base_energy_cost": 150,
     "max_level": 20,
     "min_damage": 1,
-    "max_damage": 10,
-    "damage_increment": 0.45,
-    "damage_type": "biological",
+    "max_damage": 5,
+    "damage_type": "poison",
     "min_aoe": 2,
     "max_aoe": 6,
     "aoe_increment": 0.2,
@@ -291,13 +308,13 @@
   {
     "id": "biomancer_visceral_paralyze",
     "type": "SPELL",
-    "name": "Visceral Paralysis",
-    "description": "Paralytic side effect of Projection.",
+    "name": { "str": "Visceral Paralysis", "//~": "NO_I18N" },
+    "description": { "str": "Paralytic side effect of Projection.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile" ],
     "effect": "attack",
     "effect_str": "biomancer_dart_venom",
     "shape": "blast",
-    "flags": [ "SILENT" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT" ],
     "max_level": 20,
     "min_aoe": 2,
     "max_aoe": 6,
@@ -305,6 +322,7 @@
     "min_duration": 6000,
     "max_duration": 18000,
     "duration_increment": 450,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "field_id": "fd_gibs_flesh",
     "field_chance": 1,
     "min_field_intensity": 1,
@@ -314,8 +332,8 @@
   {
     "id": "biomancer_visceral_backlash",
     "type": "SPELL",
-    "name": "Visceral Backlash",
-    "description": "Hits the user with side effects too.",
+    "name": { "str": "Visceral Backlash", "//~": "NO_I18N" },
+    "description": { "str": "Hits the user with side effects too.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "biomancer_visceral_side_effects",
@@ -333,11 +351,12 @@
     "effect": "attack",
     "effect_str": "bio_weave",
     "shape": "blast",
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "VERBAL" ],
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": 200,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": 100,
     "max_level": 20,
     "min_duration": 6000,
@@ -347,8 +366,8 @@
   {
     "id": "corrosive_aura_spell",
     "type": "SPELL",
-    "name": "Caustic Feedback",
-    "description": "This is a sub-spell of the Caustic Aura spell.",
+    "name": { "str": "Caustic Feedback", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub-spell of the Caustic Aura spell.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -363,7 +382,12 @@
     "min_dot": 2,
     "max_dot": 2,
     "min_duration": 300,
-    "max_duration": 300
+    "max_duration": 300,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_chance": 2
   },
   {
     "id": "biomancer_caustic_aura",
@@ -371,36 +395,33 @@
     "name": "Caustic Aura",
     "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
-    "flags": [ "SOMATIC", "CONCENTRATE" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE" ],
     "components": "spell_components_causticaura",
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "min_damage": 1,
-    "max_damage": 1,
     "base_casting_time": 400,
     "base_energy_cost": 350,
     "max_level": 15,
-    "min_range": 1,
-    "max_range": 1,
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "learn_spells": { "biomancer_caustic_aura_plus": 15 }
   },
   {
     "id": "biomancer_caustic_aura_plus",
     "type": "SPELL",
     "name": "Improved Caustic Aura",
-    "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
-    "flags": [ "SOMATIC" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_causticaura",
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
@@ -413,6 +434,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 150,
     "energy_increment": -8,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "max_level": 25,
     "min_range": 1,
     "max_range": 1,
@@ -427,7 +449,7 @@
     "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_swim_speed",
     "shape": "blast",
@@ -436,8 +458,9 @@
     "min_duration": 120000,
     "max_duration": 360000,
     "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
-    "base_energy_cost": 300,
+    "base_energy_cost": 200,
     "base_casting_time": 1000
   },
   {
@@ -447,7 +470,7 @@
     "description": "Grow to enormous size.  Your clothing and equipment will not grow with you.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_GIANT_GROWTH_MUTATION",
     "shape": "blast",
@@ -457,7 +480,8 @@
     "max_duration": 90000,
     "duration_increment": 4000,
     "energy_source": "MANA",
-    "base_energy_cost": 550,
+    "base_energy_cost": 500,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_casting_time": 100
   },
   {
@@ -466,11 +490,21 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
-      { "u_add_trait": "BIO_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
-        "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 )" ] }
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_add_trait": "BIO_GIANT_GROWTH" },
+      {
+        "run_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 ) * ( transformation_proficiency_modifier() )" ] }
       }
     ],
     "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
@@ -480,19 +514,28 @@
     "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
-      { "u_lose_trait": "BIO_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_lose_trait": "BIO_GIANT_GROWTH" }
     ]
   },
   {
     "id": "biomancer_remove_instability",
     "type": "SPELL",
-    "name": "Restore Genetic Stability",
-    "description": "The scroll said that this spell is for \"Curing the aftereffects of XE037 overexposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
+    "name": "Preserve Genetic Stability",
+    "description": "The scroll said that this spell is for \"Reducing negative consequences from XE037 exposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "components": "spell_components_remove_instability",
-    "flags": [ "VERBAL", "SOMATIC" ],
+    "flags": [ "CHANNELING_SPELL", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_remove_instability",
     "shape": "blast",
@@ -504,6 +547,7 @@
     "base_casting_time": 180000,
     "min_duration": 4500000,
     "max_duration": 45000000,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "duration_increment": 2700000
   },
   {
@@ -513,7 +557,7 @@
     "description": "Alter your digestive system to consume rotten food with no ill effects.  This is either a truly ancient spell or otherwise must have been the product of some university thaumaturgical research department.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_carrion_feast",
     "shape": "blast",
@@ -523,6 +567,7 @@
     "min_duration": 6000,
     "max_duration": 36000,
     "duration_increment": 2800,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": 250,
     "base_casting_time": 1500
   },
@@ -530,10 +575,10 @@
     "id": "biomancer_lashing_tentacles",
     "type": "SPELL",
     "name": "Lashing Tentacles",
-    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid torso armor with them.",
+    "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid armor that covers the shoulders with them.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_LASHING_TENTACLES_MUTATION",
     "shape": "blast",
@@ -542,6 +587,7 @@
     "min_duration": 7000,
     "max_duration": 30000,
     "duration_increment": 1533,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "base_energy_cost": 400,
     "base_casting_time": 500
@@ -549,15 +595,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LASHING_TENTACLES_MUTATION",
+    "condition": { "not": { "u_has_trait": "BIO_LASHING_TENTACLES" } },
     "effect": [
       { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
-        "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 )" ] }
+        "run_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+        "time_in_future": {
+          "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
+        }
       }
     ],
-    "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
+    "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
   },
   {
     "type": "effect_on_condition",
@@ -571,23 +620,216 @@
     "id": "biomancer_cure_disease_minor",
     "type": "SPELL",
     "name": "Cure Disease, Minor",
-    "description": "Cure any flu or common cold you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "description": "Cure any minor illnesses you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_cure_disease_minor",
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": 100,
-    "max_duration": 100,
+    "min_duration": 60480000,
+    "max_duration": 60480000,
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
+    "base_energy_cost": 500,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
+  },
+  {
+    "id": "biomancer_hyper_regeneration",
+    "type": "SPELL",
+    "name": "Rapid Regeneration",
+    "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_hyper_regeneration",
+    "shape": "blast",
+    "difficulty": 10,
+    "max_level": 20,
+    "min_duration": 3000,
+    "max_duration": 13000,
+    "duration_increment": 500,
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_energy_cost": 900,
+    "base_casting_time": 150
+  },
+  {
+    "id": "biomancer_slow_bleeding",
+    "type": "SPELL",
+    "name": "Halt Bleeding",
+    "description": "As you can control your body, you can control your blood.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL" ],
+    "difficulty": 4,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 630000,
+    "duration_increment": 36000,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "base_casting_time": 350
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOMANCER_SLOW_BLEEDING",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('biomancer_slow_bleeding')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_01",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 ) * ( enhancement_proficiency_modifier() )" ] }
+          }
+        },
+        {
+          "case": 8,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_02",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 ) * ( enhancement_proficiency_modifier() )" ] }
+          }
+        },
+        {
+          "case": 15,
+          "effect": {
+            "u_add_effect": "effect_biomancer_slow_bleeding_03",
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 ) * ( enhancement_proficiency_modifier() )" ] }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "biomancer_scalpel_fingers",
+    "type": "SPELL",
+    "name": "Flensing Fingers",
+    "description": "Change each of your fingers into a myriad of tiny bone knives, allowing you to cut with surgical precision… or slice your enemies to ribbons.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "difficulty": 5,
+    "max_level": 20,
+    "effect": "spawn_item",
+    "effect_str": "item_biomancer_scalpel_fingers",
+    "shape": "blast",
+    "min_duration": 24000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "base_energy_cost": 300,
+    "base_casting_time": 500
+  },
+  {
+    "id": "biomancer_caustic_blood",
+    "type": "SPELL",
+    "name": "Caustic Blood",
+    "description": "Transmute your blood to magically-enhanced acid, making you immune to acid and also splashing anyone who spills your blood.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": 20,
+    "min_duration": 180000,
+    "max_duration": 1380000,
+    "duration_increment": 60000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "base_casting_time": 600
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "condition": { "and": [ { "not": { "u_has_trait": "ACIDBLOOD" } }, { "not": { "u_has_trait": "ACIDPROOF" } } ] },
+    "effect": [
+      { "u_message": "Your entire body burns for a moment", "type": "mixed" },
+      { "u_add_trait": "ACIDBLOOD" },
+      { "u_add_trait": "ACIDPROOF" },
+      {
+        "run_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 ) * ( enhancement_proficiency_modifier() )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Your body is already inured to acid!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The faint burning sensation fades.", "type": "bad" },
+      { "u_lose_trait": "ACIDBLOOD" },
+      { "u_lose_trait": "ACIDPROOF" }
+    ]
+  },
+  {
+    "id": "biomancer_eat_tons_of_food",
+    "type": "SPELL",
+    "name": "Gluttonous Consumption",
+    "description": "Magically expand your stomach size, allowing it to consume more food without taking up any more room in your body.  Once a rarely-learned spell, it's much more useful now that you're not always sure where your next meal is coming from.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_eat_tons_of_food",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 16,
+    "min_duration": 72000,
+    "max_duration": 1224000,
+    "duration_increment": 72000,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "base_casting_time": 1500
+  },
+  {
+    "id": "biomancer_get_more_blood",
+    "type": "SPELL",
+    "name": "Carmine Infusion",
+    "description": "Using water as a catalyst, restore some of your lost blood.  This spell has no effect if you're healthy and uninjured.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_GET_MORE_BLOOD",
+    "components": "spell_components_biomancer_get_more_blood",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_casting_time": 1500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_GET_MORE_BLOOD",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('blood') < 0" ] },
+        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      },
+      {
+        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
+        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      }
+    ]
   }
 ]

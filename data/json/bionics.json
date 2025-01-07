@@ -5,6 +5,7 @@
     "name": { "str": "Adrenaline Pump" },
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "activated_eocs": [ "EOC_bio_adrenaline" ],
     "act_cost": "5 J"
   },
   {
@@ -55,7 +56,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Arms Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
@@ -68,8 +69,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -118,9 +117,6 @@
       "WINGS_STUB",
       "WINGS_BAT",
       "WINGS_BUTTERFLY",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ARM_FEATHERS",
@@ -154,14 +150,11 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -177,7 +170,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Head Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "protec": [
@@ -188,8 +181,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -230,9 +221,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -289,20 +277,17 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Legs Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
@@ -315,8 +300,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -360,9 +343,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -396,20 +376,17 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Torso Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
@@ -418,8 +395,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -463,9 +438,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -489,14 +461,11 @@
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -556,6 +525,7 @@
     "name": { "str": "Blood Filter" },
     "description": "A filtration system near your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
+    "activated_eocs": [ "EOC_bio_blood_filter" ],
     "act_cost": "600 J"
   },
   {
@@ -742,7 +712,7 @@
     "name": { "str": "Wired Reflexes" },
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "torso", 6 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 7 ], [ "leg_r", 7 ] ],
-    "stat_bonus": [ [ "DEX", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -751,12 +721,13 @@
     "name": { "str": "Expanded Digestive System" },
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
-    "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": 0.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 0.5 } ] } ],
     "cant_remove_reason": "The CBM has replaced the patient's digestive organs and cannot be removed.",
     "canceled_mutations": [
       "WEAKSTOMACH",
       "STRONGSTOMACH",
+      "TINYSTOMACH",
       "CARNIVORE",
       "HERBIVORE",
       "ANTIJUNK",
@@ -815,11 +786,32 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
+    "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
-    "active_flags": [ "SUPER_HEARING" ],
+    "active_flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "HEARING_MULT", "multiply": 2.5 } ] } ],
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
+  },
+  {
+    "id": "bio_mp3",
+    "type": "bionic",
+    "name": { "str": "WearMan" },
+    "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "internal_mp3" ]
+  },
+  {
+    "id": "bio_voice_b",
+    "type": "bionic",
+    "name": { "str": "AudioVox" },
+    "description": "Hailing from a world choked with neon smog, and appreciated by Exodii artists, the AudioVox implant allows you to change, remodulate, and even autotune your voice.  It also causes vocalizations /(such as shouts and singing/) to be much louder.  It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout your throat.",
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
+    "mutation_conflicts": [ "SCREECH" ]
   },
   {
     "id": "bio_emp",
@@ -880,7 +872,7 @@
     "name": { "str": "Diamond Cornea" },
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "stat_bonus": [ [ "PER", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -894,6 +886,7 @@
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
+      "MESOPIC",
       "URSINE_EYE",
       "FROG_EYES",
       "NIGHTVISION3",
@@ -942,7 +935,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "active_flags": [ "ELECTRIC_IMMUNE" ],
+    "active_flags": [ "ELECTRIC_IMMUNE", "EMP_ENERGYDRAIN_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1029,7 +1022,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": { "str": "Respirator" },
-    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically activate when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "25 kJ"
@@ -1041,6 +1034,25 @@
     "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "DIGS" }, { "and": [ "npc_is_underwater", { "npc_has_flag": "CAN_DIG" } ] } ] },
+            "distance": 20,
+            "descriptions": [
+              {
+                "id": "ground_sonar_sense",
+                "symbol": "?",
+                "color": "c_green",
+                "text": "You sense some creature moving underground here."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "act_cost": "200 J",
     "react_cost": "200 J",
     "time": "1 s"
@@ -1095,6 +1107,13 @@
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "bio_hydraulics_eff", "intensity": 1 } ],
+        "values": [ { "value": "STRENGTH", "add": 20 } ]
+      }
+    ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": "1 s"
@@ -1106,7 +1125,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1118,7 +1137,7 @@
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
     "occupied_bodyparts": [ [ "head", 6 ] ],
-    "stat_bonus": [ [ "INT", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1263,13 +1282,7 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "torso", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-        "emitter": "emit_shadow_field"
-      }
-    ],
+    "enchantments": [ { "condition": "ACTIVE", "emitter": "emit_shadow_field" } ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": "1 s"
@@ -1405,7 +1418,8 @@
     "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "passive_pseudo_items": [ "fake_razor" ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ]
   },
   {
     "id": "bio_recycler",
@@ -1497,7 +1511,7 @@
     "id": "bio_sleepy",
     "type": "bionic",
     "name": { "str": "Endocrine Enervator" },
-    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue.  You will find yourself tiring a bit faster than before.",
+    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause sleepiness.  You will find yourself tiring a bit faster than before.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -1551,7 +1565,7 @@
     "name": { "str": "Muscle Augmentation" },
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
-    "stat_bonus": [ [ "STR", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1601,6 +1615,18 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
+    "id": "bio_sonar",
+    "type": "bionic",
+    "name": { "str": "Subaquatic Navigation System" },
+    "description": "While active, a tiny device in your inner ear periodically generates ultrasonic pulses which aid in navigation, provided you are underwater and able to hear.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "act_cost": "1 J",
+    "trigger_cost": "5 J",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_BIO_SONAR_activated" ],
+    "deactivated_eocs": [ "EOC_BIO_SONAR_deactivated" ]
+  },
+  {
     "id": "bio_taser",
     "type": "bionic",
     "name": { "str": "Super Stun Gun" },
@@ -1632,6 +1658,7 @@
     "type": "bionic",
     "name": { "str": "Time Dilation" },
     "description": "At the cost of all stored bionic power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction.",
+    "activated_eocs": [ "EOC_time_freeze" ],
     "occupied_bodyparts": [
       [ "torso", 12 ],
       [ "head", 3 ],
@@ -1654,6 +1681,38 @@
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
     "passive_pseudo_items": [ "toolset", "integrated_welder" ],
     "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_multimeter",
+    "type": "bionic",
+    "name": { "str": "Integrated Multimeter" },
+    "description": "Your fingers and arms have been implanted with retractable electrical probes connected to a multimeter embedded in your arm, allowing you to measure electrical voltage, resistance, and current by touch.  This also provides your hands and arms with a modicum of protection against electric shocks.",
+    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "passive_pseudo_items": [ "integrated_multimeter" ],
+    "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ],
+    "protec": [
+      [ "hand_l", { "electric": 3 } ],
+      [ "hand_r", { "electric": 3 } ],
+      [ "arm_l", { "electric": 3 } ],
+      [ "arm_r", { "electric": 3 } ]
+    ],
+    "available_upgrades": [ "bio_electrokit" ]
+  },
+  {
+    "id": "bio_electrokit",
+    "type": "bionic",
+    "name": { "str": "Integrated Circuitry Toolset" },
+    "description": "Your fingers and arms have been implanted a soldering iron, a multimeter, and a set of small screwdrivers, providing all the tools required for working with bench-scale electrical circuits.  This also provides your hands and arms with a modicum of protection against electric shocks.",
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "passive_pseudo_items": [ "integrated_electrokit", "integrated_multimeter" ],
+    "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ],
+    "protec": [
+      [ "hand_l", { "electric": 3 } ],
+      [ "hand_r", { "electric": 3 } ],
+      [ "arm_l", { "electric": 3 } ],
+      [ "arm_r", { "electric": 3 } ]
+    ],
+    "upgraded_bionic": "bio_multimeter"
   },
   {
     "id": "bio_torsionratchet",
@@ -1778,7 +1837,7 @@
     "name": { "str": "Titanium Skeletal Bracing" },
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "weight_capacity_bonus": "20 kg",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
       [ "torso", { "bash": 2 } ],
@@ -1820,7 +1879,7 @@
     "id": "bio_soporific",
     "type": "bionic",
     "name": { "str": "Soporific Induction" },
-    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
+    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of sleepiness.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]
@@ -1866,16 +1925,6 @@
     "description": "For better or worse, this CBM suppresses stimuli while asleep, preventing you from waking up until the end of your natural sleep cycle.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_FAULTY", "BIONIC_SHOCKPROOF" ]
-  },
-  {
-    "id": "bio_trickle",
-    "type": "bionic",
-    "name": { "str": "Trickle Charger" },
-    "description": "You have been equipped with a CBM that slowly recharges your power reserves at all times.  Provides extremely low power but has no cost and will last several years.",
-    "occupied_bodyparts": [ [ "torso", 7 ] ],
-    "dupes_allowed": true,
-    "power_trickle": "2 J",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_pitch_perfect",

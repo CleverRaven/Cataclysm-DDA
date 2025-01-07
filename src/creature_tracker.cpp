@@ -1,25 +1,30 @@
 #include "creature_tracker.h"
 
 #include <algorithm>
+#include <limits>
 #include <ostream>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_assert.h"
 #include "debug.h"
 #include "flood_fill.h"
+#include "game.h"
 #include "map.h"
+#include "mapdata.h"
+#include "maptile_fwd.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "point.h"
 #include "string_formatter.h"
-#include "submap.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "type_id.h"
 
 static const efftype_id effect_ridden( "ridden" );
-
-static const mon_flag_str_id mon_flag_VERMIN( "VERMIN" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -66,11 +71,6 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
     monster &critter = *critter_ptr;
 
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
-        return false;
-    }
-
-    if( critter.type->has_flag( mon_flag_VERMIN ) ) {
-        // Don't spawn vermin, they aren't implemented yet
         return false;
     }
 
@@ -172,7 +172,6 @@ void creature_tracker::remove( const monster &critter )
     }
 
     remove_from_location_map( critter );
-    removed_.emplace( iter->get() );
     removed_this_turn_.emplace( *iter );
     monsters_list.erase( iter );
 }
@@ -181,7 +180,6 @@ void creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
-    removed_.clear();
     removed_this_turn_.clear();
     creatures_by_zone_and_faction_.clear();
     invalidate_reachability_cache();
@@ -193,6 +191,27 @@ void creature_tracker::rebuild_cache()
     for( const shared_ptr_fast<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->get_location()] = mon_ptr;
     }
+}
+
+bool creature_tracker::is_present( Creature *creature ) const
+{
+    if( creature->is_monster() ) {
+        if( const auto iter = monsters_by_location.find( creature->get_location() );
+            iter != monsters_by_location.end() ) {
+            if( static_cast<const Creature *>( iter->second.get() ) == creature ) {
+                return !iter->second->is_dead();
+            }
+        }
+    } else if( creature->is_avatar() ) {
+        return true;
+    } else if( creature->is_npc() ) {
+        for( const shared_ptr_fast<npc> &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == creature ) {
+                return !cur_npc->is_dead();
+            }
+        }
+    }
+    return false;
 }
 
 void creature_tracker::swap_positions( monster &first, monster &second )
@@ -267,7 +286,6 @@ void creature_tracker::remove_dead()
         monster *const critter = iter->get();
         if( critter->is_dead() ) {
             remove_from_location_map( *critter );
-            removed_.insert( critter );
             iter = monsters_list.erase( iter );
         } else {
             ++iter;
@@ -331,7 +349,6 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
 {
     if( dirty_ ) {
         creatures_by_zone_and_faction_.clear();
-        removed_.clear();
         zone_tick_ = zone_tick_ > 0 ? -1 : 1;
         zone_number_ = 1;
         dirty_ = false;
@@ -351,7 +368,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
     ff::flood_fill_visit_10_connected( origin.pos_bub(),
     [&map]( const tripoint_bub_ms & loc, int direction ) {
         if( direction == 0 ) {
-            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc.raw() ) ||
+            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc ) ||
                                             map.passable( loc ) );
         }
         if( direction == 1 ) {
@@ -361,14 +378,14 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
                 return false;
             }
             if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                  map.is_transparent_wo_fields( loc ) ) &&
                 ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                   up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
                 return true;
             }
         }
         if( direction == -1 ) {
-            const maptile &up = map.maptile_at( loc + tripoint_above );
+            const maptile &up = map.maptile_at( loc + tripoint::above );
             const ter_t &up_ter = up.get_ter_t();
             if( up_ter.id.is_null() ) {
                 return false;
@@ -379,7 +396,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
                 return false;
             }
             if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                  map.is_transparent_wo_fields( loc ) ) &&
                 ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                   up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
                 return true;
@@ -388,11 +405,12 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
         return false;
     },
     [this]( const tripoint_bub_ms & loc ) {
-        Creature *creature = this->creature_at<Creature>( loc );
-        if( creature ) {
-            const int n = zone_number_ * zone_tick_;
-            creatures_by_zone_and_faction_[n][creature->get_monster_faction()].push_back( creature );
-            creature->set_reachable_zone( n );
+        if( Creature *creature = this->creature_at<Creature>( loc, true ) ) {
+            if( shared_ptr_fast<Creature> ptr = g->shared_from( *creature ) ) {
+                const int n = zone_number_ * zone_tick_;
+                creatures_by_zone_and_faction_[n][creature->get_monster_faction()].emplace_back( std::move( ptr ) );
+                creature->set_reachable_zone( n );
+            }
         }
     } );
     if( zone_number_ == std::numeric_limits<int>::max() ) {
@@ -429,19 +447,28 @@ template monster *creature_tracker::creature_at<monster>( const tripoint &, bool
 template monster *creature_tracker::creature_at<monster>( const tripoint_bub_ms &, bool );
 template monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &, bool );
 template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
+template const npc *creature_tracker::creature_at<npc>( const tripoint_bub_ms &, bool ) const;
 template const npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool ) const;
 template npc *creature_tracker::creature_at<npc>( const tripoint &, bool );
+template npc *creature_tracker::creature_at<npc>( const tripoint_bub_ms &, bool );
 template npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool );
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool ) const;
+template const avatar *creature_tracker::creature_at<avatar>( const tripoint_bub_ms &, bool ) const;
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool ) const;
 template avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool );
+template avatar *creature_tracker::creature_at<avatar>( const tripoint_bub_ms &, bool );
 template avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool );
 template const Character *creature_tracker::creature_at<Character>( const tripoint &, bool ) const;
+template const Character *creature_tracker::creature_at<Character>( const tripoint_bub_ms &,
+        bool ) const;
 template const Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &,
         bool ) const;
 template Character *creature_tracker::creature_at<Character>( const tripoint &, bool );
+template Character *creature_tracker::creature_at<Character>( const tripoint_bub_ms &, bool );
 template Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &, bool );
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool ) const;
+template const Creature *creature_tracker::creature_at<Creature>( const tripoint_bub_ms &,
+        bool ) const;
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &,
         bool ) const;
 template Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool );

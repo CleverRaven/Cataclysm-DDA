@@ -73,9 +73,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "gene_sting",
+    "name": "yugg stinger",
+    "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "bolt_ballista",
+    "name": "ballista bolts",
+    "default": "bolt_ballista_steel"
   },
   {
     "type": "ammunition_type",
@@ -97,6 +109,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atlatl",
+    "name": "atlatl spears",
+    "default": "steel_atlatl_spear"
+  },
+  {
+    "type": "ammunition_type",
     "id": "pebble",
     "name": "pebbles",
     "default": "pebble"
@@ -112,12 +130,6 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "shotpaper",
-    "name": "20ga percussion",
-    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -208,12 +220,6 @@
     "id": "45",
     "name": ".45",
     "default": "45_acp"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "460",
-    "name": ".460",
-    "default": "460_rowland"
   },
   {
     "type": "ammunition_type",
@@ -439,6 +445,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"
@@ -460,6 +472,12 @@
     "id": "tape",
     "name": "duct tape",
     "default": "duct_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
   },
   {
     "type": "ammunition_type",
@@ -523,6 +541,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
@@ -540,6 +564,7 @@
     "default": "8mm_caseless"
   },
   {
+    "//": "To-do: Remove when 20x66 is fully obsoleted",
     "type": "ammunition_type",
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
@@ -790,6 +815,18 @@
     "id": "273x44RG",
     "name": "27.3x44 Diyua Grenade",
     "default": "273x44RG"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "33naval",
+    "name": "3.3 naval cartridge",
+    "default": "33naval_ball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "caotel_cell",
+    "name": "Caotel cell",
+    "default": "caotel_cell"
   },
   {
     "type": "ammunition_type",

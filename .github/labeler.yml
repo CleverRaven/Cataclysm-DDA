@@ -81,6 +81,8 @@
   - "**/food**"
   - "**/**comestible**"
   - "**/comestible**"
+  - "**/**comestible**/**"
+  - "**/comestible**/**"
 
 "NPC / Factions":
   - "**/**npc**"
@@ -137,12 +139,15 @@
 "Monsters":
   - "**/**monster**"
   - "**/monster**"
+  - "**/**monster**/**"
+  - "**/monster**/**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
   - "**/profession**"
   - "**/**mutation**"
   - "**/mutation**"
+  - data/mods/extra_mut_scen/**/*
   - "**/hobbies**"
 
 "Lore":
@@ -175,9 +180,12 @@
   - "**/**mapgen**"
   - "**/mapgen**"
   - "**/mapgen/**"
+  - "**/**palette**"
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
+  - "**/mapgen_palettes/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -218,6 +226,9 @@
   - data/mods/Aftershock/**/*
   - data/mods/aftershock_exoplanet/**/*
 
+"Mods: Backrooms":
+  - data/mods/Backrooms/**/*
+
 "Mods: Dark Days of the Dead":
   - data/mods/classic_zombies/**/*
 
@@ -229,6 +240,9 @@
 
 "Mods: DinoMod":
   - data/mods/DinoMod/**/*
+
+"Mods: Extra Mutated Scenarios":
+  - data/mods/extra_mut_scen/**/*
 
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
@@ -263,9 +277,11 @@
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
 
+"Mods: Isolation Protocol ☣":
+  - data/mods/Isolation-Protocol/**/*
+
 "Mods":
-  - any: [ 'data/mods/**' ]
-    all: [ '!data/mods/TEST_DATA/**' ]
+  - all: [ 'data/mods/**', '!data/mods/TEST_DATA/**', '!data/mods/dda/**', '!data/mods/dda_tutorial/**' ]
 
 "Mechanics: Enchantments / Spells":
   - "**/**enchantment**"
@@ -283,5 +299,12 @@
   - "**/vehicle**"
   - "src/veh_**"
  
-"Game: Defense Mode":
+"Mods: Defense Mode":
   - "data/mods/Defense_Mode/**"
+
+"Tutorial":
+  - "data/mods/dda_tutorial/**"
+
+"ImGui":
+  - "src/third-party/imgui/**"
+  - "src/third-party/imtui/**"

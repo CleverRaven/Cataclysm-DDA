@@ -12,10 +12,6 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 **Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
 
-<a href="https://repology.org/project/cataclysm-dda/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging Status" align="right">
-</a>
-
 [![General build matrix](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml/badge.svg)](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
@@ -43,6 +39,10 @@ Ncurses and tiles versions are available in the [official repos](https://tracker
 
 `sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
+#### Flathub
+
+[Download from Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
+
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
@@ -56,8 +56,6 @@ We also have the following build guides:
 
 Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
-
-[<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
 Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
 

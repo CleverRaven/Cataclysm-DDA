@@ -1,0 +1,60 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_shipping_chief",
+    "class": "NC_AUGUSTMOON_shipping_chief",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+    "name_suffix": "Portmaster",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_shipping_chief",
+    "name": { "str": "Portmaster" },
+    "job_description": "I manage incoming and outgoing ships and shuttlecraft.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_int": { "rng": [ 5, 7 ] },
+    "worn_override": "NC_UICA_PORT_CREW_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "afs_general_armory", "fixed_adj": 0 }, { "group": "augustmoon_shop_money", "fixed_adj": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_AUGUSTMOON_shipping_stock",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "afs_shuttle_radiobeacon", "count": [ 4, 10 ] } ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+    "type": "talk_topic",
+    "dynamic_line": "Interested in booking passage planetside?",
+    "responses": [
+      { "text": "That's why I'm here", "topic": "TALK_AUGUSTMOON_LANDING" },
+      {
+        "text": "I want to contract a drone shuttle.",
+        "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
+        "effect": "start_trade"
+      },
+      { "text": "Not right now", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_LANDING",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent, the current price for a passage down is 1000 USD.  If there's any cargo you wish to transfer planetside please place it in the nearby container.  Additionally, I'm obliged to inform you that a return passage is considerably more expensive, having a current price of 12500 USD.  Do you wish to book passage?",
+    "responses": [
+      {
+        "text": "I'm ready, book me in the next ship down.",
+        "effect": [ { "u_spend_cash": 100000, "true_eocs": "EOC_PORT_TO_LANDING_PAD_TP" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "I need to settle a few things first", "topic": "TALK_DONE" }
+    ]
+  }
+]

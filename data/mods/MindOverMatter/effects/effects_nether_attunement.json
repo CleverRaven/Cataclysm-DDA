@@ -14,12 +14,29 @@
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
+      [ "Your mind thrums with power.  It's intoxicating, but growing increasingly harder to control.", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
+      [
+        "Your whole body pulses with a raging torrent of energy.  It's taking almost all of your concentration to hold on.",
+        "mixed"
+      ],
+      [ "", "mixed" ]
+    ],
+    "decay_messages": [
       [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "The constant hum of power fades, just a little.  It's easier to think now.", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "The roar of the Nether subsides.  You can finally hear your own thoughts again.", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ]
     ],
@@ -57,5 +74,42 @@
     "rating": "bad",
     "max_duration": "30 seconds",
     "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_raiser",
+    "name": [ "Nether Conduit" ],
+    "desc": [ "Your skin prickles." ],
+    "remove_message": "The tingling sensation finally vanishes.",
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "5 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_attenuation",
+    "name": [ "Nether Attenuation" ],
+    "desc": [ "You feel strangely listless." ],
+    "remove_message": "The listless feeling vanishes.",
+    "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_feedback",
+    "name": [ "Feedback" ],
+    "desc": [ "You feel a persistent itching that will not go away." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_in_the_nether_warning_timer",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_observed_rate_limiter",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

@@ -3,5 +3,31 @@
     "id": "welding_standard",
     "type": "requirement",
     "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "technomancer_welder", -1 ] ] ] }
+  },
+  {
+    "id": "pickaxe_list",
+    "type": "requirement",
+    "//": "Pickaxe tools",
+    "extend": { "tools": [ [ [ "pickaxe_plus_one", -1 ], [ "pickaxe_plus_two", -1 ], [ "eshaper_pickaxe", -1 ] ] ] }
   }
 ]

@@ -140,7 +140,13 @@
       { "group": "mon_zombie_resort_bouncer_death_drops", "fixed_adj": -0.5 },
       { "group": "mon_zombie_resort_staff_death_drops", "fixed_adj": -0.5 }
     ],
-    "traits": [ [ "DEBUG_FLIMSY", 100 ], [ "DEBUG_FLIMSY2", 100 ], [ "DEBUG_NOSCENT", 100 ], [ "DEBUG_SILENT", 100 ] ]
+    "traits": [
+      [ "DEBUG_FLIMSY", 100 ],
+      [ "DEBUG_FLIMSY2", 100 ],
+      [ "DEBUG_NOSCENT", 100 ],
+      [ "DEBUG_SILENT", 100 ],
+      [ "DEBUG_LS", 100 ]
+    ]
   },
   {
     "type": "item_group",
@@ -181,13 +187,15 @@
       { "group": "gear_survival", "prob": 70 },
       { "group": "civilian_body_armor", "prob": 70 },
       { "group": "drugs_pharmacy", "prob": 70 },
-      { "group": "preserved_food", "prob": 70 },
+      { "group": "preserved_food", "prob": 100 },
+      { "group": "preserved_food", "prob": 100 },
+      { "group": "preserved_food", "prob": 100 },
       { "group": "pet_food", "prob": 70 },
       { "group": "condiments", "prob": 70 },
-      { "group": "trader_guns&ammo", "prob": 70, "charges": 30 },
+      { "group": "trader_guns&ammo", "prob": 70, "charges": 50 },
       { "group": "hardware", "prob": 70 },
       { "group": "defense_caravan_melee", "prob": 70 },
-      { "group": "defense_caravan_ranged", "prob": 70, "charges": 30 },
+      { "group": "defense_caravan_ranged", "prob": 70, "charges": 50 },
       { "group": "defense_caravan_ammunition", "prob": 70 },
       { "group": "defense_caravan_components", "prob": 70 },
       { "group": "defense_caravan_clothes", "prob": 70 },
@@ -219,27 +227,17 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "guns_pistol_common", "prob": 75 },
-      { "group": "guns_pistol_rare", "prob": 50 },
-      { "group": "guns_pistol_obscure", "prob": 30 },
-      { "group": "guns_pistol_improvised", "prob": 95 },
-      { "group": "guns_shotgun_common", "prob": 75 },
-      { "group": "guns_shotgun_rare", "prob": 50 },
-      { "group": "guns_shotgun_obscure", "prob": 30 },
+      { "group": "guns_pistol_common", "prob": 210 },
+      { "group": "guns_shotgun_common", "prob": 155 },
       { "group": "guns_shotgun_milspec", "prob": 95 },
       { "group": "guns_shotgun_improvised", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 90 },
-      { "group": "guns_smg_common", "prob": 70 },
-      { "group": "guns_smg_rare", "prob": 50 },
-      { "group": "guns_smg_obscure", "prob": 10 },
-      { "group": "guns_rifle_common", "prob": 65 },
-      { "group": "guns_rifle_rare", "prob": 40 },
+      { "group": "guns_rifle_common", "prob": 105 },
       { "group": "ammo_pistol_common", "prob": 75 },
       { "group": "ammo_pistol_rare", "prob": 50 },
       { "group": "ammo_pistol_obscure", "prob": 30 },
       { "group": "ammo_shotgun_common", "prob": 75 },
       { "group": "ammo_shotgun_rare", "prob": 50 },
-      { "group": "ammo_shotgun_obscure", "prob": 30 },
       { "group": "ammo_shotgun_milspec", "prob": 95 },
       { "group": "ammo_shotgun_reloaded", "prob": 90 },
       { "group": "ammo_smg_common", "prob": 70 },
@@ -256,7 +254,7 @@
     "points": -6,
     "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
     "debug": true,
-    "hp_modifier": -0.999
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.999 } ] } ]
   },
   {
     "type": "mutation",
@@ -265,6 +263,6 @@
     "points": -6,
     "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
     "debug": true,
-    "hp_modifier": -0.99
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.99 } ] } ]
   }
 ]

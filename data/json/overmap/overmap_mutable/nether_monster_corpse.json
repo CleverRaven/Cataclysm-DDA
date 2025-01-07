@@ -9,7 +9,7 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "WILDERNESS" ],
     "check_for_locations_area": [
-      { "type": [ "land", "road" ], "from": [ 0, 0, 0 ], "to": [ 0, 0, 0 ] },
+      { "type": [ "land", "road", "agricultural" ], "from": [ 0, 0, 0 ], "to": [ 0, 0, 0 ] },
       { "type": [ "subterranean_empty" ], "from": [ -15, -15, -1 ], "to": [ 15, 15, -1 ] }
     ],
     "check_for_locations": [  ],
@@ -17,14 +17,18 @@
       { "id": "bowels_edge_to_tentacle", "opposite": "bowels_tentacle_to_edge" },
       { "id": "bowels_tentacle_to_edge", "opposite": "bowels_edge_to_tentacle" },
       { "id": "surface_to_tentacle", "opposite": "tentacle_to_surface" },
-      { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land", "road" ] },
+      {
+        "id": "tentacle_to_surface",
+        "opposite": "surface_to_tentacle",
+        "into_locations": [ "land", "road", "agricultural" ]
+      },
       "surface_to_bowels",
       "bowels_mid_to_mid",
       "tentacle_to_tentacle",
       "neck_to_neck"
     ],
     "overmaps": {
-      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land", "road" ] },
+      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land", "road", "agricultural" ] },
       "bowels_center": {
         "overmap": "corpse_bowels_mid",
         "above": "surface_to_bowels",
@@ -81,7 +85,11 @@
         "south": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
       "tentacle_end_w_entry": { "overmap": "corpse_tentacle_entry_north", "north": { "id": "tentacle_to_tentacle" }, "above": "tentacle_to_surface" },
-      "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land", "road" ] },
+      "corpse_entry_surface": {
+        "overmap": "corpse_tentacle_surface_entry_north",
+        "below": "surface_to_tentacle",
+        "locations": [ "land", "road", "agricultural" ]
+      },
       "tentacle_tee": {
         "overmap": "corpse_tentacle_nes",
         "north": "tentacle_to_tentacle",

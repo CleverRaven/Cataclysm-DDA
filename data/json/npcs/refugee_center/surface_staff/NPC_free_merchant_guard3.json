@@ -18,13 +18,16 @@
       { "text": "What do you do around here?", "topic": "TALK_EVAC_GUARD3_NEW" },
       { "text": "Got tips for avoiding trouble?", "topic": "TALK_EVAC_GUARD3_RULES" },
       { "text": "Have you seen anyone who might be hiding something?", "topic": "TALK_EVAC_GUARD3_HIDE1" },
-      { "text": "Bye…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_EVAC_GUARD3_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+    "dynamic_line": {
+      "gendered_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
   },
   {
@@ -45,7 +48,7 @@
   {
     "id": "TALK_EVAC_GUARD3_HIDE2",
     "type": "talk_topic",
-    "dynamic_line": "You're new here, who the hell put you up to this crap?",
+    "dynamic_line": { "gendered_line": "You're new here, who the hell put you up to this crap?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Get bent, traitor!",

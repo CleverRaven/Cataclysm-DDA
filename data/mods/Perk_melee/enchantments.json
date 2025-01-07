@@ -1,0 +1,61 @@
+[
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_insight",
+    "condition": { "u_has_effect": "perk_insight" },
+    "melee_damage_bonus": [
+      { "type": "cut", "add": { "math": [ "u_effect_intensity('perk_insight') * u_perk_insight_cut_scaling" ] } },
+      { "type": "stab", "add": { "math": [ "u_effect_intensity('perk_insight') * u_perk_insight_stab_scaling" ] } },
+      { "type": "bash", "add": { "math": [ "u_effect_intensity('perk_insight') * u_perk_insight_bash_scaling" ] } }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_six_sense",
+    "condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] },
+    "special_vision": [
+      {
+        "distance": 10,
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Your sixth sense point you here." } ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_insight_dodge",
+    "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
+    "values": [ { "value": "DODGE_CHANCE", "add": 25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_insight_mystic_shot",
+    "name": { "str": "Mystic Shot" },
+    "description": "Insight empowers your ranged attacks with bows and crossbows.",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "PRIMITIVE_RANGED_WEAPON" }, { "u_has_effect": "perk_insight" } ] },
+    "values": [
+      {
+        "value": "WEAPON_DISPERSION",
+        "multiply": { "math": [ "u_effect_intensity('perk_insight')* -0.02 < -0.9 ? u_effect_intensity('perk_insight')* -0.02 : -0.9" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_insight_mystic_shot_2",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "PRIMITIVE_RANGED_WEAPON" }, { "u_has_effect": "perk_insight" } ] },
+    "values": [ { "value": "RANGED_DAMAGE", "multiply": { "math": [ "u_effect_intensity('perk_insight')* 0.01" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_momentum_bullet_dodge",
+    "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
+    "values": [
+      {
+        "value": "RANGE_DODGE",
+        "add": {
+          "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 4 ? u_val('dexterity') * 0.05 : u_val('dexterity') * 0.01" ]
+        }
+      }
+    ]
+  }
+]

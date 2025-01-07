@@ -1,0 +1,57 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_gunship",
+    "object": {
+      "rows": [
+        "                        ",
+        "         UUUUU          ",
+        "         UNGPU          ",
+        "         U...U          ",
+        "        ||...||         ",
+        "        I.....|         ",
+        "  |||||||O|/|O||UI|||   ",
+        " |||B..|...|L.....||||  ",
+        "||||...#..6|L.....||||| ",
+        " |||...#...|......||||  ",
+        "  ||||||.|O||R...||||   ",
+        "     |S..|../|...I      ",
+        "     |S..|...|...U      ",
+        "     |S..|...|...U      ",
+        "     |S..|../|...|      ",
+        "     |S..O...O...|      ",
+        "     |S..||O||...|      ",
+        "     ||||.|B|..|I|      ",
+        "       ||O|/|O||        ",
+        "        |.....|         ",
+        "        ||.Q.||         ",
+        "         |||||          ",
+        "          VVV           ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_metal_floor",
+        "|": [ "t_afs_gun_ship_hull_wall", "t_afs_gun_ship_ruined_hull_wall" ],
+        "/": "t_afs_gun_ship_locker_wall",
+        "I": "t_afs_gun_ship_hull_hatch_c",
+        "O": "t_afs_gun_ship_hull_hatch_o",
+        "Q": "t_afs_gun_ship_engine_console",
+        "V": "t_afs_gun_ship_engine",
+        "#": "t_prison_grate",
+        "U": "t_view_port",
+        "N": "t_afs_gun_ship_navigation_console",
+        "P": "t_command_console",
+        "G": "t_gunnery_ai",
+        "B": "t_bathroom_unit",
+        "S": "t_shelving",
+        "R": "t_gunship_kitchen",
+        "L": "t_gunship_refrigeration_unit",
+        "6": "t_cell_entrance_console"
+      },
+      "//": "There is no furniture because things that aren't connected to the floor or walls might go flying across a room during evasive maneuvers.",
+      "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } }
+    }
+  }
+]

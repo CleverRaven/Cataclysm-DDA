@@ -94,7 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     }
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
@@ -144,7 +144,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
@@ -180,7 +180,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
     if( gun->magazine_integral() ) {
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             gun->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( gun.can_reload_with( ammo, true ) );
         REQUIRE( shooter.can_reload( *gun, &*ammo ) );
         gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
@@ -188,7 +188,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         item_location magazine = shooter.i_add( item( magazine_id ) );
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             magazine->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( magazine.can_reload_with( ammo,  true ) );
         REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
         magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
@@ -205,6 +205,7 @@ void clear_avatar()
     clear_character( avatar );
     avatar.clear_identified();
     avatar.clear_nutrition();
+    avatar.reset_all_missions();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
@@ -220,17 +221,17 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 void process_activity( Character &dummy )
 {
     do {
-        dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );
 }
 
-npc &spawn_npc( const point &p, const std::string &npc_class )
+npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
-    const string_id<npc_template> test_guy( npc_class );
-    const character_id model_id = get_map().place_npc( p, test_guy );
+    const npc_template_id npc_template = npc_template_id( npc_class );
+    const character_id model_id = get_map().place_npc( p, npc_template );
     g->load_npcs();
 
     npc *guy = g->find_npc( model_id );

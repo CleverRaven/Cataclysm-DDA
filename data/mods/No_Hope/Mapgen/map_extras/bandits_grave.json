@@ -1,0 +1,48 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "bandits_grave",
+    "//": "TODO: Add more variations",
+    "object": { "place_nested": [ { "chunks": [ "bandits_grave" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bandits_grave",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  .........             ",
+        "  .PPP.PPP.             ",
+        "  .PPP.PPP.             ",
+        "  .PPP.PPP.             ",
+        "  .........             ",
+        "  .PPP.PPP.             ",
+        "  .PPP.PPP.             ",
+        "  .PPP.PPP.             ",
+        "  .........             ",
+        "                        ",
+        "          @             ",
+        "           @            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_dirt", "@": "t_dirt" },
+      "mapping": { "P": { "terrain": "t_pit", "fields": { "field": "fd_blood" }, "item": { "item": "corpse", "repeat": [ 1, 3 ] } } },
+      "npcs": { "@": { "class": "bandit" } }
+    }
+  }
+]

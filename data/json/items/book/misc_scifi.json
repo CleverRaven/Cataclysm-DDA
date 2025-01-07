@@ -142,7 +142,7 @@
     "description": "This is a dog-eared copy of \"Dune\" by Frank Herbert.  It has sand between some of its pages.  Weird.",
     "//isbn13": 9780450011849,
     "//": "this variant of the book Dune is intentional",
-    "price": 1744,
+    "price": "17 USD 44 cent",
     "copy-from": "book_fict_soft_scifi_tpl"
   },
   {
@@ -152,7 +152,7 @@
     "description": "This is a sturdy copy of \"Dune\" by Frank Herbert.  It is a fairly new reprint with the words \"SOON TO BE A MAJOR MOTION PICTURE\" splashed across its dust jacket.",
     "//isbn13": 9780593099322,
     "//": "this variant of the book Dune is intentional",
-    "price": 3299,
+    "price": "32 USD 99 cent",
     "copy-from": "book_fict_hard_scifi_tpl"
   },
   {
@@ -161,7 +161,7 @@
     "name": { "str": "Parable of the Talents", "str_pl": "copies of Parable of the Talents" },
     "description": "This is a sturdy copy of \"Parable of the Talents.\".  It is Octavia Butler's sequel to her book \"Parable of the Sower.\"",
     "//isbn13": 9780613914314,
-    "price": 2575,
+    "price": "25 USD 75 cent",
     "weight": "517 g",
     "volume": "963 ml",
     "longest_side": "21 cm",
@@ -176,17 +176,17 @@
     "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N. K. Jemisin.  It smells faintly of dirt.",
     "//isbn13": 9780356511931,
     "//note": "if we make a rare or collectors' item library group, this should go there too",
-    "price": 19999,
+    "price": "199 USD 99 cent",
     "copy-from": "book_fict_hard_scifi_tpl"
   },
   {
     "id": "book_fict_hard_scifi_zamwe",
     "type": "BOOK",
     "name": { "str": "We", "str_pl": "copies of We" },
-    "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
+    "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamyatin's language.",
     "//isbn13": 9781611461787,
     "//": "this variant is intentional",
-    "price": 8799,
+    "price": "87 USD 99 cent",
     "weight": "458 g",
     "volume": "756 ml",
     "longest_side": "23 cm",
@@ -203,7 +203,7 @@
     "description": "A seminal work of dystopian fiction, Yevgeny Zamyatin's \"We\" was first published in 1924 but suppressed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciously.",
     "//isbn13": 9780140185850,
     "//": "this variant is intentional",
-    "price": 1399,
+    "price": "13 USD 99 cent",
     "weight": "182 g",
     "volume": "289 ml",
     "longest_side": "20 cm",
@@ -218,7 +218,7 @@
     "name": { "str": "The Cyberiad", "str_pl": "copies of The Cyberiad" },
     "description": "This 350 page paperback presents the exploits and robotic rivalries of Trurl and Klapaucius.  Originally written in Polish by Stanisław Lem, it has been masterfully translated into English by Michael Kandel.",
     "//isbn13": 9780241467992,
-    "price": 1069,
+    "price": "10 USD 69 cent",
     "copy-from": "book_fict_soft_scifi_tpl"
   },
   {

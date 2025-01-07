@@ -12,6 +12,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
@@ -86,6 +87,9 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "add_professions", extra_professions );
     optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
+    optional( jo, was_loaded, "hobbies", hobby_exclusion );
+    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
+
     optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
@@ -107,7 +111,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     if( !was_loaded ) {
 
         int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 61;
+        int _start_of_cataclysm_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
         season_type _start_of_cataclysm_season = SPRING;
         int _start_of_cataclysm_year = 1;
         if( jo.has_member( "start_of_cataclysm" ) ) {
@@ -125,7 +129,7 @@ void scenario::load( const JsonObject &jo, const std::string_view )
                                       ;
 
         int _start_of_game_hour = 8;
-        int _start_of_game_day = 61;
+        int _start_of_game_day = 1 + get_option<int>( "SEASON_LENGTH" ) / 3 * 2;
         season_type _start_of_game_season = SPRING;
         int _start_of_game_year = 1;
         if( jo.has_member( "start_of_game" ) ) {
@@ -209,7 +213,7 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::check_definitions()
+void scenario::finalize()
 {
     for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();
@@ -231,6 +235,14 @@ void scenario::check_definition() const
     for( const auto &p : professions ) {
         if( !p.is_valid() ) {
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
+        }
+    }
+
+    for( const string_id<profession> &hobby : hobby_exclusion ) {
+        if( !hobby.is_valid() ) {
+            debugmsg( "hobby %s for scenario %s does not exist", hobby.str(), id.str() );
+        } else if( !hobby->is_hobby() ) {
+            debugmsg( "hobby %s for scenario %s is a profession", hobby.str(), id.str() );
         }
     }
 
@@ -361,7 +373,9 @@ void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 void scen_blacklist::finalize()
 {
     std::vector<string_id<scenario>> all_scens;
-    for( const scenario &scen : scenario::get_all() ) {
+    std::vector<scenario> all_scenarios = scenario::get_all();
+    all_scens.reserve( all_scenarios.size() );
+    for( const scenario &scen : all_scenarios ) {
         all_scens.emplace_back( scen.ident() );
     }
     for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {
@@ -401,7 +415,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( p.is_hobby() ) {
+        if( p.is_hobby() || p.is_blacklisted() ) {
             continue;
         }
         const bool present = std::find( professions.begin(), professions.end(),
@@ -431,6 +445,39 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         debugmsg( "Why would you blacklist every profession?" );
         res.push_back( profession::generic()->ident() );
     }
+    return res;
+}
+
+std::vector<string_id<profession>> scenario::permitted_hobbies() const
+{
+    if( !cached_permitted_hobbies.empty() ) {
+        return cached_permitted_hobbies;
+    }
+
+    std::vector<string_id<profession>> all = profession::get_all_hobbies();
+    std::vector<string_id<profession>> &res = cached_permitted_hobbies;
+    for( const string_id<profession> &hobby : all ) {
+        if( hobby->is_blacklisted() ) {
+            continue;
+        }
+        if( scenario_traits_conflict_with_profession_traits( *hobby ) ) {
+            continue;
+        }
+        if( !hobbies_whitelist && hobby_exclusion.count( hobby ) != 0 ) {
+            continue;
+        }
+        if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
+            continue;
+        }
+
+        res.push_back( hobby );
+    }
+
+    if( res.empty() ) {
+        debugmsg( "Why would you blacklist every hobby?" );
+        res.insert( res.end(), all.begin(), all.end() );
+    }
+
     return res;
 }
 
@@ -610,19 +657,15 @@ ret_val<void> scenario::can_afford( const scenario &current_scenario, const int 
 ret_val<void> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
-        const achievement_completion_info *other_games = get_past_games().achievement(
-                    _requirement.value()->id );
-        if( !other_games ) {
-            return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
-                       _requirement.value()->name() );
-        } else if( other_games->games_completed.empty() ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        if( !has_req ) {
             return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );

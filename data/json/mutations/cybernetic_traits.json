@@ -30,8 +30,16 @@
     "valid": false,
     "purifiable": false,
     "types": [ "Cyberframe", "Cybernetic" ],
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
-    "hp_adjustment": 20,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "add": 20 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CARRY_WEIGHT", "multiply": 2 }
+        ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "armor": [
       {
@@ -43,8 +51,7 @@
         "acid": 25,
         "electric": 5
       }
-    ],
-    "weight_capacity_modifier": 3
+    ]
   },
   {
     "type": "mutation",
@@ -59,8 +66,16 @@
     "valid": false,
     "purifiable": false,
     "types": [ "Cyberframe", "Cybernetic" ],
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
-    "hp_adjustment": 10,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "add": 10 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CARRY_WEIGHT", "multiply": 2 }
+        ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "armor": [
       {
@@ -72,7 +87,6 @@
         "acid": 25,
         "electric": 0
       }
-    ],
-    "weight_capacity_modifier": 3
+    ]
   }
 ]

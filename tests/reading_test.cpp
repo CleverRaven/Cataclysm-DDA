@@ -6,14 +6,12 @@
 
 #include "avatar.h"
 #include "activity_actor_definitions.h"
-#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "map_helpers.h"
-#include "morale_types.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"
@@ -26,6 +24,8 @@ static const efftype_id effect_darkness( "darkness" );
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
 static const limb_score_id limb_score_vision( "vision" );
+
+static const morale_type morale_feeling_bad( "morale_feeling_bad" );
 
 static const skill_id skill_chemistry( "chemistry" );
 
@@ -303,11 +303,11 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot read what is not readable" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
 
-        CHECK( dummy.get_book_reader( *rag, reasons ) == nullptr );
-        expect_reasons = { "Your rag is not good reading material." };
+        CHECK( dummy.get_book_reader( *sheet_cotton, reasons ) == nullptr );
+        expect_reasons = { "Your cotton sheet is not good reading material." };
         CHECK( reasons == expect_reasons );
     }
 
@@ -364,7 +364,7 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read boring books when your morale is too low" ) {
-            dummy.add_morale( MORALE_FEELING_BAD, -50, -100 );
+            dummy.add_morale( morale_feeling_bad, -50, -100 );
             REQUIRE_FALSE( dummy.has_morale_to_read() );
 
             CHECK( dummy.get_book_reader( *alpha, reasons ) == nullptr );
@@ -402,9 +402,9 @@ TEST_CASE( "determining_book_mastery", "[reading][book][mastery]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot determine mastery for non-book items" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
-        CHECK( dummy.get_book_mastery( *rag ) == book_mastery::CANT_DETERMINE );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
+        CHECK( dummy.get_book_mastery( *sheet_cotton ) == book_mastery::CANT_DETERMINE );
     }
     SECTION( "you cannot determine mastery for unidentified books" ) {
         REQUIRE( alpha->is_book() );
@@ -503,18 +503,27 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
             read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
             dummy.activity = player_activity( actor );
 
+            REQUIRE( ereader->ammo_remaining() == 100 );
+
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_READ );
+
+            CHECK( ereader->ammo_remaining() == 99 );
+
             dummy.activity.do_turn( dummy );
 
             CHECK( dummy.activity.id() == ACT_READ );
 
-            AND_THEN( "ereader runs out of battery" ) {
-                ereader->ammo_consume( 100, dummy.pos(), &dummy );
-                dummy.activity.do_turn( dummy );
+            AND_THEN( "ereader has spent a charge while reading" ) {
+                CHECK( ereader->ammo_remaining() == 98 );
 
-                THEN( "reading stops" ) {
-                    CHECK( dummy.activity.id() != ACT_READ );
+                AND_THEN( "ereader runs out of battery" ) {
+                    ereader->ammo_consume( ereader->ammo_remaining(), dummy.pos_bub(), &dummy );
+                    dummy.activity.do_turn( dummy );
+
+                    THEN( "reading stops" ) {
+                        CHECK( dummy.activity.id() != ACT_READ );
+                    }
                 }
             }
         }

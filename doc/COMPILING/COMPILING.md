@@ -5,6 +5,9 @@
   * [Dependencies](#dependencies)
   * [Make flags](#make-flags)
   * [Compiling localization files](#compiling-localization-files)
+* [Fedora](#fedora)
+  * [ncurses builds](#ncurses-builds)
+  * [SDL builds](#sdl-builds)
 * [Debian](#debian)
   * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
   * [Linux (native) SDL builds](#linux-native-sdl-builds)
@@ -76,7 +79,7 @@ Given you're building from source you have a number of choices to make:
   * `RELEASE=1` - without this you'll get a debug build (see note below)
   * `LTO=1` - enables link-time optimization with GCC/Clang
   * `TILES=1` - with this you'll get the tiles version, without it the curses version
-  * `SOUND=1` - if you want sound; this requires `TILES=1`
+  * `SOUND=1` - if you want sound
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
@@ -115,25 +118,70 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 [llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [our llama README](../../tools/llama/README.md) for more details.
 
+# Fedora
+## Ncurses builds
+
+Dependencies:
+
+  * ncurses
+  * g++ and make
+
+Install:
+
+    sudo dnf install astyle gcc-c++ ncurses-devel make
+
+### Building
+
+Run:
+
+    make
+
+## SDL builds
+
+Dependencies:
+
+  * SDL2
+  * SDL2_image
+  * SDL2_ttf
+  * freetype
+  * g++ and make
+  * libsdl2-mixer-dev - Used if compiling with sound support.
+
+Install:
+
+    sudo dnf install astyle gcc-c++ SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel freetype-devel make
+
+### Building
+
+A simple installation could be done by simply running:
+
+    make TILES=1
+
+A more comprehensive alternative is:
+
+    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+
+The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
+
+# Gentoo
+If you want sound and graphics, make sure to emerge with the following:
+
+```bash
+USE="vorbis png" \
+ emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
+```
+
+Once the above libraries are installed, compile with:
+
+    make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
+
+
 # Debian
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
 
-# Gentoo
-If you want sound and graphics, make sure to emerge with the following:
-
-```bash
-USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" \
- emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
-```
-
-It may also be possible to get away with fewer dependencies, but this set has been tested.
-
-Once the above libraries are installed, compile with:
-
-    make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
 
 ## Linux (native) ncurses builds
 
@@ -213,12 +261,10 @@ Installation
 
 ```bash
 sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-mkdir -p ~/src/Cataclysm-DDA
-mkdir -p ~/src/mxe
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
-git clone https://github.com/mxe/mxe.git ./mxe
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git 
+git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 cd ../libbacktrace/

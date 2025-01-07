@@ -2,19 +2,21 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
-#include <iosfwd>
+#include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "point.h"
-#include "talker.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class talker;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -35,6 +37,7 @@ enum computer_action {
     COMPACT_GEIGER,
     COMPACT_IRRADIATOR,
     COMPACT_LIST_BIONICS,
+    COMPACT_LIST_MUTATIONS,
     COMPACT_LOCK,
     COMPACT_MAP_SEWER,
     COMPACT_MAP_SUBWAY,
@@ -117,7 +120,7 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security, tripoint new_loc );
+        computer( const std::string &new_name, int new_security, tripoint_bub_ms new_loc );
 
         // Initialization
         void set_security( int Security );
@@ -135,7 +138,7 @@ class computer
         void deserialize( const JsonValue &jv );
 
         friend class computer_session;
-        tripoint loc;
+        tripoint_bub_ms loc;
         // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         std::string name;
         // Linked to a mission?
@@ -161,7 +164,7 @@ class computer
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
-        std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
 
         void remove_option( computer_action action );
 };

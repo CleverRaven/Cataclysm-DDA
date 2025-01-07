@@ -15,6 +15,7 @@
 #include "type_id.h"
 
 static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
 // Magic Spell tests
@@ -530,8 +531,8 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     clear_map();
 
     // Locations for avatar and monster
-    const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 62, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 62, 60, 0 };
 
     // For tracking spell damage
     int before_hp = 0;
@@ -542,13 +543,13 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     avatar &dummy = get_avatar();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
     // Monster/defender
     monster &mummy = spawn_test_monster( "mon_zombie", mummy_loc );
-    REQUIRE( mummy.pos() == mummy_loc );
+    REQUIRE( mummy.pos_bub() == mummy_loc );
     REQUIRE( creatures.creature_at( mummy_loc ) );
     REQUIRE( g->num_creatures() == 2 );
 
@@ -585,16 +586,32 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
-    const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 61, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
+
+    spell ghost_spell( spell_test_spell_tp_ghost );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, ghost_spell ) );
+
+    // Summon the ghost in the adjacent space
+    ghost_spell.cast_spell_effect( dummy, mummy_loc );
+
+    CHECK( creatures.creature_at( mummy_loc ) );
+    CHECK( g->num_creatures() == 2 );
+
+    //kill the ghost
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was not created
+    CHECK( get_map().i_at( mummy_loc ).empty() );
 
     spell_id mummy_id( "test_spell_tp_mummy" );
 
@@ -606,6 +623,14 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 
     CHECK( creatures.creature_at( mummy_loc ) );
     CHECK( g->num_creatures() == 2 );
+
+    //kill the mummy
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was created
+    CHECK( !get_map().i_at( mummy_loc ).empty() );
+
 }
 
 // spell_effect::recover_energy
@@ -621,7 +646,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
     // BIONIC: p.mod_power_level (positive) OR p.mod_stamina (negative)
     //
     // For these effects, negative "damage" is good (reducing the amount of a bad thing)
-    // FATIGUE: p.mod_fatigue
+    // sleepiness: p.mod_sleepiness
     // PAIN: p.mod_pain_resist or p_mod_pain
 
     // NOTE: This spell effect cannot be used for healing HP.
@@ -655,7 +680,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
 
         // Cast montage spell on avatar
         spell montage_spell( montage_id );
-        montage_spell.cast_spell_effect( dummy, dummy.pos() );
+        montage_spell.cast_spell_effect( dummy, dummy.pos_bub() );
 
         // Get stamina back equal to min_damage (at level 0)
         CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.min.dbl_val.value() );
@@ -677,13 +702,13 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         dummy.set_pain( 5 );
         REQUIRE( dummy.get_pain() == 5 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 4 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 3 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 2 );
     }
 }

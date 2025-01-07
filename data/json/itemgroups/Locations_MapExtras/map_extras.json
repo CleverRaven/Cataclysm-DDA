@@ -15,13 +15,12 @@
     "entries": [
       { "group": "wallets_science", "prob": 75 },
       { "item": "coat_lab", "damage": [ 1, 3 ] },
+      { "group": "mutagenic_field_kit", "prob": 1, "damage": [ 1, 3 ] },
       { "group": "lab_pants", "damage": [ 1, 3 ] },
       { "group": "socks_unisex", "damage": [ 1, 3 ] },
       { "group": "lab_shoes", "damage": [ 1, 3 ] },
       { "group": "lab_torso", "damage": [ 1, 3 ] },
-      { "group": "underwear", "damage": [ 1, 3 ] },
-      { "item": "left_leg_prosthetic", "prob": 2 },
-      { "item": "right_leg_prosthetic", "prob": 2 }
+      { "group": "underwear", "damage": [ 1, 3 ] }
     ]
   },
   {
@@ -91,9 +90,9 @@
       { "group": "shirts", "damage": [ 1, 4 ] },
       { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
       { "group": "pants", "damage": [ 1, 4 ] },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
-      { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-      { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 40 },
       { "group": "college_lake", "prob": 50 },
       { "group": "college_lake", "prob": 70 },
       { "group": "SUS_book_nonf_soft", "prob": 25 }
@@ -114,47 +113,25 @@
       { "group": "drugdealer", "prob": 75 },
       {
         "distribution": [
-          {
-            "item": "weed",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 20,
-            "count-max": 30,
-            "prob": 10
-          },
-          {
-            "item": "coke",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 10,
-            "count-max": 20,
-            "prob": 40
-          },
-          {
-            "item": "meth",
-            "entry-wrapper": "bag_zipper",
-            "container-item": "null",
-            "count-min": 8,
-            "count-max": 14,
-            "prob": 30
-          },
+          { "item": "weed", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 20, 30 ], "prob": 10 },
+          { "item": "coke", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 10, 20 ], "prob": 40 },
+          { "item": "meth", "entry-wrapper": "bag_zipper", "container-item": "null", "count": [ 8, 14 ], "prob": 30 },
           {
             "item": "heroin",
             "entry-wrapper": "bag_zipper",
             "container-item": "null",
-            "count-min": 6,
-            "count-max": 12,
+            "count": [ 6, 12 ],
             "prob": 20
           }
         ],
         "prob": 50
       },
-      { "item": "pants_cargo", "damage-min": 1, "damage-max": 4 },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
-      { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 }
+      { "item": "pants_cargo", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "lab_shoes", "damage": [ 1, 4 ], "prob": 50 },
+      { "group": "shirts", "damage": [ 1, 4 ], "prob": 50 },
+      { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "underwear", "damage": [ 1, 3 ] }
     ]
   },
   {

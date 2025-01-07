@@ -6,12 +6,12 @@
     "color": "dark_gray",
     "name": { "str": "parabolan felt patch", "str_pl": "parabolan felt patches" },
     "description": "A smallish patch of iridescent felt; could be disassembled for parabolan wool fiber.",
-    "price": 2000,
-    "price_postapoc": 200,
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
     "material": [ "parabolan_wool" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "54 g",
-    "volume": "250 ml",
+    "weight": "3 g",
+    "volume": "6 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -19,8 +19,8 @@
     "type": "AMMO",
     "id": "parabolan_yarn",
     "category": "spare_parts",
-    "price": 0,
-    "price_postapoc": 25,
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
     "name": { "str_sp": "parabolan yarn" },
     "symbol": "=",
     "color": "dark_gray",
@@ -28,9 +28,9 @@
     "description": "Parabolan wool yarn; could be used to knit iridescent wool clothing.",
     "material": [ "parabolan_wool" ],
     "volume": "250 ml",
-    "weight": "400 mg",
+    "weight": "600 mg",
     "ammo_type": "thread",
-    "count": 10,
+    "count": 50,
     "stack_size": 200
   },
   {
@@ -43,7 +43,7 @@
     "volume": "2500 ml",
     "color": "green",
     "symbol": "%",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ]
   }

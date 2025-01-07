@@ -135,6 +135,7 @@ extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
 extern const field_type_str_id fd_blood_veggy;
 extern const field_type_str_id fd_churned_earth;
+extern const field_type_str_id fd_construction_site;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;
@@ -206,10 +207,10 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
-        map_bash_info bash_info;
+        std::optional<map_fd_bash_info> bash_info;
 
         // chance, issue, duration, speech
-        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
+        std::tuple<int, std::string, time_duration, translation> npc_complain_data;
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;
@@ -221,6 +222,8 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
+        bool linear_half_life = false;
+        bool indestructible = false;
         field_type_str_id wandering_field;
         std::string looks_like;
 

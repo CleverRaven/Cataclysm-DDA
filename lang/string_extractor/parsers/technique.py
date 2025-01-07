@@ -16,3 +16,8 @@ def parse_technique(json, origin):
     for msg in json.get("messages", []):
         write_text(msg, origin,
                    comment="Message of martial technique \"{}\"".format(name))
+
+    if "condition_desc" in json:
+        write_text(json["condition_desc"], origin, c_format=False,
+                   comment="Condition description of martial technique \"{}\""
+                   .format(name))

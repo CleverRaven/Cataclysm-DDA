@@ -2,27 +2,39 @@
   {
     "id": "BGSS_BURGER_FLIPPER_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Before this started, I had a crappy job flipping burgers at Sambal's Grille.  Losing that isn't a big deal.  Losing my mom and dad hurts a lot more.  Last time I saw them alive, I just came home from school, grabbed a snack and went to work.  I don't think I even told my mom I loved her, and I was pissed at my dad for some <dumb> shit that really doesn't matter.  Didn't matter then, really doesn't now.  Things started going crazy while I was at work… the military rolled into town, and the evacuation alert sounded.",
+    "dynamic_line": {
+      "gendered_line": "Before this started, I had a crappy job flipping burgers at Sambal's Grille.  Losing that isn't a big deal.  Losing my mom and dad hurts a lot more.  Last time I saw them alive, I just came home from school, grabbed a snack and went to work.  I don't think I even told my mom I loved her, and I was pissed at my dad for some <dumb> shit that really doesn't matter.  Didn't matter then, really doesn't now.  Things started going crazy while I was at work… the military rolled into town, and the evacuation alert sounded.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So, did you evacuate?", "topic": "BGSS_BURGER_FLIPPER_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_BURGER_FLIPPER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I didn't evacuate.  I went home… saw some freaky shit on the way, but at the time I just thought it was riots or drugs.  By the time I got there, my parents were gone.  No sign of them.  There was a big mess, stuff scattered everywhere like there'd been a struggle, and a little blood on the floor.",
+    "dynamic_line": {
+      "gendered_line": "I didn't evacuate.  I went home… saw some freaky shit on the way, but at the time I just thought it was riots or drugs.  By the time I got there, my parents were gone.  No sign of them.  There was a big mess, stuff scattered everywhere like there'd been a struggle, and a little blood on the floor.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So, did you evacuate then?", "topic": "BGSS_BURGER_FLIPPER_1_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_BURGER_FLIPPER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I haven't found them yet.  Whenever I see a <zombie>, a little part of me is afraid it's going to be one of them.  But then, maybe not.  Maybe they were evacuated, maybe they fought and tried to wait for me but the military took them anyway?  I've heard that sort of thing happened.  I don't know if I'll ever know.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "I haven't found them yet.  Whenever I see a <zombie>, a little part of me is afraid it's going to be one of them.  But then, maybe not.  Maybe they were evacuated, maybe they fought and tried to wait for me but the military took them anyway?  I've heard that sort of thing happened.  I don't know if I'll ever know.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

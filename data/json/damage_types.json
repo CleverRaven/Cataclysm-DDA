@@ -31,7 +31,7 @@
     "physical": true,
     "edged": true,
     "magic_color": "light_gray",
-    "name": "cut",
+    "name": { "ctxt": "damage_type", "str": "cut" },
     "skill": "cutting",
     "mon_difficulty": true,
     "material_required": true,

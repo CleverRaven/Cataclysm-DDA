@@ -1,0 +1,10 @@
+[
+  {
+    "result": "rigid_plastic_sheet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "polycarbonate_chunk", 50 ] ] ]
+  }
+]

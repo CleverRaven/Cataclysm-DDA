@@ -1,0 +1,101 @@
+[
+  {
+    "type": "snippet",
+    "category": "<landscape_description>",
+    "text": [
+      { "id": "landscape_description_0001", "text": "<landscape_land_type> <landscape_weather_type>" },
+      {
+        "id": "landscape_description_0002",
+        "text": "<landscape_land_type> <landscape_weather_type>, <landscape_additional_details>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<landscape_land_type>",
+    "text": [
+      { "id": "landscape_land_type_0001", "text": "grassy field" },
+      { "id": "landscape_land_type_0002", "text": "wooded forest" },
+      { "id": "landscape_land_type_0003", "text": "rolling plain" },
+      { "id": "landscape_land_type_0004", "text": "freezing mountain" },
+      { "id": "landscape_land_type_0005", "text": "dry desert" },
+      { "id": "landscape_land_type_0006", "text": "arctic tundra" },
+      { "id": "landscape_land_type_0007", "text": "long road" },
+      { "id": "landscape_land_type_0008", "text": "city center" },
+      { "id": "landscape_land_type_0009", "text": "modern suburb" },
+      { "id": "landscape_land_type_0010", "text": "sandy beach" },
+      { "id": "landscape_land_type_0011", "text": "rocky beach" },
+      { "id": "landscape_land_type_0012", "text": "steep cliff" },
+      { "id": "landscape_land_type_0013", "text": "oceanside cliff" },
+      { "id": "landscape_land_type_0014", "text": "shallow canyon" },
+      { "id": "landscape_land_type_0015", "text": "deep canyon" },
+      { "id": "landscape_land_type_0017", "text": "cow pasture" },
+      { "id": "landscape_land_type_0018", "text": "wooded field" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<landscape_building_addon>",
+    "text": [
+      { "id": "landscape_building_addon_0001", "text": "factory complex" },
+      { "id": "landscape_building_addon_0002", "text": "log cabin" },
+      { "id": "landscape_building_addon_0003", "text": "farm" },
+      { "id": "landscape_building_addon_0004", "text": "small house" },
+      { "id": "landscape_building_addon_0005", "text": "2-story house" },
+      { "id": "landscape_building_addon_0006", "text": "mansion" },
+      { "id": "landscape_building_addon_0007", "text": "open-pit mine" },
+      { "id": "landscape_building_addon_0008", "text": "mineshaft entrance" },
+      { "id": "landscape_building_addon_0009", "text": "quarry" },
+      { "id": "landscape_building_addon_0010", "text": "concrete plant" },
+      { "id": "landscape_building_addon_0011", "text": "graveyard" },
+      { "id": "landscape_building_addon_0012", "text": "church" },
+      { "id": "landscape_building_addon_0013", "text": "barber shop" },
+      { "id": "landscape_building_addon_0014", "text": "charnel house" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<landscape_weather_type>",
+    "text": [
+      { "id": "landscape_weather_type_0001", "text": "on a bright, sunny day" },
+      { "id": "landscape_weather_type_0002", "text": "with clear skies above" },
+      { "id": "landscape_weather_type_0003", "text": "on a cloudy day" },
+      { "id": "landscape_weather_type_0004", "text": "in a light rainstorm" },
+      { "id": "landscape_weather_type_0005", "text": "in a torrential downpour" },
+      { "id": "landscape_weather_type_0006", "text": "with snowfall coating the ground" },
+      { "id": "landscape_weather_type_0007", "text": "in a blizzard" },
+      { "id": "landscape_weather_type_0008", "text": "in a harsh white-out" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<landscape_additional_details>",
+    "text": [
+      { "id": "landscape_additional_details_0001", "text": "various animals are present and scurrying about" },
+      {
+        "id": "landscape_additional_details_0002",
+        "text": "a <landscape_building_addon> is towards the <random_flat_direction>"
+      },
+      {
+        "id": "landscape_additional_details_0003",
+        "text": "a <landscape_building_addon> and a <landscape_building_addon> are towards the <random_flat_direction>"
+      },
+      {
+        "id": "landscape_additional_details_0004",
+        "text": "a <landscape_building_addon>, <landscape_building_addon>, and a <landscape_building_addon> are towards the <random_flat_direction>"
+      },
+      {
+        "id": "landscape_additional_details_0005",
+        "text": "a <landscape_building_addon>, <landscape_building_addon>, <landscape_building_addon>, and a <landscape_building_addon> are towards the <random_flat_direction>"
+      },
+      { "id": "landscape_additional_details_0006", "text": "a few people walk through it" },
+      {
+        "id": "landscape_additional_details_0007",
+        "text": "a <sketch_concept_description> is staring off in the distance"
+      },
+      { "id": "landscape_additional_details_0008", "text": "a car drives across it in the distance" },
+      { "id": "landscape_additional_details_0009", "text": "a fire rages in the distance" },
+      { "id": "landscape_additional_details_0010", "text": "the area is recently blackened by flames" }
+    ]
+  }
+]

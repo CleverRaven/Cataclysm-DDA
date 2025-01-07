@@ -4,7 +4,7 @@
     "id": "refugee_MangalpreetSingh",
     "name_unique": "Mangalpreet Singh",
     "gender": "female",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Mangalpreet",
     "attitude": 0,
     "mission": 7,
@@ -64,8 +64,8 @@
     "id": "REFUGEE_Mangalpreet_wield",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_steak", "container-item": "sheath", "prob": 4 },
-      { "item": "knife_butcher", "container-item": "sheath", "prob": 2 },
+      { "item": "knife_small", "variant": "knife_steak", "container-item": "sheath", "prob": 4 },
+      { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath", "prob": 2 },
       { "item": "kukri", "container-item": "sheath", "prob": 1 }
     ]
   },
@@ -79,9 +79,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -93,16 +91,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1",
-    "dynamic_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+    "dynamic_line": {
+      "gendered_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Mangalpreet_Singh", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Mangalpreet_1a" }
       ]
     },
     "responses": [
       { "text": "Nice to meet you, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet" },
-      { "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Mangalpreet, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -113,7 +114,7 @@
     },
     "responses": [
       { "text": "Hi, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
-      { "text": "Hi Mangalpreet.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Mangalpreet.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -122,22 +123,22 @@
     "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
       { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_2",
     "dynamic_line": "Is there anything you'd like to talk about?",
-    "responses": [ { "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Not really.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Background",
     "dynamic_line": "Before the end of the world, I was the vice principal of an elementary school.  Now, I'm not sure what I am.  A person without a purpose.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -147,27 +148,20 @@
       "concatenate": [
         "I have my family.  I have the Guru Granth Sahib",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 7,
-          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, w",
-          "no": ".  I have these things, but I do not have peace.  No one here does.  W"
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 7" ],
+          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope",
+          "no": ".  I have these things, but I do not have peace.  No one here does"
         },
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
-          "value": "yes",
-          "yes": "e have so much work to do to make a home here.",
-          "no": "e are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
+          "yes": ".  Still, we have so much work to do to make a home here.",
+          "no": ".  We are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
         }
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -8,8 +8,8 @@
     "name": { "str": "flyer" },
     "snippet_category": "flier",
     "description": "A scrap of paper.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -24,8 +24,8 @@
     "name": { "str": "valentine card" },
     "snippet_category": "valentine",
     "description": "A creased holiday card.  It appears to be a Valentine's Day card from before the Cataclysm.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -40,8 +40,8 @@
     "name": { "str": "survivor's note" },
     "snippet_category": "note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "weight": "12 mg",
@@ -56,8 +56,8 @@
     "name": { "str": "child's note" },
     "snippet_category": "note_child",
     "description": "A piece of paper.  Something's written on it, scrawled in simple, messy handwriting.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "12 mg",
@@ -141,6 +141,47 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_mutagen_guide",
+    "name": { "str_sp": "production notes" },
+    "description": "A collection of documents attesting to the purity of this batch, the performance of instrumentation during its production, and a list of materials used during its production and analysis.  It includes a Certificate of Analysis, each line listing a test method, result, and reviewer's signature, all in service of… something.  On one distinctive page a series of checkmarks slowly appear and fade around <color_yellow>\"500 units of mutagen per 500 units of primer\"</color> ratio.",
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_mutation_testing",
+    "name": { "str_sp": "production tests" },
+    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "expand_snippets": true,
+    "variants": [
+      {
+        "id": "lab_file_mutation_testing_1",
+        "name": { "str_sp": "production tests" },
+        "description": "\n\n<mutation_testing>",
+        "append": true,
+        "expand_snippets": true
+      }
+    ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_serum_testing",
+    "name": { "str_sp": "production tests" },
+    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "expand_snippets": true,
+    "variants": [
+      {
+        "id": "lab_file_serum_testing_regen",
+        "name": { "str_sp": "production tests" },
+        "description": "\n\n<serum_testing_regen>",
+        "append": true,
+        "expand_snippets": true
+      }
+    ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_sec",
     "name": { "str": "security protocol" },
     "copy-from": "file",
@@ -186,7 +227,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_BIO",
-          "effect": [ { "u_message": "log_mutagen_animal", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_mutagen_animal", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }
@@ -209,7 +250,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_PSY",
-          "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }
@@ -253,7 +294,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_SEC",
-          "effect": [ { "u_message": "log_sec", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_sec", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }
@@ -268,8 +309,8 @@
     "snippet_category": "charsheet",
     "description": "A Dungeons & Dragons character sheet.",
     "looks_like": "survnote",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -284,8 +325,8 @@
     "name": { "str": "score card" },
     "snippet_category": "scores",
     "description": "A colorfully-printed score card.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "PAPER_SHAPED" ],
     "weight": "1 g",
@@ -299,8 +340,8 @@
     "color": "white",
     "name": { "str": "newspaper page" },
     "description": "A snippet from a newspaper, celebrating the achievements of the one enshrined.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "1 g",
@@ -315,8 +356,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "newest_news",
     "description": "A single sheet of newspaper broadsheet.  It is possibly one of the last issues printed before New England was overwhelmed.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -331,8 +372,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "many_years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you have NO idea how it lasted this long.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -347,8 +388,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "years_old_news",
     "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -363,8 +404,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "one_year_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -379,8 +420,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "months_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -395,8 +436,8 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "weeks_old_news",
     "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
@@ -411,8 +452,8 @@
     "name": { "str": "note" },
     "snippet_category": "death_note",
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "looks_like": "survnote",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
@@ -442,8 +483,8 @@
     "name": { "str": "missing person poster" },
     "snippet_category": "missing_adult",
     "description": "An official poster notifying the public of a missing person, and requesting that anyone with information contact the listed phone number.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
@@ -458,8 +499,8 @@
     "name": { "str": "missing child poster" },
     "snippet_category": "missing_child",
     "description": "An official poster notifying the public of a missing child, and requesting that anyone with information contact the listed phone number.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
@@ -474,8 +515,8 @@
     "name": { "str": "missing dog poster" },
     "snippet_category": "missing_dog",
     "description": "A handmade poster notifying passersby about someone's missing dog, and requesting that anyone with information contact the listed phone number.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
@@ -490,8 +531,8 @@
     "name": { "str": "missing cat poster" },
     "snippet_category": "missing_cat",
     "description": "A handmade poster notifying passersby about someone's missing cat, and requesting that anyone with information contact the listed phone number.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
@@ -504,8 +545,8 @@
     "symbol": "`",
     "name": { "str": "movie poster" },
     "description": "Posters promoting movies that were in theaters when the Cataclysm hit.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
@@ -556,7 +597,7 @@
   {
     "type": "GENERIC",
     "id": "wallet_photo",
-    "category": "books",
+    "category": "other",
     "symbol": ",",
     "color": "white",
     "name": { "str": "photograph" },
@@ -564,9 +605,40 @@
     "description": "A small picture of something or somebody important to the owner, designed to be safely tucked into a wallet.",
     "weight": "12 mg",
     "volume": "1 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "home_picture",
+    "category": "other",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "picture" },
+    "description": "A medium picture of something that the owner wished to decorate their house with.",
+    "weight": "600 g",
+    "volume": "650 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper", "wood" ],
+    "flags": [ "TRADER_AVOID" ],
+    "variants": [
+      {
+        "id": "hp_original",
+        "name": { "str": "picture" },
+        "description": { "str": "<home_pictures>", "//~": "NO_I18N" },
+        "expand_snippets": true,
+        "weight": 200
+      },
+      {
+        "id": "hp_snippet_nested",
+        "name": { "str": "picture" },
+        "description": { "str": "<hp_nested>", "//~": "NO_I18N" },
+        "expand_snippets": true,
+        "weight": 40
+      }
+    ]
   }
 ]

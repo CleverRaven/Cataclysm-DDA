@@ -2,21 +2,24 @@
   {
     "id": "BGSS_EVACUEE_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead… I was the only one to make it out.  I never looked back.",
+    "dynamic_line": {
+      "gendered_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead… I was the only one to make it out.  I never looked back.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "How did you survive after that?",
-        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') < 90" ] },
         "effect": { "npc_add_effect": "BGSS_EVACUEE_3_earlymeeting", "duration": "PERMANENT" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
         "topic": "BGSS_EVACUEE_3_STORY2"
       },
       {
         "text": "How did you survive after that?",
-        "condition": { "days_since_cataclysm": 90 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ] },
         "topic": "BGSS_EVACUEE_3_STORY2"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -28,7 +31,10 @@
   {
     "id": "BGSS_EVACUEE_3_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Sheer luck I guess.  I went the absolute wrong way, into town, and wound up stuck in the subway system.  I spent a few days living off vending machine food.  Not the best eating, but I pulled through.  At least there weren't so many zombies down there.",
+    "dynamic_line": {
+      "gendered_line": "Sheer luck I guess.  I went the absolute wrong way, into town, and wound up stuck in the subway system.  I spent a few days living off vending machine food.  Not the best eating, but I pulled through.  At least there weren't so many zombies down there.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "What got you out of the subway?",
@@ -40,36 +46,54 @@
         "condition": { "npc_has_effect": "BGSS_EVACUEE_3_earlymeeting" },
         "topic": "BGSS_EVACUEE_3_STORY3_EARLY"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_EVACUEE_3_STORY3_EARLY",
     "type": "talk_topic",
-    "dynamic_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to make a break for it.  I waited until dark and then skipped out.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to make a break for it.  I waited until dark and then skipped out.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "BGSS_EVACUEE_3_STORY3_LATE",
     "type": "talk_topic",
-    "dynamic_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to think of something else.  I started raiding the surrounding area by night, and built a decent little base under there.",
+    "dynamic_line": {
+      "gendered_line": "Straight up hunger.  I didn't have any great light source down there, and I didn't have much food.  I was slipping up and down to the station to buy from the vending machines, but once I ran out of cash I had to think of something else.  I started raiding the surrounding area by night, and built a decent little base under there.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "I didn't meet you in the subway though.  You left.", "topic": "BGSS_EVACUEE_3_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_EVACUEE_3_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "Yeah.  I had it pretty good there, but eventually I just started going a bit nuts.  Always dark, a bit cold, living off scavenged junk food… a soul can only live like that for so long.  When the weather above ground got warmer and the daylight hours got longer I decided to get a bit braver.  I'd learned enough about the <zombies> that I was able to live pretty well after that.  I've camped a few places, scavenged berries and whatnot, lived a pretty good life compared to those first few months.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "Yeah.  I had it pretty good there, but eventually I just started going a bit nuts.  Always dark, a bit cold, living off scavenged junk food… a soul can only live like that for so long.  When the weather above ground got warmer and the daylight hours got longer I decided to get a bit braver.  I'd learned enough about the <zombies> that I was able to live pretty well after that.  I've camped a few places, scavenged berries and whatnot, lived a pretty good life compared to those first few months.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "CWH_EVACUEE_3_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "Woah, <name_g>, I don't even know where to start.  The riots?  I think it was going on sooner than that.  There were bad murmurs going on a few weeks before that happened.  Lots of really scary crimes, not your usual stuff but like cannibalism and some real unspeakable shit, you know?  When the riots started, I think I was already primed to think of it as something different from a normal equality riot or anything like that.  I think that's part of how I got out safer, I had had some time to get some stuff and get going, and didn't try to make shopping trips.  People were abso-fuckin-lutely crazy in those days.  It was a lot like the pandemic a few years back, except the police were out in the streets in force, gunning people down like it was going out of style.",
+    "dynamic_line": {
+      "gendered_line": "Woah, <name_g>, I don't even know where to start.  The riots?  I think it was going on sooner than that.  There were bad murmurs going on a few weeks before that happened.  Lots of really scary crimes, not your usual stuff but like cannibalism and some real unspeakable shit, you know?  When the riots started, I think I was already primed to think of it as something different from a normal equality riot or anything like that.  I think that's part of how I got out safer, I had had some time to get some stuff and get going, and didn't try to make shopping trips.  People were abso-fuckin-lutely crazy in those days.  It was a lot like the pandemic a few years back, except the police were out in the streets in force, gunning people down like it was going out of style.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Do you have any idea what the actual cause was?", "topic": "CWH_EVACUEE_3_IDEAS2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -80,6 +104,9 @@
     "id": "CWH_EVACUEE_3_IDEAS2",
     "type": "talk_topic",
     "dynamic_line": "Not really.  Government fed us all kinds of conflicting stories, and there was some absolutely heinous stuff going on.  I mean, you can't have missed that video of the woman killing her own baby, right?  God, that still gives me nightmares.  I don't know what it was about it, something about the look on her face.  Worse stuff came out of course, and now we've both seen worse things with our own eyes, but that one still comes back to haunt me.  Anyway, they never could control the riots, and by the time the rioters started turning into undead it was way too late.  I don't know if morale just broke or what but I heard rumors the military and police started turning on each other as much as the crowds.  What actually made the dead come back to life though?  I haven't got a clue.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

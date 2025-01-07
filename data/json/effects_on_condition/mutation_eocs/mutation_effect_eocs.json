@@ -1,6 +1,218 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "eoc_debug_mutate",
+    "effect": [ { "u_mutate": 0 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_BIRD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Slightly dirty category check, since in vanilla both use the same trait.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "BEAK", { "context_val": "trait" } ] },
+        { "math": [ "u_vitamin('mutagen_bird') > u_vitamin('mutagen_cephalopod')" ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_bird" }, { "u_add_trait": "MUTE_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_CEPHALOPOD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": {
+      "and": [
+        { "compare_string": [ "BEAK", { "context_val": "trait" } ] },
+        { "math": [ "u_vitamin('mutagen_bird') < u_vitamin('mutagen_cephalopod')" ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_ceph" }, { "u_add_trait": "MUTE_CEPH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the mute trait when first mutating rasping tongue, check that we didn't already learn speech from earlier (slightly more complicated logic since harpoon tongues are purifiable)",
+    "condition": {
+      "and": [
+        { "compare_string": [ "GASTROPOD_EXTREMITY2", { "context_val": "trait" } ] },
+        { "not": { "u_has_trait": "MUTE_GASTROPOD_OK" } },
+        { "not": { "u_has_trait": "MUTE_GASTROPOD" } }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_gastropod" }, { "u_add_trait": "MUTE_GASTROPOD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_INSECT_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "PROBOSCIS", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_insect" }, { "u_add_trait": "MUTE_INSECT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_SLIME_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "AMORPHOUS", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_slime" }, { "u_add_trait": "MUTE_SLIME" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_BIRD",
+    "condition": { "math": [ "u_progress_unmute_bird >= 7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_BIRD" },
+      { "u_add_trait": "MUTE_BIRD_OK" },
+      { "u_message": "What's that made of?  Glass.  That will have to do." },
+      { "u_forget_recipe": "prac_unmute_bird" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_bird++" ] },
+      {
+        "u_message": "Restricting your range to the apes' feels demeaning, and you decide to take a break before you start plucking out your feathers in frustration."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_CEPH",
+    "condition": { "math": [ "u_progress_unmute_ceph >= 7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_CEPH" },
+      { "u_add_trait": "MUTE_CEPH_OK" },
+      {
+        "u_message": "Your sentences are short, and you can't quite control your beak's clicking as you tire.  Still, they will understand, if they want to."
+      },
+      { "u_forget_recipe": "prac_unmute_ceph" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_ceph++" ] },
+      {
+        "u_message": "Draw air into your mantle, close your throat, rehearse your sentence, exhale and contort your beak just so."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_GASTROPOD",
+    "condition": { "math": [ "u_progress_unmute_gastropod >= 10" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_GASTROPOD" },
+      { "u_add_trait": "MUTE_GASTROPOD_OK" },
+      {
+        "u_message": "As your tongues files down from use the pitch of the different sounds changes, but you have managed to get a few short, raspy sentences out."
+      },
+      { "u_forget_recipe": "prac_unmute_gastropod" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_gastropod++" ] },
+      {
+        "u_message": "If you rub your tongue against your palate like this is makes a `th` - or at least, a `thrksrkkk`, but it's a start.  Ignore the taste of blood, there's work to be done."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_INSECT",
+    "condition": { "math": [ "u_progress_unmute_insect >= 7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_INSECT" },
+      { "u_add_trait": "MUTE_INSECT_OK" },
+      {
+        "u_message": "You decide on the next few words, cramp your maxillae, and inhale deeply.  With some imagination you can understand the words in the whistling, before your mouthparts fall limp and you need a pause.  Larva steps."
+      },
+      { "u_forget_recipe": "prac_unmute_insect" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_insect++" ] },
+      {
+        "u_message": "You have all these new moving parts in your not-mouth, but they are struggling under the strain you put them under."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_SLIME",
+    "condition": { "math": [ "u_progress_unmute_slime >= 15" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_SLIME" },
+      { "u_add_trait": "MUTE_SLIME_OK" },
+      {
+        "u_message": "You realize you don't need to grow anything nearly as complicated as your old insides - one vesicle per word will suffice, but you needed a long time to learn the right rhythm."
+      },
+      { "u_forget_recipe": "prac_unmute_slime" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_slime++" ] },
+      {
+        "u_message": "Do you need teeth, lungs?  You fall back into your resting shape in exasperation.  This will take long."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_BEAK_LOSE_1",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "condition": { "and": [ { "compare_string": [ "BEAK", { "context_val": "trait" } ] } ] },
+    "effect": { "run_eocs": "EOC_MUTE_BEAK_LOSE_2", "time_in_future": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_BEAK_LOSE_2",
+    "condition": { "not": { "u_has_any_trait": [ "BEAK_HUM", "BEAK_PECK" ] } },
+    "//": "Beaks are purifiable and we need to clean up both possible mutisms (unless we gained a non-purifiable beak in the process)",
+    "effect": [
+      { "u_forget_recipe": "prac_unmute_bird" },
+      { "u_forget_recipe": "prac_unmute_ceph" },
+      { "u_lose_trait": "MUTE_BIRD" },
+      { "u_lose_trait": "MUTE_BIRD_OK" },
+      { "u_lose_trait": "MUTE_CEPH" },
+      { "u_lose_trait": "MUTE_CEPH_OK" },
+      { "math": [ "u_progress_unmute_bird = 0" ] },
+      { "math": [ "u_progress_unmute_ceph = 0" ] },
+      {
+        "u_message": "You grasp at the base of your beak and feel the familiar contours of your old mouth.  You give it a try and your voice sounds almost like before."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_LOSE_1",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "If we lose either trait check if we end up in a mute state via the queued EoC",
+    "condition": {
+      "or": [
+        { "compare_string": [ "GASTROPOD_EXTREMITY2", { "context_val": "trait" } ] },
+        { "compare_string": [ "GASTROPOD_EXTREMITY3", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_MUTE_GASTROPOD_LOSE_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_LOSE_2",
+    "//": "If we lost our lower trait and didn't gain the higher one / lost the higher trait without gaining the lower one in the process remove mutism or the compensatory traits (and progress thereof)",
+    "condition": {
+      "and": [ { "not": { "u_has_trait": "GASTROPOD_EXTREMITY3" } }, { "not": { "u_has_trait": "GASTROPOD_EXTREMITY_2" } } ]
+    },
+    "effect": [
+      { "u_forget_recipe": "prac_unmute_gastropod" },
+      { "u_lose_trait": "MUTE_GASTROPOD" },
+      { "u_lose_trait": "MUTE_GASTROPOD_OK" },
+      { "u_message": "You cough up a lot of off-color blood, but you swear in your own old voice again afterwards." },
+      { "math": [ "u_progress_unmute_gastropod = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
@@ -61,7 +273,7 @@
       { "u_add_effect": "narcosis", "duration": "5 minutes" },
       { "u_add_effect": "sleep", "duration": "5 minutes" },
       {
-        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move.  You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
         "type": "bad"
       },
       { "u_lose_trait": "CHITIN2" },
@@ -226,15 +438,8 @@
   {
     "type": "effect_on_condition",
     "id": "rashy_skin",
-    "recurrence": [ "2 hours", "24 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "SKIN_RASHY" },
-        { "not": { "u_has_effect": "took_flumed" } },
-        { "not": { "u_has_effect": "took_antihistamine" } },
-        { "not": { "u_has_effect": "formication" } }
-      ]
-    },
+    "recurrence": [ "2 hour", "24 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
   },
   {
@@ -292,282 +497,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "leaves_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "LEAVES" } ] },
-    "effect": [
-      { "u_message": "The grassy leaves on your head have succumbed to winter dormancy.", "type": "bad" },
-      { "u_lose_trait": "LEAVES" },
-      { "u_add_trait": "LEAVES_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves_spring_summer_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
-        { "u_has_trait": "LEAVES_WINTER" }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your leaves are looking green and healthy again.", "type": "good" },
-      { "u_lose_trait": "LEAVES_WINTER" },
-      { "u_add_trait": "LEAVES" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "flowers_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "FLOWERS" } ] },
-    "effect": [
-      {
-        "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.",
-        "type": "bad"
-      },
-      { "u_lose_trait": "FLOWERS" },
-      { "u_add_trait": "FLOWERS_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "flowers_spring_summer_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
-        { "u_has_trait": "FLOWERS_WINTER" }
-      ]
-    },
-    "effect": [
-      { "u_message": "You feel a giddy thrill as new flowers bloom from your scalp.", "type": "good" },
-      { "u_lose_trait": "FLOWERS_WINTER" },
-      { "u_add_trait": "FLOWERS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_spring_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES2_FALL" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
-      ]
-    },
-    "effect": [
-      { "u_message": "New green leaves are growing in on your head and arms.", "type": "good" },
-      { "u_lose_trait": "LEAVES2_WINTER" },
-      { "u_lose_trait": "LEAVES2_FALL" },
-      { "u_add_trait": "LEAVES2" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] }, { "is_season": "autumn" } ]
-    },
-    "effect": [
-      { "u_message": "Your leaves are turning and starting to drop as the season changes.", "type": "good" },
-      { "u_lose_trait": "LEAVES2" },
-      { "u_lose_trait": "LEAVES2_WINTER" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES2_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_FALL" } ] }, { "is_season": "winter" } ] },
-    "effect": [
-      { "u_message": "The last of your leaves fall, leaving your head and arms bare.", "type": "bad" },
-      { "u_lose_trait": "LEAVES2" },
-      { "u_lose_trait": "LEAVES2_FALL" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES2_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_spring_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES3_FALL" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
-      ]
-    },
-    "effect": [
-      { "u_message": "New green leaves are growing in on your head and upper limbs.", "type": "good" },
-      { "u_lose_trait": "LEAVES3_WINTER" },
-      { "u_lose_trait": "LEAVES3_FALL" },
-      { "u_add_trait": "LEAVES3" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] }, { "is_season": "autumn" } ]
-    },
-    "effect": [
-      {
-        "u_message": "Your leaves have begun taking on the red-gold hues of fall.  A few have fallen already.",
-        "type": "good"
-      },
-      { "u_lose_trait": "LEAVES3" },
-      { "u_lose_trait": "LEAVES3_WINTER" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES3_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_FALL" } ] }, { "is_season": "winter" } ] },
-    "effect": [
-      { "u_message": "The last of your leaves fall, leaving your head and upper limbs bare.", "type": "bad" },
-      { "u_lose_trait": "LEAVES3" },
-      { "u_lose_trait": "LEAVES3_FALL" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES3_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_spring_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ]
-        },
-        { "is_season": "spring" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "is_season": "summer" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_SUMMER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_fall_timer_plant",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "u_has_trait": "THRESH_PLANT" },
-        { "is_season": "autumn" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_add_trait": "ROSEBUDS_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "picked_rosebuds_fall",
-    "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "and": [ { "u_has_trait": "ROSEBUDS_FALL_active" } ] },
-    "effect": [
-      { "u_lose_trait": "ROSEBUDS_FALL_active" },
-      { "u_spawn_item": "mutfruit", "count": 1 },
-      { "u_add_trait": "ROSEBUDS_FALL_PICKED" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_fall_timer_elfa",
-    "//": "Only true plants bear fruit. Elves just look pretty for longer.",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "not": { "u_has_trait": "THRESH_PLANT" } },
-        { "is_season": "autumn" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_SUMMER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_SUMMER" } ] },
-        { "is_season": "winter" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.",
-        "type": "bad"
-      },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "shed_summer_timer_lupine",
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "LUPINE_FUR" },
       { "u_add_trait": "LUPINE_FUR_SUMMER" }
     ]
@@ -589,7 +523,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "URSINE_FUR" },
       { "u_add_trait": "URSINE_FUR_SUMMER" }
     ]
@@ -641,12 +575,59 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_RADIATION_MUTATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_radioactively_mutates",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "set_string_var": "<radiation_category>",
+        "target_var": { "context_val": "radiation_mutation_category" },
+        "parse_tags": true
+      },
+      { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<radiation_category>",
+    "text": [
+      { "text": "CHIMERA" },
+      { "text": "INSECT" },
+      { "text": "ALPHA" },
+      { "text": "URSINE" },
+      { "text": "CHIROPTERAN" },
+      { "text": "BIRD" },
+      { "text": "MEDICAL" },
+      { "text": "LUPINE" },
+      { "text": "RAT" },
+      { "text": "SLIME" },
+      { "text": "PLANT" },
+      { "text": "BATRACHIAN" },
+      { "text": "RAPTOR" },
+      { "text": "MOUSE" },
+      { "text": "CEPHALOPOD" },
+      { "text": "ELFA" },
+      { "text": "FISH" },
+      { "text": "HUMAN" },
+      { "text": "RABBIT" },
+      { "text": "GASTROPOD" },
+      { "text": "BEAST" },
+      { "text": "FELINE" },
+      { "text": "CATTLE" },
+      { "text": "LIZARD" },
+      { "text": "TROGLOBITE" },
+      { "text": "CRUSTACEAN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ink_grand_spray",
     "//": "will cast 'ink_gland_spray' spell when player has stored ink charges",
-    "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
+    "condition": { "math": [ "u_effect_intensity('ink_gland_ink') > 1" ] },
     "effect": [
       { "u_cast_spell": { "id": "ink_gland_spray" } },
-      { "u_message": "Your ink glands spray some ink into attacker eyes!", "type": "good" },
+      { "u_message": "Your ink glands spray some ink into your attacker's eyes!", "type": "good" },
       {
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",
@@ -663,12 +644,12 @@
       "and": [
         { "u_has_trait": "INK_GLANDS" },
         { "not": { "u_has_effect": "ink_gland_ink", "intensity": 4 } },
-        { "math": [ "u_val('stored_kcal_percentage')", ">", "33" ] },
-        { "math": [ "u_val('instant_thirst')", "<", "240" ] }
+        { "math": [ "u_calories('format': 'percent') > 33" ] },
+        { "math": [ "u_val('instant_thirst') < 240" ] }
       ]
     },
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "-=", "47" ] },
+      { "math": [ "u_calories()", "-=", "47" ] },
       { "math": [ "u_val('thirst')", "+=", "4" ] },
       {
         "u_add_effect": "ink_gland_ink",
@@ -685,5 +666,159 @@
     "//": "will remove ink_gland_ink effect when the mutation is lost",
     "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
     "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_insect_wings_shutoff",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "and": [ { "math": [ "u_val('stamina') < 3000" ] }, { "u_has_trait": "WINGS_INSECT_active" } ] },
+    "effect": [
+      { "u_activate_trait": "WINGS_INSECT_active" },
+      { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "//": "Alcohol and sedatives prevent the bad effects of these EOCs.  Antidepressants prevent (but don't remove) both the good and bad effects, keeping you at a baseline state.",
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30) > 0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies') > 0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "6 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies') == 0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_satisfied" },
+      {
+        "u_add_effect": "social_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You could use some friendly company.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30) == 0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_dissatisfied" },
+      { "u_lose_effect": "asocial_satisfied" },
+      { "u_add_effect": "asocial_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30) == 0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "6 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "math": [ "u_characters_nearby('radius': 30) > 0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_satisfied" },
+      {
+        "u_add_effect": "asocial_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You'd really rather be by yourself.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_sleep",
+    "recurrence": [ "30 minutes", "45 minutes" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "narcosis" }, { "u_has_effect": "sleep" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_drugs",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "//": "Sedatives are effective at acutely treating social anxiety/autophobia.  Enjoy your benzo addiction, survivors.",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "valium" }, { "u_has_effect": "took_xanax" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   }
 ]

@@ -844,254 +844,254 @@ std::string display( units::power v );
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _ml( const unsigned long long v )
+inline constexpr units::volume operator""_ml( const unsigned long long v )
 {
     return units::from_milliliter( v );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_ml(
     const long double v )
 {
     return units::from_milliliter( v );
 }
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _liter( const unsigned long long v )
+inline constexpr units::volume operator""_liter( const unsigned long long v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_liter(
     const long double v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
 // Implicitly converted to mass, which has int as value_type!
-inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+inline constexpr units::mass operator""_milligram( const unsigned long long v )
 {
     return units::from_milligram( v );
 }
-inline constexpr units::mass operator"" _gram( const unsigned long long v )
+inline constexpr units::mass operator""_gram( const unsigned long long v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
+inline constexpr units::mass operator""_kilogram( const unsigned long long v )
 {
     return units::from_kilogram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_milligram(
     const long double v )
 {
     return units::from_milligram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_gram(
     const long double v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_kilogram(
     const long double v )
 {
     return units::from_kilogram( v );
 }
 
-inline constexpr units::temperature operator"" _K( const unsigned long long v )
+inline constexpr units::temperature operator""_K( const unsigned long long v )
 {
     return units::from_kelvin( v );
 }
 
-inline constexpr units::temperature operator"" _C( const unsigned long long v )
+inline constexpr units::temperature operator""_C( const unsigned long long v )
 {
     return units::from_celsius( v );
 }
 
-inline constexpr units::temperature_delta operator"" _C_delta( const unsigned long long v )
+inline constexpr units::temperature_delta operator""_C_delta( const unsigned long long v )
 {
     return units::from_celsius_delta( v );
 }
 
-inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator""_K(
     const long double v )
 {
     return units::from_kelvin( v );
 }
 
-inline constexpr units::temperature operator"" _C( const long double v )
+inline constexpr units::temperature operator""_C( const long double v )
 {
     return units::from_celsius( v );
 }
 
-inline constexpr units::temperature_delta operator"" _C_delta( const long double v )
+inline constexpr units::temperature_delta operator""_C_delta( const long double v )
 {
     return units::from_celsius_delta( v );
 }
 
-inline constexpr units::energy operator"" _mJ( const unsigned long long v )
+inline constexpr units::energy operator""_mJ( const unsigned long long v )
 {
     return units::from_millijoule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _mJ(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_mJ(
     const long double v )
 {
     return units::from_millijoule( v );
 }
 
-inline constexpr units::energy operator"" _J( const unsigned long long v )
+inline constexpr units::energy operator""_J( const unsigned long long v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _J(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_J(
     const long double v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::energy operator"" _kJ( const unsigned long long v )
+inline constexpr units::energy operator""_kJ( const unsigned long long v )
 {
     return units::from_kilojoule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _kJ(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_kJ(
     const long double v )
 {
     return units::from_kilojoule( v );
 }
 
-inline constexpr units::power operator"" _mW( const unsigned long long v )
+inline constexpr units::power operator""_mW( const unsigned long long v )
 {
     return units::from_milliwatt( v );
 }
 
-inline constexpr units::power operator"" _W( const unsigned long long v )
+inline constexpr units::power operator""_W( const unsigned long long v )
 {
     return units::from_watt( v );
 }
 
-inline constexpr units::power operator"" _kW( const unsigned long long v )
+inline constexpr units::power operator""_kW( const unsigned long long v )
 {
     return units::from_kilowatt( v );
 }
 
-inline constexpr units::money operator"" _cent( const unsigned long long v )
+inline constexpr units::money operator""_cent( const unsigned long long v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _cent(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_cent(
     const long double v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::money operator"" _USD( const unsigned long long v )
+inline constexpr units::money operator""_USD( const unsigned long long v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _USD(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_USD(
     const long double v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::money operator"" _kUSD( const unsigned long long v )
+inline constexpr units::money operator""_kUSD( const unsigned long long v )
 {
     return units::from_kusd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_kUSD(
     const long double v )
 {
     return units::from_kusd( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _mm(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_mm(
     const long double v )
 {
     return units::from_millimeter( v );
 }
 
-inline constexpr units::length operator"" _mm( const unsigned long long v )
+inline constexpr units::length operator""_mm( const unsigned long long v )
 {
     return units::from_millimeter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _cm(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_cm(
     const long double v )
 {
     return units::from_centimeter( v );
 }
 
-inline constexpr units::length operator"" _cm( const unsigned long long v )
+inline constexpr units::length operator""_cm( const unsigned long long v )
 {
     return units::from_centimeter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _meter(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_meter(
     const long double v )
 {
     return units::from_meter( v );
 }
 
-inline constexpr units::length operator"" _meter( const unsigned long long v )
+inline constexpr units::length operator""_meter( const unsigned long long v )
 {
     return units::from_meter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _km(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_km(
     const long double v )
 {
     return units::from_kilometer( v );
 }
 
-inline constexpr units::length operator"" _km( const unsigned long long v )
+inline constexpr units::length operator""_km( const unsigned long long v )
 {
     return units::from_kilometer( v );
 }
 
-inline constexpr units::angle operator"" _radians( const long double v )
+inline constexpr units::angle operator""_radians( const long double v )
 {
     return units::from_radians( v );
 }
 
-inline constexpr units::angle operator"" _radians( const unsigned long long v )
+inline constexpr units::angle operator""_radians( const unsigned long long v )
 {
     return units::from_radians( v );
 }
 
-inline constexpr units::angle operator"" _pi_radians( const long double v )
+inline constexpr units::angle operator""_pi_radians( const long double v )
 {
     return units::from_radians( v * M_PI );
 }
 
-inline constexpr units::angle operator"" _pi_radians( const unsigned long long v )
+inline constexpr units::angle operator""_pi_radians( const unsigned long long v )
 {
     return units::from_radians( v * M_PI );
 }
 
-inline constexpr units::angle operator"" _degrees( const long double v )
+inline constexpr units::angle operator""_degrees( const long double v )
 {
     return units::from_degrees( v );
 }
 
-inline constexpr units::angle operator"" _degrees( const unsigned long long v )
+inline constexpr units::angle operator""_degrees( const unsigned long long v )
 {
     return units::from_degrees( v );
 }
 
-inline constexpr units::angle operator"" _arcmin( const long double v )
+inline constexpr units::angle operator""_arcmin( const long double v )
 {
     return units::from_arcmin( v );
 }
 
-inline constexpr units::angle operator"" _arcmin( const unsigned long long v )
+inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }

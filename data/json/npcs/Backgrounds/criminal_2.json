@@ -2,7 +2,10 @@
   {
     "id": "BGSS_CRIMINAL_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a warehouse out on the edge of town.  I was in a real <shitty> place, and my crew had mostly just been arrested in a big drug bust, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+    "dynamic_line": {
+      "gendered_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a warehouse out on the edge of town.  I was in a real <shitty> place, and my crew had mostly just been arrested in a big drug bust, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Woah, lucky for you.  How did you find out about <the_cataclysm>?", "topic": "BGSS_CRIMINAL_2_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -12,27 +15,39 @@
   {
     "id": "BGSS_CRIMINAL_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I was just in a warehouse, not in Zambonia.  I had the internet.  Watched those crazy videos on YouTube in real time, scared the shit out of me.  I had it pretty good though, I'd lifted a bunch of canned food and shit, and I had a pretty sweet little squat in that warehouse.  I'd been planning on spending a long time there after all, while I figured out how to get in good with my crew.",
+    "dynamic_line": {
+      "gendered_line": "I was just in a warehouse, not in Zambonia.  I had the internet.  Watched those crazy videos on YouTube in real time, scared the shit out of me.  I had it pretty good though, I'd lifted a bunch of canned food and shit, and I had a pretty sweet little squat in that warehouse.  I'd been planning on spending a long time there after all, while I figured out how to get in good with my crew.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Something must have driven you out of there.", "topic": "BGSS_CRIMINAL_2_STORY3" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_CRIMINAL_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Yeah.  <zombies>.  A bunch of them, led by this big creepy-ass jet-black bastard with glowing red eyes, I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss outside and that was that.  I took a few shots at them but that creepy-ass motherfucker waves his hands and brings 'em back up, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can loot ever since, until I fell in with you.",
+    "dynamic_line": {
+      "gendered_line": "Yeah.  <zombies>.  A bunch of them, led by this big creepy-ass jet-black bastard with glowing red eyes, I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss outside and that was that.  I took a few shots at them but that creepy-ass motherfucker waves his hands and brings 'em back up, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can loot ever since, until I fell in with you.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Got any tips about the boss zombie?", "topic": "BGSS_CRIMINAL_2_NECROMANCER" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_CRIMINAL_2_NECROMANCER",
     "type": "talk_topic",
-    "dynamic_line": "Well, I mean, if he's surrounded by buddies like that and he can just bring 'em back, I think he's a scary bastard.  If I got him on his own I think maybe I could have taken him.  Also when I was running I managed to get a zombie on its own, and I smashed it to shit with a stick before the rest showed up.  He tried to raise that one and it didn't get back up.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "Well, I mean, if he's surrounded by buddies like that and he can just bring 'em back, I think he's a scary bastard.  If I got him on his own I think maybe I could have taken him.  Also when I was running I managed to get a zombie on its own, and I smashed it to shit with a stick before the rest showed up.  He tried to raise that one and it didn't get back up.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

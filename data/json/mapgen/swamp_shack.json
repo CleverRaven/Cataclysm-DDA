@@ -97,7 +97,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "hunter_shack" ],
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest_water",
       "rows": [
@@ -173,7 +172,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "hunter_shack_1" ],
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest_water",
       "rows": [

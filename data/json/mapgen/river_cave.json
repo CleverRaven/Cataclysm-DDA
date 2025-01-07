@@ -2,6 +2,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_dirtmound_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_dirtmound" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_mud_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_mud" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "river_cave_surface_palette",
+    "//": "nest_rock_wall_roof is defined in the regular cave",
+    "terrain": { " ": "t_null", "-": "t_sand", "C": "t_dirtmound" },
+    "nested": {
+      ".": { "chunks": [ "nest_mud_rock_roof" ] },
+      "#": { "chunks": [ "nest_rock_wall_roof" ] },
+      ">": { "chunks": [ "nest_slope_down_rock_roof" ] },
+      "c": { "chunks": [ "nest_dirtmound_rock_roof" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "c_cave_entrance" ],
     "object": {
       "fallback_predecessor_mapgen": "lake_shore",
@@ -16,12 +52,12 @@
         "      -----------       ",
         "     ---##...##C---     ",
         "    --C####..###C-      ",
-        "   ---##CCC..CC##---    ",
-        "   ---#CC.....C.#---    ",
-        "    -##C...>>..##--     ",
-        "  ---C#C...>>..C#--     ",
-        "   ---##C.....C##---    ",
-        "   --###CC#.CCC##---    ",
+        "   ---##ccc..cc##---    ",
+        "   ---#cc.....c.#---    ",
+        "    -##c...>>..##--     ",
+        "  ---C#c...>>..c#--     ",
+        "   ---##c.....c##---    ",
+        "   --###cc#.ccc##---    ",
         "  ----C#########C-      ",
         "    ----##C-##CC---     ",
         "     -------------      ",
@@ -33,7 +69,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
-      "terrain": { " ": "t_null", ".": "t_mud", "-": "t_sand", "#": "t_rock", ">": "t_slope_down", "C": "t_dirtmound" }
+      "palettes": [ "river_cave_surface_palette" ]
     }
   },
   {

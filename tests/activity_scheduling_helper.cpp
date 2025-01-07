@@ -112,7 +112,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
             // Consume food, become weary, etc
             guy.update_body();
             // Start each turn with a fresh set of moves
-            guy.moves = 100;
+            guy.set_moves( 100 );
             task.do_turn( guy );
         }
         // Cancel our activity, now that we're done

@@ -4,5 +4,32 @@
     "type": "requirement",
     "//": "Dragon scales.  For when any color is interchangeable.",
     "components": [ [ [ "dragon_black_scale", 1 ] ] ]
+  },
+  {
+    "id": "semiprecious_gemstones",
+    "type": "requirement",
+    "//": "semi-precious gems, for rituals or alchemy ",
+    "components": [
+      [
+        [ "garnet", 1 ],
+        [ "amethyst", 1 ],
+        [ "aquamarine", 1 ],
+        [ "alexandrite", 1 ],
+        [ "malachite", 1 ],
+        [ "pearl", 1 ],
+        [ "peridot", 1 ],
+        [ "opal", 1 ],
+        [ "tourmaline", 1 ],
+        [ "citrine", 1 ],
+        [ "blue_topaz", 1 ],
+        [ "onyx", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "precious_gemstones",
+    "type": "requirement",
+    "//": "precious gems, for rituals or alchemy ",
+    "components": [ [ [ "diamond", 1 ], [ "emerald", 1 ], [ "ruby", 1 ], [ "sapphire", 1 ] ] ]
   }
 ]

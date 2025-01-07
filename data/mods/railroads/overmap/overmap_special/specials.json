@@ -1,6 +1,6 @@
 [
   {
-    "id": "Railroad Station",
+    "id": "Railway Station",
     "type": "overmap_special",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "railroad_station_0_1_north" },
@@ -37,6 +37,7 @@
     "city_distance": [ -1, 20 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE" ]
+    "priority": 1,
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "URBAN", "MAN_MADE" ]
   }
 ]

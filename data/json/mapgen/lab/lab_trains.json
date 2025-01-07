@@ -44,7 +44,7 @@
           "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
-      "terrain": { "=": "t_chaingate_c", "_": "t_chainfence_h", "8": "t_potential_trans", "!": "t_sewage_pump", "p": "t_sewage_pipe" },
+      "terrain": { "=": "t_chaingate_c", "_": "t_chainfence", "8": "t_potential_trans", "!": "t_sewage_pump", "p": "t_sewage_pipe" },
       "furniture": { "P": "f_generator_broken" },
       "place_nested": [
         { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "subway" ] } },
