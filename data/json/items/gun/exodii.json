@@ -94,7 +94,7 @@
     "longest_side": "1080 mm",
     "price_postapoc": "75 USD",
     "variant_type": "gun",
-    "variant": [
+    "variants": [
       {
         "id": "Khuunaofaai",
         "name": { "str": "Khuunäöfaai ordnance cannon" },
