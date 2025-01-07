@@ -985,6 +985,28 @@
       "hurt_min": [ 1 ],
       "hurt_chance": [ 450, 2700 ]
     },
+    "max_intensity": 10,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "lift", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "grip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "block", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      {
+        "limb_score": "reaction",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      },
+      {
+        "limb_score": "balance",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Poison"
   },
