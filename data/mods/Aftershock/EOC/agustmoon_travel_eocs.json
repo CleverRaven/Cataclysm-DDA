@@ -19,23 +19,23 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 30
       },
       {
         "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true, "search_range": 380 }
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9 }
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true, "search_range": 380 }
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9 }
       },
       { "math": [ "searched_port_augustmoon = 1" ] }
     ]
@@ -213,23 +213,23 @@
       { "u_message": "MANUALLY FINDING PORT AUGUSTMOON AS A FALLBACK.  (PRESS SPACE).", "popup": true },
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 1380 },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 30
       },
       {
         "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 1380 },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true, "search_range": 1380 }
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9 }
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true, "search_range": 1380 }
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9 }
       }
     ]
   },

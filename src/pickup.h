@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "item_location.h"
 #include "point.h"
@@ -24,7 +25,7 @@ struct pick_info {
 
     units::volume total_bulk_volume = 0_ml;
     item_location::type src_type = item_location::type::invalid;
-    tripoint src_pos;
+    tripoint_bub_ms src_pos;
     item_location src_container;
     item_location dst;
 };
@@ -44,7 +45,7 @@ enum from_where : int {
 };
 
 /** Pick up items; 'g' or ',' or via examine() */
-void autopickup( const tripoint &p );
+void autopickup( const tripoint_bub_ms &p );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
 

@@ -749,8 +749,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             line_furn( &m, furn_str_id::NULL_ID(), point( 10, 7 ), point( 10, 8 ) );
 
             //Spill sand from damaged sandbags
-            std::vector<point> sandbag_positions = squares_in_direction( point( 10, 7 ), point( 11, 8 ) );
-            for( point &i : sandbag_positions ) {
+            std::vector<point_omt_ms> sandbag_positions = squares_in_direction( point_omt_ms( 10, 7 ),
+                    point_omt_ms( 11, 8 ) );
+            for( point_omt_ms &i : sandbag_positions ) {
                 m.spawn_item( { i, abs_sub.z }, itype_bag_canvas, rng( 5, 13 ) );
                 m.spawn_item( { i, abs_sub.z }, itype_material_sand, rng( 3, 8 ) );
             }

@@ -338,6 +338,7 @@
       { "id": "telekinetic_momentum", "level": 10 },
       { "id": "telekinetic_slowfall", "level": 8 },
       { "id": "telekinetic_wave", "level": 10 },
+      { "id": "telekinetic_water_walk", "level": 8 },
       { "id": "telekinetic_lifting_field", "level": 7 },
       { "id": "telekinetic_strength", "level": 5 },
       { "id": "telekinetic_hammer", "level": 8 },

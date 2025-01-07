@@ -401,7 +401,7 @@ class veh_menu_cb : public uilist_callback
                 player_character.view_offset = tripoint_rel_ms::zero;
             } else {
                 const tripoint &center = points[menu->selected];
-                player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );
+                player_character.view_offset = tripoint_rel_ms( center - player_character.pos_bub().raw() );
                 // Remove next line if/when it's wanted/safe to shift view to other zlevels
                 player_character.view_offset.z() = 0;
             }

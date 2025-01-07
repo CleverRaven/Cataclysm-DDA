@@ -764,7 +764,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
-    const tripoint test_origin( 20, 20, 0 );
+    const tripoint_bub_ms test_origin( 20, 20, 0 );
     dummy.setpos( test_origin );
     // Give the player a backpack to hold the tablets
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -958,7 +958,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
-    const tripoint test_origin( 20, 20, 0 );
+    const tripoint_bub_ms test_origin( 20, 20, 0 );
     dummy.setpos( test_origin );
 
     SECTION( "Test purifying time" ) {

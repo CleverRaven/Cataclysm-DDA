@@ -144,7 +144,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
