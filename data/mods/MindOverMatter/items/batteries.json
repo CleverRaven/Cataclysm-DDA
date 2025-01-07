@@ -90,7 +90,7 @@
       { "type": "plastic", "portion": 1 }
     ],
     "symbol": "=",
-    "color": "yellow",
+    "color": "cyan",
     "ammo_type": [ "battery" ],
     "//": "Capacity 3x normal",
     "capacity": 777,

@@ -13,7 +13,14 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "material_thickness": 1.5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_electronoetic"
+      }
+    ],
     "use_action": [
       {
         "type": "transform",
@@ -26,7 +33,7 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE", "NO_UNLOAD" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -35,31 +42,14 @@
         "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
-          "incoming_damage_mod": [
-            { "type": "bash", "add": -8 },
-            { "type": "stab", "add": -20 },
-            { "type": "cut", "add": -15 },
-            { "type": "bullet", "add": -40 }
-          ]
-        }
-      ],
-      "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true }
-    },
-    "//": "Recharge time is 60 seconds due to bug #48019, making it actually 30 seconds. Reduce to 30 seconds if that ever gets fixed."
+    ]
   },
   {
     "id": "psionic_shield_belt_on",
     "type": "TOOL_ARMOR",
     "name": { "str": "shield belt (active)", "str_pl": "shield belts (active)" },
     "copy-from": "psionic_shield_belt",
-    "turns_per_charge": 1,
+    "power_draw": "200 W",
     "revert_to": "psionic_shield_belt",
     "use_action": [
       {
@@ -86,8 +76,7 @@
         "need_worn": true,
         "menu_text": "Flip the switch"
       }
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ]
+    ]
   },
   {
     "id": "psionic_fire_shield_belt",
@@ -103,7 +92,14 @@
     "looks_like": "leather_belt",
     "color": "red",
     "material_thickness": 1.5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_electronoetic"
+      }
+    ],
     "use_action": [
       {
         "type": "transform",
@@ -116,7 +112,7 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE", "NO_UNLOAD" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -125,27 +121,14 @@
         "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
-          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
-          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
-        }
-      ],
-      "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true }
-    },
-    "//": "Recharge time is 30 seconds due to bug #48019, making it actually 15 seconds. Reduce to 15 seconds if that ever gets fixed."
+    ]
   },
   {
     "id": "psionic_fire_shield_belt_on",
     "type": "TOOL_ARMOR",
     "name": { "str": "suppression belt (active)", "str_pl": "suppression belts (active)" },
     "copy-from": "psionic_fire_shield_belt",
-    "turns_per_charge": 1,
+    "power_draw": "80 W",
     "revert_to": "psionic_fire_shield_belt",
     "use_action": [
       {
@@ -173,6 +156,13 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_electronoetic"
+      }
+    ]
   }
 ]
