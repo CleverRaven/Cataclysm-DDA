@@ -233,6 +233,64 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "teleport_reactive_displacement",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C)",
+    "description": "Maintain a field of unstable space around you, allowing you to effortlessly teleport enemies that strike you further away.  Unfortunately, their attacks will still hurt you as normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_REACTIVE_DISPLACEMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 1000 ) + 2000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 4000 ) + 20000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 0 : max( ( 3500 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_reactive_displacement_teleport",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C) - Teleport",
+    "description": "The actual teleport effect of reactive displacement.  Having this spell is a bug.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_teleporter_teleporting_damage",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "energy_source": "NONE",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "teleport_collapse",
     "type": "SPELL",
     "name": "[Ψ]Spacial Vortex",
@@ -627,6 +685,67 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "teleport_loci_establishment",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Establishment (C)",
+    "description": "Start concentrating on your current location, allowing you to return here at will with the [Ψ]Loci Technique power.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 2500 ) + 12500 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 5000 ) + 25000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_loci_technique",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Technique",
+    "description": "Transport yourself through the nether to your established loci location.  You must currently be concentrating on your [Ψ]Loci Establishment (C) for this to function.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
@@ -649,6 +768,67 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_dilated_gateway",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway",
+    "description": "Transport yourself and every adjacent creature to a chosen location.  You must have already attuned an area with [Ψ]Gateway.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_dilated_gateway_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 12000,
+    "final_energy_cost": 8000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_others",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Others",
+    "description": "The spell that actually teleports the adjacent targets.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "min_aoe": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_self",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Self",
+    "description": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
   },
   {
     "id": "teleport_summon",

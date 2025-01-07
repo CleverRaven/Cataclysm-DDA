@@ -46,7 +46,7 @@
                 "effect": [
                   {
                     "u_location_variable": { "global_val": "barry_return_home_map" },
-                    "target_params": { "om_terrain": "horse_farm_isherwood_14", "om_special": "Isherwood Farm Mutable", "search_range": 500, "z": 0 },
+                    "target_params": { "om_terrain": "horse_farm_isherwood_14", "om_special": "Isherwood Farm Mutable", "z": 0 },
                     "terrain": "t_dirt",
                     "target_max_radius": 30,
                     "min_radius": 0,
@@ -60,7 +60,7 @@
           },
           {
             "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
-            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
             "furniture": "f_chair",
             "target_max_radius": 30,
             "min_radius": 0,

@@ -259,7 +259,6 @@
       { "group": "bionics", "prob": 50 },
       { "group": "mutagenic_field_kit", "prob": 25 },
       { "group": "guns_energy", "prob": 15 },
-      { "group": "military", "prob": 75 },
       { "group": "guns_launcher_milspec", "prob": 25 },
       { "group": "vault", "prob": 75 }
     ]
@@ -284,7 +283,6 @@
       { "group": "mutagenic_field_kit", "prob": 10 },
       { "group": "mutagen_kits", "prob": 1 },
       { "group": "guns_energy", "prob": 5 },
-      { "group": "military", "prob": 50 },
       { "group": "science", "prob": 100 },
       { "group": "guns_launcher_milspec", "prob": 5 },
       { "group": "vault", "prob": 50 },

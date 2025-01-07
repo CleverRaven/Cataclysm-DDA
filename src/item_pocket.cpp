@@ -785,7 +785,7 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     if( guy.is_npc() ) {
-        spill_contents( guy.pos() );
+        spill_contents( guy.pos_bub() );
         return;
     }
 
@@ -887,11 +887,10 @@ std::string item_pocket::translated_sealed_prefix() const
     }
 }
 
-bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
+bool item_pocket::detonate( const tripoint_bub_ms &pos, std::vector<item> &drops )
 {
-    const tripoint_bub_ms p{pos}; // TODO: Remove when operation typified.
-    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&p, &drops]( item & it ) {
-        return it.detonate( p, drops );
+    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&pos, &drops]( item & it ) {
+        return it.detonate( pos, drops );
     } );
     if( new_end != contents.end() ) {
         contents.erase( new_end, contents.end() );
@@ -1780,7 +1779,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
     here.add_item_or_charges( pos, it );
 }
 
-void item_pocket::overflow( const tripoint &pos, const item_location &loc )
+void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
@@ -1797,7 +1796,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             item_location content_loc( loc, &it );
             content_loc.overflow();
         } else {
-            it.overflow( tripoint_bub_ms( pos ) );
+            it.overflow( pos );
         }
     }
 
@@ -1812,7 +1811,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             if( !is_type( pocket_type::MIGRATION ) && can_contain( *iter, true ).success() ) {
                 ++iter;
             } else {
-                move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
+                move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
                 iter = contents.erase( iter );
             }
             continue;
@@ -1827,7 +1826,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
         if( cont_copy_type.first->second ) {
             ++iter;
         } else {
-            move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
+            move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
             iter = contents.erase( iter );
         }
     }
@@ -1854,7 +1853,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
-                move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
+                move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
                 total_qty -= overflow_count;
             }
             if( ammo.count() == 0 ) {
@@ -1873,7 +1872,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
-            move_to_parent_pocket_recursive( pos, contents.front(), loc, carrier );
+            move_to_parent_pocket_recursive( pos.raw(), contents.front(), loc, carrier );
             contents.pop_front();
         }
     }
@@ -1882,7 +1881,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
-            move_to_parent_pocket_recursive( pos, contents.front(), loc, carrier );
+            move_to_parent_pocket_recursive( pos.raw(), contents.front(), loc, carrier );
             contents.pop_front();
         }
     }
@@ -1904,7 +1903,7 @@ void item_pocket::on_contents_changed()
     restack();
 }
 
-bool item_pocket::spill_contents( const tripoint &pos )
+bool item_pocket::spill_contents( const tripoint_bub_ms &pos )
 {
     if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::CABLE ) ) {
@@ -1959,16 +1958,16 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
+void item_pocket::process( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                           float insulation,
                            temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
-    const tripoint_bub_ms p{ pos }; // TODO: Get rid of this when operation typified.
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( here, carrier, p, insulation, flag,
+        if( iter->process( here, carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ),
                            watertight_container || can_contain_liquid( false ) ) ) {
-            iter->spill_contents( p );
+            iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -1976,13 +1975,12 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
     }
 }
 
-void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
+void item_pocket::leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
                         item_pocket *pocke )
 {
-    const tripoint_bub_ms p{pos}; // TODO: Get rid of this once the operation gets typified.
     std::vector<item *> erases;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->leak( here, carrier, p, this ) ) {
+        if( iter->leak( here, carrier, pos, this ) ) {
             if( watertight() ) {
                 ++iter;
                 continue;
@@ -1997,8 +1995,8 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
                 pocke->add( *it );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
-                iter->on_drop( p );
-                here.add_item_or_charges( p, *iter );
+                iter->on_drop( pos );
+                here.add_item_or_charges( pos, *iter );
                 if( carrier != nullptr ) {
                     carrier->invalidate_weight_carried_cache();
                     carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),

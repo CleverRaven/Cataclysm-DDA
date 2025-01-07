@@ -319,8 +319,6 @@ class Creature : public viewer
             return get_location().z();
         }
         virtual void gravity_check();
-        // TODO: Get rid of untyped overload
-        void setpos( const tripoint &p, bool check_gravity = true );
         void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
@@ -437,7 +435,7 @@ class Creature : public viewer
         // handles armor absorption (including clothing damage etc)
         // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
         virtual const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                             damage_instance &dam ) = 0;
+                                             damage_instance &dam, const weakpoint &wp = weakpoint() ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint_bub_ms &p );
@@ -491,7 +489,8 @@ class Creature : public viewer
          * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack() );
+                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack(),
+                const weakpoint &wp = weakpoint() );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -1345,7 +1344,8 @@ class Creature : public viewer
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit
         projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
-                double goodhit, double missed_by ) const;
+                double goodhit, bool magic, double missed_by,
+                const weakpoint_attack &attack ) const;
         // do messaging and SCT for projectile hit
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;

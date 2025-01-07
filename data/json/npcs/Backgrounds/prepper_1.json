@@ -772,7 +772,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Locked LMOE Shelter", "om_terrain": "lmoe_prepperquest", "reveal_radius": 3, "search_range": 400 }
+      "assign_mission_target": { "om_special": "Locked LMOE Shelter", "om_terrain": "lmoe_prepperquest", "reveal_radius": 3 }
     },
     "end": {
       "effect": [

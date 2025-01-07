@@ -186,7 +186,7 @@ Identifier             | Description
 `must_see`             | If true, the `om_terrain` must have been seen already.
 `cant_see`             | If true, the `om_terrain` must not have been seen already.
 `random`               | If true, a random matching `om_terrain` is used. If false, the closest is used.
-`search_range`         | Range in overmap terrain coordinates to look for a matching `om_terrain`.  Int or or [variable object](#variable-object)
+`search_range`         | Maximum range in overmap terrain coordinates to look for a matching `om_terrain`.  Int or or [variable object](#variable-object). Default 2520. Should only be used to limit maximum range when multiple valid destinations are possible, and only works to do that when random is also set to true.
 `min_distance`         | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.  Int or or [variable object](#variable-object)
 `origin_npc`           | Start the search at the NPC's, rather than the player's, current position.
 `z`                    | If specified, will be used rather than the player or NPC's z when searching.  Int or or [variable object](#variable-object)

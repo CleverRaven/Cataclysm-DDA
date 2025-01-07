@@ -346,7 +346,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( ammo_effect_MUZZLE_SMOKE ) ) {
-        here.emit_field( trajectory.front().raw(), muzzle_smoke );
+        here.emit_field( trajectory.front(), muzzle_smoke );
     }
 
     if( !no_overshoot && range < extend_to_range ) {

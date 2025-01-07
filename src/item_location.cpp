@@ -233,7 +233,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
+                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos() );
             }
             return res;
         }
@@ -352,7 +352,7 @@ class item_location::impl::item_on_person : public item_location::impl
             if( !ensure_who_unpacked() ) {
                 return tripoint::zero;
             }
-            return who->pos();
+            return who->pos_bub().raw();
         }
 
         Character *carrier() const override {
@@ -508,7 +508,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos_bub().raw(), part_pos.pos_bub().raw() );
+                res += " " + direction_suffix( ch->pos_bub(), part_pos.pos_bub() );
             }
             return res;
         }

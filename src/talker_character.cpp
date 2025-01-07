@@ -64,7 +64,7 @@ int talker_character_const::posz() const
 
 tripoint talker_character_const::pos() const
 {
-    return me_chr_const->pos();
+    return me_chr_const->pos_bub().raw();
 }
 
 tripoint_bub_ms talker_character_const::pos_bub() const
@@ -1027,6 +1027,11 @@ void talker_character::set_age( int amount )
 int talker_character_const::get_age() const
 {
     return me_chr_const->age();
+}
+
+int talker_character_const::get_ugliness() const
+{
+    return me_chr_const->ugliness();
 }
 
 int talker_character_const::get_bmi_permil() const

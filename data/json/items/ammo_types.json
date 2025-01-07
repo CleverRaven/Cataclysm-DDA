@@ -824,6 +824,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "caotel_cell",
+    "name": "Caotel cell",
+    "default": "caotel_cell"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
