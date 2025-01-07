@@ -68,7 +68,7 @@
     "longest_side": "160 mm",
     "price_postapoc": "24 USD 80 cent",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "": 16 }, "watertight": true } ],
-    "flag": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
     "material": "steel"
   },
   {
