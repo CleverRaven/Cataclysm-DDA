@@ -632,7 +632,7 @@
     "replace": "rifle_pellet_hunting"
   },
   {
-    "id": [ "84x246mm_smoke" ],
+    "id": [ "84x246mm_smoke", "khuunaofaai_ammo_firework" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"
   },

@@ -418,7 +418,7 @@
     "replace": "rocket_disposable"
   },
   {
-    "id": [ "m202_flash", "m3_carlgustav", "m4_carlgustav", "RPG", "surv_rocket_launcher" ],
+    "id": [ "m202_flash", "m3_carlgustav", "m4_carlgustav", "RPG", "surv_rocket_launcher", "khuunaofaai" ],
     "type": "MIGRATION",
     "replace": "rocket_recoilless"
   },
