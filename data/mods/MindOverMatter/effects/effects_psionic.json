@@ -1753,6 +1753,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_water_walking",
+    "name": [ "Water-Walking" ],
+    "desc": [ "You can walk over liquids without sinking into them." ],
+    "apply_message": "",
+    "remove_message": "You feel are firm on the ground.",
+    "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_slowfall",
     "name": [ "Slowfall" ],
     "desc": [ "The ground isn't as eager to receive you." ],

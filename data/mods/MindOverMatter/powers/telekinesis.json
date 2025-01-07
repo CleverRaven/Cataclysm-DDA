@@ -448,6 +448,44 @@
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
+    "id": "telekinetic_water_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Water Walking (C)",
+    "description": "Lift yourself enough to counteract your mass, allowing the surface tension of liquids to support you, enabling you to walk on water.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_WATER_WALKING",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_water_walk') * 800) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_water_walk') * 2600) + 7500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_water_walk') * 100)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 10 : max((150 -(u_spell_level('telekinetic_water_walk') * 6.5)), 50)"
+      ]
+    }
+  },
+  {
     "id": "telekinetic_lifting_field",
     "type": "SPELL",
     "name": "[Ψ]Lifting Field (C)",
@@ -706,7 +744,7 @@
     "id": "telekinetic_levitation",
     "type": "SPELL",
     "name": "[Ψ]Levitation (C)",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
