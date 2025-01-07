@@ -233,7 +233,7 @@
     "id": "prof_matrix_technology_beginner",
     "category": "prof_matrix_technology",
     "name": { "str": "Principles of Matrix Technology" },
-    "//": "This should not be used in any recipe that requires ",
+    "//": "This should not be used in any recipe that requires actual psionics to create",
     "description": "You know the basics of creating items using matrix crystals that don't require you to personally to use psi in the crafting process.",
     "can_learn": true,
     "default_time_multiplier": 2,
