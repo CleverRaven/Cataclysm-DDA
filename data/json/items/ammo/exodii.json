@@ -230,7 +230,7 @@
     "name": { "str": "firework payload" },
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly reactive to oxygen, removing it from the tank would be a bad idea.",
     "ammo_type": "khuunaofaai_payload",
-    "effects": [ "NEVER_MISFIRES", "FLASHBANG", "TRAIL", "EXPLOSIVE_HESHOT" ],
+    "effects": [ "NEVER_MISFIRES", "FLASHBANG", "TRAIL", "SMOKE_BIG" ],
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
     "recoil": 1000,
     "dispersion": 20,
