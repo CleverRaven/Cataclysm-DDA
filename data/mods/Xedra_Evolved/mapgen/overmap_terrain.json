@@ -176,6 +176,7 @@
     "mondensity": 0
   },
   {
+    "type": "overmap_terrain",
     "id": [ "salamander_eruption_ground" ],
     "name": "salamander eruption",
     "sym": "E",
