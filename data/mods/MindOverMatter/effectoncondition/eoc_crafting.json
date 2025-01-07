@@ -28,6 +28,50 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MOM_GRANT_GROUNDING_MEDITATION_TO_PSIONS",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_skill('metaphysics') >= 4" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "u_know_recipe": "psi_centering_meditation_drain_reduce" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "BIOKINETIC",
+              "CLAIRSENTIENT",
+              "ELECTROKINETIC",
+              "PHOTOKINETIC",
+              "PYROKINETIC",
+              "TELEKINETIC",
+              "TELEPATH",
+              "TELEPORTER",
+              "VITAKINETIC"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "psi_centering_meditation_drain_reduce" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_GAME_ONGOING_GRANT_CRAFTING_PROFICIENICES",
     "recurrence": 1,
     "condition": {

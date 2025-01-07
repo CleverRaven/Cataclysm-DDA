@@ -145,25 +145,5 @@
       { "math": [ "global_tier_three_power_learning_time_low = 345600" ] },
       { "math": [ "global_tier_three_power_learning_time_high = 604800" ] }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MOM_GAME_BEGIN_GRANT_CRAFTING_PROFICIENICES",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "condition": {
-      "u_has_any_trait": [
-        "BIOKINETIC",
-        "CLAIRSENTIENT",
-        "ELECTROKINETIC",
-        "PHOTOKINETIC",
-        "PYROKINETIC",
-        "TELEKINETIC",
-        "TELEPATH",
-        "TELEPORTER",
-        "VITAKINETIC"
-      ]
-    },
-    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'permille', 'direct': true) += 1000" ] } ]
   }
 ]
