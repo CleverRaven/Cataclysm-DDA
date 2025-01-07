@@ -4124,6 +4124,7 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
                 }
                 result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p,
                                               subtile, rot_facing, ll, false, height_3d );
+                draw_entity_with_overlays( *m, p, ll, height_3d );
                 sees_player = m->sees( you );
                 attitude = m->attitude_to( you );
             }
@@ -4405,6 +4406,29 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint_
                                      false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
+            height_3d = std::max( height_3d, overlay_height_3d );
+        }
+    }
+}
+
+void cata_tiles::draw_entity_with_overlays( const monster &mon, const tripoint_bub_ms &p,
+        lit_level ll, int &height_3d )
+{
+    // TODO: move drawing the monster from draw_critter_at() here
+
+    std::vector<std::pair<std::string, std::string>> overlays = mon.get_overlay_ids();
+    for( const std::pair<std::string, std::string> &overlay : overlays ) {
+        std::string draw_id = overlay.first;
+        if( find_overlay_looks_like( true, overlay.first, overlay.second, draw_id ) ) {
+            int overlay_height_3d = height_3d;
+            if( mon.facing == FacingDirection::RIGHT ) {
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 0, ll,
+                                     false, overlay_height_3d );
+            } else if( mon.facing == FacingDirection::LEFT ) {
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ -1, ll,
+                                     false, overlay_height_3d );
+            }
+
             height_3d = std::max( height_3d, overlay_height_3d );
         }
     }
