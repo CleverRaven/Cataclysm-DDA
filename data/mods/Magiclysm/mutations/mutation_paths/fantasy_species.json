@@ -168,7 +168,6 @@
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
     "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ]
@@ -184,7 +183,6 @@
     "starting_trait": false,
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
     "flags": [ "CRAFT_IN_DARKNESS" ]
   },
@@ -197,8 +195,7 @@
     "starting_trait": false,
     "purifiable": false,
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
-    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
+    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ]
   },
   {
     "type": "mutation",
