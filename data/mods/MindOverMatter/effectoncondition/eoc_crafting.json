@@ -63,6 +63,6 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'permille', 'direct': true) += 1000" ] } ]
+    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'percent', 'direct': true) += 100" ] } ]
   }
 ]

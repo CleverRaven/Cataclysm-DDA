@@ -11,8 +11,8 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "schematics_reactant_liquid_base", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "serum_production_standard", 25 ] ],
     "components": [
