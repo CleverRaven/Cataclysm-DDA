@@ -32,8 +32,12 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "fabric_store_pallete" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "fabric_store_pallete" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }
   },

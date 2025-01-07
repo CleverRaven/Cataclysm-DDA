@@ -29,5 +29,12 @@
       { "group": "afs_stored_veggies", "prob": 10, "count": [ 1, 2 ] },
       { "group": "afs_ruined_food", "prob": 50, "count": [ 1, 7 ] }
     ]
+  },
+  {
+    "id": "afs_old_beverage_storage",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A fridge or equivalent storing drinks from before the discontinuity. Should only contain nonperishable food and spawn in ruins.",
+    "items": [ { "group": "afs_cheap_drinks", "prob": 10, "count": [ 1, 5 ] } ]
   }
 ]

@@ -9,7 +9,7 @@
     "volume": "1500 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leg_splint",
@@ -28,7 +28,7 @@
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "carpet_legguards",
@@ -41,7 +41,6 @@
     "volume": "3 L",
     "price": "20 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic", "carpet_pilling" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -76,7 +75,6 @@
     "volume": "2 L",
     "price": "20 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic", "carpet_pilling" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -110,7 +108,6 @@
     "volume": "5000 ml",
     "price": "250 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": 1,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -135,18 +132,18 @@
     "id": "xl_legguard_chitin",
     "copy-from": "legguard_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL chitin leg guards", "str_pl": "pairs of XL chitin leg guards" },
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
     "material": [ "chitin" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_chitin",
     "type": "ARMOR",
     "copy-from": "legguard_chitin",
-    "name": { "str": "pair of XS chitin leg guards", "str_pl": "pairs of XS chitin leg guards" },
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_acidchitin",
@@ -162,19 +159,19 @@
     "id": "xl_legguard_acidchitin",
     "copy-from": "legguard_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL biosilicified chitin leg guards", "str_pl": "pairs of XL biosilicified chitin guards" },
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_acidchitin",
     "copy-from": "legguard_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XS biosilicified chitin leg guards", "str_pl": "pairs of XS biosilicified chitin guards" },
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
     "material": [ "acidchitin" ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bunker_pants",
@@ -187,7 +184,6 @@
     "volume": "5 L",
     "price": "815 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
     "looks_like": "pants_cargo",
@@ -233,14 +229,13 @@
     "abstract": "base_chainmail_legs",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "base chainmail leggings" },
+    "name": { "str_sp": "base chainmail leggings", "//~": "NO_I18N" },
     "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "4212 g",
     "volume": "1500 ml",
     "longest_side": "11 cm",
     "price": "75 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -283,7 +278,7 @@
     "abstract": "xl_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -309,13 +304,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -341,14 +336,14 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "abstract": "base_chainmail_half_legs",
     "copy-from": "base_chainmail_legs",
     "type": "ARMOR",
-    "name": { "str_sp": "base chainmail half-leggings" },
-    "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzaging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "name": { "str_sp": "base chainmail half-leggings", "//~": "NO_I18N" },
+    "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzagging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "3159 g",
     "volume": "1125 ml",
     "longest_side": "10 cm",
@@ -367,7 +362,7 @@
     "abstract": "xl_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "XL chainmail half-leggings", "str_pl": "pairs of XL chainmail half-leggings" },
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -393,13 +388,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "XS chainmail half-leggings", "str_pl": "pairs of XS chainmail half-leggings" },
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -425,7 +420,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "chainmail_junk_legs",
@@ -447,14 +442,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" }
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
   },
   {
     "id": "xs_lc_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" }
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
   },
   {
     "id": "mc_chainmail_legs",
@@ -468,14 +463,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" }
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
   },
   {
     "id": "xs_mc_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" }
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
   },
   {
     "id": "hc_chainmail_legs",
@@ -489,14 +484,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" }
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
   },
   {
     "id": "xs_hc_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" }
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
   },
   {
     "id": "ch_chainmail_legs",
@@ -510,14 +505,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" }
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
   },
   {
     "id": "xs_ch_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" }
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
   },
   {
     "id": "qt_chainmail_legs",
@@ -531,14 +526,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" }
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
   },
   {
     "id": "xs_qt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" }
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
   },
   {
     "id": "lc_chainmail_half_legs",
@@ -552,14 +547,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail half-leggings", "str_pl": "pairs of XL mild steel chainmail half-leggings" }
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
   },
   {
     "id": "xs_lc_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail half-leggings", "str_pl": "pairs of XS mild steel chainmail half-leggings" }
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
   },
   {
     "id": "mc_chainmail_half_legs",
@@ -573,14 +568,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail half-leggings", "str_pl": "pairs of XL medium steel chainmail half-leggings" }
+    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
   },
   {
     "id": "xs_mc_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail half-leggings", "str_pl": "pairs of XS medium steel chainmail half-leggings" }
+    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
   },
   {
     "id": "hc_chainmail_half_legs",
@@ -594,14 +589,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail half-leggings", "str_pl": "pairs of XL high steel chainmail half-leggings" }
+    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
   },
   {
     "id": "xs_hc_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail half-leggings", "str_pl": "pairs of XS high steel chainmail half-leggings" }
+    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
   },
   {
     "id": "ch_chainmail_half_legs",
@@ -615,14 +610,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail half-leggings", "str_pl": "pairs of XL hardened steel chainmail half-leggings" }
+    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
   },
   {
     "id": "xs_ch_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail half-leggings", "str_pl": "pairs of XS hardened steel chainmail half-leggings" }
+    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
   },
   {
     "id": "qt_chainmail_half_legs",
@@ -636,14 +631,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_half_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail half-leggings", "str_pl": "pairs of XL tempered steel chainmail half-leggings" }
+    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
   },
   {
     "id": "xs_qt_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_half_legs",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail half-leggings", "str_pl": "pairs of XS tempered steel chainmail half-leggings" }
+    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
   },
   {
     "id": "leggings_thessalonian",
@@ -655,7 +650,6 @@
     "volume": "1500 ml",
     "price": "75 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
@@ -684,7 +678,6 @@
     "volume": "1250 ml",
     "price": "210 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "pants_leather",
@@ -758,7 +751,6 @@
     "volume": "1500 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -787,7 +779,6 @@
     "volume": "5500 ml",
     "price": "400 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": 1,
     "material": [ "bronze", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -811,17 +802,17 @@
     "id": "xl_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "pair of XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
+    "name": { "str": "pair of bronze greaves", "str_pl": "pairs of bronze greaves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "pair of XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
+    "name": { "str": "pair of bronze greaves", "str_pl": "pairs of bronze greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_hard",
@@ -833,7 +824,6 @@
     "volume": "3 L",
     "price": "34 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -864,7 +854,6 @@
     "volume": "6 L",
     "price": "200 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -888,17 +877,17 @@
     "id": "xl_legguard_lightplate",
     "type": "ARMOR",
     "copy-from": "legguard_lightplate",
-    "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
+    "name": { "str": "pair of steel leg guards", "str_pl": "pairs of steel leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_lightplate",
     "type": "ARMOR",
     "copy-from": "legguard_lightplate",
-    "name": { "str": "pair of XS steel leg guards", "str_pl": "pairs of XS steel leg guards" },
+    "name": { "str": "pair of steel leg guards", "str_pl": "pairs of steel leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_metal",
@@ -910,7 +899,6 @@
     "volume": "5500 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -934,17 +922,17 @@
     "id": "xl_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
-    "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
+    "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
-    "name": { "str": "pair of XS iron greaves", "str_pl": "pairs of XS iron greaves" },
+    "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_metal_sheets",
@@ -957,7 +945,6 @@
     "volume": "2500 ml",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -998,7 +985,6 @@
     "volume": "1200 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1039,7 +1025,6 @@
     "volume": "2 L",
     "price": "5 USD",
     "price_postapoc": "4 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "m",
     "color": "light_gray",
@@ -1077,7 +1062,6 @@
     "volume": "1 L",
     "price": "5 USD",
     "price_postapoc": "4 USD",
-    "to_hit": 1,
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
     "symbol": "m",
@@ -1110,17 +1094,17 @@
     "id": "xl_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of XL sheet metal leg guards", "str_pl": "pairs of XL sheet metal leg guards" },
+    "name": { "str": "pair of sheet metal leg guards", "str_pl": "pairs of sheet metal leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of XS sheet metal leg guards", "str_pl": "pairs of XS sheet metal leg guards" },
+    "name": { "str": "pair of sheet metal leg guards", "str_pl": "pairs of sheet metal leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_paper",
@@ -1132,7 +1116,6 @@
     "volume": "500 ml",
     "price": "2 USD 30 cent",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "paper" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1159,10 +1142,9 @@
     "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
     "description": "Leg guards made of thick chunks of tire held together with duct tape.",
     "weight": "2400 g",
-    "volume": "2000 ml",
+    "volume": "2 L",
     "price": "23 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1192,7 +1174,7 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -1210,23 +1192,23 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
     "id": "xl_legguard_scrap",
     "type": "ARMOR",
     "copy-from": "legguard_scrap",
-    "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
+    "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_scrap",
     "type": "ARMOR",
     "copy-from": "legguard_scrap",
-    "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
+    "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_tire",
@@ -1238,7 +1220,6 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -1262,17 +1243,17 @@
     "id": "xl_legguard_tire",
     "type": "ARMOR",
     "copy-from": "legguard_tire",
-    "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_tire",
     "type": "ARMOR",
     "copy-from": "legguard_tire",
-    "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "motorbike_pants",
@@ -1526,7 +1507,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1553,10 +1534,10 @@
   {
     "id": "xl_armor_lc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light leg guard" },
+    "name": { "str": "mild steel light leg guard" },
     "copy-from": "armor_lc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_light_leg_guard",
@@ -1569,10 +1550,10 @@
   {
     "id": "xl_armor_mc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel light leg guard" },
+    "name": { "str": "medium steel light leg guard" },
     "copy-from": "armor_mc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_light_leg_guard",
@@ -1585,10 +1566,10 @@
   {
     "id": "xl_armor_hc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel light leg guard" },
+    "name": { "str": "high steel light leg guard" },
     "copy-from": "armor_hc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_light_leg_guard",
@@ -1602,10 +1583,10 @@
   {
     "id": "xl_armor_ch_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL hardened light leg guard" },
+    "name": { "str": "hardened light leg guard" },
     "copy-from": "armor_ch_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_light_leg_guard",
@@ -1618,10 +1599,10 @@
   {
     "id": "xl_armor_qt_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered light leg guard" },
+    "name": { "str": "tempered light leg guard" },
     "copy-from": "armor_qt_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_leg_guard",
@@ -1633,7 +1614,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1661,10 +1642,10 @@
   {
     "id": "xl_armor_lc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel leg guard" },
+    "name": { "str": "mild steel leg guard" },
     "copy-from": "armor_lc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_leg_guard",
@@ -1677,10 +1658,10 @@
   {
     "id": "xl_armor_mc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel leg guard" },
+    "name": { "str": "medium steel leg guard" },
     "copy-from": "armor_mc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_leg_guard",
@@ -1693,10 +1674,10 @@
   {
     "id": "xl_armor_hc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel leg guard" },
+    "name": { "str": "high steel leg guard" },
     "copy-from": "armor_hc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_leg_guard",
@@ -1709,10 +1690,10 @@
   {
     "id": "xl_armor_ch_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL hardened leg guard" },
+    "name": { "str": "hardened leg guard" },
     "copy-from": "armor_ch_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_leg_guard",
@@ -1725,10 +1706,10 @@
   {
     "id": "xl_armor_qt_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered leg guard" },
+    "name": { "str": "tempered leg guard" },
     "copy-from": "armor_qt_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_heavy_leg_guard",
@@ -1740,7 +1721,7 @@
     "volume": "2916 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1768,10 +1749,10 @@
   {
     "id": "xl_armor_lc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy leg guard" },
+    "name": { "str": "mild steel heavy leg guard" },
     "copy-from": "armor_lc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_heavy_leg_guard",
@@ -1784,10 +1765,10 @@
   {
     "id": "xl_armor_mc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel heavy leg guard" },
+    "name": { "str": "medium steel heavy leg guard" },
     "copy-from": "armor_mc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_heavy_leg_guard",
@@ -1800,10 +1781,10 @@
   {
     "id": "xl_armor_hc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel heavy leg guard" },
+    "name": { "str": "high steel heavy leg guard" },
     "copy-from": "armor_hc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_heavy_leg_guard",
@@ -1816,10 +1797,10 @@
   {
     "id": "xl_armor_ch_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL hardened heavy leg guard" },
+    "name": { "str": "hardened heavy leg guard" },
     "copy-from": "armor_ch_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_heavy_leg_guard",
@@ -1832,10 +1813,10 @@
   {
     "id": "xl_armor_qt_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered heavy leg guard" },
+    "name": { "str": "tempered heavy leg guard" },
     "copy-from": "armor_qt_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "survivor_adhoc_leather_pants",
@@ -1847,7 +1828,6 @@
     "volume": "2500 ml",
     "price_postapoc": "12 USD",
     "looks_like": "technician_pants_gray",
-    "to_hit": 1,
     "material": [ "canvas", "leather" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1902,7 +1882,6 @@
     "volume": "2500 ml",
     "price_postapoc": "12 USD",
     "looks_like": "technician_pants_gray",
-    "to_hit": 1,
     "material": [ "canvas", "cotton" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1956,7 +1935,6 @@
     "volume": "2500 ml",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
@@ -1994,7 +1972,6 @@
     "volume": "2 L",
     "price": "40 USD",
     "price_postapoc": "10 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "legguard_bronze",
@@ -2008,17 +1985,17 @@
   {
     "id": "xl_legguard_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather leg guards", "str_pl": "pairs of XL leather leg guards" },
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
     "copy-from": "legguard_larmor",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_larmor",
     "type": "ARMOR",
     "copy-from": "legguard_larmor",
-    "name": { "str": "pair of XS leather leg guards", "str_pl": "pairs of XS leather leg guards" },
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

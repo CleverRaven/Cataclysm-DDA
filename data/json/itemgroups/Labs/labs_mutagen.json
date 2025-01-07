@@ -64,7 +64,6 @@
       { "item": "slime_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "bird_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "crustacean_sample", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "egg_reptile", "prob": 20, "count": [ 1, 12 ] },
       { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ], "sealed": false },
       { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 35, "count": [ 1, 2 ], "sealed": false }
     ]

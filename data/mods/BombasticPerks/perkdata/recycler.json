@@ -4,7 +4,7 @@
     "id": "EOC_can_hunting",
     "//": "only 50% chance to happen each time",
     "//2": "Processing effect",
-    "condition": { "math": [ "rng(0, 1.0)", ">", "0.5" ] },
+    "condition": { "math": [ "rng(0, 1.0) > 0.5" ] },
     "effect": [
       { "u_message": "Someone left a perfectly good can of soda on the ground!" },
       { "u_spawn_item": "groce_softdrink", "use_item_group": true }

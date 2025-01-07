@@ -1,0 +1,8 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_has_mind",
+    "condition": { "or": [ { "u_has_flag": "HAS_MIND" }, { "u_has_flag": "HUMAN" }, "u_is_character" ] },
+    "effect": [  ]
+  }
+]

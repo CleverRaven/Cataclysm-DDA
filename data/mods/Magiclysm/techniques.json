@@ -13,6 +13,6 @@
       "Snicker-snack!  <npcname> slices through %s like a hot knife slices through butter."
     ],
     "description": "Cut damage multiply by 2, crit only",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   }
 ]

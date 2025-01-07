@@ -449,7 +449,8 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -470,7 +471,8 @@
     "price_postapoc": "1 cent",
     "material": [ "fruit" ],
     "volume": "10 ml",
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -489,7 +491,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 30
   },
   {
@@ -552,22 +554,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "meal_bone",
-    "name": { "str_sp": "bone meal" },
-    "weight": "60 g",
-    "color": "white",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This bone meal can be used to craft fertilizer and some other things.",
-    "price": "6 cent",
-    "price_postapoc": "2 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "gelatin_powder",
     "name": { "str_sp": "powdered gelatin" },
     "weight": "11 g",
@@ -576,14 +562,15 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 6,
+    "calories": 37,
     "description": "Dried and powdered gelatin, used as a gelling agent when mixed with water.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
     "material": "powder",
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "iron", "100 μg" ], [ "calcium", "6 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -606,26 +593,8 @@
     "price_postapoc": "50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "meal_bone_tainted",
-    "name": { "str_sp": "tainted bone meal" },
-    "weight": "60 g",
-    "color": "white",
-    "use_action": [ "POISON" ],
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This is a grayish bone meal made from rotten bones.",
-    "calories": 4,
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -665,7 +634,7 @@
   {
     "type": "GENERIC",
     "id": "cardboard",
-    "name": { "str": "cardboard" },
+    "name": { "str": "piece of cardboard", "str_pl": "pieces of cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
@@ -696,7 +665,7 @@
     "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -715,7 +684,7 @@
     "material": [ "bean" ],
     "volume": "41 ml",
     "cooks_like": "beans_cooked",
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -738,7 +707,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -758,7 +727,7 @@
     "volume": "85 ml",
     "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -777,7 +746,7 @@
     "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -794,7 +763,7 @@
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -813,7 +782,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "smoking_result": "dry_soybean",
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_5_1" },
     "seed_data": {
@@ -843,7 +812,7 @@
     "material": [ "veggy" ],
     "fun": -5,
     "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_1" },
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -871,7 +840,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
@@ -892,7 +861,8 @@
     "fun": 10,
     "material": [ "veggy", "blood" ],
     "volume": "83 ml",
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -977,8 +947,7 @@
     "name": { "str_sp": "Kentucky coffee grounds" },
     "container": "bag_plastic_small",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "volume": "12 ml"
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "honey_glassed",
@@ -1003,7 +972,7 @@
     "type": "COMESTIBLE",
     "id": "can_tomato",
     "name": { "str_sp": "canned tomato" },
-    "weight": "128 g",
+    "weight": "120 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",
     "container": "can_food",
@@ -1011,13 +980,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 55,
+    "calories": 26,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": "175 cent",
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "125 ml",
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1600 μg" ], [ "calcium", "40800 μg" ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -1032,7 +1001,7 @@
     "symbol": "%",
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": "80 cent",
     "price_postapoc": "0 cent",
@@ -1051,12 +1020,11 @@
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1074,12 +1042,11 @@
     "volume": "1750 ml",
     "price": "7 USD",
     "price_postapoc": "1 USD 75 cent",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 1190,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1097,12 +1064,11 @@
     "volume": "9000 ml",
     "price": "360 USD",
     "price_postapoc": "9 USD",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": ";",
     "quench": 1,
     "calories": 6120,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1120,17 +1086,38 @@
     "volume": "250 ml",
     "price": "20 cent",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "BIRDFOOD" ]
+  },
+  {
+    "id": "dogfood_raw",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "raw dog food" },
+    "description": "Minced meat mixed with some greens to be presented to a dog or something with a omnivorous diet.",
+    "weight": "430 g",
+    "spoils_in": "1 day",
+    "volume": "500 ml",
+    "price": "3 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "flesh", "veggy" ],
+    "symbol": "%",
+    "quench": 2,
+    "calories": 402,
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 12 ], [ "calcium", 2 ], [ "meat_allergen", 1 ] ],
+    "fun": -15,
+    "color": "red",
+    "flags": [ "LUPINE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "DOGFOOD" ]
   },
   {
     "id": "dogfood",
@@ -1144,12 +1131,11 @@
     "volume": "500 ml",
     "price": "3 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -1168,18 +1154,39 @@
     "volume": "250 ml",
     "price": "3 USD",
     "price_postapoc": "4 USD",
-    "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
     "petfood": [ "DOGFOOD" ]
+  },
+  {
+    "id": "catfood_raw",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "raw cat food" },
+    "description": "Minced meat to be presented to a cat or something with a strict meat diet.",
+    "weight": "223 g",
+    "spoils_in": "1 day",
+    "volume": "250 ml",
+    "price": "3 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "flesh" ],
+    "symbol": "%",
+    "quench": 2,
+    "calories": 402,
+    "vitamins": [ [ "vitC", 0 ], [ "iron", 12 ], [ "calcium", 2 ], [ "meat_allergen", 1 ] ],
+    "fun": -15,
+    "color": "red",
+    "flags": [ "FELINE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "CATFOOD" ]
   },
   {
     "id": "catfood",
@@ -1193,12 +1200,11 @@
     "volume": "250 ml",
     "price": "3 USD",
     "price_postapoc": "4 USD",
-    "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -1217,13 +1223,12 @@
     "volume": "250 ml",
     "price": "3 USD",
     "price_postapoc": "4 USD",
-    "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
     "healthy": -1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -1240,8 +1245,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 70,
-    "vitamins": [  ],
-    "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": { "str": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
@@ -1257,8 +1262,11 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 50,
-    "vitamins": [  ],
-    "description": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": {
+      "str": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
+      "//~": "NO_I18N"
+    },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
@@ -1274,8 +1282,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
-    "vitamins": [  ],
-    "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "description": { "str": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
@@ -1292,7 +1300,7 @@
     "symbol": "%",
     "calories": 130,
     "vitamins": [  ],
-    "description": "Some nectar.  Seeing this item is a bug.",
+    "description": { "str": "Some nectar.  Seeing this item is a bug.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "TRADER_AVOID" ],
@@ -1415,7 +1423,7 @@
     "comestible_type": "FOOD",
     "id": "camp_meal_small",
     "name": { "str": "prepared meal (small)", "str_pl": "prepared meals (small)" },
-    "description": "I am an item used in faction camps.  If you see this description, it is a bug.",
+    "description": { "str": "I am an item used in faction camps.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "weight": "250 g",
     "volume": "250 ml",
     "price": "100 cent",
@@ -1455,7 +1463,6 @@
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": "%",
     "color": "yellow",
@@ -1463,16 +1470,8 @@
     "calories": 200,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "blood_pancakes_wheat_free",
-    "copy-from": "blood_pancakes",
-    "name": { "str": "wheat-free blodplättar" },
-    "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
-    "material": [ "veggy", "blood" ],
-    "primary_material": "veggy"
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1484,7 +1483,6 @@
     "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "brown",
@@ -1496,7 +1494,7 @@
     "parasites": 20,
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME", "BIRD", "NUTRIENT_OVERRIDE" ],
     "//1": "1 earthworm has such a small amount of vitamins, i'm not sure it's possible to model them.",
-    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ] ]
+    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1562,12 +1560,13 @@
     "material": [ "flesh" ],
     "calories": 15,
     "spoils_in": "15 days",
-    "rot_spawn": "GROUP_MUTATION_SNAIL",
+    "rot_spawn": { "monster": "mon_snail_forest", "chance": 5 },
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "volume": "15 ml",
-    "fun": -20
+    "fun": -20,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1579,7 +1578,6 @@
     "volume": "100 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "veggy" ],
     "symbol": "%",
     "color": "brown",
@@ -1587,7 +1585,8 @@
     "calories": 100,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1599,7 +1598,6 @@
     "volume": "100 ml",
     "price": "1 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -5,
     "material": [ "nut" ],
     "symbol": "%",
     "color": "brown",
@@ -1613,7 +1611,7 @@
   {
     "id": "swarm_bees",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
     "description": "A swarm of honey bees, displaced from the hive.  Without the support and nutrients of an apiary, or taking root somewhere, they will die in a few days.",
     "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
@@ -1623,7 +1621,6 @@
     "flags": [ "ZERO_WEIGHT", "INEDIBLE" ],
     "volume": "500 ml",
     "symbol": "B",
-    "color": "yellow",
-    "calories": 0
+    "color": "yellow"
   }
 ]

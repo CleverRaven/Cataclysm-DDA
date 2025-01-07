@@ -103,7 +103,7 @@
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },
       { "text": "When is the next shipment?", "topic": "TALK_ROBOFAC_FREE_MERCHANT_INTERVAL" },
       { "text": "What are you doing here?", "topic": "TALK_ROBOFAC_FREE_MERCHANT_DOING" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

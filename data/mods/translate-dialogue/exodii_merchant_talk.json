@@ -1,0 +1,691 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_New",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+        "\"\n\n[TRANSLATE:] \"",
+        "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DoneTrade",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Good an' fine, then.",
+      "Have it as ye'll see.",
+      { "concatenate": [ "For a card an' a wink, eh?", "\"\n\n[TRANSLATE:] \"", "That was a good exchange." ] }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.",
+        "\"\n\n[TRANSLATE:] \"",
+        "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's not Avalonian steel, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the Enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armor for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This and that, you know.  It's made for a traveling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Stock_Nomad3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "'Tis as simple as comes to a wobble.  Our vestment be oft made from the fine clothes and hides of the land, and our jibber tears the stuff o' life apart here and there when us'n travel.  For as some can be saved if care be taken, there be no case to store nigh enough o' this.  That, an' our manuc-makers run as hot as a sunstone, no spit'n taste for that which we don't use usselves.",
+        "\"\n\n[TRANSLATE:] \"",
+        "It's a simple matter of how we teleport.  Our clothes are often made from cloth and hides from wherever we visit, and our teleporter tears living stuff apart here and there when we travel.  Some can be saved if we take care, but there's no room to store nearly enough extra.  That, and our fabricators are always busy, no time to waste on stuff we don't need for ourselves."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_AskedRestock",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back in <interval>.",
+        "\"\n\n[TRANSLATE:] \"",
+        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back in <interval>."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ],
+      "yes": {
+        "concatenate": [
+          "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
+          "\"\n\n[TRANSLATE:] \"",
+          "You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know."
+        ]
+      },
+      "no": {
+        "concatenate": [ "Oy, c'n I bark you summat first?", "\"\n\n[TRANSLATE:] \"", "Hey, can I ask you something first?" ]
+      }
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DoSomething",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Sure as can,\" the gravelly voice takes on an unmistakeable 'customer service' tone.  \"What'll ye tass this'n for?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Of course, what can I do for you?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_TalkJob",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Aye, business afore, 'tis said.  What'll ye tass to ol' Rubik?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Business before pleasure.  What do you need?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [ "Gimme spek, 'n  fetch 'em 'ere.", "\"\n\n[TRANSLATE:] \"", "Give me a second, and I'll bring them here." ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Lemme poke.  Will tass what ye can for a shiny.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Let me see.  Will do what I can for a coin."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fer this 'un, I can yank out their bits 'n give 'em to ya, or I can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to me?  I reckon I can turn 'im into a right useful worker.",
+        "\"\n\n[TRANSLATE:] \"",
+        "For this one, I can pull out their CBM and give any working to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively, why don't you just give them to me?  I surely can help them adjust to life as a cyborg."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Experiment_Broken_Cyborg_Rescue",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This 'unwon't be twitching', too much grey lost to dead.  But ye can salvage bits from 'em or born 'em for a walker, or just cut out the rot 'n grey link so ya can miss 'em proper.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This one can't be saved, too much brain rotted.  But I can salvage bits from them or repurpose them for walker, or just cut out rot and neural interface so you can bury them proper."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Lovely!  Benzete's gonna be a pair, that's a track!  I mean, they'll be right happy.  This is their first jump, and it's a flappin' duck.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Lovely!  Benzete (this is a name) is going to be beside themselves, that's for sure.  I mean, they'll be really happy.  This is their first jump, and it's a lucky one."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro2a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "So 'twere an I recalt, us're yarkin' of Benzete an' their great first jump.",
+        "\"\n\n[TRANSLATE:] \"",
+        "As I recall, we were talking about Benzete and how this is a great jump for their first time."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Us gotta leave the old world afore it's worn right to the gums, an y'ken, and find a nice twitchy one on t'other side.  Your deadland be a brand shiny",
+        "\"\n\n[TRANSLATE:] \"",
+        "We've got to leave the old world before it gets too worn out, you see, and find a nice fresh one on the other side.  Your deadland is as fresh as it gets."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro3a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Neverken.  Right and so, the Enemy is new here, and us'n have a few good hours in the sun beforenext the jump.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No worries.  I mean, the Enemy is new here, and we have a bit of safe time ahead of us before we have to jump away again."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro4a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "That be a part an' switch, but this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's a part of it, sure, but this is nice for other reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro4b",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "You kennit rightly!  That and this be'n nice for all, overtop the last jump by heads.  Otherlands with fusillies and mobbings, us'n gets a fine change on that.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's exactly it!  This is nice for many reasons, and much better than our last jump.  Otherlands with fusillies and mobbings are really useful to us."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro5",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Oh, rights.  Many lands be'd assert on thosun's.  A fusilly, she's a weapon, shoots a shot at high speeds usin' bang.  A mobbing, he's a grand box o' metal, pushed by burnin' and boomin' from wit'in, kennit?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Oh, yeah.  Lots of places have different words for those.  A fusilly is a weapon that fires a bullet at high speeds using propellant.  A mobbing is a big metal box that's moved around by an internal explosion.  Do you get it?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_Intro6",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Great, I'll put that in the dictionary.  Here's a token of my gratitude for your explanation."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Them's an otherlander from thrice jumps an' change, wide as the sky.  They's got happily on sommat for the tracking, you ken?",
+        "\"\n\n[TRANSLATE:] \"",
+        "They're an otherlander from around three jumps ago, a real optimistic greenhorn.  They're really interested in how we do tracking, you see?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hmm.  They… planned out the last jump?  Like as an apprentice to the ol' sexten.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Like an apprentice to the old tracker."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [ "Sure an' that's a fine enough word, an I'm ken.", "\"\n\n[TRANSLATE:] \"", "Sure, that word is fine, I think." ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Aliens",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Yeah, you could call us as it.  Us're from otherlands mostlike.  Not otherworlds though.  Too risky bringin' them squelchies into the fold.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yeah, you could say that.  We're from otherlands, most of the time.  Not otherworlds though.  Too risky bringing those monsters into our safe haven."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Aliens2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yeah, that's a big question.  Otherworlds are how you got those ugly bug-creatures around here, you know?  Walking plants, talking mushroom, stuff like that.  Otherlands are closer related.  I'm from Earth, just a different Earth.  You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think.  You should be asking what we're doing hanging out in your part of town."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Home",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  This'n… I don't think I want to talk 'bout it.  Too much metal atwixt now an' then.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Metal",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Us'n saw this were a pidgeon's road, I'd razz.  Only one way, I'm ken, if I'm not to join the rank an' file.",
+        "\"\n\n[TRANSLATE:] \"",
+        "I realized that it was a no-brainer question.  There was only one other option, you see, if I didn't join the Exodii."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Robot?  What does that word mean?  Hang on.  …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Yeah, that be the soggy leaves, an I'm ken.  A bit o' both, but Rubik were once as a kin, to you be.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yeah, that's the basic explanation.  A bit of both now, but I used to be just like you."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Base",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "A junker base, innit?  Pile o' gamp.  Us'll pack it up and sing along soon enough.",
+        "\"\n\n[TRANSLATE:] \"",
+        "A junker base, obviously.  A jury-rigged mess.  We'll pack it up and leave eventually."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_BaseTimeLeft",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Yon aforetime otherland, 'twere a right soggy biscuit.  This'n be crisp an' fresh yet.  Us'n'll try as might stay a fair tick.",
+        "\"\n\n[TRANSLATE:] \"",
+        "The otherlands we were in before had only little time left, so we can't say for sure.  But this land is as fresh as it can be."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Base2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "For an' how, ye be needin' to think wi' them elevens o' directions, kennit?  Us'll open a gate an' wibble-an-wobble.  Same as us came.",
+        "\"\n\n[TRANSLATE:] \"",
+        "To understand how, you've gotta think eleven-dimensionally.  We'll open up a gate and teleport out, the same as we came."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Zomborgs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "'Tis a good an' yark, sooth.  Them as can have the metal deep in, can be saved for the risen, but it b'ain't a sure course.  Some as comes back anyway, an' some be too much flesh.  The grander lot are no Exodii like ol' Rubik, most be friends more kin to thyself.  Us'll hearken out and trundle home the pieces for a scrub-and-bucket.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah, good question.  Enough cybernetic implants can keep someone from coming back as a zombie, but it's not a sure thing.  Some come back anyway, and some just don't have enough cybernetics.  Most of them aren't full Exodii like old Rubik, they're more our friends - like you.  Sooner or later we'll get out there, put them down, and bring their parts back for cleaning."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Rubik's not the finest dandy to yark it, an I'm ken, but this'n'll do best as can.  Ol' Rubik an' the stompy-clanker gang be shiny an' fine as can be, for y'see so well, but on the wind-up, the guts be nigh so fleshy as they were afore, twixt as they be with wire and steel.  Ain't none so left as remembers precise how it all goes, and much is boggled from bits and drabs o' a dozen elsewheres.  'Tis a marked fine they work at all, though work they do, and nicely.  Still, 'tis hard to know what'll crumple out from the can.  Those as return, they be… less well made as ol' Rubik.  Some as did work themselves, even, and mayhap against the good old ways.",
+        "\"\n\n[TRANSLATE:] \"",
+        "I don't think I'm the best to explain that, but I'll do my best.  Our technology might seem pretty high-tech and well made to you, but on the inside I'm still mostly human meat bound up in wires and steel.  Nobody's left that remembers exactly how it all goes, and much of it is cobbled together from a few different dimensions.  It's a miracle they work as well as they do, but somehow it's actually pretty functional.  Still, it can be hard to know exactly what could go wrong.  The ones who come back as zombies, they're generally less well made than me.  Some even did their own cybernetic conversions, and didn't exactly follow best practices."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Make_Time",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Blinker than a bat, but downer than a cat.  Razzin' up the bits be a trick and some.  The draw-make automates can manufactorize the outer shell, and there be automates for the most o' the tools.  Some bits be more a breakfast o' rats, an' for them, us'n has some artisanals.  Us'n b'ain't on the solid now, so 'tis a longer down.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Faster than you might guess, but it can still take a while, the hardest part is sourcing the materials for one.  We've got printers that make the body, and others that make the tools and equipment the walker will use.  Some of the special parts have to be manufactured by hand, so we have a small team that does that.  Right now, it's very slow, we're still setting up our operations."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Robot_Buy",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "*sounds thoughtful.  \"This'n can't make a call o' the quarter.  The stompers be a king's necklace, and the manufactory don't run on dreams.  Mayhap when us'n be more on the solid, but for the tick and tumble, no.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "I don't know about that.  Each one we make is very important to our operations here, and they're extremely expensive.  I might be able to sell you one later, but not right now.\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Jobs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        {
+          "concatenate": [
+            "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
+            " [TRANSLATE: ",
+            "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
+            "]"
+          ]
+        },
+        {
+          "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
+          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
+          "no": [
+            {
+              "math": [ "exodii_knows_hub01 == 1" ],
+              "yes": [
+                {
+                  "math": [ "warehouse_was_found == 1" ],
+                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
+                }
+              ],
+              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?\""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Sure you can, at least a bit.  I'll do my best to speak your Anglic, but seeing as we're from otherlands and all, it's not that simple."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodus2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Same as you will be, an I'm ken.  The Enemy.  The dead.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Same as you, I'd guess.  The Enemy.  The dead."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "F'r to wax religious, eh?\n\n*Rubik pauses for a while.  When they start talking again, their voice is slow and more serious than usual.*\n\nThis'n can't tell ye, rightly, but those what have a bottle an' a cork what fits it, they yark about the Enemy.  Most folks got a story like that in their ol' hearth-tales, an I'm ken.  A bad way, from times old, come back.  Ol' Rubik don't know much about that, but something makes them bodies walk and moan, and it don't seem to be somethin' of the way o' our kin.  How it gets in, well, that be anyone's for a guess.  It can come the way we came, wibbling and wobbling, but it don't always.  How it be'd the end for your deadland, Rubik can't say for ye.",
+        "\"\n\n[TRANSLATE:] \"",
+        "You want to get religious, eh?  I can't tell you for sure, but the people who claim to know, they talk about the Enemy.  Most folks have a fairy tale like that, I think.  A monster from ancient memory, returned.  I don't know much about that, but something makes those bodies walk and moan, and it doesn't seem to be anything human.  How it gets in, well, that's anyone's guess.  It can come the way we came, through a portal, but it doesn't always.  How it was for your world, I can't tell you."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This be a deadland, kennit.  Spend a farthing at the pastor's house, d'ye razz?  What be left for ye?  The dead'll be in the fields, the forests, all around the green and brown.  Anything what walks, they'll salt 'n fallow, and most'll rise up and rejoin.  Those what don't, the Enemy twists and turns as well.  Every deadland be the same.  Ye've turns and twain, but come as it may, this land be dead.  Though, an I'm ken, ye've quite a few turns and twain to go yet.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This is a deadland, you see.  Take a moment and look around, know what I mean?  What's left for you?  The dead will be in the fields, the forests, all over the world.  Anything that walks, they'll make it so it doesn't, and most will come back as undead.  Those that don't, the Enemy will change them as well.  Every deadland is the same.  You've years and more to go, but one way or another, this place is dead.  Though, as far as I can see, you've got quite a few years to go yet."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Spread, aye, through the wibbles, but we ain't ken on how.  After the green an' brown be to grey and black, so t'speak, Rubik be long gone.  On a moment, we folk've sent back a lover's robe or so t'the deadlands what left, but narry have returned.  An I'm ken, there be only one course from here.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Spread, yes, through the portals, but we don't know how.  After the world is down to dust, I'm long gone.  Once or twice we've send back a probe to the deadlands we left behind, but none have returned.  As far as I know, there's only one way it goes from here."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "If ye be champed t'try, this'n won't stop ye.  Right so, Rubik'll sell ye the pieces ye might use t'do.",
+        "\"\n\n[TRANSLATE:] \"",
+        "If you want to try it, I won't stop you.  In fact, I'll sell you equipment that might help."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fine an' fine.  Rubik'll clarion for ye when ye stand o'er the garried trick o' Anubine hisself.",
+        "\"\n\n[TRANSLATE:] \"",
+        "You do that then.  I'll cheer for you when you stand over the vanquished corpse of the devil himself."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Dialect_Anglic",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Be an' as us're a dock climber from ol' Upper Landin', this'll be our way o' yarkin'.  All an' all from our green an' brown yark like this'n.",
+        "\"\n\n[TRANSLATE:] \"",
+        "I'm a lowlife from old Upper Landing, this is my way of talking.  Everyone from where I come from talks like this."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Scythean",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ha!  A new string and beans, an I'm ken.  Latched and keyed in the bright shine o' the deadland afore this'n.  He be a thing o' fire and bronze, an' the node appreciates his grit.  \"A cnight of old, clade in shining steel, leading the hoste onward to glorie,\" as 'twere.  This'n finds him an apt one to give rede.  To command in battle, that's t'yark.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ha!  A new part of our crew.  Signed up early on in the world we were in before.  He's a really tough guy, and the node appreciates his grit.  (Recites some poetry), as it were.  I think he's pretty good as a military commander."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Anglic_Tease",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Mayhap, but where'd be the fun in that?  Asides, quoth poetry is one thing, but changin' this'n's whole yark for always takes a lot o' practice.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Maybe, but where's the fun in that?  Besides, quoting poetry is one thing, but changing the way I speak all the time takes a lot of practice."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Meetcute",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Aye.  Ye kennit, when two of a sort happen upon each other as per chance, an' find a liking to another?  'Tis a bit o' Anglic yark.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Right.  You see, it's when two compatible people randomly happen into each other and take a liking to one another.  It's a bit of Anglic slang."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hempen1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Makin' do, makin' do, same as you, an I'm ken.  Last home got a bit too dead 'n putrid roun' the edges, like.  Happens to the best of 'em.  Caught a jibber that made us ken 'bout your place here, fired up the ol' wibble-wammles and boom!  Now it's all tick-tock on a zimmer, here we be.  Got a good timing this time, I razz you only been dead a few days when we wobbled in.  Freshest corpse this'n's seen in a kitchen sink.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Making do, making do, same as you I'd imagine.  Our last home got too dead and putrid around the edges, basically.  It happens to the best of them.  We caught some news that brought us along to your place here, fired up the engines, and boom!  Now, quick as can be, here we are.  We got a good timing this time, seems to me you'd only been dead a few days when we got here.  Freshest corpse I've seen in a while."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose_Dialect",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Us're here to live and breathe, kennit?  After our last otherland got a li'l too dead an' all.  So, us'n came to a new place.  This'n.  An I'm ken, it's not so long dead round here jus' yet.",
+        "\"\n\n[TRANSLATE:] \"",
+        "We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This is a deadland, don't you see?  You've already got an infestation and it's not going away.  There's no cure for the zombies."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Purpose4",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Means what it means.  Your land's a deadun', still kickin' is all.",
+        "\"\n\n[TRANSLATE:] \"",
+        "It means what it means.  Your land's dead already, it's just still kicking is all."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Survival",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won't take too much meat-an'-bone.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Survival2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Haha, not mostly, mate.  Not worth riskin' the willies, innit?  I keep what's Rubik, but the rest is all solid.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Survival3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.*  You're pretty sure you hear a faint chuckle in the metallic voice.  *What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh out of the look on your face sometimes.  What I'm saying is, if my body were flesh and bone, the device we use to travel around dimensions would rip up the meat and leave me quite a mess.  We can take a bit, but too much… one time, I felt a bit of that, and I'm not in any rush to try it again."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Tech",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Not to me it don't.  We ain't tassed from around here though.  Looks fine an' fine to you I'd razz.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Not to me it doesn't.  We didn't get it from around here though.  I bet it looks pretty nice to you."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Bionic_Install",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing.",
+        "\"\n\n[TRANSLATE:] \"",
+        "If you've got what I need, I'm happy to call ahead and make the arrangements, for a fee."
+      ]
+    }
+  }
+]

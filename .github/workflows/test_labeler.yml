@@ -29,6 +29,7 @@ jobs:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
         name: basic-build
+        allow_forks: false
     - name: set-basic-build-success
       id: set-basic-build-success
       run: echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
@@ -38,6 +39,7 @@ jobs:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
         name: pull_request_id
+        allow_forks: false
     - name: set-pr-id
       id: set-pr-id
       run: echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT

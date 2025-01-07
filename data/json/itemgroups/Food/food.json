@@ -851,7 +851,7 @@
       { "prob": 45, "group": "cheese_bag_plastic" },
       { "item": "mozzarella_cheese", "prob": 30 },
       { "item": "ceramic_plate", "prob": 30 },
-      { "item": "knife_steak", "prob": 45 },
+      { "item": "knife_small", "variant": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }
     ]
   },
@@ -1186,9 +1186,8 @@
     "type": "item_group",
     "id": "bread_wheat_free_bag_plastic_14",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic",
-    "entries": [ { "item": "bread_wheat_free", "container-item": "null", "count": 14 } ]
+    "entries": [ { "item": "bread_wheat_free", "container-item": "null", "components": [ "flour_wheat_free" ], "count": 14 } ]
   },
   {
     "type": "item_group",

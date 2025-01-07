@@ -22,8 +22,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_DISSOLVE", "VARSIZE", "HARD", "PSYSHIELD_PARTIAL", "FRAGILE" ],
-    "melee_damage": { "bash": 0 }
+    "flags": [ "WATER_DISSOLVE", "VARSIZE", "HARD", "PSYSHIELD_PARTIAL", "FRAGILE" ]
   },
   {
     "id": "armor_cardboard",
@@ -36,7 +35,6 @@
     "volume": "17500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -5,
     "material": [ "cardboard", "paper" ],
     "symbol": "[",
     "color": "brown_yellow",
@@ -72,8 +70,7 @@
         "coverage": 100,
         "encumbrance": 23
       }
-    ],
-    "melee_damage": { "bash": 0 }
+    ]
   },
   {
     "id": "armor_cardboard_cuirass",
@@ -86,7 +83,6 @@
     "volume": "6 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -5,
     "material": [ "cardboard", "paper" ],
     "symbol": "[",
     "color": "brown_yellow",
@@ -94,8 +90,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "VARSIZE", "OUTER", "HARD" ],
-    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 0 }
+    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
     "id": "cardboard_crown",

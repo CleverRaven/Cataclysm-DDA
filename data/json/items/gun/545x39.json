@@ -16,14 +16,14 @@
       {
         "id": "ak74_folding",
         "name": { "str": "Kalashnikov AKS-74", "str_pl": "Kalashnikov AKS-74 rifles" },
-        "description": "An American copy of a Soviet assault rifle, a strange piece of ordinance using some weird proprietary Russian ammunition—all these terms and more can describe this rifle: a semi-automatic clone of the Kalashnikov AKS-74, the descendent of the iconic AKM.  Either a locally-built replica or produced from an imported, foreign parts kit, the firearm possesses a triangular, folding buttstock, a side-mounted optics rail, and a threaded barrel for attaching muzzle devices.  The weapon fires the Soviet 5.45x39mm cartridge—a unicorn even in the American gun wilderness—and feeds said unicorn ammunition from AK-74 magazines."
+        "description": "An American copy of a Soviet assault rifle, a strange piece of ordinance using some weird proprietary Russian ammunition—all these terms and more can describe this rifle: a semi-automatic clone of the Kalashnikov AKS-74, the descendant of the iconic AKM.  Either a locally-built replica or produced from an imported, foreign parts kit, the firearm possesses a triangular, folding buttstock, a side-mounted optics rail, and a threaded barrel for attaching muzzle devices.  The weapon fires the Soviet 5.45x39mm cartridge—a unicorn even in the American gun wilderness—and feeds said unicorn ammunition from AK-74 magazines."
       }
     ],
     "weight": "3400 g",
     "volume": "2418 ml",
     "longest_side": "895 mm",
     "barrel_length": "413 mm",
-    "//": "Based off of the Riley Defence RAK74-C and RAK74-C-SF, respectively.",
+    "//": "Based off of the Riley Defense RAK74-C and RAK74-C-SF, respectively.",
     "price": "1 kUSD 115 USD",
     "price_postapoc": "35 USD",
     "to_hit": -1,
@@ -56,9 +56,17 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Kord 6P67 rifle" },
+    "name": { "str": "Kord AK rifle" },
     "//": "An exceptionally new AK style gun found illicitly as part of a quest.",
     "description": "A special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "kord",
+        "name": { "str": "Kord 6P67 rifle" },
+        "description": "A special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines."
+      }
+    ],
     "weight": "3250 g",
     "volume": "2418 ml",
     "longest_side": "96 cm",

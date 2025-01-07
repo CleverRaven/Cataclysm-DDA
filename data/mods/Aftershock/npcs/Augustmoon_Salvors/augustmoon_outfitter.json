@@ -33,11 +33,14 @@
   {
     "type": "item_group",
     "id": "afs_augustmoon_outfitter",
+    "ammo": 100,
+    "magazine": 100,
     "subtype": "collection",
     "items": [
       { "group": "afs_wintersuit_generic_advanced", "count": [ 1, 3 ] },
       { "group": "afs_basic_armor", "count": [ 0, 3 ] },
       { "group": "afs_colonist_outfit", "count": [ 1, 3 ] },
+      { "group": "afs_civilian_hazard_outfit", "count": [ 1, 3 ], "prob": 60 },
       { "group": "afs_pals_pieces", "count": [ 6, 12 ] },
       { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] }
     ]
@@ -78,7 +81,11 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ { "group": "afs_armor_military_infantry_g", "prob": 90 }, { "item": "afs_backpack_rockets", "prob": 10 } ]
+    "items": [
+      { "group": "afs_armor_military_infantry_g", "prob": 85 },
+      { "item": "afs_backpack_rockets", "prob": 10 },
+      { "item": "afs_backpack_shieldgen", "prob": 5 }
+    ]
   },
   {
     "type": "npc",
@@ -87,7 +94,7 @@
     "class": "NC_AUGUSTMOON_OUTFITTER",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_AUGUSTMOON_OUTFITTER  ",
+    "chat": "TALK_AUGUSTMOON_OUTFITTER",
     "faction": "UICA"
   },
   {

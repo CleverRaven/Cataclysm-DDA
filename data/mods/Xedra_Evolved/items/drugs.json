@@ -3,7 +3,7 @@
     "id": "faewild",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "faewild dust" },
+    "name": { "str_sp": "faewild dust" },
     "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
     "weight": "1 g",
     "volume": "2 ml",
@@ -80,12 +80,9 @@
     "stack_size": 4,
     "symbol": "!",
     "color": "magenta",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Inject the treatment.",
-      "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
-    },
-    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ],
+    "flags": [ "NPC_SAFE", "TRADER_AVOID" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "cthonic_poultice",
@@ -180,7 +177,7 @@
   {
     "id": "elemental_mana_draught",
     "name": { "str": "elemental mana draught" },
-    "description": "Converting",
+    "description": { "str": "Converting", "//~": "NO_I18N" },
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",

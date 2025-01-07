@@ -142,6 +142,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "occupied_lum_hotel_1_1_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "             rrrrrrrrr  ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "r": "t_wood_treated_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "occupied_lum_hotel_1_1",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -172,7 +207,8 @@
         "                        "
       ],
       "terrain": { "v": "t_wall_wood", "!": "t_door_c", ".": "t_floor", "b": "t_floor", "0": "t_window" },
-      "furniture": { "b": "f_makeshift_bed" }
+      "furniture": { "b": "f_makeshift_bed" },
+      "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN",
+    "condition": { "math": [ "false" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN",
+    "condition": { "math": [ "false" ] },
+    "effect": [  ]
+  }
+]

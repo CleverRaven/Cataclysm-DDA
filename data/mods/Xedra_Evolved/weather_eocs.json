@@ -1,0 +1,36 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "magic_weather_thunder",
+    "recurrence": 1,
+    "global": true,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "magic_weather_thunder" }, { "is_weather": "magic_weather_lightning" } ] },
+        { "one_in_chance": 50 },
+        { "math": [ "u_val('pos_z') >= 0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "magic_weather_thunder" }, { "is_weather": "magic_weather_lightning" } ] } },
+    "effect": [
+      { "u_message": "You hear a distant rumble of thunder.", "sound": true },
+      { "sound_effect": "thunder_far", "outdoor_event": true, "id": "environment" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "magic_weather_lightning",
+    "recurrence": 1,
+    "global": true,
+    "condition": {
+      "and": [ { "is_weather": "magic_weather_lightning" }, { "one_in_chance": 600 }, { "math": [ "u_val('pos_z') >= 0" ] } ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "magic_weather_lightning" } },
+    "effect": [
+      { "u_message": "A flash of lightning illuminates your surroundings!" },
+      { "sound_effect": "thunder_near", "id": "environment" },
+      "lightning",
+      { "custom_light_level": 100, "length": "1 seconds" }
+    ]
+  }
+]

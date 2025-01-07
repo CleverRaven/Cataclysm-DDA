@@ -144,7 +144,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
@@ -180,7 +180,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
     if( gun->magazine_integral() ) {
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             gun->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( gun.can_reload_with( ammo, true ) );
         REQUIRE( shooter.can_reload( *gun, &*ammo ) );
         gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
@@ -188,7 +188,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         item_location magazine = shooter.i_add( item( magazine_id ) );
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             magazine->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( magazine.can_reload_with( ammo,  true ) );
         REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
         magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
@@ -228,10 +228,10 @@ void process_activity( Character &dummy )
     } while( dummy.activity );
 }
 
-npc &spawn_npc( const point &p, const std::string &npc_class )
+npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
-    const string_id<npc_template> test_guy( npc_class );
-    const character_id model_id = get_map().place_npc( p, test_guy );
+    const npc_template_id npc_template = npc_template_id( npc_class );
+    const character_id model_id = get_map().place_npc( p, npc_template );
     g->load_npcs();
 
     npc *guy = g->find_npc( model_id );

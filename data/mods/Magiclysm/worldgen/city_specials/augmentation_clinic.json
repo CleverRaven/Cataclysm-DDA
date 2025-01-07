@@ -1,0 +1,262 @@
+[
+  {
+    "type": "city_building",
+    "id": "magiclysm_augmentation_clinic",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "magiclysm_augmentation_clinic_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "magiclysm_augmentation_clinic_top_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "magiclysm_augmentation_clinic_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_sizes": [ 12, -1 ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magiclysm_augmentation_clinic_ground", "magiclysm_augmentation_clinic_top", "magiclysm_augmentation_clinic_roof" ],
+    "vision_levels": "city_building",
+    "copy-from": "generic_city_building",
+    "name": "augmentation clinic",
+    "sym": "A",
+    "color": "cyan",
+    "extend": { "flags": [ "RISK_EXTREME", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ] }
+  },
+  {
+    "type": "palette",
+    "id": "magiclysm_augmentation_clinic",
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      ".": "t_linoleum_white",
+      "_": "t_flat_roof",
+      "!": "t_door_locked_interior",
+      "-": "t_wall_metal",
+      "|": "t_concrete_wall",
+      "+": "t_door_c",
+      "9": "t_window_domestic",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "ó": "t_metal_ventilation_shutter",
+      "Y": "t_thconc_floor_olight",
+      "R": "t_railing",
+      "w": "t_window",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "~": "t_sidewalk"
+    },
+    "furniture": {
+      "$": "f_safe_l",
+      "A": "f_armchair",
+      "&": "f_toilet",
+      "%": "f_console_broken",
+      "L": "f_bookcase",
+      "B": "f_bed",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_desk",
+      "ð": "f_desk",
+      "h": "f_chair",
+      "ħ": "f_chair",
+      "H": "f_utility_shelf",
+      "l": "f_locker",
+      "k": "f_bookcase",
+      "r": "f_trashcan",
+      "s": "f_sink",
+      "t": "f_table",
+      "ŧ": "f_table",
+      "f": "f_filing_cabinet",
+      "F": "f_filing_cabinet",
+      "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+    },
+    "toilets": { "&": {  } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "magiclysm_augmentation_clinic_ground" ],
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "                  ~~    ",
+        "                  ~~    ",
+        " #######wwwww###w#++#w# ",
+        " #s&#^tAoooot#^......^# ",
+        " #r.#^......o#b.......# ",
+        " ##+#^....t.o#b.......w ",
+        " #^.....A.t.o#....dddd# ",
+        " ##+#o..t....#.....%h.# ",
+        " #r.#o..A.............# ",
+        " #s&#o.............fff# ",
+        " #######+############## ",
+        " #=ð==#...#==ð=#Bt#.tB# ",
+        " #ħðħ=+...+=ħðħ#B.#..B# ",
+        " w====#...#====#..#...# ",
+        " #FF=y#^.^#y=FF#r.#..r# ",
+        " #######+########+#+### ",
+        " ##<!...........+....^# ",
+        " ######!#########t...t# ",
+        " #£.£#h...GCCØC##A...ow ",
+        " #£.£#h...DCØ?Ø####..ow ",
+        " #£..!....GCØ/Ø#&.+..o# ",
+        " #£.£#βββlGCCØC#sr#^.t#S",
+        " ##################w### ",
+        "                        "
+      ],
+      "palettes": [ "magiclysm_augmentation_clinic", "parametrized_walls_palette", "parametrized_carpets_palette" ],
+      "terrain": {
+        "C": "t_magiconc_floor",
+        "Ø": "t_magiconc_floor",
+        "?": "t_magiconc_floor",
+        "/": "t_magiconc_floor",
+        "D": "t_door_glass_frosted_c",
+        "G": "t_wall_glass_lab",
+        "S": "t_gutter_downspout",
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ð": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ħ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "k": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ŧ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "furniture": {
+        "?": "f_autodoc_technomantic",
+        "/": "f_autodoc_couch",
+        "o": "f_sofa",
+        "T": "f_table",
+        "£": "f_rack",
+        "Ø": "f_magic_circle",
+        "β": "f_magic_bench"
+      },
+      "place_item": [ { "item": "magazine_augmentative_review", "x": 12, "y": 3, "amount": 1 } ],
+      "item": {
+        "F": { "item": "crystallized_mana", "chance": 75, "repeat": [ 1, 2 ] },
+        "β": { "item": "crystallized_mana", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "items": {
+        "B": { "item": "hospital_bed", "chance": 60 },
+        "β": { "item": "magical_reagents", "chance": 65, "repeat": [ 1, 3 ] },
+        "R": { "item": "trash", "chance": 50 },
+        "o": { "item": "waitingroom", "chance": 25 },
+        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "f": { "item": "office_paper", "chance": 90 },
+        "F": { "item": "office_paper", "chance": 90 },
+        "£": [ { "item": "bionics_civilian", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "autodoc_supplies", "chance": 20 } ],
+        "d": { "item": "office", "chance": 60 },
+        "l": [
+          { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 20 },
+          { "item": "autodoc_supplies", "chance": 60 }
+        ]
+      },
+      "place_traps": [
+        { "trap": "tr_rune_trap_summon_blades", "x": 3, "y": [ 18, 21 ], "repeat": [ 0, 1 ] },
+        { "trap": "tr_rune_trap_summon_blades", "x": 4, "y": 20, "repeat": [ 0, 1 ] }
+      ],
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 3, 23 ], "y": [ 3, 23 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_FERAL_TECHNOMANCERS", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magiclysm_augmentation_clinic_top",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -____________________- ",
+        " -_______oo___________- ",
+        " -______oooo__________- ",
+        " -_______oo________AA_- ",
+        " -_#####wwww####ww###_- ",
+        " -_#^%h...h.........#_- ",
+        " -_#.....ddd.##+##!##_- ",
+        " -_w..d..h...#r.#F.F#_- ",
+        " -_w.hdh.....#s&#F.F#_- ",
+        " -_#..d......########_- ",
+        " -_#f...dd...Gŧ====y#_- ",
+        " -_#f..hdd...+===ðð=#_- ",
+        " -###...ddh..#kk=ðħ=#_- ",
+        " -#>+..hdd...########_- ",
+        " -###...ddh..#kk=ðħ=#_- ",
+        " -_#f.h.dd...+===ðð=#_- ",
+        " -_#f.%...h%.Gŧ====y#_- ",
+        " -_####ww#########s##_- ",
+        " -_______?V___________4 ",
+        " ---------------------- ",
+        "                        "
+      ],
+      "palettes": [ "magiclysm_augmentation_clinic", "parametrized_walls_palette", "parametrized_carpets_palette" ],
+      "terrain": {
+        "V": "t_flat_roof",
+        "?": "t_flat_roof",
+        "A": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "-": "t_gutter",
+        "4": "t_gutter_drop",
+        "G": "t_wall_glass_lab",
+        "ð": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ħ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "k": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ŧ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
+      "furniture": { "?": "f_roof_turbine_vent", "V": "f_vent_pipe", "A": "f_air_conditioner" },
+      "items": {
+        "d": { "item": "SUS_office_desk", "chance": 50 },
+        "f": [ { "item": "SUS_office_filing_cabinet", "chance": 80 } ],
+        "F": [
+          { "item": "SUS_office_filing_cabinet", "chance": 80 },
+          { "item": "technomancer_items", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "ð": [ { "item": "office", "chance": 60 }, { "item": "technomancer_items", "chance": 15 } ],
+        "k": [ { "item": "SUS_book", "chance": 50, "repeat": [ 2, 8 ] }, { "item": "technomancer_items", "chance": 15 } ]
+      },
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 4, 14 ], "y": [ 8, 19 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_FERAL_TECHNOMANCERS", "x": [ 14, 19 ], "y": [ 13, 15 ], "chance": 10 },
+        { "group": "GROUP_FERAL_TECHNOMANCERS", "x": [ 14, 19 ], "y": [ 17, 19 ], "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magiclysm_augmentation_clinic_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ------------------   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -..........:.....-   ",
+        "   -.X.....MM.......-   ",
+        "   -.......MM.......-   ",
+        "  --................-   ",
+        "  -........oooo.....-   ",
+        "  --................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   ------------------   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  }
+]

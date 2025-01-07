@@ -9,12 +9,9 @@
         { "u_has_trait": "perk_undying_loyalty" },
         { "not": { "u_has_effect": "effect_perk_undying_loyalty_self" } },
         { "not": { "u_has_any_trait": [ "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE" ] } },
-        { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies')", ">", "0" ] },
+        { "math": [ "u_characters_nearby('radius': 15, 'attitude': 'allies') > 0" ] },
         {
-          "or": [
-            { "math": [ "u_hp('head') / u_hp_max('head')", "<=", "0.5" ] },
-            { "math": [ "u_hp('torso') / u_hp_max('torso')", "<=", "0.5" ] }
-          ]
+          "or": [ { "math": [ "u_hp('head') / u_hp_max('head') <= 0.5" ] }, { "math": [ "u_hp('torso') / u_hp_max('torso') <= 0.5" ] } ]
         }
       ]
     },
@@ -26,8 +23,8 @@
   {
     "id": "perk_undying_loyalty_spell",
     "type": "SPELL",
-    "name": "Undying Loyalty Spell",
-    "description": "The spell to activate the Undying Loyalty effect.  It's a bug if you have it.",
+    "name": { "str": "Undying Loyalty Spell", "//~": "NO_I18N" },
+    "description": { "str": "The spell to activate the Undying Loyalty effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

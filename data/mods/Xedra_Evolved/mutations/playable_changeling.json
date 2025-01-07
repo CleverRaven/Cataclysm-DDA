@@ -1,0 +1,1408 @@
+[
+  {
+    "//": "Whenever you add more traits, make sure to update the trait Jmath",
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_noble",
+    "name": "Unknowing Changeling, Noble (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_commoner",
+    "name": "Unknowing Changeling, Commoner (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_NOBLE",
+    "name": { "str": "Noble" },
+    "points": 0,
+    "description": "You have awakened your long-slumbering heritage as one of the nobility of the Fair Folk.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_SELECTOR",
+    "name": { "str": "Commoner Changeling" },
+    "points": 1,
+    "description": "This tracks your heritage, used to pick a subcategory.  You shouldn't see it.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "HERITAGE" ],
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_MAGIC",
+    "name": { "str": "Changeling Magic" },
+    "points": 1,
+    "description": "This provides the school trait for Changeling magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_NOBLE",
+    "name": { "str": "Changeling" },
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has inured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
+    "mixed_effect": true,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "points": 0,
+    "allowed_category": [ "FAIR_FOLK_NOBLE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "types": [ "HERITAGE" ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 70" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.02" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 40" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 0.01" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+    "name": { "str": "Brownie" },
+    "points": 0,
+    "description": "You have awakened your long-slumbering heritage as a brownie, hard-working and mostly unseen.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_POOKA",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 50" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_POOKA",
+    "name": { "str": "Pooka" },
+    "points": 0,
+    "description": "You have awakened your long-slumbering heritage as a pooka, a shapeshifter close to nature.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 0.01" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+    "name": { "str": "Selkie" },
+    "points": 0,
+    "description": "You have awakened your long-slumbering heritage as a selkie, with one foot on the land and one in the sea.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_TROW",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 15" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 0.01" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_TROW",
+    "name": { "str": "Trow" },
+    "points": 0,
+    "description": "You have awakened your long-slumbering heritage as a trow, strong and enduring as the mountains.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_3",
+    "copy-from": "DEX_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_4",
+    "copy-from": "DEX_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_3",
+    "copy-from": "PER_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_4",
+    "copy-from": "PER_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW",
+        "LILIN"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_CURE_BAD_CONDITIONS",
+    "name": { "str": "Lights of Imbolc" },
+    "points": 2,
+    "description": "The end of winter brings hope for the coming of spring, and in the light of the candles lit at Imbolc the dust and gloom of the long nights end.",
+    "prereqs": [ "DISRESISTANT" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_cure_bad_conditions_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_BURNING_WEAPON",
+    "name": { "str": "Fires of Bealtaine" },
+    "points": 3,
+    "description": "The bonfires of Bealtaine drive away evil and purify both man and beast.",
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1", "PARACLESIAN_FAE_SIGHT_2" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_burning_weapon_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_MOVEMENT_BUFFS",
+    "name": { "str": "Deeds of Lughnasadh" },
+    "points": 4,
+    "description": "Lughnasadh is a time for bringing in the harvest and for contests of skill and stamina.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_movement_buffs_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_SUMMON_GHOSTS",
+    "name": { "str": "Hosts of Samhain" },
+    "points": 8,
+    "description": "As the year dies and winter's winds begin to blow, the dead return for a short time to visit the living.",
+    "prereqs": [ "CHANGELING_SUMMON_WILL_O_THE_WISPS", "CHANGELING_NOBLE_RIGHT_OF_PASSAGE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_summon_ghosts_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE",
+    "name": { "str": "Right of Passage" },
+    "points": 8,
+    "description": "The Fair Folk have dealt with many mortal civilizations over the aeons, and have come to mutually beneficial arrangements with some of them.  Activate this trait to make your fae nature obvious, invoking those ancient agreements.  This <color_yellow>may anger</color> some who have especially bad relationships with the fae.",
+    "prereqs": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_ON" ],
+    "deactivated_eocs": [ "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS",
+    "name": { "str": "Right of Passage Mechanics", "//~": "NO_I18N" },
+    "description": { "str": "The mechanical effects of Right of Passage.  You should never see this.", "//~": "NO_I18N" },
+    "points": 10,
+    "valid": false,
+    "player_display": false,
+    "ignored_by": [ "PLANT", "MIGO", "CHANGELING", "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "anger_relations": [ [ "CYBORG", 50 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS",
+    "name": { "str": "Household Artistry" },
+    "//": "This and the upgrades below should ideally require you to be unobserved, but having no one nearby will have to suffice for now.",
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's easy for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "DEX_UP", "DEX_UP_2", "DEX_UP_3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "changes_to": [ "BROWNIE_CRAFTING_BONUS2" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS2",
+    "name": { "str": "Adept Household Artistry" },
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's very easy for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "BROWNIE_CRAFTING_BONUS" ],
+    "prereqs2": [ "DEX_UP_2", "DEX_UP_3" ],
+    "changes_to": [ "BROWNIE_CRAFTING_BONUS3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS3",
+    "name": { "str": "Incomparable Household Artistry" },
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's almost effortless for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "BROWNIE_CRAFTING_BONUS2" ],
+    "prereqs2": [ "DEX_UP_3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+            { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_EASY_OVERLOOK",
+    "name": { "str": "Unobtrusive" },
+    "description": "Your appearance hasn't changed, but people don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're easy to overlook.",
+    "points": 3,
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
+    "changes_to": [ "BROWNIE_EASY_OVERLOOK2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_EASY_OVERLOOK2",
+    "name": { "str": "Inconspicuous" },
+    "description": "Your appearance hasn't changed, but people really don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're very easy to overlook.",
+    "points": 6,
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE",
+    "name": { "str": "Cold Tolerance" },
+    "description": "The cold doesn't seem to bother you quite as much anymore.",
+    "points": 2,
+    "changes_to": [ "BROWNIE_COLD_TOLERANCE2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE2",
+    "name": { "str": "Cold Endurance" },
+    "description": "Even on a winter day, you need only a light jacket now.",
+    "points": 4,
+    "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
+    "prereqs2": [ "HIRSUTE_BROWNIE", "BROWNIE_FUR" ],
+    "changes_to": [ "BROWNIE_COLD_TOLERANCE3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE3",
+    "name": { "str": "Inured to Cold" },
+    "description": "Legends say that brownies went about naked clad only in their almost-furry coat, and while you wouldn't go that far, you could wear a swimsuit in a blizzard without much trouble.",
+    "points": 8,
+    "prereqs": [ "PARACLESIAN_STR_DEX_2" ],
+    "prereqs2": [ "BROWNIE_FUR" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 120 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_MAKE_CHEESE_AND_BUTTER",
+    "name": { "str": "Churning As Quick as a Wink" },
+    "points": 1,
+    "description": "Brownies are famous for their ability to do household chores, and you now have an instinctive understanding of making milk and cheese.",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HIRSUTE_BROWNIE",
+    "copy-from": "HIRSUTE",
+    "changes_to": [ "BROWNIE_FUR" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_FUR",
+    "name": { "str": "Coat of Fur" },
+    "description": "Your hair has thickened to almost the level of fur covering your entire body.  It's very warm and provides some level of protection against attacks.",
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 2,
+    "prereqs": [ "HIRSUTE_BROWNIE" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "integrated_armor": [ "integrated_brownie_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_BROWNIE",
+    "name": { "str": "Seneschal's Gaze" },
+    "points": 3,
+    "description": "With a few quick glances you can take in the contents of an entire room.  +3 Perception.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_BROWNIE",
+    "name": { "str": "Chatelain's Mind" },
+    "points": 2,
+    "description": "It takes a keen mind to keep a household running smoothly.  +2 Intelligence.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_HOMEBODY",
+    "name": { "str": "Homebody" },
+    "description": "Brownies know every corner of their homes, all the well-worn grooves in the floor and the quick paths from place to place.  Your speed is increased the longer you spend in the same area.",
+    "points": 6,
+    "prereqs": [ "BROWNIE_EASY_OVERLOOK" ],
+    "prereqs2": [ "BROWNIE_CRAFTING_BONUS2", "BROWNIE_CRAFTING_BONUS3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "u_brownie_homebody_speed_bonus" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_SENSE_INTRUDERS",
+    "name": { "str": "Sense Intruders" },
+    "description": "With the knowledge of one's home comes the knowledge that something is off about it.  You can sense any intruders nearby, as long as you are indoors and have been in the same location for some time.",
+    "points": 8,
+    "prereqs": [ "BROWNIE_HOMEBODY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders != 0" ] } ] },
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] },
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "//": "prooly need to separate unagressive creatures, TODO",
+                "symbol": "?",
+                "color": "c_white",
+                "text": "Intruder!"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_BLINK_INDOORS",
+    "name": { "str": "Slip Through the Cracks" },
+    "points": 4,
+    "description": "You can tell every nook and cranny of indoor spaces, and know how to quickly get from one place to another.",
+    "prereqs": [ "BROWNIE_HOMEBODY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "changeling_brownie_blink_indoors_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_TELEPORT_HOME",
+    "name": { "str": "Hurry Home" },
+    "points": 8,
+    "description": "You can return home from anywhere, as quick as a wink.",
+    "prereqs": [ "BROWNIE_BLINK_INDOORS" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "changeling_teleport_home_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CHARM_ANIMALS",
+    "name": { "str": "Friend to Birds and Beasts" },
+    "points": 3,
+    "description": "You are close enough to the birds and beasts that you can speak their language and ask them for aid.",
+    "prereqs": [ "ANIMALEMPATH2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "spells_learned": [ [ "changeling_pooka_charm_animals_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_ANTLERS",
+    "name": { "str": "Antlers (Shapeshift)" },
+    "points": 2,
+    "description": "Grow an impressive rack of antlers, allowing you to make a headbutt attack but preventing you from wearing a helmet.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_ANTLERS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_ANTLERS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_HORNS",
+    "name": { "str": "Curled Horns (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of spiraling curled horns, allowing you to make a headbutt attack but preventing you from wearing a helmet.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_HORNS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_HORNS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_FANGS",
+    "name": { "str": "Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of sharp fangs, allowing you to make a bite attack.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_SABER_TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FANGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FANGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SABER_TEETH",
+    "name": { "str": "Vicious Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of long, saber-like fangs, preventing you from wearing mouth gear but allowing you to make rending bite attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_FANGS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SABER_TEETH_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_SABER_TEETH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_WOLF_EARS",
+    "name": { "str": "Wolf Ears (Shapeshift)" },
+    "points": 2,
+    "description": "Change your ears into the ears of a wolf, granting you increased hearing.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_WOLF_EARS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_WOLF_EARS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_FELINE_EARS",
+    "name": { "str": "Feline Ears (Shapeshift)" },
+    "points": 2,
+    "description": "Change your ears into the ears of a great cat, granting you increased hearing.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FELINE_EARS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FELINE_EARS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CLAWS",
+    "name": { "str": "Claws (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of claws, improving your unarmed damage if you aren't wearing gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_STAINLESS_CLAWS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_CLAWS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_STAINLESS_CLAWS",
+    "name": { "str": "Vicious Claws (Shapeshift)" },
+    "points": 4,
+    "description": "Grow a powerful set of claws, nearly as hard as steel, greatly improving your unarmed damage if you aren't wearing gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_CLAWS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_BIRD_WINGS",
+    "name": { "str": "Bird Wings (Shapeshift)" },
+    "points": 2,
+    "description": "Transform your arms into bird wings, allow you to slow your fall when jumping from a high place and glide short distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_BIRD_WINGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_BIRD_WINGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_URSINE_FUR",
+    "name": { "str": "Thick Fur (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a coat of thick fur, keeping you warm in the winter and protecting you from attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_URSINE_FUR_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_URSINE_FUR_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CHITIN",
+    "name": { "str": "Chitin Carapace (Shapeshift)" },
+    "points": 2,
+    "description": "Grow an armored suit of chitin, protecting you and making your punches hit harder.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_CHITIN_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_CHITIN_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED",
+    "name": { "str": "Quadruped (Shapeshift)" },
+    "points": 2,
+    "description": "Grow paws and animal-like legs, allowing you to run much faster on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_QUADRUPED_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_QUADRUPED_OFF" ]
+  },
+  {
+    "//": "The existing quadruped mutations check for thresholds so we need this custom one.",
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED_TRAITS",
+    "name": { "str": "Quadruped" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 6,
+    "description": "Your arms, hands, and legs are animal-like, allowing you to move quickly when running on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "restricts_gear": [ "foot_l", "foot_r", "hand_l", "hand_r" ],
+    "triggers": [
+      [
+        {
+          "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_LEAPING_LEGS",
+    "name": { "str": "Leaping Legs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow strong frog- or cat-like legs, allowing you to leap great distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_LEAPING_LEGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_LEAPING_LEGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_WOLF_TAIL",
+    "name": { "str": "Wolf Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a wolf, making it harder to wear pants but improving your balance.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_WOLF_TAIL_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_WOLF_TAIL_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_TAIL_LONG",
+    "name": { "str": "Cat Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a cat, making it harder to wear pants but improving your balance.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_TAIL_LONG_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_TAIL_LONG_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_TAIL_STING",
+    "name": { "str": "Spiked Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a scorpion, making it harder to wear pants but allowing you to attack with the stinger.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_TAIL_STING_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_TAIL_STING_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_POOKA",
+    "name": { "str": "Bestial Strength" },
+    "points": 2,
+    "description": "Even when not shapeshifted you can bring part of a wild animal's strength to bear.  +2 Strength.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_POOKA",
+    "name": { "str": "Untamed Agility" },
+    "points": 3,
+    "description": "You have the quick reactions of a wild animal.  +3 Dexterity.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD",
+    "name": { "str": "Initiate of Forms" },
+    "points": 2,
+    "description": "You are getting better at shapeshifting and are able to maintain one more simultaneous shapeshift without drawing on your mana.",
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD2",
+    "name": { "str": "Adept of Forms" },
+    "points": 4,
+    "description": "You are getting much better at shapeshifting and are able to maintain two more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD" ],
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD3" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD3",
+    "name": { "str": "Master of Forms" },
+    "points": 6,
+    "description": "You are a master of shapeshifting and are able to maintain four more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_SELECTOR",
+    "name": { "str": "Pinnacle of Forms", "//~": "NO_I18N" },
+    "points": 6,
+    "description": { "str": "This gives you access to the full shapeshift traits.  You should never seen it.", "//~": "NO_I18N" },
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2", "POOKA_SHAPESHIFT_GOOD3" ],
+    "player_display": false,
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BAT",
+    "name": { "str": "Spirit of the Bat" },
+    "points": 10,
+    "description": "You can transform yourself into a bat.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_RAVEN",
+    "name": { "str": "Spirit of the Raven" },
+    "points": 10,
+    "description": "You can transform yourself into a raven.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BEAR",
+    "name": { "str": "Spirit of the Bear" },
+    "points": 10,
+    "description": "You can transform yourself into a bear.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_DEER",
+    "name": { "str": "Spirit of the Deer" },
+    "points": 10,
+    "description": "You can transform yourself into a deer.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_WOLF",
+    "name": { "str": "Spirit of the Wolf" },
+    "points": 10,
+    "description": "You can transform yourself into a wolf.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_COUGAR",
+    "name": { "str": "Spirit of the Cougar" },
+    "points": 10,
+    "description": "You can transform yourself into a cougar.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_ATTACK_BONUSES",
+    "name": { "str": "Instinctive Attacks" },
+    "points": 3,
+    "description": "You're getting used to moving and reacting like an animal.  When without weapons or armor and using your gifts of shapeshifting, your natural attacks do more damage.",
+    "prereqs": [ "POOKA_ANTLERS", "POOKA_HORNS", "POOKA_FANGS", "POOKA_SABER_TEETH" ],
+    "prereqs2": [ "POOKA_CLAWS", "POOKA_STAINLESS_CLAWS", "POOKA_TAIL_STING" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": { "math": [ "0.1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_DODGE_BONUSES",
+    "name": { "str": "Animalistic Defense" },
+    "points": 5,
+    "description": "The best defense is not getting hit, especially if you're a wild animal.  When using your shapeshifting and not wearing armor or using a weapon, you gain a bonus to your dodging.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "POOKA_QUADRUPED_TRAITS",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
+              ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "min( (1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.1)),4)" ] }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "min( (2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.25) ),12)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SPEED_BONUSES",
+    "name": { "str": "Primal Alacrity" },
+    "points": 3,
+    "description": "Like the animals you mimic, you're quicker than you seem.  You gain a speed bonus while shapeshifted as long as you're unarmed and unarmored.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "prereqs2": [ "WINGS_BIRD", "POOKA_LEAPING_LEGS", "POOKA_QUADRUPED", "TAIL_FLUFFY", "TAIL_LONG" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
+              ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( (3 + (u_has_trait('ANTLERS') * 2) + (u_has_trait('HORNS_CURLED') * 2) + (u_has_trait('FANGS') * 2) + (u_has_trait('SABER_TEETH') * 2) + (u_has_trait('CLAWS') * 2) + (u_has_trait('CLAWS_ST') * 2) + (u_has_trait('WINGS_BIRD') * 2) + (u_has_trait('URSINE_FUR') * 2) + (u_has_trait('CHITIN2') * 2) + (u_has_trait('TAIL_FLUFFY') * 2) + (u_has_trait('TAIL_LONG') * 2) ),30)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_FOG_CLOAK",
+    "name": { "str": "Cloak of Fog" },
+    "points": 2,
+    "description": "Surround yourself with a thick fog, obscuring your position.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_fog_cloak_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "name": { "str": "Chant of Concealing Mists" },
+    "points": 3,
+    "description": "Call up a thick mist, shrouding the nearby landscape.",
+    "prereqs": [ "SELKIE_FOG_CLOAK" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_dense_fog_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_RAIN",
+    "name": { "str": "Aria of the Droplets" },
+    "points": 3,
+    "description": "Call a rain shower, letting the rains water the earth.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_DENSE_FOG" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_rains_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "name": { "str": "Canticle of Rainstorms" },
+    "points": 3,
+    "description": "Call a heavy rainstorm, soaking everything.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAIN" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_rainstorm_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "name": { "str": "Symphony of Levin" },
+    "points": 3,
+    "description": "Call a lightning storm, .",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAINSTORM" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_lightningstorm_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_BREATHING_WATER",
+    "name": { "str": "Breathing Water" },
+    "points": 2,
+    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "changes_to": [ "SELKIE_BREATHING_WATER2" ],
+    "types": [ "GILLS" ],
+    "flags": [ "GILLS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_BREATHING_WATER2",
+    "name": { "str": "At Home in the Water" },
+    "points": 2,
+    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.  In addition, being wet is pleasant in a way it never was before.",
+    "prereqs": [ "SELKIE_BREATHING_WATER" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "types": [ "GILLS" ],
+    "flags": [ "GILLS" ],
+    "wet_protection": [
+      { "part": "torso", "good": 10 },
+      { "part": "head", "good": 10 },
+      { "part": "leg_l", "good": 10 },
+      { "part": "leg_r", "good": 10 },
+      { "part": "arm_l", "good": 10 },
+      { "part": "arm_r", "good": 10 },
+      { "part": "mouth", "good": 10 },
+      { "part": "hand_l", "good": 10 },
+      { "part": "hand_r", "good": 10 },
+      { "part": "foot_l", "good": 10 },
+      { "part": "foot_r", "good": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_WATERSLEEP",
+    "name": { "str": "The Waves my Bed" },
+    "points": 1,
+    "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.",
+    "prereqs": [ "SELKIE_BREATHING_WATER2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "u_is_on_terrain_with_flag": "DEEP_WATER" }, { "u_is_on_terrain_with_flag": "SWIMMABLE" } ] },
+        "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_WATERMOVE",
+    "name": { "str": "Cutting Through the Waves" },
+    "points": 1,
+    "description": "Your hands and feet haven't changed at all, but they seem to be much better at swimming than before.  You gain a speed bonus when in water, increased when not wearing shoes.",
+    "prereqs": [ "SELKIE_BREATHING_WATER", "SELKIE_BREATHING_WATER2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_MASTER",
+    "name": { "str": "Conductor of Storms" },
+    "points": 6,
+    "description": "You are a master of meteorological enchantments, and your weather manipulations will last much longer.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAINSTORM" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST_TROW",
+    "name": { "str": "Resilience of the Stones" },
+    "points": 4,
+    "description": "You are as hardy as the rock.  When underground, you suffer much less pain.",
+    "types": [ "PAIN" ],
+    "prereqs": [ "PAINRESIST" ],
+    "prereqs2": [ "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
+    "changes_to": [ "PAINRESIST_TROW2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+        "values": [ { "value": "PAIN", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_MOONS_TEARS_FORGING",
+    "name": { "str": "Shaping the Tears" },
+    "points": 4,
+    "description": "You have learned the secrets of forging moon's tears.  Sometimes in your dreams, a new recipe might be revealed to you.",
+    "prereqs2": [ "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST_TROW2",
+    "name": { "str": "Unwavering Resilience of the Stones" },
+    "points": 6,
+    "description": "You are as hardy as the rock.  When underground you suffer much less pain, and your strength is not reduced by the pain you suffer.",
+    "prereqs": [ "PAINRESIST_TROW" ],
+    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+        "values": [ { "value": "PAIN", "multiply": -0.5 } ]
+      },
+      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION",
+    "name": { "str": "Unveiling the Night" },
+    "points": 2,
+    "description": "Your sharp eyes can pierce the darkness.",
+    "changes_to": [ "FAE_NIGHTVISION2" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.65" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION2",
+    "name": { "str": "Pierce the Shadows" },
+    "points": 2,
+    "description": "Whether woods under trees or the cavern depths, you can see through the murk.",
+    "prereqs": [ "FAE_NIGHTVISION" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.3" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE",
+    "name": { "str": "None Here but the Stones" },
+    "points": 2,
+    "description": "The Fair Folk can remain hidden among rocks or trees or whispers of wind, and now you can too.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_disguise_as_nature_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_INVISIBILITY",
+    "name": { "str": "Hidden from Mortal Eyes" },
+    "points": 6,
+    "description": "Like the Fair Folk of legend, you can remain unseen when you wish.",
+    "prereqs": [ "CHANGELING_DISGUISE_AS_NATURE" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SUMMON_WILL_O_THE_WISPS",
+    "name": { "str": "Call Will o' the Wisp" },
+    "points": 2,
+    "description": "You can conjure up bobbing lights in the distance that will lead your enemies astray.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_summon_will_o_the_wisps_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_IMMORTALITY",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
+    "name": { "str": "Faerie Eternity" },
+    "points": 8,
+    "description": "You seem to have stopped aging.  That would have been an amazing gift before the Cataclysm, but now at least you might live long enough to find some way back to your birthplace Under the Hill.",
+    "prereqs": [ "DISIMMUNE" ],
+    "prereqs2": [ "PARACLESIAN_STR_DEX_2", "PARACLESIAN_INT_PER_2" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ],
+    "flags": [ "MEND_ALL" ]
+  }
+]

@@ -17,6 +17,7 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
@@ -32,9 +33,6 @@ struct construction;
 using faction_id = string_id<faction>;
 inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
-
-//Generic activity: maximum search distance for zones, constructions, etc.
-constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
 
 extern const std::vector<zone_type_id> ignorable_zone_types;
 
@@ -356,10 +354,12 @@ class zone_data
         // if the zone has been turned off for an action
         bool temporarily_disabled; // NOLINT(cata-serialize)
         bool is_vehicle;
-        tripoint start;
-        tripoint end;
+        tripoint_abs_ms start;
+        tripoint_abs_ms end;
         //centered on the player
         bool is_personal;
+        tripoint_rel_ms personal_start;
+        tripoint_rel_ms personal_end;
         // for personal zones a cached value for the global shift to where the player was at activity start
         tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
@@ -373,17 +373,19 @@ class zone_data
             temporarily_disabled = false;
             is_vehicle = false;
             is_personal = false;
-            start = tripoint_zero;
-            end = tripoint_zero;
-            cached_shift = {};
+            start = tripoint_abs_ms::zero;
+            end = tripoint_abs_ms::zero;
+            personal_start = tripoint_rel_ms::zero;
+            personal_end = tripoint_rel_ms::zero;
+            cached_shift = tripoint_abs_ms::zero;
             options = nullptr;
             is_displayed = false;
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
-                   const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false,
+                   const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
+                   const shared_ptr_fast<zone_options> &_options = nullptr,
                    bool _is_displayed = false ) {
             name = _name;
             type = _type;
@@ -391,9 +393,33 @@ class zone_data
             invert = _invert;
             enabled = _enabled;
             is_vehicle = false;
-            is_personal = personal;
+            is_personal = false;
             start = _start;
             end = _end;
+            is_displayed = _is_displayed;
+
+            // ensure that supplied options is of correct class
+            if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
+                options = zone_options::create( type );
+            } else {
+                options = _options;
+            }
+        }
+
+        zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
+                   bool _invert, const bool _enabled,
+                   const tripoint_rel_ms &_start, const tripoint_rel_ms &_end,
+                   const shared_ptr_fast<zone_options> &_options = nullptr,
+                   bool _is_displayed = false ) {
+            name = _name;
+            type = _type;
+            faction = _faction;
+            invert = _invert;
+            enabled = _enabled;
+            is_vehicle = false;
+            is_personal = true;
+            personal_start = _start;
+            personal_end = _end;
             is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
@@ -408,8 +434,13 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
-        void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true, bool skip_cache_update = false );
+        // We need to be able to suppress the display of zones when the movement is part of a map rotation, as the underlying
+        // field is automatically rotated by the map rotation itself.
+        // One version for personal zones and one for the rest
+        void set_position( const std::pair<tripoint_abs_ms, tripoint_abs_ms> &position, bool manual = true,
+                           bool update_avatar = true, bool skip_cache_update = false, bool suppress_display_update = false );
+        void set_position( const std::pair<tripoint_rel_ms, tripoint_rel_ms> &position, bool manual = true,
+                           bool update_avatar = true, bool skip_cache_update = false, bool suppress_display_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         // Displays/removes display fields based on the current is_displayed value.
@@ -470,15 +501,15 @@ class zone_data
         }
         tripoint_abs_ms get_start_point() const {
             if( is_personal ) {
-                return start + cached_shift;
+                return cached_shift + personal_start;
             }
-            return tripoint_abs_ms{ start };
+            return start;
         }
         tripoint_abs_ms get_end_point() const {
             if( is_personal ) {
-                return end + cached_shift;
+                return cached_shift + personal_end;
             }
-            return tripoint_abs_ms{ end };
+            return end;
         }
         void update_cached_shift( const tripoint_abs_ms &player_loc ) {
             cached_shift = player_loc;
@@ -501,9 +532,9 @@ class zone_data
             // if it is personal then the zone is local
             if( is_personal ) {
                 return inclusive_cuboid<tripoint_abs_ms>(
-                           start + cached_shift, end + cached_shift ).contains( p );
+                           cached_shift + personal_start, cached_shift + personal_end ).contains( p );
             }
-            return inclusive_cuboid<tripoint>( start, end ).contains( p.raw() );
+            return inclusive_cuboid<tripoint_abs_ms>( start, end ).contains( p );
         }
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -516,7 +547,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        static const int MAX_DISTANCE = ACTIVITY_SEARCH_DISTANCE;
+        static const int MAX_DISTANCE = MAX_VIEW_DISTANCE;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
@@ -554,18 +585,26 @@ class zone_manager
 
         void clear();
 
+        // For addition of regular and vehicle zones
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
-                  const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
+                  const tripoint_abs_ms &start, const tripoint_abs_ms &end,
+                  const shared_ptr_fast<zone_options> &options = nullptr,
                   bool silent = false, map *pmap = nullptr );
+
+        // For addition of personal zones
+        void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
+                  bool invert, bool enabled,
+                  const tripoint_rel_ms &start, const tripoint_rel_ms &end,
+                  const shared_ptr_fast<zone_options> &options = nullptr );
+
         // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
                                       const faction_id &fac = your_fac ) const;
         // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
         std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
-        void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
+        void create_vehicle_loot_zone( class vehicle &vehicle, const point_rel_ms &mount_point,
                                        zone_data &new_zone, map *pmap = nullptr );
 
         bool remove( zone_data &zone );
@@ -612,9 +651,9 @@ class zone_manager
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
-        std::unordered_set<tripoint> get_point_set_loot(
+        std::unordered_set<tripoint_bub_ms> get_point_set_loot(
             const tripoint_abs_ms &where, int radius, const faction_id &fac = your_fac ) const;
-        std::unordered_set<tripoint> get_point_set_loot(
+        std::unordered_set<tripoint_bub_ms> get_point_set_loot(
             const tripoint_abs_ms &where, int radius, bool npc_search,
             const faction_id &fac = your_fac ) const;
 
@@ -634,7 +673,8 @@ class zone_manager
         void deserialize( const JsonValue &jv );
 };
 
-void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,
+                        zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
                         std::string const &filter = {}, map *pmap = nullptr );
 

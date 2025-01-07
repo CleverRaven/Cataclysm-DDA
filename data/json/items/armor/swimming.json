@@ -376,7 +376,6 @@
     "volume": "2 L",
     "price": "52 USD 50 cent",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
     "symbol": "[",
     "looks_like": "longshirt",
@@ -457,7 +456,7 @@
       {
         "id": "jungle_rashguard_shirt",
         "name": { "str": "jungle rashguard shirt" },
-        "description": "It has jungle decorations and motifs of animals fighting amongst themselves.",
+        "description": "It has jungle decorations and motifs of animals fighting among themselves.",
         "color": "light_green",
         "weight": 5,
         "append": true
@@ -566,7 +565,6 @@
     "volume": "750 ml",
     "price": "18 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -630,17 +628,17 @@
     "id": "xl_wetsuit_booties",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties",
-    "name": { "str": "pair of XL diving socks", "str_pl": "pairs of XL diving socks" },
+    "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_booties",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties",
-    "name": { "str": "pair of XS diving socks", "str_pl": "pairs of XS diving socks" },
+    "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_booties_thick",
@@ -702,17 +700,17 @@
     "id": "xl_wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties_thick",
-    "name": { "str": "pair of XL diving socks", "str_pl": "pairs of XL diving socks" },
+    "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties_thick",
-    "name": { "str": "pair of XS diving socks", "str_pl": "pairs of XS diving socks" },
+    "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "swim_fins",
@@ -768,7 +766,6 @@
     "volume": "5 L",
     "price": "120 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -812,17 +809,17 @@
     "id": "xl_wetsuit",
     "type": "ARMOR",
     "copy-from": "wetsuit",
-    "name": { "str": "XL wetsuit" },
+    "name": { "str": "wetsuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit",
     "type": "ARMOR",
     "copy-from": "wetsuit",
-    "name": { "str": "XS wetsuit" },
+    "name": { "str": "wetsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_thick",
@@ -833,7 +830,6 @@
     "volume": "6 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -878,17 +874,17 @@
     "id": "xl_wetsuit_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_thick",
-    "name": { "str": "XL thick wetsuit" },
+    "name": { "str": "thick wetsuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_thick",
-    "name": { "str": "XS thick wetsuit" },
+    "name": { "str": "thick wetsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_hood",
@@ -922,17 +918,17 @@
     "id": "xl_wetsuit_hood",
     "type": "ARMOR",
     "copy-from": "wetsuit_hood",
-    "name": { "str": "XL wetsuit hood" },
+    "name": { "str": "wetsuit hood" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_hood",
     "type": "ARMOR",
     "copy-from": "wetsuit_hood",
-    "name": { "str": "XS wetsuit hood" },
+    "name": { "str": "wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_hood_thick",
@@ -960,17 +956,17 @@
     "id": "xl_wetsuit_hood_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_hood_thick",
-    "name": { "str": "XL thick wetsuit hood" },
+    "name": { "str": "thick wetsuit hood" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_hood_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_hood_thick",
-    "name": { "str": "XS thick wetsuit hood" },
+    "name": { "str": "thick wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_jacket",
@@ -981,7 +977,6 @@
     "volume": "2500 ml",
     "price": "75 USD",
     "price_postapoc": "3 USD 50 cent",
-    "to_hit": -2,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_light",
@@ -1014,17 +1009,17 @@
     "id": "xl_wetsuit_jacket",
     "type": "ARMOR",
     "copy-from": "wetsuit_jacket",
-    "name": { "str": "XL wetsuit jacket" },
+    "name": { "str": "wetsuit jacket" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_jacket",
     "type": "ARMOR",
     "copy-from": "wetsuit_jacket",
-    "name": { "str": "XS wetsuit jacket" },
+    "name": { "str": "wetsuit jacket" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_top",
@@ -1077,17 +1072,17 @@
     "id": "xl_wetsuit_top",
     "type": "ARMOR",
     "copy-from": "wetsuit_top",
-    "name": { "str": "XL wetsuit shirt" },
+    "name": { "str": "wetsuit shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_top",
     "type": "ARMOR",
     "copy-from": "wetsuit_top",
-    "name": { "str": "XS wetsuit shirt" },
+    "name": { "str": "wetsuit shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_top_sleeved_thin",
@@ -1125,17 +1120,17 @@
     "id": "xl_wetsuit_top_sleeved_thin",
     "type": "ARMOR",
     "copy-from": "wetsuit_top_sleeved_thin",
-    "name": { "str": "XL thin wetsuit long-sleeved shirt" },
+    "name": { "str": "thin wetsuit long-sleeved shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_top_sleeved_thin",
     "type": "ARMOR",
     "copy-from": "wetsuit_top_sleeved_thin",
-    "name": { "str": "XS thin wetsuit long-sleeved shirt" },
+    "name": { "str": "thin wetsuit long-sleeved shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_top_sleeved",
@@ -1146,7 +1141,6 @@
     "volume": "4 L",
     "price": "65 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "longshirt",
@@ -1179,17 +1173,17 @@
     "id": "xl_wetsuit_top_sleeved",
     "type": "ARMOR",
     "copy-from": "wetsuit_top_sleeved",
-    "name": { "str": "XL wetsuit long-sleeved shirt" },
+    "name": { "str": "wetsuit long-sleeved shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_top_sleeved",
     "type": "ARMOR",
     "copy-from": "wetsuit_top_sleeved",
-    "name": { "str": "XS wetsuit long-sleeved shirt" },
+    "name": { "str": "wetsuit long-sleeved shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_pants_thin",
@@ -1218,17 +1212,17 @@
     "id": "xl_wetsuit_pants_thin",
     "type": "ARMOR",
     "copy-from": "wetsuit_pants_thin",
-    "name": { "str_sp": "XL thin wetsuit pants" },
+    "name": { "str_sp": "thin wetsuit pants" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_pants_thin",
     "type": "ARMOR",
     "copy-from": "wetsuit_pants_thin",
-    "name": { "str_sp": "XS thin wetsuit pants" },
+    "name": { "str_sp": "thin wetsuit pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_pants",
@@ -1239,7 +1233,6 @@
     "volume": "4 L",
     "price": "65 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1263,17 +1256,17 @@
     "id": "xl_wetsuit_pants",
     "type": "ARMOR",
     "copy-from": "wetsuit_pants",
-    "name": { "str_sp": "XL wetsuit pants" },
+    "name": { "str_sp": "wetsuit pants" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_pants",
     "type": "ARMOR",
     "copy-from": "wetsuit_pants",
-    "name": { "str_sp": "XS wetsuit pants" },
+    "name": { "str_sp": "wetsuit pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_shorts",
@@ -1317,17 +1310,17 @@
     "id": "xl_wetsuit_shorts",
     "type": "ARMOR",
     "copy-from": "wetsuit_shorts",
-    "name": { "str_sp": "XL wetsuit shorts" },
+    "name": { "str_sp": "wetsuit shorts" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_shorts",
     "type": "ARMOR",
     "copy-from": "wetsuit_shorts",
-    "name": { "str_sp": "XS wetsuit shorts" },
+    "name": { "str_sp": "wetsuit shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_shorts_technical",
@@ -1461,7 +1454,7 @@
     "id": "xl_wetsuit_shorts_technical",
     "type": "ARMOR",
     "copy-from": "wetsuit_shorts_technical",
-    "name": { "str_sp": "XL wetsuit technical shorts" },
+    "name": { "str_sp": "wetsuit technical shorts" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
     "use_action": {
       "type": "transform",
@@ -1469,13 +1462,13 @@
       "target": "xl_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_shorts_technical",
     "type": "ARMOR",
     "copy-from": "wetsuit_shorts_technical",
-    "name": { "str_sp": "XS wetsuit technical shorts" },
+    "name": { "str_sp": "wetsuit technical shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "use_action": {
       "type": "transform",
@@ -1483,7 +1476,7 @@
       "target": "xs_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_shorts_technical_loose",
@@ -1498,7 +1491,7 @@
     "id": "xl_wetsuit_shorts_technical_loose",
     "type": "ARMOR",
     "copy-from": "xl_wetsuit_shorts_technical",
-    "name": { "str_sp": "XL wetsuit technical shorts (loose)" },
+    "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xl_wetsuit_shorts_technical", "menu_text": "Tighten" },
     "delete": { "flags": [ "SKINTIGHT" ] }
   },
@@ -1506,7 +1499,7 @@
     "id": "xs_wetsuit_shorts_technical_loose",
     "type": "ARMOR",
     "copy-from": "xs_wetsuit_shorts_technical",
-    "name": { "str_sp": "XS wetsuit technical shorts (loose)" },
+    "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xs_wetsuit_shorts_technical", "menu_text": "Tighten" },
     "delete": { "flags": [ "SKINTIGHT" ] }
   },
@@ -1519,7 +1512,6 @@
     "volume": "4 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "neoprene" ],
     "symbol": "[",
     "looks_like": "wetsuit",
@@ -1583,17 +1575,17 @@
     "id": "xl_wetsuit_spring",
     "type": "ARMOR",
     "copy-from": "wetsuit_spring",
-    "name": { "str": "XL spring suit" },
+    "name": { "str": "spring suit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_spring",
     "type": "ARMOR",
     "copy-from": "wetsuit_spring",
-    "name": { "str": "XS spring suit" },
+    "name": { "str": "spring suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_spring_sleeveless",
@@ -1604,7 +1596,6 @@
     "volume": "3 L",
     "price": "80 USD",
     "price_postapoc": "4 USD 50 cent",
-    "to_hit": -2,
     "material": [ "neoprene" ],
     "symbol": "[",
     "looks_like": "wetsuit_spring",
@@ -1638,17 +1629,17 @@
     "id": "xl_wetsuit_spring_sleeveless",
     "type": "ARMOR",
     "copy-from": "wetsuit_spring_sleeveless",
-    "name": { "str": "XL sleeveless spring suit" },
+    "name": { "str": "sleeveless spring suit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_spring_sleeveless",
     "type": "ARMOR",
     "copy-from": "wetsuit_spring_sleeveless",
-    "name": { "str": "XS sleeveless spring suit" },
+    "name": { "str": "sleeveless spring suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "shark_suit_faraday",
@@ -1660,7 +1651,6 @@
     "volume": "3500 ml",
     "price": "350 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "chainmail_hauberk",
@@ -1687,17 +1677,17 @@
     "id": "xl_shark_suit_faraday",
     "type": "ARMOR",
     "copy-from": "shark_suit_faraday",
-    "name": { "str": "XL faraday sharksuit" },
+    "name": { "str": "faraday sharksuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_shark_suit_faraday",
     "type": "ARMOR",
     "copy-from": "shark_suit_faraday",
-    "name": { "str": "XS faraday sharksuit" },
+    "name": { "str": "faraday sharksuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "shark_suit",
@@ -1709,7 +1699,6 @@
     "volume": "3500 ml",
     "price": "350 USD",
     "price_postapoc": "50 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "chainmail_suit",
@@ -1736,17 +1725,17 @@
     "id": "xl_shark_suit",
     "type": "ARMOR",
     "copy-from": "shark_suit_faraday",
-    "name": { "str": "XL sharksuit" },
+    "name": { "str": "sharksuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_shark_suit",
     "type": "ARMOR",
     "copy-from": "shark_suit",
-    "name": { "str": "XS sharksuit" },
+    "name": { "str": "sharksuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "goggles_swim",
@@ -1757,7 +1746,6 @@
     "volume": "250 ml",
     "price": "11 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic", "rubber" ],
     "symbol": "[",
     "looks_like": "goggles_welding",
@@ -1787,7 +1775,6 @@
     "volume": "500 ml",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "gloves_tactical",
@@ -1811,17 +1798,17 @@
     "id": "xl_wetsuit_gloves",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves",
-    "name": { "str": "pair of XL diving gloves", "str_pl": "pairs of XL diving gloves" },
+    "name": { "str": "pair of diving gloves", "str_pl": "pairs of diving gloves" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_gloves",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves",
-    "name": { "str": "pair of XS diving gloves", "str_pl": "pairs of XS diving gloves" },
+    "name": { "str": "pair of diving gloves", "str_pl": "pairs of diving gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wetsuit_gloves_thick",
@@ -1849,17 +1836,17 @@
     "id": "xl_wetsuit_gloves_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves_thick",
-    "name": { "str": "pair of thick XL diving gloves", "str_pl": "pairs of thick XL diving gloves" },
+    "name": { "str": "pair of thick diving gloves", "str_pl": "pairs of thick diving gloves" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wetsuit_gloves_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves_thick",
-    "name": { "str": "pair of thick XS diving gloves", "str_pl": "pairs of thick XS diving gloves" },
+    "name": { "str": "pair of thick diving gloves", "str_pl": "pairs of thick diving gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "divemask_full_scuba_notready",
@@ -1871,7 +1858,6 @@
     "volume": "1500 ml",
     "price": "400 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -2,
     "material": [ "plastic", "rubber", "thermo_resin" ],
     "symbol": "[",
     "looks_like": "mask_h20survivor",
@@ -1914,7 +1900,6 @@
     "volume": "1500 ml",
     "price": "400 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -2,
     "material": [ "plastic", "rubber", "thermo_resin" ],
     "symbol": "[",
     "looks_like": "mask_h20survivor",

@@ -37,7 +37,6 @@
   {
     "type": "furniture",
     "id": "f_small_satellite_dish",
-    "alias": [ "f_small_satelitte_dish" ],
     "name": "satellite dish",
     "description": "A small sheet metal disc designed to receive radio waves from orbital satellites.  Satellites that will assuredly continue to orbit, with nothing to broadcast.",
     "symbol": "(",
@@ -46,6 +45,10 @@
     "required_str": 10,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "womp!",
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 12 ] },
@@ -135,7 +138,7 @@
       "items": [
         { "item": "pipe", "count": 1 },
         { "item": "pipe_fittings", "count": 1 },
-        { "item": "wire", "count": 4 },
+        { "item": "lc_wire", "count": 4 },
         { "item": "sheet_metal_small", "count": 2 }
       ]
     },

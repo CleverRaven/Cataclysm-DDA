@@ -5,37 +5,6 @@
     "//": "Intended as a palette for non-nested abandoned houses.  Removes most furniture and item spawns, breaks doors and windows, applies bash damage to glass and furniture.",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      },
-      "exterior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
-          ]
-        }
-      },
       "window_type": {
         "type": "ter_str_id",
         "default": {
@@ -178,8 +147,6 @@
       ],
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_b", "t_rdoor_c", "t_rdoor_b", [ "t_door_locked", 10 ], "t_door_c" ],
       "^": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
@@ -192,7 +159,7 @@
       "v": [
         { "item": "art", "chance": 5 },
         { "item": "home_display_case", "chance": 30 },
-        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
         { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
@@ -205,7 +172,7 @@
       "3": [ { "item": "SUS_utensils", "chance": 3 }, { "item": "SUS_knife_drawer", "chance": 3 } ],
       "4": { "item": "SUS_junk_drawer", "chance": 6 },
       "5": { "item": "SUS_kitchen_sink", "chance": 5 },
-      "8": [ { "item": "SUS_bathroom_medicine", "chance": 1 }, { "item": "harddrugs", "chance": 5 } ],
+      "8": [ { "item": "SUS_bathroom_medicine", "chance": 1 }, { "item": "harddrugs_residential", "chance": 5 } ],
       "@": { "item": "bed", "chance": 5 },
       "Z": { "item": "laundry", "chance": 10 },
       "W": { "item": "laundry", "chance": 10 }

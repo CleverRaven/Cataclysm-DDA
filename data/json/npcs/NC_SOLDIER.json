@@ -121,13 +121,13 @@
     "type": "item_group",
     "id": "NC_SOLDIER_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
+    "entries": [ { "group": "modular_m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_SOLDIER_weapon_random",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 35 } ]
+    "entries": [ { "group": "modular_m4a1", "prob": 35 } ]
   },
   {
     "type": "item_group",

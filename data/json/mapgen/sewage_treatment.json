@@ -95,8 +95,7 @@
       "Y": "t_switchgear_s",
       "&": "t_sewage_pump",
       "-": "t_wall_glass",
-      "A": "t_railing_h",
-      "a": "t_railing_v",
+      "A": "t_railing",
       "H": "t_chainfence",
       "C": "t_chaingate_l",
       "+": "t_door_c"
@@ -139,7 +138,6 @@
       { "monster": "mon_sewer_rat", "weight": 310, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_albino_penguin", "weight": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "group": "GROUP_FROGS_SEWER", "weight": 250 },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3 }
@@ -305,7 +303,7 @@
         "             .......       ........     ......  ",
         "             .......       ........     ......  ",
         "             .......       ........     ......  ",
-        "             .......       ........     ......  ",
+        "                           ........     ......  ",
         "                                        ......  ",
         "                                        ......  ",
         "                                        ......  ",
@@ -333,6 +331,40 @@
           "y": [ 5, 10 ]
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewage_treatment_1_0_upper_roof" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                   ---  ",
+        "                   -.-  ",
+        "                   ---  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -368,8 +400,8 @@
         "    |~#2|      |||||||||||..|  |6tttttt6|   |..|               |2#~|    ",
         "    |~#2|                |..| ||--------||  |..|               |2#~|    ",
         "    |~#2|                |..| |#vvvvvvvv2|  |..|               |2#~|    ",
-        "    |~#2|                |..| |#a~~~~~~~2|  |..|               |2#~|    ",
-        "    |~#2|                |..| |#a~~~~~~~2||||bb||              |2#~|    ",
+        "    |~#2|                |..| |#A~~~~~~~2|  |..|               |2#~|    ",
+        "    |~#2|                |..| |#A~~~~~~~2||||bb||              |2#~|    ",
         "    |~#2|       ||||||||||..|||b|~~~~~~|22222..2||             |2#~|    ",
         "    |~#2|  ||||||ww.............b##~~~|||||||..22|||||||||||||||2#~|    ",
         "    |~#2|  |{{{{Hw...||||||||||||!*!!!||||| |...22222222222222222#`|    ",

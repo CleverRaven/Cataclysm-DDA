@@ -93,7 +93,7 @@
   },
   {
     "id": "inventor_research_ai_1",
-    "name": "intelligent agent researches",
+    "name": "intelligent agent research",
     "description": "Research a practical approaches to use different intelligent agents as a tool or weapon.",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -103,6 +103,22 @@
     "time": "5 h",
     "skill_used": "deduction",
     "difficulty": 8,
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH"
+  },
+  {
+    "id": "inventor_research_dimension_1",
+    "name": "dimensionalism research",
+    "description": "Research practical methods of using netherium based physics.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result_eocs": [ "EOC_INVENTOR_RESEARCH_DIMENSION_1" ],
+    "tools": [ [ [ "laptop", 100 ] ] ],
+    "components": [ [ [ "medium_printout_portal_storm_data", 1 ], [ "small_printout_portal_storm_data", 3 ] ] ],
+    "time": "10 h",
+    "skill_used": "deduction",
+    "difficulty": 10,
     "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"

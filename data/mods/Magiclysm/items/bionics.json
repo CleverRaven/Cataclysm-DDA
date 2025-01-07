@@ -36,5 +36,108 @@
     "mutation_conflicts": [ "EARTHSHAPER" ],
     "enchantments": [ "ench_bio_sneeze_beam" ],
     "flags": [ "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_see_wizards_eyes",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Witchfinder Eyes CBM" },
+    "description": "A series of rune-inscribed implants around the eyes allow the user of this bionic to see the ley lines in the bodies of those who frequently use magic, effectively detecting nearby wizards even through obstructing terrain.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_see_wizards_eyes",
+    "type": "bionic",
+    "name": { "str": "Witchfinder Eyes" },
+    "description": "Rune-inscribed metal filaments have been implanted around your eyes, allowing you to detect nearby mages.  Activate to turn it on.",
+    "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "enchantments": [ "ench_bio_see_wizards_eye" ],
+    "act_cost": "20 J",
+    "react_cost": "6 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_bio_see_wizards_eye",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "special_vision": [
+      {
+        "condition": {
+          "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+        },
+        "distance": 22,
+        "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You see the ley lines of a wielder of magic." } ]
+      }
+    ]
+  },
+  {
+    "id": "bio_mana_to_bionic_power",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Corporeal Ley Tap CBM" },
+    "description": "For those who have no use for their mana, this bionic allows the user to convert mana directly into bionic power.  Though the conversion rate is inefficient, mana is free.",
+    "price": "5 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 6
+  },
+  {
+    "id": "bio_mana_to_bionic_power",
+    "type": "bionic",
+    "name": { "str": "Corporeal Ley Tap" },
+    "description": "Tiny bits of orichalcum have been implanted at important intersections in your ley lines, allowing you to turn your mana into bionic power.  Activate to begin the conversion process.",
+    "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "mutation_conflicts": [ "EARTHSHAPER" ],
+    "activated_eocs": [ "EOC_BIO_MANA_TO_BIONIC_POWER_ON" ],
+    "deactivated_eocs": [ "EOC_BIO_MANA_TO_BIONIC_POWER_OFF" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MANA_TO_BIONIC_POWER_ON",
+    "effect": [
+      { "u_add_effect": "effect_bio_mana_to_bionic_power", "duration": "PERMANENT" },
+      { "run_eocs": "EOC_BIO_MANA_TO_BIONIC_POWER_PROCESSING", "time_in_future": 10 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MANA_TO_BIONIC_POWER_PROCESSING",
+    "condition": { "u_has_effect": "effect_bio_mana_to_bionic_power" },
+    "effect": [
+      {
+        "if": { "math": [ "u_val('mana')", ">", "0" ] },
+        "then": [ { "math": [ "u_val('mana')", "--" ] }, { "math": [ "u_val('power')", "+=", "energy('35  J')" ] } ]
+      },
+      { "run_eocs": "EOC_BIO_MANA_TO_BIONIC_POWER_PROCESSING", "time_in_future": 10 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MANA_TO_BIONIC_POWER_OFF",
+    "effect": [ { "u_lose_effect": "effect_bio_mana_to_bionic_power" } ]
+  },
+  {
+    "id": "bio_ley_energy_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Levinbolt Projector CBM" },
+    "description": "The ultimate in concealable personal defense, thin filaments are implanted along the ley lines in both of your arms leading to embedded mana crystals in your hands, allowing you to launch blasts of pure magical energy at nearby targets.  The only disadvantage is that it draws on your own personal mana supply rather than bionic power.",
+    "price": "3 kUSD",
+    "weight": "500 g",
+    "difficulty": 4
+  },
+  {
+    "id": "bio_ley_energy_blaster",
+    "type": "bionic",
+    "name": { "str": "Levinbolt Projector" },
+    "description": "Implants in your arm's ley lines allow you to project bolts of magical energy from your hands.  This draws on your personal mana stores, not your bionic power.",
+    "occupied_bodyparts": [ [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "spell_on_activation": { "id": "bio_ley_energy_blaster_spell" },
+    "activated_close_ui": true
   }
 ]

@@ -91,6 +91,7 @@
         "  BB  ",
         "E    T"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -98,13 +99,13 @@
         "y": "t_floor",
         "T": "t_floor",
         "E": "t_floor",
-        " ": "t_carpet_red",
-        "h": "t_carpet_red",
-        "A": "t_carpet_red",
-        "d": "t_carpet_red",
-        "f": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "A": "f_stool", "B": "f_table", "E": "f_armchair", "C": "f_bookcase", "T": "f_floor_lamp" },
       "items": { "C": [ { "item": "games", "chance": 80, "repeat": [ 3, 6 ] } ] }
@@ -124,6 +125,7 @@
         "   h  ",
         "C    T"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -133,13 +135,13 @@
         "T": "t_floor",
         "t": "t_reb_cage",
         "E": "t_floor",
-        " ": "t_carpet_red",
-        "h": "t_carpet_red",
-        "A": "t_carpet_red",
-        "d": "t_carpet_red",
-        "f": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": {
         "A": "f_stool",
@@ -182,6 +184,7 @@
         "  BB  ",
         "E    T"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         ".": "t_floor",
         "B": "t_floor",
@@ -189,13 +192,13 @@
         "y": "t_floor",
         "T": "t_floor",
         "E": "t_floor",
-        " ": "t_carpet_red",
-        "h": "t_carpet_red",
-        "A": "t_carpet_red",
-        "d": "t_carpet_red",
-        "f": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        " ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "O": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": {
         "A": "f_stool",

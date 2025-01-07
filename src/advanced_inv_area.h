@@ -49,16 +49,16 @@ class advanced_inv_area
 
         const aim_location id;
         // Used for the small overview 3x3 grid
-        point hscreen = point_zero;
+        point hscreen = point::zero;
         // relative (to the player) position of the map point
-        tripoint off;
+        tripoint_rel_ms off;
         /** Long name, displayed, translated */
         const std::string name = "fake";
         /** Shorter name (2 letters) */
         // FK in my coffee
         const std::string shortname = "FK";
         // absolute position of the map point.
-        tripoint pos;
+        tripoint_bub_ms pos;
         /** Can we put items there? Only checks if location is valid, not if
             selected container in pane is. For full check use canputitems() **/
         bool canputitemsloc = false;

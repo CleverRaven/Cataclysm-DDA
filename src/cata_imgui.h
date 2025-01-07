@@ -2,18 +2,29 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <vector>
+#include <unordered_map>
+
+#include "font_loader.h"
 
 class nc_color;
 struct input_event;
+using ImGuiInputTextFlags = int;
 
-#if defined(WIN32) || defined(TILES)
+#if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
+#   define TUI
+#endif
+
+#ifndef TUI
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "color_loader.h"
 #endif
+#include "text.h"
 
 struct point;
-class ImVec2;
+struct ImVec2;
+struct ImVec4;
 class Font;
 class input_context;
 
@@ -41,16 +52,31 @@ enum class dialog_result {
     NoClicked
 };
 
+enum class scroll : int {
+    none = 0,
+    begin,
+    end,
+    line_up,
+    line_down,
+    page_up,
+    page_down
+};
+
 class client
 {
+        std::vector<int> cata_input_trail;
+#ifndef TUI
+        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+#endif
     public:
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         client();
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &cata_font,
-                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette );
+        void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
+                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                         const std::vector<font_config> &gui_typeface, const std::vector<font_config> &mono_typeface );
 #endif
         ~client();
 
@@ -58,7 +84,7 @@ class client
         void end_frame();
         void process_input( void *input );
         void process_cata_input( const input_event &event );
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );
 #else
@@ -73,6 +99,20 @@ class client
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
+ImVec4 imvec4_from_color( nc_color &color );
+
+void set_scroll( scroll &s );
+
+void draw_colored_text( const std::string &original_text, const nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( const std::string &original_text, nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( const std::string &original_text,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
@@ -83,12 +123,6 @@ class window
     public:
         explicit window( const std::string &id_, int window_flags = 0 );
         virtual ~window();
-        void draw_colored_text( std::string const &text, const nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text, nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );
         bool has_button_action();
         std::string get_button_action();
@@ -116,9 +150,23 @@ class window
         void draw_filter( const input_context &ctxt, bool filtering_active );
 };
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 void init_pair( int p, int f, int b );
 void load_colors();
 #endif
 
+// drops the ImGuiInputTextFlags_CharsScientific flag from regular imgui InputFloat because it doesn't allow commas
+bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast = 0.0f,
+                 const char *format = "%.3f", ImGuiInputTextFlags flags = 0 );
+
+void PushGuiFont();
+void PushMonoFont();
+
+bool BeginRightAlign( const char *str_id );
+void EndRightAlign();
+
+// Set ImGui theme colors to those chosen by the player.
+// This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors
+// for elements not explicitly specified.
+void init_colors();
 } // namespace cataimgui

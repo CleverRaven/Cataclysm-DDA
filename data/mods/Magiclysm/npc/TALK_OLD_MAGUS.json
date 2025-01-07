@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_OLD_MAGUS",
     "dynamic_line": {
-      "u_has_var": "dialogue_old_magus_talked_to_old_magus",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_old_magus_talked_to_old_magus" } ],
       "no": "Huh?  *mumble mumble* …Who are you?",
       "yes": "Oh, you again."
     },
@@ -22,7 +21,7 @@
         "condition": {
           "and": [
             { "not": "has_assigned_mission" },
-            { "not": { "npc_has_var": "dialogue_old_magus_npc_magus_book_done", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_old_magus_npc_magus_book_done" } ] } }
           ]
         }
       },

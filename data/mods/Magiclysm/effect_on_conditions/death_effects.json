@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROCK_TROLL_TURN_TO_STONE",
+    "effect": [ { "npc_transform_radius": 0, "ter_furn_transform": "ter_rock_troll_death" } ]
+  }
+]

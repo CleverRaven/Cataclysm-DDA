@@ -7,7 +7,7 @@
 #include <map>
 #include <utility>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "mapdata.h"
 #include "type_id.h"
 
@@ -38,30 +38,30 @@ ter_str_id clay_or_sand();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_forest( mapgendata &dat );
-void mapgen_river_center( mapgendata &dat );
 void mapgen_river_curved_not( mapgendata &dat );
 void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
-void mapgen_rock_partial( mapgendata &dat );
 void mapgen_subway( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ocean_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, const point &, trap_id type );
-void mtrap_set( map *m, const point &, trap_id type, bool avoid_creatures = false );
+void mremove_trap( map *m, const tripoint_bub_ms &, trap_id type );
+void mtrap_set( map *m, const tripoint_bub_ms &, trap_id type, bool avoid_creatures = false );
 void mtrap_set( tinymap *m, const point &, trap_id type, bool avoid_creatures = false );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
-void mremove_fields( map *m, const point & );
+void mremove_fields( map *m, const tripoint_bub_ms & );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
-bool run_mapgen_update_func(
+// Return contains the name of a colliding "vehicle" on failure.
+ret_val<void> run_mapgen_update_func(
     const update_mapgen_id &, const tripoint_abs_omt &omt_pos, const mapgen_arguments &,
     mission *miss = nullptr, bool cancel_on_collision = true, bool mirror_horizontal = false,
     bool mirror_vertical = false, int rotation = 0 );
-bool run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
-                             bool cancel_on_collision = true );
+// Return contains the name of a colliding "vehicle" on failure.
+ret_val<void> run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
+                                      bool cancel_on_collision = true );
 void set_queued_points();
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,

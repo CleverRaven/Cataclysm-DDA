@@ -415,7 +415,7 @@
     "type": "furniture",
     "id": "f_translocator_buoy",
     "name": "translocator buoy",
-    "looks_like": "fd_reality_tear",
+    "looks_like": "fd_fatigue",
     "move_cost_mod": 0,
     "description": "A near undetectable spatial distortion field centered around a free floating golden mote.  Examining it from up close would let you encode it for use with a translocation device.",
     "symbol": ",",

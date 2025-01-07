@@ -45,6 +45,7 @@ static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const ter_str_id ter_t_window_frame( "t_window_frame" );
+static const ter_str_id ter_t_window_stained_green( "t_window_stained_green" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
@@ -67,7 +68,7 @@ static std::string vision_test_info( map_test_case &t )
     using namespace map_test_case_common;
 
     out << "origin: " << t.get_origin() << '\n';
-    out << "player: " << get_player_character().pos() << '\n';
+    out << "player: " << get_player_character().pos_bub() << '\n';
     out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';
     out << "vision_threshold: " << here.get_visibility_variables_cache().vision_threshold << '\n';
 
@@ -104,7 +105,7 @@ static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint::above );
 
 static bool spawn_moncam( map_test_case::tile tile )
 {
@@ -125,6 +126,7 @@ static const tile_predicate set_up_tiles_common =
     ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
     ifchar( '=', ter_set( ter_t_window_frame ) + ter_set_flat_roof_above ) ||
     ifchar( '-', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
+    ifchar( 'G', ter_set( ter_t_window_stained_green ) + ter_set_flat_roof_above ) ||
     fail;
 
 struct vision_test_flags {
@@ -152,7 +154,7 @@ struct vision_test_case {
 
     void test_all() const {
         Character &player_character = get_player_character();
-        g->place_player( tripoint( 60, 60, 0 ) );
+        g->place_player( { 60, 60, 0 } );
         player_character.clear_worn(); // Remove any light-emitting clothing
         player_character.clear_effects();
         player_character.clear_bionics();
@@ -179,7 +181,7 @@ struct vision_test_case {
             t.set_anchor_char_from( {anchor_char} );
         }
         REQUIRE( t.anchor_char.has_value() );
-        t.anchor_map_pos = player_character.pos();
+        t.anchor_map_pos = player_character.pos_bub();
 
         if( flags.crouching ) {
             player_character.set_movement_mode( move_mode_crouch );
@@ -205,11 +207,11 @@ struct vision_test_case {
 
         // Sanity check on player placement in relation to `t`
         // must be invoked after transformations are applied to `t`
-        t.validate_anchor_point( player_character.pos() );
+        t.validate_anchor_point( player_character.pos_bub() );
 
         SECTION( section_name.str() ) {
             t.for_each_tile( set_up_tiles );
-            int zlev = t.get_origin().z;
+            int zlev = t.get_origin().z();
             map &here = get_map();
             // We have to run the whole thing twice, because the first time through the
             // player's vision_threshold is based on the previous lighting level (so
@@ -424,6 +426,27 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
     t.test_all();
 }
 
+TEST_CASE( "vision_translucent_blocks_vision_but_not_light", "[shadowcasting][vision]" )
+{
+    vision_test_case t{
+        {
+            "###",
+            "#u#",
+            "#G#",
+            "   ",
+        },
+        {
+            "444",
+            "444",
+            "444",
+            "666",
+        },
+        day_time
+    };
+
+    t.test_all();
+}
+
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
     const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
@@ -570,7 +593,7 @@ TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
     monster *zombie = nullptr;
     tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
         zombie = g->place_critter_at( mon_zombie, tile.p );
-        get_map().ter_set( tile.p + tripoint_above, ter_t_flat_roof );
+        get_map().ter_set( tile.p + tripoint::above, ter_t_flat_roof );
         return true;
     };
 
@@ -708,15 +731,15 @@ TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
     avatar &u = get_avatar();
     REQUIRE( zombie->sees( u ) == !obstructed );
     if( add_moncam ) {
-        REQUIRE( u.sees( zombie->pos(), true ) );
+        REQUIRE( u.sees( zombie->pos_bub(), true ) );
     } else {
-        REQUIRE( !u.sees( zombie->pos(), true ) );
+        REQUIRE( !u.sees( zombie->pos_bub(), true ) );
     }
 }
 
 TEST_CASE( "vision_moncam_otherz", "[shadowcasting][vision][moncam]" )
 {
-    tripoint const disp = GENERATE( tripoint_below, tripoint_zero, tripoint_above );
+    tripoint const disp = GENERATE( tripoint::below, tripoint::zero, tripoint::above );
     vision_test_case t {
         {
             "-c-",
@@ -741,7 +764,7 @@ TEST_CASE( "vision_moncam_otherz", "[shadowcasting][vision][moncam]" )
     };
 
     tile_predicate spawn_moncam_disp = [&]( map_test_case::tile tile ) {
-        tile_predicate const p = ter_set( ter_t_floor ) + ter_set( ter_t_floor, tripoint_below ) +
+        tile_predicate const p = ter_set( ter_t_floor ) + ter_set( ter_t_floor, tripoint::below ) +
                                  ter_set_flat_roof_above;
         p( tile );
         monster *const slime = g->place_critter_at( mon_test_camera, tile.p + disp );
@@ -906,11 +929,11 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
-            std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_bub(), "HORN", {} );
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
-            REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
+            REQUIRE( v->install_part( point_rel_ms::zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
             get_map().add_vehicle_to_cache( v );
@@ -973,9 +996,9 @@ TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
 
     auto wiggle_slime = [&]() {
         // vehicle camera should still work even if only the moncam moved
-        slime->Creature::move_to( slime->get_location() + tripoint_east );
+        slime->Creature::move_to( slime->get_location() + tripoint::east );
         get_map().build_map_cache( slime->posz() );
-        slime->Creature::move_to( slime->get_location() - tripoint_east );
+        slime->Creature::move_to( slime->get_location() - tripoint::east );
         get_map().build_map_cache( slime->posz() );
     };
 
@@ -1085,7 +1108,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
     };
 
     vehicle *v = nullptr;
-    std::optional<tripoint> door = std::nullopt;
+    std::optional<tripoint_bub_ms> door = std::nullopt;
 
     // opens or closes a specific door (marked as 'D')
     // this is called twice: after either vehicle or door is set
@@ -1142,9 +1165,9 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
 {
     // oob crash from game::place_player_overmap() or game::start_game(), simplified
     clear_avatar();
-    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
+    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point::south_east, false,
                     false );
-    get_avatar().sees( tripoint_zero ); // CRASH?
+    get_avatar().sees( tripoint_bub_ms::zero ); // CRASH?
 
     clear_avatar();
 }

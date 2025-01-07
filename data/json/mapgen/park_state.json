@@ -70,5 +70,39 @@
         { "vehicle": "parking_garage", "x": 28, "y": 11, "chance": 4, "rotation": 270 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "state_park_1_0_1" ],
+    "object": {
+      "rows": [
+        "             ---        ",
+        "             -.-        ",
+        "             -.-        ",
+        "             -.-        ",
+        "             ---        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

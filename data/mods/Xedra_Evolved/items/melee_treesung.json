@@ -1,0 +1,85 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "treesung_spear",
+    "copy-from": "spear_wood",
+    "looks_like": "spear_wood",
+    "name": { "str": "treesung spear" },
+    "description": "A stout wooden pole sharpened on one end, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
+    "color": "green",
+    "proportional": { "melee_damage": { "stab": 1.5 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "DURABLE_MELEE" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_pike",
+    "copy-from": "pike_wood",
+    "looks_like": "pike_wood",
+    "name": { "str": "treesung long spear" },
+    "description": "A giant spear over three meters long, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
+    "color": "green",
+    "proportional": { "melee_damage": { "stab": 1.5 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_mace",
+    "copy-from": "mace",
+    "looks_like": "mace",
+    "name": { "str": "treesung mace" },
+    "description": "A weapon with a long wooden handle connected to a knobby wooden head, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
+    "color": "green",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "proportional": { "melee_damage": { "bash": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_q_staff",
+    "copy-from": "q_staff",
+    "looks_like": "q_staff",
+    "name": { "str": "treesung quarterstaff", "str_pl": "treesung quarterstaves" },
+    "description": "A sturdy staff all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.",
+    "color": "green",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "proportional": { "melee_damage": { "bash": 1.1 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "DURABLE_MELEE" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_warhammer",
+    "copy-from": "warhammer",
+    "looks_like": "warhammer",
+    "name": { "str": "treesung warhammer" },
+    "description": "A long hammer with a spike on one end, all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.",
+    "color": "green",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "proportional": { "melee_damage": { "bash": 1.1, "stab": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_naginata",
+    "copy-from": "naginata",
+    "looks_like": "naginata",
+    "name": { "str": "treesung sword-spear" },
+    "description": "A sturdy polearm with a curved blade, all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.  You're not sure how long it will hold its edge, but it's surprisingly sharp.",
+    "color": "green",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "proportional": { "melee_damage": { "cut": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "treesung_baselard",
+    "copy-from": "knife_baselard",
+    "looks_like": "knife_baselard",
+    "name": { "str": "treesung baselard" },
+    "description": "A large knife, all formed from a single piece of wood, with twists and curves like it grew in place rather than being carved.  You're not sure how long it will hold its edge, but it's surprisingly sharp.",
+    "color": "green",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "proportional": { "melee_damage": { "stab": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+  }
+]

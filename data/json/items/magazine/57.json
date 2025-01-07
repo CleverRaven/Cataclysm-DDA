@@ -32,16 +32,8 @@
     "//": "Audited with IRL measuring of OEM mag, no displacement test.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "5.7mm 50-round magazine" },
-    "description": "A translucent 50-round box magazine, for use with long guns chambering the proprietary 5.7x28mm cartridge.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "fnp90mag",
-        "name": { "str": "P90 50-round magazine" },
-        "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90."
-      }
-    ],
+    "name": { "str": "P90 50-round magazine" },
+    "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
     "weight": "143 g",
     "volume": "210 ml",
     "longest_side": "266 mm",

@@ -32,6 +32,13 @@
     "components": [ [ [ "nuts_bolts", 20 ] ] ]
   },
   {
+    "id": "vehicle_bolt_install_simple",
+    "type": "requirement",
+    "//": "for simple installs that only require tightening bolts",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "nuts_bolts", 4 ] ] ]
+  },
+  {
     "id": "vehicle_nail_removal",
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",

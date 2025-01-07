@@ -15,9 +15,17 @@
     "//": "Audited with ImageJ.  Weight from previous PR.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Barrett 10-round magazine" },
-    "//2": "Fully loaded 10 magazine, presumably loaded with the 114.7 gram M33 Ball cartridge, weighs 1868.801 grams. Source inetres.com",
-    "description": "A standard 10-round box magazine for the Barrett M107A1 anti-materiel rifle.",
+    "name": { "str": ".50 semi-automatic rifle 10-round magazine" },
+    "description": "A stout, 10-round box magazine for semi-automatic anti-materiel rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m107a1mag",
+        "name": { "str": "Barrett 10-round magazine" },
+        "//2": "Fully loaded 10 magazine, presumably loaded with the 114.7 gram M33 Ball cartridge, weighs 1868.801 grams. Source inetres.com",
+        "description": "A standard 10-round box magazine for the Barrett M107A1 anti-materiel rifle."
+      }
+    ],
     "weight": "727 g",
     "volume": "858 ml",
     "longest_side": "15 cm",
@@ -36,8 +44,16 @@
     "//": "Audited with ImageJ.  Weight compared with M107A1.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AS50 5-round magazine" },
-    "description": "A 5-round box magazine for the Accuracy International AS50 anti-materiel rifle.",
+    "name": { "str": ".50 precision rifle 5-round magazine" },
+    "description": "A 5-round box magazine for .50-caliber precision rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "as50mag",
+        "name": { "str": "AS50 5-round magazine" },
+        "description": "A 5-round box magazine for the Accuracy International AS50 anti-materiel rifle."
+      }
+    ],
     "weight": "386 g",
     "volume": "455 ml",
     "longest_side": "133 mm",
@@ -56,8 +72,16 @@
     "//": "No audit, just copied AS-50 magazine.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "TAC-50 5-round magazine" },
-    "description": "A 5-round box magazine for the McMillan TAC-50 anti-materiel rifle.",
+    "name": { "str": ".50 bolt-action rifle 5-round magazine" },
+    "description": "A 5-round box magazine for .50-caliber bolt-action anti-materiel rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tac50mag",
+        "name": { "str": "TAC-50 5-round magazine" },
+        "description": "A 5-round box magazine for the McMillan TAC-50 anti-materiel rifle."
+      }
+    ],
     "weight": "386 g",
     "volume": "455 ml",
     "longest_side": "133 mm",

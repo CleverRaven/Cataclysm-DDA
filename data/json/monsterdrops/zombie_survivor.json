@@ -166,7 +166,6 @@
             "distribution": [
               { "group": "guns_pistol_common", "prob": 100 },
               { "group": "guns_rifle_common_worn", "prob": 20, "contents-item": "shoulder_strap" },
-              { "group": "guns_smg_common_worn", "prob": 5, "contents-item": "shoulder_strap" },
               { "group": "guns_shotgun_common_worn", "prob": 40, "contents-item": "shoulder_strap_simple" }
             ],
             "prob": 24
@@ -195,15 +194,15 @@
     "id": "survivor_knife",
     "type": "item_group",
     "items": [
-      [ "knife_butcher", 15 ],
-      [ "knife_chef", 15 ],
-      [ "knife_carving", 15 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 15 },
+      { "item": "knife_large", "variant": "knife_chef", "prob": 15 },
+      { "item": "knife_large", "variant": "knife_carving", "prob": 15 },
       [ "knife_folding", 10 ],
       [ "makeshift_knife", 1 ],
-      [ "knife_steak", 35 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 35 },
       { "group": "knife_rambo_cont", "prob": 15 },
       [ "knife_hunting", 10 ],
-      [ "knife_meat_cleaver", 10 ]
+      { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
     ]
   },
   {
@@ -262,8 +261,7 @@
         "distribution": [
           { "group": "guns_smg_improvised", "prob": 10 },
           { "group": "guns_rifle_improvised", "prob": 100 },
-          { "group": "guns_shotgun_improvised", "prob": 100 },
-          { "group": "guns_launcher_improvised", "prob": 30 }
+          { "group": "guns_shotgun_improvised", "prob": 100 }
         ],
         "prob": 200
       },
@@ -338,7 +336,7 @@
       [ "pot_helmet", 7 ],
       [ "helmet_army", 4 ],
       [ "hat_hard", 22 ],
-      [ "miner_hat", 9 ],
+      { "group": "hat_hard_flashlight", "prob": 9 },
       [ "firehelmet", 10 ],
       [ "chainmail_junk_hood", 1 ],
       [ "pickelhaube", 1 ]
@@ -353,6 +351,7 @@
       [ "goggles_swim", 5 ],
       [ "goggles_ski", 10 ],
       { "item": "mask_gas", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "mask_gas_half", "prob": 60, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "mask_bal", 1 ],
       [ "mask_rioter", 5 ]
@@ -389,7 +388,6 @@
       [ "vest_leather", 20 ],
       [ "vest_leather_mod", 8 ],
       [ "stab_vest", 15 ],
-      [ "dragonskin", 1 ],
       [ "chainmail_junk_vest", 1 ],
       [ "chestguard_hard", 10 ],
       [ "armor_riot_torso", 10 ],

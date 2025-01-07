@@ -10,6 +10,9 @@
 #include "list.h"
 #include "point.h"
 
+// historically 8 bits is enough for rise and run, as a shadowcasting radius of 60
+// readily fits within that space. larger shadowcasting volumes may require larger
+// storage units; a radius of 120 definitely will not fit.
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
         // Ensure run is always positive for the inequality operators
@@ -21,8 +24,7 @@ struct slope {
         }
     }
 
-    // We don't need more that 8 bits since the shadowcasting area is not that large,
-    // currently the radius is 60.
+    // see above for commentary on types.
     int_least8_t rise;
     int_least8_t run;
 };
@@ -163,14 +165,14 @@ void cast_horizontal_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
+    const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-    static half_open_rectangle<point> bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
+    static half_open_rectangle<point> bounds( point::zero, point( MAPSIZE_X, MAPSIZE_Y ) );
 
     slope new_start_minor( 1, 1 );
 
@@ -216,7 +218,7 @@ void cast_horizontal_zlight_segment(
                 // leading and trailing edges being considered.
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
-                current.z = offset.z + delta.z * z_transform;
+                current.z = offset.z() + delta.z * z_transform;
                 if( current.z > max_z || current.z < min_z ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
@@ -245,8 +247,8 @@ void cast_horizontal_zlight_segment(
                 bool started_span = false;
                 const int z_index = current.z + OVERMAP_DEPTH;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                    current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
-                    current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
+                    current.x = offset.x() + delta.x * xx_transform + delta.y * xy_transform;
+                    current.y = offset.y() + delta.x * yx_transform + delta.y * yy_transform;
                     // See definition of trailing_edge_major and leading_edge_major for clarification.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.y * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.y * 2 - 1 );
@@ -278,12 +280,12 @@ void cast_horizontal_zlight_segment(
                     // TODO: Revisit this logic and differentiate between "can see bottom of tile"
                     // and "can see majority of tile".
                     bool floor_block = false;
-                    if( current.z < offset.z ) {
+                    if( current.z < offset.z() ) {
                         if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
-                    } else if( current.z > offset.z ) {
+                    } else if( current.z > offset.z() ) {
                         if( ( *floor_caches[z_index] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
@@ -295,7 +297,7 @@ void cast_horizontal_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -359,10 +361,10 @@ void cast_vertical_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
+    const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -395,7 +397,7 @@ void cast_vertical_zlight_segment(
                 // See comment above trailing_edge_major and leading_edge_major in above function.
                 const slope trailing_edge_major( delta.y * 2 - 1, delta.z * 2 + 1 );
                 const slope leading_edge_major( delta.y * 2 + 1, delta.z * 2 - 1 );
-                current.y = offset.y + delta.y * y_transform;
+                current.y = offset.y() + delta.y * y_transform;
                 if( current.y < 0 || current.y >= MAPSIZE_Y ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
@@ -423,8 +425,8 @@ void cast_vertical_zlight_segment(
 
                 bool started_span = false;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                    current.x = offset.x + delta.x * x_transform;
-                    current.z = offset.z + delta.z * z_transform;
+                    current.x = offset.x() + delta.x * x_transform;
+                    current.z = offset.z() + delta.z * z_transform;
                     // See comment above trailing_edge_major and leading_edge_major in above function.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.z * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.z * 2 - 1 );
@@ -450,12 +452,12 @@ void cast_vertical_zlight_segment(
                     // If we're looking at a tile with floor or roof from the floor/roof side,
                     // that tile is actually invisible to us.
                     bool floor_block = false;
-                    if( current.z < offset.z ) {
+                    if( current.z < offset.z() ) {
                         if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
-                    } else if( current.z > offset.z ) {
+                    } else if( current.z > offset.z() ) {
                         if( ( *floor_caches[z_index] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
@@ -467,7 +469,7 @@ void cast_vertical_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -530,7 +532,8 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, const int offset_distance, const T numerator, vertical_direction dir )
+    const tripoint_bub_ms &origin, const int offset_distance, const T numerator,
+    vertical_direction dir )
 {
     if( dir == vertical_direction::DOWN || dir == vertical_direction::BOTH ) {
         // Down lateral
@@ -663,12 +666,12 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const array_of_grids_of<float> &output_caches,
     const array_of_grids_of<const float> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, float numerator,
+    const tripoint_bub_ms &origin, int offset_distance, float numerator,
     vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
     const array_of_grids_of<fragment_cloud> &output_caches,
     const array_of_grids_of<const fragment_cloud> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, fragment_cloud numerator,
+    const tripoint_bub_ms &origin, int offset_distance, fragment_cloud numerator,
     vertical_direction dir );

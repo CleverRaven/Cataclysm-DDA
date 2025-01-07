@@ -1,0 +1,19 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "triffid_heart_chunk",
+    "name": { "str": "triffid heart chunk" },
+    "weight": "4535 g",
+    "color": "black_green",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 147,
+    "description": "A thick, hulking mass of plant matter and wood that's easily the size of your head, torn from a triffid heart.",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "material": [ "veggy", "wood" ],
+    "volume": "1 L",
+    "fun": -25
+  }
+]

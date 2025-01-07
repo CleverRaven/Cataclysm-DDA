@@ -9,7 +9,7 @@
 
 #include "catacharset.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "flat_set.h"
 #include "string_id.h"
 #include "translations.h"

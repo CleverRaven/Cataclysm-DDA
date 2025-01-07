@@ -6,7 +6,7 @@
     "description": "Crystallizes mana into solid form.  Your physiological changes have made this spell much more efficient and easier to cast.",
     "valid_targets": [ "self" ],
     "spell_class": "MANA_CRYST_MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONJURATION_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "max_level": 5,
     "difficulty": 3,
     "min_damage": 4,
@@ -31,9 +31,8 @@
     "description": "Fires bolts of mana from your fingertips that home in on randomly selected targets in range.",
     "valid_targets": [ "hostile" ],
     "spell_class": "MANA_SEEKER_BOLTS",
-    "min_damage": 6,
-    "max_damage": 18,
-    "damage_increment": 1,
+    "min_damage": { "math": [ "(u_spell_level('manatouched_seeker_bolts') * 0.4) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('manatouched_seeker_bolts') * 0.8) + 3" ] },
     "max_level": 12,
     "min_range": 6,
     "max_range": 12,
@@ -44,7 +43,7 @@
     "final_casting_time": 85,
     "damage_type": "nether",
     "sound_description": "a zing",
-    "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CHANNELING_SPELL", "RANDOM_DAMAGE", "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]
   }
 ]

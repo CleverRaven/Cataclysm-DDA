@@ -12,7 +12,7 @@
     "//4": "Corridor (Center): Access to the various rooms, hallways are sealed due to breaches on either end of the ship.",
     "//5": "Shuttle Bay (Bottom Left): Berthing for small shuttles.",
     "//6": "Launch Bay (Bottom Center): A long launch bay with a ramp for ground vehicles to embark/disembark.",
-    "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central coridor. Storage for ground vehicles.",
+    "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central corridor. Storage for ground vehicles.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
@@ -109,7 +109,6 @@
         "w": "f_workbench",
         "S": "f_sink",
         "t": "f_table",
-        "V": "f_vending_reinforced",
         "C": "f_crate_c",
         "1": "f_arcfurnace_empty",
         "2": "f_hydraulic_press",
@@ -154,6 +153,7 @@
         "p": "t_foamcrete_floor_seal",
         "z": "t_escape_pod_floor"
       },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
       "mapping": {
         "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
@@ -189,7 +189,6 @@
         "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 } ] },
         "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
-        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
         "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
         "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }
       },

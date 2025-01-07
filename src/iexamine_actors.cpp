@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "map.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "mtype.h"
@@ -16,14 +17,14 @@
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
-void appliance_convert_examine_actor::load( const JsonObject &jo )
+void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, false, "furn_set", furn_set );
     optional( jo, false, "ter_set", ter_set );
     mandatory( jo, false, "item", appliance_item );
 }
 
-void appliance_convert_examine_actor::call( Character &, const tripoint &examp ) const
+void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
         return;
@@ -36,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint &examp )
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -94,7 +95,7 @@ void cardreader_examine_actor::consume_card( const std::vector<item_location> &c
 }
 
 std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
-        const tripoint &examp )const
+        const tripoint_bub_ms &examp )const
 {
     std::vector<item_location> ret;
 
@@ -106,13 +107,14 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             continue;
         }
         if( omt_allowed_radius ) {
-            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            tripoint_abs_omt cardloc = it->get_var( "spawn_location_omt", tripoint_abs_omt::min );
             // Cards without a location are treated as valid
-            if( cardloc == tripoint_min ) {
+            if( cardloc == tripoint_abs_omt::min ) {
                 ret.push_back( it );
                 continue;
             }
-            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getabs( examp ) ).xy() );
+            int dist = rl_dist( cardloc.xy(),
+                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -124,23 +126,26 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
     return ret;
 }
 
-bool cardreader_examine_actor::apply( const tripoint &examp ) const
+bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
 {
     bool open = true;
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
+        tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( here.getglobal( examp ) ) );
+        const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
+                false );
+        if( !has_colliding_vehicle.success() ) {
+            debugmsg( "Failed to apply magen function %s, collision with %s", mapgen_id.str(),
+                      has_colliding_vehicle.str() );
         }
         set_queued_points();
         here.set_seen_cache_dirty( examp );
-        here.set_transparency_cache_dirty( examp.z );
+        here.set_transparency_cache_dirty( examp.z() );
     } else {
         open = false;
-        const tripoint_range<tripoint> points = here.points_in_radius( examp, radius );
-        for( const tripoint &tmp : points ) {
+        const tripoint_range<tripoint_bub_ms> points = here.points_in_radius( examp, radius );
+        for( const tripoint_bub_ms &tmp : points ) {
             const auto ter_iter = terrain_changes.find( here.ter( tmp ).id() );
             const auto furn_iter = furn_changes.find( here.furn( tmp ).id() );
             if( ter_iter != terrain_changes.end() ) {
@@ -160,7 +165,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
-void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
+void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     bool open = false;
     map &here = get_map();
@@ -175,7 +180,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
+            if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+                coords::project_to<coords::omt>( here.getglobal( examp ) ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
@@ -189,11 +195,11 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
         }
     } else if( allow_hacking && iexamine::can_hack( you ) &&
                query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( you, examp );
+        iexamine::try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 }
 
-void cardreader_examine_actor::load( const JsonObject &jo )
+void cardreader_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, false, "flags", allowed_flags );
     optional( jo, false, "consume_card", consume, true );
@@ -247,20 +253,20 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
+void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
-    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
+    d.set_value( "this", get_map().furn( examp ).id().str() );
+    d.set_value( "pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
 }
 
-void eoc_examine_actor::load( const JsonObject &jo )
+void eoc_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 }
 

@@ -58,8 +58,7 @@ void query_popup_impl::draw_controls()
     mouse_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {
-        nc_color col = parent->default_text_color;
-        draw_colored_text( line, col, float( msg_width ) );
+        cataimgui::draw_colored_text( line, parent->default_text_color );
     }
 
     if( !parent->buttons.empty() ) {
@@ -87,10 +86,10 @@ void query_popup_impl::on_resized()
     size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
     size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
     // constexpr size_t vert_padding = 1;
-    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH );
+    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 3 );
 
     // Fold message text
-    parent->folded_msg = foldstring( parent->text, max_line_width );
+    parent->folded_msg = foldstring( parent->text, FULL_SCREEN_WIDTH - 3 );
 
     // Fold query buttons
     const auto &folded_query = fold_query( parent->category, parent->pref_kbd_mode,
@@ -318,16 +317,13 @@ query_popup::result query_popup::query_once()
     if( cancel ) {
         ctxt.register_action( "QUIT" );
     }
-#if defined(WIN32) || defined(TILES)
-    ctxt.set_timeout( 50 );
-#endif
 
     result res;
     // Assign outside construction of `res` to ensure execution order
     res.wait_input = !anykey;
     do {
         ui_manager::redraw();
-        res.action = ctxt.handle_input();
+        res.action = ctxt.handle_input( 50 );
         res.evt = ctxt.get_raw_input();
 
         // If we're tracking mouse movement

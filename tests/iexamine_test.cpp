@@ -24,8 +24,8 @@ TEST_CASE( "examine_bush" )
 {
     clear_map();
     map &m = get_map();
-    const tripoint &pine_loc = tripoint_zero;
-    const tripoint &elderberry_loc = tripoint_east;
+    const tripoint_bub_ms &pine_loc = tripoint_bub_ms::zero;
+    const tripoint_bub_ms &elderberry_loc = pine_loc + tripoint::east;
 
     m.ter_set( pine_loc, ter_id( "t_tree_pine" ) );
     m.ter_set( elderberry_loc, ter_id( "t_tree_elderberry" ) );

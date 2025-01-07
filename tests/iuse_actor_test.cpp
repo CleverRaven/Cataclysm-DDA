@@ -34,16 +34,16 @@
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id itype_bot_manhack( "bot_manhack" );
-static const itype_id itype_light_battery_cell( "light_battery_cell" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
-static monster *find_adjacent_monster( const tripoint &pos )
+static monster *find_adjacent_monster( const tripoint_bub_ms &pos )
 {
-    tripoint target = pos;
+    tripoint_bub_ms target = pos;
     creature_tracker &creatures = get_creature_tracker();
-    for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
-        for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
+    for( target.x() = pos.x() - 1; target.x() <= pos.x() + 1; target.x()++ ) {
+        for( target.y() = pos.y() - 1; target.y() <= pos.y() + 1; target.y()++ ) {
             if( target == pos ) {
                 continue;
             }
@@ -67,7 +67,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
     REQUIRE( player_character.has_item( *test_item ) );
 
-    monster *new_manhack = find_adjacent_monster( player_character.pos() );
+    monster *new_manhack = find_adjacent_monster( player_character.pos_bub() );
     REQUIRE( new_manhack == nullptr );
 
     player_character.invoke_item( &*test_item );
@@ -76,7 +76,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
         return it.typeId() == itype_bot_manhack;
     } ) );
 
-    new_manhack = find_adjacent_monster( player_character.pos() );
+    new_manhack = find_adjacent_monster( player_character.pos_bub() );
     REQUIRE( new_manhack != nullptr );
     REQUIRE( new_manhack->type->id == mon_manhack );
     g->clear_zombies();
@@ -89,8 +89,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
-        item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
+        item bat_cell( "medium_battery_cell" );
+        REQUIRE( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
 
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
@@ -108,7 +108,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, dummy->pos() );
+            actor->use( dummy, flashlight, dummy->pos_bub() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );
@@ -131,12 +131,12 @@ static void cut_up_yields( const std::string &target )
     // Nominal dex to avoid yield penalty.
     guy.dex_cur = 12;
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
-    here.i_at( guy.pos() ).clear();
+    here.i_at( guy.pos_bub() ).clear();
 
     CAPTURE( target );
     salvage_actor test_actor;
     item cut_up_target{ target };
-    item tool{ "knife_butcher" };
+    item tool{ "knife_huge" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
@@ -150,14 +150,14 @@ static void cut_up_yields( const std::string &target )
     REQUIRE( smallest_yield_mass != units::mass_max );
 
     units::mass cut_up_target_mass = cut_up_target.weight();
-    item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );
+    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
     test_actor.try_to_cut_up( guy, tool, item_loc );
 
-    map_stack salvaged_items = here.i_at( guy.pos() );
+    map_stack salvaged_items = here.i_at( guy.pos_bub() );
     units::mass salvaged_mass = 0_gram;
     for( const item &salvage : salvaged_items ) {
         salvaged_mass += salvage.weight();

@@ -1,0 +1,722 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_open_ma_perk_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_MA_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_MAIN",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      { "text": "Tempo Techniques.", "topic": "TALK_MA_PERK_MENU_TEMPO" },
+      { "text": "Momentum Techniques.", "topic": "TALK_MA_PERK_MENU_MOMENTUM" },
+      { "text": "Insight Techniques.", "topic": "TALK_MA_PERK_MENU_INSIGHT" },
+      { "text": "Standalone Techniques.", "topic": "TALK_MA_PERK_MENU_STANDALONE" },
+      { "text": "Help.", "topic": "TALK_MA_PERK_MENU_HELP" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_TEMPO",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } },
+        "text": "Learn [<trait_name:MELEE_PERK_COMBAT_TEMPO>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_COMBAT_TEMPO>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_COMBAT_TEMPO>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_COMBAT_TEMPO", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TEMPO_SHIFT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TEMPO_SHIFT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TEMPO_SHIFT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TEMPO_SHIFT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TEMPO_SHIFT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TEMPO_THROW" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TEMPO_THROW>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TEMPO_THROW>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TEMPO_THROW>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TEMPO_THROW", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_STAGGER_STRIKE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_STAGGER_STRIKE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_STAGGER_STRIKE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_STAGGER_STRIKE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_STAGGER_STRIKE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_KNIFE_FINISHER" } },
+        "text": "Learn [<trait_name:MELEE_PERK_KNIFE_FINISHER>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_KNIFE_FINISHER>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_KNIFE_FINISHER>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_KNIFE_FINISHER", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      { "text": "Go back", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_MOMENTUM",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOMENTUM" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOMENTUM>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOMENTUM>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOMENTUM>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOMENTUM", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOMENTUM_2" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOMENTUM_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOMENTUM_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOMENTUM_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOMENTUM_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOMENTUM_BULLET_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOMENTUM_BULLET_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOMENTUM_BULLET_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOMENTUM_BULLET_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOMENTUM_BULLET_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I and Spry Footwork",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "MELEE_PERK_MOMENTUM" }, { "u_has_trait": "MELEE_PERK_DODGE" } ] }
+          }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_COILING_STRIKE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_COILING_STRIKE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_COILING_STRIKE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_COILING_STRIKE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_COILING_STRIKE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_ESTOCADA" } },
+        "text": "Learn [<trait_name:MELEE_PERK_ESTOCADA>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_ESTOCADA>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_ESTOCADA>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_ESTOCADA", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TACKLE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TACKLE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TACKLE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TACKLE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TACKLE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      { "text": "Go back", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_INSIGHT",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_INSIGHT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_INSIGHT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_INSIGHT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_INSIGHT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_INSIGHT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_INSIGHT_INFINITE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_INSIGHT_INFINITE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_INSIGHT_INFINITE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_INSIGHT_INFINITE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_INSIGHT_INFINITE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TWILIGHT_FORM" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TWILIGHT_FORM>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TWILIGHT_FORM>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TWILIGHT_FORM>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TWILIGHT_FORM", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_INSIGHT_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_INSIGHT_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_INSIGHT_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_INSIGHT_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_INSIGHT_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MYSTIC_SHOT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MYSTIC_SHOT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MYSTIC_SHOT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MYSTIC_SHOT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MYSTIC_SHOT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MYSTIC_SHOT_2" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MYSTIC_SHOT_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MYSTIC_SHOT_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MYSTIC_SHOT_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MYSTIC_SHOT_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I and Mystic Shot I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MYSTIC_SHOT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_SIXTH_SENSE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_SIXTH_SENSE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_SIXTH_SENSE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_SIXTH_SENSE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_SIXTH_SENSE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_BLIND_CALCULUS" } },
+        "text": "Learn [<trait_name:MELEE_PERK_BLIND_CALCULUS>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_BLIND_CALCULUS>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_BLIND_CALCULUS>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_BLIND_CALCULUS", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I and Sixth Sense",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_SIXTH_SENSE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      { "text": "Go back", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_STANDALONE",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_BLOCK" } },
+        "text": "Learn [<trait_name:MELEE_PERK_BLOCK>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_BLOCK>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_BLOCK>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_BLOCK", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_SHRUG_OFF" } },
+        "text": "Learn [<trait_name:MELEE_PERK_SHRUG_OFF>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_SHRUG_OFF>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_SHRUG_OFF>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_SHRUG_OFF", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_RIPOSTE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_RIPOSTE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_RIPOSTE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_RIPOSTE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_RIPOSTE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOVING_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOVING_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOVING_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOVING_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOVING_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_CAREFREE_STANCE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_CAREFREE_STANCE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_CAREFREE_STANCE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_CAREFREE_STANCE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_CAREFREE_STANCE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_FEINT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_FEINT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_FEINT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_FEINT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_FEINT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_FORE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_FORE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_FORE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_FORE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_FORE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MAKE_WAY" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MAKE_WAY>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MAKE_WAY>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MAKE_WAY>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MAKE_WAY", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_STAFF_KICK" } },
+        "text": "Learn [<trait_name:MELEE_PERK_STAFF_KICK>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_STAFF_KICK>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_STAFF_KICK>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_STAFF_KICK", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_KNIFE_COUNTER_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_KNIFE_COUNTER_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_KNIFE_COUNTER_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_KNIFE_COUNTER_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_KNIFE_COUNTER_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_JUST_HIT_IT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_JUST_HIT_IT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_JUST_HIT_IT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_JUST_HIT_IT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_JUST_HIT_IT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_EXECUTION" } },
+        "text": "Learn [<trait_name:MELEE_PERK_EXECUTION>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_EXECUTION>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_EXECUTION>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_EXECUTION", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_BRUTALITY" } },
+        "text": "Learn [<trait_name:MELEE_PERK_BRUTALITY>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_BRUTALITY>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_BRUTALITY>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_BRUTALITY", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Execution",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_EXECUTION" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      { "text": "Go back.", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_SELECT",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\n<context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_MA_PERK_MENU_MAIN",
+        "condition": { "and": [ { "get_condition": "perk_condition" }, { "math": [ "u_num_ma_perks > 0" ] } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_NONE",
+        "effect": [
+          { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
+          { "math": [ "u_num_ma_perks--" ] }
+        ]
+      },
+      {
+        "text": "Go Back.",
+        "effect": [ { "set_string_var": "", "target_var": { "context_val": "trait_additional_details" } } ],
+        "topic": "TALK_NONE"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_FAIL",
+    "dynamic_line": "You don't have a perk point, or meet the prerequisites for this perk.",
+    "responses": [ { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_HELP",
+    "dynamic_line": "XP is gained by killing enemies, either by melee or ranged combat, with tougher enemies giving more XP.  You'll gain a perk point every time you level up, which can be used to unlock a perk through this menu.  Most perks are completely passive, and apply their effects automatically on movement, combat or waiting.\n\nPerks cannot be refunded or disabled once learned, consider your choices carefully.",
+    "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
+  }
+]

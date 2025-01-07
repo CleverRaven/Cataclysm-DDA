@@ -113,7 +113,7 @@
     "copy-from": "mon_hologram",
     "looks_like": "player",
     "type": "MONSTER",
-    "name": { "str": "you" },
+    "name": { "str_sp": "you" },
     "description": "It is you.  It looks like you, it is equipped like you, it is even has a weapon like you."
   }
 ]

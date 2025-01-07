@@ -3,6 +3,7 @@
 #define CATA_SRC_ITEM_CATEGORY_H
 
 #include <iosfwd>
+#include <map>
 #include <new>
 #include <optional>
 #include <vector>
@@ -39,8 +40,6 @@ class item_category
         translation name_noun_; // in descriptive text
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
-        /** Global spawn rate for items from category */
-        float spawn_rate = 1.0f;
 
         std::optional<zone_type_id> zone_;
         std::vector<zone_priority_data> zone_priority_;
@@ -72,6 +71,7 @@ class item_category
         std::optional<zone_type_id> priority_zone( const item &it ) const;
         std::optional<zone_type_id> zone() const;
         int sort_rank() const;
+        void set_spawn_rate( const float &rate ) const;
         float get_spawn_rate() const;
 
         /**
@@ -93,6 +93,18 @@ class item_category
         static void load_item_cat( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, std::string_view );
+};
+
+struct item_category_spawn_rates {
+        static item_category_spawn_rates &get_item_category_spawn_rates() {
+            static item_category_spawn_rates instance;
+            return instance;
+        }
+        void set_spawn_rate( const item_category_id &id, const float &rate );
+        float get_spawn_rate( const item_category_id &id );
+    private:
+        std::map<item_category_id, float> spawn_rates;
+        item_category_spawn_rates() { }
 };
 
 #endif // CATA_SRC_ITEM_CATEGORY_H

@@ -21,14 +21,14 @@ void formatted_set_simple( map *m, const point &start, const char *cstr,
             p2.y++;
             p2.x = start.x;
         } else {
-            const ter_id ter = ter_b.translate( *p );
-            const furn_id furn = furn_b.translate( *p );
+            const ter_id &ter = ter_b.translate( *p );
+            const furn_id &furn = furn_b.translate( *p );
             if( ter != ter_str_id::NULL_ID() ) {
                 m->ter_set( p2, ter );
             }
             if( furn != furn_str_id::NULL_ID() ) {
                 if( furn == furn_f_toilet ) {
-                    m->place_toilet( p2 );
+                    m->place_toilet( tripoint_bub_ms( p2.x, p2.y, m->get_abs_sub().z() ) );
                 } else {
                     m->furn_set( p2, furn );
                 }

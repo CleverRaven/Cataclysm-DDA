@@ -28,12 +28,10 @@ class mattack_actor
         mattack_id id;
         bool was_loaded = false;
 
-        int cooldown = 0;
-        // Percent chance for the attack to happen if the mob tries it
-        int attack_chance = 100;
+        dbl_or_var cooldown;
 
         // Dialogue conditions of the attack
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
 
         void load( const JsonObject &jo, const std::string &src );

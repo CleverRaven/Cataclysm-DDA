@@ -19,11 +19,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_clair_dust_potion",
@@ -45,11 +41,51 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_CLAIR_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ]
+  },
+  {
+    "id": "matrix_crystal_electrokin_dust_potion",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "cyan crystalline elixir" },
+    "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint sky-blue glow.",
+    "material": [ "water" ],
+    "weight": "255 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "~",
+    "color": "dark_gray",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ]
+  },
+  {
+    "id": "matrix_crystal_photokin_dust_potion",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "golden crystalline elixir" },
+    "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint golden glow.",
+    "material": [ "water" ],
+    "weight": "255 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "~",
+    "color": "dark_gray",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_pyrokin_dust_potion",
@@ -71,11 +107,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_telekin_dust_potion",
@@ -97,11 +129,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
   },
   {
     "id": "matrix_crystal_telepath_dust_potion",
@@ -123,11 +151,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
   },
   {
     "id": "matrix_crystal_teleport_dust_potion",
@@ -149,11 +173,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
   },
   {
     "id": "matrix_crystal_vitakin_dust_potion",
@@ -175,11 +195,7 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the concoction.",
-      "effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
   },
   {
     "type": "COMESTIBLE",
@@ -202,6 +218,73 @@
     "id": "egg_cockatrice",
     "name": { "str": "cockatrice egg" },
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
+    "rot_spawn": { "group": "GROUP_EGG_COCKATRICE" }
+  },
+  {
+    "id": "black_nether_water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "black liquid" },
+    "description": "You don't know what this is but now that you've gotten a closer look it's definitely not water.  It's completely opaque and freezing cold to the touch, but when you pull your fingertip out of it, your skin is dry as a bone.",
+    "category": "food",
+    "material": [ "black_liquid" ],
+    "weight": "500 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "calories": 0,
+    "quench": 0,
+    "symbol": "~",
+    "color": "black",
+    "phase": "liquid",
+    "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
+    "contamination": [ { "disease": "black_nether_water_disease", "probability": 100 } ],
+    "fun": -5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "alien_meadow_bush_2_fruit",
+    "name": { "str": "handful of alien berries", "str_pl": "handfuls of alien berries" },
+    "description": "A handful of white berries plucked from an otherworldly bush.  You're not sure if eating them is a good idea, but they sure look tasty.",
+    "weight": "156 g",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 54,
+    "price": "2 USD 21 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "fun": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "consumption_effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "alien_meadow_tree_3_fruit",
+    "name": { "str": "alien fruit" },
+    "description": "A large fruit pulled from an alien tree.  The rind is extremely hard and you'll need to cut into it to eat it.",
+    "weight": "4518 g",
+    "color": "red",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 826,
+    "calories": 1355,
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "fruit" ],
+    "volume": "7150 ml",
+    "flags": [ "FREEZERBURN", "INEDIBLE" ],
+    "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pigeon_passenger",
+    "name": { "str": "feral pigeon egg" },
+    "copy-from": "egg_pigeon",
+    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
   }
 ]

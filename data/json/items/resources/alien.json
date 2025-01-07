@@ -39,12 +39,10 @@
     "material": [ "wood" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": "80 g",
-    "volume": "5000 ml",
+    "volume": "5 L",
     "longest_side": "260 cm",
     "looks_like": "stick",
-    "to_hit": -3,
-    "category": "spare_parts",
-    "melee_damage": { "bash": 1 }
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -299,9 +297,7 @@
     "price_postapoc": "20 USD",
     "material": [ "aluminum", "plastic", "copper" ],
     "weight": "250 g",
-    "volume": "1 L",
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -315,9 +311,7 @@
     "price_postapoc": "20 USD",
     "material": [ "aluminum", "plastic", "copper" ],
     "weight": "500 g",
-    "volume": "1 L",
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",

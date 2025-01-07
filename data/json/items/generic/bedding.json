@@ -10,10 +10,9 @@
     "volume": "90 ml",
     "price": "6 USD 50 cent",
     "price_postapoc": "2 cent",
-    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "flags": [ "SLEEP_AID_CONTAINER" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "22 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "white",
     "//": "Based on https://www.amazon.com/dp/B01MUDQUN9"
@@ -51,12 +50,12 @@
     "type": "ARMOR",
     "name": { "str": "sheet" },
     "description": "A 72 by 24 inch two-layer-thick fabric sheet.  It could be used as a curtain or bedsheet, or cut up for a bunch of smaller sheets.",
+    "category": "other",
     "//density": "1.6 grams per mL",
     "weight": "420 g",
     "volume": "564 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blanket",
@@ -81,7 +80,6 @@
     "volume": "15500 ml",
     "price": "15 USD",
     "price_postapoc": "50 cent",
-    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -97,7 +95,95 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "//": "Based on https://www.amazon.com/dp/B091DZVHX7 with the assumed material thickness of 0.8cm"
+    "//": "Based on https://www.amazon.com/dp/B091DZVHX7 with the assumed material thickness of 0.8cm",
+    "variants": [
+      {
+        "id": "blanket_makeshift",
+        "name": { "str": "makeshift blanket" },
+        "description": "A blanket made by you!  Embrace your inner tailor.",
+        "expand_snippets": true,
+        "weight": 0
+      },
+      {
+        "id": "blanket_sports",
+        "name": { "str": "sports blanket" },
+        "description": "This blanket is official sports memorabilia, or so says the tag.  It features the name and mascot of the <sports_teams>!",
+        "expand_snippets": true,
+        "weight": 50
+      },
+      {
+        "id": "blanket_sports_collectable",
+        "name": { "str": "collectable sports blanket" },
+        "//": "Comes out to be about 1% ish spawn, don't increase this, although it uses a joke about being more common I think it would be annoying for it to crop up too much.",
+        "description": "This blanket is an alleged collector's piece, featuring the name and mascot of the <sports_teams>!  The tag explains that only 100,000 were made and reads: #<number><number><number><number><number>.",
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "blanket_geometric",
+        "name": { "str": "geometric blanket" },
+        "description": "A standard blanket, except that the stitching across the surface is patterned in <geometric_patterns>s.",
+        "expand_snippets": true,
+        "weight": 250
+      },
+      {
+        "id": "blanket_fluffy",
+        "name": { "str": "fluffy blanket" },
+        "description": "This blanket's tag lists it as \"the fluffiest blanket in the world\" and was made in the USA.  Only moderately fluffy.",
+        "expand_snippets": true,
+        "weight": 50
+      },
+      {
+        "id": "blanket_floral",
+        "name": { "str": "floral blanket" },
+        "//": "Note to self, look up if ever popular is hyphenated.  If you're seeing this tell me so I can remember to look.",
+        "description": "The ever popular floral print blanket.  This one is patterned with <flowers>.  Popular with grandmothers.",
+        "expand_snippets": true,
+        "weight": 250
+      },
+      {
+        "id": "blanket_cartoon",
+        "name": { "str": "cartoon blanket" },
+        "description": "A blanket adorned with a famous animated character!  It depicts <cartoon_blanket>!",
+        "expand_snippets": true,
+        "weight": 50
+      }
+    ]
+  },
+  {
+    "id": "blanket_weighted",
+    "type": "ARMOR",
+    "name": { "str": "weighted blanket" },
+    "description": "A thick, layered blanket with glass microbeads added to increase the weight.",
+    "weight": "5670 g",
+    "volume": "18000 ml",
+    "copy-from": "blanket",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "blue",
+    "warmth": 60,
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "//": "Based vaguely on https://www.amazon.com/BETU-Weighted-Blanket-Blankets-Factory/dp/B08N66D947 the 60x80 12lb version.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "blanket_weighted_geometric",
+        "name": { "str": "weighted geometric blanket" },
+        "description": "It's been stitched in a <geometric_patterns> pattern.",
+        "expand_snippets": true,
+        "append": true
+      }
+    ]
   },
   {
     "id": "down_blanket",
@@ -108,7 +194,6 @@
     "volume": "15 L",
     "price": "55 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blanket",
@@ -134,7 +219,6 @@
     "volume": "31 L",
     "price": "195 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton", "fur" ],
     "symbol": "[",
     "looks_like": "blanket",
@@ -160,7 +244,6 @@
     "volume": "5 L",
     "price": "55 USD",
     "price_postapoc": "2 USD",
-    "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
     "color": "white",
@@ -227,7 +310,6 @@
     "volume": "1 L",
     "price": "205 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blanket",
@@ -284,7 +366,6 @@
     "volume": "700 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "blanket",
@@ -309,7 +390,6 @@
     "volume": "1400 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "blanket",

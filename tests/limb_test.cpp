@@ -7,7 +7,9 @@
 #include "item.h"
 #include "itype.h"
 #include "magic_enchantment.h"
+#include "map_helpers.h"
 #include "mutation.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 
 static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
@@ -18,6 +20,9 @@ static const bodypart_str_id body_part_test_bird_wing_l( "test_bird_wing_l" );
 static const bodypart_str_id body_part_test_bird_wing_r( "test_bird_wing_r" );
 static const bodypart_str_id body_part_test_corvid_beak( "test_corvid_beak" );
 static const bodypart_str_id body_part_test_lizard_tail( "test_lizard_tail" );
+
+static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
+static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
 
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_winded_arm_r( "winded_arm_r" );
@@ -32,6 +37,7 @@ sub_body_part_sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
 static const sub_bodypart_str_id
 sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
 
+static const ter_str_id ter_t_grass( "t_grass" );
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
 static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
@@ -157,9 +163,27 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
 
 TEST_CASE( "drying_rate", "[character][limb]" )
 {
+    clear_map();
+    map &here = get_map();
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
-    const weather_manager weather = get_weather();
+
+    set_time_to_day();
+    const weather_manager &weather = get_weather();
+    w_point &weather_point = *weather.weather_precise;
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    restore_on_out_of_scope restore_temp( weather_point.temperature );
+    weather_point.temperature = units::from_fahrenheit( 65 );
+    restore_on_out_of_scope restore_humidity( weather_point.humidity );
+    weather_point.humidity = 66.0f;
+
+    CAPTURE( weather.weather_id.c_str() );
+    CAPTURE( units::to_fahrenheit( weather_point.temperature ) );
+    CAPTURE( weather_point.humidity );
+
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
+
     REQUIRE( body_part_arm_l->drying_rate == 1.0f );
     dude.drench( 100, dude.get_drenching_body_parts(), false );
     REQUIRE( dude.get_part_wetness( body_part_arm_l ) == 200 );
@@ -167,14 +191,17 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     // Baseline arm dries in 450ish turns
     int base_dry = 0;
     while( dude.get_part_wetness( body_part_arm_l ) > 0 ) {
-        dude.update_body_wetness( *weather.weather_precise );
+        dude.update_body_wetness( weather_point );
         base_dry++;
     }
-    REQUIRE( base_dry == Approx( 450 ).margin( 125 ) );
+    // 200 wetness / (1000 drench cap / ~1800 turns ) = 360
+    REQUIRE( base_dry == Approx( 360 ).margin( 120 ) );
 
     // Birdify, clear water
     clear_character( dude, true );
     create_bird_char( dude );
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
     REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
     REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
     REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );
@@ -187,7 +214,7 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     int low_dry = 0;
     // Filter on the slower drying limb
     while( dude.get_part_wetness( body_part_test_bird_wing_r ) > 0 ) {
-        dude.update_body_wetness( *weather.weather_precise );
+        dude.update_body_wetness( weather_point );
         if( dude.get_part_wetness( body_part_test_bird_wing_l ) > 0 ) {
             high_dry++;
         }
@@ -196,10 +223,30 @@ TEST_CASE( "drying_rate", "[character][limb]" )
 
     // A drying rate of 2 should halve the drying time
     // Higher margin for the lower rate to account for the randomness
-    CHECK( high_dry == Approx( 200 ).margin( 100 ) );
-    CHECK( low_dry == Approx( 900 ).margin( 300 ) );
+    // 200 wetness / (1000 drench cap / ~(1800/2) turns) = 180
+    CHECK( high_dry == Approx( 180 ).margin( 60 ) );
+    // 200 wetness / (1000 drench cap / ~(1800*2) turns) = 720
+    CHECK( low_dry == Approx( 720 ).margin( 240 ) );
 }
 
+TEST_CASE( "Limb_consumption", "[limb]" )
+{
+    standard_npc dude( "Test NPC" );
+    const item solid( "test_pine_nuts" );
+    const item liquid( "test_liquid" );
+    clear_character( dude, true );
+    // Normal chars are normal
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 1.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 1.0f );
+    const time_duration base_solid = dude.get_consume_time( solid );
+    const time_duration base_liquid = dude.get_consume_time( liquid );
+    create_bird_char( dude );
+    // Testbird chars are birdy
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 2.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 0.5f );
+    CHECK( dude.get_consume_time( liquid ) == base_liquid * 2 );
+    CHECK( dude.get_consume_time( solid ) == base_solid / 2 );
+}
 TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
 {
     standard_npc dude( "Test NPC" );

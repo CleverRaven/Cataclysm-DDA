@@ -29,6 +29,12 @@
     ]
   },
   {
+    "id": "fae_march_lord",
+    "type": "harvest",
+    "copy-from": "fae_changeling",
+    "extend": { "entries": [ { "drop": "skull_march_lord", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
     "id": "stoneling",
     "type": "harvest",
     "entries": [ { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 }, { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 } ]

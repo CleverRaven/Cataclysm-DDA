@@ -10,6 +10,7 @@
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "item": "vampire_fangs", "damage": [ 1, 4 ], "prob": 25, "event": "halloween" },
+      { "item": "ring_wedding", "damage": [ 1, 4 ], "prob": 33 },
       { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
       { "group": "christmas_accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 25, "event": "christmas" },
       {
@@ -241,11 +242,11 @@
         "prob": 15
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 15 ] },
+      { "item": "mp3", "prob": 8, "charges": [ 0, 15 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "game_watch", "prob": 1, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
-      { "item": "usb_drive", "prob": 10 },
-      { "item": "memory_card_unread", "prob": 10 },
+      { "item": "usb_drive", "prob": 15 },
+      { "item": "memory_card_unread", "prob": 3 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },

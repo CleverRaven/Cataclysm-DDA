@@ -72,7 +72,9 @@ class craft_command
          * Selects components to use for the craft, then assigns the crafting activity to 'crafter'.
          * Executes with supplied location, std::nullopt means crafting from inventory.
          */
+        // TODO: Get rid of untyped overload
         void execute( const std::optional<tripoint> &new_loc );
+        void execute( const std::optional<tripoint_bub_ms> &new_loc );
         /** Executes with saved location, NOT the same as execute( std::nullopt )! */
         void execute( bool only_cache_comps = false );
 
@@ -114,7 +116,7 @@ class craft_command
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
-        std::optional<tripoint> loc;
+        std::optional<tripoint_bub_ms> loc;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;

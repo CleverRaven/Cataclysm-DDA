@@ -3,8 +3,11 @@
     "abstract": "spare_part",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str_sp": "spare parts" },
-    "description": "Items which are not themselves useful but are instead requirements for crafting or repairs",
+    "name": { "str_sp": "spare parts", "//~": "NO_I18N" },
+    "description": {
+      "str": "Items which are not themselves useful but are instead requirements for crafting or repairs",
+      "//~": "NO_I18N"
+    },
     "symbol": ";",
     "color": "dark_gray"
   },
@@ -139,10 +142,10 @@
     "material": [ "steel" ],
     "weight": "7 kg",
     "volume": "3 L",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "price": "100 USD",
     "price_postapoc": "20 USD",
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "nitrogen_membrane_filter",

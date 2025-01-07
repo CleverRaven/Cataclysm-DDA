@@ -19,6 +19,7 @@
     "dispersion": 45,
     "durability": 8,
     "energy_drain": "5 kJ",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 2 ],
@@ -29,7 +30,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
     "melee_damage": { "bash": 12 }
   }

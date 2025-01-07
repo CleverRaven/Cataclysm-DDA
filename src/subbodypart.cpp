@@ -84,6 +84,7 @@ void sub_body_part_type::load( const JsonObject &jo, const std::string_view )
     // defaults to self
     optional( jo, was_loaded, "locations_under", locations_under, { id } );
     optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
+    optional( jo, was_loaded, "unarmed_damage", unarmed_damage );
 }
 
 void sub_body_part_type::reset()

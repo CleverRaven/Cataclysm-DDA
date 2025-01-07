@@ -143,7 +143,7 @@ extern const field_type_str_id fd_dazzling;
 extern const field_type_str_id fd_electricity;
 extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_extinguisher;
-extern const field_type_str_id fd_reality_tear;
+extern const field_type_str_id fd_fatigue;
 extern const field_type_str_id fd_fire;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;
@@ -207,7 +207,7 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
-        map_bash_info bash_info;
+        std::optional<map_fd_bash_info> bash_info;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, translation> npc_complain_data;
@@ -222,6 +222,8 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
+        bool linear_half_life = false;
+        bool indestructible = false;
         field_type_str_id wandering_field;
         std::string looks_like;
 

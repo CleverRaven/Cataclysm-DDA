@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "item.h"
 #include "translation.h"
@@ -47,8 +47,8 @@ struct construction {
         construction_group_str_id group;
         // Additional note displayed along with construction requirements.
         translation pre_note;
-        // Beginning terrain for construction
-        std::string pre_terrain;
+        // Beginning terrain(s) for construction
+        std::set<std::string> pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
 

@@ -8,6 +8,7 @@
 
 #include "ammo.h"
 #include "character.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -21,6 +22,10 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
+static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
 static std::vector<const vpart_info *> all_turret_types()
 {
@@ -39,16 +44,18 @@ static std::vector<const vpart_info *> all_turret_types()
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
+    clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
+    const tripoint_bub_ms veh_pos( 65, 65, 0 );
+
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( STATIC( vproto_id( "test_turret_rig" ) ),
-                                             tripoint( 65, 65, here.get_abs_sub().z() ), 270_degrees, 0, 0, false );
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0, 2,
+                                             false, true );
             REQUIRE( veh );
-            veh->unlock();
 
-            const int turr_idx = veh->install_part( point_zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -83,7 +90,8 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             } else {
                 CHECK( vp.ammo_set( ammo_itype ) > 0 );
             }
-            const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count( "RECYCLED" ) > 0;
+            const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count(
+                    ammo_effect_RECYCLED ) > 0;
             CAPTURE( default_ammo_is_RECYCLED );
             INFO( "RECYCLED ammo can sometimes misfire and very rarely fail this test" );
 
@@ -92,11 +100,11 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->global_part_pos3( vp ) );
+            player_character.setpos( veh->bub_part_pos( vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {
-                shots_fired += qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) );
+                shots_fired += qry.fire( player_character, player_character.pos_bub() + point( qry.range(), 0 ) );
             }
             CHECK( shots_fired > 0 );
 

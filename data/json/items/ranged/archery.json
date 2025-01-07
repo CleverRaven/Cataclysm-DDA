@@ -12,7 +12,7 @@
     "description": "A crude pointed wooden shaft with a notch at the back.",
     "material": [ "wood" ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_2" ]
+    "recovery_chance": 50
   },
   {
     "type": "AMMO",
@@ -23,6 +23,7 @@
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A fletched wooden arrow shaft with a pointed tip.",
     "material": [ { "type": "wood", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "flags": [ "NONCONDUCTIVE" ],
     "volume": "90 ml",
     "price": "10 USD",
     "price_postapoc": "30 cent",
@@ -33,7 +34,7 @@
     "dispersion": 150,
     "loudness": 0,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 3 }
   },
   {
@@ -50,7 +51,8 @@
     "material": [ { "type": "wood", "portion": 81 }, { "type": "rubber", "portion": 19 } ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.2 },
     "critical_multiplier": 1,
-    "effects": [ "RECOVER_35", "BEANBAG" ]
+    "recovery_chance": 97,
+    "effects": [ "BEANBAG" ]
   },
   {
     "type": "AMMO",
@@ -63,7 +65,8 @@
     "copy-from": "arrow_field_point_fletched",
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "recovery_chance": 90,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -76,7 +79,7 @@
     "relative": { "dispersion": -40 },
     "price": "20 USD",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
-    "effects": [ "RECOVER_25" ],
+    "recovery_chance": 96,
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
@@ -90,7 +93,7 @@
     "material": [ "wood" ],
     "copy-from": "arrow_field_point_fletched",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_6" ]
+    "recovery_chance": 83
   },
   {
     "type": "AMMO",
@@ -103,7 +106,8 @@
     "copy-from": "arrow_field_point_fletched",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "recovery_chance": 97,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -118,7 +122,7 @@
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "effects": [ "RECOVER_8" ]
+    "recovery_chance": 87
   },
   {
     "type": "AMMO",
@@ -132,7 +136,7 @@
     "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1 },
     "show_stats": true,
-    "effects": [ "RECOVER_20" ],
+    "recovery_chance": 95,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -143,12 +147,13 @@
     "color": "green",
     "description": "A fletched aluminum arrow shaft with a bladed tip.  Useful for maximizing damage to the target.",
     "material": [ { "type": "aluminum", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -75 },
     "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "range": 2,
-    "effects": [ "RECOVER_35" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
@@ -159,12 +164,13 @@
     "color": "green",
     "description": "A fletched aluminum arrow shaft with a pointed tip.  Useful for piercing armor.",
     "material": [ { "type": "aluminum", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -75 },
     "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "range": 2,
-    "effects": [ "RECOVER_40" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
@@ -177,11 +183,13 @@
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A fletched aluminum arrow shaft with a blunt tip.  Useful for hunting small woodland creatures without splattering them all over the ground.",
     "material": [ { "type": "aluminum", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -75 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "recovery_chance": 98,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -191,13 +199,14 @@
     "color": "green",
     "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.",
     "material": [ { "type": "kevlar_rigid", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -100 },
     "price": "16 USD",
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -220,7 +229,7 @@
     "dispersion": 120,
     "loudness": 0,
     "critical_multiplier": 6,
-    "effects": [ "RECOVER_1000000" ],
+    "recovery_chance": 100,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 10, "stab": 26 }
@@ -236,6 +245,7 @@
     "price": "35 USD",
     "price_postapoc": "10 cent",
     "material": [ { "type": "wood", "portion": 77 }, { "type": "steel", "portion": 19 }, { "type": "cotton", "portion": 4 } ],
+    "flags": [ "NONCONDUCTIVE" ],
     "symbol": "=",
     "color": "brown",
     "ammo_type": "arrow",
@@ -245,7 +255,7 @@
     "count": 1,
     "stack_size": 1,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_35" ],
+    "recovery_chance": 97,
     "use_action": {
       "target": "arrow_flamming",
       "target_timer": "20 seconds",
@@ -266,8 +276,9 @@
     "symbol": "=",
     "color": "brown",
     "revert_to": "arrow_field_point_fletched",
-    "effects": [ "IGNITE", "RECOVER_35" ],
-    "flags": [ "TRADER_AVOID" ]
+    "recovery_chance": 97,
+    "effects": [ "IGNITE" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "selfbow",
@@ -319,7 +330,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -334,6 +345,7 @@
     "//": "52in Elm Shortbow at 24in draw with 26in, 0.077 lb aspen arrow: 45J, 50 lbs draw, 0.35 slugs with 30g arrow.",
     "material": [ "wood" ],
     "flags": [
+      "FRAGILE_MELEE",
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
       "PRIMITIVE_RANGED_WEAPON",
@@ -372,8 +384,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 6 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "compbow",
@@ -386,7 +398,15 @@
     "price": "550 USD",
     "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "FRAGILE_MELEE",
+      "PRIMITIVE_RANGED_WEAPON",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
@@ -414,8 +434,8 @@
       "ammo_scale": 0
     },
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "compbow_high",
@@ -472,6 +492,7 @@
       "WATER_FRIENDLY",
       "SHEATH_BOW",
       "WATERPROOF_GUN",
+      "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -506,8 +527,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 8 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "reflexbow",
@@ -525,6 +546,7 @@
       "RELOAD_AND_SHOOT",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
+      "FRAGILE_MELEE",
       "WATER_FRIENDLY",
       "SHEATH_BOW",
       "WATERPROOF_GUN",
@@ -559,8 +581,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "recurbow",
@@ -576,6 +598,7 @@
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
+      "FRAGILE_MELEE",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
       "WATER_FRIENDLY",
@@ -615,8 +638,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "takedown_recurbow",
@@ -631,6 +654,7 @@
     "material": [ "steel", "fiberglass" ],
     "flags": [
       "FIRE_TWOHAND",
+      "FRAGILE_MELEE",
       "RELOAD_AND_SHOOT",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
@@ -672,7 +696,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "use_action": {
       "need_wielding": true,
       "type": "transform",
@@ -682,7 +706,7 @@
       "ammo_scale": 0,
       "moves": 1500
     },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "takedown_recurbow_folded",
@@ -701,10 +725,10 @@
     "longest_side": "60 cm",
     "//2": "When taken down.",
     "price_postapoc": "22 USD",
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "FRAGILE_MELEE", "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "use_action": {
       "need_wielding": true,
       "type": "transform",
@@ -713,7 +737,7 @@
       "msg": "You assemble your bow.",
       "moves": 1500
     },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "longbow",
@@ -733,6 +757,7 @@
       "WATER_FRIENDLY",
       "SHEATH_BOW",
       "WATERPROOF_GUN",
+      "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -764,8 +789,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "woodgreatbow",
@@ -824,7 +849,7 @@
         }
       ]
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "strange_arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "strange_arrow": 1 }, "open_container": true } ],
     "durability": 8,
     "loudness": 16,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
@@ -841,7 +866,15 @@
     "price": "1 kUSD 600 USD",
     "//": "120 lb draw weight, very efficient, 0.5 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "FRAGILE_MELEE",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 15,
@@ -860,8 +893,8 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 14 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "reflexrecurvebow",
@@ -879,6 +912,7 @@
       "RELOAD_AND_SHOOT",
       "PRIMITIVE_RANGED_WEAPON",
       "BELTED",
+      "FRAGILE_MELEE",
       "WATER_FRIENDLY",
       "SHEATH_BOW",
       "WATERPROOF_GUN",
@@ -913,7 +947,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 6 }
   }
 ]

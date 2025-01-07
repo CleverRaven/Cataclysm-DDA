@@ -17,7 +17,7 @@
     "material": [ "nut" ],
     "volume": "31 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 5 ] ],
+    "vitamins": [ [ "iron", 5 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -57,7 +57,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pistachio_roasted",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -91,7 +91,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "almond_roasted",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -110,6 +110,7 @@
     "price": "10 cent",
     "price_postapoc": "50 cent",
     "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
@@ -144,7 +145,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -167,7 +168,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pecan_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -200,14 +201,14 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
     "id": "beech_nuts",
-    "name": { "str_sp": "beech nuts" },
+    "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -221,7 +222,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ], [ "nut_allergen", 1 ] ],
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
@@ -242,9 +243,29 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "walnut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "walnut_pulp",
+    "name": { "str_sp": "walnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 259,
+    "description": "Pulp left over after making walnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
   },
   {
     "type": "COMESTIBLE",
@@ -264,7 +285,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "butternut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -306,7 +327,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "chestnut_roasted",
-    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -339,7 +360,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hazelnut_roasted",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -360,7 +381,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -380,7 +401,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -393,6 +414,26 @@
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
     "milling": { "into": "null", "recipe": "" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hazelnut_pulp",
+    "name": { "str_sp": "hazelnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 316,
+    "description": "Pulp left over after making hazelnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
   },
   {
     "type": "COMESTIBLE",
@@ -412,7 +453,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hickory_nut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -445,6 +486,7 @@
     "price": "1 USD",
     "price_postapoc": "4 USD",
     "material": [ "nut", "milk" ],
+    "vitamins": [ [ "nut_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
@@ -458,8 +500,33 @@
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": { "str_sp": "peanut butter" },
+    "name": { "str_sp": "nut butter" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "peanut", "name": { "str_sp": "peanut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pine", "name": { "str_sp": "pine nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pecan", "name": { "str_sp": "pecan butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "cashew", "name": { "str_sp": "cashew butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pistachio", "name": { "str_sp": "pistachio butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "almond", "name": { "str_sp": "almond butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "beech", "name": { "str_sp": "beechnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hickory", "name": { "str_sp": "hickory nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "chestnut", "name": { "str_sp": "chestnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hazelnut", "name": { "str_sp": "hazelnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "walnut", "name": { "str_sp": "walnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "butternut", "name": { "str_sp": "butternut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "acorn", "name": { "str_sp": "acorn butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "soy", "name": { "str_sp": "soy nut butter" } }
+    ],
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "peanutbutter_preapoc",
+        "name": { "str_sp": "peanut butter" },
+        "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+        "weight": 1
+      }
+    ],
     "price": "1 USD 95 cent",
     "price_postapoc": "10 USD",
     "//": "Two tablespoons per charge.",
@@ -474,16 +541,8 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
-  },
-  {
-    "id": "peanutbutter_imitation",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "imitation peanutbutter" },
-    "description": "A thick, nutty brown paste so that the peanut-allergic can enjoy PB&Js too.",
-    "copy-from": "peanutbutter",
-    "calories": 400
   },
   {
     "id": "spread_peanutbutter",
@@ -507,7 +566,7 @@
     "quench": -2,
     "calories": 190,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -527,7 +586,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ], [ "nut_allergen", 1 ] ],
     "fun": -20
   },
   {

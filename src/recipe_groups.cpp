@@ -111,8 +111,14 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     return group.recipes;
 }
 
+bool recipe_group::has_recipes_by_id( const std::string &id,
+                                      const oter_id &omt_ter, const std::optional<mapgen_arguments> *maybe_args )
+{
+    return !get_recipes_by_id( id, omt_ter, maybe_args, 1 ).empty();
+}
+
 std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
-        const oter_id &omt_ter, const std::optional<mapgen_arguments> *maybe_args )
+        const oter_id &omt_ter, const std::optional<mapgen_arguments> *maybe_args, const size_t limit )
 {
     std::map<recipe_id, translation> all_rec;
     if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
@@ -120,6 +126,9 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     for( const auto &recp : group.recipes ) {
+        if( limit > 0 && all_rec.size() >= limit ) {
+            break;
+        }
         const auto &recp_terrain_it = group.om_terrains.find( recp.first );
         if( recp_terrain_it == group.om_terrains.end() ) {
             debugmsg( "Recipe %s doesn't specify 'om_terrains', use ANY instead if intended to work anywhere",

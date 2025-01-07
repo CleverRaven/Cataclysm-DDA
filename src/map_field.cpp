@@ -17,12 +17,12 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -77,6 +77,8 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
@@ -95,9 +97,7 @@ static const material_id material_veggy( "veggy" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
@@ -111,7 +111,8 @@ static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 
 using namespace map_field_processing;
 
-void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( const tripoint_bub_ms &p, const item &fuel,
+                               const units::mass &burned_mass )
 {
     const std::map<material_id, int> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -165,12 +166,12 @@ void map::process_fields()
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 if( field_cache[ x + y * MAPSIZE ] ) {
-                    submap *const current_submap = get_submap_at_grid( { x, y, z } );
+                    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm{ x, y, z } );
                     if( current_submap == nullptr ) {
                         debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", x, y, z );
                         continue;
                     }
-                    process_fields_in_submap( current_submap, tripoint( x, y, z ) );
+                    process_fields_in_submap( current_submap, { x, y, z } );
                     if( current_submap->field_count == 0 ) {
                         field_cache[ x + y * MAPSIZE ] = false;
                     }
@@ -199,25 +200,26 @@ static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 }
 
 // Wrapper to allow skipping bound checks except at the edges of the map
-std::pair<tripoint, maptile> map::maptile_has_bounds( const tripoint &p, const bool bounds_checked )
+std::pair<tripoint_bub_ms, maptile> map::maptile_has_bounds( const tripoint_bub_ms &p,
+        const bool bounds_checked )
 {
     if( bounds_checked ) {
         // We know that the point is in bounds
-        return {p, maptile_at_internal( p )};
+        return { p, maptile_at_internal( p ) };
     }
 
-    return {p, maptile_at( p )};
+    return { p, maptile_at( p ) };
 }
 
-std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &p )
+std::array<std::pair<tripoint_bub_ms, maptile>, 8> map::get_neighbors( const tripoint_bub_ms &p )
 {
     // Find out which edges are in the bubble
     // Where possible, do just one bounds check for all the neighbors
-    const bool west = p.x > 0;
-    const bool north = p.y > 0;
-    const bool east = p.x < SEEX * my_MAPSIZE - 1;
-    const bool south = p.y < SEEY * my_MAPSIZE - 1;
-    return std::array< std::pair<tripoint, maptile>, 8 > { {
+    const bool west = p.x() > 0;
+    const bool north = p.y() > 0;
+    const bool east = p.x() < SEEX * my_MAPSIZE - 1;
+    const bool south = p.y() < SEEY * my_MAPSIZE - 1;
+    return std::array< std::pair<tripoint_bub_ms, maptile>, 8 > { {
             maptile_has_bounds( p + eight_horizontal_neighbors[0], west &&north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[1], north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[2], east &&north ),
@@ -243,7 +245,7 @@ bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
     return false;
 }
 
-void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
+void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint_bub_ms &p )
 {
     const field_type_id current_type = cur.get_field_type();
     const time_duration current_age = cur.get_field_age();
@@ -269,14 +271,13 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
     }
 }
 
-void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
+void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
 {
-    // TODO: fix point types
     const bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     const int winddirection = weather.winddirection;
-    const int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ),
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, getglobal( p ),
                           winddirection,
                           sheltered );
 
@@ -288,7 +289,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     if( scent_neutralize > 0 ) {
         // modify scents by neutralization value (minus)
-        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &tmp : points_in_radius( p, 1 ) ) {
             sblk.apply_gas( tmp, scent_neutralize );
         }
     }
@@ -306,8 +307,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
-    if( p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.xy(), p.z - 1 };
+    if( p.z() > -OVERMAP_DEPTH ) {
+        const tripoint_bub_ms down = p + tripoint_rel_ms::below;
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile, down );
@@ -334,7 +335,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     if( !spread.empty() && one_in( spread.size() ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
-            std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
+            std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
             std::vector<size_t> neighbour_vec;
@@ -353,12 +354,12 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 }
             }
             if( !neighbour_vec.empty() ) {
-                std::pair<tripoint, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
+                std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
                 gas_spread_to( cur, n.second, n.first );
             }
         }
-    } else if( p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.xy(), p.z + 1 };
+    } else if( p.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms up = p + tripoint_rel_ms::above;
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
@@ -369,7 +370,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 /*
 Helper function that encapsulates the logic involved in creating hot air.
 */
-void map::create_hot_air( const tripoint &p, int intensity )
+void map::create_hot_air( const tripoint_bub_ms &p, int intensity )
 {
     field_type_id hot_air;
     switch( intensity ) {
@@ -391,7 +392,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+        tripoint_bub_ms dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -417,17 +418,18 @@ This is the general update function for field effects. This should only be calle
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
 void map::process_fields_in_submap( submap *const current_submap,
-                                    const tripoint &submap )
+                                    const tripoint_bub_sm &submap )
 {
-    const oter_id &om_ter = overmap_buffer.ter( tripoint_abs_omt( sm_to_omt_copy( submap ) ) );
+    const oter_id &om_ter = overmap_buffer.ter( coords::project_to<coords::omt>(
+                                abs_sub + rebase_rel( submap ) ) );
     Character &player_character = get_player_character();
     scent_block sblk( submap, get_scent() );
 
     // Initialize the map tile wrapper
-    maptile map_tile( current_submap, point_zero );
-    int &locx = map_tile.pos_.x;
-    int &locy = map_tile.pos_.y;
-    const point sm_offset = sm_to_ms_copy( submap.xy() );
+    maptile map_tile( current_submap, point_sm_ms::zero );
+    int &locx = map_tile.pos_.x();
+    int &locy = map_tile.pos_.y();
+    const point_bub_ms sm_offset = coords::project_to<coords::ms>( submap.xy() );
 
     field_proc_data pd{
         sblk,
@@ -444,7 +446,7 @@ void map::process_fields_in_submap( submap *const current_submap,
         for( locy = 0; locy < SEEY; locy++ ) {
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->get_field( {static_cast<int>( locx ), static_cast<int>( locy )} );
+            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
 
             // when displayed_field_type == fd_null it means that `curfield` has no fields inside
             // avoids instantiating (relatively) expensive map iterator
@@ -453,7 +455,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             // This is a translation from local coordinates to submap coordinates.
-            const tripoint p = tripoint( map_tile.pos() + sm_offset, submap.z );
+            const tripoint_bub_ms p{sm_offset + rebase_rel( map_tile.pos() ), submap.z()};
 
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
@@ -496,7 +498,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     sblk.commit_modifications();
 }
 
-static void field_processor_upgrade_intensity( const tripoint &, field_entry &cur,
+static void field_processor_upgrade_intensity( const tripoint_bub_ms &, field_entry &cur,
         field_proc_data & )
 {
     // Upgrade field intensity
@@ -509,7 +511,7 @@ static void field_processor_upgrade_intensity( const tripoint &, field_entry &cu
     }
 }
 
-static void field_processor_underwater_dissipation( const tripoint &, field_entry &cur,
+static void field_processor_underwater_dissipation( const tripoint_bub_ms &, field_entry &cur,
         field_proc_data &pd )
 {
     // Dissipate faster in water
@@ -518,15 +520,16 @@ static void field_processor_underwater_dissipation( const tripoint &, field_entr
     }
 }
 
-static void field_processor_fd_acid( const tripoint &p, field_entry &cur, field_proc_data &pd )
+static void field_processor_fd_acid( const tripoint_bub_ms &p, field_entry &cur,
+                                     field_proc_data &pd )
 {
     //cur_fd_type_id == fd_acid
-    if( p.z <= -OVERMAP_DEPTH ) {
+    if( p.z() <= -OVERMAP_DEPTH ) {
         return;
     }
 
     // Try to fall by a z-level
-    tripoint dst{ p.xy(), p.z - 1 };
+    tripoint_bub_ms dst = p + tripoint::below;
     if( pd.here.valid_move( p, dst, true, true ) ) {
         field_entry *acid_there = pd.here.get_field( dst, fd_acid );
         if( !acid_there ) {
@@ -551,7 +554,7 @@ static void field_processor_fd_acid( const tripoint &p, field_entry &cur, field_
     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
 }
 
-static void field_processor_fd_extinguisher( const tripoint &p, field_entry &cur,
+static void field_processor_fd_extinguisher( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     //  if( cur_fd_type_id == fd_extinguisher )
@@ -563,21 +566,22 @@ static void field_processor_fd_extinguisher( const tripoint &p, field_entry &cur
     }
 }
 
-static void field_processor_apply_slime( const tripoint &p, field_entry &cur, field_proc_data &pd )
+static void field_processor_apply_slime( const tripoint_bub_ms &p, field_entry &cur,
+        field_proc_data &pd )
 {
     // if( cur_fd_type.apply_slime_factor > 0 )
     pd.sblk.apply_slime( p, cur.get_field_intensity() * pd.cur_fd_type->apply_slime_factor );
 }
 
 // Spread gaseous fields
-void field_processor_spread_gas( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_spread_gas( const tripoint_bub_ms &p, field_entry &cur, field_proc_data &pd )
 {
     // if( cur.gas_can_spread() )
     pd.here.spread_gas( cur, p, pd.cur_fd_type->percent_spread, pd.cur_fd_type->outdoor_age_speedup,
                         pd.sblk, pd.om_ter );
 }
 
-static void field_processor_fd_fungal_haze( const tripoint &p, field_entry &cur,
+static void field_processor_fd_fungal_haze( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &/*pd*/ )
 {
     // if( cur_fd_type_id == fd_fungal_haze ) {
@@ -589,7 +593,7 @@ static void field_processor_fd_fungal_haze( const tripoint &p, field_entry &cur,
 
 // Process npc complaints moved to player_in_field
 
-static void field_processor_extra_radiation( const tripoint &p, field_entry &cur,
+static void field_processor_extra_radiation( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     // Apply radiation
@@ -600,11 +604,13 @@ static void field_processor_extra_radiation( const tripoint &p, field_entry &cur
     }
 }
 
-void field_processor_wandering_field( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_wandering_field( const tripoint_bub_ms &p, field_entry &cur,
+                                      field_proc_data &pd )
 {
     // Apply wandering fields from vents
     const field_type_id wandering_field_type_id = pd.cur_fd_type->wandering_field;
-    for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
+    for( const tripoint_bub_ms &pnt : points_in_radius( p,
+            cur.get_field_intensity() - 1 ) ) {
         field &wandering_field = pd.here.get_field( pnt );
         field_entry *tmpfld = wandering_field.find_field( wandering_field_type_id );
         if( tmpfld && tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
@@ -615,7 +621,7 @@ void field_processor_wandering_field( const tripoint &p, field_entry &cur, field
     }
 }
 
-void field_processor_fd_fire_vent( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_fd_fire_vent( const tripoint_bub_ms &p, field_entry &cur, field_proc_data &pd )
 {
     if( cur.get_field_intensity() > 1 ) {
         if( one_in( 3 ) ) {
@@ -629,7 +635,8 @@ void field_processor_fd_fire_vent( const tripoint &p, field_entry &cur, field_pr
 }
 
 //TODO extract common logic from this and field_processor_fd_fire_vent
-void field_processor_fd_flame_burst( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_fd_flame_burst( const tripoint_bub_ms &p, field_entry &cur,
+                                     field_proc_data &pd )
 {
     if( cur.get_field_intensity() > 1 ) {
         cur.set_field_intensity( cur.get_field_intensity() - 1 );
@@ -640,7 +647,7 @@ void field_processor_fd_flame_burst( const tripoint &p, field_entry &cur, field_
     }
 }
 
-static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
+static void field_processor_fd_electricity( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     // Higher chance of spreading for intense fields
@@ -651,12 +658,12 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
 
     const int spread_intensity_cap = 3 + std::max( ( current_intensity - 3 ) / 2, 0 );
 
-    std::vector<tripoint> grounded_tiles;
-    std::vector<tripoint> tiles_with_creatures;
-    std::vector<tripoint> other_tiles;
+    std::vector<tripoint_bub_ms> grounded_tiles;
+    std::vector<tripoint_bub_ms> tiles_with_creatures;
+    std::vector<tripoint_bub_ms> other_tiles;
 
     bool valid_candidates = false;
-    for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &dst : points_in_radius( p, 1 ) ) {
         if( !pd.here.inbounds( dst ) ) {
             continue;
         }
@@ -689,7 +696,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
     int creature_weight = here_impassable ? 5 : 6;
     int other_weight = here_impassable ? 0 : 1;
 
-    std::vector<tripoint> *target_vector = nullptr;
+    std::vector<tripoint_bub_ms> *target_vector = nullptr;
     while( current_intensity > 0 ) {
 
         if( here_impassable && one_in( 3 ) ) {
@@ -726,9 +733,10 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
 
         int vector_index = rng( 0, target_vector->size() - 1 );
         auto target_it = target_vector->begin() + vector_index;
-        tripoint target_point = *target_it;
+        tripoint_bub_ms target_point = *target_it;
 
-        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( target_point );
+        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field(
+                target_point );
 
         // Intensify target field if it exists, create a new one otherwise
         if( field_entry *target_field = pd.here.get_field( target_point, field_type ) ) {
@@ -750,7 +758,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
     }
 }
 
-static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
+static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     const field_intensity_level &int_level = cur.get_intensity_level();
@@ -764,12 +772,12 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
                 if( !mgr.name ) {
                     continue;
                 }
-                if( const std::optional<tripoint> spawn_point =
+                if( const std::optional<tripoint_bub_ms> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
-                [&pd]( const tripoint & n ) {
+                [&pd]( const tripoint_bub_ms & n ) {
                 return pd.here.passable( n );
                 } ) ) {
-                    const tripoint_bub_ms pt = tripoint_bub_ms( spawn_point.value() );
+                    const tripoint_bub_ms pt = spawn_point.value();
                     pd.here.add_spawn( mgr, pt );
                 }
             }
@@ -777,7 +785,8 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
     }
 }
 
-static void field_processor_fd_push_items( const tripoint &p, field_entry &, field_proc_data &pd )
+static void field_processor_fd_push_items( const tripoint_bub_ms &p, field_entry &,
+        field_proc_data &pd )
 {
     map_stack items = pd.here.i_at( p );
     creature_tracker &creatures = get_creature_tracker();
@@ -786,8 +795,8 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
             pushee->age() < 1_turns ) {
             pushee++;
         } else {
-            std::vector<tripoint> valid;
-            for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+            std::vector<tripoint_bub_ms> valid;
+            for( const tripoint_bub_ms &dst : points_in_radius( p, 1 ) ) {
                 if( dst != p && pd.here.get_field( dst, fd_push_items ) ) {
                     valid.push_back( dst );
                 }
@@ -796,9 +805,9 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
                 item tmp = *pushee;
                 tmp.set_age( 0_turns );
                 pushee = items.erase( pushee );
-                tripoint newp = random_entry( valid );
+                tripoint_bub_ms newp = random_entry( valid );
                 pd.here.add_item_or_charges( newp, tmp );
-                if( pd.player_character.pos() == newp ) {
+                if( pd.player_character.pos_bub() == newp ) {
                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                     const bodypart_id hit = pd.player_character.get_random_body_part();
                     pd.player_character.deal_damage( nullptr, hit, damage_instance( damage_bash, 6 ) );
@@ -824,7 +833,7 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
     }
 }
 
-static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
+static void field_processor_fd_shock_vent( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     if( cur.get_field_intensity() > 1 ) {
@@ -835,27 +844,27 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
         cur.set_field_intensity( 3 );
         int num_bolts = rng( 3, 6 );
         for( int i = 0; i < num_bolts; i++ ) {
-            point dir;
-            while( dir == point_zero ) {
+            point_rel_ms dir;
+            while( dir == point_rel_ms::zero ) {
                 dir = { rng( -1, 1 ), rng( -1, 1 ) };
             }
             int dist = rng( 4, 12 );
-            point bolt = p.xy();
+            point_bub_ms bolt = p.xy();
             for( int n = 0; n < dist; n++ ) {
                 bolt += dir;
-                pd.here.add_field( tripoint( bolt, p.z ), fd_electricity, rng( 2, 3 ) );
+                pd.here.add_field( tripoint_bub_ms( bolt, p.z() ), fd_electricity, rng( 2, 3 ) );
                 if( one_in( 4 ) ) {
-                    if( dir.x == 0 ) {
-                        dir.x = rng( 0, 1 ) * 2 - 1;
+                    if( dir.x() == 0 ) {
+                        dir.x() = rng( 0, 1 ) * 2 - 1;
                     } else {
-                        dir.x = 0;
+                        dir.x() = 0;
                     }
                 }
                 if( one_in( 4 ) ) {
-                    if( dir.y == 0 ) {
-                        dir.y = rng( 0, 1 ) * 2 - 1;
+                    if( dir.y() == 0 ) {
+                        dir.y() = rng( 0, 1 ) * 2 - 1;
                     } else {
-                        dir.y = 0;
+                        dir.y() = 0;
                     }
                 }
             }
@@ -863,7 +872,8 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
     }
 }
 
-static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, field_proc_data &pd )
+static void field_processor_fd_acid_vent( const tripoint_bub_ms &p, field_entry &cur,
+        field_proc_data &pd )
 {
     if( cur.get_field_intensity() > 1 ) {
         if( cur.get_field_age() >= 1_minutes ) {
@@ -872,7 +882,7 @@ static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, f
         }
     } else {
         cur.set_field_intensity( 3 );
-        for( const tripoint &t : points_in_radius( p, 5 ) ) {
+        for( const tripoint_bub_ms &t : points_in_radius( p, 5 ) ) {
             const field_entry *acid = pd.here.get_field( t, fd_acid );
             if( acid && acid->get_field_intensity() == 0 ) {
                 int new_intensity = 3 - rl_dist( p, t ) / 2 + ( one_in( 3 ) ? 1 : 0 );
@@ -887,10 +897,11 @@ static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, f
     }
 }
 
-void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_fd_incendiary( const tripoint_bub_ms &p, field_entry &cur,
+                                    field_proc_data &pd )
 {
     // Needed for variable scope
-    tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+    tripoint_bub_ms dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
 
     if( pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, dst ) ||
         pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, dst ) ||
@@ -906,14 +917,15 @@ void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_p
     pd.here.create_hot_air( p, cur.get_field_intensity() );
 }
 
-static void field_processor_make_rubble( const tripoint &p, field_entry &, field_proc_data &pd )
+static void field_processor_make_rubble( const tripoint_bub_ms &p, field_entry &,
+        field_proc_data &pd )
 {
     // if( cur_fd_type.legacy_make_rubble )
     // Legacy Stuff
     pd.here.make_rubble( p );
 }
 
-static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &cur,
+static void field_processor_fd_fungicidal_gas( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     // Check the terrain and replace it accordingly to simulate the fungus dieing off
@@ -928,7 +940,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
     }
 }
 
-void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_data &pd )
+void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_proc_data &pd )
 {
     const field_type_id fd_fire = ::fd_fire;
     map &here = pd.here;
@@ -940,7 +952,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     int winddirection = weather.winddirection;
-    int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ), winddirection,
+    int windpower = get_local_windpower( weather.windspeed, om_ter, get_map().getglobal( p ),
+                                         winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();
@@ -1040,7 +1053,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
@@ -1051,7 +1064,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1061,19 +1074,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.bash( p, 999, false, true, true );
                 here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
-                if( p.z > 0 ) {
-                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_open_air );
-                } else if( p.z < -1 ) {
-                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
-                    here.ter_set( p, ter_t_rock_floor );
-                } else {
-                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_dirt );
-                }
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1087,9 +1089,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.add_item_or_charges( p, item( "ash" ) );
             }
 
-        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && p.z > -OVERMAP_DEPTH ) {
+        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && p.z() > -OVERMAP_DEPTH ) {
             // We're hanging in the air - let's fall down
-            tripoint dst{ p.xy(), p.z - 1 };
+            tripoint_bub_ms dst = p + tripoint::below;
             if( here.valid_move( p, dst, true, true ) ) {
                 maptile dst_tile = here.maptile_at_internal( dst );
                 field_entry *fire_there = dst_tile.find_field( fd_fire );
@@ -1143,9 +1145,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const maptile &neigh = neighs[i].second;
-        if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
-            ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
-            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
+        if( ( neigh.pos().x() != remove_tile.pos().x() && neigh.pos().y() != remove_tile.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile2.pos().x() && neigh.pos().y() != remove_tile2.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile3.pos().x() && neigh.pos().y() != remove_tile3.pos().y() ) ||
             x_in_y( 1, std::max( 2, windpower ) ) ) {
             neighbour_vec.push_back( i );
         }
@@ -1255,8 +1257,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Consume adjacent fuel / terrain / webs to spread.
     // Allow raging fires (and only raging fires) to spread up
     // Spreading down is achieved by wrecking the walls/floor and then falling
-    if( cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
-        const tripoint dst_p = tripoint( p.xy(), p.z + 1 );
+    if( ( cur.get_field_intensity() == 3 ||
+          here.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) && p.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms dst_p = p + tripoint::above;
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
         const ter_t &dst_ter = dst.get_ter_t();
@@ -1285,7 +1288,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 continue;
             }
 
-            tripoint &dst_p = neighs[i].first;
+            tripoint_bub_ms &dst_p = neighs[i].first;
             maptile &dst = neighs[i].second;
             // No bounds checking here: we'll treat the invalid neighbors as valid.
             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -1345,7 +1348,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 continue;
             }
 
-            tripoint &dst_p = neighs[neighbour_vec[i]].first;
+            tripoint_bub_ms &dst_p = neighs[neighbour_vec[i]].first;
             maptile &dst = neighs[neighbour_vec[i]].second;
             // No bounds checking here: we'll treat the invalid neighbors as valid.
             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -1396,9 +1399,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     if( !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_SUPPRESS_SMOKE ) &&
         rng( 0, 100 - windpower ) <= smoke &&
         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
-        bool smoke_up = p.z < OVERMAP_HEIGHT;
+        bool smoke_up = p.z() < OVERMAP_HEIGHT;
         if( smoke_up ) {
-            tripoint up{p.xy(), p.z + 1};
+            tripoint_bub_ms up{p + tripoint::above};
             if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
                 here.add_field( up, fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
             } else {
@@ -1421,7 +1424,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     }
 }
 
-static void field_processor_fd_last_known( const tripoint &p, field_entry &cur,
+static void field_processor_fd_last_known( const tripoint_bub_ms &p, field_entry &cur,
         field_proc_data &pd )
 {
     ( void )pd;
@@ -1442,13 +1445,13 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( you.pos() );
+    field &curfield = get_field( you.pos_bub() );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if( you.in_vehicle ) {
-        if( const optional_vpart_position vp = veh_at( you.pos() ) ) {
+        if( const optional_vpart_position vp = veh_at( you.pos_bub() ) ) {
             inside = vp->is_inside();
         }
     }
@@ -1469,15 +1472,16 @@ void map::player_in_field( Character &you )
             // you're certainly not standing in it.
             if( !you.in_vehicle && !you.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                total_damage += burn_body_part( you, cur, bodypart_id( "foot_l" ), 2 );
-                total_damage += burn_body_part( you, cur, bodypart_id( "foot_r" ), 2 );
                 const bool on_ground = you.is_on_ground();
-                if( on_ground ) {
+                if( !on_ground ) {
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts() ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
+                    }
+                } else {
                     // Apply the effect to the remaining body parts
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_l" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_r" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "hand_l" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "hand_r" ), 2 );
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts( true ) ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
+                    }
                     total_damage += burn_body_part( you, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
                     if( ( !you.has_two_arms_lifting() && one_in( 4 ) ) || one_in( 2 ) ) {
@@ -1491,8 +1495,11 @@ void map::player_in_field( Character &you )
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
                                                _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
-                    you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                               _( "The acid burns <npcname>'s legs and feet!" ) );
+                    std::vector<bodypart_id> bps = you.get_ground_contact_bodyparts();
+                    you.add_msg_player_or_npc( m_bad,
+                                               string_format( _( "The acid burns your %s!" ), you.string_for_ground_contact_bodyparts( bps ) ),
+                                               string_format( _( "The acid burns <npcname>'s %s!" ),
+                                                       you.string_for_ground_contact_bodyparts( bps ) ) );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
                 } else if( !you.is_immune_field( fd_acid ) ) {
@@ -1506,7 +1513,7 @@ void map::player_in_field( Character &you )
             // Sap does nothing to cars.
             if( !you.in_vehicle ) {
                 // Use up sap.
-                mod_field_intensity( you.pos(), ft, -1 );
+                mod_field_intensity( you.pos_bub(), ft, -1 );
             }
         }
         if( ft == fd_sludge ) {
@@ -1567,16 +1574,21 @@ void map::player_in_field( Character &you )
                                 parts_burned.emplace_back( "hand_r" );
                                 parts_burned.emplace_back( "arm_l" );
                                 parts_burned.emplace_back( "arm_r" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 2:
                                 parts_burned.emplace_back( "torso" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 1:
                                 parts_burned.emplace_back( "foot_l" );
                                 parts_burned.emplace_back( "foot_r" );
                                 parts_burned.emplace_back( "leg_l" );
                                 parts_burned.emplace_back( "leg_r" );
                         }
+                    } else if( you.has_effect( effect_quadruped_full ) ||  you.has_effect( effect_quadruped_half ) ) {
+                        // Moving on all-fours through a fire is a bad idea, hits every body part.
+                        msg_num = 3;
+                        const std::vector<bodypart_id> all_parts = you.get_all_body_parts();
+                        parts_burned.assign( all_parts.begin(), all_parts.end() );
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
                         msg_num = 3;
@@ -1672,7 +1684,7 @@ void map::player_in_field( Character &you )
                 }
             }
         }
-        if( ft == fd_reality_tear ) {
+        if( ft == fd_fatigue ) {
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !you.in_vehicle ) {
                 // Teleports you... somewhere.
@@ -1754,7 +1766,7 @@ void map::creature_in_field( Creature &critter )
             // If we are in a vehicle figure out if we are inside (reduces effects usually)
             // and what part of the vehicle we need to deal with.
             if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( you->pos() ) ) {
+                if( const optional_vpart_position vp = veh_at( you->pos_bub() ) ) {
                     if( vp->is_inside() ) {
                         inside_vehicle = true;
                     }
@@ -1764,7 +1776,7 @@ void map::creature_in_field( Creature &critter )
         }
     }
 
-    field &curfield = get_field( critter.pos() );
+    field &curfield = get_field( critter.pos_bub() );
     for( auto &field_entry_it : curfield ) {
         field_entry &cur_field_entry = field_entry_it.second;
         if( !cur_field_entry.is_field_alive() ) {
@@ -1809,7 +1821,7 @@ void map::creature_in_field( Creature &critter )
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
             if( cur_field_id->decrease_intensity_on_contact ) {
-                mod_field_intensity( critter.pos(), cur_field_id, -1 );
+                mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
             }
         }
     }
@@ -1821,11 +1833,11 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
-    if( veh_at( z.pos() ) ) {
+    if( veh_at( z.pos_bub() ) ) {
         // FIXME: Immune when in a vehicle for now.
         return;
     }
-    field &curfield = get_field( z.pos() );
+    field &curfield = get_field( z.pos_bub() );
 
     int dam = 0;
     // Iterate through all field effects on this tile.
@@ -1847,7 +1859,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_sap ) {
             z.mod_moves( -cur.get_field_intensity() * 5 );
-            mod_field_intensity( z.pos(), cur.get_field_type(), -1 );
+            mod_field_intensity( z.pos_bub(), cur.get_field_type(), -1 );
         }
         if( cur_field_type == fd_sludge ) {
             if( !z.digs() && !z.flies() &&
@@ -1992,7 +2004,7 @@ void map::monster_in_field( monster &z )
                                                     cur.get_field_intensity() ) );
             z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
         }
-        if( cur_field_type == fd_reality_tear ) {
+        if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
                 teleport::teleport( z );
@@ -2065,25 +2077,26 @@ void map::monster_in_field( monster &z )
 }
 
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
-        const tripoint &pos )
+        const tripoint_bub_ms &pos )
 {
-    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
-            { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
-            { 301, std::make_tuple( point_south_east, point_east, point_south ) },
-            { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
-            { 211, std::make_tuple( point_south_west, point_west, point_south ) },
-            { 150, std::make_tuple( point_west, point_north_west, point_south_west ) },
-            { 121, std::make_tuple( point_north_west, point_north, point_west ) },
-            { 60, std::make_tuple( point_north, point_north_west, point_north_east ) },
-            { 31, std::make_tuple( point_north_east, point_east, point_north ) },
-            { 0, std::make_tuple( point_east, point_north_east, point_south_east ) }
+    static const std::array<std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >>, 9>
+    outputs = { {
+            { 330, std::make_tuple( point_rel_ms::east, point_rel_ms::north_east, point_rel_ms::south_east ) },
+            { 301, std::make_tuple( point_rel_ms::south_east, point_rel_ms::east, point_rel_ms::south ) },
+            { 240, std::make_tuple( point_rel_ms::south, point_rel_ms::south_west, point_rel_ms::south_east ) },
+            { 211, std::make_tuple( point_rel_ms::south_west, point_rel_ms::west, point_rel_ms::south ) },
+            { 150, std::make_tuple( point_rel_ms::west, point_rel_ms::north_west, point_rel_ms::south_west ) },
+            { 121, std::make_tuple( point_rel_ms::north_west, point_rel_ms::north, point_rel_ms::west ) },
+            { 60, std::make_tuple( point_rel_ms::north, point_rel_ms::north_west, point_rel_ms::north_east ) },
+            { 31, std::make_tuple( point_rel_ms::north_east, point_rel_ms::east, point_rel_ms::north ) },
+            { 0, std::make_tuple( point_rel_ms::east, point_rel_ms::north_east, point_rel_ms::south_east ) }
         }
     };
 
-    tripoint removepoint;
-    tripoint removepoint2;
-    tripoint removepoint3;
-    for( const std::pair<int, std::tuple< point, point, point >> &val : outputs ) {
+    tripoint_bub_ms removepoint;
+    tripoint_bub_ms removepoint2;
+    tripoint_bub_ms removepoint3;
+    for( const std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >> &val : outputs ) {
         if( winddirection >= val.first ) {
             removepoint = pos + std::get<0>( val.second );
             removepoint2 = pos + std::get<1>( val.second );
@@ -2098,25 +2111,26 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
     return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 
-void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
+void map::emit_field( const tripoint_bub_ms &pos, const emit_id &src, float mul )
 {
     if( !src.is_valid() ) {
         return;
     }
 
-    const float chance = src->chance() * mul;
-    if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
-        const int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
-        propagate_field( pos, src->field(), qty, src->intensity() );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    const float chance = src->chance( d ) * mul;
+    if( x_in_y( chance, 100 ) ) {
+        const int qty = chance > 100.0f ? roll_remainder( src->qty( d ) * chance / 100.0f ) : src->qty( d );
+        propagate_field( pos, src->field( d ), qty, src->intensity( d ) );
     }
 }
 
-void map::propagate_field( const tripoint &center, const field_type_id &type, int amount,
+void map::propagate_field( const tripoint_bub_ms &center, const field_type_id &type, int amount,
                            int max_intensity )
 {
-    using gas_blast = std::pair<float, tripoint>;
+    using gas_blast = std::pair<float, tripoint_bub_ms>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
-    std::set<tripoint> closed;
+    std::set<tripoint_bub_ms> closed;
     open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != phase_id::GAS;
@@ -2158,10 +2172,10 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                 return;
             }
 
-            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
-            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            static const std::array<int, 8> x_offset = { { -1, 1,  0, 0,  1, -1, -1, 1  } };
+            static const std::array<int, 8> y_offset = { {  0, 0, -1, 1, -1,  1, -1, 1  } };
             for( size_t i = 0; i < 8; i++ ) {
-                tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
+                tripoint_bub_ms pt = gp.second + point( x_offset[i], y_offset[i] );
                 if( closed.count( pt ) > 0 ) {
                     continue;
                 }
@@ -2269,7 +2283,7 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     return processors;
 }
 
-const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p ) const
+const field_type_str_id &map::get_applicable_electricity_field( const tripoint_bub_ms &p ) const
 {
     return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
 }

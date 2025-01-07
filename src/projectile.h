@@ -7,8 +7,8 @@
 #include <set>
 
 #include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
-#include "point.h"
 
 class Creature;
 class item;
@@ -30,7 +30,7 @@ struct projectile {
         damage_instance shot_impact;
         float critical_multiplier = 0.0f;
 
-        std::set<std::string> proj_effects;
+        std::set<ammo_effect_str_id> proj_effects;
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true
@@ -70,13 +70,15 @@ struct dealt_projectile_attack {
     projectile proj; // What we used to deal the attack
     Creature *hit_critter; // The critter that stopped the projectile or null
     dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
-    tripoint end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
+    tripoint_bub_ms end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
+    bool headshot = false; // Headshot or not;
+    bool shrapnel = false; // True if the projectile is generated from an explosive
 };
 
-void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<std::string> &effects );
-int max_aoe_size( const std::set<std::string> &tags );
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
+                         const std::set<ammo_effect_str_id> &effects, int dealt_damage );
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name );

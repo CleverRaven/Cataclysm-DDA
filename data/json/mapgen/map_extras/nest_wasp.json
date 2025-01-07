@@ -2,6 +2,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mx_nest_wasp_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ....        ",
+        "         .......        ",
+        "       ...........      ",
+        "       ............     ",
+        "     ..............     ",
+        "     ...............    ",
+        "      .............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "      ..............    ",
+        "      ..............    ",
+        "       ...........      ",
+        "        ........        ",
+        "         .....          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_roof_paper" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "mx_nest_wasp",
     "object": {
       "rows": [
@@ -34,7 +69,8 @@
       "terrain": { "-": [ "t_paper" ], ".": [ "t_floor_paper" ], "8": [ "t_floor_paper" ] },
       "item": { ".": { "item": "egg_wasp", "chance": 1, "amount": [ 1, 2 ] }, "8": { "item": "egg_wasp", "amount": [ 5, 8 ] } },
       "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
-      "place_monster": [ { "group": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 15 ] } ]
+      "place_monster": [ { "group": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 15 ] } ],
+      "place_nested": [ { "chunks": [ "mx_nest_wasp_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

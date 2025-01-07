@@ -46,7 +46,6 @@
       "h": "f_chair",
       "i": "f_filing_cabinet",
       "k": "f_desk",
-      "l": "f_vending_c",
       "n": "f_slab",
       "o": "f_bookcase",
       "p": "f_cardboard_fort",
@@ -59,6 +58,7 @@
       "}": "f_rubble",
       "~": "f_shower"
     },
+    "vendingmachines": { "l": { "lootable": true } },
     "toilets": { "t": {  } }
   },
   {

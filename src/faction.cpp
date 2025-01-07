@@ -65,6 +65,7 @@ faction_template::faction_template()
     size = 0;
     power = 0;
     lone_wolf_faction = false;
+    limited_area_claim = false;
     currency = itype_id::NULL_ID();
 }
 
@@ -84,9 +85,9 @@ void faction_template::load( const JsonObject &jsobj )
 void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
-        for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<2>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+        for( const faction_epilogue_data &epi : fac.epilogue_data ) {
+            if( !epi.epilogue.is_valid() ) {
+                debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
         }
     }
@@ -101,9 +102,10 @@ void faction_template::load_relations( const JsonObject &jsobj )
 {
     for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
-        std::bitset<npc_factions::rel_types> fac_relation( 0 );
+        std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
+            fac_relation.set( static_cast<size_t>( rel_flag.second ),
+                              rel_jo.get_bool( rel_flag.first, false ) );
         }
         relations[fac.name()] = fac_relation;
     }
@@ -132,6 +134,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "consumes_food", consumes_food, false );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
@@ -141,13 +144,10 @@ faction_template::faction_template( const JsonObject &jsobj )
         currency = itype_id::NULL_ID();
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
+    limited_area_claim = jsobj.get_bool( "limited_area_claim", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
-    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
+    optional( jsobj, false, "epilogues", epilogue_data );
 }
 
 std::string faction::describe() const
@@ -156,12 +156,56 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction_power_spec::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "faction", faction );
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "Must have either a power_min or a power_max" );
+    }
+}
+
+void faction_epilogue_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+    optional( jo, false, "dynamic", dynamic_conditions );
+    mandatory( jo, false, "id", epilogue );
+}
+
+
+bool faction::check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const
+{
+    if( faction_power_specs.empty() ) {
+        return true;
+    }
+    for( const faction_power_spec &spec : faction_power_specs ) {
+        if( spec.power_min.has_value() ) {
+            if( spec.faction->power < spec.power_min.value() ) {
+                return false;
+            }
+        }
+        if( spec.power_max.has_value() ) {
+            if( spec.faction->power >= spec.power_max.value() ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
-        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+    for( const faction_epilogue_data &epi : epilogue_data ) {
+        if( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() ||
+                power < epi.power_max ) ) {
+            if( check_relations( epi.dynamic_conditions ) ) {
+                ret.emplace_back( epi.epilogue->translated() );
+            }
         }
     }
     return ret;
@@ -420,7 +464,7 @@ bool faction::has_relationship( const faction_id &guy_id, npc_factions::relation
 {
     for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
-            return rel_data.second.test( flag );
+            return rel_data.second.test( static_cast<size_t>( flag ) );
         }
     }
     return false;
@@ -517,6 +561,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.currency = fac_temp.currency;
                         elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
+                        elem.second.limited_area_claim = fac_temp.limited_area_claim;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
@@ -680,18 +725,19 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
+        ( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ||
+          !player_character.sees( pos_bub() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
-            if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
-                !( player_character.pos().z == pos().z ) ) {
+            if( !( player_character.posz() >= 0 && posz() >= 0 ) &&
+                !( player_character.posz() == posz() ) ) {
                 //Early exit
                 can_see = _( "Not within radio range" );
                 see_color = c_light_red;
             } else {
                 // TODO: better range calculation than just elevation.
                 const int base_range = 200;
-                float send_elev_boost = ( 1 + ( player_character.pos().z * 0.1 ) );
-                float recv_elev_boost = ( 1 + ( pos().z * 0.1 ) );
+                float send_elev_boost = ( 1 + ( player_character.posz() * 0.1 ) );
+                float recv_elev_boost = ( 1 + ( posz() * 0.1 ) );
                 if( ( square_dist( player_character.global_sm_location(),
                                    global_sm_location() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
                     //Direct radio contact, both of their elevation are in effect
@@ -875,9 +921,7 @@ void faction_manager::display() const
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
 
-        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_missions, point( 30, 3 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 4 );
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
@@ -889,9 +933,11 @@ void faction_manager::display() const
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
 
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
+        wattron( w_missions, BORDER_COLOR );
+        mvwaddch( w_missions, point( 30, 2 ),
                   tab == tab_mode::TAB_FOLLOWERS ? ' ' : LINE_OXXX ); // ^|^
-        mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX ); // _|_
+        wattroff( w_missions, BORDER_COLOR );
         const nc_color col = c_white;
 
         // entries_per_page * page number
@@ -1013,6 +1059,7 @@ void faction_manager::display() const
                     fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
                 }
             }
+            break;
             default:
                 break;
         }
@@ -1052,6 +1099,10 @@ void faction_manager::display() const
                 continue;
             }
             basecamp *temp_camp = *p;
+            if( temp_camp->get_owner() != player_character.get_faction()->id ) {
+                // Don't display NPC camps as ours
+                continue;
+            }
             camps.push_back( temp_camp );
         }
         lore.clear();
@@ -1060,8 +1111,6 @@ void faction_manager::display() const
             if( name.has_value() ) {
                 if( !name->empty() ) {
                     lore.emplace_back( elem, name->translated() );
-                } else {
-                    lore.emplace_back( elem, elem.str() );
                 }
             }
         }

@@ -9,7 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  It can be reloaded into rechargeable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "NO_DROP" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],
     "volume": "100 ml",
@@ -461,8 +461,8 @@
     "description": "This is neither a fuel cell, nor nuclear, but the name stuck.  It uses plutonium-244 as a catalyst to stabilize a complicated nanocompound that can store enormous amounts of power.  Unfortunately, it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
     "material": [ "plut_cell" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
-    "volume": "250 ml",
-    "weight": "80 g",
+    "volume": "5 ml",
+    "weight": "20 g",
     "ammo_type": "plutonium",
     "count": 5,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -524,26 +524,6 @@
   },
   {
     "type": "AMMO",
-    "id": "wire_barbed_baseball",
-    "symbol": "*",
-    "color": "white",
-    "name": { "str": "barbed wire baseball" },
-    "description": "A baseball wrapped with barbed wire, for when the game turns serious.",
-    "material": [ "leather", "steel" ],
-    "ammo_type": "rock",
-    "flags": [ "NPC_THROWN", "HURT_WHEN_WIELDED" ],
-    "weight": "300 g",
-    "volume": "300 ml",
-    "damage": { "damage_type": "stab", "amount": 9 },
-    "range": 12,
-    "dispersion": 14,
-    "loudness": 0,
-    "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
-    "melee_damage": { "cut": 9 }
-  },
-  {
-    "type": "AMMO",
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
@@ -560,7 +540,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "ALLOWS_BODY_BLOCK" ],
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
   },
@@ -580,6 +561,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -601,6 +583,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
+    "recovery_chance": 50,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -622,6 +605,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
+    "recovery_chance": 10,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -630,6 +614,7 @@
     "price": "1 USD",
     "price_postapoc": "2 USD 50 cent",
     "name": { "str": "ball bearing" },
+    "category": "spare_parts",
     "symbol": "=",
     "color": "dark_gray",
     "looks_like": "pebble",
@@ -643,6 +628,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
+    "recovery_chance": 95,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -1176,17 +1162,18 @@
     "type": "AMMO",
     "id": "gasfilter_m",
     "category": "tool_magazine",
-    "material": [ "charcoal" ],
+    "name": { "str_sp": "activated carbon" },
+    "description": "A small amount of coal-derived carbon material with many small pores, used for the adsorption of harmful chemicals.  Most commonly employed within respirator filters, it traps and retains chemical gases and vapor contaminants while allowing filtered air to pass unhindered.  Once all the carbon has been bonded to intruding chemicals, the filter is expired and must be replaced.",
+    "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "name": { "str": "gas mask cartridge" },
     "symbol": "=",
+    "material": [ "charcoal" ],
     "color": "light_gray",
-    "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
-    "volume": "1 ml",
-    "weight": "200 mg",
     "ammo_type": "gasfilter_m",
-    "count": 1
+    "count": 1,
+    "//": "Obviously, activated carbon isn't magically weightless, but it's used as ammunition within gas mask filters, and the filters shouldn't equally magically grow lighter as the coal binds with chemicals. Considering that this is never found beyond gas mask canisters, having zero weight should make no difference to the player.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "type": "AMMO",
@@ -1198,12 +1185,12 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Liquid made up of propylene glycol, vegetable glycerin, flavorings, and nicotine.  Intended for use in an advanced electronic cigarette.",
-    "container": "bottle_plastic_small",
+    "container": "bottle_plastic_tiny",
     "phase": "liquid",
-    "volume": "250 ml",
-    "weight": "2 g",
+    "volume": "30 ml",
+    "weight": "1 g",
     "ammo_type": "components",
-    "count": 50
+    "count": 30
   },
   {
     "id": "fish_bait",
@@ -1397,7 +1384,7 @@
     "name": { "str_sp": "nitrox" },
     "symbol": "=",
     "color": "white",
-    "container": "bottle_plastic",
+    "container": "pressurized_canister",
     "sealed": false,
     "description": "A mixture of oxygen and nitrogen in proportions suitable for sustaining divers.",
     "volume": "250 ml",
@@ -1414,7 +1401,7 @@
     "name": { "str_sp": "extinguishing agent" },
     "symbol": "%",
     "color": "white",
-    "container": "bottle_plastic",
+    "container": "pressurized_canister",
     "sealed": false,
     "description": "A dry chemical solution effective at extinguishing fires.",
     "volume": "250 ml",
@@ -1432,7 +1419,7 @@
     "name": { "str_sp": "tear gas spray" },
     "symbol": "%",
     "color": "white",
-    "container": "bottle_plastic",
+    "container": "pressurized_canister",
     "sealed": false,
     "description": "A noxious aerosolized irritant used to fend off attackers both human and bear alike.",
     "volume": "250 ml",
@@ -1479,6 +1466,7 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 80,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1501,6 +1489,7 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1515,7 +1504,6 @@
     "//": "300g / 8.8g/ml = ~34.1ml. Add 10% to take an uneven chunk into account = 37.5ml rounded upwards to 38ml.",
     "price": "1 USD 69 cent",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "bronze" ],
     "symbol": ",",
     "color": "yellow",
