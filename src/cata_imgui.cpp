@@ -366,8 +366,7 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
 }
 
 
-// Load the first font that exists in typefaces, falling back to unifont
-// if none of them exist.
+// Load all fonts that exist in typefaces list
 // - typefaces is a list of paths.
 static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
                        const ImWchar *ranges )
@@ -375,21 +374,23 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
     std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
 
+    ImFontConfig config = ImFontConfig();
+
+    bool first = true;
     auto it = std::begin( io_typefaces );
     for( ; it != std::end( io_typefaces ); ++it ) {
         if( !file_exist( it->path ) ) {
             debugmsg( "Font file '%s' does not exist.", it->path );
+        } else {
+            config.MergeMode = !first;
+            config.FontBuilderFlags = it->imgui_config();
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            first = false;
         }
-        break;
     }
-    if( it == std::end( io_typefaces ) ) {
+    if( first ) {
         debugmsg( "No fonts were found in the fontdata file." );
     }
-
-    ImFontConfig config = ImFontConfig();
-    config.FontBuilderFlags = it->imgui_config();
-
-    io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
 }
 
 static void check_font( const ImFont *font )
