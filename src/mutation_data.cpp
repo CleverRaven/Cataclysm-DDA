@@ -18,8 +18,10 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "magic.h"
 #include "make_static.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -217,14 +219,14 @@ bool mut_personality_score::load( const JsonObject &jsobj, const std::string_vie
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, false, "min_aggression", min_aggression, -10 );
-    optional( j, false, "max_aggression", max_aggression, 10 );
-    optional( j, false, "min_bravery", min_bravery, -10 );
-    optional( j, false, "max_bravery", max_bravery, 10 );
-    optional( j, false, "min_collector", min_collector, -10 );
-    optional( j, false, "max_collector", max_collector, 10 );
-    optional( j, false, "min_altruism", min_altruism, -10 );
-    optional( j, false, "max_altruism", max_altruism, 10 );
+    optional( j, false, "min_aggression", min_aggression, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_aggression", max_aggression, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_bravery", min_bravery, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_bravery", max_bravery, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_collector", min_collector, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_collector", max_collector, NPC_PERSONALITY_MAX );
+    optional( j, false, "min_altruism", min_altruism, NPC_PERSONALITY_MIN );
+    optional( j, false, "max_altruism", max_altruism, NPC_PERSONALITY_MAX );
 
     return true;
 }
@@ -309,6 +311,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
@@ -319,6 +322,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "sleepiness", sleepiness, false );
+    optional( jo, was_loaded, "mana", mana, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -396,6 +400,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+    optional( jo, was_loaded, "activation_msg", activation_msg,
+              to_translation( "You activate your %s." ) );
 
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
@@ -440,6 +446,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
         std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
+
+    optional( jo, was_loaded, "comfort", comfort );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( s );
@@ -672,7 +680,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
-        for( const std::pair<species_id, int> elem : an_id ) {
+        for( const std::pair<const species_id, int> &elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }
@@ -1143,6 +1151,7 @@ shared_ptr_fast<Trait_group> mutation_branch::get_group( const
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
 {
     std::vector<trait_group::Trait_group_tag> rval;
+    rval.reserve( trait_groups.size() );
     for( auto &group : trait_groups ) {
         rval.push_back( group.first );
     }

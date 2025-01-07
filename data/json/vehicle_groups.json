@@ -306,7 +306,6 @@
       [ "van_full-size", 600 ],
       [ "van_cargo", 400 ],
       [ "van_camper", 200 ],
-      [ "rara_x", 800 ],
       [ "apc", 300 ],
       [ "apc-gl", 100 ],
       [ "aapc-mg", 100 ],
@@ -577,7 +576,6 @@
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
       [ "bicycle", 1000 ],
-      [ "rara_x", 300 ],
       [ "unicycle", 100 ],
       [ "bicycle_electric", 200 ],
       [ "motorcycle", 500 ],
@@ -1251,7 +1249,6 @@
     "vehicles": [
       [ "electric_car", 100 ],
       [ "suv_electric", 70 ],
-      [ "rara_x", 40 ],
       [ "car_luxury", 40 ],
       [ "car_micro", 40 ],
       [ "car_micro_hybrid", 40 ],

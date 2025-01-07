@@ -40,7 +40,7 @@
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "^": "f_exercise",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "C": "f_cupboard",
         "{": "f_bigmirror",
         "_": "f_bench",

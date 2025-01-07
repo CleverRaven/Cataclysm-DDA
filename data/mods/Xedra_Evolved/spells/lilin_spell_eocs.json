@@ -1,0 +1,840 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN",
+    "//": "Lilin cannot drain ruach while in owl or strix form.",
+    "condition": {
+      "and": [ { "not": { "npc_has_trait": "TURN_INTO_OWL_TRAITS" } }, { "not": { "npc_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } } ]
+    },
+    "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_REAL" } ],
+    "false_effect": [ { "npc_message": "You cannot absorb ruach in this form.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_REAL",
+    "//": "Humans and humanlike fae give about one day's worth (240) ruach, aliens give a totally random amount, Nether creatures are a huge gamble (they could give you tons of ruach but could also absorb some from you), inhuman fae and vampires give a random amount within a few hours (20-60), animals and cyborgs give an hour's worth (5-15), insects give half of what animals give (2-7), nothing else gives any.",
+    "//2": "Ferals currently don't sleep, but future-proofing for when or if they might",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
+        "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
+        "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+      },
+      { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
+      { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" },
+      {
+        "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },
+        "then": { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE" }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },
+        "then": { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE" }
+      },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "u_has_species": "CHANGELING" },
+                { "u_has_species": "HOMULLUS" },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "HUMAN" },
+                { "u_has_species": "RENFIELD" },
+                { "test_eoc": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN" }
+              ]
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": { "and": [ { "npc_has_trait": "LILIN_GAIN_EXTRA_RUACH_FROM_SLEEPY_PEOPLE" }, { "u_has_effect": "asleep" } ] },
+            "then": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300) * 1.5" ] },
+            "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
+          },
+          { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
+          { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+        ],
+        "else": {
+          "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
+          "then": [
+            { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(1,400)" ] },
+            {
+              "npc_message": "You feel a rush of warmth as you absorb the ruach, though your skin breaks out in goosebumps afterward.",
+              "type": "good"
+            },
+            { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+          ],
+          "else": {
+            "if": { "u_has_species": "NETHER" },
+            "then": [
+              { "math": [ "u_ruach_random_nether_amount = rng(-800,800)" ] },
+              {
+                "if": { "math": [ "u_ruach_random_nether_amount > 0" ] },
+                "then": [ { "npc_message": "You feel a moment of white heat as you absorb the ruach.", "type": "good" } ],
+                "else": [
+                  {
+                    "npc_message": "You attempt to absorb the being's ruach but encounter only a yawning void that drains some of your own ruach back to it!",
+                    "type": "bad"
+                  }
+                ]
+              },
+              { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "u_ruach_random_nether_amount" ] },
+              { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+            ],
+            "else": {
+              "if": {
+                "or": [
+                  { "u_has_species": "IERDE" },
+                  { "u_has_species": "ARVORE" },
+                  { "u_has_species": "UNDINE" },
+                  { "u_has_species": "SYLPH" },
+                  { "u_has_species": "SALAMANDER" },
+                  { "u_has_species": "VAMPIRE" }
+                ]
+              },
+              "then": [
+                { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(20,60)" ] },
+                { "npc_message": "You feel a moment of warmth as you absorb the ruach.", "type": "good" },
+                { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+              ],
+              "else": {
+                "if": {
+                  "or": [
+                    { "u_has_species": "CYBORG" },
+                    { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "KRAKEN" },
+                    { "test_eoc": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN" }
+                  ]
+                },
+                "then": [
+                  { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(5,15)" ] },
+                  {
+                    "npc_message": "You feel a brief tingle as you absorb the animal's ruach.  Weak, but better than nothing.",
+                    "type": "good"
+                  },
+                  { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+                ],
+                "else": {
+                  "if": {
+                    "or": [
+                      { "u_has_species": "INSECT" },
+                      { "u_has_species": "CENTIPEDE" },
+                      { "u_has_species": "INSECT_FLYING" },
+                      { "u_has_species": "SPIDER" }
+                    ]
+                  },
+                  "then": [
+                    { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(2,7)" ] },
+                    {
+                      "npc_message": "You feel a slight prickling as you absorb the insect's ruach.  Barely worth bothering with.",
+                      "type": "good"
+                    },
+                    { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" }
+                  ],
+                  "else": {
+                    "npc_message": "You try to absorb the <u_name>'s ruach but get only fragments.  Not enough to for a mouthful.",
+                    "type": "bad"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS",
+    "effect": [
+      {
+        "u_add_effect": "effect_lilin_ruach_drain_side_effects",
+        "intensity": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') + 1" ] },
+        "duration": [ "72 h", "72 h" ]
+      },
+      {
+        "if": "u_is_character",
+        "then": [
+          { "math": [ "u_npc_fear()", "+=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] },
+          {
+            "if": {
+              "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 1" ] } ]
+            },
+            "then": { "math": [ "u_npc_trust()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+          },
+          {
+            "if": {
+              "and": [ { "math": [ "rand(2) == 2" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
+            },
+            "then": { "math": [ "u_npc_value()", "-=", "1 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)" ] }
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_l"
+          },
+          {
+            "if": {
+              "and": [ { "math": [ "rand(1) == 1" ] }, { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ]
+            },
+            "then": { "math": [ "u_val('sleepiness')", "+=", "2 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5)" ] }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
+            "then": {
+              "u_add_effect": "staggered_character",
+              "intensity": 1,
+              "duration": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') - 3) * 2), 0 )" ] }
+            }
+          }
+        ],
+        "else": [
+          { "math": [ "u_val('morale')", "-=", "5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 5)" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 4" ] },
+            "then": {
+              "u_add_effect": "staggered",
+              "intensity": 1,
+              "duration": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') - 3) * 2), 0 )" ] }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SIDE_GAIN_SUSTENANCE",
+    "//": "For ease of keeping track, we give the same kcal as ruach here.  Remember that lilin with this trait have greatly-reduced metabolism",
+    "//2": "Vitamins do not check for quantity because there's no hypervitaminosis.  If that gets re-added, this will need to be revisited",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": { "math": [ "n_calories()", "<=", "118000" ] },
+        "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(200,300)" ] }
+      },
+      {
+        "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+        "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+      },
+      { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
+      { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
+      { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "u_has_species": "CHANGELING" },
+                { "u_has_species": "HOMULLUS" },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "HUMAN" },
+                { "u_has_species": "RENFIELD" },
+                { "test_eoc": "EOC_CONDITIONS_LILIN_FANTASY_SPECIES_RUACH_DRAIN" }
+              ]
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": { "math": [ "n_calories()", "<=", "118000" ] },
+            "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(200,300)" ] }
+          },
+          {
+            "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+            "then": { "math": [ "n_val('thirst')", "-=", "rng(10,25)" ] }
+          },
+          { "math": [ "n_vitamin('iron')", "+=", "rng(15,30)" ] },
+          { "math": [ "n_vitamin('vitC')", "+=", "rng(15,30)" ] },
+          { "math": [ "n_vitamin('calcium')", "+=", "rng(15,30)" ] }
+        ],
+        "else": {
+          "if": { "or": [ { "u_has_species": "PLANT" }, { "u_has_species": "MIGO" } ] },
+          "then": [
+            {
+              "if": { "math": [ "n_calories()", "<=", "118000" ] },
+              "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(0,250)" ] }
+            },
+            {
+              "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+              "then": { "math": [ "n_val('thirst')", "-=", "rng(0,15)" ] }
+            },
+            { "math": [ "n_vitamin('iron')", "+=", "rng(0,10)" ] },
+            { "math": [ "n_vitamin('vitC')", "+=", "rng(0,10)" ] },
+            { "math": [ "n_vitamin('calcium')", "+=", "rng(0,10)" ] }
+          ],
+          "else": {
+            "if": { "u_has_species": "NETHER" },
+            "then": [
+              {
+                "if": { "math": [ "n_calories()", "<=", "118000" ] },
+                "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(-500,500)" ] }
+              },
+              {
+                "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+                "then": { "math": [ "n_val('thirst')", "-=", "rng(-25,25)" ] }
+              },
+              { "math": [ "n_vitamin('iron')", "+=", "rng(-30,30)" ] },
+              { "math": [ "n_vitamin('vitC')", "+=", "rng(-30,30)" ] },
+              { "math": [ "n_vitamin('calcium')", "+=", "rng(-30,30)" ] }
+            ],
+            "else": {
+              "if": {
+                "or": [
+                  { "u_has_species": "IERDE" },
+                  { "u_has_species": "ARVORE" },
+                  { "u_has_species": "UNDINE" },
+                  { "u_has_species": "SYLPH" },
+                  { "u_has_species": "SALAMANDER" },
+                  { "u_has_species": "VAMPIRE" }
+                ]
+              },
+              "then": [
+                {
+                  "if": { "math": [ "n_calories()", "<=", "118000" ] },
+                  "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(65,125)" ] }
+                },
+                {
+                  "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+                  "then": { "math": [ "n_val('thirst')", "-=", "rng(2,6)" ] }
+                },
+                { "math": [ "n_vitamin('iron')", "+=", "rng(1,8)" ] },
+                { "math": [ "n_vitamin('vitC')", "+=", "rng(1,8)" ] },
+                { "math": [ "n_vitamin('calcium')", "+=", "rng(1,8)" ] }
+              ],
+              "else": {
+                "if": {
+                  "or": [
+                    { "u_has_species": "CYBORG" },
+                    { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                    { "u_has_species": "KRAKEN" },
+                    { "test_eoc": "EOC_CONDITIONS_LILIN_DINOMOD_RUACH_DRAIN" }
+                  ]
+                },
+                "then": [
+                  {
+                    "if": { "math": [ "n_calories()", "<=", "118000" ] },
+                    "then": { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "rng(20,40)" ] }
+                  },
+                  {
+                    "if": { "math": [ "n_val('thirst')", ">=", "-60" ] },
+                    "then": { "math": [ "n_val('thirst')", "-=", "rng(1,3)" ] }
+                  },
+                  { "math": [ "n_vitamin('iron')", "+=", "rng(1,4)" ] },
+                  { "math": [ "n_vitamin('vitC')", "+=", "rng(1,4)" ] },
+                  { "math": [ "n_vitamin('calcium')", "+=", "rng(1,4)" ] }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_EVIL_EYE",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency_beta()" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency_beta()" ] },
+      {
+        "npc_message": "You glare balefully at <u_name> and project all of your malice into your gaze.",
+        "type": "neutral"
+      },
+      {
+        "u_add_effect": "effect_evil_eye",
+        "duration": [
+          {
+            "math": [
+              "10 + ( (u_vitamin('lilin_ruach_vitamin') * 0.08) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+            ]
+          },
+          {
+            "math": [
+              "50 + ( (u_vitamin('lilin_ruach_vitamin') * 0.19) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": { "npc_message": "You don't have enough ruach for your malice to affect your target.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_BLINDING_TARGET",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "120 * lilin_has_ruach_efficiency_beta()" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "120 * lilin_has_ruach_efficiency_beta()" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_BLINDING_TARGET_2",
+            "condition": {
+              "and": [
+                { "not": "is_day" },
+                {
+                  "or": [ { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "==", "0" ] } ] }, { "not": "u_is_outside" } ]
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_add_effect": "blind",
+                "duration": {
+                  "math": [
+                    "rng( ( (n_vitamin('lilin_ruach_vitamin') * 8) * (n_vitamin('lilin_ruach_vitamin') * 0.03) * (n_has_trait('THRESH_LILIN') + 1) ),( (n_vitamin('lilin_ruach_vitamin') * 24) * (n_vitamin('lilin_ruach_vitamin') * 0.075) * (n_has_trait('THRESH_LILIN') + 1) ) )"
+                  ]
+                }
+              },
+              { "npc_message": "<u_name>'s eyes film over with darkness.", "type": "good" }
+            ],
+            "false_effect": [
+              {
+                "if": "is_day",
+                "then": { "npc_message": "You cannot call up the darkness while the sun is in the sky.", "type": "bad" },
+                "else": {
+                  "if": { "and": [ "u_is_outside", { "math": [ "n_lilit_is_in_civilization", "==", "1" ] } ] },
+                  "then": { "npc_message": "You cannot call up the darkness outdoors in a city.", "type": "bad" },
+                  "else": [  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": { "npc_message": "You don't have enough ruach to call the darkness on your target.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERIZE_TARGET",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin')", ">=", "320 * lilin_has_ruach_efficiency_beta()" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "320 * lilin_has_ruach_efficiency_beta()" ] },
+      {
+        "math": [
+          "u_lilin_mesmerize_duration",
+          "=",
+          "rng( ( 48 + (n_vitamin('lilin_ruach_vitamin') / 13 ) + (n_has_trait('BEAUTIFUL3') * rng(60,180) ) ),( 96 + (n_vitamin('lilin_ruach_vitamin') / 27 ) + (n_has_trait('BEAUTIFUL3') * rng(120,360) ) ) )"
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_MESMERIZE_TARGET_2",
+            "condition": "u_is_character",
+            "//": "If you're not totally immune, there's always a chance mesmerism will work",
+            "effect": [
+              {
+                "if": { "not": { "u_has_worn_with_flag": "WARDING_SYMBOL" } },
+                "then": [
+                  { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                  {
+                    "u_add_effect": "effect_lilin_mesmerize_tracker",
+                    "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                  },
+                  { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                ],
+                "else": { "npc_message": "Your target's protective charm means the beguilement fails to take effect!", "type": "bad" }
+              }
+            ],
+            "false_effect": [
+              {
+                "if": { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "RENFIELD" }, { "u_has_species": "CYBORG" } ] },
+                "then": [
+                  { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                  {
+                    "u_add_effect": "effect_lilin_mesmerize_tracker",
+                    "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                  },
+                  { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_species": "BIRD" } ] },
+                  "then": [
+                    { "math": [ "u_lilin_mesmerize_duration = u_lilin_mesmerize_duration * 2" ] },
+                    { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                    {
+                      "u_add_effect": "effect_lilin_mesmerize_tracker",
+                      "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                    },
+                    { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                  ],
+                  "else": {
+                    "if": {
+                      "or": [
+                        { "u_has_species": "IERDE" },
+                        { "u_has_species": "ARVORE" },
+                        { "u_has_species": "UNDINE" },
+                        { "u_has_species": "SYLPH" },
+                        { "u_has_species": "SALAMANDER" },
+                        { "u_has_species": "VAMPIRE" }
+                      ]
+                    },
+                    "then": [
+                      { "math": [ "u_lilin_mesmerize_duration = u_lilin_mesmerize_duration * 0.75" ] },
+                      { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
+                      {
+                        "u_add_effect": "effect_lilin_mesmerize_tracker",
+                        "duration": { "math": [ "u_lilin_mesmerize_duration" ] }
+                      },
+                      { "npc_message": "You beguile <u_name> and they stand in a daze.", "type": "good" }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERISM_REMOVAL_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_MESMERISM_REMOVAL_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "stunned" }, { "u_has_effect": "effect_lilin_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_lilin_mesmerize_tracker" }, { "u_lose_effect": "stunned" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_AOE_DAZE",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 160 * lilin_has_ruach_efficiency()" ] },
+    "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "160 * lilin_has_ruach_efficiency()" ] },
+      { "u_cast_spell": { "id": "lilin_aoe_daze_spell_real", "hit_self": false } },
+      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
+      { "u_make_sound": "You let out a piercing cry!", "type": "alert", "volume": 20 },
+      { "u_message": "You let out a piercing cry!", "type": "neutral" }
+    ],
+    "false_effect": { "u_message": "You don't have enough ruach to let out the night-cry!", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_AOE_LINE_DISEASE",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 240" ] },
+        "then": [
+          { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+          { "npc_message": "You summon a wind filled with pestilence.", "type": "neutral" },
+          {
+            "u_add_effect": "effect_lilin_supernatural_disease",
+            "duration": [
+              {
+                "math": [
+                  "1 + ( (n_vitamin('lilin_ruach_vitamin') * 0.09) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+                ]
+              },
+              {
+                "math": [
+                  "15 + ( (n_vitamin('lilin_ruach_vitamin') * 0.24) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "npc_message": "You don't have enough ruach to summon the miasma!", "type": "bad" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_DISEASE_ENHANCEMENT_DAMAGE",
+    "condition": { "math": [ "n_vitamin('lilin_ruach_vitamin') >= 180 * lilin_has_ruach_efficiency_beta()" ] },
+    "effect": [
+      { "math": [ "n_vitamin('lilin_ruach_vitamin')", "-=", "180 * lilin_has_ruach_efficiency_beta()" ] },
+      { "npc_message": "You infuse your ruach into the plague-infected <u_name>.", "type": "neutral" },
+      {
+        "u_add_effect": "effect_lilin_supernatural_disease_focused",
+        "duration": [
+          {
+            "math": [
+              "1 + ( (n_vitamin('lilin_ruach_vitamin') * 0.03) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+            ]
+          },
+          {
+            "math": [
+              "15 + ( (n_vitamin('lilin_ruach_vitamin') * 0.09) * ( (n_has_trait('INFIMMUNE') * 0.25) + 1) * ( (n_has_trait('DISIMMUNE') * 0.25) + 1) * ( (n_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+            ]
+          }
+        ]
+      },
+      {
+        "if": "u_is_character",
+        "then": [
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(4,8) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] },
+            "bodypart": "leg_l"
+          }
+        ],
+        "else": [
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "rng(10,35) * max( (n_vitamin('lilin_ruach_vitamin') / 3000), 1)" ] }
+          }
+        ]
+      }
+    ],
+    "false_effect": { "npc_message": "You don't have enough ruach to enhance the miasma around <u_name>!", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_AVOID_SLEEP",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 300 * lilin_has_ruach_efficiency()" ] },
+    "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300 * lilin_has_ruach_efficiency()" ] },
+      { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
+      { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness') = 0" ] } },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
+      { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough ruach to spare any to alleviate your tiredness.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240 * lilin_has_ruach_efficiency()" ] },
+              { "u_message": "A thick fog begins to rise.", "type": "neutral" },
+              { "math": [ "magic_weather_dense_fog = 1" ] },
+              { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
+              { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+              {
+                "run_eocs": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+                "time_in_future": [
+                  {
+                    "math": [
+                      "450 + (u_vitamin('lilin_ruach_vitamin') / 10) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 360)"
+                    ]
+                  },
+                  {
+                    "math": [
+                      "1800 + (u_vitamin('lilin_ruach_vitamin') / 3) + ( ( moon_phase() > 4 ? moon_phase() - 4 : (moon_phase() - 4) * -1) * 600)"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [ { "u_message": "You don't have enough ruach to call a fog.", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
+    "effect": [
+      { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_SPEED_BOOST",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360 * lilin_has_ruach_efficiency()" ] },
+    "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
+      {
+        "u_add_effect": "effect_lilin_speed_boost",
+        "duration": {
+          "math": [
+            "(15 + (u_has_trait('THRESH_LILIN') * 15) + (u_vitamin('lilin_ruach_vitamin') / 24)) * (u_effect_intensity('effect_lilin_attribute_bonuses') > 0 ? 1.25 : 1) * (u_effect_intensity('effect_lilin_limb_score_bonuses_at_night') > 0 ? 1.25 : 1)"
+          ]
+        }
+      },
+      { "u_message": "The world around you slows down immensely.", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough ruach to reap the whirlwind.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_SPEED_BOOST_UNCANNY_DODGE_ON",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "effect_lilin_speed_boost", { "context_val": "effect" } ] },
+        { "u_has_trait": "LILIN_UNCANNY_DODGE_WHILE_REAPING" }
+      ]
+    },
+    "effect": [ { "u_add_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_SPEED_BOOST_UNCANNY_DODGE_OFF",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "effect_lilin_speed_boost", { "context_val": "effect" } ] },
+        { "u_has_trait": "LILIN_UNCANNY_DODGE_WHILE_REAPING" }
+      ]
+    },
+    "effect": [ { "u_lose_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_INSTANT_HEAL",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": "is_day" },
+        { "not": { "math": [ "moon_phase() == 0" ] } },
+        { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_INSTANT_HEAL_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1200 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "1200 * lilin_has_ruach_efficiency()" ] },
+              { "npc_message": "Your wounded flesh knits together in moments.", "type": "neutral" },
+              {
+                "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+                "then": { "math": [ "u_hp('torso')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              },
+              {
+                "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] },
+                "then": { "math": [ "u_hp('head')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              },
+              {
+                "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+                "then": { "math": [ "u_hp('arm_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              },
+              {
+                "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+                "then": { "math": [ "u_hp('arm_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              },
+              {
+                "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+                "then": { "math": [ "u_hp('leg_l')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              },
+              {
+                "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+                "then": { "math": [ "u_hp('leg_r')", "+=", "25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] }
+              }
+            ],
+            "false_effect": { "u_message": "You don't have enough ruach to heal yourself!", "type": "bad" }
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "math": [ "moon_phase() == 0" ] },
+        "then": { "u_message": "You cannot heal yourself during the new moon!", "type": "bad" },
+        "else": {
+          "if": { "or": [ { "not": "u_is_outside" }, "is_day" ] },
+          "then": { "u_message": "You must be outside in direct moonlight to heal yourself!", "type": "bad" },
+          "else": {
+            "if": { "not": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } },
+            "then": { "u_message": "The moon is obscured by clouds and you cannot draw on its light to heal yourself!", "type": "bad" },
+            "else": { "u_message": "[Debug] For some unknown reason you cannot heal yourself.", "type": "bad" }
+          }
+        }
+      }
+    ]
+  }
+]

@@ -86,18 +86,25 @@ struct MonsterGroupResult {
     }
 };
 
+/**
+ * MonsterGroup is a theoretical distribution of monsters to spawn, as opposed to a mongroup which is an instance of group of monsters to be spawned together.
+*/
 struct MonsterGroup {
     mongroup_id name;
     mtype_id defaultMonster;
     FreqDef monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
     bool is_animal = false;
-    // replaces this group after a period of
-    // time when exploring an unexplored portion of the map
+
+    /*replaces this group after a period of time when exploring an unexplored portion of the map. Used for monster evolution. */
     bool replace_monster_group = false;
+    /* The monster group to replace this if replace_monster_group == true. */
     mongroup_id new_monster_group;
+    /* Time until replacement if replace_monster_group == true. */
     time_duration monster_group_time = 0_turns;
-    bool is_safe = false; /// Used for @ref mongroup::is_safe()
+
+    /** Encapsulated by mongroup::is_safe(), but currently not used anywhere.*/
+    bool is_safe = false;
     int freq_total = 0; // max number to roll for spawns (non-event)
     std::map<holiday, int> event_freq; // total freq for each event
     // Get the total frequency of entries that are valid for the specified event.
@@ -105,7 +112,13 @@ struct MonsterGroup {
     int event_adjusted_freq_total( holiday event = holiday::num_holiday ) const;
 };
 
+/**
+ * A mongroup is a group of monsters that are spawned together. There are two uses for mongroups:
+ * 1. spawning new monsters.
+ * 2. unload monsters out of sight of the player into hordes and spawn them back in when the player is close enough.
+ */
 struct mongroup {
+    /** The type of the mongroup, which is only used to spawn new monsters and not for hordes. */
     mongroup_id type;
     /** The monsters vector will be ignored if the vector is empty.
      *  Otherwise it will keep track of the individual monsters that
@@ -115,12 +128,25 @@ struct mongroup {
     std::vector<monster> monsters;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
-    tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
+
+    /** position of the mongroup in absolute submap coordinates*/
+    tripoint_abs_sm abs_pos;
+
+    /**
+     * Number of monsters in the group. If the monsters vector is not empty, this will be ignored.
+     */
     unsigned int population = 1;
-    point_abs_sm target; // location the horde is interested in.
-    point_abs_sm nemesis_target; // abs target for nemesis hordes
-    int interest = 0; //interest to target in percents
+
+    /** location the horde is interested in. Do not set this directly, use set_target instead. */
+    point_abs_sm target;
+    /** abs target for nemesis hordes. */
+    point_abs_sm nemesis_target; //
+    /** interest to target in percents. Used to determine movement speed(overmap::move_hordes), or reaction to signal sources(overmap::signal_hordes), etc.*/
+    int interest = 0;
+
+    /** If true, overmap::process_mongroups decreases the population by a fixed ratio every time the function is called. */
     bool dying = false;
+    /** If false, this group is not a horde, and instead is likely an attempt to spawn new monsters through map::spawn_monsters_submap from overmap_buffer. */
     bool horde = false;
 
     enum class horde_behaviour : short {
@@ -157,18 +183,32 @@ struct mongroup {
         nemesis_target = p;
     }
     void wander( const overmap & );
+
+    /**
+     * This function increases the interest of the group, but ensures that it does not exceed 100 percent.
+     *
+     */
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {
             interest = 100;
         }
     }
+
+    /**
+     * This function decreases the interest of the group, but ensures that it does not fall below 15 percent.
+     *
+     */
     void dec_interest( int dec ) {
         interest -= dec;
         if( interest < 15 ) {
             interest = 15;
         }
     }
+    /**
+     * This function sets the interest of the group, but ensures that it does not fall below 15 percent or exceed 100 percent.
+     *
+     */
     void set_interest( int set ) {
         if( set < 15 ) {
             set = 15;
@@ -223,6 +263,9 @@ class MonsterGroupManager
         static bool monster_is_blacklisted( const mtype_id &m );
 
         static bool is_animal( const mongroup_id &group );
+
+        // Public getter for private monsterGroupMap, do not use if you don't know what you're doing.
+        static std::map<mongroup_id, MonsterGroup> &Get_all_Groups();
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

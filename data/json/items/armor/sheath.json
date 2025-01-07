@@ -113,7 +113,7 @@
     "id": "leg_sheath6",
     "type": "ARMOR",
     "name": { "str": "throwing knives leg sheath" },
-    "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very small knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
+    "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very thin knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
     "volume": "1000 ml",
     "price": "52 USD",
@@ -132,7 +132,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -141,7 +141,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -150,7 +150,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -159,7 +159,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -168,7 +168,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       },
       {
         "magazine_well": "50 ml",
@@ -177,7 +177,7 @@
         "moves": 30,
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "10 cm"
+        "max_item_length": "35 cm"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
@@ -286,7 +286,6 @@
     "volume": "500 ml",
     "price": "52 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -326,7 +325,6 @@
     "volume": "500 ml",
     "price": "12 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "bootsheath",
@@ -546,7 +544,6 @@
     "volume": "500 ml",
     "price": "52 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bscabbard",

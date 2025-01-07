@@ -1,13 +1,12 @@
 [
   {
     "id": "helmet_nomad",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "nomad cowl" },
-    "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
+    "description": "A denim cowl with additional leather padding stitched onto the head with integrated protection from a plastic visor, sun brim, and filter cartridge intake, designed for long travels.  The design includes some clever shaping that allows it to offer a lot of coverage without interfering too much with vision and breathing.",
     "weight": "470 g",
     "volume": "2500 ml",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "denim", "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -37,7 +36,7 @@
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "denim", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 5
@@ -46,7 +45,19 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "PADDED" ]
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "ammo": "gasfilter_s",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
   },
   {
     "id": "xl_helmet_nomad",
@@ -74,8 +85,7 @@
     "volume": "2 L",
     "price": "580 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "leather" ],
+    "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "brown",
@@ -84,8 +94,7 @@
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_wsurvivor",
@@ -97,8 +106,7 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "fur" ],
+    "material": [ "kevlar", "fur" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
@@ -106,8 +114,7 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_wsurvivor",
@@ -151,8 +158,7 @@
     "volume": "750 ml",
     "price": "580 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -1,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "green",
@@ -160,8 +166,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_lsurvivor",
@@ -185,7 +190,7 @@
     "name": { "str": "winter faux fur survivor hood" },
     "description": "A customized armored Kevlar hood.  Warm thanks to the faux-fur lining.",
     "copy-from": "hood_wsurvivor",
-    "material": [ "kevlar_layered", "faux_fur" ],
+    "material": [ "kevlar", "faux_fur" ],
     "symbol": "[",
     "warmth": 65,
     "looks_like": "hood_survivor",
@@ -195,7 +200,7 @@
     "id": "xl_hood_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
-    "material": [ "kevlar_layered", "faux_fur" ],
+    "material": [ "kevlar", "faux_fur" ],
     "color": "pink",
     "warmth": 65,
     "name": { "str": "winter faux fur survivor hood" },
@@ -221,7 +226,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -241,7 +245,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -300,7 +303,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -320,7 +322,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -378,7 +379,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -398,7 +398,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -447,26 +446,62 @@
   },
   {
     "id": "helmet_scavenger",
-    "type": "ARMOR",
-    "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "type": "TOOL_ARMOR",
+    "//": "I based these changes on the OKZK cap, as a general design but with a few changes and considerations. I removed the ballistic kevlar primarily due to it being unsuitable for headwear",
+    "name": { "str": "mercenary cowl" },
+    "description": "A sturdy canvas hat and cowl extending down to the neck, fitted with a shade brim, plastic eye visor and integrated filter cartridge intake built into the mouth section.  Provides smoke protection, and is cleverly designed to be relatively unencumbering and protective.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": "550 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -3,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape", "head_ear_l", "head_ear_r", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 16
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
     ],
-    "warmth": 40,
-    "material_thickness": 3,
-    "environmental_protection": 7,
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
+    "warmth": 15,
+    "material_thickness": 2,
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "ammo": "gasfilter_s",
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES", "RAINPROOF", "PADDED" ]
   },
   {
     "id": "xl_helmet_scavenger",

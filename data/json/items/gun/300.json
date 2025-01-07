@@ -114,7 +114,6 @@
     "barrel_length": "660 mm",
     "price": "2 kUSD 539 USD",
     "price_postapoc": "55 USD",
-    "to_hit": -2,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "-",
     "color": "black",

@@ -29,9 +29,9 @@ bool Character::knows_recipe( const recipe *rec ) const
     return get_learned_recipes().contains( rec );
 }
 
-void Character::learn_recipe( const recipe *const rec )
+void Character::learn_recipe( const recipe *const rec, bool override_never_learn )
 {
-    if( rec->never_learn ) {
+    if( rec->never_learn && !override_never_learn ) {
         return;
     }
     learned_recipes->include( rec );

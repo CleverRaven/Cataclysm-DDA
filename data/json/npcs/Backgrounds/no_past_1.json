@@ -11,7 +11,7 @@
     "dynamic_line": "I don't really want to talk about the time before, you know?",
     "responses": [
       { "text": "Keep it vague if you want, but please, can you fill me in a little?", "topic": "CWH_NO_PAST_1_IDEAS2" },
-      { "text": "Never mind then.", "topic": "TALK_FRIEND_CONVERSATION" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {

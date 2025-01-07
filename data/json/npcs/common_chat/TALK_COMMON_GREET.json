@@ -72,25 +72,25 @@
     "id": "TALK_STRANGER_FRIENDLY",
     "type": "talk_topic",
     "dynamic_line": "Hey there, <name_g>.",
-    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_STRANGER_NEUTRAL",
     "type": "talk_topic",
     "dynamic_line": "Hello there.",
-    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_STRANGER_WARY",
     "type": "talk_topic",
     "dynamic_line": "Okay, no sudden movements…",
-    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_STRANGER_SCARED",
     "type": "talk_topic",
     "dynamic_line": "Keep your distance!",
-    "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_STRANGER_AGGRESSIVE",

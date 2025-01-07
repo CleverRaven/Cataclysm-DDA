@@ -8,7 +8,10 @@
 
 #include "ammo_effect.h"
 #include "character.h"
+#include "condition.h"
+#include "creature_tracker.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
@@ -114,7 +117,7 @@ void projectile::unset_custom_explosion()
     custom_explosion.reset();
 }
 
-static void foamcrete_build( const tripoint &p )
+static void foamcrete_build( const tripoint_bub_ms &p )
 {
     map &here = get_map();
 
@@ -125,7 +128,7 @@ static void foamcrete_build( const tripoint &p )
     }
 
     if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-        for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &ep : here.points_in_radius( p, 1 ) ) {
             if( here.has_flag_ter( ter_furn_flag::TFLAG_SUPPORTS_ROOF, ep ) ) {
                 here.ter_set( p, ter_t_foamcrete_floor );
                 here.add_field( p, field_fd_foamcrete, 1 );
@@ -141,8 +144,8 @@ static void foamcrete_build( const tripoint &p )
     }
 }
 
-void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<ammo_effect_str_id> &effects )
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
+                         const std::set<ammo_effect_str_id> &effects, const int dealt_damage )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -152,7 +155,8 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             continue;
         }
         if( effects.count( ae.id ) > 0 ) {
-            for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( const tripoint_bub_ms &pt : here.points_in_radius( p, ae.aoe_radius,
+                    ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
@@ -186,11 +190,24 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             if( ae.foamcrete_build ) {
                 foamcrete_build( p );
             }
+
+            //run EoCs
+            for( const effect_on_condition_id &eoc : ae.eoc ) {
+                Creature *critter = get_creature_tracker().creature_at( p );
+                dialogue d( get_talker_for( *source ), critter == nullptr ? nullptr : get_talker_for( critter ) );
+                // `p` is tripoint relative to the upper left corner of currently loaded overmap
+                // not very useful for player's purposes methinks, but much appreciated
+                // write_var_value( var_type::context, "proj_target_tripoint", &d, p.abs().to_string());
+                write_var_value( var_type::context, "proj_damage", &d, dealt_damage );
+                eoc->activate( d );
+            }
             //cast ammo effect spells
             const spell ammo_spell = ae.spell_data.get_spell();
             if( ammo_spell.is_valid() ) {
-                ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
-                ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+                if( ae.always_cast_spell || dealt_damage > 0 ) {
+                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
+                    ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+                }
             }
         }
     }

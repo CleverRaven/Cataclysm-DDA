@@ -231,6 +231,7 @@
       "target": "exosuit_power_cutter",
       "msg": "Your power cutter falls quiet.",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "type": "transform"
     },
     "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],

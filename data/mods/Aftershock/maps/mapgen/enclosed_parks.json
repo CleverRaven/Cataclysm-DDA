@@ -32,7 +32,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
-      "terrain": { "=": "t_wall_clearcrete_h_alarm", "1": "t_door_metal_c" },
+      "terrain": { "=": "t_wall_clearcrete_alarm", "1": "t_door_metal_c" },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
       "place_nested": [
         { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 0 },
@@ -85,7 +85,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure" ],
-      "terrain": { ".": "t_flat_roof", "=": "t_wall_clearcrete_h_alarm", " ": "t_open_air" }
+      "terrain": { ".": "t_flat_roof", "=": "t_wall_clearcrete_alarm", " ": "t_open_air" }
     }
   },
   {

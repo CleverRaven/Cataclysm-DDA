@@ -22,7 +22,7 @@ intuitive.
 
 If you are interested in learning about guns and enjoy doing that, the learning
 that is required to understand guns is an interesting experience. If you're
-just here to try your hand at surviving the cataclysm, and don't care to learn
+just here to try your hand at surviving the Cataclysm, and don't care to learn
 much about guns, it's just an obstacle to understanding how to use guns.
 Because of the significant tactical role of guns in the game, this obstacle
 matters in how approachable the game is. If guns are hard to understand, it's
@@ -75,7 +75,7 @@ added as variants instead of distinct items.
 
 ## Rarity Threshold
 
-Pre-cataclysm firearms from the same dimension in which the game takes place in
+Pre-Cataclysm firearms from the same dimension in which the game takes place in
 can be broadly divided into 5 categories: civilian, civilian
 NFA(non-machinegun), civilian machineguns, police, and military
 

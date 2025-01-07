@@ -6,19 +6,18 @@
     "name": "Samsara",
     "description": "You tie your ley lines to the world's, renewing your flesh as if reborn.",
     "valid_targets": [ "self" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "effect": "attack",
     "effect_str": "cureall",
     "shape": "blast",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(60000, 100)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": 60000,
+    "base_energy_cost": 800,
     "energy_source": "MANA",
     "difficulty": 8,
-    "min_damage": -20,
-    "max_damage": -200,
-    "damage_increment": -4.5,
+    "min_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -1.6) - 5" ] },
+    "max_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -4) - 12" ] },
     "max_level": 40,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "dust_reborn",
@@ -30,10 +29,10 @@
     "effect_str": "EOC_DUST_REBORN_INITIAL",
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2160000, 1000)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 20)" ] },
+    "base_casting_time": 2160000,
+    "base_energy_cost": 1000,
     "energy_source": "MANA",
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GAIAS_CHOSEN",
     "difficulty": 0,
     "max_level": 0
@@ -48,14 +47,14 @@
     "effect_str": "effect_terra_armor",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "shape": "blast",
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(550, 2)" ] },
+    "base_casting_time": 550,
     "base_energy_cost": 750,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(50000, 120000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1800000, 120000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(50000, 0.03)" ] },
+    "min_duration": 50000,
+    "max_duration": 1800000,
+    "duration_increment": 50000,
     "difficulty": 7,
     "max_level": 35,
-    "flags": [ "SOMATIC" ],
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC" ],
     "spell_class": "GAIAS_CHOSEN",
     "energy_source": "MANA"
   },
@@ -65,20 +64,6 @@
     "name": [ "Terra Armor" ],
     "desc": [ "Your body is covered in dense, ethereal shell, that protect you." ],
     "remove_message": "Your lost your terra shell.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_ACID", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } } ] } ]
   }
 ]

@@ -64,7 +64,7 @@
     "looks_like": "t_wall_glass",
     "name": "warpglass wall",
     "description": "A shimmering translucent barrier that almost yields to the touch, but adamantly refuses entry.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
@@ -176,7 +176,7 @@
     "name": "warped rock",
     "looks_like": "t_rock",
     "description": "A sparkly-black stone that's glassy smooth to the touch.  Seems indestructible by normal means.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
@@ -185,5 +185,100 @@
     "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": { "str_min": 4000, "str_max": 5000, "sound": "crash!", "sound_fail": "glzt!", "ter_set": "t_warprock" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_si_autodoc_2",
+    "name": "Warped Autodoc Mk. XXII",
+    "symbol": "&",
+    "description": "A surgical apparatus used for the installation and removal of bionics.  The term name 'Autodoc' is something of a misnomer, as it can only operate if programmed beforehand, something that a plethora of labels warn against doing without expertise.  Bluish-purple sparks occasionally emit from some of the mechanisms.",
+    "color": "light_cyan",
+    "looks_like": "f_autodoc",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 2.5,
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_si_autodoc_3",
+    "name": "Warped Autodoc Mk. XXXIII",
+    "symbol": "&",
+    "description": "A surgical apparatus used for the installation and removal of bionics.  The term name 'Autodoc' is something of a misnomer, as it can only operate if programmed beforehand, something that a plethora of labels warn against doing without expertise.  Bluish-purple sparks frequently emit from some of the mechanisms, and the entire machine has a faint violet glow.",
+    "color": "light_cyan",
+    "looks_like": "f_autodoc",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
+    "examine_action": "autodoc",
+    "light_emitted": 3,
+    "surgery_skill_multiplier": 8,
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
   }
 ]

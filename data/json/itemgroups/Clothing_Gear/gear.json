@@ -23,7 +23,7 @@
   {
     "id": "gasmask_inserts_in_use",
     "type": "item_group",
-    "//": "Accessories grouped together for use as pre-installed spawnes within gas masks.",
+    "//": "Accessories grouped together for use as pre-installed spawns within gas masks.",
     "subtype": "distribution",
     "items": [
       {
@@ -172,7 +172,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
@@ -186,7 +186,7 @@
     "items": [
       { "item": "EOD_hotstick", "prob": 50 },
       { "item": "multitool", "container-item": "sheath", "prob": 30 },
-      { "item": "light_disposable_cell", "prob": 30, "count": [ 1, 8 ] },
+      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 8 ] },
       { "item": "light_minus_disposable_cell", "prob": 20, "count": [ 1, 6 ] },
       { "item": "cordless_drill", "prob": 30 },
       { "item": "rope_30", "prob": 50 },
@@ -255,8 +255,8 @@
       [ "hammer_sledge_engineer", 5 ],
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
-      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ] },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],

@@ -172,11 +172,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h" />
-    <ClInclude Include="..\src\messages.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
-    <ClCompile Include="..\src\messages.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="flatbuffers.vcxproj">

@@ -4,13 +4,11 @@
     "name": "GROUP_TERMITES",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_termite_nymph", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_termite_alate", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_termite_soldier", "weight": 90, "cost_multiplier": 5 },
-      { "monster": "mon_termite_shooter", "weight": 90, "cost_multiplier": 5 },
-      { "monster": "mon_termite_queen", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_termite_king", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_termite_worker", "weight": 870, "cost_multiplier": 0 }
+      { "monster": "mon_termite_nymph", "weight": 4, "cost_multiplier": 0 },
+      { "monster": "mon_termite_alate", "weight": 4, "cost_multiplier": 0 },
+      { "monster": "mon_termite_soldier", "weight": 9, "cost_multiplier": 5 },
+      { "monster": "mon_termite_shooter", "weight": 9, "cost_multiplier": 5 },
+      { "monster": "mon_termite_worker", "weight": 87, "cost_multiplier": 0 }
     ]
   },
   {
@@ -28,7 +26,7 @@
     "type": "monstergroup",
     "name": "GROUP_TERMITE_ALATE",
     "default": "mon_termite_queen",
-    "monsters": [ { "monster": "mon_termite_king", "weight": 50 }, { "monster": "mon_termite_queen", "weight": 50 } ]
+    "monsters": [ { "monster": "mon_termite_king" }, { "monster": "mon_termite_queen" } ]
   },
   {
     "type": "monstergroup",
@@ -38,6 +36,20 @@
       { "monster": "mon_termite_soldier", "weight": 35 },
       { "monster": "mon_termite_shooter", "weight": 35 },
       { "monster": "mon_termite_alate", "weight": 30, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SCORPION",
+    "monsters": [ { "monster": "mon_large_scorpion", "ends": "45 days" }, { "monster": "mon_scorpion_giant", "starts": "30 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ONICOPHORE",
+    "monsters": [
+      { "monster": "mon_onicophore_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_onicophore", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_onicophore_giant", "weight": 2, "starts": "72 days" }
     ]
   }
 ]

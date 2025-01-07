@@ -318,6 +318,7 @@
     "required_level": 4,
     "max_level": 5,
     "intelligence": 9,
+    "time": "25 m",
     "symbol": "?",
     "color": "light_gray"
   }

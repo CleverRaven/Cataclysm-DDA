@@ -8,7 +8,6 @@
     "volume": "2 L",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -27,7 +26,6 @@
     "longest_side": "50 cm",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "dry_plant" ],
     "symbol": ";",
     "color": "brown",
@@ -47,8 +45,7 @@
     "price_postapoc": "25 cent",
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "cyan",
-    "melee_damage": { "cut": 3 }
+    "color": "cyan"
   },
   {
     "id": "fishing_hook_bone",
@@ -61,8 +58,7 @@
     "price_postapoc": "25 cent",
     "material": [ "bone" ],
     "symbol": ",",
-    "color": "white",
-    "melee_damage": { "cut": 3 }
+    "color": "white"
   },
   {
     "id": "fishing_rod_basic",
@@ -76,10 +72,10 @@
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -103,8 +99,8 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 6, "cut": 1 }
   },
   {
     "id": "fishing_rod_2pc_packed",
@@ -146,7 +142,7 @@
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "SHEATH_SPEAR", "REACH_ATTACK" ] },
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Disassemble",
@@ -154,7 +150,7 @@
       "target": "fishing_rod_2pc_packed",
       "msg": "You take apart your two-piece fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "fishing_rod_tele_packed",
@@ -174,6 +170,7 @@
       { "type": "cotton", "portion": 4 },
       { "type": "fiberglass", "portion": 4 }
     ],
+    "flags": [ "BELT_CLIP" ],
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "PR24-retracted",
@@ -195,7 +192,7 @@
     "longest_side": "210 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "looks_like": "fishing_rod_professional",
     "use_action": {
       "menu_text": "Retract",
@@ -203,7 +200,7 @@
       "target": "fishing_rod_tele_packed",
       "msg": "You retract your telescoping fishing rod."
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "plastichoboreel",
@@ -215,9 +212,9 @@
     "weight": "400 g",
     "volume": "400 ml",
     "longest_side": "158 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "13 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "black",
@@ -233,10 +230,11 @@
     "weight": "500 g",
     "volume": "380 ml",
     "longest_side": "150 mm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "35 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wood" ],
+    "flags": [ "FIREWOOD" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],

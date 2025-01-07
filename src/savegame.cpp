@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 33;
+const int savegame_version = 36;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -112,9 +112,9 @@ void game::serialize( std::ostream &fout )
     json.member( "om_x", pos_om.x() );
     json.member( "om_y", pos_om.y() );
     // view offset
-    json.member( "view_offset_x", u.view_offset.x );
-    json.member( "view_offset_y", u.view_offset.y );
-    json.member( "view_offset_z", u.view_offset.z );
+    json.member( "view_offset_x", u.view_offset.x() );
+    json.member( "view_offset_y", u.view_offset.y() );
+    json.member( "view_offset_z", u.view_offset.z() );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -229,9 +229,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        data.read( "view_offset_x", u.view_offset.x );
-        data.read( "view_offset_y", u.view_offset.y );
-        data.read( "view_offset_z", u.view_offset.z );
+        data.read( "view_offset_x", u.view_offset.x() );
+        data.read( "view_offset_y", u.view_offset.y() );
+        data.read( "view_offset_z", u.view_offset.z() );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
@@ -513,6 +513,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "city_tiles" ) {
+            om_member.read( city_tiles );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -536,7 +538,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         } else if( name == "radios" ) {
             JsonArray radios_json = om_member;
             for( JsonObject radio_json : radios_json ) {
-                radio_tower new_radio{ point_om_sm( point_min ) };
+                radio_tower new_radio{ point_om_sm::invalid };
                 for( JsonMember radio_member : radio_json ) {
                     const std::string radio_member_name = radio_member.name();
                     if( radio_member_name == "type" ) {
@@ -755,7 +757,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     JsonObject jo = ja.next_object();
 
     std::string type;
-    point_abs_om om_pos( point_min );
+    point_abs_om om_pos = point_abs_om::invalid;
     int z = 0;
 
     jo.read( "type", type );
@@ -932,7 +934,19 @@ void overmap::unserialize_view( const JsonObject &jsobj )
             JsonArray visible_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 JsonArray visible_by_z_json = visible_json.next_array();
-                unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                if( savegame_loading_version < 34 ) {
+                    cata::mdarray<bool, point_om_omt> old_vision;
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, old_vision );
+                    for( int y = 0; y < OMAPY; ++y ) {
+                        for( int x = 0; x < OMAPX; ++x ) {
+                            point_om_omt idx( x, y );
+                            layer[z].visible[idx] = old_vision[idx] ? om_vision_level::full :
+                                                    om_vision_level::unseen;
+                        }
+                    }
+                } else {
+                    unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                }
                 if( visible_by_z_json.has_more() ) {
                     visible_by_z_json.throw_error( "Too many sequences for z visible view" );
                 }
@@ -996,6 +1010,33 @@ void overmap::unserialize_view( const JsonObject &jsobj )
     }
 }
 template<typename MdArray>
+static void serialize_enum_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
+{
+    using enum_type = typename MdArray::value_type;
+    int count = 0;
+    enum_type lastval = enum_traits<enum_type>::last;
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const enum_type value = array[i][j];
+            if( value == lastval ) {
+                ++count;
+                continue;
+            }
+            if( count != 0 ) {
+                json.write( count );
+                json.end_array();
+            }
+            lastval = value;
+            json.start_array();
+            json.write( value );
+            count = 1;
+        }
+    }
+    json.write( count );
+    json.end_array();
+}
+
+template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
     static_assert( std::is_same_v<typename MdArray::value_type, bool>,
@@ -1035,7 +1076,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        serialize_array_to_compacted_sequence( json, layer[z].visible );
+        serialize_enum_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
         fout << std::endl;
     }
@@ -1210,6 +1251,9 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
     }
     json.end_array();
+    fout << std::endl;
+
+    json.member( "city_tiles", city_tiles );
     fout << std::endl;
 
     json.member( "connections_out", connections_out );
@@ -1506,6 +1550,7 @@ void weather_manager::unserialize_all( const JsonObject &w )
 
 void global_variables::unserialize( JsonObject &jo )
 {
+    // global variables
     jo.read( "global_vals", global_values );
     // potentially migrate some variable names
     for( std::pair<std::string, std::string> migration : migrations ) {
@@ -1515,6 +1560,8 @@ void global_variables::unserialize( JsonObject &jo )
             global_values.insert( std::move( extracted ) );
         }
     }
+
+    game::legacy_migrate_npctalk_var_prefix( global_values );
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1537,7 +1584,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "type", type );
         jo.read( "when", when );
         jo.read( "key", key );
-        point pt;
+        point_sm_ms pt;
         if( jo.has_string( "revert" ) ) {
             revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
         } else {
@@ -1555,9 +1602,9 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 }
                 // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
                 if( !jp.has_member( "point" ) ) {
-                    if( pt.x++ < SEEX ) {
-                        pt.x = 0;
-                        pt.y++;
+                    if( pt.x()++ < SEEX ) {
+                        pt.x() = 0;
+                        pt.y()++;
                     }
                 }
             }
@@ -1636,14 +1683,14 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         if( elem.revert.is_uniform() ) {
-            jsout.member( "revert", elem.revert.get_ter( point_zero ) );
+            jsout.member( "revert", elem.revert.get_ter( point_sm_ms::zero ) );
         } else {
             jsout.member( "revert" );
             jsout.start_array();
             for( int y = 0; y < SEEY; y++ ) {
                 for( int x = 0; x < SEEX; x++ ) {
                     jsout.start_object();
-                    point pt( x, y );
+                    point_sm_ms pt( x, y );
                     jsout.member( "point", pt );
                     jsout.member( "furn", elem.revert.get_furn( pt ) );
                     jsout.member( "ter", elem.revert.get_ter( pt ) );
@@ -1794,6 +1841,8 @@ void npc::import_and_clean( const JsonObject &data )
     companion_mission_points = defaults.companion_mission_points;
     companion_mission_time = defaults.companion_mission_time;
     companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_exertion = defaults.companion_mission_exertion;
+    companion_mission_travel_time = defaults.companion_mission_travel_time;
     companion_mission_inv.clear();
     chatbin.missions.clear();
     chatbin.missions_assigned.clear();

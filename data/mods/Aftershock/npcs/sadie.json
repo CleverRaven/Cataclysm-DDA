@@ -20,8 +20,7 @@
     "type": "talk_topic",
     "id": "TALK_Sadie_1",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_sadie",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ],
       "yes": [
         "Are we meeting again or did we already do that part?",
         "You remind me of my friend Billy.",
@@ -35,36 +34,36 @@
       {
         "text": "What, who is Billy?",
         "effect": { "u_add_var": "general_meeting_u_met_sadie", "value": "yes" },
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_sadie", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] } },
         "topic": "TALK_sadie_firstmeet"
       },
       {
         "text": "Die foul creature!",
         "effect": [ { "u_add_var": "general_meeting_u_met_sadie", "value": "yes" }, "insult_combat" ],
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_sadie", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What did you just inject me with?",
-        "condition": { "u_has_var": "general_injection_sadie_injection", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_injection_sadie_injection" } ] },
         "topic": "TALK_sadie_injection"
       },
       {
         "text": "Would you like to come with me Sadie?",
         "topic": "TALK_sadie_follow",
-        "condition": { "and": [ { "not": "npc_following" }, { "u_has_var": "general_heart_sadie_heart", "value": "yes" } ] }
+        "condition": { "and": [ { "not": "npc_following" }, { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } ] }
       },
       {
         "text": "Can you inject me with whatever that was again?",
-        "condition": { "u_has_var": "general_heart_sadie_heart", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] },
         "topic": "TALK_sadie_injection2"
       },
       {
         "text": "How did you get here?",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_sadie", "value": "yes" },
-            { "not": { "u_has_var": "general_heart_sadie_heart", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } }
           ]
         },
         "topic": "TALK_sadie_ask_past"
@@ -73,15 +72,15 @@
         "text": "How are things here?",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_sadie", "value": "yes" },
-            { "not": { "u_has_var": "general_heart_sadie_heart", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_heart_sadie_heart" } ] } }
           ]
         },
         "topic": "TALK_sadie_ask_mood"
       },
       {
         "text": "Can I do anything for you?",
-        "condition": { "u_has_var": "general_meeting_u_met_sadie", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
@@ -149,8 +148,7 @@
     "id": "TALK_sadie_follow",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_free_u_freed_sadie",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ],
       "no": [
         "I can't wait to see how wonderful the world must be.  I've heard the shrieking and moaning and cries for help and I just know it's going to be perfect if everyone out there is as sweet and loving as you and Billy."
       ],
@@ -161,13 +159,13 @@
     "responses": [
       {
         "text": "Yes, everyone left is exactly like Billy and me, or worse.",
-        "condition": { "not": { "u_has_var": "general_free_u_freed_sadie", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ] } },
         "effect": [ "follow", { "u_add_var": "general_free_u_freed_sadie", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
       {
         "text": "They're even better.  Let's go.",
-        "condition": { "and": [ { "u_has_var": "general_free_u_freed_sadie", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_free_u_freed_sadie" } ] } ] },
         "effect": [ "follow" ],
         "topic": "TALK_DONE"
       }

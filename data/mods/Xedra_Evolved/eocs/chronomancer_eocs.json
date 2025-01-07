@@ -1,0 +1,934 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_KILLED_DIFFICULT_TIME_ENEMY",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Add difficult time related enemies.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "XEDRA_CHRONOMANCER" },
+        {
+          "or": [
+            {
+              "compare_string": [ { "context_val": "victim_type" }, "mon_tindalos", "mon_zombie_monochrome_3", "mon_lieutenant_shadow" ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') += 50" ] },
+      { "u_message": "You gain a large amount of insight into the workings of time!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_KILLED_MEDIUM_TIME_ENEMY",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Add medium difficulty time related enemies.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "XEDRA_CHRONOMANCER" },
+        {
+          "or": [
+            {
+              "compare_string": [ { "context_val": "victim_type" }, "mon_hound_tindalos", "mon_zombie_monochrome_2", "mon_skeleton_master" ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') += 10" ] },
+      { "u_message": "You gain a medium amount of insight into the workings of time.", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_KILLED_NORMAL_TIME_ENEMY",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "//": "Add normal time related enemies.",
+    "condition": {
+      "and": [
+        { "u_has_trait": "XEDRA_CHRONOMANCER" },
+        {
+          "or": [
+            {
+              "compare_string": [
+                { "context_val": "victim_type" },
+                "mon_zombie_monochrome",
+                "mon_zombie_master",
+                "mon_zombie_necro_boomer",
+                "mon_xe_unicorn",
+                "mon_xe_unicorn_foal"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
+      { "u_message": "You gain a small amount of insight into the workings of time.", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_CHRONAL_ACCEL_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_chronal_accel" } },
+    "effect": [ { "u_add_effect": "effect_xedra_chronomancer_chronal_accel", "duration": "PERMANENT" } ],
+    "false_effect": [ { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_DESTABILIZING_STRIKES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_destabilizing_strikes" } },
+    "effect": [ { "u_add_effect": "effect_xedra_chronomancer_destabilizing_strikes", "duration": "PERMANENT" } ],
+    "false_effect": [ { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_STABILIZE_TIMELINE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_stabilize_timeline" } },
+    "effect": [ { "u_add_effect": "effect_xedra_chronomancer_stabilize_timeline", "duration": "PERMANENT" } ],
+    "false_effect": [ { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_reverse_entropy" } },
+    "effect": [
+      { "u_add_effect": "effect_xedra_chronomancer_reverse_entropy", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER" ] }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_xedra_chronomancer_reverse_entropy" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" } },
+    "effect": [ { "u_add_effect": "effect_xedra_chronomancer_stable_timeloop", "duration": "PERMANENT" } ],
+    "false_effect": [ { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER",
+    "condition": { "u_has_effect": "effect_xedra_chronomancer_reverse_entropy" },
+    "effect": [
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER",
+        "time_in_future": { "math": [ "max( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), -2, 60 ), 1 )" ] }
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_ENERGY",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_DURABILITY",
+            "effect": [
+              { "math": [ "n_hp('ALL') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY",
+    "effect": [
+      { "u_assign_activity": "ACT_XEDRA_CHRONOMANCER_MEDITATE", "duration": "200 days" },
+      { "u_add_effect": "effect_xedra_rewrite_wound_causality", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_MANA",
+        "time_in_future": { "math": [ "180 + ( u_spell_level('xedra_chronomancer_rewrite_wound_causality') * 12 )" ] }
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_EXPERIENCE",
+        "time_in_future": { "math": [ "900 - (u_spell_level('xedra_chronomancer_rewrite_wound_causality') * 12 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_EXPERIENCE",
+    "condition": { "u_has_effect": "effect_xedra_rewrite_wound_causality" },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp('xedra_chronomancer_rewrite_wound_causality') += (spell_exp_for_level('xedra_chronomancer_rewrite_wound_causality', u_spell_level('xedra_chronomancer_rewrite_wound_causality')+1) - spell_exp_for_level('xedra_chronomancer_rewrite_wound_causality', u_spell_level('xedra_chronomancer_rewrite_wound_causality'))) / 20 "
+        ]
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_EXPERIENCE",
+        "time_in_future": { "math": [ "900 - ( u_spell_level('xedra_chronomancer_rewrite_wound_causality') * 12 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_MANA",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xedra_rewrite_wound_causality" },
+        { "math": [ "u_val('mana') >= 20" ] },
+        { "math": [ "u_hp('ALL') < u_hp_max('bp_null')" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_val('mana') -= 20" ] },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY_ONGOING_MANA",
+        "time_in_future": { "math": [ "180 + ( u_spell_level('xedra_chronomancer_rewrite_wound_causality') * 12 )" ] }
+      }
+    ],
+    "false_effect": [ "u_cancel_activity" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY",
+    "effect": [
+      { "u_assign_activity": "ACT_XEDRA_CHRONOMANCER_MEDITATE", "duration": "200 days" },
+      { "u_add_effect": "effect_xedra_rewrite_equipment_causality", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR",
+        "time_in_future": { "math": [ "900 - (u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_MANA",
+        "time_in_future": { "math": [ "180 + ( u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_EXPERIENCE",
+        "time_in_future": { "math": [ "900 - (u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR",
+    "condition": { "u_has_effect": "effect_xedra_rewrite_equipment_causality" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR_SCANNER",
+            "effect": [
+              {
+                "math": [ "n_hp('ALL') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "//": "no way to target vehicle parts only?",
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_DEGRADATION_SCANNER",
+            "effect": [
+              {
+                "math": [
+                  "n_degradation() -= xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_ENERGY_SCANNER",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR",
+        "time_in_future": { "math": [ "900 - ( u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_EXPERIENCE",
+    "condition": { "u_has_effect": "effect_xedra_rewrite_equipment_causality" },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp('xedra_chronomancer_rewrite_equipment_causality') += (spell_exp_for_level('xedra_chronomancer_rewrite_equipment_causality', u_spell_level('xedra_chronomancer_rewrite_equipment_causality')+1) - spell_exp_for_level('xedra_chronomancer_rewrite_equipment_causality', u_spell_level('xedra_chronomancer_rewrite_equipment_causality'))) / 20 "
+        ]
+      },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_EXPERIENCE",
+        "time_in_future": { "math": [ "900 - ( u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_MANA",
+    "condition": { "and": [ { "u_has_effect": "effect_xedra_rewrite_equipment_causality" }, { "math": [ "u_val('mana') >= 20" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana') -= 20" ] },
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_MANA",
+        "time_in_future": { "math": [ "180 + ( u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * 12 )" ] }
+      }
+    ],
+    "false_effect": [ "u_cancel_activity" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_MEDITATE_CANCELLED",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": { "and": [ { "compare_string": [ "ACT_XEDRA_CHRONOMANCER_MEDITATE", { "context_val": "activity" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_XEDRA_CHRONOMANCER_MEDITATE_EFFFECT_REMOVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_MEDITATE_EFFFECT_REMOVE",
+    "effect": [
+      { "u_lose_effect": "effect_xedra_rewrite_wound_causality" },
+      { "u_lose_effect": "effect_xedra_rewrite_equipment_causality" },
+      { "u_message": "You finish your meditations.", "type": "good" }
+    ]
+  },
+  {
+    "id": "ACT_XEDRA_CHRONOMANCER_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_XEDRA_CHRONOMANCER_MEDITATE_EFFFECT_REMOVE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TRACK_LAST_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "//": "This value is intended to be used for time magic related powers.  It will get reset by their use, and should not be used for general purpose information.",
+    "effect": [
+      { "math": [ "u_xedra_last_damage_taken=_damage" ] },
+      { "math": [ "u_xedra_last_pain_taken=_pain" ] },
+      {
+        "set_string_var": { "context_val": "bodypart" },
+        "target_var": { "u_val": "xedra_last_damage_taken_bodypart" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_start_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "//": "Activity duration doesn't truly align with time stops potentially lasting indefinitely, but players should never be time stopped longer than a day or two anyways so 200 days should be good enough.  If truly important making the activity based on neither rather than time and adding a blank do_turn function should allow >200 day durations",
+    "effect": [
+      { "u_assign_activity": "act_xedra_time_freeze", "duration": "200 days" },
+      {
+        "run_eocs": "EOC_XEDRA_TIME_SAVE_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "time_freeze" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_end_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "effect": [
+      "u_cancel_activity",
+      {
+        "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "time_freeze" }
+      }
+    ]
+  },
+  {
+    "id": "act_xedra_time_freeze",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "frozen in time",
+    "based_on": "time",
+    "interruptable": false,
+    "interruptable_with_kb": false,
+    "can_resume": false
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_DAMAGE_REVERSAL",
+    "condition": { "math": [ "u_xedra_last_damage_taken > 0" ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "bp_null", "u_xedra_last_damage_taken_bodypart" ] },
+        "then": [
+          { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_xedra_last_damage_taken=0" ] },
+          { "u_lose_effect": "bleed" }
+        ],
+        "else": [
+          { "math": [ "u_hp(u_xedra_last_damage_taken_bodypart)+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_pain()-=u_xedra_last_pain_taken" ] },
+          { "math": [ "u_xedra_last_damage_taken=0" ] },
+          { "u_lose_effect": "bleed", "target_part": { "u_val": "xedra_last_damage_taken_bodypart" } }
+        ]
+      },
+      { "u_message": "Your wound heals!", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have a previous wound to heal.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_CHRONOMANCER",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER" },
+    "effect": [
+      { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_BEGIN" },
+      { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS" },
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') = 51" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_LOOPING_WOUND_BEGIN",
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_LOOPING_WOUND" },
+    "effect": [ { "run_eocs": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE" }, { "u_spawn_item": "xedra_chrono_knife" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE",
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_LOOPING_WOUND" },
+    "effect": [
+      {
+        "if": { "not": { "u_has_effect": "effect_xedra_time_freeze" } },
+        "then": [
+          { "u_message": "You feel a sharp jolt of pain as a stab wound suddenly opens in your belly!", "type": "bad" },
+          { "math": [ "u_hp('torso')-=10" ] },
+          { "math": [ "u_xedra_last_damage_taken=10" ] },
+          { "set_string_var": "torso", "target_var": { "u_val": "xedra_last_damage_taken_bodypart" } },
+          { "math": [ "u_pain()+=30" ] },
+          { "math": [ "u_xedra_last_pain_taken=30" ] },
+          { "u_add_effect": "bleed", "duration": "10 minutes", "target_part": "torso" }
+        ]
+      },
+      { "run_eocs": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE", "time_in_future": "24 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS",
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_UNSTABLE_POWERS" },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "math": [ "xedra_chron_toggled_spell_count() > 0" ] },
+            { "math": [ "rng(0, 5) > xedra_chron_toggled_spell_count()" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "Your chronomantic powers destabilize and you lose their effects!" },
+          { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" },
+          { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" },
+          { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" },
+          { "u_lose_effect": "effect_xedra_chronomancer_reverse_entropy" },
+          { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" }
+        ]
+      },
+      { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS", "time_in_future": [ "30 minutes", "2 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOOP_START_LOOP",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_loop", { "context_val": "effect" } ] },
+    "effect": [
+      { "run_eocs": "EOC_XEDRA_TIME_SAVE_VARIABLES_DYNAMIC", "variables": { "xedra_chronomancer_prefix": "time_loop" } },
+      { "run_eocs": "EOC_XEDRA_TIME_LOOP_LOOP", "time_in_future": "5 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOOP_LOOP",
+    "condition": { "u_has_effect": "effect_xedra_time_loop" },
+    "effect": [
+      { "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC", "variables": { "xedra_chronomancer_prefix": "time_loop" } },
+      { "run_eocs": "EOC_XEDRA_TIME_LOOP_LOOP", "time_in_future": "5 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOOP_ENDED_LOOP",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_loop", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "u_message": "Your time loop ends!",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      {
+        "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "time_loop" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU",
+    "effect": [
+      { "math": [ "u_xedra_chronomancer_insight_count=u_vitamin('xedra_chronomancer_insight')" ] },
+      { "open_dialogue": { "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_GAIN_MEMORIZE_LOCATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_learns_spell",
+    "condition": { "compare_string": [ "xedra_chronomancer_revert_location", { "context_val": "spell" } ] },
+    "effect": [ { "math": [ "u_spell_level('xedra_chronomancer_revert_location_attune') = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_GAIN_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_xedra_chronomancer_stable_timeloop", { "context_val": "effect" } ] },
+    "effect": [
+      { "run_eocs": "EOC_XEDRA_TIME_SAVE_VARIABLES_DYNAMIC", "variables": { "xedra_chronomancer_prefix": "stable_timeloop" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_LOSE_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_chronomancer_stable_timeloop", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "u_message": "Time rewinds!",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      {
+        "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "stable_timeloop" }
+      }
+    ]
+  },
+  {
+    "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_PREVENT_DEATH",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" },
+    "effect": [
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      "u_prevent_death",
+      { "math": [ "u_hp('ALL') = 1000" ] },
+      { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_CEMENT_TIME_TARGET",
+    "effect": [
+      {
+        "if": { "u_has_effect": "effect_xedra_time_freeze" },
+        "then": [
+          { "u_lose_effect": "effect_xedra_time_freeze" },
+          { "u_add_effect": "effect_xedra_time_freeze", "duration": "PERMANENT" }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "effect_xedra_chronomancer_stable_timeloop" },
+        "then": [
+          { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" },
+          { "u_add_effect": "effect_xedra_chronomancer_stable_timeloop", "duration": "PERMANENT" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_SAVE_VARIABLES_DYNAMIC",
+    "condition": { "expects_vars": [ "xedra_chronomancer_prefix" ] },
+    "effect": [
+      {
+        "set_string_var": "u_xedra_location_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "u_location_variable": { "var_val": "target_var" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "set_string_var": "u_xedra_pain_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_pain()" ] },
+      {
+        "set_string_var": "u_xedra_kcal_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_calories()" ] },
+      {
+        "set_string_var": "u_xedra_thirst_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_val('thirst')" ] },
+      {
+        "set_string_var": "u_xedra_blood_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('blood')" ] },
+      {
+        "set_string_var": "u_xedra_redcells_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('redcells')" ] },
+      {
+        "set_string_var": "u_xedra_rad_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('rad')" ] },
+      {
+        "set_string_var": "u_xedra_calcium_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('calcium')" ] },
+      {
+        "set_string_var": "u_xedra_iron_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('iron')" ] },
+      {
+        "set_string_var": "u_xedra_vitC_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('vitC')" ] },
+      {
+        "set_string_var": "u_xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_val('sleepiness')" ] },
+      {
+        "set_string_var": "u_xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_val('sleep_deprivation')" ] },
+      {
+        "set_string_var": "u_xedra_stamina_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_val('stamina')" ] },
+      {
+        "set_string_var": "u_xedra_hp_all_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('ALL')" ] },
+      {
+        "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('torso')" ] },
+      {
+        "set_string_var": "u_xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('head')" ] },
+      {
+        "set_string_var": "u_xedra_hp_eyes_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('eyes')" ] },
+      {
+        "set_string_var": "u_xedra_hp_mouth_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('mouth')" ] },
+      {
+        "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('arm_l')" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('hand_l')" ] },
+      {
+        "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('arm_r')" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('hand_r')" ] },
+      {
+        "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('leg_l')" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('foot_l')" ] },
+      {
+        "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('leg_r')" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('foot_r')" ] },
+      {
+        "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      {
+        "if": { "u_has_effect": "bleed" },
+        "then": { "math": [ "v_target_var = 1" ] },
+        "else": { "math": [ "v_target_var = 0" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+    "condition": { "expects_vars": [ "xedra_chronomancer_prefix" ] },
+    "effect": [
+      {
+        "set_string_var": "u_xedra_location_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "u_teleport": { "var_val": "temp_var" } },
+      {
+        "set_string_var": "u_xedra_pain_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_pain() = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_kcal_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_calories() = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_thirst_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_val('thirst') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_blood_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('blood') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_redcells_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('redcells') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_calcium_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('calcium') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_iron_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('iron') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_vitC_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('vitC') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_rad_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_val('rad') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_val('sleepiness') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_val('sleep_deprivation') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_stamina_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_val('stamina') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_all_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('ALL') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('torso') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('head') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_eyes_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('eyes') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_mouth_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('mouth') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('arm_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('hand_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('arm_r') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('hand_r') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('leg_r') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('foot_r') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('leg_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('foot_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "if": { "math": [ "v_temp_var == 0" ] }, "then": { "u_lose_effect": "bleed" } }
+    ]
+  }
+]

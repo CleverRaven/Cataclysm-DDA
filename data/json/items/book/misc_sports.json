@@ -131,7 +131,7 @@
     "id": "book_nonf_hard_sports_bike",
     "type": "BOOK",
     "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Legendary Bike Rides" },
-    "description": "This unwieldy coffeetable book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
+    "description": "This unwieldy coffee table book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
     "//isbn13": 9781760340834,
     "weight": "1589 g",
     "volume": "1660 ml",

@@ -28,7 +28,7 @@
         "condition": { "u_has_item": "money_twenty" },
         "effect": [
           { "u_consume_item": "money_twenty" },
-          { "math": [ "u_bet_amount", "=", "20" ] },
+          { "math": [ "u_bet_amount = 20" ] },
           { "run_eocs": "slot_machine_gamble_chance" }
         ],
         "topic": "TALK_DONE"
@@ -36,31 +36,19 @@
       {
         "text": "Ten dollars.",
         "condition": { "u_has_item": "money_ten" },
-        "effect": [
-          { "u_consume_item": "money_ten" },
-          { "math": [ "u_bet_amount", "=", "10" ] },
-          { "run_eocs": "slot_machine_gamble_chance" }
-        ],
+        "effect": [ { "u_consume_item": "money_ten" }, { "math": [ "u_bet_amount = 10" ] }, { "run_eocs": "slot_machine_gamble_chance" } ],
         "topic": "TALK_DONE"
       },
       {
         "text": "Five dollars.",
         "condition": { "u_has_item": "money_five" },
-        "effect": [
-          { "u_consume_item": "money_five" },
-          { "math": [ "u_bet_amount", "=", "5" ] },
-          { "run_eocs": "slot_machine_gamble_chance" }
-        ],
+        "effect": [ { "u_consume_item": "money_five" }, { "math": [ "u_bet_amount = 5" ] }, { "run_eocs": "slot_machine_gamble_chance" } ],
         "topic": "TALK_DONE"
       },
       {
         "text": "One dollar.",
         "condition": { "u_has_item": "money_one" },
-        "effect": [
-          { "u_consume_item": "money_one" },
-          { "math": [ "u_bet_amount", "=", "1" ] },
-          { "run_eocs": "slot_machine_gamble_chance" }
-        ],
+        "effect": [ { "u_consume_item": "money_one" }, { "math": [ "u_bet_amount = 1" ] }, { "run_eocs": "slot_machine_gamble_chance" } ],
         "topic": "TALK_DONE"
       },
       { "text": "Walk away.", "topic": "TALK_DONE" }
@@ -78,7 +66,7 @@
             "id": "three_cherries",
             "effect": [
               { "u_message": "Three cherries!  You get your money back.", "popup": true },
-              { "math": [ "gamble_multiplier", "=", "1" ] },
+              { "math": [ "gamble_multiplier = 1" ] },
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
@@ -89,7 +77,7 @@
             "id": "three_bells",
             "effect": [
               { "u_message": "Three bells!  You double your money!", "popup": true },
-              { "math": [ "gamble_multiplier", "=", "2" ] },
+              { "math": [ "gamble_multiplier = 2" ] },
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
@@ -100,7 +88,7 @@
             "id": "three_stars",
             "effect": [
               { "u_message": "Three stars!  You triple your money!", "popup": true },
-              { "math": [ "gamble_multiplier", "=", "3" ] },
+              { "math": [ "gamble_multiplier = 3" ] },
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
@@ -111,7 +99,7 @@
             "id": "jackpot",
             "effect": [
               { "u_message": "Three sevens, JACKPOT!  You get 100 times your bet!", "popup": true },
-              { "math": [ "gamble_multiplier", "=", "100" ] },
+              { "math": [ "gamble_multiplier = 100" ] },
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
@@ -123,38 +111,38 @@
   {
     "type": "effect_on_condition",
     "id": "slot_machine_win_payout",
-    "condition": { "math": [ "u_bet_amount", "==", "20" ] },
+    "condition": { "math": [ "u_bet_amount == 20" ] },
     "effect": [
       { "u_spawn_item": "money_twenty", "count": { "global_val": "gamble_multiplier", "default": 1 } },
-      { "math": [ "gamble_multiplier", "=", "0" ] },
-      { "math": [ "u_bet_amount", "=", "0" ] }
+      { "math": [ "gamble_multiplier = 0" ] },
+      { "math": [ "u_bet_amount = 0" ] }
     ],
     "false_effect": {
       "run_eocs": {
         "id": "win_10",
-        "condition": { "math": [ "u_bet_amount", "==", "10" ] },
+        "condition": { "math": [ "u_bet_amount == 10" ] },
         "effect": [
           { "u_spawn_item": "money_ten", "count": { "global_val": "gamble_multiplier", "default": 1 } },
-          { "math": [ "gamble_multiplier", "=", "0" ] },
-          { "math": [ "u_bet_amount", "=", "0" ] }
+          { "math": [ "gamble_multiplier = 0" ] },
+          { "math": [ "u_bet_amount = 0" ] }
         ],
         "false_effect": {
           "run_eocs": {
             "id": "win_5",
-            "condition": { "math": [ "u_bet_amount", "==", "5" ] },
+            "condition": { "math": [ "u_bet_amount == 5" ] },
             "effect": [
               { "u_spawn_item": "money_five", "count": { "global_val": "gamble_multiplier", "default": 1 } },
-              { "math": [ "gamble_multiplier", "=", "0" ] },
-              { "math": [ "u_bet_amount", "=", "0" ] }
+              { "math": [ "gamble_multiplier = 0" ] },
+              { "math": [ "u_bet_amount = 0" ] }
             ],
             "false_effect": {
               "run_eocs": {
                 "id": "win_1",
-                "condition": { "math": [ "u_bet_amount", "==", "1" ] },
+                "condition": { "math": [ "u_bet_amount == 1" ] },
                 "effect": [
                   { "u_spawn_item": "money_one", "count": { "global_val": "gamble_multiplier", "default": 1 } },
-                  { "math": [ "gamble_multiplier", "=", "0" ] },
-                  { "math": [ "u_bet_amount", "=", "0" ] }
+                  { "math": [ "gamble_multiplier = 0" ] },
+                  { "math": [ "u_bet_amount = 0" ] }
                 ]
               }
             }

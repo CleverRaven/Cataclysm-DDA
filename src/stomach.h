@@ -20,7 +20,7 @@ using mass = units::quantity<int, units::mass_in_microgram_tag>;
 
 constexpr mass microgram = units::quantity<int, units::mass_in_microgram_tag>( 1, {} );
 constexpr mass milligram = units::quantity<int, units::mass_in_microgram_tag>( 1000, {} );
-constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1'000'000, {} );
+constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1000000, {} );
 const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "ug", microgram },
         { "μg", microgram },
@@ -92,6 +92,8 @@ struct nutrients {
 
         void serialize( JsonOut & ) const;
         void deserialize( const JsonObject &jo );
+
+        void clear_vitamins();
 
     private:
         /** vitamins potentially provided by this comestible (if any) */

@@ -5,8 +5,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "fantasy_beast_domestic",
+    "base_faction": "animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "dragon_black",
     "friendly": [ "ooze", "lizardfolk" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "demon_spider",
+    "base_faction": "spider"
   },
   {
     "type": "MONSTER_FACTION",

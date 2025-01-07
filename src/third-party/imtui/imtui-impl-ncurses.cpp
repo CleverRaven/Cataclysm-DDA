@@ -115,28 +115,28 @@ void ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
     g_vsync = VSync( fps_active, fps_idle );
 
     //imtui_win = newwin(LINES, COLS, 0, 0);
-    ImGui::GetIO().KeyMap[ImGuiKey_Tab]         = 9;
-    ImGui::GetIO().KeyMap[ImGuiKey_LeftArrow]   = 260;
-    ImGui::GetIO().KeyMap[ImGuiKey_RightArrow]  = 261;
-    ImGui::GetIO().KeyMap[ImGuiKey_UpArrow]     = 259;
-    ImGui::GetIO().KeyMap[ImGuiKey_DownArrow]   = 258;
-    ImGui::GetIO().KeyMap[ImGuiKey_PageUp]      = 339;
-    ImGui::GetIO().KeyMap[ImGuiKey_PageDown]    = 338;
-    ImGui::GetIO().KeyMap[ImGuiKey_Home]        = 262;
-    ImGui::GetIO().KeyMap[ImGuiKey_End]         = 360;
-    ImGui::GetIO().KeyMap[ImGuiKey_Insert]      = 331;
-    ImGui::GetIO().KeyMap[ImGuiKey_Delete]      = 330;
-    ImGui::GetIO().KeyMap[ImGuiKey_Backspace]   = 263;
-    ImGui::GetIO().KeyMap[ImGuiKey_Space]       = 32;
-    ImGui::GetIO().KeyMap[ImGuiKey_Enter]       = 10;
-    ImGui::GetIO().KeyMap[ImGuiKey_Escape]      = 27;
-    ImGui::GetIO().KeyMap[ImGuiKey_KeyPadEnter] = 343;
-    ImGui::GetIO().KeyMap[ImGuiKey_A]           = 1;
-    ImGui::GetIO().KeyMap[ImGuiKey_C]           = 3;
-    ImGui::GetIO().KeyMap[ImGuiKey_V]           = 22;
-    ImGui::GetIO().KeyMap[ImGuiKey_X]           = 24;
-    ImGui::GetIO().KeyMap[ImGuiKey_Y]           = 25;
-    ImGui::GetIO().KeyMap[ImGuiKey_Z]           = 26;
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Tab, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_LeftArrow, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_RightArrow, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_UpArrow, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_DownArrow, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_PageUp, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_PageDown, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Home, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_End, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Insert, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Delete, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Backspace, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Space, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Enter, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Escape, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_KeypadEnter, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_A, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_C, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_V, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_X, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Y, true );
+    ImGui::GetIO().AddKeyEvent( ImGuiKey_Z, true );
 
     ImGui::GetIO().KeyRepeatDelay = 0.050;
     ImGui::GetIO().KeyRepeatRate = 0.050;
@@ -179,9 +179,6 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
 
     input[2] = 0;
 
-    auto &keysDown = ImGui::GetIO().KeysDown;
-    std::fill( keysDown, keysDown + 512, 0 );
-
     ImGui::GetIO().KeyCtrl = false;
     ImGui::GetIO().KeyShift = false;
 
@@ -211,39 +208,39 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
             input[1] = ( c & 0x0000FF00 ) >> 8;
             //printf("c = %d, c0 = %d, c1 = %d xxx\n", c, input[0], input[1]);
             if( c < 127 ) {
-                if( c != ImGui::GetIO().KeyMap[ImGuiKey_Enter] ) {
+                if( !ImGui::IsKeyDown( ImGuiKey_Enter ) ) {
                     ImGui::GetIO().AddInputCharactersUTF8( input );
                 }
             }
-            if( c == 330 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_Delete]] = true;
+        if( c == 330 ) {
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_Delete );
             } else if( c == KEY_BACKSPACE || c == KEY_DC || c == 127 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_Backspace]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_Backspace );
                 // Shift + arrows (probably not portable :()
             } else if( c == 393 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_LeftArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_LeftArrow );
                 ImGui::GetIO().KeyShift = true;
             } else if( c == 402 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_RightArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_RightArrow );
                 ImGui::GetIO().KeyShift = true;
             } else if( c == 337 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_UpArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_UpArrow );
                 ImGui::GetIO().KeyShift = true;
             } else if( c == 336 ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_DownArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_DownArrow );
                 ImGui::GetIO().KeyShift = true;
             } else if( c == KEY_BACKSPACE ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_Backspace]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_Backspace );
             } else if( c == KEY_LEFT ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_LeftArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_LeftArrow );
             } else if( c == KEY_RIGHT ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_RightArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_RightArrow );
             } else if( c == KEY_UP ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_UpArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_UpArrow );
             } else if( c == KEY_DOWN ) {
-                ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_DownArrow]] = true;
+                ImGui::GetIO().AddInputCharacter( ImGuiKey_DownArrow );
             } else {
-                keysDown[c] = true;
+                ImGui::GetIO().AddInputCharacter( c );
             }
         }
 
@@ -254,22 +251,22 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
         rbut = 0;
     }
 
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_A]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_A ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_C]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_C ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_V]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_V ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_X]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_X ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_Y]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_Y ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
-    if( ImGui::GetIO().KeysDown[ImGui::GetIO().KeyMap[ImGuiKey_Z]] ) {
+    if( ImGui::IsKeyDown( ImGuiKey_Z ) ) {
         ImGui::GetIO().KeyCtrl = true;
     }
 

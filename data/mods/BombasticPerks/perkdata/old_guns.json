@@ -70,13 +70,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "fn1910",
-    "type": "GUN",
-    "copy-from": "fn1910",
-    "name": { "str": "FN 1910 .380" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "hi_power_40",
     "type": "GUN",
     "copy-from": "hi_power_40",

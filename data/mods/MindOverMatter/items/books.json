@@ -160,5 +160,19 @@
     "intelligence": 8,
     "time": "12 m",
     "fun": 1
+  },
+  {
+    "id": "phavian_psionic_telepathic_mental_engineering_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Lab Report: PATIENT MOSAIC process", "str_pl": "copies of Lab Report: PATIENT MOSAIC process" },
+    "description": "A thick lab report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"PATIENT MOSAIC - EYES ONLY\" centered underneath.  According to the summary, the report details how a powerful GRAY DAWN participant may use a specifically attuned focusing tool to allow themselves to induce permanent changes in their personality and other segments of their brain.  The report details little success in GRAY DAWN participant applying this process to others.",
+    "copy-from": "recipe_lab_elec",
+    "skill": "metaphysics",
+    "required_level": 8,
+    "max_level": 8,
+    "intelligence": 10,
+    "time": "12 m",
+    "fun": 1
   }
 ]

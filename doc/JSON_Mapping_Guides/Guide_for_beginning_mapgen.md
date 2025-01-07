@@ -6,7 +6,7 @@ First, lets cover some basic concepts and the files you'll add or edit.
 
 #### General comments:
 
-CDDA mapgen is surprisingly powerful once you get used to working with it.  You can use lots of tricks to add variability and interest to your maps.  Most advanced mapgen techniques will go into a different tutorial.  This one covers basic concepts and how to create a basic single OMT (overmap terrain tile)sized building.  We will touch on palette usage and how to add a roof as well.
+CDDA mapgen is surprisingly powerful once you get used to working with it.  You can use lots of tricks to add variability and interest to your maps.  Most advanced mapgen techniques will go into a different tutorial.  This one covers basic concepts and how to create a basic single OMT (overmap terrain tile) sized building.  We will touch on palette usage and how to add a roof as well.
 
 #### Specials vs. city buildings:
 
@@ -299,7 +299,8 @@ Since the planter is a "sealed item" you define what's going into that container
  ```
 
 11. Best practices:
-  * If you are making a new house please use this palette: "standard_domestic_palette".  The loots are already assigned and it covers a wide range of domestic furniture.  This will keep your house in sync with all the other houses for loot spawns.
+  * When making almost any building, using "parametrized_walls_palette" or "parametrized_highrise_walls_palette" is strongly recommended since these will add some variation to your walls.
+  * If you are making a new house please use this palette: "standard_domestic_variant_palette".  The loots are already assigned and it covers a wide range of domestic furniture.  This will keep your house in sync with all the other houses for loot spawns.
   * All buildings should also get roof entries.
   * While entry placement for json doesn't really matter, try to keep your mapgen files ordered like the majority existing maps.  Be kind to future contributors.
     Add meta data at the top of the file.
@@ -491,7 +492,7 @@ You need one entry per mapgen ID:
 4. `"name"` how the name displays on the overmap.
 5. `"sym"` the symbol displayed on the overmap. If left out, the carrots will be used `v<>^`
 6. `"color"` color for overmap symbol.
-7. `"mondesntiy"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spawns for that location (e.g. a pet store's pets).
+7. `"mondensity"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spawns for that location (e.g. a pet store's pets).
 8. `"extend"` many of these flags will be used by NPCs in the future for their AI, try to add flags appropriate for your location.  Others further define the mapgen, like having sidewalks generate.
 
 For further information see: [Overmap Terrain section of doc/OVERMAP.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/OVERMAP.md#overmap-terrain).

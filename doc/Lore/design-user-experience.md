@@ -121,7 +121,7 @@ Unarmed combat is possible, but is even more dangerous than armed melee combat, 
 
 ### Scavenging
 
-The player character is expected to obtain the vast majority of their possessions by scavenging items made before the cataclysm.  With the vast reduction in population, the surplus of durable goods available to each survivor is staggering.
+The player character is expected to obtain the vast majority of their possessions by scavenging items made before the Cataclysm.  With the vast reduction in population, the surplus of durable goods available to each survivor is staggering.
 
 In general, goods should be distributed in a way representative of how they would be distributed in reality, and if this negatively impacts game balance, other game aspects such as placement of enemies should be adjusted to bring things in balance rather than adjusting the placement of items.
 
@@ -149,7 +149,7 @@ The player can also build and modify permanent structures, providing shelter fro
 
 Scavenged or built, vehicles provide a trump card of sorts for the player, providing mobility, storage and shelter all at once, at the cost of significant upkeep.
 
-Pre-cataclysm vehicles are modeled on existing real world vehicles.
+Pre-Cataclysm vehicles are modeled on existing real world vehicles.
 
 The survivor can repair, modify and even build vehicles from scratch, but the quality is never the same as the original.
 
@@ -183,7 +183,7 @@ The primary setting of the game is present-day (2019 as of the time of writing) 
 
 Super-technology exists, but it is mostly restricted to secret lab facilities and military special forces.  See the dedicated [technology](./technology.md) page for more information on what is specifically appropriate to the setting.
 
-That all changed during the cataclysm, a several day long event where horrors from other dimensions flooded into the world, destroying, killing and in some cases creating, rendering the world almost unrecognizable.
+That all changed during the Cataclysm, a several day long event where horrors from other dimensions flooded into the world, destroying, killing and in some cases creating, rendering the world almost unrecognizable.
 
 After the Cataclysm, the invasion ebbed, leaving humanity crippled but not completely destroyed.  Some of the invaders remain, carving out niches for themselves, but most retreated elsewhere.
 

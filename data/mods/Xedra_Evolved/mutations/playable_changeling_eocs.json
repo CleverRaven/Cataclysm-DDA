@@ -1,0 +1,1721 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS",
+    "condition": {
+      "and": [
+        { "u_has_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+              "UNKNOWING_CHANGELING_COMMONER_POOKA",
+              "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+              "UNKNOWING_CHANGELING_COMMONER_TROW"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_changeling_invisibility" },
+        { "u_has_effect": "effect_changeling_right_of_passage" },
+        {
+          "u_has_any_trait": [
+            "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+            "CHANGELING_DISGUISE_AS_NATURE_TREE",
+            "CHANGELING_DISGUISE_AS_NATURE_POND",
+            "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+            "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
+      "true_eocs": [
+        {
+          "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" },
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+          ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_changeling_wearing_iron" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [
+        { "material": "steel", "worn_only": true },
+        { "material": "lc_steel", "worn_only": true },
+        { "material": "mc_steel", "worn_only": true },
+        { "material": "hc_steel", "worn_only": true },
+        { "material": "ch_steel", "worn_only": true },
+        { "material": "lc_steel_chain", "worn_only": true },
+        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "hc_steel_chain", "worn_only": true },
+        { "material": "ch_steel_chain", "worn_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
+          "effect": [
+            { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" },
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+          ],
+          "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
+        }
+      ],
+      "false_eocs": [
+        {
+          "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_FALSE",
+          "effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_MONSTERS_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_CHARACTERS_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_MONSTERS_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_CHARACTERS_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING DAMAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
+    "effect": [
+      { "u_lose_effect": "effect_changeling_invisibility" },
+      { "u_lose_effect": "effect_changeling_right_of_passage" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_GRASS" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_MELEE_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_RANGED_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_RANGED_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_TAKE_DAMAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_ATTACKS_SOMEONE_WHILE_RIGHT_OF_PASSAGE_RANGED_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" },
+        {
+          "or": [
+            { "npc_has_species": "PLANT" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_ATTACKS_SOMEONE_WHILE_RIGHT_OF_PASSAGE_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" },
+        {
+          "or": [
+            { "npc_has_species": "PLANT" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_DISGUISE_AS_NATURE",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+          "CHANGELING_DISGUISE_AS_NATURE_TREE",
+          "CHANGELING_DISGUISE_AS_NATURE_POND",
+          "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+          "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+        ],
+        "type": "mutation"
+      },
+      { "u_message": "You wrap yourself up in a glamour.", "type": "good" },
+      {
+        "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
+        "time_in_future": [
+          { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('deduction') * 230) + 351" ] },
+          { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('deduction') * 560) + 789" ] }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You need to be among nature to disguise yourself within nature.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
+    "effect": [
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_GRASS" },
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" },
+      { "u_message": "The glamour disguising you fades.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_DISGUISE_AS_NATURE_MOVEMENT_ENDS",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "u_has_any_trait": [
+        "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+        "CHANGELING_DISGUISE_AS_NATURE_TREE",
+        "CHANGELING_DISGUISE_AS_NATURE_POND",
+        "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+        "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_BURNING_WEAPON",
+    "condition": "u_has_weapon",
+    "effect": [
+      { "u_message": "Your weapon kindles into white-gold flame.", "type": "good" },
+      {
+        "u_add_effect": "effect_changeling_noble_burning_weapon",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2.4) + (u_skill('deduction') * 26) + 278) , ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8.8) + (u_skill('deduction') * 175) + 915))"
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "Fires of Bealtaine requires a weapon to affect in order to take hold.", "type": "bad" },
+      {
+        "math": [
+          "u_val('mana')",
+          "+=",
+          "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_CURE_BAD_CONDITIONS",
+    "effect": [
+      {
+        "if": { "u_has_effect": "dermatik" },
+        "then": [ { "u_lose_effect": "dermatik" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "dermatik_visible" },
+        "then": [ { "u_lose_effect": "dermatik_visible" }, { "math": [ "u_val('sleepiness')", "+=", "125" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison" },
+        "then": [ { "u_lose_effect": "poison" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "head" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "torso" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "arm_r" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "arm_l" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "leg_r" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "leg_l" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison" },
+        "then": [ { "u_lose_effect": "badpoison" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "head" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "torso" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "arm_r" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "arm_l" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "leg_r" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "leg_l" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_dmg" },
+        "then": [ { "u_lose_effect": "venom_dmg" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_weaken" },
+        "then": [ { "u_lose_effect": "venom_weaken" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_blind" },
+        "then": [ { "u_lose_effect": "venom_blind" }, { "math": [ "u_val('sleepiness')", "+=", "30" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_pain" },
+        "then": [ { "u_lose_effect": "venom_pain" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "paralyzepoison" },
+        "then": [ { "u_lose_effect": "paralyzepoison" }, { "math": [ "u_val('sleepiness')", "+=", "45" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "pre_common_cold" },
+        "then": [
+          { "u_lose_effect": "pre_common_cold" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "25" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "common_cold" },
+        "then": [
+          { "u_lose_effect": "common_cold" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "50" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "pre_flu" },
+        "then": [
+          { "u_lose_effect": "pre_flu" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "40" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "flu" },
+        "then": [
+          { "u_lose_effect": "flu" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "80" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
+        "then": [ { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_MOVEMENT_BUFFS",
+    "condition": "u_is_npc",
+    "effect": [
+      { "math": [ "u_glamoured_changeling_noble_traits = n_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
+      { "math": [ "u_glamoured_deduction_movement_buff = n_skill('deduction')" ] },
+      {
+        "u_add_effect": "effect_changeling_noble_movement_buffs_ally",
+        "duration": {
+          "math": [
+            "rng( ( (u_glamoured_changeling_noble_traits * 5.5) + (u_glamoured_deduction_movement_buff * 39) + 225), ((u_glamoured_changeling_noble_traits * 12.3) + (u_glamoured_deduction_movement_buff * 89) + 691) )"
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "Your stretch your limbs and bounce on your heels.", "type": "neutral" },
+      {
+        "u_add_effect": "effect_changeling_noble_movement_buffs",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5.5) + (u_skill('deduction') * 39) + 225), ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 12.3) + (u_skill('deduction') * 89) + 691) )"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_ON",
+    "condition": { "not": { "u_has_effect": "effect_changeling_noble_broken_right_of_passage" } },
+    "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ],
+    "false_effect": [
+      { "u_message": "After your actions you may not invoke the right of passage.", "type": "bad" },
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_OFF",
+    "effect": [ { "u_lose_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOMEBODY_RAISING_EOC",
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BROWNIE_HOMEBODY" },
+        { "math": [ "u_brownie_homebody_speed_bonus <= 19" ] },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "BROWNIE_HOMEBODY" } },
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus++" ] }, { "math": [ "u_brownie_sense_intruders++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOMEBODY_LOWERING_EOC",
+    "required_event": "avatar_enters_omt",
+    "eoc_type": "EVENT",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "math": [ "u_brownie_homebody_speed_bonus > 0" ] },
+        {
+          "not": {
+            "or": [
+              { "u_at_om_location": "FACTION_CAMP_ANY" },
+              { "u_at_om_location": "mansion_e1" },
+              { "u_at_om_location": "mansion_boarded_e1" },
+              { "u_at_om_location": "mansion_e2" },
+              { "u_at_om_location": "mansion_+1" },
+              { "u_at_om_location": "mansion_+1d" },
+              { "u_at_om_location": "mansion_+1u" },
+              { "u_at_om_location": "mansion_+1_roof" },
+              { "u_at_om_location": "mansion_+2" },
+              { "u_at_om_location": "mansion_+2d" },
+              { "u_at_om_location": "mansion_+2u" },
+              { "u_at_om_location": "mansion_+2_roof" },
+              { "u_at_om_location": "mansion_+3" },
+              { "u_at_om_location": "mansion_+3u" },
+              { "u_at_om_location": "mansion_+3_roof" },
+              { "u_at_om_location": "mansion_+4" },
+              { "u_at_om_location": "mansion_+4d" },
+              { "u_at_om_location": "mansion_+4u" },
+              { "u_at_om_location": "mansion_+4_roof" },
+              { "u_at_om_location": "mansion_boarded_c1" },
+              { "u_at_om_location": "mansion_c1" },
+              { "u_at_om_location": "mansion_c1d" },
+              { "u_at_om_location": "mansion_boarded_c1u" },
+              { "u_at_om_location": "mansion_c1u" },
+              { "u_at_om_location": "mansion_c1_roof" },
+              { "u_at_om_location": "mansion_boarded_c2" },
+              { "u_at_om_location": "mansion_c2" },
+              { "u_at_om_location": "mansion_c2d" },
+              { "u_at_om_location": "mansion_boarded_c2u" },
+              { "u_at_om_location": "mansion_c2u" },
+              { "u_at_om_location": "mansion_c2_roof" },
+              { "u_at_om_location": "mansion_boarded_c3" },
+              { "u_at_om_location": "mansion_c3" },
+              { "u_at_om_location": "mansion_c3d" },
+              { "u_at_om_location": "mansion_boarded_c3u" },
+              { "u_at_om_location": "mansion_c3u" },
+              { "u_at_om_location": "mansion_c3_roof" },
+              { "u_at_om_location": "mansion_boarded_c4" },
+              { "u_at_om_location": "mansion_c4" },
+              { "u_at_om_location": "mansion_c4d" },
+              { "u_at_om_location": "mansion_boarded_c4u" },
+              { "u_at_om_location": "mansion_c4u" },
+              { "u_at_om_location": "mansion_c4_roof" },
+              { "u_at_om_location": "mansion_c5" },
+              { "u_at_om_location": "mansion_c5d" },
+              { "u_at_om_location": "mansion_c5u" },
+              { "u_at_om_location": "mansion_c5_roof" },
+              { "u_at_om_location": "mansion_e1d" },
+              { "u_at_om_location": "mansion_boarded_e1u" },
+              { "u_at_om_location": "mansion_e1u" },
+              { "u_at_om_location": "mansion_e1_roof" },
+              { "u_at_om_location": "mansion_e2d" },
+              { "u_at_om_location": "mansion_e2u" },
+              { "u_at_om_location": "mansion_e2_roof" },
+              { "u_at_om_location": "mansion_t1" },
+              { "u_at_om_location": "mansion_t1d" },
+              { "u_at_om_location": "mansion_t1u" },
+              { "u_at_om_location": "mansion_t1_roof" },
+              { "u_at_om_location": "mansion_boarded_t2" },
+              { "u_at_om_location": "mansion_boarded_t2_start" },
+              { "u_at_om_location": "mansion_t2" },
+              { "u_at_om_location": "mansion_boarded_t2d" },
+              { "u_at_om_location": "mansion_boarded_t2d_start" },
+              { "u_at_om_location": "mansion_t2d" },
+              { "u_at_om_location": "mansion_boarded_t2u" },
+              { "u_at_om_location": "mansion_t2u" },
+              { "u_at_om_location": "mansion_t2_roof" },
+              { "u_at_om_location": "mansion_boarded_t4" },
+              { "u_at_om_location": "mansion_t4" },
+              { "u_at_om_location": "mansion_t4d" },
+              { "u_at_om_location": "mansion_boarded_t4u" },
+              { "u_at_om_location": "mansion_t4u" },
+              { "u_at_om_location": "mansion_t4_roof" },
+              { "u_at_om_location": "mansion_t5" },
+              { "u_at_om_location": "mansion_t5d" },
+              { "u_at_om_location": "mansion_t5u" },
+              { "u_at_om_location": "mansion_t5_roof" },
+              { "u_at_om_location": "mansion_t6" },
+              { "u_at_om_location": "mansion_t6d" },
+              { "u_at_om_location": "mansion_t6u" },
+              { "u_at_om_location": "mansion_t6_roof" },
+              { "u_at_om_location": "mansion_t7" },
+              { "u_at_om_location": "mansion_t7d" },
+              { "u_at_om_location": "mansion_t7u" },
+              { "u_at_om_location": "mansion_t7_roof" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus--" ] }, { "math": [ "u_brownie_sense_intruders = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_LEARN_CHEESE_AND_BUTTER",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "BROWNIE_MAKE_CHEESE_AND_BUTTER", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "cheese_hard_brownie" }, { "u_learn_recipe": "butter_brownie" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_INDOOR_BLINK",
+    "condition": { "not": "u_is_outside" },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "brownie_teleport" },
+        "passable_only": true,
+        "min_radius": 5,
+        "max_radius": 10,
+        "true_eocs": [
+          {
+            "id": "EOC_BROWNIE_INDOOR_BLINK_SUCCESS",
+            "condition": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "brownie_teleport" } },
+            "effect": [
+              { "u_teleport": { "context_val": "brownie_teleport" } },
+              { "u_message": "You carefully slip through the cracks.", "type": "good" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_BROWNIE_INDOOR_BLINK" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": { "u_message": "You must be indoors to slip through the cracks.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus >= 12" ] } ] },
+    "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
+    "condition": {
+      "and": [
+        { "not": "u_is_outside" },
+        {
+          "or": [
+            { "u_is_on_terrain": "t_door_white_frame" },
+            { "u_is_on_terrain": "t_door_frame" },
+            { "u_is_on_terrain": "t_door_lab_frame" },
+            { "u_is_on_terrain": "t_door_red_frame" },
+            { "u_is_on_terrain": "t_door_green_frame" },
+            { "u_is_on_terrain": "t_door_gray_frame" },
+            { "u_is_on_terrain": "t_mdoor_lab_frame" },
+            { "u_is_on_terrain": "t_mdoor_frame" },
+            { "u_is_on_terrain": "t_door_bar_o" },
+            { "u_is_on_terrain": "t_door_o" },
+            { "u_is_on_terrain": "t_door_lab_o" },
+            { "u_is_on_terrain": "t_door_green_o" },
+            { "u_is_on_terrain": "t_door_gray_o" },
+            { "u_is_on_terrain": "t_door_red_o" },
+            { "u_is_on_terrain": "t_door_white_o" },
+            { "u_is_on_terrain": "t_door_glass_gray_o" },
+            { "u_is_on_terrain": "t_door_glass_green_o" },
+            { "u_is_on_terrain": "t_door_glass_red_o" },
+            { "u_is_on_terrain": "t_door_glass_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_lab_o" },
+            { "u_is_on_terrain": "t_door_metal_o" },
+            { "u_is_on_terrain": "t_door_glass_white_o" },
+            { "u_is_on_terrain": "t_secretdoor_concrete_o" },
+            { "u_is_on_terrain": "t_secretdoor_metal_o" },
+            { "u_is_on_terrain": "t_screen_door_o" },
+            { "u_is_on_terrain": "t_door_metal_bulkhead_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_o" },
+            { "u_is_on_terrain": "t_laminated_door_glass_o" },
+            { "u_is_on_terrain": "t_rdoor_o" },
+            { "u_is_on_terrain": "t_ballistic_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_corrugated_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_lab_o" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "brownie_home_teleport = 0" ] },
+      {
+        "u_run_monster_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_MONSTER", "effect": { "math": [ "brownie_home_teleport = 1" ] } } ],
+        "monster_range": 45,
+        "monster_must_see": true
+      },
+      {
+        "u_run_npc_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_NPC", "effect": { "math": [ "brownie_home_teleport = 1" ] } } ],
+        "npc_range": 45,
+        "npc_must_see": true
+      },
+      {
+        "if": { "math": [ "brownie_home_teleport == 0" ] },
+        "then": [
+          { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
+          { "u_message": "You slip through the door and head straight home.", "type": "good" }
+        ],
+        "else": { "u_message": "You must be unobserved to hurry home!", "type": "bad" }
+      }
+    ],
+    "false_effect": { "u_message": "You must be in a doorway to hurry home.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK_2",
+            "condition": {
+              "math": [
+                "pooka_shapeshift_traits()",
+                ">=",
+                "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 50)"
+              ]
+            },
+            "effect": [ { "math": [ "u_val('mana')--" ] } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You do not have enough mana to maintain all of your shapeshifts!", "type": "bad" },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+    "effect": [
+      { "u_deactivate_trait": "POOKA_ANTLERS" },
+      { "u_deactivate_trait": "POOKA_HORNS" },
+      { "u_deactivate_trait": "POOKA_FANGS" },
+      { "u_deactivate_trait": "POOKA_SABER_TEETH" },
+      { "u_deactivate_trait": "POOKA_WOLF_EARS" },
+      { "u_deactivate_trait": "POOKA_FELINE_EARS" },
+      { "u_deactivate_trait": "POOKA_CLAWS" },
+      { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" },
+      { "u_deactivate_trait": "POOKA_URSINE_FUR" },
+      { "u_deactivate_trait": "POOKA_CHITIN" },
+      { "u_deactivate_trait": "POOKA_QUADRUPED" },
+      { "u_deactivate_trait": "POOKA_LEAPING_LEGS" },
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_ANTLERS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_ANTLERS_OFF",
+    "effect": [ { "u_lose_trait": "ANTLERS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_HORNS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_HORNS_OFF",
+    "effect": [ { "u_lose_trait": "HORNS_CURLED" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "FANGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_OFF",
+    "effect": [ { "u_lose_trait": "FANGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "SABER_TEETH" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_OFF",
+    "effect": [ { "u_lose_trait": "SABER_TEETH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_EARS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_EARS_OFF",
+    "effect": [ { "u_lose_trait": "LUPINE_EARS" }, { "u_add_trait": "ELFA_EARS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FELINE_EARS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FELINE_EARS_OFF",
+    "effect": [ { "u_lose_trait": "FELINE_EARS" }, { "u_add_trait": "ELFA_EARS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CLAWS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CLAWS_OFF",
+    "effect": [ { "u_lose_trait": "CLAWS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_STAINLESS_CLAWS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS_ST" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_STAINLESS_CLAWS_OFF",
+    "effect": [ { "u_lose_trait": "CLAWS_ST" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_BIRD_WINGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "WINGS_BIRD" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_BIRD_WINGS_OFF",
+    "effect": [ { "u_lose_trait": "WINGS_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_URSINE_FUR_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_URSINE_FUR_OFF",
+    "effect": [ { "u_lose_trait": "URSINE_FUR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CHITIN_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CHITIN_OFF",
+    "effect": [ { "u_lose_trait": "CHITIN2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_QUADRUPED_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_QUADRUPED_OFF",
+    "effect": [ { "u_lose_trait": "POOKA_QUADRUPED_TRAITS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_LEAPING_LEGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_LEAPING_LEGS_OFF",
+    "effect": [ { "u_lose_trait": "LEAPING_LEGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_TAIL_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_add_trait": "TAIL_FLUFFY" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_TAIL_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_FLUFFY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_LONG_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_add_trait": "TAIL_LONG" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_LONG_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_LONG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_STING_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_add_trait": "TAIL_STING" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_STING_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_STING" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "POOKA_SHAPESHIFT_FULL_SELECTOR", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BAT",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_RAVEN",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BEAR",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_DEER",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_WOLF",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_COUGAR"
+        ],
+        "title": "What form will you be able to assume?",
+        "names": [ "Bat", "Raven", "Bear", "Deer", "Wolf", "Cougar" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "descriptions": [
+          "You will be able to assume the form of a bat.",
+          "You will be able to assume the form of a raven.",
+          "You will be able to assume the form of a bear.",
+          "You will be able to assume the form of a deer.",
+          "You will be able to assume the form of a wolf.",
+          "You will be able to assume the form of a cougar."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
+    "condition": { "math": [ "u_val('mana') >= 2" ] },
+    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
+    "false_effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BAT",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_BAT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              { "u_add_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "/=", "4" ] },
+              {
+                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a bat.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "*=", "4" ] },
+              { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              {
+                "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_RAVEN",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
+              { "math": [ "u_calories()", "/=", "4" ] },
+              {
+                "u_message": "Your body shifts and warps as your fingers extend into wings and feathers burst from your skin as you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "math": [ "u_calories()", "*=", "4" ] },
+              { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
+              {
+                "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BEAR",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_BEAR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
+              { "math": [ "u_calories()", "*=", "3" ] },
+              {
+                "u_message": "Your body shifts and expands as fur sprouts from your skin and your mouth and teeth lengthen.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "math": [ "u_calories()", "/=", "3" ] },
+              { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
+              {
+                "u_message": "Your body shifts and contracts and you return to your humanoid form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_DEER",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_DEER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_DEER_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
+              {
+                "u_message": "Your body shifts and warps as your fingers and feet fuse into hooves and majestic antlers sprout from your head.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_DEER_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "TURN_INTO_DEER_TRAITS" },
+              {
+                "u_message": "Your body shifts and contracts and you return to your humanoid form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_WOLF",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_WOLF" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              {
+                "u_message": "Your nose pushes out into a muzzle as you fall forward on all fours and let out a snarl.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_COUGAR",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_COUGAR_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
+              { "u_add_trait": "FELINE_LEAP" },
+              { "u_add_trait": "WHISKERS" },
+              {
+                "u_message": "Your nose pushes out into a muzzle and whiskers sprout from it as you fall forward on all fours and let out a growl.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_COUGAR_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "TURN_INTO_COUGAR_TRAITS" },
+              { "u_lose_trait": "FELINE_LEAP" },
+              { "u_lose_trait": "WHISKERS" },
+              {
+                "u_message": "Your fur and whiskers disappear and you walk once again on two legs.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_FOG_CLOAK",
+    "condition": { "not": { "u_has_effect": "effect_selkie_fog_cloak" } },
+    "effect": [
+      {
+        "u_add_effect": "effect_selkie_fog_cloak",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5.6) + (u_skill('deduction') * 51.2) + 135.4), ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 13.8) + (u_skill('deduction') * 123.05) + 498.5))"
+          ]
+        }
+      }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_selkie_fog_cloak" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
+    "effect": [
+      { "u_message": "A thick fog begins to rise.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 1" ] },
+      { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('deduction') * 34.53) + 203.10) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('deduction') * 102.75) + 747.75) * selkie_has_weather_mastery()"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
+    "effect": [
+      { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
+    "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER" } ],
+    "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER",
+    "condition": {
+      "and": [ { "math": [ "u_weather_change_limit <= 2" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rains" } } ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_INITIATE",
+            "condition": { "not": { "u_has_effect": "effect_controlling_weather_lightningstorm" } },
+            "effect": [
+              { "u_lose_effect": "effect_controlling_weather" },
+              { "math": [ "u_weather_change_limit = 3" ] },
+              { "math": [ "u_weather_stage_up_lower_bound = 60" ] },
+              { "math": [ "u_weather_stage_up_upper_bound = 180" ] },
+              { "u_add_effect": "effect_controlling_weather_rains", "duration": "6 hours" },
+              {
+                "u_add_effect": "effect_controlling_weather",
+                "duration": {
+                  "math": [
+                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('deduction') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('deduction') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
+                  ]
+                }
+              },
+              {
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "effect_controlling_weather_rains" },
+        "then": [ { "math": [ "u_weather_change_limit = 0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
+        "else": { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_INITIATE" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
+    "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER" } ],
+    "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER",
+    "condition": {
+      "and": [ { "math": [ "u_weather_change_limit <= 3" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } } ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_INITIATE",
+            "condition": { "not": { "u_has_effect": "effect_controlling_weather_lightningstorm" } },
+            "effect": [
+              { "u_lose_effect": "effect_controlling_weather" },
+              { "math": [ "u_weather_change_limit = 4" ] },
+              { "math": [ "u_weather_stage_up_lower_bound = 60" ] },
+              { "math": [ "u_weather_stage_up_upper_bound = 180" ] },
+              { "u_add_effect": "effect_controlling_weather_rainstorm", "duration": "6 hours" },
+              {
+                "u_add_effect": "effect_controlling_weather",
+                "duration": {
+                  "math": [
+                    "rng( ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('deduction') * 60.43) + 355.43) * selkie_has_weather_mastery() ), ( ( (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + ( (u_skill('deduction') * 179.81) + 1233.79) * selkie_has_weather_mastery() ) ) )"
+                  ]
+                }
+              },
+              {
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "effect_controlling_weather_rainstorm" },
+        "then": [ { "math": [ "u_weather_change_limit = 0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
+        "else": { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_INITIATE" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "condition": { "or": [ { "is_weather": "magic_weather_rainstorm" }, { "is_weather": "rainstorm" } ] },
+    "effect": [
+      { "math": [ "u_weather_change_limit = 6" ] },
+      { "math": [ "magic_weather_rainstorm = 0" ] },
+      { "math": [ "magic_weather_lightning = 1" ] },
+      { "u_add_effect": "effect_controlling_weather_lightningstorm", "duration": "6 hours" },
+      { "u_add_effect": "effect_controlling_weather", "duration": "30 minutes" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
+      { "u_message": "The sky explodes in a frenzy of lightning!", "type": "mixed" },
+      { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END", "time_in_future": [ "10 minutes", "30 minutes" ] }
+    ],
+    "false_effect": [ { "u_message": "You need a heavy rainstorm to agitate it into lightning.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
+    "condition": { "math": [ "magic_weather_lightning == 1" ] },
+    "effect": [
+      { "math": [ "u_weather_change_limit = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather" },
+      { "u_lose_effect": "effect_controlling_weather_lightningstorm" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_MOONS_TEARS_FORGING_LEARN_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "TROW_MOONS_TEARS_FORGING" }, { "x_in_y_chance": { "x": 1, "y": 15 } } ] },
+    "effect": [
+      {
+        "if": { "not": { "u_know_recipe": "moon_tear_ingot" } },
+        "then": { "u_learn_recipe": "moon_tear_ingot" },
+        "else": { "run_eocs": "EOC_LEARN_MOONS_TEARS_RECIPES" }
+      },
+      { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+    ]
+  }
+]

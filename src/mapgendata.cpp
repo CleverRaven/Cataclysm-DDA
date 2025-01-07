@@ -58,8 +58,8 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     , mission_( miss )
     , zlevel_( over.z() )
     , predecessors_( overmap_buffer.predecessors( over ) )
-    , t_above( overmap_buffer.ter( over + tripoint_above ) )
-    , t_below( overmap_buffer.ter( over + tripoint_below ) )
+    , t_above( overmap_buffer.ter( over + tripoint::above ) )
+    , t_below( overmap_buffer.ter( over + tripoint::below ) )
     , region( overmap_buffer.get_settings( over ) )
     , m( mp )
     , default_groundcover( region.default_groundcover )
@@ -218,7 +218,7 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
+void mapgendata::square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }

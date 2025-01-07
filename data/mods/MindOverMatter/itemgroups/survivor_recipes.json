@@ -1,0 +1,8 @@
+[
+  {
+    "id": "survivor_matrix_crystal_recipes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "recipe_survivor_matrix_crystal_ground", "prob": 1 } ]
+  }
+]

@@ -1,15 +1,5 @@
 [
   {
-    "id": "8mm_bootleg",
-    "copy-from": "8mm_caseless",
-    "type": "AMMO",
-    "name": { "str_sp": "bootleg 8x40mm FMJ" },
-    "description": "A bootleg duplicate of the Rivtech 8x40mm caseless round.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 } },
-    "extend": { "effects": [ "RECYCLED" ], "flags": [ "CASELESS_ROUNDS" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "8mm_caseless",
     "type": "AMMO",
     "name": { "str_sp": "8x40mm FMJ" },

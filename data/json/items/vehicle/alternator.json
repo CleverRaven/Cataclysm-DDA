@@ -2,7 +2,7 @@
   {
     "abstract": "vehicle_alternator",
     "type": "GENERIC",
-    "name": { "str": "vehicle alternator" },
+    "name": { "str": "vehicle alternator", "//~": "NO_I18N" },
     "category": "veh_parts",
     "material": [ "steel", "copper" ],
     "symbol": ",",

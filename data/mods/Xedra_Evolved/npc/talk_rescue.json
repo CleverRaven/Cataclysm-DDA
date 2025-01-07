@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "or": [ { "npc_has_trait": "EGGSAC_SURVIVABLE" }, { "npc_has_trait": "EGGSAC_FATAL" } ] },
-            { "math": [ "u_skill('deduction')", ">=", "2" ] }
+            { "math": [ "u_skill('deduction') >= 2" ] }
           ]
         },
         "effect": { "u_add_var": "knowledge_reproduction_u_knows_goblinspider_eggs", "value": "yes" },
@@ -40,7 +40,7 @@
           "not": {
             "or": [
               { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" },
-              { "u_has_var": "mission_completed_antiparasitic", "value": "yes" }
+              { "compare_string": [ "yes", { "u_val": "mission_completed_antiparasitic" } ] }
             ]
           }
         },

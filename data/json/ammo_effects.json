@@ -168,7 +168,7 @@
   {
     "id": "ROBOT_DAZZLE",
     "type": "ammo_effect",
-    "//": "Applies sensor-stunning effect to robots. Hardcoded"
+    "//": "Applies sensor-stunning effect to robots.  Only intended to affect ROBOTs not CYBORGs. Hardcoded"
   },
   {
     "id": "RECYCLED",
@@ -270,6 +270,12 @@
     "type": "ammo_effect",
     "//": "Creates a cloud of superheated plasma",
     "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
+  },
+  {
+    "id": "PLASMA_FAN",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_plasma_fan" }
   },
   {
     "id": "EXPLOSIVE",
@@ -421,5 +427,11 @@
     "type": "ammo_effect",
     "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "GENE_STING_BARB",
+    "type": "ammo_effect",
+    "//": "runs EoC that cause you to mutate",
+    "eoc": [ "EOC_random_mutate" ]
   }
 ]

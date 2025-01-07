@@ -8,11 +8,9 @@ add_library(
         third-party
         INTERFACE)
 
-set(THIRD_PARTY_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/third-party)
-
 # Flatbuffers
-file(GLOB FLATBUFFERS_HEADERS ${THIRD_PARTY_SOURCE_DIR}/flatbuffers/**/*.h)
-file(GLOB FLATBUFFERS_SOURCES ${THIRD_PARTY_SOURCE_DIR}/flatbuffers/*.cpp)
+file(GLOB FLATBUFFERS_HEADERS flatbuffers/**/*.h)
+file(GLOB FLATBUFFERS_SOURCES flatbuffers/*.cpp)
 
 add_library(
         flatbuffers
@@ -24,7 +22,7 @@ target_include_directories(
         flatbuffers
         SYSTEM
         PUBLIC
-        ${THIRD_PARTY_SOURCE_DIR})
+        ${CMAKE_CURRENT_SOURCE_DIR})
 
 # For cata_flatbuffers_assert.h
 target_include_directories(
@@ -39,7 +37,7 @@ target_link_libraries(
         )
 
 # GHC filesystem
-file(GLOB GHC_HEADERS ${THIRD_PARTY_SOURCE_DIR}/ghc/*.hpp)
+file(GLOB GHC_HEADERS ghc/*.hpp)
 
 add_library(
         ghc-filesystem
@@ -54,7 +52,7 @@ target_include_directories(
         ghc-filesystem
         SYSTEM
         INTERFACE
-        ${THIRD_PARTY_SOURCE_DIR})
+        ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(
         third-party
@@ -67,28 +65,32 @@ if (TILES)
         add_library(
                 imgui
                 STATIC
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imconfig.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_internal.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_rectpack.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_textedit.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_truetype.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_demo.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_draw.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_tables.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_widgets.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdl2.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdl2.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer2.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer2.h
+                imgui/imconfig.h
+                imgui/imgui.cpp
+                imgui/imgui.h
+                imgui/imgui_demo.cpp
+                imgui/imgui_draw.cpp
+                imgui/imgui_freetype.cpp
+                imgui/imgui_freetype.h
+                imgui/imgui_impl_sdl2.cpp
+                imgui/imgui_impl_sdl2.h
+                imgui/imgui_impl_sdlrenderer2.cpp
+                imgui/imgui_impl_sdlrenderer2.h
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
+                imgui/imgui_tables.cpp
+                imgui/imgui_widgets.cpp
+                imgui/imstb_rectpack.h
+                imgui/imstb_textedit.h
+                imgui/imstb_truetype.h
                 )
 
         target_include_directories(
                 imgui
                 SYSTEM
                 PUBLIC
-                ${THIRD_PARTY_SOURCE_DIR}
+                ${CMAKE_CURRENT_SOURCE_DIR}
                 )
 
         target_include_directories(
@@ -96,6 +98,7 @@ if (TILES)
                 SYSTEM
                 PRIVATE
                 ${SDL2_INCLUDE_DIR}/..
+                /usr/include/freetype2
                 )
 
         target_compile_options(
@@ -104,8 +107,6 @@ if (TILES)
                 -w
                 )
 
-        target_compile_definitions(imgui PUBLIC IMGUI_DISABLE_OBSOLETE_KEYIO)
-
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
                 SDL2::SDL2-static
@@ -113,6 +114,7 @@ if (TILES)
         else()
             target_link_libraries(imgui PUBLIC
                 SDL2::SDL2
+                freetype
             )
         endif ()
 
@@ -129,29 +131,28 @@ if (CURSES)
         add_library(
                 imtui
                 STATIC
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imconfig.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_internal.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_rectpack.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_textedit.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_truetype.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_demo.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_draw.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_tables.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_widgets.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imtui/imtui-impl-ncurses.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imtui/imtui-impl-ncurses.h
-                ${THIRD_PARTY_SOURCE_DIR}/imtui/imtui-impl-text.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imtui/imtui-impl-text.h
-                ${THIRD_PARTY_SOURCE_DIR}/imtui/imtui.h
+                imgui/imconfig.h
+                imgui/imgui.cpp
+                imgui/imgui.h
+                imgui/imgui_demo.cpp
+                imgui/imgui_draw.cpp
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
+                imgui/imgui_tables.cpp
+                imgui/imgui_widgets.cpp
+                imtui/imtui-impl-ncurses.cpp
+                imtui/imtui-impl-ncurses.h
+                imtui/imtui-impl-text.cpp
+                imtui/imtui-impl-text.h
+                imtui/imtui.h
                 )
 
         target_include_directories(
                 imtui
                 SYSTEM
                 PUBLIC
-                ${THIRD_PARTY_SOURCE_DIR}
+                ${CMAKE_CURRENT_SOURCE_DIR}
         )
         target_compile_options(
                 imtui

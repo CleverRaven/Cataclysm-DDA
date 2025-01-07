@@ -264,7 +264,6 @@
     "chip_resist": 8,
     "wind_resist": 90,
     "repaired_with": "bone",
-    "salvaged_into": "skewer_bone",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
@@ -628,14 +627,6 @@
   },
   {
     "type": "material",
-    "id": "cotton_salted",
-    "name": "Salt Hardened Cotton",
-    "copy-from": "cotton",
-    "repaired_with": "null",
-    "resist": { "bash": 2, "cut": 2, "acid": 5, "heat": 10, "bullet": 1.5 }
-  },
-  {
-    "type": "material",
     "id": "cotton_quilted_salted",
     "name": "Salt Hardened Quilted Cotton",
     "copy-from": "cotton",
@@ -793,7 +784,8 @@
     "type": "material",
     "id": "drug_filler",
     "name": "Drug filler",
-    "copy-from": "flesh",
+    "copy-from": "powder",
+    "vitamins": [  ],
     "//": "Assumed a gelatine capsule that contain the drug, but can be any another drug filler like glucose, lactose, sucrose and the like.  Created so we don't need to specify three billion chemicals used in pills.",
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ]
   },
@@ -2266,10 +2258,25 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
+    "id": "ballistic_shield",
+    "name": "Ballistic Barrier",
+    "density": 1,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
+    "bash_dmg_verb": "agitated",
+    "cut_dmg_verb": "agitated",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 100 }
   },
   {
     "type": "material",
@@ -2280,7 +2287,7 @@
     "specific_heat_solid": 0.52,
     "latent_heat": 5200,
     "chip_resist": 100,
-    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],

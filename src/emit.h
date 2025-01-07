@@ -27,22 +27,22 @@ class emit
         bool is_valid() const;
 
         /** Type of field to emit @see emit::is_valid */
-        field_type_id field( dialogue &d ) const {
+        field_type_id field( const_dialogue const &d ) const {
             return field_type_id( field_.evaluate( d ) );
         }
 
         /** Intensity of output fields, range [1..maximum_intensity] */
-        int intensity( dialogue &d ) const {
+        int intensity( const_dialogue const &d ) const {
             return intensity_.evaluate( d );
         }
 
         /** Units of field to generate per turn subject to @ref chance */
-        int qty( dialogue &d ) const {
+        int qty( const_dialogue const &d ) const {
             return qty_.evaluate( d );
         }
 
         /** Chance to emit each turn, range [1..100] */
-        int chance( dialogue &d ) const {
+        int chance( const_dialogue const &d ) const {
             return chance_.evaluate( d );
         }
 

@@ -165,12 +165,12 @@
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 0 : max((6500 - (u_spell_level('afs_electrokinetic_personal_battery') * 150)), 3500)"
+        "u_effect_intensity('effect_afs_electrokin_personal_battery') > 0 ? 0 : max((6500 - (u_spell_level('afs_electrokinetic_personal_battery') * 150)), 3500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_personal_battery') > 0 ? 10 : max((350 -(u_spell_level('afs_electrokinetic_personal_battery') * 9)), 150)"
+        "u_effect_intensity('effect_afs_electrokin_personal_battery') > 0 ? 10 : max((350 -(u_spell_level('afs_electrokinetic_personal_battery') * 9)), 150)"
       ]
     }
   },

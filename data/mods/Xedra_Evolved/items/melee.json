@@ -48,14 +48,10 @@
     "name": { "str": "frostrimed estoc" },
     "copy-from": "mirror_march_estoc",
     "description": "This sword is covered in shifting frost and seems to move of its own volition in your hands.",
+    "extend": { "flags": [ "RELIC_PINK" ] },
+    "relative": { "melee_damage": { "cold": 9 } },
     "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 }, { "value": "ATTACK_SPEED", "add": -20 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -429,5 +425,15 @@
     "name": { "str_sp": "bō of practice" },
     "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
+  },
+  {
+    "id": "xedra_chrono_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "monochrome knife", "str_pl": "monochrome knives" },
+    "description": "A well designed steel knife that used to be stuck in your belly.  It lightly flickers in the air and is tainted an unnatural gray.  Despite your best efforts, you aren't even able to smear the gray streaks of your blood that remain frozen along the edge, much less damage the actual metal.",
+    "copy-from": "knife_rm42",
+    "price_postapoc": "100 USD",
+    "extend": { "flags": [ "UNBREAKABLE_MELEE" ] }
   }
 ]

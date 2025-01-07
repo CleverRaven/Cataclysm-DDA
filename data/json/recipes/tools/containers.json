@@ -413,6 +413,33 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "jar_3l_glass_sealed",
+    "id_suffix": "glassblowers_crucible",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "2 h 30 m",
+    "batch_time_factors": [ 80, 1 ],
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "glassblowers_crucible_tool", 4800 ] ],
+      [ [ "forge", 150 ] ],
+      [ [ "casting_mold_small", -1 ] ]
+    ],
+    "components": [
+      [ [ "glass_shard", 13 ], [ "flask_glass", 20 ], [ "test_tube", 27 ], [ "marble", 318 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "chunk_rubber", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bottle_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -899,6 +926,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "clay_watercont_no_lid",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "77 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "using": [ [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
+    "components": [ [ [ "any_water", 3, "LIST" ] ], [ [ "clay_lump", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jug_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -979,7 +1021,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_carving" } ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
+      [ [ "any_wire", 1, "LIST" ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
       [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
@@ -1446,6 +1488,20 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "stick", 1 ] ] ]
   },
   {
+    "result": "tankard_metal",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ceramic_cup",
@@ -1454,6 +1510,21 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
+    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "clay_cup",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],

@@ -17,5 +17,24 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "249 ml", "max_contains_weight": "1 kg" } ],
     "flags": [ "BRASS_CATCHER" ],
     "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "big_brass_catcher",
+    "type": "GUNMOD",
+    "name": { "str": "big brass catcher" },
+    "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.  This one is larger and made of canvas, so it can catch more casings before needing to be emptied.  Though the added convenience comes at the cost of being bulkier.",
+    "weight": "228 g",
+    "volume": "300 ml",
+    "price": "40 USD",
+    "price_postapoc": "1 USD",
+    "install_time": "45 s",
+    "material": [ "canvas" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "brass catcher",
+    "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "500 ml", "max_contains_weight": "2 kg" } ],
+    "flags": [ "BRASS_CATCHER" ],
+    "min_skills": [ [ "gun", 1 ] ]
   }
 ]

@@ -12,12 +12,13 @@
         "id": "modular_m16a3",
         "name": { "str": "C7" },
         "description": "The standard issue rifle for the Canadian armed forces, featuring a 20 in. long barrel and full auto capabilities when fed from STANAG magazines.",
-        "weight": 1
+        "weight": 100
       },
       {
-        "id": "modular_acr",
+        "id": "c7a1",
         "name": { "str": "C7A1" },
-        "description": "This is the updated model of the C7 carbine, using a modified Weaver rail instead of a carrying handle/iron sight assembly to assist in mounting optics."
+        "description": "This is the updated model of the C7 carbine, using a modified Weaver rail instead of a carrying handle/iron sight assembly to assist in mounting optics.",
+        "weight": 5
       }
     ]
   },

@@ -11,9 +11,7 @@
     "material": [ "steel" ],
     "volume": "119 L",
     "weight": "221 kg",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -27,9 +25,7 @@
     "material": [ "steel" ],
     "volume": "410 L",
     "weight": "498 kg",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -43,9 +39,7 @@
     "material": [ "steel" ],
     "weight": "206 kg",
     "volume": "105 L",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -59,8 +53,6 @@
     "material": [ "steel" ],
     "volume": "70 L",
     "weight": "150 kg",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 20, "cut": 15 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

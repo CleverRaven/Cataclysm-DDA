@@ -1,0 +1,36 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL",
+    "effect": [
+      {
+        "npc_run_inv_eocs": "random",
+        "search_data": [ { "condition": { "math": [ "n_vitamin('human_flesh_vitamin') >= 1" ] } } ],
+        "true_eocs": [
+          {
+            "id": "EOC_GAVE_BEGGAR_CANNIBAL_PROOF",
+            "effect": [
+              { "math": [ "faction_like('free_merchants') = -100" ] },
+              { "math": [ "faction_like('lobby_beggars') = -100" ] },
+              { "math": [ "u_npc_anger() = 100" ] },
+              { "math": [ "u_npc_trust() = -100" ] },
+              { "message": "They know what you've done.", "type": "bad", "popup": true }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_GAVE_BEGGAR_FOOD",
+            "effect": [
+              { "npc_add_effect": "beggar_has_eaten", "duration": 3600 },
+              { "math": [ "n_npc_trust()", "+=", "1" ] },
+              { "math": [ "n_npc_value()", "+=", "1" ] },
+              { "math": [ "n_npc_fear()", "+=", "-1" ] },
+              { "math": [ "n_npc_anger()", "+=", "-1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -6,7 +6,8 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }, { "value": "ARMOR_COLD", "add": -15 } ]
+    "incoming_damage_mod": [ { "type": "cold", "add": -15 } ],
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 } ]
   },
   {
     "id": "ench_climate_periapta_feline",
@@ -73,8 +74,8 @@
   {
     "id": "increase_berserking",
     "type": "SPELL",
-    "name": "Berserking",
-    "description": "Increase the berserker variable.",
+    "name": { "str": "Berserking", "//~": "NO_I18N" },
+    "description": { "str": "Increase the berserker variable.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "INCREASE_BERSERKER",
@@ -107,13 +108,13 @@
     "id": "INCREASE_BERSERKER",
     "condition": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } },
     "deactivate_condition": { "not": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } } },
-    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER", "++" ] } ]
+    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
+    "effect": [ { "math": [ "BERSERKER = max( 0, BERSERKER - 1)" ] } ]
   },
   {
     "id": "ench_verdant_helmet",
@@ -142,12 +143,19 @@
     "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
   },
   {
-    "id": "ench_verdant_boots",
+    "id": "ench_verdant_legs",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
     "ench_effects": [ { "effect": "effect_steady_flag", "intensity": 1 }, { "effect": "effect_sludge_immune_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_boots",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "multiply": 0.25 } ]
   },
   {
     "id": "ench_verdant_cloak",
@@ -159,5 +167,24 @@
       { "value": "CLIMATE_CONTROL_CHILL", "add": 10 },
       { "value": "BONUS_DODGE", "add": 1 }
     ]
+  },
+  {
+    "id": "ench_sevenoclock_coat",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "or": [ { "u_has_effect": "lying_down" }, { "u_has_effect": "sleep" } ] },
+    "values": [
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
+      { "value": "SLEEPY", "add": 9999 }
+    ]
+  },
+  {
+    "id": "ench_ierde_stone_fists",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "10 * (1 + (u_has_trait('IERDE_SKIN_3') * 0.5) )" ] } } ],
+    "values": [ { "value": "ATTACK_SPEED", "multiply": 0.15 } ]
   }
 ]

@@ -25,8 +25,8 @@ static const string_id<npc_template> npc_template_test_talker( "test_talker" );
 
 static const weather_type_id weather_sunny( "sunny" );
 
-static constexpr point main_npc_start{ 50, 50 };
-static constexpr tripoint main_npc_start_tripoint{ main_npc_start, 0 };
+static constexpr point_bub_ms main_npc_start{ 50, 50 };
+static constexpr tripoint_bub_ms main_npc_start_tripoint{ main_npc_start, 0 };
 
 namespace npc_attack_setup
 {
@@ -89,7 +89,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                 CHECK( rating.value() );
                 CHECK( *rating.value() > 0 );
-                CHECK( rating.target() == zombie->pos() );
+                CHECK( rating.target() == zombie->pos_bub() );
             }
         }
         WHEN( "NPC only has an m16a4" ) {
@@ -109,7 +109,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                     const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                     CHECK( rating.value() );
                     CHECK( *rating.value() > 0 );
-                    CHECK( rating.target() == zombie->pos() );
+                    CHECK( rating.target() == zombie->pos_bub() );
                 }
             }
             WHEN( "NPC isn't allowed to use loud weapons" ) {
@@ -220,7 +220,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                 CHECK( rating.value() );
                 CHECK( *rating.value() > 0 );
-                CHECK( rating.target() == zombie->pos() );
+                CHECK( rating.target() == zombie->pos_bub() );
             }
         }
 
@@ -256,7 +256,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                     const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                     CHECK( rating.value() );
                     CHECK( *rating.value() > 0 );
-                    CHECK( rating.target() == zombie->pos() );
+                    CHECK( rating.target() == zombie->pos_bub() );
                 }
             }
             WHEN( "NPC is targetting farthest zombie" ) {
@@ -270,7 +270,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                         const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                         CHECK( rating.value() );
                         CHECK( *rating.value() > 0 );
-                        CHECK( rating.target() == zombie->pos() );
+                        CHECK( rating.target() == zombie->pos_bub() );
                     }
                 }
                 WHEN( "Furthest zombie is at low HP" ) {
@@ -284,7 +284,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                         const npc_attack_rating &rating = main_npc.get_current_attack_evaluation();
                         CHECK( rating.value() );
                         CHECK( *rating.value() > 0 );
-                        CHECK( rating.target() == zombie_far->pos() );
+                        CHECK( rating.target() == zombie_far->pos_bub() );
                     }
                 }
             }

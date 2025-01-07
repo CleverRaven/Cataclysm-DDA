@@ -1,0 +1,40 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_butchering_basic",
+    "category": "prof_butchering",
+    "name": { "str": "Principles of Butchering" },
+    "description": "You know how to pick up most of the meat from the animal body.",
+    "can_learn": true,
+    "time_to_learn": "2 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_butchering_adv",
+    "category": "prof_butchering",
+    "name": { "str": "Butchering Expert" },
+    "description": "There is very little meat left after your skillful knife movements.",
+    "can_learn": true,
+    "time_to_learn": "25 h",
+    "required_proficiencies": [ "prof_butchering_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_skinning_basic",
+    "category": "prof_butchering",
+    "name": { "str": "Principles of Skinning" },
+    "description": "You stopped making holes in the skin of animals you butcher.",
+    "can_learn": true,
+    "time_to_learn": "2 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_skinning_adv",
+    "category": "prof_butchering",
+    "name": { "str": "Skinning Expert" },
+    "description": "You really know how to skin the animal.",
+    "can_learn": true,
+    "time_to_learn": "25 h",
+    "required_proficiencies": [ "prof_skinning_basic" ]
+  }
+]

@@ -499,7 +499,7 @@
       "terrain": { "G": "t_card_science" },
       "monster": {
         "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
-        "M": { "monster": "mon_zombie_bio_op" }
+        "M": { "monster": "mon_zombie_soldier" }
       }
     }
   },

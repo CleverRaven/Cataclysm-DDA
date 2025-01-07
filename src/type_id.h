@@ -88,6 +88,9 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+struct end_screen;
+using end_screen_id = string_id<end_screen>;
+
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
 
@@ -197,6 +200,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class oter_vision;
+using oter_vision_id = string_id<oter_vision>;
 
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;

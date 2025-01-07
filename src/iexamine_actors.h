@@ -21,7 +21,7 @@ class appliance_convert_examine_actor : public iexamine_actor
             : iexamine_actor( type ) {}
 
         void load( const JsonObject &jo, const std::string & ) override;
-        void call( Character &you, const tripoint &examp ) const override;
+        void call( Character &you, const tripoint_bub_ms &examp ) const override;
         void finalize() const override;
 
         std::unique_ptr<iexamine_actor> clone() const override;
@@ -53,15 +53,15 @@ class cardreader_examine_actor : public iexamine_actor
         std::string redundant_msg;
 
         void consume_card( const std::vector<item_location> &cards ) const;
-        std::vector<item_location> get_cards( Character &you, const tripoint &examp ) const;
-        bool apply( const tripoint &examp ) const;
+        std::vector<item_location> get_cards( Character &you, const tripoint_bub_ms &examp ) const;
+        bool apply( const tripoint_bub_ms &examp ) const;
 
     public:
         explicit cardreader_examine_actor( const std::string &type = "cardreader" )
             : iexamine_actor( type ) {}
 
         void load( const JsonObject &jo, const std::string & ) override;
-        void call( Character &you, const tripoint &examp ) const override;
+        void call( Character &you, const tripoint_bub_ms &examp ) const override;
         void finalize() const override;
 
         std::unique_ptr<iexamine_actor> clone() const override;
@@ -76,7 +76,7 @@ class eoc_examine_actor : public iexamine_actor
             : iexamine_actor( type ) {}
 
         void load( const JsonObject &jo, const std::string &src ) override;
-        void call( Character &you, const tripoint &examp ) const override;
+        void call( Character &you, const tripoint_bub_ms &examp ) const override;
         void finalize() const override;
 
         std::unique_ptr<iexamine_actor> clone() const override;

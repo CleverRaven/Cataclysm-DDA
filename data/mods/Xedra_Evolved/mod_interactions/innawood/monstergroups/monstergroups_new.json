@@ -1,0 +1,45 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 10, "cost_multiplier": 10 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 3, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_CHANGELING_STRIKE_FORCE", "weight": 3, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_OVERLAND_RENFIELD", "weight": 10, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "//": "Current SPRING first DAY count is X.",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 5, "cost_multiplier": 10 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_CHANGELING_STRIKE_FORCE", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_OVERLAND_RENFIELD", "weight": 10, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OVERLAND_RENFIELD",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_renfield", "weight": 200 }, { "monster": "mon_renfield", "weight": 50, "pack_size": [ 2, 5 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE_VAMPIRE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_renfield", "weight": 200 },
+      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_vampire_moroi", "weight": 35 },
+      { "monster": "mon_vampire_strigoi", "weight": 25 },
+      { "monster": "mon_vampire_strigoi", "weight": 5, "pack_size": [ 2, 4 ] },
+      { "monster": "xe_mon_bat", "weight": 100, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_bat_giant", "weight": 35, "pack_size": [ 1, 2 ] }
+    ]
+  }
+]

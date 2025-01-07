@@ -149,6 +149,17 @@ However, Mind Over Matter is distributed with the game, and adds psychic powers.
 Not happening, it simply doesn’t fit the theme of the game.
 However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](MAGIC.md) for more info.
 
+#### Remove skill rust: no
+
+First things first: 99% of people ask to remove skill rust because their informations is based on very outdated information. Skill rust is a very old mechanic; it was added before Cataclysm DDA, by Whales, in Cataclysm. While I do not know why it was added in the first place, it was pretty terrible - you could level your skill now, but not being able to use it in crafting a few hours after, purely because the skill was rusted.
+But not now. Skill rust was changed over the years to be a **purely positive mechanic**:
+- Skills were divided into theoretical and practical levels, and a lot of functions were revisited to use the theoretical level, and increasing the practical level while having theory brings additional xp. Rust, meanwhile, is limited by only 1 ***practical*** level and grants even more free xp when restored;
+- Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
+- The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
+and skill rust impact (and benefit) would be even stronger once #67580 is implemented fully.
+This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors from people not familiar with the changes, that are based themselves either on their outdated experience or from incorrect rumors they were told.
+- To further clarify, if someone uses a mod to remove skill rust their character will level skills slower than a character experiencing skill rust.
+
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
 
@@ -163,7 +174,7 @@ One approach that might work would be specific monster attacks that make your sc
 
 We limit crafting for the most part (exception, see cars) to things a single survivor with limited tools can create, and every reasonable plan for automatic action guns I’ve seen has required rather extensive tooling that’s not available to the survivor (metal folding/rolling machines, presses, drill presses).
 
-The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second. This currently exists ingame as the "12-gauge gatling gun" (id: `bigun`).
+The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second. This currently exists ingame as the "12-gauge Gatling gun" (id: `bigun`).
 
 At some point in the future we might build up tooling to the point where automatic weapons manufacture becomes feasible, at that point we can revisit this.
 
@@ -200,6 +211,16 @@ An extraordinarily dedicated modder could hack some of this kind of thing in wit
 People frequently suggest that we add a system where melee weapons can have mods attached to them like guns can. There are two problems with this. First no one has seen a sensical suggestion of what these mods would be outside of fantasy type things. Second, the mod system for guns **is TERRIBLE** and shouldn't be duplicated. Someone would have to come up with something much better before it would get added.
 
 The damage melee weapons cause is a complex combination of dynamic leverage as they are swung, weight distribution, and the interaction of the striking surface(s) with the target, and that doesn’t even get into the complexities of maneuvering past a targets defenses without opening your own guard.
+
+#### Mining and smelting: Not a Minecraft
+
+People lived in New England for about 15000 years.  People mined here for about 8000 years.  When some territory is mined for this long, almost any exposed, easy-to-reach ores and minerals tend to exhaust, so the only option for mining companies is to dig deeper, harder, and use more and more complex tools, machines, and reagents in order to transform rocks into useful materials.  Tools, machines, and reagents that character has no way to obtain and use, but also, **because character has no point to use it**.
+
+Why would anyone sapient bother digging rocks and trying to convert them into steel, if they can just, you know, break a vehicle or some machine apart and get steel more pure than they would ever be able to reach otherwise? Why would anyone try to smelt stone to get some lead if they can just cut open the battery? Copper? Break into the substation, there is no electricity anyway.
+
+For more ground substances like sand or gravel, the potential way to obtain more of them should not be by grinding big rocks into smaller rocks, but by finding a quarry or Home Depot and just loading your truck with what you need.
+
+It doesn't apply to mods, they just need to be sure their attempt will bring more fun than tediousness.
 
 #### Recover liquids from the ground: Partially implemented
 
@@ -271,7 +292,7 @@ On the plus side, they would tend to do quite a lot of damage, so using a few to
 Mechanically, this would replace the strength stat of the attacker with a calculation based on attacker body weight times vehicle speed, with a stability check to avoid being knocked off of the vehicle or having the entire vehicle knocked over.
 
 #### Use a warhorse for lance attacks: mod only
-This brings us to the topic of warhorses, which for all practical purposes do not exist in the dark days ahead scenario.  There might be a handful of people training warhorses on the planet, but they're so rare as to essentially not exist, and the chances of any trained warhorses surviving the cataclysm are minuscule.
+This brings us to the topic of warhorses, which for all practical purposes do not exist in the dark days ahead scenario.  There might be a handful of people training warhorses on the planet, but they're so rare as to essentially not exist, and the chances of any trained warhorses surviving the Cataclysm are minuscule.
 
 Mods of course are free to have warhorses or other warbeasts as they wish.
 
@@ -376,7 +397,7 @@ Some multi-tile monsters, such as giant snakes, have fewer technical challenges 
 
 #### Add food-bearing plant X: based on viability
 
-The setting of the game is New England, with a strong emphasis on the Massachussetts area, so for example this places the [Hardiness Zone](https://en.wikipedia.org/wiki/Hardiness_zone) to reference at 6 or 7, and other indicators of plant viability (rainfall, first frost) should likewise be based on the typical Massachusetts stats. The other major thing to keep in mind is that when you are adding a tree or other plant, the primary impact is that you are expecting it to grow and produce harvestable fruit (or other harvestables) under the prevailing weather conditions for the area. Greenhouse-only plants will mostly die off in the first winter if not before; plants that require other winterizing actions will likewise die or be unhealthy if not cared for, so there would be no expectation of these plants thriving and producing harvestable materials. Due to this, the emphasis should be on plants that *thrive* in this region, not just ones that it is *possible* to grow.  It is not out of the question that we add a system that handles this in a more nuanced way, including requiring intensive gardening interventions, but until such a system is present plants that do not naturally thrive in Massachusetts should not be added, or they should be added in a form that does not produce harvests.
+The setting of the game is New England, with a strong emphasis on the Massachusetts area, so for example this places the [Hardiness Zone](https://en.wikipedia.org/wiki/Hardiness_zone) to reference at 6 or 7, and other indicators of plant viability (rainfall, first frost) should likewise be based on the typical Massachusetts stats. The other major thing to keep in mind is that when you are adding a tree or other plant, the primary impact is that you are expecting it to grow and produce harvestable fruit (or other harvestables) under the prevailing weather conditions for the area. Greenhouse-only plants will mostly die off in the first winter if not before; plants that require other winterizing actions will likewise die or be unhealthy if not cared for, so there would be no expectation of these plants thriving and producing harvestable materials. Due to this, the emphasis should be on plants that *thrive* in this region, not just ones that it is *possible* to grow.  It is not out of the question that we add a system that handles this in a more nuanced way, including requiring intensive gardening interventions, but until such a system is present plants that do not naturally thrive in Massachusetts should not be added, or they should be added in a form that does not produce harvests.
 
 #### Add this item/recipe/etc: Go ahead
 

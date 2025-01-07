@@ -157,13 +157,7 @@
       "palettes": [ "lab_palette" ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
       "place_monster": [
-        {
-          "monster": [ "mon_zombie_bio_op", "mon_dispatch" ],
-          "x": [ 10, 16 ],
-          "y": [ 5, 12 ],
-          "pack_size": [ 1, 2 ],
-          "chance": 40
-        },
+        { "monster": [ "mon_dispatch" ], "x": [ 10, 16 ], "y": [ 5, 12 ], "pack_size": [ 1, 2 ], "chance": 40 },
         { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
       "furniture": { "7": "f_console" },
@@ -179,10 +173,9 @@
         "d": { "items": [ { "item": "office", "chance": 50 } ] },
         "r": {
           "items": [
-            { "item": "military", "chance": 10 },
-            { "item": "ammo_milspec", "chance": 10 },
-            { "item": "mags_milspec", "chance": 10 },
-            { "item": "guns_milspec", "chance": 10 }
+            { "item": "ammo_milspec", "chance": 14 },
+            { "item": "mags_milspec", "chance": 14 },
+            { "item": "guns_milspec", "chance": 14 }
           ]
         }
       },

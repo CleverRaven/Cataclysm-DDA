@@ -73,5 +73,62 @@
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "BOOK",
+    "id": "book_nonf_empty_social_history_no_magic",
+    "name": {
+      "str": "Running on Empty: A Social History of those Born Without Magic",
+      "str_pl": "copies of Running on Empty: A Social History of those Born Without Magic"
+    },
+    "description": "A history of the treatment of the \"Empty\", people born with the inability to master even the simplest of spells.  From persecution to favored positions (since rulers could be sure the Empty had no magical means of plotting against them), this book chronicles their treatment across the ages.",
+    "intelligence": 7,
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_gray",
+    "time": "20 m",
+    "chapters": 15,
+    "fun": 1,
+    "weight": "1000 g",
+    "volume": "885 ml",
+    "longest_side": "23 cm",
+    "price": "20 USD 89 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "paper" ],
+    "copy-from": "book_nonf_soft_tpl",
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "BOOK",
+    "id": "book_nonf_history_antimagic_restraints",
+    "name": {
+      "str": "Prisons and Magic: The History of Past and Present Antimagic Restraints",
+      "str_pl": "copies of Prisons and Magic: The History of Past and Present Antimagic Restraints"
+    },
+    "description": "A detailed overview of the means used by ancient societies to keep imprisoned magic users inside prisons.  From the chains and gag to the mana-leech shackle, this book covers the myriad of ways prisons dealt with teleportation, invisibility, intangibility and every other magic that could be used for an evasion.",
+    "intelligence": 7,
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_gray",
+    "time": "20 m",
+    "chapters": 15,
+    "fun": 1,
+    "weight": "1000 g",
+    "volume": "885 ml",
+    "longest_side": "23 cm",
+    "price": "20 USD 89 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "paper" ],
+    "copy-from": "book_nonf_soft_tpl",
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "BOOK",
+    "id": "magazine_augmentative_review",
+    "copy-from": "mag_news",
+    "name": { "str": "Augmentative Technomancy Review", "str_pl": "issues of Augmentative Technomancy Review" },
+    "description": "This annual publication covers the latest advances in bionic technomancy, the implantation of metal into flesh.  There are some pretty promising new developments in here that will now never see the light of day.",
+    "symbol": "?",
+    "color": "pink"
   }
 ]

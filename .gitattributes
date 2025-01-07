@@ -24,8 +24,8 @@
 *.vcxproj -text
 
 # Generated translation text, don't mess with them.
-*.mo      -text
-*.po      -text
+*.mo      binary
+*.po      -text -diff
 *.pot     -text
 
 # Treat images, archives, and font files as binary.

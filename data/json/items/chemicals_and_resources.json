@@ -23,7 +23,7 @@
     "id": "fert_supplement",
     "name": { "str_sp": "fertility supplement" },
     "//": "Right now, it's just used in a quest, and should not spawn naturally.",
-    "flags": [ "EDIBLE_FROZEN", "WATER_DISSOLVE", "NO_INGEST" ],
+    "flags": [ "EDIBLE_FROZEN", "WATER_DISSOLVE", "NO_INGEST", "MISSION_ITEM" ],
     "weight": "1 g",
     "color": "pink",
     "container": "bottle_plastic_pill_supplement",
@@ -75,7 +75,7 @@
     "id": "material_cement",
     "category": "spare_parts",
     "price": "2 USD",
-    "price_postapoc": "10 cent",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "cement powder" },
     "symbol": "=",
     "color": "dark_gray",
@@ -214,7 +214,6 @@
     "material": [ "stone" ],
     "weight": "2700 g",
     "volume": "1 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -697,7 +696,7 @@
     "id": "chem_sulphuric_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "12 cent",
     "name": { "str_sp": "sulfuric acid" },
     "symbol": "=",
     "color": "white",
@@ -718,7 +717,7 @@
     "id": "chem_muriatic_acid",
     "category": "chems",
     "price": "2 USD 50 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "name": { "str_sp": "hydrochloric acid" },
     "symbol": "=",
     "color": "white",
@@ -738,7 +737,7 @@
     "id": "chem_acetone",
     "category": "chems",
     "price": "50 cent",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "5 cent",
     "name": { "str_sp": "acetone" },
     "symbol": "=",
     "color": "white",
@@ -755,7 +754,7 @@
     "id": "chem_nitric_acid",
     "category": "chems",
     "price": "3 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "9 cent",
     "name": { "str_sp": "nitric acid" },
     "symbol": "=",
     "color": "white",
@@ -1180,14 +1179,21 @@
     "material": [ "powder" ],
     "weight": "1 g",
     "color": "white",
-    "use_action": [ "WATER_PURIFIER" ],
+    "use_action": [ "WATER_TABLETS" ],
     "comestible_type": "MED",
     "symbol": "!",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250 mL).",
+    "//": "Modeled after camping-scale aquatabs (https://cdn.shopify.com/s/files/1/0371/7506/6755/files/2020-49mg_insert.pdf?v=1592588294).  Usage procedure is: clarify and decant water, add tablets, mix for 10 minutes, wait for 30.",
+    "//2": "The recommended usage is 1 tablet per L, going to 2 tablets if cloudy/stained/cold",
+    "//3": "The same company manufactures larger tablets for larger volumes, but the amount of active ingredient per litre of water is roughly equivalent and the procedure is similar",
+    "//4": "The infrastructure does not currently exist for modelling whether water is cloudy.",
+    "//5": "Based on this: usage is modeled in-game as: 1. Spend 5m/1L with significant batch savings to decant, 2. Add tablets 3. Assume mixing can be arranged, 4. wait 40 minutes for clean water.",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water while camping or traveling, this sodium dichloroisocyanurate-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per liter (4 units of water).",
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "//6": "The ratio of how much water can be purified per tablet (maximum).  Should match the water_purifying recipe",
+    "variables": { "water_per_tablet": "4" }
   },
   {
     "type": "GENERIC",
@@ -1200,8 +1206,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -1215,8 +1220,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1230,8 +1234,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1245,8 +1248,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "180 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1260,8 +1262,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1275,8 +1276,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1290,8 +1290,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1305,8 +1304,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1320,8 +1318,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1335,8 +1332,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -1627,61 +1623,48 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_peptone_broth",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "name": { "str_sp": "peptone broth powder" },
+    "name": { "str_sp": "peptone water powder" },
     "symbol": ";",
-    "quench": -15,
-    "fun": -4,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "description": "A pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate, you could eat it too; it's not much different from cup noodle stock.",
-    "comestible_type": "INVALID",
+    "description": "A pre-mixed salty solution of protein and sugar meant for bacteria to eat.",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL",
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_agar",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "agar" },
     "symbol": ";",
-    "quench": -15,
-    "fun": -6,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "Clear flakes of processed seaweed that can be dissolved in boiling water to create a very sturdy, temperature-resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "1 ml",
     "//": "Bulk density is around 0.55 g/mL",
     "weight": "1 g"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_acrylamide",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "acrylamide" },
     "symbol": ";",
-    "quench": -15,
-    "healthy": -20,
-    "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "A handful of highly carcinogenic white powder that can be readily polymerized into a whole bunch of useful water-soluble gels.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
@@ -1701,7 +1684,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "link_sheet",
+    "looks_like": "lc_link_sheet",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -1813,21 +1796,16 @@
     "looks_like": "milk"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "chem_citric_acid",
     "category": "chems",
     "price": "1 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "citric acid" },
     "symbol": ";",
-    "quench": -15,
-    "healthy": -20,
-    "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "description": "A manufactured form of citric acid that is commonly used as an additive in food, cleaning agents, and nutritional supplements.",
-    "comestible_type": "INVALID",
     "material": [ "powder" ],
     "volume": "2 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
@@ -1836,7 +1814,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "venom_gland",
-    "name": { "str": "venom gland" },
+    "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
     "comestible_type": "FOOD",
     "spoils_in": "4 hours",
