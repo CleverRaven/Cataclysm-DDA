@@ -100,7 +100,7 @@ static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
-static const recipe_id recipe_helmet_scavenger( "helmet_scavenger" );
+static const recipe_id recipe_helmet_scavenger_debug( "helmet_scavenger_debug" );
 static const recipe_id recipe_leather_belt( "leather_belt" );
 static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
@@ -1306,13 +1306,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 66244, 0, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 66244, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 54171, 50, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 54171, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 49610, 100, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 49610, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
