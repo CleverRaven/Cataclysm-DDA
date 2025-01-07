@@ -713,7 +713,7 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint_bub_ms &pos )
 {
-    return type->invoke( nullptr, *this, pos.raw() ).value_or( 0 );
+    return type->invoke( nullptr, *this, pos ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -10548,7 +10548,7 @@ bool item::spill_contents( const tripoint_bub_ms &pos )
         is_container_empty() ) {
         return true;
     }
-    return contents.spill_contents( pos.raw() );
+    return contents.spill_contents( pos );
 }
 
 bool item::spill_open_pockets( Character &guy, const item *avoid )
@@ -10558,7 +10558,7 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
 
 void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos.raw(), loc );
+    contents.overflow( pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11270,7 +11270,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, pos.raw() );
+        qty -= contents.ammo_consume( qty, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -13600,7 +13600,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         if( type->revert_to ) {
             convert( *type->revert_to, carrier );
         } else {
-            type->invoke( carrier, *this, pos.raw(), "transform" );
+            type->invoke( carrier, *this, pos, "transform" );
         }
         if( typeId() == itype_joint_lit && carrier != nullptr ) {
             carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
@@ -13620,7 +13620,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
                                             type_name() );
                 convert( *type->revert_to, carrier );
             } else {
-                type->invoke( carrier, *this, pos.raw(), "transform" );
+                type->invoke( carrier, *this, pos, "transform" );
             }
             active = false;
             return false;
@@ -13745,7 +13745,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
     if( type->revert_to ) {
         convert( *type->revert_to, carrier );
     } else {
-        type->invoke( carrier, *this, pos.raw(), "transform" );
+        type->invoke( carrier, *this, pos, "transform" );
     }
     active = false;
     // Item remains
@@ -14429,7 +14429,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    type->tick( carrier, *this, pos.raw() );
+    type->tick( carrier, *this, pos );
     return false;
 }
 
@@ -14493,7 +14493,7 @@ bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, f
 {
     process_relic( carrier, pos );
     if( recursive ) {
-        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
+        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
     return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
@@ -14503,7 +14503,7 @@ bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, f
 bool item::leak( map &here, Character *carrier, const tripoint_bub_ms &pos, item_pocket *pocke )
 {
     if( is_container() ) {
-        contents.leak( here, carrier, pos.raw(), pocke );
+        contents.leak( here, carrier, pos, pocke );
         return false;
     } else if( this->made_of( phase_id::LIQUID ) && !this->is_frozen_liquid() ) {
         if( pocke ) {

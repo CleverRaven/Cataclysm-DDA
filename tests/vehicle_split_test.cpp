@@ -22,7 +22,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
     Character &player_character = get_player_character();
     for( units::angle dir = 0_degrees; dir < 360_degrees; dir += vehicles::steer_increment ) {
         CHECK( !player_character.in_vehicle );
-        const tripoint test_origin( 15, 15, 0 );
+        const tripoint_bub_ms test_origin( 15, 15, 0 );
         player_character.setpos( test_origin );
         tripoint_bub_ms vehicle_origin{ 10, 10, 0 };
         VehicleList vehs = here.get_vehicles();
