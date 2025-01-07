@@ -155,7 +155,7 @@
     "type": "proficiency",
     "id": "prof_psionic_minimum_requirements",
     "category": "prof_psionic",
-    "name": { "str": "Psionic Crafting" },
+    "name": { "str": "Noetic Crafting" },
     "description": "You are capable of using psi and can undertake crafts that require active psionic channeling.",
     "can_learn": false,
     "teachable": false,
