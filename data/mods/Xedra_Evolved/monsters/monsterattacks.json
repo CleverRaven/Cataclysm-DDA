@@ -165,7 +165,8 @@
     "hit_dmg_npc": "%1$s speaks eldritch words at <npcname>!",
     "no_dmg_msg_u": "%1$s's curse radiates out at you without doing any damage.",
     "no_dmg_msg_npc": "%1$s's curse radiates out at <npcname> without doing any damage.",
-    "miss_msg_u": "%s's curse radiates at you, but you dodge!"
+    "miss_msg_u": "%s's curse radiates at you, but you dodge!",
+    "miss_msg_npc": "%s's curse radiates at <npcname>, but they dodge!"
   },
   {
     "id": "renfield_glock",
