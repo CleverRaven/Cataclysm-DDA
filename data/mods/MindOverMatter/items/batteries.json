@@ -72,7 +72,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 448 } } ]
   },
   {
-    "id": "heavy_battery_electronoeti",
+    "id": "heavy_battery_electronoetic",
     "type": "MAGAZINE",
     "category": "tool_magazine",
     "name": { "str": "electronoetic tool battery", "str_pl": "electronoetic tool batteries" },
