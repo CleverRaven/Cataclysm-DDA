@@ -727,13 +727,8 @@ class map
          * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
          *
          */
-        // TODO: Get rid of untyped overload.
-        void reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
-                                    int range,
-                                    int cost_min, int cost_max ) const;
-        void reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts, const tripoint_bub_ms &f,
-                                    int range,
-                                    int cost_min, int cost_max ) const;
+        std::vector<tripoint_bub_ms> reachable_flood_steps( const tripoint_bub_ms &f, int range,
+                int cost_min, int cost_max ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
@@ -1564,24 +1559,11 @@ class map
         std::list<item> use_amount( const tripoint_bub_ms &origin, int range, const itype_id &type,
                                     int &quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
-        // TODO: Get rid of untyped overload.
-        std::list<item> use_amount( const std::vector<tripoint> &reachable_pts, const itype_id &type,
-                                    int &quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> use_amount( const std::vector<tripoint_bub_ms> &reachable_pts, const itype_id &type,
                                     int &quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
-        // TODO: Get rid of untyped overload.
-        std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
-                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr, bool in_tools = false );
         std::list<item> use_charges( const tripoint_bub_ms &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr, bool in_tools = false );
-        // TODO: Get rid of untyped overload.
-        std::list<item> use_charges( const std::vector<tripoint> &reachable_pts, const itype_id &type,
-                                     int &quantity,
-                                     const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr, bool in_tools = false );
         std::list<item> use_charges( const std::vector<tripoint_bub_ms> &reachable_pts,
                                      const itype_id &type,
@@ -1590,7 +1572,7 @@ class map
                                      basecamp *bcp = nullptr, bool in_tools = false );
 
         /** Find items located at point p (on map or in vehicles) that pass the filter */
-        // TODO: Get rid of untyped overload.
+        // TODO: Get rid of untyped overload, should be removable once #78677 merges.
         std::list<item_location> items_with( const tripoint &p,
                                              const std::function<bool( const item & )> &filter );
         std::list<item_location> items_with( const tripoint_bub_ms &p,
@@ -1603,8 +1585,6 @@ class map
         * @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
         * @return Actual amount of energy consumed
         */
-        // TODO: Get rid of untyped overload.
-        units::energy consume_ups( const std::vector<tripoint> &reachable_pts, units::energy qty );
         units::energy consume_ups( const std::vector<tripoint_bub_ms> &reachable_pts, units::energy qty );
         units::energy consume_ups( const tripoint_bub_ms &origin, int range, units::energy qty );
 
