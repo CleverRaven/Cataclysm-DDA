@@ -1,0 +1,200 @@
+[
+  {
+    "id": "afs_telekinetic_move_item",
+    "type": "SPELL",
+    "name": "[Ψ]Far Hand",
+    "description": "Move a set of items towards or away from you.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FAR_HAND_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1250,
+    "final_energy_cost": 500,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "afs_telekinetic_item_pull_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Far Hand Pull Items Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the far hand.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "item", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) * -1), 40)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) * -1), 40)"
+      ]
+    },
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)" ]
+    }
+  },
+  {
+    "id": "afs_telekinetic_item_push_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Far Hand Push Items Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the far hand.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "item", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.4) + 1) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_damage": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 4) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * scaling_factor(u_val('intelligence') ) ), 40)" ]
+    }
+  },
+  {
+    "id": "afs_telekinetic_move_creature",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove",
+    "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy, you may not be able to move it at all.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "shape": "blast",
+    "max_range": 40,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 750,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "afs_telekinetic_force_shove_away_target",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Away", "//~": "NO_I18N" },
+    "description": { "str": "The power that shoves a target away.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "afs_telekinetic_force_shove_toward_target",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Toward", "//~": "NO_I18N" },
+    "description": { "str": "The power that shoves a target toward.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_creature') * 0.9) + 2) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_range": 40,
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "afs_telekinetic_force_shove_away",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Push Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the force shove away.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 30,
+    "damage_increment": 1,
+    "min_range": 50,
+    "max_range": 50
+  },
+  {
+    "id": "afs_telekinetic_force_shove_toward",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Pull Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the force shove toward.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": -30,
+    "damage_increment": -1,
+    "min_range": 50,
+    "max_range": 50
+  }
+]
