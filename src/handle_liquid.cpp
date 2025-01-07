@@ -19,6 +19,7 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_inventory.h"
@@ -138,7 +139,7 @@ bool handle_all_liquids_from_container( item_location &container, int radius )
 
 // todo: remove in favor of the item_location version
 static bool get_liquid_target( item &liquid, const item *const source, const int radius,
-                               const tripoint *const source_pos,
+                               const tripoint_bub_ms *const source_pos,
                                const vehicle *const source_veh,
                                const monster *const source_mon,
                                liquid_dest_opt &target )
@@ -258,7 +259,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
-        if( source_pos != nullptr && *source_pos == target_pos.raw() ) {
+        if( source_pos != nullptr && *source_pos == target_pos ) {
             continue;
         }
         const std::string dir = direction_name( direction_from( player_character.pos_bub(), target_pos ) );
@@ -286,7 +287,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
         target.pos = *target_pos_;
 
-        if( source_pos != nullptr && *source_pos == target.pos ) {
+        if( source_pos != nullptr && source_pos->raw() == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
@@ -322,17 +323,17 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 static bool get_liquid_target( item_location &liquid, const item *const source, const int radius,
                                liquid_dest_opt &target )
 {
-    const tripoint *source_pos = nullptr;
+    const tripoint_bub_ms *source_pos = nullptr;
     const vehicle *source_veh = nullptr;
     const monster *source_mon = nullptr;
 
-    tripoint pos;
+    tripoint_bub_ms pos;
     switch( liquid.where() ) {
         case item_location::type::container:
             // intentionally empty
             break;
         case item_location::type::map:
-            pos = liquid.position();
+            pos = liquid.pos_bub();
             source_pos = &pos;
             break;
         case item_location::type::vehicle:
@@ -535,7 +536,8 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
         return false;
     }
     struct liquid_dest_opt liquid_target;
-    if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
+    tripoint_bub_ms temp = tripoint_bub_ms( source_pos[0] );
+    if( get_liquid_target( liquid, source, radius, &temp, source_veh, source_mon,
                            liquid_target ) ) {
         success = perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon,
                                            liquid_target );
