@@ -258,10 +258,11 @@
     "copy-from": "ap_apartment_freezer",
     "name": { "str": "heavy-duty freezer" },
     "description": "A heavy-duty freezer.  When turned on, it will freeze the food inside, preventing any further expiration.",
+    "looks_like": "f_heavy_duty_freezer",
     "epower": "-576 W",
     "//": "384 kwh, but since you open it and use it, and because it's upright, 1.5 as much",
     "size": "745 L",
-    "item": "f_heavy_duty_freezer",
+    "item": "heavy_duty_freezer",
     "breaks_into": [ { "group": "heavy_duty_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
