@@ -58,6 +58,20 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x44": 5 } } ]
   },
   {
+    "id": "exodii_khuunaofaai_mag_firework",
+    "looks_like": "metal_tank_little",
+    "type": "MAGAZINE",
+    "name": { "str": "Khuunaofaai celebration cartridge" },
+    "description": "A pressurized tank containing the original firework load of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended to be used in combat and doesn't do a lot of damage, but it can ignite or blind its targets, and the tanks capacity is larger than the other loads the Exodii created for it.",
+    "weight": "1268 g",
+    "volume": "1250 ml",
+    "longest_side": "160 mm",
+    "price_postapoc": "24 USD 80 cent",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "": 16 }, "watertight": true } ],
+    "flag": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
+    "material": "steel"
+  },
+  {
     "id": "ree_33_4_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

@@ -224,6 +224,17 @@
     "casing": "caotel_cell_spent"
   },
   {
+	"id": "khuunaofaai_ammo_firework",
+	"type": "AMMO",
+	"range": 100,
+	"name": { "str": "firework payload" },
+	"description": "Pressurized chemical payload for the Khuunäöfaai.  Highly reactive to oxygen, removing it from the container would be a bad idea.",
+	"ammo_type": "khuunaofaai_payload",
+	"effects": [ "NEVER_MISFIRES", "FLASHBANG", "TRAIL", "EXPLOSIVE_HESHOT" ], 
+	"damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
+	"color": "light_gray"
+  },
+  {
     "id": "33naval_ball",
     "type": "AMMO",
     "name": { "str_sp": "3.3 naval, FMJ" },

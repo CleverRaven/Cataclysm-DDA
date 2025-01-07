@@ -830,6 +830,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "khuunaofaai_payload",
+    "name": "Khuunäöfaai pressurized payload",
+    "default": "khuunaofaai_ammo_firework"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
