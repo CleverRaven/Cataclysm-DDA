@@ -981,53 +981,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_NW",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": -1,
-        "offset_y": -1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": -1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_NE",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": 1,
-        "offset_y": -1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": -1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_SW",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": -1,
-        "offset_y": 1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": 1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_SE",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": 1,
-        "offset_y": 1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": 1 } ]
   }
 ]

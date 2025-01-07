@@ -1580,53 +1580,9 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "manual_fabrication", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "tools": [
-      [
-        [ "welder", 150 ],
-        [ "welding_kit", 150 ],
-        [ "welder_crude", 225 ],
-        [ "integrated_welder", 225 ],
-        [ "soldering_iron", 225 ],
-        [ "soldering_iron_portable", 225 ],
-        [ "integrated_electrokit", 225 ],
-        [ "oxy_torch", 30 ]
-      ]
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, [ { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 1 } ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [
-      [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
-      [ [ "metal_tank", 1 ] ],
-      [ [ "pipe", 6 ] ],
-      [ [ "pipe_fittings", 4 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "kiln_full",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "1 m",
-    "autolearn": true,
-    "components": [
-      [
-        [ "splinter", 200 ],
-        [ "2x4", 12 ],
-        [ "stick", 20 ],
-        [ "bone_any", 156, "LIST" ],
-        [ "skewer_bone", 2000 ],
-        [ "log", 1 ]
-      ],
-      [ [ "char_kiln", 1 ] ]
-    ]
+    "components": [ [ [ "55gal_drum", 1 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",

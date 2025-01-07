@@ -77,6 +77,8 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
+static const fault_id fault_emp_reboot( "fault_emp_reboot" );
+
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
@@ -820,29 +822,31 @@ void emp_blast( const tripoint_bub_ms &p )
         for( item_location &it : player_character.all_items_loc() ) {
             // Render any electronic stuff in player's possession non-functional
             if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
-                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) &&
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( faults::random_of_type( "shorted" ) );
+                it->faults.insert( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
+                                   faults::random_of_type( "shorted" ) );
             }
         }
     }
 
     for( item &it : here.i_at( p ) ) {
         // Render any electronic stuff on the ground non-functional
-        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
-            get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
             if( sight ) {
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( faults::random_of_type( "shorted" ) );
+            it.set_fault( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
+                          faults::random_of_type( "shorted" ) );
+            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
+            item_location loc = item_location( map_cursor( p ), &it );
+            here.make_active( loc );
         }
     }
     // TODO: Drain NPC energy reserves
 }
-
 void resonance_cascade( const tripoint_bub_ms &p )
 {
     Character &player_character = get_player_character();

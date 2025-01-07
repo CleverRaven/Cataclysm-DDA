@@ -53,7 +53,7 @@
     "effect": [
       {
         "u_location_variable": { "context_val": "escape_pod_crate" },
-        "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+        "target_params": { "om_terrain": "crashing_ship_4", "z": -10 },
         "terrain": "t_escape_pod_floor",
         "target_max_radius": 24
       },
@@ -78,7 +78,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
+        "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0 },
         "terrain": "t_metal_floor",
         "target_max_radius": 30,
         "min_radius": 0,

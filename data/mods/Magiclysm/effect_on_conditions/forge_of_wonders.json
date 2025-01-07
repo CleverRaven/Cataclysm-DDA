@@ -108,7 +108,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "loc_forge_of_wonders" },
-        "target_params": { "om_terrain": "forge_x2y2z1", "z": 0, "search_range": 20 },
+        "target_params": { "om_terrain": "forge_x2y2z1", "z": 0 },
         "furniture": "f_magiclysm_translocator_gate",
         "target_max_radius": 26
       },
@@ -123,7 +123,7 @@
       { "u_message": "MANUALLY FINDING THE FORGE AS A FALLBACK (PRESS SPACE).", "popup": true },
       {
         "u_location_variable": { "global_val": "loc_forge_of_wonders" },
-        "target_params": { "om_terrain": "forge_x2y2z1", "z": 0, "random": true, "search_range": 2000 },
+        "target_params": { "om_terrain": "forge_x2y2z1", "z": 0 },
         "furniture": "f_magiclysm_translocator_gate",
         "target_max_radius": 26
       }
