@@ -67,7 +67,7 @@
     "volume": "1250 ml",
     "longest_side": "160 mm",
     "price_postapoc": "24 USD 80 cent",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "khuunaofaai_ammo_firework": 16 }, "watertight": true } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "khuunaofaai_ammo_firework": 10 }, "watertight": true } ],
     "flags": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
     "material": "steel"
   },
