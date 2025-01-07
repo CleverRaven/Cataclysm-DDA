@@ -211,24 +211,24 @@ void vehicle::control_doors()
 
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( true, "CURTAIN" ); } );
 
         menu.add( _( "Open all curtains and doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all, &lock_or_unlock_all] {
             lock_or_unlock_all( false, "LOCKABLE_DOOR" );
             open_or_close_all( true, "" );
         } );
         menu.add( _( "Close all doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( false, "DOOR" ); } );
 
         menu.add( _( "Close all curtains and doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( false, "" ); } );
 
         for( const vpart_reference &vp_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
@@ -1560,7 +1560,7 @@ void vehicle::use_monster_capture( int part, const tripoint_bub_ms &pos )
         return;
     }
     item base = item( parts[part].get_base() );
-    base.type->invoke( &get_avatar(), base, pos.raw() );
+    base.type->invoke( &get_avatar(), base, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {

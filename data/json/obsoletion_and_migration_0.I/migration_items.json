@@ -60,6 +60,16 @@
     "replace": "qt_steel_chunk"
   },
   {
+    "id": "plasma_gun",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
+  },
+  {
+    "id": "plasma_rifle",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
+  },
+  {
     "id": "power_armor_helmet_basic",
     "type": "MIGRATION",
     "replace": "combat_exoskeleton_armor_head_medium"
@@ -2209,5 +2219,20 @@
     "id": "460_casing",
     "type": "MIGRATION",
     "replace": "45_casing"
+  },
+  {
+    "id": "kiln_full",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_lit",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_done",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
   }
 ]

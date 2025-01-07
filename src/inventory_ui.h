@@ -617,10 +617,10 @@ class inventory_selector
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_character_ebooks( Character &character );
-        void add_map_items( const tripoint &target );
-        void add_vehicle_items( const tripoint &target );
+        void add_map_items( const tripoint_bub_ms &target );
+        void add_vehicle_items( const tripoint_bub_ms &target );
         void add_nearby_items( int radius = 1 );
-        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
+        void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
@@ -686,7 +686,7 @@ class inventory_selector
         input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
-                const tripoint &pos );
+                const tripoint_bub_ms &pos );
 
         inventory_entry *add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
@@ -798,7 +798,7 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
-        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+        void _add_map_items( tripoint_bub_ms const &target, item_category const &cat, item_stack &items,
                              std::function<item_location( item & )> const &floc );
 
     public:

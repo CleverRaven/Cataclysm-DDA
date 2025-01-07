@@ -49,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint::zero );
+    player_character.setpos( tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 

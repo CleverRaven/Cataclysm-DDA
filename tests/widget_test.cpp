@@ -1942,7 +1942,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint::below );
+            ava.setpos( tripoint_bub_ms::zero + tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }

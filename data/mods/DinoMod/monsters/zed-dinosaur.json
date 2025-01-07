@@ -1869,6 +1869,21 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zonisaurus",
+    "name": { "str": "shonisaurus zombie" },
+    "copy-from": "mon_zosasaurus",
+    "speed": 30,
+    "attack_cost": 30,
+    "melee_dice": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "hp": 400,
+    "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a long snout and swimming fins.",
+    "burn_into": "mon_zonisaurus_scorched",
+    "fungalize_into": "mon_zonisaurus_fungus",
+    "upgrades": false
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zlesiosaurus",
     "name": { "str": "plesiosaurus zombie" },
     "copy-from": "mon_zosasaurus",

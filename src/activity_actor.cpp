@@ -8087,8 +8087,8 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                 }
 
                 float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += 100 / std::max( 0.25f,
-                                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
+                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
+                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
                 if( stamina_ratio < 0.33 || you.is_npc() ) {
                     you.set_moves( std::min( 0, you.get_moves() - moves ) );
                     return;

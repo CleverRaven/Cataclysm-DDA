@@ -106,5 +106,23 @@
     "ammo_type": [ "33naval" ],
     "reload_time": 400,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "33naval": 53 } } ]
+  },
+  {
+    "id": "caotel_plasma_ring",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Caotel plasma condenser" },
+    "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not.",
+    "weight": "1020 g",
+    "flags": [ "MAG_BULKY", "MAG_EJECT" ],
+    "volume": "1450 ml",
+    "longest_side": "120 mm",
+    "price_postapoc": "40 USD",
+    "material": [ "qt_steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "caotel_cell" ],
+    "reload_time": 1800,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "caotel_cell": 12 } } ]
   }
 ]

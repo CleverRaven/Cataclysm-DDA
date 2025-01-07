@@ -870,7 +870,7 @@ static void haul()
             break;
         case 2: {
             inventory_haul_selector selector( player_character );
-            selector.add_map_items( player_character.pos() );
+            selector.add_map_items( player_character.pos_bub() );
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
             selector.set_hint( _( "To select x items, type a number before selecting." ) );

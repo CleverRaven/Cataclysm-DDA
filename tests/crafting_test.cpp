@@ -100,7 +100,7 @@ static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
-static const recipe_id recipe_helmet_scavenger( "helmet_scavenger" );
+static const recipe_id recipe_helmet_scavenger_debug( "helmet_scavenger_debug" );
 static const recipe_id recipe_leather_belt( "leather_belt" );
 static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
@@ -112,6 +112,8 @@ static const recipe_id recipe_test_tallow2( "test_tallow2" );
 static const recipe_id recipe_test_waist_apron_long( "test_waist_apron_long" );
 static const recipe_id
 recipe_test_waist_apron_long_pink_apron_cotton( "test_waist_apron_long_pink_apron_cotton" );
+static const recipe_id
+recipe_test_xl_waist_apron_long_pink_apron_cotton( "test_xl_waist_apron_long_pink_apron_cotton" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -1304,13 +1306,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 66244, 0, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 66244, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 54171, 50, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 54171, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 49610, 100, true );
+            test_skill_progression( recipe_helmet_scavenger_debug, 49610, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
@@ -1436,7 +1438,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1463,7 +1465,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1485,7 +1487,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( !m.i_at( c.pos_bub() ).begin()->empty_container() );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( plastic_bottle.typeId() ) == 3 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1515,7 +1517,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             c.i_add( plastic_bottle );
             REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1540,7 +1542,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).size() == 6 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 6 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1570,7 +1572,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( c.worn.front().all_items_top().size() == 6 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 6 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1595,7 +1597,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).size() == 5 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 5 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1624,7 +1626,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( c.worn.front().all_items_top().size() == 5 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 5 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1651,7 +1653,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).empty() );
             c.i_add_or_drop( plastic_bottle, 10 );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1678,7 +1680,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1700,7 +1702,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( !m.i_at( c.pos_bub() ).begin()->empty_container() );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1730,7 +1732,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             c.i_add( plastic_bottle );
             REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1755,7 +1757,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).size() == 13 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 13 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1792,7 +1794,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( c.worn.front().all_items_top().size() == 13 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 13 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1817,7 +1819,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).size() == 10 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1851,7 +1853,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( c.worn.front().all_items_top().size() == 10 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -2077,7 +2079,7 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
         c.i_add_or_drop( thread );
         c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
-            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub().raw() );
             cmd.execute( true );
             item res = cmd.create_in_progress_craft();
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
@@ -2114,7 +2116,7 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
         c.i_add_or_drop( thread );
         c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
-            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos() );
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub().raw() );
             cmd.execute( true );
             item res = cmd.create_in_progress_craft();
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
@@ -2247,11 +2249,12 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             tools.emplace_back( "scissors" );
             tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
             tools.insert( tools.end(), 10, item( "thread" ) );
-            prep_craft( recipe_test_waist_apron_long, tools, true );
-            actually_test_craft( recipe_test_waist_apron_long, INT_MAX, 10 );
+            const recipe_id apron_recipe = recipe_test_waist_apron_long;
+            prep_craft( apron_recipe, tools, true );
+            actually_test_craft( apron_recipe, INT_MAX, 10 );
             item_location apron = player_character.get_wielded_item();
 
-            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long->result() );
+            REQUIRE( apron->type->get_id() == apron_recipe->result() );
             REQUIRE( apron->has_itype_variant() );
 
             if( variant_counts.count( apron->itype_variant().id ) == 0 ) {
@@ -2275,11 +2278,12 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             tools.emplace_back( "scissors" );
             tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
             tools.insert( tools.end(), 10, item( "thread" ) );
-            prep_craft( recipe_test_waist_apron_long_pink_apron_cotton, tools, true );
-            actually_test_craft( recipe_test_waist_apron_long_pink_apron_cotton, INT_MAX, 10 );
+            const recipe_id apron_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
+            prep_craft( apron_recipe, tools, true );
+            actually_test_craft( apron_recipe, INT_MAX, 10 );
             item_location apron = player_character.get_wielded_item();
 
-            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long_pink_apron_cotton->result() );
+            REQUIRE( apron->type->get_id() == apron_recipe->result() );
             REQUIRE( apron->has_itype_variant() );
 
             if( apron->itype_variant().id == "pink_apron_cotton" ) {
@@ -2287,6 +2291,14 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             }
         }
         CHECK( specific_variant_count == max_iters );
+    }
+    SECTION( "recipe names" ) {
+        const recipe_id basic_recipe = recipe_test_waist_apron_long;
+        CHECK( basic_recipe.obj().result_name() == "long waist apron" );
+        const recipe_id variant_recipe = recipe_test_waist_apron_long_pink_apron_cotton;
+        CHECK( variant_recipe.obj().result_name() == "pink long waist apron" );
+        const recipe_id variant_prefix_recipe = recipe_test_xl_waist_apron_long_pink_apron_cotton;
+        CHECK( variant_prefix_recipe.obj().result_name() == "XL pink long waist apron" );
     }
 }
 

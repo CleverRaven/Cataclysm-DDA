@@ -633,10 +633,10 @@ bool do_turn()
     scent_map &scent = get_scent();
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
-        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
+        scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
-    scent.update( u.pos(), m );
+    scent.update( u.pos_bub(), m );
 
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
