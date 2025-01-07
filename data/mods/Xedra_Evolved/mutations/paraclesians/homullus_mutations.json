@@ -1,5 +1,6 @@
 [
   {
+    "//": "When any new mutation is added, make sure to add it to the jmath statement paraclesian_homullus_total_mutations",
     "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "Mannequin Skin" },
@@ -85,7 +86,7 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more succesful at lying to people now.",
+    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more successful at lying to people now.",
     "category": [ "HOMULLUS" ],
     "social_modifiers": { "lie": 40 }
   },
@@ -103,12 +104,25 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_CHARM_FERALS",
+    "name": { "str": "One of Us" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With this ability, the Homullus can reach out to a feral's fractured mind and twist it, convincing them to function as an ally.",
+    "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_charm_feral_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_SUMMON_FERALS",
     "name": { "str": "The Lost and the Damned" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "description": "The world crawls with the hungry dead and those who may as well be dead while they still live.  This allows the Homullus to call one of the latter to their side.",
+    "prereqs": [ "HOMULLUS_CHARM_FERALS" ],
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
   },
@@ -144,10 +158,48 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "description": "Upon gaining this ability the Homullus gains the ability to render one of their allies inconspicuous.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_INVISIBLE_TO_HUMANS" ],
     "spells_learned": [ [ "homullus_reduced_visibility_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_RESTORE_POWER",
+    "name": { "str": "Dynamo" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to recharge vehicles or power grids.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
+    "spells_learned": [ [ "homullus_restore_power_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ADD_LEARNING_FOCUS",
+    "name": { "str": "The Scholar's Regard" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "INT_UP_2", "INT_ALPHA" ],
+    "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ROAD_TRANSLOCATION",
+    "name": { "str": "All Roads Lead to Rome" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
+    "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
+    "spells_learned": [ [ "homullus_road_translocate_spell", 1 ], [ "homullus_road_translocate_attune", 1 ] ]
   },
   {
     "type": "mutation",
@@ -260,6 +312,22 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_PASSIVE_BIONIC_POWER",
+    "name": "Internalized Charge",
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_ARMOR_MULT_1",
     "name": "Reinforced Armor",
     "points": 4,
@@ -268,7 +336,7 @@
     "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
     "changes_to": "HOMULLUS_ARMOR_MULT_2",
     "category": [ "HOMULLUS" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -281,7 +349,32 @@
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+    "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" } }, { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_1",
+    "name": "Equipment Hardening",
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, reducing the chance that they are damaged.",
+    "changes_to": "HOMULLUS_DURABILITY_MULT_2",
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_2",
+    "name": "Extreme Equipment Hardening",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, immensely reducing the chance that they are damaged.",
+    "prereqs": [ "HOMULLUS_DURABILITY_MULT_1" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.66 } ] } ]
   },
   {
     "type": "mutation",
@@ -292,7 +385,8 @@
     "ugliness": 0,
     "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
     "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
-    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
+    "prereqs2": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
     "category": [ "HOMULLUS" ]
   },
   {
@@ -321,22 +415,11 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
-    "types": [ "RUNNING" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
         "condition": {
           "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
             { "u_near_om_location": "road", "range": 3 },
             { "u_near_om_location": "dirt_road", "range": 3 },
             { "u_near_om_location": "subway", "range": 3 },
@@ -362,17 +445,39 @@
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
     "types": [ "CARDIO" ],
-    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_REGEN_STAMINA",
+    "name": { "str": "Take the Line" },
+    "points": 2,
+    "description": "By standing together, humanity was able to overcome all threats, and it was only when they turned on each other that the Cataclysm grew out of control.  The Homullus regains Stamina 5% faster per ally within 30 meters (10% faster per ally if they have the Homullus trait).",
+    "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": {
+              "math": [
+                "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_mon_species_nearby('FERAL', 'radius': 30, 'attitude': 'both')) * (0.05 * paraclesian_post_threshold_doubler(1))"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_EAT_DEMIHUMANS",
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
-    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
+    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.  However, the food that pre-Cataclysm humanity would slowly poison themselves with is anathema to you, and you will eat only good-tasting food unless you are starving.",
     "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
@@ -492,7 +597,7 @@
     "visibility": 0,
     "ugliness": 0,
     "purifiable": false,
-    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach.",
+    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach, and should you choose this route, further development of your native spirit powers will be closed off to you.",
     "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
@@ -512,6 +617,48 @@
     "allowed_category": [ "HOMULLUS" ],
     "changes_to": [ "HOMULLUS_EXPANDED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_NO_DOLL_MUTATIONS",
+    "name": "Homullus No Doll Mutations",
+    "//": "For Homullus who choose to consume mutagen, prevent them from mutating any more homullus traits.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have chosen the path of human mutation and further Homullus mutation is closed off to you.  You should not see this in-game.",
+    "vitamin_rates": [ [ "mutagen_dollkin", 1 ] ],
+    "allowed_category": [
+      "ALPHA",
+      "BATRACHIAN",
+      "BEAST",
+      "BIRD",
+      "CATTLE",
+      "CEPHALOPOD",
+      "CHIMERA",
+      "CHIROPTERAN",
+      "CRUSTACEAN",
+      "ELFA",
+      "FELINE",
+      "FISH",
+      "GASTROPOD",
+      "INSECT",
+      "LIZARD",
+      "LUPINE",
+      "MEDICAL",
+      "MOUSE",
+      "PLANT",
+      "RABBIT",
+      "RAPTOR",
+      "RAT",
+      "SLIME",
+      "SPIDER",
+      "TROGLOBITE",
+      "URSINE"
+    ]
   },
   {
     "type": "mutation",
@@ -559,7 +706,8 @@
           { "value": "REGEN_HP", "multiply": -1.0 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
           { "value": "ATTACK_SPEED", "multiply": 0.8 },
-          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
+          { "value": "MENDING_MODIFIER", "multiply": -1.0 },
+          { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 }
         ]
       },
       {
@@ -633,37 +781,43 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
     "copy-from": "BEAUTIFUL2",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_2",
     "copy-from": "STR_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
@@ -675,13 +829,13 @@
     "type": "mutation",
     "id": "DEX_UP",
     "copy-from": "DEX_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
     "id": "DEX_UP_2",
     "copy-from": "DEX_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
@@ -711,13 +865,13 @@
     "type": "mutation",
     "id": "PER_UP",
     "copy-from": "PER_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",
     "id": "PER_UP_2",
     "copy-from": "PER_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",

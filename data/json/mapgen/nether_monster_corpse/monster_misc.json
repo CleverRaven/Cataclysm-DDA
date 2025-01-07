@@ -80,14 +80,14 @@
         " T T  T=========T  T T  ",
         "                        ",
         "                        ",
-        "                        ",
+        "   í                    ",
         "                        ",
         "                        ",
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { "<": "t_slope_down", "-": "t_region_groundcover_barren", "=": "t_nm_floor_flesh" }
+      "palettes": [ "nether_monster_surface_palette" ],
+      "monster": { "í": { "monster": "mon_yrax_quadraphract", "chance": 1 } }
     }
   },
   {
@@ -123,8 +123,7 @@
         "           ##           "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "palettes": [ "nether_monster_surface_palette" ]
     }
   }
 ]

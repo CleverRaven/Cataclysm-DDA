@@ -12,7 +12,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "computer", 1 ] ],
     "book_learn": [ [ "mag_computer", 0 ], [ "howto_computer", 0 ] ],
-    "tools": [ [ [ "laptop", 50 ], [ "eink_tablet_pc", 20 ], [ "smart_phone", 20 ] ] ],
+    "tools": [ [ [ "laptop", 10 ], [ "eink_tablet_pc", 1 ], [ "smart_phone", 5 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

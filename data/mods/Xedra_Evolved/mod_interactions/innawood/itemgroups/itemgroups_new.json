@@ -1,0 +1,176 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_innawood_zombie_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "default_innawood_zombie_clothes_male", "prob": 50 },
+          { "group": "default_innawood_zombie_clothes_female", "prob": 50 }
+        ],
+        "prob": 100
+      },
+      { "group": "coats_unisex", "prob": 20 },
+      { "group": "common_gloves", "prob": 20 },
+      { "group": "hatstore_hats", "prob": 20 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shoes_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_innawood_zombie_clothes_male",
+    "entries": [
+      { "group": "male_underwear_bottom", "prob": 95 },
+      { "group": "male_underwear_top", "prob": 50 },
+      { "group": "pants_male", "prob": 95 },
+      { "group": "shirts", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_innawood_zombie_clothes_female",
+    "entries": [
+      { "group": "female_underwear_bottom", "prob": 95 },
+      { "group": "female_underwear_top", "prob": 95 },
+      { "group": "pants_female", "prob": 95 },
+      { "group": "shirts", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "default_feral_weapons",
+    "entries": [
+      {
+        "collection": [
+          { "item": "shortbow", "prob": 100 },
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter", "prob": 100 }
+        ],
+        "prob": 15
+      },
+      { "item": "primitive_axe", "prob": 35 },
+      { "item": "sheath_birchbark", "contents-item": "primitive_knife", "prob": 15 },
+      { "item": "spear_stone", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_feral_armor",
+    "entries": [
+      { "item": "legguard_larmor", "prob": 50 },
+      { "item": "vambrace_larmor", "prob": 50 },
+      { "item": "helmet_larmor", "prob": 50 },
+      { "item": "armor_larmor", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "default_innawood_zombie_items",
+    "entries": [
+      { "item": "wicker_backpack", "prob": 2 },
+      { "group": "tools_common_small", "prob": 25, "entry-wrapper": "makeshift_sling" },
+      { "item": "bandages_birchbark", "prob": 5 },
+      { "group": "trash_forest", "prob": 80 },
+      { "group": "renfield_food", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "water_clean", "prob": 50 },
+      { "item": "straw_doll", "prob": 3 },
+      {
+        "item": "wild_herbs",
+        "prob": 15,
+        "container-item": "null",
+        "entry-wrapper": "bag_canvas_small",
+        "count": [ 3, 12 ]
+      },
+      {
+        "item": "faewild",
+        "prob": 3,
+        "container-item": "null",
+        "entry-wrapper": "bag_canvas_small",
+        "count": [ 3, 12 ]
+      },
+      {
+        "item": "lotus_blossom",
+        "prob": 3,
+        "container-item": "null",
+        "entry-wrapper": "bag_canvas_small",
+        "count": [ 2, 16 ]
+      },
+      { "item": "scrap_dreamdross", "prob": 15, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "renfield_food",
+    "container-item": "bag_canvas_small",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "dry_meat", "prob": 300 },
+      { "item": "dry_veggy", "prob": 300 },
+      { "item": "dry_fruit", "prob": 300 },
+      { "item": "apple", "prob": 70 },
+      { "item": "orange", "prob": 65 },
+      { "item": "banana", "prob": 40 },
+      { "item": "mushroom", "prob": 4 },
+      { "item": "blueberries", "prob": 3 },
+      { "item": "strawberries", "prob": 2 },
+      { "item": "cucumber", "prob": 8 },
+      { "item": "tomato", "prob": 9 },
+      { "item": "pumpkin", "prob": 8 },
+      { "item": "broccoli", "prob": 9 },
+      { "item": "zucchini", "prob": 7 },
+      { "item": "celery", "prob": 2 },
+      { "item": "onion", "prob": 3 },
+      { "item": "carrot", "prob": 3 },
+      { "item": "potato", "prob": 10 },
+      { "item": "pear", "prob": 65 },
+      { "item": "grapefruit", "prob": 1 },
+      { "item": "cherries", "prob": 5 },
+      { "item": "plums", "prob": 9 },
+      { "item": "grapes", "prob": 45 },
+      { "item": "pineapple", "prob": 2 },
+      { "item": "peach", "prob": 1 },
+      { "item": "cranberries", "prob": 15 },
+      { "item": "watermelon", "prob": 2 },
+      { "item": "melon", "prob": 1 },
+      { "item": "raspberries", "prob": 3 },
+      { "item": "blackberries", "prob": 3 },
+      { "item": "mango", "prob": 1 },
+      { "item": "pomegranate", "prob": 1 },
+      { "item": "rhubarb", "prob": 5 },
+      { "item": "papaya", "prob": 1 },
+      { "item": "kiwi", "prob": 2 },
+      { "item": "apricot", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "fetch_child_death_drops",
+    "entries": [
+      { "group": "default_innawood_zombie_clothes", "custom-flags": [ "UNDERSIZE" ], "prob": 100 },
+      { "group": "child_items", "prob": 65 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "child_items",
+    "entries": [
+      { "item": "pointy_stick", "prob": 15 },
+      { "item": "rock", "prob": 50 },
+      { "item": "feather", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "hickory_nut", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "acorns", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "straw_doll", "prob": 5 },
+      { "item": "bag_canvas_small", "prob": 10 },
+      { "group": "tools_common_small", "prob": 1, "entry-wrapper": "makeshift_sling" }
+    ]
+  }
+]

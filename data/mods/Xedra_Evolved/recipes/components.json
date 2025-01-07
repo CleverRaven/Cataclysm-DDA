@@ -1,0 +1,16 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" } ],
+    "result": "dreamforged_nail",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 100 ], [ "dreamdross_lump", 10 ] ] ],
+    "time": "3 h",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MISC"
+  }
+]

@@ -720,6 +720,15 @@
     ]
   },
   {
+    "id": "dissect_worm_frog_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "batrachian_sample_single", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
     "id": "dissect_mon_broken_cyborg",
     "type": "harvest",
     "message": "You search for any salvageable hardware in what's left of this failed experiment.",

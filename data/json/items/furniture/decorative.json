@@ -25,8 +25,8 @@
     "weight": "300 kg",
     "material": [ "wood" ],
     "volume": "1000 L",
-    "price": 500000,
-    "price_postapoc": 1500,
+    "price": "5 kUSD",
+    "price_postapoc": "15 USD",
     "symbol": "P",
     "color": "i_black"
   }

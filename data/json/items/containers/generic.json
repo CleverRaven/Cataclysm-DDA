@@ -8,12 +8,11 @@
     "description": "Polymer plastic material, that shrinks tightly over whatever it is covering.  Disposable.",
     "weight": "50 g",
     "volume": "50 ml",
-    "//": "this one should allow unloading, but not reloading, but nothing, including NO_RELOAD flag or forbidden boolean doesn't work here.",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "50 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "trashcan",
@@ -56,7 +55,7 @@
     "volume": "400 L",
     "longest_side": "114 cm",
     "price": "150 USD",
-    "price_postapoc": 7500,
+    "price_postapoc": "75 USD",
     "//2": "Based on above link.",
     "pocket_data": [
       {
@@ -82,8 +81,8 @@
     "looks_like": "bag_iv",
     "weight": "5 g",
     "volume": "35 ml",
-    "price": 50,
-    "price_postapoc": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
@@ -163,6 +162,32 @@
     ]
   },
   {
+    "id": "outfit_storage",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
+    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or disassemble it to get the clothes back.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "longest_side": "150 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "use_action": [ "CHANGE_OUTFIT" ],
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 L",
+        "max_contains_weight": "1000 kg",
+        "rigid": false,
+        "moves": 1000
+      }
+    ],
+    "symbol": "#",
+    "color": "black",
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "NO_RELOAD" ]
+  },
+  {
     "id": "box_paper_small",
     "type": "GENERIC",
     "category": "container",
@@ -171,11 +196,35 @@
     "description": "A very small paper box.",
     "weight": "20 g",
     "volume": "210 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 ml", "max_contains_weight": "400 g" } ]
+  },
+  {
+    "id": "wrapping_vacuumed",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "bag_plastic",
+    "name": { "str": "vacuum-sealed package" },
+    "description": "A hermetically sealed article of packaging, made from thick plastic, designed to keep the contents isolated from atmospheric contact.  Shame that its properties melt away after you tear it open to get at the goodies within.",
+    "weight": "6 g",
+    "volume": "25 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": "%",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ]
   }
 ]

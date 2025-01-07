@@ -60,8 +60,11 @@
   {
     "id": "afs_holo_flare_explosion",
     "type": "SPELL",
-    "name": { "str": "Holographic Flash Explosion" },
-    "description": "Causes an existing hologram to explode into burning light, harming and stunning enemies close to it.",
+    "name": { "str": "Holographic Flash Explosion", "//~": "NO_I18N" },
+    "description": {
+      "str": "Causes an existing hologram to explode into burning light, harming and stunning enemies close to it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground", "ally" ],
     "effect": "attack",
     "effect_str": "stunned",

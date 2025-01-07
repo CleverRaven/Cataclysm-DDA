@@ -2,8 +2,8 @@
   {
     "type": "AMMO",
     "id": "money",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "//": "= one cent, gives correct prices for cash cards",
     "name": { "str": "cent" },
     "symbol": "=",

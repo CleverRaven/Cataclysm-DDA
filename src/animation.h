@@ -3,6 +3,7 @@
 #define CATA_SRC_ANIMATION_H
 
 #include <optional>
+#include <string>
 
 #include "color.h"
 

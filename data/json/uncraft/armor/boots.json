@@ -33,5 +33,13 @@
     "time": "1 m 30 s",
     "components": [ [ [ "sheet_faux_fur_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sneakers",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sole_rubber", 2 ] ], [ [ "string_36", 2 ] ], [ [ "cotton_patchwork", 18 ] ], [ [ "scrap_cotton", 12 ] ] ]
   }
 ]

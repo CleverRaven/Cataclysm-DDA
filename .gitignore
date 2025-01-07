@@ -234,6 +234,7 @@ Xcode/
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
+cities.output
 weather.output
 
 # bundler local directories and files for jekyll site

@@ -28,8 +28,8 @@
     "healthy": -5,
     "calories": 350,
     "description": "A carefully folded raw skin harvested from a fur-bearing animal from a specific region of the Nether.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "price": 330,
-    "price_postapoc": 100,
+    "price": "3 USD 30 cent",
+    "price_postapoc": "1 USD",
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
     "fun": -24
@@ -42,9 +42,9 @@
     "description": "Freshly butchered meat from a fae beast.  You could eat it raw, but cooking it is better.",
     "weight": "296 g",
     "volume": "250 ml",
-    "price": 500,
+    "price": "5 USD",
     "symbol": "O",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "spoils_in": "1 day",
     "calories": 402,
     "healthy": -1,
@@ -66,23 +66,20 @@
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "id": "fae_blood",
     "name": { "str_sp": "fae blood" },
-    "weight": "2 g",
+    "weight": "260 g",
     "color": "cyan",
     "container": "flask_glass",
     "symbol": "~",
     "description": "Blood, from a specific part of the Nether.  Disgusting!",
-    "price": 75,
+    "price": "75 cent",
     "material": [ "fae_blood" ],
-    "volume": "1 ml",
+    "volume": "250 ml",
     "phase": "liquid",
-    "category": "fuel",
-    "ammo_type": "fae_blood",
-    "damage": { "damage_type": "stab", "amount": 0, "armor_penetration": 0 },
-    "range": 4,
-    "effects": [ "NEVER_MISFIRES" ]
+    "copy-from": "animal_blood"
   },
   {
     "id": "fae_meat_cooked",
@@ -93,8 +90,8 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked meat" },
     "description": "This is a chunk of freshly cooked fae meat.  It's filling and nutritious, but unseasoned and a bit bland.",
-    "price": 750,
-    "price_postapoc": 100,
+    "price": "7 USD 50 cent",
+    "price_postapoc": "1 USD",
     "parasites": 0,
     "calories": 402,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
@@ -124,10 +121,71 @@
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
     "spoils_in": "24 days",
-    "price_postapoc": 200,
+    "price_postapoc": "2 USD",
     "quench": -1,
     "fun": 5,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_meat"
+  },
+  {
+    "id": "omnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "omnivore stomach" },
+    "description": "The stomach of an omnivorous creature.  It is surprisingly durable."
+  },
+  {
+    "id": "ruminant_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "ruminant stomach" },
+    "description": "The four stomachs of a grazing creature.  It is surprisingly durable.",
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+  },
+  {
+    "id": "herbivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "herbivore stomach" },
+    "description": "The stomach of a herbivore.  It is surprisingly durable."
+  },
+  {
+    "id": "carnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "carnivore stomach" },
+    "description": "The stomach of an carnivorous creature.  It is surprisingly durable."
+  },
+  {
+    "id": "small_carnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small carnivore stomach" },
+    "description": "The stomach of a small carnivorous creature.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "small_omnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small omnivore stomach" },
+    "description": "The stomach of a small omnivorous creature.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "small_herbivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small herbivore stomach" },
+    "description": "The stomach of a small herbivore.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "ant_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "ant stomach" },
+    "description": "The two stomachs of a giant ant.  One stomach is for digestion and one stomach is for storing food for the colony.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "calories": 1.25 }
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "result": "fridge",
+    "result": "apartment_fridge",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_APPLIANCE",
@@ -65,7 +65,7 @@
     ]
   },
   {
-    "result": "freezer",
+    "result": "apartment_freezer",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_APPLIANCE",

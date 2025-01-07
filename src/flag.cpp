@@ -1,8 +1,11 @@
 #include "flag.h"
 
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "init.h"
+#include "json_error.h"
 #include "type_id.h"
 
 const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
@@ -83,6 +86,7 @@ const flag_id flag_CUT_HARVEST( "CUT_HARVEST" );
 const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );
 const flag_id flag_DANGEROUS( "DANGEROUS" );
 const flag_id flag_DEAF( "DEAF" );
+const flag_id flag_DECAYS_IN_AIR( "DECAYS_IN_AIR" );
 const flag_id flag_DIAMOND( "DIAMOND" );
 const flag_id flag_DIG_TOOL( "DIG_TOOL" );
 const flag_id flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
@@ -94,10 +98,12 @@ const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
+const flag_id flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS( "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" );
 const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
 const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
+const flag_id flag_ENERGY_SHIELD( "ENERGY_SHIELD" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 const flag_id flag_EXO_ARM_PLATE( "EXO_ARM_PLATE" );
 const flag_id flag_EXO_BOOT_PLATE( "EXO_BOOT_PLATE" );
@@ -165,7 +171,6 @@ const flag_id flag_INTEGRATED( "INTEGRATED" );
 const flag_id flag_IN_CBM( "IN_CBM" );
 const flag_id flag_IRRADIATED( "IRRADIATED" );
 const flag_id flag_IRREMOVABLE( "IRREMOVABLE" );
-const flag_id flag_IR_EFFECT( "IR_EFFECT" );
 const flag_id flag_IS_ARMOR( "IS_ARMOR" );
 const flag_id flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 const flag_id flag_IS_UPS( "IS_UPS" );
@@ -187,6 +192,8 @@ const flag_id flag_MECH_BAT( "MECH_BAT" );
 const flag_id flag_MELTS( "MELTS" );
 const flag_id flag_MESSY( "MESSY" );
 const flag_id flag_MISSION_ITEM( "MISSION_ITEM" );
+const flag_id flag_MODULE_HOLDER( "MODULE_HOLDER" );
+const flag_id flag_MORPHIC( "MORPHIC" );
 const flag_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
 const flag_id flag_MOUSE( "MOUSE" );
 const flag_id flag_MUNDANE( "MUNDANE" );
@@ -280,6 +287,7 @@ const flag_id flag_REBREATHER( "REBREATHER" );
 const flag_id flag_RECHARGE( "RECHARGE" );
 const flag_id flag_REDUCED_BASHING( "REDUCED_BASHING" );
 const flag_id flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
+const flag_id flag_RELIC_PINK( "RELIC_PINK" );
 const flag_id flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 const flag_id flag_RELOAD_EJECT( "RELOAD_EJECT" );
 const flag_id flag_RELOAD_ONE( "RELOAD_ONE" );
@@ -302,7 +310,6 @@ const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );
 const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
-const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
@@ -346,6 +353,7 @@ const flag_id flag_UNRECOVERABLE( "UNRECOVERABLE" );
 const flag_id flag_UNRESTRICTED( "UNRESTRICTED" );
 const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+const flag_id flag_USES_NEARBY_AMMO( "USES_NEARBY_AMMO" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
 const flag_id flag_USE_POWER_WHEN_HIT( "USE_POWER_WHEN_HIT" );

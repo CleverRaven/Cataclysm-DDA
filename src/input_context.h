@@ -82,8 +82,6 @@ class input_context
             }
         };
 
-        std::vector<manual_key> registered_manual_keys;
-
         // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
         // NOTE: This won't auto-bring up the virtual keyboard, for that use sdltiles.cpp is_string_input()
         bool allow_text_entry;
@@ -223,6 +221,27 @@ class input_context
                               const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         */
+        std::string get_button_text( const std::string &action_descriptor ) const;
+
+        /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param action_text The human readable description of the action.
+         */
+        std::string get_button_text( const std::string &action_descriptor,
+                                     const std::string &action_text ) const;
+
+        /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
          * satisfying `evt_filter` is contained in `text`, surround the key with
          * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
@@ -281,12 +300,15 @@ class input_context
         // TODO: Get rid of untyped version and change name of the typed one.
         std::optional<tripoint> get_direction( const std::string &action ) const;
         std::optional<tripoint_rel_ms> get_direction_rel_ms( const std::string &action ) const;
+        std::optional<tripoint_rel_omt> get_direction_rel_omt( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
          */
-        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
-                const point &offset = point_zero, bool center_cursor = false ) const;
+        std::optional<tripoint_bub_ms> get_coordinates( const catacurses::window &capture_win_,
+                const point &offset = point::zero, bool center_cursor = false ) const;
+        std::optional<tripoint_rel_omt> get_coordinates_rel_omt( const catacurses::window &capture_win_,
+                const point &offset = point::zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -395,7 +417,9 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
-
+#if defined(__ANDROID__)
+        std::vector<manual_key> registered_manual_keys;
+#endif
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
@@ -457,9 +481,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 std::string_view phrase ) const;
-
-        action_id display_menu_legacy( bool permit_execute_action );
-        action_id display_menu_imgui( bool permit_execute_action );
 };
 
 class hotkey_queue

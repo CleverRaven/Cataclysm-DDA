@@ -2,13 +2,15 @@
 
 #include <algorithm>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "character.h"
 #include "damage.h"
-#include "json.h"
-#include "make_static.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 
 static const skill_id skill_archery( "archery" );
@@ -387,6 +389,7 @@ float effect_scaling::get( const Character &u ) const
             break;
         case STAT_NULL:
             bonus = scale;
+            break;
         case NUM_STATS:
             break;
     }

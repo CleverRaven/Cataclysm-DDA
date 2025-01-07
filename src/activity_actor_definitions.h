@@ -45,16 +45,18 @@ class aim_activity_actor : public activity_actor
 {
     private:
         std::optional<item> fake_weapon;
-        std::vector<tripoint> fin_trajectory;
+        std::vector<tripoint_bub_ms> fin_trajectory;
 
     public:
-        bool first_turn = true;
         std::string action;
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
+        bool should_unload_RAS = false;
         bool snap_to_target = false;
+        /* Item location for RAS weapon reload */
+        item_location reload_loc = item_location();
         bool shifting_view = false;
-        tripoint initial_view_offset;
+        tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */
@@ -88,6 +90,7 @@ class aim_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
+        bool check_gun_ability_to_shoot( Character &who, item &it );
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
@@ -139,6 +142,32 @@ class autodrive_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class bash_activity_actor : public activity_actor
+{
+    private:
+        tripoint_bub_ms target;
+
+    public:
+        explicit bash_activity_actor( const tripoint_bub_ms &where ) : target( where ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BASH" );
+        };
+
+        void start( player_activity &, Character & ) override {}
+        void canceled( player_activity &, Character & ) override {}
+        void finish( player_activity &, Character & ) override {}
+
+        void do_turn( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class gunmod_remove_activity_actor : public activity_actor
 {
     private:
@@ -175,10 +204,10 @@ class gunmod_remove_activity_actor : public activity_actor
 class hacksaw_activity_actor : public activity_actor
 {
     public:
-        explicit hacksaw_activity_actor( const tripoint &target,
+        explicit hacksaw_activity_actor( const tripoint_bub_ms &target,
                                          const item_location &tool ) : target( target ), tool( tool ) {};
-        explicit hacksaw_activity_actor( const tripoint &target, const itype_id &type,
-                                         const tripoint &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
+        explicit hacksaw_activity_actor( const tripoint_bub_ms &target, const itype_id &type,
+                                         const tripoint_bub_ms &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_HACKSAW" );
         }
@@ -197,10 +226,10 @@ class hacksaw_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
         std::optional<itype_id> type;
-        std::optional<tripoint> veh_pos;
+        std::optional<tripoint_bub_ms> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override;
 };
@@ -321,7 +350,7 @@ class hotwire_car_activity_actor : public activity_actor
          * Position of first vehicle part; used to identify the vehicle
          * TODO: find something more reliable (to cover cases when vehicle is moved/damaged)
          */
-        tripoint target;
+        tripoint_abs_ms target;
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const hotwire_car_activity_actor &a = static_cast<const hotwire_car_activity_actor &>( other );
@@ -329,7 +358,8 @@ class hotwire_car_activity_actor : public activity_actor
         }
 
     public:
-        hotwire_car_activity_actor( int moves_total, const tripoint &target ): moves_total( moves_total ),
+        hotwire_car_activity_actor( int moves_total,
+                                    const tripoint_abs_ms &target ): moves_total( moves_total ),
             target( target ) {}
 
         activity_id get_type() const override {
@@ -495,12 +525,12 @@ class move_items_activity_actor : public activity_actor
         std::vector<item_location> target_items;
         std::vector<int> quantities;
         bool to_vehicle;
-        tripoint relative_destination;
+        tripoint_rel_ms relative_destination;
         bool hauling_mode;
 
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
-                                   bool to_vehicle, tripoint relative_destination, bool hauling_mode = false ) :
+                                   bool to_vehicle, tripoint_rel_ms relative_destination, bool hauling_mode = false ) :
             target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
             to_vehicle( to_vehicle ),
             relative_destination( relative_destination ),
@@ -540,12 +570,12 @@ class pickup_activity_actor : public activity_actor
          * (e.g. if the player is in a moving vehicle). This should be null
          * if not grabbing from the ground.
          */
-        std::optional<tripoint> starting_pos;
+        std::optional<tripoint_bub_ms> starting_pos;
 
     public:
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
-                               const std::optional<tripoint> &starting_pos,
+                               const std::optional<tripoint_bub_ms> &starting_pos,
                                bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
@@ -584,7 +614,7 @@ class pickup_activity_actor : public activity_actor
 class boltcutting_activity_actor : public activity_actor
 {
     public:
-        explicit boltcutting_activity_actor( const tripoint &target,
+        explicit boltcutting_activity_actor( const tripoint_bub_ms &target,
                                              const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -606,7 +636,7 @@ class boltcutting_activity_actor : public activity_actor
         bool testing = false; // NOLINT(cata-serialize)
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -623,27 +653,27 @@ class lockpick_activity_actor : public activity_actor
         int moves_total;
         std::optional<item_location> lockpick;
         std::optional<item> fake_lockpick;
-        tripoint target;
+        tripoint_abs_ms target;
 
         lockpick_activity_actor(
             int moves_total,
             const std::optional<item_location> &lockpick,
             const std::optional<item> &fake_lockpick,
-            const tripoint &target
+            const tripoint_abs_ms &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
 
     public:
-        /** Use regular lockpick. 'target' is in global coords */
+        /** Use regular lockpick. */
         static lockpick_activity_actor use_item(
             int moves_total,
             const item_location &lockpick,
-            const tripoint &target
+            const tripoint_abs_ms &target
         );
 
-        /** Use bionic lockpick. 'target' is in global coords */
+        /** Use bionic lockpick. */
         static lockpick_activity_actor use_bionic(
-            const tripoint &target
+            const tripoint_abs_ms &target
         );
 
         activity_id get_type() const override {
@@ -654,7 +684,7 @@ class lockpick_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
 
-        static std::optional<tripoint> select_location( avatar &you );
+        static std::optional<tripoint_bub_ms> select_location( avatar &you );
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<lockpick_activity_actor>( *this );
@@ -865,7 +895,7 @@ class try_sleep_activity_actor : public activity_actor
 class safecracking_activity_actor : public activity_actor
 {
     public:
-        explicit safecracking_activity_actor( const tripoint &safe ) : safe( safe ) {};
+        explicit safecracking_activity_actor( const tripoint_bub_ms &safe ) : safe( safe ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_CRACKING" );
@@ -885,7 +915,7 @@ class safecracking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint safe;
+        tripoint_bub_ms safe;
         int exp_step = 0;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -975,14 +1005,14 @@ class workout_activity_actor : public activity_actor
         bool disable_query = false; // disables query, continue as long as possible
         bool rest_mode = false; // work or rest during training session
         time_duration duration;
-        tripoint location;
+        tripoint_bub_ms location;
         time_point stop_time; // can resume if time apart is not above
         activity_id act_id = activity_id( "ACT_WORKOUT_LIGHT" ); // variable activities
         int intensity_modifier = 1;
         int elapsed = 0;
 
     public:
-        explicit workout_activity_actor( const tripoint &loc ) : location( loc ) {}
+        explicit workout_activity_actor( const tripoint_bub_ms &loc ) : location( loc ) {}
 
         // can assume different sub-activities
         activity_id get_type() const override {
@@ -1039,7 +1069,7 @@ class drop_or_stash_item_info
 /**
  * Activity to drop items to the ground or into a vehicle cargo part.
  * @items is the list of items to drop
- * @placement is the offset to the current position of the actor (use tripoint_zero for current pos)
+ * @placement is the offset to the current position of the actor (use tripoint::zero for current pos)
  * @force_ground should the items be forced to the ground instead of e.g. a container at the position
  */
 class drop_activity_actor : public activity_actor
@@ -1047,7 +1077,7 @@ class drop_activity_actor : public activity_actor
     public:
         drop_activity_actor() = default;
         drop_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                             const tripoint &placement, const bool force_ground )
+                             const tripoint_rel_ms &placement, const bool force_ground )
             : items( items ), placement( placement ), force_ground( force_ground ) {}
 
         activity_id get_type() const override {
@@ -1073,7 +1103,7 @@ class drop_activity_actor : public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool force_ground = false;
         bool current_bulk_unload = false;
 };
@@ -1083,7 +1113,7 @@ class stash_activity_actor: public activity_actor
     public:
         stash_activity_actor() = default;
         stash_activity_actor( const std::vector<drop_or_stash_item_info> &items,
-                              const tripoint &placement )
+                              const tripoint_rel_ms &placement )
             : items( items ), placement( placement ) {}
 
         activity_id get_type() const override {
@@ -1109,14 +1139,14 @@ class stash_activity_actor: public activity_actor
     private:
         std::vector<drop_or_stash_item_info> items;
         contents_change_handler handler;
-        tripoint placement;
+        tripoint_rel_ms placement;
         bool current_bulk_unload = false;
 };
 
 class harvest_activity_actor : public activity_actor
 {
     public:
-        explicit harvest_activity_actor( const tripoint &target,
+        explicit harvest_activity_actor( const tripoint_bub_ms &target,
                                          bool auto_forage = false ) :
             target( target ), auto_forage( auto_forage ) {};
 
@@ -1136,7 +1166,7 @@ class harvest_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         bool exam_furn = false;
         bool nectar = false;
         bool auto_forage = false;
@@ -1187,7 +1217,7 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, std::vector<tripoint> coords,
+        milk_activity_actor( int moves, std::vector<tripoint_abs_ms> coords,
                              std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
             string_values( std::move( str_values ) ) {}
 
@@ -1209,19 +1239,19 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint> monster_coords {};
+        std::vector<tripoint_abs_ms> monster_coords {};
         std::vector<std::string> string_values {};
 };
 
 class shearing_activity_actor : public activity_actor
 {
     private:
-        tripoint mon_coords;    // monster is tied for the duration
+        tripoint_bub_ms mon_coords;    // monster is tied for the duration
         bool shearing_tie;      // was the monster tied due to shearing
 
     public:
         explicit shearing_activity_actor(
-            const tripoint &mon_coords, bool shearing_tie = true )
+            const tripoint_bub_ms &mon_coords, bool shearing_tie = true )
             : mon_coords( mon_coords ), shearing_tie( shearing_tie ) {};
 
         activity_id get_type() const override {
@@ -1254,7 +1284,7 @@ class disassemble_activity_actor : public activity_actor
         int moves_total;
         float activity_override = NO_EXERCISE; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
-        bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
+        bool use_cached_workbench_multiplier = false; // NOLINT(cata-serialize)
     public:
         item_location target;
 
@@ -1284,11 +1314,11 @@ class disassemble_activity_actor : public activity_actor
 class move_furniture_activity_actor : public activity_actor
 {
     private:
-        tripoint dp;
+        tripoint_rel_ms dp;
         bool via_ramp;
 
     public:
-        move_furniture_activity_actor( const tripoint &dp, bool via_ramp ) :
+        move_furniture_activity_actor( const tripoint_rel_ms &dp, bool via_ramp ) :
             dp( dp ), via_ramp( via_ramp ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_FURNITURE_MOVE" );
@@ -1344,7 +1374,7 @@ class tent_placement_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        tripoint target;
+        tripoint_rel_ms target;
         int radius = 1;
         item it;
         string_id<furn_t> wall;
@@ -1353,7 +1383,7 @@ class tent_placement_activity_actor : public activity_actor
         string_id<furn_t> door_closed;
 
     public:
-        tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
+        tent_placement_activity_actor( int moves_total, tripoint_rel_ms target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, std::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
             it( it ), wall( wall ), floor( floor ), floor_center( floor_center ),
@@ -1379,7 +1409,7 @@ class tent_placement_activity_actor : public activity_actor
 class oxytorch_activity_actor : public activity_actor
 {
     public:
-        explicit oxytorch_activity_actor( const tripoint &target,
+        explicit oxytorch_activity_actor( const tripoint_bub_ms &target,
                                           const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -1400,7 +1430,7 @@ class oxytorch_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -1408,6 +1438,32 @@ class oxytorch_activity_actor : public activity_actor
             const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
                                                    ( other );
             return actor.target == target;
+        }
+};
+
+class outfit_swap_actor : public activity_actor
+{
+    public:
+        explicit outfit_swap_actor( const item_location &outfit_item ) : outfit_item( outfit_item ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_OUTFIT_SWAP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<outfit_swap_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    private:
+        item_location outfit_item;
+
+        bool can_resume_with_internal( const activity_actor &, const Character & ) const override {
+            return false;
         }
 };
 
@@ -1461,7 +1517,7 @@ class play_with_pet_activity_actor : public activity_actor
 class prying_activity_actor : public activity_actor
 {
     public:
-        explicit prying_activity_actor( const tripoint &target,
+        explicit prying_activity_actor( const tripoint_bub_ms &target,
                                         const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -1485,7 +1541,7 @@ class prying_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
         bool prying_nails = false;
 
@@ -1507,11 +1563,11 @@ class tent_deconstruct_activity_actor : public activity_actor
     private:
         int moves_total;
         int radius;
-        tripoint target;
+        tripoint_bub_ms target;
         itype_id tent;
 
     public:
-        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint target,
+        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint_bub_ms target,
                                          itype_id tent ) : moves_total( moves_total ), radius( radius ), target( target ), tent( tent ) {}
 
         activity_id get_type() const override {
@@ -1698,6 +1754,38 @@ class wash_activity_actor : public activity_actor
         washing_requirements requirements;
 };
 
+class heat_activity_actor : public activity_actor
+{
+    private:
+        heat_activity_actor() = default;
+        int get_available_heater( Character &p, item_location &loc ) const;
+    public:
+        heat_activity_actor( drop_locations to_heat,
+                             heating_requirements &requirements,
+                             heater h ) :
+            to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_HEATING" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &p ) override;
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<heat_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        drop_locations to_heat;
+        heating_requirements requirements;
+        heater h;
+};
+
 class wear_activity_actor : public activity_actor
 {
     public:
@@ -1776,32 +1864,6 @@ class invoke_item_activity_actor : public activity_actor
     private:
         item_location item;
         std::string method;
-};
-
-class pickup_menu_activity_actor : public activity_actor
-{
-    public:
-        pickup_menu_activity_actor( std::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( where ),
-            selection( std::move( selection ) ) {};
-        activity_id get_type() const override {
-            return activity_id( "ACT_PICKUP_MENU" );
-        }
-
-        void start( player_activity &, Character & ) override {};
-        void do_turn( player_activity &, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pickup_menu_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
-
-    private:
-        std::optional<tripoint> where;
-        std::vector<drop_location> selection;
 };
 
 class chop_logs_activity_actor : public activity_actor
@@ -1936,7 +1998,7 @@ class disable_activity_actor : public activity_actor
 {
     public:
         disable_activity_actor() = default;
-        disable_activity_actor( const tripoint &target, int moves_total,
+        disable_activity_actor( const tripoint_bub_ms &target, int moves_total,
                                 bool reprogram ) : target( target ), moves_total( moves_total ), reprogram( reprogram ) {}
 
         activity_id get_type() const override {
@@ -1960,7 +2022,7 @@ class disable_activity_actor : public activity_actor
         static int get_disable_turns();
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         int moves_total;
         bool reprogram;
 };
@@ -2120,8 +2182,74 @@ class unload_loot_activity_actor : public activity_actor
         int moves;
         int num_processed;
         int stage;
-        std::unordered_set<tripoint> coord_set;
-        tripoint placement;
+        std::unordered_set<tripoint_abs_ms> coord_set;
+        tripoint_abs_ms placement;
+};
+
+class pulp_activity_actor : public activity_actor
+{
+    public:
+        pulp_activity_actor() = default;
+        explicit pulp_activity_actor( const tripoint_abs_ms placement,
+                                      const bool pulp_acid = false ) : placement( { placement } ),
+        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
+                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_PULP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pulp_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
+            return actor.pulp_acid == pulp_acid;
+        }
+        std::set<tripoint_abs_ms> placement;
+        int num_corpses;
+        bool pulp_acid;
+};
+
+class wait_stamina_activity_actor : public activity_actor
+{
+
+    public:
+        // Wait until stamina is at the maximum.
+        wait_stamina_activity_actor() = default;
+
+        // If we're given a threshold, wait until stamina is at least this value.
+        explicit wait_stamina_activity_actor( int stamina_threshold ) : stamina_threshold(
+                stamina_threshold ) {};
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WAIT_STAMINA" );
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_stamina_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int stamina_threshold = -1;
+        int initial_stamina = -1;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

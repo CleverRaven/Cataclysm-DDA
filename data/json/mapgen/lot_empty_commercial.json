@@ -40,7 +40,7 @@
         "d": "t_region_groundcover_barren",
         " ": "t_region_groundcover_urban",
         "r": "t_region_groundcover_barren",
-        "|": "t_chainfence_v"
+        "|": "t_chainfence"
       },
       "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ],
       "furniture": { "^": "f_rubble_rock", "r": "f_rubble_rock" },
@@ -181,7 +181,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "terrain": { "+": "t_chaingate_l", " ": "t_region_groundcover_urban", "_": "t_region_groundcover_barren", "|": "t_chainfence_v" },
+      "terrain": { "+": "t_chaingate_l", " ": "t_region_groundcover_urban", "_": "t_region_groundcover_barren", "|": "t_chainfence" },
       "furniture": {  },
       "place_items": [ { "chance": 55, "item": "trash", "x": 16, "y": 17 } ],
       "place_signs": [ { "signage": "SOLD!", "x": 14, "y": 2 }, { "signage": "East <city> Realty!", "x": 15, "y": 2 } ]
@@ -219,7 +219,7 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "terrain": { "+": "t_chaingate_l", ".": "t_concrete", " ": "t_region_groundcover_barren", "|": "t_chainfence_v" },
+      "terrain": { "+": "t_chaingate_l", ".": "t_concrete", " ": "t_region_groundcover_barren", "|": "t_chainfence" },
       "furniture": {  },
       "place_signs": [ { "signage": "Lot for sale!", "x": 7, "y": 2 }, { "signage": "Call for more info.  555-7723", "x": 8, "y": 2 } ],
       "place_items": [ { "chance": 35, "item": "trash", "x": 20, "y": 11 }, { "chance": 35, "item": "trash", "x": 10, "y": 9 } ]
@@ -432,15 +432,15 @@
         "  ..d..d..d..d..d..d..  ",
         "  dddddddddddddddddddd  ",
         "  ..d..d..d..d..d..d..  ",
-        "  .||||||||||||||||||.  ",
+        "  .##################.  ",
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         ".": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 3 ] ],
         " ": "t_region_groundcover_urban",
-        "d": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 1 ] ],
-        "|": "t_concrete_wall"
+        "d": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 1 ] ]
       },
       "furniture": {  },
       "place_items": [

@@ -1,5 +1,20 @@
 [
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bat",
+    "byproducts": [ [ "splinter", 30 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2 } ],
+    "components": [ [ [ "wooden_post", 1 ] ] ]
+  },
+  {
     "result": "hollow_cane",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -28,7 +43,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -192,6 +207,33 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "homemade_polehammer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "hammer", 1 ], [ "homemade_polehammer_makeshift", 1 ] ], [ [ "nails", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "homemade_polehammer_makeshift",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "super_glue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cudgel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -258,8 +300,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_sword_scrap",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
@@ -272,8 +314,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "glass_macuahuitl",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "10 m",
@@ -287,8 +329,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "teeth_macuahuitl",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "10 m",
@@ -302,16 +344,17 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_sword_stone",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "150 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "adhesive", 5 ] ],
-    "components": [ [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "sharp_rock", 6 ], [ "flint", 6 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -322,7 +365,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "10 h",
-    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -357,7 +400,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "12 h",
-    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "book_learn": [ [ "textbook_mesoam", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -393,7 +436,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -429,7 +472,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "18 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -498,8 +541,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_spear_scrap",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
@@ -513,8 +556,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_spear_glass",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "10 m",
@@ -528,8 +571,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_spear_stone",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "10 m",
@@ -548,7 +591,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "6 h",
-    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -584,7 +627,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "8 h",
-    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "book_learn": [ [ "textbook_mesoam", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -620,7 +663,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "10 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -656,7 +699,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -693,7 +736,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -990,9 +1033,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "skill_penalty": 4 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "plastic_molding", 6 ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -1020,7 +1062,7 @@
     "difficulty": 6,
     "time": "2 h",
     "book_learn": [ [ "recipe_melee", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering", "skill_penalty": 0.5 },
@@ -1028,7 +1070,7 @@
       { "proficiency": "prof_plasticworking", "skill_penalty": 0.5 }
     ],
     "components": [
-      [ [ "plastic_chunk", 10 ] ],
+      [ [ "plastic_chunk", 8 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
@@ -1209,7 +1251,8 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",
@@ -1529,7 +1572,8 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_quenching", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",

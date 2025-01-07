@@ -3,20 +3,23 @@
 #define CATA_SRC_BIONICS_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "effect_on_condition.h"
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
-#include "translations.h"
+#include "npc.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -181,7 +184,7 @@ struct bionic_data {
 
     itype_id itype() const;
 
-    void load( const JsonObject &obj, const std::string &src );
+    void load( const JsonObject &obj, std::string_view src );
     void finalize();
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static void finalize_bionic();

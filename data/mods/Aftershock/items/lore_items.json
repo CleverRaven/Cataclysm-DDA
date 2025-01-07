@@ -8,8 +8,8 @@
     "name": { "str": "personal message card" },
     "snippet_category": "afs_personal_card",
     "description": "A creased card with images and a personal message.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "weight": "3 g",
     "volume": "5 ml"

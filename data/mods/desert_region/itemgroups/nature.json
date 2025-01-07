@@ -9,7 +9,7 @@
       [ "rock_flaking", 8 ],
       [ "sharp_rock", 8 ],
       { "item": "pebble", "prob": 33, "charges": 1 },
-      { "item": "pebble", "prob": 33, "charges-max": 10 }
+      { "item": "pebble", "prob": 33, "charges": [ 0, 10 ] }
     ]
   }
 ]

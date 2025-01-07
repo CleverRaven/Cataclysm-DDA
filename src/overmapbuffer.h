@@ -20,11 +20,13 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "type_id.h"
 
 class basecamp;
 class character_id;
 enum class cube_direction : int;
+enum class om_vision_level : int8_t;
 class map_extra;
 class monster;
 class npc;
@@ -41,6 +43,7 @@ struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
     bool avoid_danger = true;
     bool only_known_by_player = true;
+    bool allow_diagonal = false;
 
     void set_cost( const oter_travel_cost_type &type, int v ) {
         travel_cost_per_type.emplace( type, v );
@@ -144,6 +147,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
+        bool externally_set_args = false;
+
         static cata_path terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
 
@@ -153,6 +158,12 @@ class overmapbuffer
          */
         overmap &get( const point_abs_om & );
         void save();
+        /**
+         * Just drop the generated overmaps without resetting
+         * the members tracking which specials we've placed.
+         * Should only be used in tests.
+         */
+        void reset();
         void clear();
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
@@ -186,8 +197,9 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
-        bool seen( const tripoint_abs_omt &p );
-        void set_seen( const tripoint_abs_omt &p, bool seen = true );
+        om_vision_level seen( const tripoint_abs_omt &p );
+        bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
+        void set_seen( const tripoint_abs_omt &p, om_vision_level seen );
         bool has_camp( const tripoint_abs_omt &p );
         bool has_vehicle( const tripoint_abs_omt &p );
         bool has_horde( const tripoint_abs_omt &p );
@@ -221,6 +233,10 @@ class overmapbuffer
          * If there are any, it's not safe.
          */
         bool is_safe( const tripoint_abs_omt &p );
+        /**
+         * Check if the tripoint is part of or surrounded by a city, ignoring z-level
+         */
+        bool is_in_city( const tripoint_abs_omt &p );
 
         /**
          * Move the tracking mark of the given vehicle.
@@ -346,7 +362,7 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius );
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint_abs_omt> get_travel_path(
+        pf::simple_path<tripoint_abs_omt> get_travel_path(
             const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
@@ -367,7 +383,7 @@ class overmapbuffer
          * within the overmap (for use with overmap APIs).
          * get_existing_om_global will not create a new overmap and
          * if the requested overmap does not yet exist it returns
-         * { nullptr, tripoint_zero }.
+         * { nullptr tripoint::zero }.
          * get_om_global creates a new overmap if needed.
          */
         overmap_with_local_coords get_existing_om_global( const point_abs_omt &p );
@@ -521,6 +537,14 @@ class overmapbuffer
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
                             int radius );
 
+        int get_unique_special_count( const overmap_special_id &id ) {
+            return unique_special_count[id];
+        }
+
+        int get_overmap_count() const {
+            return overmap_count;
+        }
+
     private:
         /**
          * Common function used by the find_closest/all/random to determine if the location is
@@ -540,6 +564,11 @@ class overmapbuffer
         overmap mutable *last_requested_overmap;
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
+        // This tracks the unique specials we have placed. It is used to
+        // Adjust weights of special spawns to correct for things like failure to spawn.
+        std::unordered_map<overmap_special_id, int> unique_special_count;
+        // Global count of number of overmaps generated for this world.
+        int overmap_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -580,15 +609,25 @@ class overmapbuffer
          */
         void add_unique_special( const overmap_special_id &id );
         /**
+         * Logs the placement of the given unique overmap special.
+         */
+        void log_unique_special( const overmap_special_id &id ) {
+            unique_special_count[id]++;
+        }
+        /**
          * Returns true if the given globally unique overmap special has already been placed.
          */
         bool contains_unique_special( const overmap_special_id &id ) const;
         /**
-         * Writes the placed unique specials as a JSON value.
+         * Writes metadata about special placement as a JSON value.
          */
-        void serialize_placed_unique_specials( JsonOut &json ) const;
+        void serialize_overmap_global_state( JsonOut &json ) const;
         /**
-         * Reads placed unique specials from JSON and overwrites the global value.
+         * Reads metadata about special placement from JSON.
+         */
+        void deserialize_overmap_global_state( const JsonObject &json );
+        /**
+         * Reads deprecated placed unique specials data, replaced by overmap_global_state.
          */
         void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:

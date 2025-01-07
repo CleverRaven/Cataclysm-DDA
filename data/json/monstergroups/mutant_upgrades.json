@@ -10,25 +10,25 @@
   {
     "name": "GROUP_CENTIPEDE_ADULT",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_centipede_giant", "weight": 900 }, { "monster": "mon_centipede_mom", "weight": 100 } ]
+    "monsters": [ { "monster": "mon_centipede_giant", "weight": 9 }, { "monster": "mon_centipede_mom", "weight": 1 } ]
   },
   {
     "name": "GROUP_CENTIPEDE_GIANT",
     "type": "monstergroup",
     "default": "mon_centipede_mom",
     "monsters": [
-      { "monster": "mon_centipede_mom", "weight": 450 },
-      { "monster": "mon_centipede_giant", "weight": 500 },
-      { "monster": "mon_centipede_mega", "weight": 50 }
+      { "monster": "mon_centipede_mom", "weight": 45 },
+      { "monster": "mon_centipede_giant", "weight": 50 },
+      { "monster": "mon_centipede_mega", "weight": 5 }
     ]
   },
   {
     "name": "GROUP_CENTIPEDE_MOM",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_centipede_giant", "weight": 650 },
-      { "monster": "mon_centipede_mom", "weight": 250 },
-      { "monster": "mon_centipede_mega", "weight": 100 }
+      { "monster": "mon_centipede_giant", "weight": 65 },
+      { "monster": "mon_centipede_mom", "weight": 25 },
+      { "monster": "mon_centipede_mega", "weight": 10 }
     ]
   },
   {
@@ -48,16 +48,12 @@
   {
     "name": "GROUP_RATKIN_EVOLVED",
     "type": "monstergroup",
-    "default": "mon_black_ratkin",
     "monsters": [
-      { "monster": "mon_black_ratkin" },
-      { "monster": "mon_lab_ratkin", "weight": 200 },
-      { "monster": "mon_big_rat", "weight": 320 },
-      { "monster": "mon_zap_rat", "weight": 280 },
-      { "monster": "mon_tunnel_rat", "weight": 180 },
-      { "monster": "mon_pack_rat", "weight": 170 },
-      { "monster": "mon_teke_mouse", "weight": 160 },
-      { "monster": "mon_mausketeer", "weight": 90 }
+      { "monster": "mon_zap_rat", "weight": 300 },
+      { "monster": "mon_tunnel_rat", "weight": 250 },
+      { "monster": "mon_pack_rat", "weight": 200 },
+      { "monster": "mon_teke_mouse", "weight": 150 },
+      { "monster": "mon_mausketeer", "weight": 100 }
     ]
   }
 ]

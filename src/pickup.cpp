@@ -269,7 +269,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                 newit = it;
                 newit.invlet = invlet;
             }
-        // Intentional fallthrough
+            [[fallthrough]];
         case STASH: {
             int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
@@ -390,7 +390,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 }
 
 // Auto pickup items at given location
-void Pickup::autopickup( const tripoint &p )
+void Pickup::autopickup( const tripoint_bub_ms &p )
 {
     map &local = get_map();
 
@@ -400,12 +400,13 @@ void Pickup::autopickup( const tripoint &p )
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
     const map_stack mapitems = local.i_at( p );
+    here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
     }
     Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos_bub() == p ) {
         //Autopickup adjacent
         std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -414,30 +415,31 @@ void Pickup::autopickup( const tripoint &p )
         };
         for( direction &elem : adjacentDir ) {
 
-            tripoint apos = tripoint( displace_XY( elem ), 0 );
-            apos += p;
+            tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
 
-            autopickup( apos );
+            autopickup( p + apos );
         }
     }
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, tripoint_bub_ms( p ) ) ||
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    drop_locations selected_items = auto_pickup::select_items( here, p );
+    drop_locations selected_items = auto_pickup::select_items( here, tripoint_bub_ms( p ) );
     if( selected_items.empty() ) {
         return;
     }
     // At this point we've selected our items, register an activity to pick them up.
     std::vector<int> quantities;
     std::vector<item_location> target_items;
+    target_items.reserve( selected_items.size() );
+    quantities.reserve( selected_items.size() );
     for( drop_location selected : selected_items ) {
         item *it = selected.first.get_item();
         target_items.push_back( selected.first );
         quantities.push_back( it->count_by_charges() ? it->charges : 0 );
     }
-    pickup_activity_actor actor( target_items, quantities, player.pos(), true );
+    pickup_activity_actor actor( target_items, quantities, player.pos_bub(), true );
     player.assign_activity( actor );
 
     // Auto pickup will need to auto resume since there can be several of them on the stack.
@@ -485,7 +487,7 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.position();
+    src_pos = src_.pos_bub();
     src_container = src_.parent_item();
     src_type = src_.where();
 }

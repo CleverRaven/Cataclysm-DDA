@@ -9,35 +9,6 @@
     "type": "mapgen",
     "update_mapgen_id": "fbbb",
     "method": "json",
-    "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "fbbb_palette" ]
-    }
+    "object": { "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ], "palettes": [ "fbbb_palette" ] }
   }
 ]

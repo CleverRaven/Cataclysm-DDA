@@ -1,0 +1,31 @@
+[
+  {
+    "type": "enchantment",
+    "id": "enchant_afs_electrokin_zap_enemies",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "afs_electrokin_zap_attacked", "hit_self": false, "once_in": 2 } ]
+  },
+  {
+    "id": "afs_electrokin_zap_attacked",
+    "type": "SPELL",
+    "name": { "str": "Electrokinetic aura thorns", "//~": "NO_I18N" },
+    "description": {
+      "str": "Do electrical damage to a monster that attacked you.  If you have this directly its a bug.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [ "( (u_spell_level('afs_electrokinetic_zap_enemies') / 4 ) + 1) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('afs_electrokinetic_zap_enemies') / 2 ) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": 1,
+    "max_range": 1
+  }
+]

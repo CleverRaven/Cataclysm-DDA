@@ -6,8 +6,8 @@
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "material": [ "nylon", "steel", "nether_crystal" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -36,7 +36,22 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true } },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -8 },
+            { "type": "stab", "add": -20 },
+            { "type": "cut", "add": -15 },
+            { "type": "bullet", "add": -40 }
+          ]
+        }
+      ],
+      "charge_info": { "recharge_type": "periodic", "time": "60 s", "regenerate_ammo": true }
+    },
     "//": "Recharge time is 60 seconds due to bug #48019, making it actually 30 seconds. Reduce to 30 seconds if that ever gets fixed."
   },
   {
@@ -55,21 +70,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -15 },
-            { "value": "ARMOR_BASH", "add": -8 },
-            { "value": "ARMOR_STAB", "add": -20 },
-            { "value": "ARMOR_BULLET", "add": -40 }
-          ]
-        }
-      ]
-    }
+    "extend": { "flags": [ "NO_TAKEOFF" ] }
   },
   {
     "id": "psionic_shield_belt_broken",
@@ -95,8 +96,8 @@
     "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
     "weight": "350 g",
     "volume": "500 ml",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "material": [ "nylon", "steel", "nether_crystal" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -125,7 +126,18 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+        }
+      ],
+      "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true }
+    },
     "//": "Recharge time is 30 seconds due to bug #48019, making it actually 15 seconds. Reduce to 15 seconds if that ever gets fixed."
   },
   {
@@ -144,16 +156,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_HEAT", "multiply": -1.0 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
-        }
-      ]
-    }
+    "extend": { "flags": [ "NO_TAKEOFF" ] }
   },
   {
     "id": "psionic_fire_shield_belt_broken",

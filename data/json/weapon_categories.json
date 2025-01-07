@@ -2,122 +2,152 @@
   {
     "type": "weapon_category",
     "id": "AUTOMATIC_RIFLES",
-    "name": "AUTOMATIC RIFLES"
+    "name": "AUTOMATIC RIFLES",
+    "proficiencies": [ "prof_auto_rifles_familiar", "prof_auto_rifles_pro", "prof_auto_rifles_master" ]
   },
   {
     "type": "weapon_category",
     "id": "AUTOMATIC_PISTOLS",
-    "name": "AUTOMATIC PISTOLS"
+    "name": "AUTOMATIC PISTOLS",
+    "proficiencies": [ "prof_auto_pistols_familiar", "prof_auto_pistols_pro", "prof_auto_pistols_master" ]
   },
   {
     "type": "weapon_category",
     "id": "KNIVES",
-    "name": "KNIVES"
+    "name": "KNIVES",
+    "proficiencies": [ "prof_knives_familiar", "prof_knives_pro", "prof_knives_master" ]
   },
   {
     "type": "weapon_category",
     "id": "BATONS",
-    "name": "BATONS"
+    "name": "BATONS",
+    "proficiencies": [ "prof_batons_familiar", "prof_batons_pro", "prof_batons_master" ]
   },
   {
     "type": "weapon_category",
     "id": "FLAILS",
-    "name": "FLAILS"
+    "name": "FLAILS",
+    "proficiencies": [ "prof_flails_familiar", "prof_flails_pro", "prof_flails_master" ]
   },
   {
     "type": "weapon_category",
     "id": "MACES",
-    "name": "MACES"
+    "name": "MACES",
+    "proficiencies": [ "prof_maces_familiar", "prof_maces_pro", "prof_maces_master" ]
   },
   {
     "type": "weapon_category",
     "id": "MEDIUM_SWORDS",
     "//": "One-handed swords above 60cm in length with a cutting edge.",
-    "name": "MEDIUM SWORDS"
+    "name": "MEDIUM SWORDS",
+    "proficiencies": [ "prof_medium_swords_familiar", "prof_medium_swords_pro", "prof_medium_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "LONG_SWORDS",
     "//": "Hand-and-a-half swords, i.e. any sword that can be used one or two-handed fairly easily with a cutting edge.",
-    "name": "LONG SWORDS"
+    "name": "LONG SWORDS",
+    "proficiencies": [ "prof_long_swords_familiar", "prof_long_swords_pro", "prof_long_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "SHORT_SWORDS",
     "//": "One-handed swords at or below 60cm in length with a cutting edge, such as machetes.",
-    "name": "SHORT SWORDS"
+    "name": "SHORT SWORDS",
+    "proficiencies": [ "prof_short_swords_familiar", "prof_short_swords_pro", "prof_short_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "QUARTERSTAVES",
-    "name": "QUARTERSTAVES"
+    "name": "QUARTERSTAVES",
+    "proficiencies": [ "prof_quarterstaves_familiar", "prof_quarterstaves_pro", "prof_quarterstaves_master" ]
   },
   {
     "type": "weapon_category",
     "id": "CLAWS",
-    "name": "CLAWS"
+    "name": "CLAWS",
+    "proficiencies": [ "prof_claws_familiar", "prof_claws_pro", "prof_claws_master" ]
   },
   {
     "type": "weapon_category",
     "id": "SHIVS",
-    "name": "SHIVS"
+    "name": "SHIVS",
+    "proficiencies": [ "prof_shivs_familiar", "prof_shivs_pro", "prof_shivs_master" ]
   },
   {
     "type": "weapon_category",
     "id": "HOOKING_WEAPONRY",
-    "name": "HOOKING WEAPONRY"
+    "name": "HOOKING WEAPONRY",
+    "proficiencies": [ "prof_hooking_familiar", "prof_hooking_pro", "prof_hooking_master" ]
   },
   {
     "type": "weapon_category",
     "id": "SPEARS",
-    "name": "SPEARS"
+    "name": "SPEARS",
+    "proficiencies": [ "prof_spears_familiar", "prof_spears_pro", "prof_spears_master" ]
+  },
+  {
+    "//": "Fake category for unarmed - don't apply to any weapons",
+    "type": "weapon_category",
+    "id": "UNARMED",
+    "name": "UNARMED",
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ]
   },
   {
     "type": "weapon_category",
     "id": "POLEARMS",
-    "name": "POLEARMS"
+    "name": "POLEARMS",
+    "proficiencies": [ "prof_polearms_familiar", "prof_polearms_pro", "prof_polearms_master" ]
   },
   {
     "type": "weapon_category",
     "id": "FENCING_WEAPONRY",
     "//": "One-handed straight swords built for thrusting or lightly curved agile sabers.  Cutting edge optional for the former.",
-    "name": "FENCING WEAPONRY"
+    "name": "FENCING WEAPONRY",
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_fencing_weapons_master" ]
   },
   {
     "type": "weapon_category",
     "id": "LONG_THRUSTING_SWORDS",
     "//": "Hand-and-a-half or two-handed straight swords built for thrusting.  Cutting edge optional.",
-    "name": "LONG THRUSTING SWORDS"
+    "name": "LONG THRUSTING SWORDS",
+    "proficiencies": [ "prof_thrusting_swords_familiar", "prof_thrusting_swords_pro", "prof_thrusting_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "BIONIC_WEAPONRY",
-    "name": "BIONIC WEAPONRY"
+    "name": "BIONIC WEAPONRY",
+    "proficiencies": [ "prof_bionics_familiar", "prof_bionics_pro", "prof_bionics_master" ]
   },
   {
     "type": "weapon_category",
     "id": "BIONIC_SWORDS",
-    "name": "BIONIC SWORDS"
+    "name": "BIONIC SWORDS",
+    "proficiencies": [ "prof_bionic_swords_familiar", "prof_bionic_swords_pro", "prof_bionic_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "GREAT_SWORDS",
     "//": "Swords with cutting edges that require two hands to use effectively.",
-    "name": "GREAT SWORDS"
+    "name": "GREAT SWORDS",
+    "proficiencies": [ "prof_great_swords_familiar", "prof_great_swords_pro", "prof_great_swords_master" ]
   },
   {
     "type": "weapon_category",
     "id": "GREAT_HAMMERS",
-    "name": "GREAT HAMMERS"
+    "name": "GREAT HAMMERS",
+    "proficiencies": [ "prof_great_hammers_familiar", "prof_great_hammers_pro", "prof_great_hammers_master" ]
   },
   {
     "type": "weapon_category",
     "id": "GREAT_AXES",
-    "name": "GREAT AXES"
+    "name": "GREAT AXES",
+    "proficiencies": [ "prof_great_axes_familiar", "prof_great_axes_pro", "prof_great_axes_master" ]
   },
   {
     "type": "weapon_category",
     "id": "HAND_AXES",
-    "name": "HAND AXES"
+    "name": "HAND AXES",
+    "proficiencies": [ "prof_hand_axes_familiar", "prof_hand_axes_pro", "prof_hand_axes_master" ]
   }
 ]

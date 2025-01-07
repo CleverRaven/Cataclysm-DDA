@@ -10,8 +10,8 @@
     "material": [ "steel" ],
     "volume": "30 L",
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 1500,
+    "price": "120 USD",
+    "price_postapoc": "15 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 4 }
   },
@@ -23,8 +23,8 @@
     "weight": "120 kg",
     "material": [ "superalloy", "copper" ],
     "volume": "140 L",
-    "price": 68000,
-    "price_postapoc": 2500,
+    "price": "680 USD",
+    "price_postapoc": "25 USD",
     "copy-from": "motor"
   },
   {
@@ -34,8 +34,8 @@
     "description": "An extremely powerful electric motor.  This delivers massive torque and would be well suited to an electric racing car.",
     "weight": "140 kg",
     "volume": "200 L",
-    "price": 80000,
-    "price_postapoc": 3500,
+    "price": "800 USD",
+    "price_postapoc": "35 USD",
     "copy-from": "motor"
   },
   {
@@ -47,8 +47,8 @@
     "to_hit": -3,
     "symbol": ":",
     "volume": "75 L",
-    "price": 22000,
-    "price_postapoc": 1500,
+    "price": "220 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "motor",
     "melee_damage": { "bash": 9 }
   },
@@ -59,8 +59,8 @@
     "description": "A light-duty electric motor.  Strong enough for an electric moped or golf cart.",
     "weight": "9 kg",
     "volume": "6 L",
-    "price": 2000,
-    "price_postapoc": 500,
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
     "copy-from": "motor",
     "melee_damage": { "bash": 1 }
   },
@@ -75,8 +75,8 @@
     "material": [ "steel", "plastic" ],
     "volume": "750 ml",
     "category": "veh_parts",
-    "price": 2000,
-    "price_postapoc": 100
+    "price": "20 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -85,8 +85,8 @@
     "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",
     "weight": "2000 kg",
     "volume": "250 L",
-    "price": 120000,
-    "price_postapoc": 8000,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "80 USD",
     "copy-from": "motor"
   }
 ]

@@ -8,7 +8,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
+        "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -36,14 +36,12 @@
     "id": "EOC_TELEPATH_CONCENTRATION_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_learning_bonus" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
+        "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -68,9 +66,8 @@
       { "u_message": "You begin shielding your thoughts.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telepathic_psi_armor", "duration": "PERMANENT" },
-      { "u_spawn_item": "telepath_mind_shield_item", "suppress_message": true, "force_equip": true },
       {
-        "queue_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
+        "run_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -91,24 +88,19 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
-    "effect": [
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      { "u_lose_effect": "effect_telepathic_psi_armor" },
-      { "u_remove_item_with": "telepath_mind_shield_item" }
-    ]
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telepathic_psi_armor" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_SHIELD_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
+        "run_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -134,7 +126,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telepath_sense_minds", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
+        "run_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -162,13 +154,12 @@
     "id": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
     "condition": { "u_has_effect": "effect_telepath_sense_minds" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
+        "run_eocs": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -187,7 +178,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MORALE_INITIATE",
+    "id": "EOC_TELEPATH_MORALE_INITIATE_SELF",
     "condition": { "not": { "u_has_effect": "effect_telepathic_morale" } },
     "effect": [
       { "u_message": "You begin to edit out your discouraging thoughts.", "type": "good" },
@@ -195,13 +186,25 @@
       { "u_add_effect": "effect_telepathic_morale", "duration": "PERMANENT" },
       {
         "u_add_morale": "morale_telepathy",
-        "bonus": 10,
-        "max_bonus": 25,
-        "duration": "2 hours",
-        "decay_start": "1 hours"
+        "bonus": {
+          "math": [
+            "( (u_spell_level('telepathic_morale') * 1) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+          ]
+        },
+        "max_bonus": 35,
+        "duration": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+          ]
+        }
       },
       {
-        "queue_eocs": "EOC_TELEPATH_MORALE_DRAIN",
+        "run_eocs": "EOC_TELEPATH_MORALE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -229,20 +232,31 @@
     "id": "EOC_TELEPATH_MORALE_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_morale" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "u_add_morale": "morale_telepathy",
-        "bonus": 10,
-        "max_bonus": 25,
-        "duration": "2 hours",
-        "decay_start": "1 hours"
+        "bonus": {
+          "math": [
+            "( (u_spell_level('telepathic_morale') * 1) + 10) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+          ]
+        },
+        "max_bonus": 35,
+        "duration": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+          ]
+        }
       },
       {
-        "queue_eocs": "EOC_TELEPATH_MORALE_DRAIN",
+        "run_eocs": "EOC_TELEPATH_MORALE_DRAIN",
         "time_in_future": [
           {
             "math": [

@@ -14,5 +14,48 @@
         "message": "The lightning blasts a crater where it strikes!"
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_sylph_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_sylph_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "High above the earth, you close your eyes and feel the wind on your face.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_sylph_clear_the_air",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [
+          "fd_extinguisher",
+          "fd_smoke",
+          "fd_toxic_gas",
+          "fd_pollen_triffid",
+          "fd_tear_gas",
+          "fd_nuke_gas",
+          "fd_gas_vent",
+          "fd_weedsmoke",
+          "fd_cracksmoke",
+          "fd_methsmoke",
+          "fd_relax_gas",
+          "fd_swamp_gas",
+          "fd_fungal_haze",
+          "fd_hallucinogenic_spores",
+          "fd_fungicidal_gas",
+          "fd_migo_atmosphere",
+          "fd_smoke_vent",
+          "fd_nm_monster_gas_2"
+        ],
+        "message": "The air clears.",
+        "message_good": true
+      }
+    ]
   }
 ]

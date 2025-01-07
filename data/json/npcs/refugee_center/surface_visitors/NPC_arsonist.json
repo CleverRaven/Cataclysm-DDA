@@ -132,10 +132,10 @@
       },
       {
         "text": "How are you doing these days?",
-        "condition": { "u_has_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "talk_flag_TALK_ARSONIST_SUPPLIED" } ] },
         "topic": "TALK_ARSONIST_TRADING"
       },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -216,10 +216,7 @@
       "failure": "Damn.  Perhaps I wasn't the only one who thought of this."
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "molotov", "count": 10 },
-        { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "molotov", "count": 10 }, { "u_add_var": "talk_flag_TALK_ARSONIST_SUPPLIED", "value": "yes" } ]
     }
   },
   {

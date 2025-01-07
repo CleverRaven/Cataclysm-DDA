@@ -1,0 +1,93 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "ap_active_backup_generator",
+    "name": { "str": "active backup generator" },
+    "looks_like": "f_active_backup_generator",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.",
+    "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
+    "//2": "On a normal vehicle 250mL of diesel in an I4 with a truck alternator (what the active backup gen uses) should provide ~1692 charges (kW?) of power in about 24 minutes based on a test setup. That's a little less than 7W power, rounded up as I assume a larger dedicated generator is more efficient.",
+    "power": "7 W",
+    "//3": "7.5 kW alternator value, minus power consumption of the engine",
+    "epower": "7300 W",
+    "//4": "This value doesn't seem to do anything for the appliance version? Let's keep it commented out for future reference.",
+    "//energy_consumption": "1000 W",
+    "m2c": 5,
+    "//5": "Actually accepts any diesel-type fuel but does NOT account for their relative fuel values! For diesel this is not a huge deal, only a few % inaccuracy, but for e.g. gas turbines this would be very bad!",
+    "fuel_type": "diesel",
+    "//6": "Appliance engine does NOT accept having these fields.",
+    "//fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
+    "//damaged_power_factor": 0.25,
+    "item": "active_backup_generator",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "ENGINE", "E_DIESEL_FUEL", "OBSTACLE", "COVERED", "APPLIANCE", "REACTOR", "FLUIDTANK" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 16 ] }, { "item": "steel_chunk", "count": [ 1, 6 ] } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_portable_generator",
+    "copy-from": "ap_active_backup_generator",
+    "name": { "str": "portable gasoline generator" },
+    "description": "A small, portable generator, one that people buy for a camp.  It just needs to be fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "3000 W",
+    "fuel_type": "gasoline",
+    "item": "portable_generator",
+    "breaks_into": [ { "item": "portable_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_diesel_generator",
+    "copy-from": "ap_active_backup_generator",
+    "name": { "str": "diesel generator" },
+    "description": "Big and powerful generator, used for street works.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "7000 W",
+    "item": "diesel_generator",
+    "breaks_into": [ { "item": "military_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_military_generator",
+    "copy-from": "ap_active_backup_generator",
+    "name": { "str": "military diesel generator" },
+    "description": "Big and powerful generator, painted in camo.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "10000 W",
+    "item": "military_generator",
+    "breaks_into": [ { "item": "military_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_12000_gasoline_generator",
+    "copy-from": "ap_active_backup_generator",
+    "name": { "str": "powerful gasoline generator" },
+    "description": "Still reasonably portable, this 12000 W gasoline generator can power up an entire house.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "12000 W",
+    "item": "12000_gasoline_generator",
+    "breaks_into": [ { "item": "12000_gasoline_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  }
+]

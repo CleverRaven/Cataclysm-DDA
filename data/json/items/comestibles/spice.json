@@ -23,9 +23,10 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
     "description": "Flamin' hot sauce.  It'd be a bad idea to drink it on its own.  You should probably wash your hands after handling it, too.",
-    "weight": "6 g",
+    "weight": "5 g",
     "charges": 50,
     "volume": "250 ml",
+    "material": [ "veggy", "water" ],
     "//": "hot sauces are very salty, hence the negative quench",
     "quench": -2,
     "calories": 5,
@@ -60,6 +61,25 @@
     "color": "dark_gray"
   },
   {
+    "id": "spicebush_berries",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spicebush berries" },
+    "description": "Small, red berries with a pungent aroma.  It is said they are comparable to allspice, but also boasting their own flavor profile.",
+    "smoking_result": "spicebush_berries_smoked",
+    "spoils_in": "4 days",
+    "extend": { "flags": [ "SMOKABLE" ] },
+    "color": "red"
+  },
+  {
+    "id": "spicebush_berries_smoked",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "dry spicebush berries" },
+    "description": "These formerly red berries now have a stronger aroma after being dehydrated.",
+    "color": "brown"
+  },
+  {
     "id": "salt",
     "copy-from": "spice",
     "type": "COMESTIBLE",
@@ -92,7 +112,6 @@
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
-    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
@@ -132,7 +151,8 @@
     "material": [ "veggy" ],
     "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "soysauce",
@@ -141,10 +161,11 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "1 USD 90 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
+    "material": [ "water" ],
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
@@ -164,13 +185,13 @@
     "calories": 9,
     "fun": -4,
     "weight": "40 g",
-    "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",

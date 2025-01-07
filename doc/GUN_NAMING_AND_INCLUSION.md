@@ -22,7 +22,7 @@ intuitive.
 
 If you are interested in learning about guns and enjoy doing that, the learning
 that is required to understand guns is an interesting experience. If you're
-just here to try your hand at surviving the cataclysm, and don't care to learn
+just here to try your hand at surviving the Cataclysm, and don't care to learn
 much about guns, it's just an obstacle to understanding how to use guns.
 Because of the significant tactical role of guns in the game, this obstacle
 matters in how approachable the game is. If guns are hard to understand, it's
@@ -75,7 +75,7 @@ added as variants instead of distinct items.
 
 ## Rarity Threshold
 
-Pre-cataclysm firearms from the same dimension in which the game takes place in
+Pre-Cataclysm firearms from the same dimension in which the game takes place in
 can be broadly divided into 5 categories: civilian, civilian
 NFA(non-machinegun), civilian machineguns, police, and military
 
@@ -139,14 +139,18 @@ There are two rules for the default names of guns. That is, the names of guns
 when the 'Gun Brand Names' option is not enabled. These rules are enforced by
 script.
 
-## Rule 1: What is this?
+## Rule 1 (Descriptive Names): What is this?
 
 This rule requires that the name of the gun clarifies what it is. This is meant
 to prevent gun names that are obscure strings of letters and numbers.
 
+Guns that follow this rule will have names like `Glock pistol`, `m4 carbine`,
+or `UMP submachine gun`. Guns that don't will have names like `FS2000`,
+`SIG P226`, `Ruger LCR .38`, or `Taurus Raging Bull`.
+
 As of writing, names are considered to be acceptable if the gun name contains
-any of these strings. As with the other rules, the most up-to-date info on what
-is acceptable is contained in the
+any of these strings that describe that it is a gun and it's role. As with the
+other rules, the most up-to-date info on what is acceptable is contained in the
 [verification script](../tools/json_tools/gun_variant_validator.py).
 
 |        String       |Reason|
@@ -179,7 +183,7 @@ is acceptable is contained in the
 |submachine gun       |describes a class of gun|
 |trenchgun            |describes a class of gun|
 
-## Rule 2: What goes with this?
+## Rule 2 (Identifier Check): What goes with this?
 
 This rule requires that there is a common "identifier" string shared between
 the gun and all the magazines or speedloaders it takes.

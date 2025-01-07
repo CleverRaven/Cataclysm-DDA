@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "void_spider_nest",
     "subtype": "distribution",
-    "entries": [ { "item": "egg_void_spider", "count-min": 1, "count-max": 6 } ]
+    "entries": [ { "item": "egg_void_spider", "count": [ 1, 6 ] } ]
   },
   {
     "id": "void_spider_corpse_mayor_loot",
@@ -28,7 +28,11 @@
             "prob": 10
           },
           {
-            "collection": [ { "item": "holo_cloak" }, { "item": "standard_template_construct" }, { "item": "plasma_gun" } ],
+            "collection": [
+              { "item": "holo_cloak" },
+              { "item": "standard_template_construct" },
+              { "item": "exodii_plasma_projectile", "contents-item": [ "condenser_pristine" ] }
+            ],
             "prob": 10
           },
           {

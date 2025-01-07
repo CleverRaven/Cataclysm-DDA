@@ -1,8 +1,8 @@
 #include "damage.h"
 
 #include <algorithm>
-#include <cstdlib>
 #include <map>
+#include <memory>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -10,15 +10,21 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "creature.h"
-#include "effect_on_condition.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "json.h"
+#include "json_error.h"
 #include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
-#include "translations.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "units.h"
 
 static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
@@ -106,7 +112,7 @@ static damage_info_order::info_disp read_info_disp( const std::string &s )
     }
 }
 
-void damage_type::load( const JsonObject &jo, std::string_view )
+void damage_type::load( const JsonObject &jo, std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
@@ -145,11 +151,11 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     }
 
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, std::string( src ) ) );
     }
 
     for( JsonValue jv : jo.get_array( "ondamage_eocs" ) ) {
-        ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondamage_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, std::string( src ) ) );
     }
 }
 
@@ -431,9 +437,9 @@ void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 
-        d.set_value( "npctalk_var_damage_taken", std::to_string( damage_taken ) );
-        d.set_value( "npctalk_var_total_damage", std::to_string( total_damage ) );
-        d.set_value( "npctalk_var_bp", bp.str() );
+        d.set_value( "damage_taken", std::to_string( damage_taken ) );
+        d.set_value( "total_damage", std::to_string( total_damage ) );
+        d.set_value( "bp", bp.str() );
 
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
@@ -858,12 +864,7 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
 
 void damage_over_time_data::deserialize( const JsonObject &jo )
 {
-    std::string tmp_string = jo.get_string( "damage_type" );
-    // Remove after 0.F, migrating DT_TRUE to DT_PURE
-    if( tmp_string == "true" ) {
-        tmp_string = "pure";
-    }
-    type = damage_type_id( tmp_string );
+    jo.read( "damage_type", type );
     jo.read( "amount", amount );
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );

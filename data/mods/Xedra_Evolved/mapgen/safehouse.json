@@ -108,7 +108,7 @@
   {
     "id": "basement_survival_last_stand_casing",
     "type": "item_group",
-    "items": [ { "item": "308_casing", "charges": [ 1, 1 ] }, { "item": "ammolink308", "charges": [ 1, 1 ] } ]
+    "items": [ { "item": "308_casing", "charges": 1 }, { "item": "ammolink308", "charges": 1 } ]
   },
   {
     "type": "mapgen",

@@ -50,11 +50,6 @@ void specific_energy::serialize( JsonOut &jsout ) const
 template<>
 void specific_energy::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = units::from_joule_per_gram( jv.get_int() );
-        return;
-    }
     *this = units::from_joule_per_gram( std::stof( jv.get_string() ) );
 }
 
@@ -67,11 +62,6 @@ void temperature::serialize( JsonOut &jsout ) const
 template<>
 void temperature::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = from_kelvin( jv.get_int() );
-        return;
-    }
     *this = from_kelvin( std::stof( jv.get_string() ) );
 }
 
@@ -108,11 +98,6 @@ void power::serialize( JsonOut &jsout ) const
 template<>
 void power::deserialize( const JsonValue &jv )
 {
-    if( jv.test_int() ) {
-        // Compatibility with old 0.F saves
-        *this = from_watt( static_cast<std::int64_t>( jv.get_int() ) );
-        return;
-    }
     *this = read_from_json_string( jv, units::power_units );
 }
 

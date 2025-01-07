@@ -12,7 +12,7 @@
   {
     "id": "BGRS_MIGO_3_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "The eggheads kept sayig we needed to find a way out of here before everything went sideways.  So we needed to open more portals even if we hadn't had time to take all the precautions.",
+    "dynamic_line": "The eggheads kept saying we needed to find a way out of here before everything went sideways.  So we needed to open more portals even if we hadn't had time to take all the precautions.",
     "responses": [
       { "text": "What happened next?", "topic": "BGRS_MIGO_3_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

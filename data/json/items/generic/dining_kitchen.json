@@ -1,119 +1,117 @@
 [
   {
     "abstract": "base_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
-    "price": 100,
-    "price_postapoc": 0,
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
     "weight": "48 g",
     "volume": "25 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 2, "cut": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   },
   {
     "abstract": "base_utensil",
-    "name": { "str": "generic utensil" },
+    "name": { "str": "generic utensil", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
-    "price": 200,
-    "price_postapoc": 0,
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
     "weight": "158 g",
     "volume": "75 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 3, "cut": 2 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 2 }
   },
   {
     "abstract": "base_plastic_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic plastic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
-    "price": 10,
-    "price_postapoc": 0,
+    "price": "10 cent",
+    "price_postapoc": "0 cent",
     "weight": "28 g",
     "volume": "25 ml",
-    "material": [ "plastic" ],
-    "to_hit": -2,
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "material": [ "plastic" ]
   },
   {
     "abstract": "base_ceramic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic ceramic dish", "str_pl": "generic ceramic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "yellow",
-    "price": 1200,
-    "price_postapoc": 0,
+    "price": "12 USD",
+    "price_postapoc": "0 cent",
     "material": [ "ceramic" ],
     "weight": "375 g",
     "volume": "375 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "abstract": "base_glass_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic glass dish", "str_pl": "generic glass dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
-    "price": 1400,
-    "price_postapoc": 0,
+    "price": "14 USD",
+    "price_postapoc": "0 cent",
     "material": [ "glass" ],
     "weight": "322 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "abstract": "base_tin_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic tin dish", "str_pl": "generic tin dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
-    "price": 400,
-    "price_postapoc": 0,
+    "price": "4 USD",
+    "price_postapoc": "0 cent",
     "material": [ "tin" ],
     "weight": "262 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 2 }
   },
   {
     "abstract": "base_plastic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic plastic dish", "str_pl": "generic plastic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
-    "price": 400,
-    "price_postapoc": 0,
+    "price": "4 USD",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "weight": "130 g",
-    "volume": "262 ml",
-    "to_hit": -1,
-    "melee_damage": { "bash": 1 }
+    "volume": "262 ml"
   },
   {
     "abstract": "base_cookpot",
-    "name": { "str": "generic cook pot" },
-    "description": "generic item template",
+    "name": { "str": "generic cook pot", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "price": 4500,
-    "price_postapoc": 10,
-    "use_action": [ "HEAT_FOOD" ],
+    "price": "45 USD",
+    "price_postapoc": "10 cent",
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -146,6 +144,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -172,6 +171,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
@@ -198,6 +198,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "variants": [
       {
@@ -431,6 +432,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -438,7 +440,7 @@
     "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
-    "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
+    "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
     "pocket_data": [
@@ -450,6 +452,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -481,6 +484,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -526,6 +530,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -563,20 +568,25 @@
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 mL of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "787 ml",
-    "longest_side": "17 cm",
+    "volume": "1463 ml",
+    "weight": "57 g",
+    "longest_side": "20 cm",
+    "price": "132 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "max_item_length": "239 mm"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.co.uk/dp/B097HTDRNZ"
   },
   {
     "id": "plastic_bowl_kids",
@@ -642,7 +652,7 @@
     "weight": "43 g",
     "volume": "45 ml",
     "longest_side": "21 cm",
-    "price": 75,
+    "price": "75 cent",
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHIVS" ],
@@ -674,7 +684,7 @@
     "weight": "43 g",
     "volume": "70 ml",
     "longest_side": "19 cm",
-    "price": 69,
+    "price": "69 cent",
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
@@ -854,7 +864,7 @@
     "symbol": "X",
     "color": "light_gray",
     "price": "1 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "weight": "11 g",
     "volume": "40 ml",
     "longest_side": "23 cm",
@@ -956,7 +966,7 @@
     "weight": "50 g",
     "volume": "195 ml",
     "longest_side": "24 cm",
-    "price": 435,
+    "price": "4 USD 35 cent",
     "material": [ "rubber" ],
     "copy-from": "base_plastic_silverware",
     "//": "Based on https://www.amazon.com/dp/B001BKWXOY"
@@ -976,7 +986,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1450 ml",
     "price": "8 USD",
-    "price_postapoc": 5,
+    "price_postapoc": "5 cent",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 7 },
     "//": "Based on https://www.amazon.com/dp/B000ARPJRM"
@@ -1042,7 +1052,6 @@
     "weight": "750 g",
     "volume": "3500 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -1114,6 +1123,7 @@
     "volume": "25400 ml",
     "longest_side": "45 cm",
     "price": "68 USD",
+    "price_postapoc": "8 USD 15 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
@@ -1128,7 +1138,7 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 10 },
     "//": "Based on https://www.amazon.com/dp/B0075O2Z34"
@@ -1142,8 +1152,8 @@
     "weight": "8440 g",
     "volume": "30 L",
     "longest_side": "35 cm",
-    "price": 10000,
-    "to_hit": -2,
+    "price": "100 USD",
+    "price_postapoc": "3 USD",
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1157,7 +1167,7 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 9 }
   },
@@ -1202,7 +1212,6 @@
     "weight": "660 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1228,7 +1237,6 @@
     "weight": "628 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1247,12 +1255,12 @@
     "category": "tools",
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
-    "weight": "6000 g",
+    "weight": "6 kg",
     "volume": "1050 ml",
     "longest_side": "20 cm",
-    "price": 200,
-    "price_postapoc": 5,
-    "to_hit": 1,
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1266,9 +1274,9 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pot_makeshift_copper",
@@ -1279,9 +1287,9 @@
     "weight": "300 g",
     "volume": "1100 ml",
     "longest_side": "20 cm",
-    "price": 200,
-    "price_postapoc": 5,
-    "to_hit": 1,
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
@@ -1295,9 +1303,9 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1308,12 +1316,15 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "728 g",
-    "volume": "1575 ml",
-    "longest_side": "21 cm",
+    "weight": "508 g",
+    "volume": "3205 ml",
+    "//1": "Calculated as a cylinder of 7.44in diameter and 4.5in height. Calculating it from package dimensions of the amazon listing would give ridiculous volume.",
+    "longest_side": "19 cm",
+    "price": "13 USD",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ "COOK" ] },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "//2": "Based on https://www.amazon.com/dp/B0858VCYTB"
   },
   {
     "type": "GENERIC",
@@ -1333,15 +1344,15 @@
   {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
-    "category": "other",
+    "category": "tools",
     "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
     "qualities": [ [ "SIEVE", 2 ], [ "WINNOW", 1 ], [ "STRAIN", 1 ] ],
-    "price": 600,
-    "price_postapoc": 5
+    "price": "6 USD",
+    "price_postapoc": "5 cent"
   },
   {
     "id": "splatter_guard",
@@ -1352,8 +1363,8 @@
     "weight": "357 g",
     "symbol": ")",
     "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
-    "price": 600,
-    "price_postapoc": 5
+    "price": "6 USD",
+    "price_postapoc": "5 cent"
   },
   {
     "id": "cutting_board",
@@ -1371,7 +1382,7 @@
     "volume": "2625 ml",
     "longest_side": "41 cm",
     "price": "48 USD",
-    "price_postapoc": 5,
+    "price_postapoc": "5 cent",
     "melee_damage": { "bash": 7 },
     "//": "Based on https://www.amazon.com/dp/B00063QBL8"
   },
@@ -1383,14 +1394,13 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
-    "price": 10,
-    "price_postapoc": 0,
+    "price": "10 cent",
+    "price_postapoc": "0 cent",
     "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
-    "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",

@@ -106,22 +106,22 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     }
 }
 
-static void check_weary_mutation_nosleep( const std::string &trait_name, float fatigue_mod )
+static void check_weary_mutation_nosleep( const std::string &trait_name, float sleepiness_mod )
 {
     tasklist soldier_8h;
     avatar &guy = get_avatar();
 
-    float multiplier = 1.0f + fatigue_mod;
+    float multiplier = 1.0f + sleepiness_mod;
 
     std::stringstream section_name;
     section_name << "Non-sleep effects of " << trait_name;
-    section_name << " (fatigue_mod: " << fatigue_mod << ")";
+    section_name << " (sleepiness_mod: " << sleepiness_mod << ")";
 
     SECTION( section_name.str() ) {
         clear_avatar();
         set_single_trait( guy, trait_name );
         guy.set_stored_kcal( guy.get_healthy_kcal() );
-        // How do we make sure they don't sleep? Set fatigue to -1000?
+        // How do we make sure they don't sleep? Set sleepiness to -1000?
         // Doesn't seem to be a problem, fortunately.
 
         soldier_8h.enschedule( task_dig, 8_hours );
@@ -134,7 +134,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
+        if( multiplier >= 1.0f ) { // sleepiness alterations from mutations themselves affect thresholds...
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
             CHECK( info.transition_minutes( 1, 2, 295_minutes ) <= 300 );
@@ -188,19 +188,19 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
     }
 }
 
-static void check_weary_mutation_sleep( const std::string &trait_name, float fatigue_mod,
-                                        float fatigue_regen_mod )
+static void check_weary_mutation_sleep( const std::string &trait_name, float sleepiness_mod,
+                                        float sleepiness_regen_mod )
 {
     tasklist soldier_8h;
     avatar &guy = get_avatar();
 
-    float multiplier = 1.0f + fatigue_mod;
-    float multiplier2 = multiplier / ( 2.0f + fatigue_regen_mod );
+    float multiplier = 1.0f + sleepiness_mod;
+    float multiplier2 = multiplier / ( 2.0f + sleepiness_regen_mod );
 
     std::stringstream section_name;
     section_name << "Sleep effects of " << trait_name;
-    section_name << " (fatigue_mod: " << fatigue_mod;
-    section_name << "; fatigue_regen_mod: " << fatigue_regen_mod << ")";
+    section_name << " (sleepiness_mod: " << sleepiness_mod;
+    section_name << "; sleepiness_regen_mod: " << sleepiness_regen_mod << ")";
 
     SECTION( section_name.str() ) {
         clear_avatar();
@@ -254,24 +254,24 @@ static void check_weary_mutation_sleep( const std::string &trait_name, float fat
     }
 }
 
-static void check_weary_mutation( const std::string &trait_name, float fatigue_mod,
-                                  float fatigue_regen_mod )
+static void check_weary_mutation( const std::string &trait_name, float sleepiness_mod,
+                                  float sleepiness_regen_mod )
 {
-    check_weary_mutation_nosleep( trait_name, fatigue_mod );
-    check_weary_mutation_sleep( trait_name, fatigue_mod, fatigue_regen_mod );
+    check_weary_mutation_nosleep( trait_name, sleepiness_mod );
+    check_weary_mutation_sleep( trait_name, sleepiness_mod, sleepiness_regen_mod );
 }
 
 TEST_CASE( "weary_recovery_mutations", "[weary][activities][mutations]" )
 {
-    // WAKEFUL: fatigue_mod -0.15
-    // SLEEPY: fatigue_mod 0.33, fatigue_regen_mod 0.33
-    // WAKEFUL2: fatigue_mod -0.25
-    // WAKEFUL3: fatigue_mod -0.5, fatigue_regen_mod 0.5
-    // HUGE: fatigue_mod 0.15 (HUGE_OK - does it remove this? Should it?)
-    // PERSISTENCE_HUNTER: fatigue_mod -0.1
-    // PERSISTENCE_HUNGER2: fatigue_mod -0.2
-    // MET_RAT: fatigue_mod 0.5, fatigue_regen_mod 0.33
-    // SLEEPY2: fatigue_mod 1.0 (does this include SLEEPY's fatigue_regen_mod? looks like it?)
+    // WAKEFUL: sleepiness_mod -0.15
+    // SLEEPY: sleepiness_mod 0.33, sleepiness_regen_mod 0.33
+    // WAKEFUL2: sleepiness_mod -0.25
+    // WAKEFUL3: sleepiness_mod -0.5, sleepiness_regen_mod 0.5
+    // HUGE: sleepiness_mod 0.15 (HUGE_OK - does it remove this? Should it?)
+    // PERSISTENCE_HUNTER: sleepiness_mod -0.1
+    // PERSISTENCE_HUNGER2: sleepiness_mod -0.2
+    // MET_RAT: sleepiness_mod 0.5, sleepiness_regen_mod 0.33
+    // SLEEPY2: sleepiness_mod 1.0 (does this include SLEEPY's sleepiness_regen_mod? looks like it?)
 
     check_weary_mutation( "WAKEFUL", -0.15f, 0.0f );
     check_weary_mutation( "SLEEPY", 0.33f, 0.33f );

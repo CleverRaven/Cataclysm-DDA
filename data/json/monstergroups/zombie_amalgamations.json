@@ -45,6 +45,11 @@
     ]
   },
   {
+    "name": "GROUP_AMALGAMATION_BREATHER_HUB_SPARSE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 9 }, { "monster": "mon_amalgamation_breather_hub" } ]
+  },
+  {
     "name": "GROUP_AMALGAMATION_SMALL",
     "type": "monstergroup",
     "monsters": [

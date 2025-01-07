@@ -1,14 +1,19 @@
 #include "computer.h"
 
-#include <clocale>
-#include <cstdlib>
+#include <locale>
 #include <sstream>
+#include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "json.h"
+#include "json_error.h"
 #include "output.h"
+#include "talker.h"
 #include "talker_furniture.h"
+#include "translation.h"
 #include "translations.h"
 
 template <typename E> struct enum_traits;
@@ -58,7 +63,7 @@ void computer_failure::deserialize( const JsonObject &jo )
     type = jo.get_enum_value<computer_failure_type>( "action" );
 }
 
-computer::computer( const std::string &new_name, int new_security, tripoint new_loc )
+computer::computer( const std::string &new_name, int new_security, tripoint_bub_ms new_loc )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
       access_denied( _( "ERROR!  Access denied!" ) )

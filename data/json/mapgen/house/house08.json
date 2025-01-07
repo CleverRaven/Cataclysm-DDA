@@ -33,7 +33,7 @@
         ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "set": [
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
         { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },
@@ -95,7 +95,13 @@
         ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_party_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
+      "terrain": {
+        "?": "t_region_groundcover_urban",
+        "!": "t_region_groundcover_urban",
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
+      },
+      "furniture": { "?": "f_chair", "!": "f_table" },
       "place_fields": [ { "field": "fd_blood", "x": [ 9, 11 ], "y": [ 12, 14 ], "repeat": [ 4, 6 ] } ],
       "place_loot": [
         { "group": "livingroom", "x": [ 9, 21 ], "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 4 ] },
@@ -112,7 +118,7 @@
         { "item": "child_book", "x": 3, "y": 2, "chance": 100 },
         { "item": "sponge_cake", "x": 11, "y": 17, "chance": 100 },
         { "item": "candle", "x": 11, "y": 17, "chance": 100 },
-        { "item": "knife_chef", "x": 11, "y": 17, "chance": 100 },
+        { "item": "knife_large", "variant": "knife_chef", "x": 11, "y": 17, "chance": 100 },
         { "item": "ceramic_plate", "x": 11, "y": 17, "chance": 100 },
         { "item": "balloon", "x": [ 7, 18 ], "y": [ 15, 19 ], "chance": 75, "repeat": [ 3, 6 ] },
         { "item": "paper", "x": [ 9, 10 ], "y": [ 16, 18 ], "chance": 66, "repeat": [ 2, 5 ] },
@@ -145,7 +151,7 @@
         "  5..............:....- ",
         "  -...................- ",
         " --...................- ",
-        " -....................- ",
+        " -........1...........- ",
         " -....................- ",
         " -....................- ",
         " -....................- ",

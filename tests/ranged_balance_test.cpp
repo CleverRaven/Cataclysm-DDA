@@ -220,7 +220,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
     }
 }
 
-static constexpr tripoint shooter_pos( 60, 60, 0 );
+static constexpr tripoint_bub_ms shooter_pos( 60, 60, 0 );
 
 // Test the aiming speed and accuracy of the weapon in the first shot
 
@@ -271,8 +271,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
         test_fast_shooting( shooter, 80, 0.04 );
     }
     SECTION( "an unskilled shooter with a common rifle" ) {
-        // carbine is used since ar-15 has no receiver by default
-        arm_shooter( shooter, "modular_m4_carbine" );
+        arm_shooter( shooter, "debug_modular_m4_carbine" );
         test_shooting_scenario( shooter, 5, 5, 25 );
         test_fast_shooting( shooter, 100, 0.15 );
     }
@@ -313,7 +312,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "a skilled shooter with a carbine" ) {
-        arm_shooter( shooter, "modular_m4_carbine", { "red_dot_sight" }, "556_m855a1" );
+        arm_shooter( shooter, "debug_modular_m4_carbine", { "red_dot_sight" }, "556_m855a1" );
         test_shooting_scenario( shooter, 10, 15, 48 );
         test_fast_shooting( shooter, 80, 0.3 );
     }
@@ -354,7 +353,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "holo_sight" } );
+        arm_shooter( shooter, "fn_p90", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
@@ -443,14 +442,14 @@ TEST_CASE( "synthetic_range_test", "[.]" )
 static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
                            const std::string &ammo_type, int range,
                            int expected_damage, const std::string &monster_type,
-                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr,
-                           const Approx &expected_other_checks = Approx( 0 ) )
+                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
     clear_map();
     statistics<int> damage;
-    constexpr tripoint shooter_pos{ 60, 60, 0 };
-    const tripoint monster_pos = shooter_pos + ( point_east * range );
-    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+    constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
+    const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter",
+                                            shooter_pos,
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
     int other_check_success = 0;
     do {
@@ -461,15 +460,16 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         const int prev_HP = mon.get_hp();
         shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
-        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
-            break;
-        }
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );
+        }
+        if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
+            break;
         }
         mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
+    CAPTURE( damage.n() );
     CAPTURE( gun_type );
     CAPTURE( mods );
     CAPTURE( ammo_type );
@@ -478,7 +478,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( avg );
     CHECK( avg == Approx( expected_damage ).margin( 20 ) );
     if( other_checks ) {
-        CHECK( other_check_success == expected_other_checks );
+        CHECK( other_check_success == Approx( damage.n() ).margin( 10 ) );
     }
 }
 
@@ -489,9 +489,9 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Unarmored target
     // Minor damage at range.
     // More serious damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_test_shotgun_0_bullet" );
     // Grevious damage at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_test_shotgun_0_bullet" );
 
     // Triviallly armored target (armor_bullet: 1)
     // Can rarely if ever inflict damage at range.
@@ -518,13 +518,13 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
     // BUCKSHOT
     // Unarmored target
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_test_shotgun_0_bullet" );
     // Heavy damage at range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_test_shotgun_0_bullet" );
     // More damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_test_shotgun_0_bullet" );
     // Extreme damage at point blank range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_test_shotgun_0_bullet" );
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
@@ -546,11 +546,11 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     // Unarmored target
     // This test result is difficult to converge
     // After more attempts, the average value is about 7
-    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_wolf_mutant_huge" );
+    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_test_shotgun_0_bullet" );
     // All the results of tests at point blank are abonormal
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_test_shotgun_0_bullet" );
 
     // Triviallly armored target (armor_bullet: 1)
     shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_zombie_tough" );
@@ -559,10 +559,10 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_brute" );
 
     // Unarmored target
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 185, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_test_shotgun_0_bullet" );
     // Triviallly armored target (armor_bullet: 1)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 32, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 61, "mon_zombie_tough" );
@@ -584,18 +584,19 @@ TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
     clear_map();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
-        return src.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" &&
-               tgt.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target";
+        return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
+               tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";
     };
     // Check that ballistics damage processes weird damage types and on-hit EOCs
+    // note: shotguns can miss one-shot critical hit rarely
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
-                   "mon_test_zombie", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_zombie", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
-                   "mon_test_fire_resist", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_resist", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 18,
-                   "mon_test_fire_vresist", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_vresist", check_eocs );
     shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 0,
-                   "mon_test_fire_immune", check_eocs, Approx( 200 ).margin( 100 ) );
+                   "mon_test_fire_immune", check_eocs );
 }
 
 // Targeting graph tests

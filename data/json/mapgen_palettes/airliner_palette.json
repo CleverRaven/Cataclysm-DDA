@@ -8,7 +8,6 @@
       ",": "t_soil",
       "d": "t_dirtmound",
       "M": "t_wall_metal",
-      "m": "t_scrap_wall_halfway",
       ".": "t_metal_floor",
       "a": "t_metal_floor",
       "c": "t_metal_floor",
@@ -28,8 +27,9 @@
     "furniture": {
       "a": "f_seat_airplane",
       "c": "f_counter",
-      "f": "f_fridge",
+      "f": "f_heavy_duty_fridge",
       "l": "f_locker",
+      "m": "f_plane_wreckage",
       "S": "f_sink",
       "x": "f_console_broken",
       "*": "f_wreckage"

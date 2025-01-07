@@ -6,13 +6,12 @@
 #include <cstdlib>
 #include <limits>
 #include <optional>
+#include <ostream>
 #include <string>
+#include <tuple>
 
-#include "cata_assert.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "display.h"
-#include "enum_conversions.h"
 #include "line.h"
 #include "options.h"
 #include "rng.h"
@@ -877,7 +876,7 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE:
             //~ Estimate of how much time has passed since the last entry
@@ -910,7 +909,7 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE: {
             // normalized to 100 day seasons

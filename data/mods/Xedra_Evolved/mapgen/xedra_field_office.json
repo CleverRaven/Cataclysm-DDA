@@ -701,7 +701,7 @@
         { "vehicle": "car", "x": 40, "y": 40, "rotation": 90, "chance": 25 },
         { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
       ],
-      "place_monsters": [ { "monster": "GROUP_FERAL_AGENTS", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.4 } ],
+      "place_monsters": [ { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.4 } ],
       "palettes": [ "field_office_palette" ]
     }
   },
@@ -763,7 +763,13 @@
       ],
       "palettes": [ "field_office_palette" ],
       "place_monsters": [
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 10, 23 ], "y": [ 10, 23 ], "chance": 2, "repeat": [ 1, 4 ] },
+        {
+          "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
+          "x": [ 10, 23 ],
+          "y": [ 10, 23 ],
+          "chance": 2,
+          "repeat": [ 1, 4 ]
+        },
         { "monster": "GROUP_Exodii_Jotunn", "x": [ 26, 38 ], "y": [ 26, 38 ], "chance": 2, "repeat": [ 1, 4 ] }
       ],
       "computers": {
@@ -1082,10 +1088,10 @@
         }
       ],
       "place_monsters": [
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.4 },
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.4 },
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.4 },
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.4 },
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.4 },
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.4 },
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.4 },
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 24, 43 ], "y": [ 24, 42 ], "density": 0.4 },
         { "monster": "GROUP_Exodii_Jotunn", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.2 },
         { "monster": "GROUP_Exodii_Jotunn", "x": [ 24, 43 ], "y": [ 29, 47 ], "density": 0.2 },
         { "monster": "GROUP_Exodii_Jotunn", "x": [ 4, 23 ], "y": [ 0, 18 ], "density": 0.2 },
@@ -1191,8 +1197,8 @@
         }
       ],
       "place_monsters": [
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 5, 23 ], "y": [ 6, 23 ], "density": 0.3 },
-        { "monster": "GROUP_FERAL_AGENTS", "x": [ 5, 23 ], "y": [ 6, 18 ], "density": 0.3 }
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 5, 23 ], "y": [ 6, 23 ], "density": 0.3 },
+        { "monster": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE", "x": [ 5, 23 ], "y": [ 6, 18 ], "density": 0.3 }
       ]
     }
   },

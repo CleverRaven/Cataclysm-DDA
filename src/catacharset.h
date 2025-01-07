@@ -4,8 +4,9 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
+#include <iterator>
 #include <string>
+#include <string_view>
 #include <vector>
 
 constexpr int ANY_LENGTH = 5;

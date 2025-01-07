@@ -56,12 +56,19 @@
           { "item": "mut_lab", "chance": 2 },
           { "item": "robots", "chance": 5 },
           { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 1 },
           { "item": "sewage_plant", "chance": 5 },
           { "item": "harddrugs", "chance": 5 },
           { "item": "softdrugs", "chance": 5 }
         ]
       },
-      "d": { "items": [ { "item": "office", "chance": 20 }, { "item": "science", "chance": 5 } ] },
+      "d": {
+        "items": [
+          { "item": "office", "chance": 20 },
+          { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 2 }
+        ]
+      },
       "h": { "item": [ { "item": "coat_lab", "chance": 5 } ] },
       "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ] },
       "l": {
@@ -82,9 +89,20 @@
     "type": "palette",
     "id": "lab_loot_home_office",
     "mapping": {
-      "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "science", "chance": 2 } ] },
+      "c": {
+        "items": [
+          { "item": "office", "chance": 30 },
+          { "item": "SUS_science_personal_effects", "chance": 15 },
+          { "item": "science", "chance": 2 }
+        ]
+      },
       "d": {
-        "items": [ { "item": "office", "chance": 25 }, { "item": "stash_drugs", "chance": 5 }, { "item": "science", "chance": 3 } ]
+        "items": [
+          { "item": "office", "chance": 25 },
+          { "item": "SUS_science_personal_effects", "chance": 10 },
+          { "item": "stash_drugs", "chance": 5 },
+          { "item": "science", "chance": 3 }
+        ]
       },
       "f": { "items": [ { "item": "SUS_fridge_breakroom", "chance": 60 } ] },
       "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
@@ -93,6 +111,7 @@
           { "item": "chem_lab", "chance": 10 },
           { "item": "robots", "chance": 5 },
           { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 1 },
           { "item": "sewage_plant", "chance": 5 },
           { "item": "harddrugs", "chance": 5 },
           { "item": "softdrugs", "chance": 5 }
@@ -114,6 +133,7 @@
           { "item": "office", "chance": 10 },
           { "item": "stash_drugs", "chance": 5 },
           { "item": "science", "chance": 3 },
+          { "item": "SUS_science_personal_effects", "chance": 2 },
           { "item": "dresser", "chance": 3 },
           { "item": "lab_torso", "chance": 3 },
           { "item": "lab_pants", "chance": 3 }

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_NOBLE",
+    "text": [
+      "You dream of dancing in a palace made of ice and feasting on delicate sugar candies in the shapes of birds and fish.",
+      "You dream of riding at the head of a hunting party, the hounds panting as they chase after fleeing humanoid forms.",
+      "You dream of a duel in the rain, fought with swords made of lightning.",
+      "You dream of sitting on a throne as criminals are brought before you for judgement."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_BROWNIE",
+    "text": [
+      "You dream of repairing shoes.",
+      "You dream of a well-kept house, everything in its place.",
+      "You dream of spinning straw into gold.",
+      "In your dreams, you watch from above the fire in the hearth as the children play with blocks and the dog sleeps in the kitchen."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_POOKA",
+    "text": [
+      "You dream of flying through the night on raven's wings.",
+      "You dream of running on all fours through a field of wheat.",
+      "You dream of tracking a badger's scent back to its lair.",
+      "You dream of a raven landing on your outstretched arm and telling you what it saw while on the wing."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_SELKIE",
+    "text": [
+      "You dream of looking up at the sun from beneath the surface of the water.",
+      "You dream of frolicking in the seafoam.",
+      "You dream of slipping on your skin and the shiver as your skin turns to fur and your hands to flippers.",
+      "You dream of bumping a fishing boat and giggling as the rod falls in the water."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_CHANGELING_COMMONER_TROW",
+    "text": [
+      "Your dreams are filled with the round of pickaxes striking rock.",
+      "You dream of finding a rich vein of ore.",
+      "You dream of watching the moon set from the mouth of a cave.",
+      "You dream of watching a pair of humans pass by, oblivious to you among the rocks."
+    ]
+  }
+]

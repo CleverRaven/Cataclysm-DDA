@@ -138,7 +138,7 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "FILTHY",
       "PARALYZEVENOM"
     ]
@@ -243,7 +243,7 @@
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 21, "into": "mon_hulk_thorns" },
     "flags": [
       "SEES",
@@ -471,8 +471,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "weakpoints": [
-      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 15,

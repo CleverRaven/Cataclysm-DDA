@@ -138,32 +138,6 @@
     "method": "json",
     "update_mapgen_id": "mx_grave",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "place_nested": [
         {
           "chunks": [ [ "human_corpse", 95 ], [ "pet_corpse", 95 ], [ "grave_easter_egg", 5 ] ],

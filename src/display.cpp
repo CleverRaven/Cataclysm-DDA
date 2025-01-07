@@ -1,22 +1,48 @@
+#include "display.h"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+
 #include "avatar.h"
 #include "bodygraph.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "display.h"
+#include "creature.h"
+#include "debug.h"
+#include "effect.h"
 #include "game.h"
-#include "options.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
+#include "game_constants.h"
 #include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -50,8 +76,8 @@ static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
 
 disp_overmap_cache::disp_overmap_cache()
 {
-    _center = overmap::invalid_tripoint;
-    _mission = overmap::invalid_tripoint;
+    _center = tripoint_abs_omt::invalid;
+    _mission = tripoint_abs_omt::invalid;
     _width = 0;
 }
 
@@ -104,7 +130,7 @@ vehicle *display::vehicle_driven( const Character &u )
 {
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos_bub() ) );
     }
     return veh;
 }
@@ -114,7 +140,7 @@ std::string display::get_temp( const Character &u )
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
-        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -223,7 +249,7 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int azm_pos = static_cast<int>( std::round( azm / scale ) ) - 1;
     const int night_h = h >= h_dawn + 12 ? h - ( h_dawn + 12 ) : h + ( 12 - h_dawn );
     std::string ret = "[";
-    if( g->is_sheltered( u.pos() ) ) {
+    if( g->is_sheltered( u.pos_bub() ) ) {
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
         for( int i = 0; i < width; i++ ) {
@@ -718,22 +744,22 @@ std::string display::health_string( const Character &u )
     return colorize( health_pair.first, health_pair.second );
 }
 
-std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
+std::pair<std::string, nc_color> display::sleepiness_text_color( const Character &u )
 {
-    int fatigue = u.get_fatigue();
-    std::string fatigue_string;
-    nc_color fatigue_color = c_white;
-    if( fatigue >= fatigue_levels::EXHAUSTED ) {
-        fatigue_color = c_red;
-        fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue >= fatigue_levels::DEAD_TIRED ) {
-        fatigue_color = c_light_red;
-        fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue >= fatigue_levels::TIRED ) {
-        fatigue_color = c_yellow;
-        fatigue_string = translate_marker( "Tired" );
+    int sleepiness = u.get_sleepiness();
+    std::string sleepiness_string;
+    nc_color sleepiness_color = c_white;
+    if( sleepiness >= sleepiness_levels::EXHAUSTED ) {
+        sleepiness_color = c_red;
+        sleepiness_string = translate_marker( "Exhausted" );
+    } else if( sleepiness >= sleepiness_levels::DEAD_TIRED ) {
+        sleepiness_color = c_light_red;
+        sleepiness_string = translate_marker( "Dead Tired" );
+    } else if( sleepiness >= sleepiness_levels::TIRED ) {
+        sleepiness_color = c_yellow;
+        sleepiness_string = translate_marker( "Tired" );
     }
-    return std::make_pair( _( fatigue_string ), fatigue_color );
+    return std::make_pair( _( sleepiness_string ), sleepiness_color );
 }
 
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
@@ -785,6 +811,31 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
         pain_string = pain.first;
     }
     return std::make_pair( pain_string, pain_color );
+}
+
+std::pair<std::string, nc_color> display::faction_text( const Character &u )
+{
+    std::string display_name = _( "None" );
+    nc_color display_color = c_white;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.global_omt_location().xy() );
+    if( !bcp ) {
+        return std::pair( display_name, display_color );
+    }
+    basecamp *actual_camp = *bcp;
+    const faction_id &owner = actual_camp->get_owner();
+    if( owner->limited_area_claim && u.global_omt_location() != actual_camp->camp_omt_pos() ) {
+        return std::pair( display_name, display_color );
+    }
+    display_name = owner->name;
+    // TODO: Make this magic number into a constant
+    if( owner->likes_u < -10 ) {
+        display_color = c_red;
+    } else if( u.get_faction()->id == owner ) {
+        display_color = c_blue;
+    } else if( owner->likes_u > 10 ) {
+        display_color = c_green;
+    }
+    return std::pair( display_name, display_color );
 }
 
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
@@ -960,7 +1011,14 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
 // Weight carried, relative to capacity, in %, like "90%".
 std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
 {
-    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    int carry_wt;
+
+    if( u.weight_capacity() > 0_gram ) {
+        carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    } else {
+        carry_wt = 100;
+    }
+
     std::string weight_text = string_format( "%d%%", carry_wt );
 
     nc_color weight_color = c_green;
@@ -974,6 +1032,35 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
         weight_color = c_light_green;
     } else {
         weight_color = c_green;
+    }
+
+    return std::make_pair( weight_text, weight_color );
+}
+
+// Weight carried, formatted as "current/max" in kg
+std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar &ava )
+{
+    float carry_wt = convert_weight( ava.weight_carried() );
+    float max_wt = convert_weight( ava.weight_capacity() );
+
+    // Create a string showing "current_weight / max_weight"
+    std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units() );
+
+    // Set the color based on carry weight
+    nc_color weight_color = c_green;  // Default color
+
+    if( max_wt > 0 ) {
+        if( carry_wt > max_wt ) {
+            weight_color = c_red;  // Exceeds capacity
+        } else if( carry_wt > 0.75 * max_wt ) {
+            weight_color = c_light_red;  // Approaching capacity (75%)
+        } else if( carry_wt > 0.5 * max_wt ) {
+            weight_color = c_yellow;  // At half capacity (50%)
+        } else if( carry_wt > 0.25 * max_wt ) {
+            weight_color = c_light_green;  // Below half capacity (25%)
+        } else {
+            weight_color = c_green;  // Light load
+        }
     }
 
     return std::make_pair( weight_text, weight_color );
@@ -1071,74 +1158,6 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
     return std::make_pair( ter_sym, ter_color );
 }
 
-// Return an overmap tile symbol and color for an omt relatively near the avatar's position.
-// The edge_tile flag says this omt is at the edge of the map and may point to an off-map mission.
-// The found_mi (reference) is set to true to tell the calling function if a mission marker was found.
-std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avatar &u,
-        const tripoint_abs_omt &omt, const bool edge_tile, bool &found_mi )
-{
-    std::string ter_sym;
-    nc_color ter_color = c_light_gray;
-
-    // Terrain color and symbol to use for this point
-    const bool seen = overmap_buffer.seen( omt );
-    if( overmap_buffer.has_note( omt ) ) {
-        const std::string &note_text = overmap_buffer.note( omt );
-        std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
-        ter_sym = sym_color.first;
-        ter_color = sym_color.second;
-    } else if( !seen ) {
-        // Always gray # for unseen
-        ter_sym = "#";
-        ter_color = c_dark_gray;
-    } else if( overmap_buffer.has_vehicle( omt ) ) {
-        ter_color = c_cyan;
-        ter_sym = overmap_buffer.get_vehicle_ter_sym( omt );
-    } else {
-        // Otherwise, get symbol and color appropriate for the terrain
-        const oter_id &cur_ter = overmap_buffer.ter( omt );
-        ter_sym = cur_ter->get_symbol();
-        if( overmap_buffer.is_explored( omt ) ) {
-            ter_color = c_dark_gray;
-        } else {
-            ter_color = cur_ter->get_color();
-        }
-    }
-    const tripoint_abs_omt target = u.get_active_mission_target();
-    const tripoint_abs_omt u_loc = u.global_omt_location();
-
-    // Check if there is a valid mission target, and avatar is not there already
-    if( target != overmap::invalid_tripoint && target.xy() != u_loc.xy() ) {
-        // highlight it with a red background (if on-map)
-        // or point towards it with a red asterisk (if off-map)
-        if( target.xy() == omt.xy() ) {
-            ter_color = red_background( ter_color );
-            found_mi = true;
-        } else if( edge_tile ) {
-            std::vector<tripoint_abs_omt> plist = line_to( u_loc, target );
-            if( std::find( plist.begin(), plist.end(), omt ) != plist.end() ) {
-                ter_color = c_red;
-                ter_sym = "*";
-                found_mi = true;
-            }
-        }
-    }
-
-    // Show hordes on minimap, leaving a one-tile space around the player
-    if( std::abs( u_loc.x() - omt.x() ) > 1 || std::abs( u_loc.y() - omt.y() ) > 1 ) {
-        const int horde_size = overmap_buffer.get_horde_size( omt );
-        const int sight_points = u.overmap_sight_range( g->light_level( u.posz() ) );
-        if( horde_size >= HORDE_VISIBILITY_SIZE && overmap_buffer.seen( omt ) &&
-            u.overmap_los( omt, sight_points ) ) {
-            // Draw green Z or z
-            ter_sym = horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
-            ter_color = c_green;
-        }
-    }
-
-    return std::make_pair( ter_sym, ter_color );
-}
-
 std::string display::colorized_overmap_text( const avatar &u, const int width, const int height )
 {
     std::string overmap_text;
@@ -1152,33 +1171,38 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
         return disp_om_cache.get_val();
     }
 
-    // Remember when mission indicator is found, so we don't draw it more than once
-    bool found_mi = false;
     // Figure out extents of the map area, so we know where the edges are
     const int left = -( width / 2 );
     const int right = width + left - 1;
     const int top = -( height / 2 );
     const int bottom = height + top - 1;
+
+    oter_display_options opts( center_xyz,
+                               u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
+    opts.showhordes = true;
+    if( !mission_xyz.is_invalid() ) {
+        opts.mission_target = mission_xyz;
+    }
+    opts.mission_inbounds = ( mission_xyz.x() >= center_xyz.x() + left &&
+                              mission_xyz.x() <= center_xyz.x() + right &&
+                              mission_xyz.y() >= center_xyz.y() + top &&
+                              mission_xyz.y() <= center_xyz.y() + bottom );
+    opts.hilite_pc = true;
+    opts.hilite_mission = true;
+
     // Scan each row of overmap tiles
     for( int row = top; row <= bottom; row++ ) {
         // Scan across the width of the row
         for( int col = left; col <= right; col++ ) {
             // Is this point along the border of the overmap text area we have to work with?
             // If so, overmap_tile_symbol_color may draw a mission indicator at this point.
-            const bool edge = !found_mi && !( mission_xyz.x() >= center_xyz.x() + left &&
-                                              mission_xyz.x() <= center_xyz.x() + right &&
-                                              mission_xyz.y() >= center_xyz.y() + top &&
-                                              mission_xyz.y() <= center_xyz.y() + bottom ) &&
-                              ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
             const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
-            std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
-                    found_mi );
 
-            // Highlight player character location in the center
-            if( row == 0 && col == 0 ) {
-                sym_color.second = hilite( sym_color.second );
-            }
+            oter_display_args args( overmap_buffer.seen( omt ) );
+            args.edge_tile = ( row == top || row == bottom || col == left || col == right );
+
+            std::pair<std::string, nc_color> sym_color = oter_symbol_and_color( omt, args, opts );
 
             // Append the colorized symbol for this point to the map
             overmap_text += colorize( sym_color.first, sym_color.second );
@@ -1206,7 +1230,8 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         return e->string_id;
     }
-    return overmap_buffer.ter( loc )->get_name();
+    om_vision_level seen = overmap_buffer.seen( loc );
+    return overmap_buffer.ter( loc )->get_name( seen );
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the
@@ -1239,7 +1264,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
         }
     } else {
         // For non-vertical slope, calculate where it intersects the edge of the map
-        point arrow( point_north_west );
+        point arrow( point::north_west );
         if( std::fabs( slope ) >= 1. ) {
             // If target to the north or south, arrow on top or bottom edge of minimap
             if( targ.y() > curs.y() ) {
@@ -1329,7 +1354,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
                     name = colorize( "@", c_pink );
                     break;
             }
-            name = string_format( "%s %s", name, n->name );
+            name = string_format( "%s %s", name, n->get_name() );
             names.emplace_back( name );
         }
     }
@@ -1421,6 +1446,8 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
     cata_fatal( "Invalid widget_var" );
 }
 
+static const std::vector<std::string> bodygraph_var_labels = { "Health", "Temperature", "Encumbrance", "Status", "Wet" };
+
 std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
@@ -1445,7 +1472,8 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return colorize( sym, sym_col.second );
     };
 
-    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
+    std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height,
+                                    bodygraph_var_labels[ int( var ) ] );
     height = rows.size();
 
     std::string ret;
@@ -1464,7 +1492,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
 
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
-    if( u.pos().z < 0 ) {
+    if( u.posz() < 0 ) {
         return std::make_pair( _( "Underground" ), c_light_gray );
     } else {
         weather_manager &weather = get_weather();
@@ -1479,7 +1507,7 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

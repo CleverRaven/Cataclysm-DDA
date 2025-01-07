@@ -37,6 +37,8 @@ static const move_mode_id move_mode_run( "run" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_pavement( "t_pavement" );
+
 // Base cardio for default character
 static const int base_cardio = 1000;
 // Base stamina
@@ -53,15 +55,15 @@ static void verify_default_cardio_options()
 }
 
 // Count the number of steps (tiles) until character runs out of stamina or becomes winded.
-static int running_steps( Character &they, const ter_id &terrain = t_pavement )
+static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pavement )
 {
     map &here = get_map();
     // Please take off your shoes when entering, and no NPCs allowed
     REQUIRE_FALSE( they.is_wearing_shoes() );
     REQUIRE_FALSE( they.is_npc() );
     // You put your left foot in, you put your right foot in
-    const tripoint left = they.pos();
-    const tripoint right = left + tripoint_east;
+    const tripoint_bub_ms left = they.pos_bub();
+    const tripoint_bub_ms right = left + tripoint::east;
     // You ensure two tiles of terrain to hokey-pokey in
     here.ter_set( left, terrain );
     here.ter_set( right, terrain );
@@ -82,10 +84,10 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
     while( they.can_run() && steps < STOP_STEPS ) {
         // Step right on even steps, left on odd steps
         if( steps % 2 == 0 ) {
-            REQUIRE( they.pos() == left );
+            REQUIRE( they.pos_bub() == left );
             REQUIRE( g->walk_move( right, false, false ) );
         } else {
-            REQUIRE( they.pos() == right );
+            REQUIRE( they.pos_bub() == right );
             REQUIRE( g->walk_move( left, false, false ) );
         }
         ++steps;

@@ -8,7 +8,7 @@
     "container": "flask_glass",
     "symbol": "~",
     "description": "Blood of a dragon, it radiates warmth and looking at it you see moving patterns form and disappear in it as if looking at an actual fire.",
-    "price": 750,
+    "price": "7 USD 50 cent",
     "material": [ "dragon_blood" ],
     "volume": "1 ml",
     "phase": "liquid",
@@ -16,7 +16,7 @@
     "ammo_type": "dragon_blood",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
   },
   {
     "id": "blood_tainted",
@@ -49,7 +49,7 @@
     "weight": "265 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 0,
+    "price": "0 cent",
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",

@@ -2,9 +2,25 @@
 #ifndef CATA_SRC_DISPLAY_H
 #define CATA_SRC_DISPLAY_H
 
-#include <functional>
+#include <cstddef>
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 
+#include "bodypart.h"
+#include "color.h"
+#include "coords_fwd.h"
+#include "point.h"
 #include "widget.h"
+
+class Character;
+class Creature;
+class avatar;
+class mood_face;
+class time_point;
+class translation;
+class vehicle;
 
 // These are the supported data variables for coloring bodygraphs.
 enum class bodygraph_var : int {
@@ -15,9 +31,6 @@ enum class bodygraph_var : int {
     wet,         // wetness
     last // END OF ENUMS
 };
-
-class avatar;
-class Character;
 
 struct disp_overmap_cache {
     private:
@@ -123,9 +136,10 @@ std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> health_text_color( const Character &u );
-std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
+std::pair<std::string, nc_color> sleepiness_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
+std::pair<std::string, nc_color> faction_text( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
 std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
@@ -167,6 +181,9 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
 
 // Color for displaying the given encumbrance level
 nc_color encumb_color( int level );
+
+// Weight carried, formatted as "current/max"
+std::pair<std::string, nc_color> carry_weight_value_color( const avatar &ava );
 
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,

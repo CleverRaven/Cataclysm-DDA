@@ -10,9 +10,10 @@
     "default": "mon_zombie_blank",
     "monsters": [
       { "monster": "mon_zombie_blank", "weight": 450 },
-      { "monster": "mon_zombie_nullpsi", "weight": 400 },
-      { "monster": "mon_zombie_psi_void", "weight": 140 },
-      { "monster": "mon_zombie_master", "weight": 10 }
+      { "monster": "mon_zombie_nullpsi", "weight": 225 },
+      { "monster": "mon_zombie_concentration_ender", "weight": 200 },
+      { "monster": "mon_zombie_psi_void", "weight": 100 },
+      { "monster": "mon_zombie_master", "weight": 25 }
     ]
   }
 ]

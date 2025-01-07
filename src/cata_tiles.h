@@ -34,6 +34,7 @@ class JsonObject;
 class pixel_minimap;
 
 extern void set_displaybuffer_rendertarget();
+using ter_str_id = string_id<ter_t>;
 
 /** Structures */
 struct tile_type {
@@ -43,8 +44,8 @@ struct tile_type {
     bool rotates = false;
     bool animated = false;
     int height_3d = 0;
-    point offset = point_zero;
-    point offset_retracted = point_zero;
+    point offset = point::zero;
+    point offset_retracted = point::zero;
     float pixelscale = 1.0;
 
     std::vector<std::string> available_subtiles;
@@ -65,6 +66,8 @@ enum class TILE_CATEGORY {
     HIT_ENTITY,
     WEATHER,
     OVERMAP_TERRAIN,
+    OVERMAP_VISION_LEVEL,
+    OVERMAP_WEATHER,
     MAP_EXTRA,
     OVERMAP_NOTE,
     last
@@ -84,6 +87,8 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"hit_entity", TILE_CATEGORY::HIT_ENTITY},
     {"weather", TILE_CATEGORY::WEATHER},
     {"overmap_terrain", TILE_CATEGORY::OVERMAP_TERRAIN},
+    {"overmap_vision_level", TILE_CATEGORY::OVERMAP_VISION_LEVEL},
+    {"overmap_weather", TILE_CATEGORY::OVERMAP_WEATHER},
     {"map_extra", TILE_CATEGORY::MAP_EXTRA},
     {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
 };
@@ -138,14 +143,21 @@ class texture
         }
 };
 
-class layer_variant
+/**
+* Holds weighted map of sprites for contextual tile layering
+* e.g. different sprites for item "pen" on "f_desk"
+*/
+class layer_context_sprites
 {
     public:
         std::string id;
         std::map<std::string, int> sprite;
+        //draw order is sorted by layer
         int layer;
         point offset;
         int total_weight;
+        //if set, appends to the sprite name for handling contexts
+        std::string append_suffix;
 };
 
 class tileset
@@ -196,8 +208,8 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
-        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> field_layer_data;
 
         void clear();
 
@@ -276,7 +288,7 @@ class tileset_cache
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
-                bool force, bool pump_events );
+                bool force, bool pump_events, bool terrain );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
@@ -375,8 +387,10 @@ class tileset_cache::loader
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          */
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
+                   bool terrain = false );
 };
 
 enum class text_alignment : int {
@@ -426,13 +440,13 @@ class cata_tiles
         }
 
         /** Draw to screen */
-        void draw( const point &dest, const tripoint &center, int width, int height,
+        void draw( const point &dest, const tripoint_bub_ms &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
         void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
-        void draw_minimap( const point &dest, const tripoint &center, int width, int height );
+        void draw_minimap( const point &dest, const tripoint_bub_ms &center, int width, int height );
 
     protected:
         /** How many rows and columns of tiles fit into given dimensions, fully
@@ -440,6 +454,8 @@ class cata_tiles
          ** basic x range of [0, tile_width) and the basic y range of
          ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_base_tile_counts( const point &size ) const;
+        static point get_window_base_tile_counts(
+            const point &size, const point &tile_size, bool iso );
         /** Coordinate range of tiles at the given relative z-level that fit
          ** into the given dimensions, fully or partially shown, according to
          ** the maximum tile extent. May be negative, and 0 corresponds to the
@@ -467,36 +483,56 @@ class cata_tiles
         bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
                                       std::string &draw_id );
 
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll,
-                                  bool apply_night_vision_goggles );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll,
-                                  bool apply_night_vision_goggles, int &height_3d );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
-                                  const std::string &variant );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
-                                  const std::string &variant, const point &offset );
-        bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
+    private:
+        bool draw_from_id_string_internal( const std::string &id, const tripoint_bub_ms &pos, int subtile,
                                            int rota,
                                            lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
-                                           const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                           const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
                                            lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
                                            const std::string &variant, const point &offset );
+    protected:
+        bool draw_from_id_string( const std::string &id, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll,
+                                  bool apply_night_vision_goggles );
+        bool draw_from_id_string( const std::string &id, const tripoint_abs_omt &pos, int subtile, int rota,
+                                  lit_level ll,
+                                  bool apply_night_vision_goggles ) {
+            // A number of operations follow this pattern, i.e. tripoint_abs_omt coordinates are cast to tripoint_bub_ms and the call
+            // is forwarded to the "normal" operation. This relies on the underlying logic being the same regardless of the coordinate
+            // system and scale.
+            return draw_from_id_string( id, tripoint_bub_ms( pos.raw() ), subtile, rota, ll,
+                                        apply_night_vision_goggles );
+        }
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_abs_omt &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles ) {
+            return draw_from_id_string( id, category, subcategory, tripoint_bub_ms( pos.raw() ), subtile, rota,
+                                        ll, apply_night_vision_goggles );
+        }
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_abs_omt &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d ) {
+            return draw_from_id_string( id, category, subcategory, tripoint_bub_ms( pos.raw() ), subtile, rota,
+                                        ll, apply_night_vision_goggles, height_3d );
+        };
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  const std::string &variant );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint_bub_ms &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -509,19 +545,19 @@ class cata_tiles
         void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
                               char rotation_targets );
         // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
-        void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
+        void get_tile_values_with_ter( const tripoint_bub_ms &p, int t, const std::array<int, 4> &tn,
                                        int &subtile, int &rotation,
                                        const std::bitset<NUM_TERCONN> &rotate_to_group );
-        static void get_connect_values( const tripoint &p, int &subtile, int &rotation,
+        static void get_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
                                         const std::bitset<NUM_TERCONN> &connect_group,
                                         const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                        const std::map<tripoint, ter_id> &ter_override );
-        static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                        const std::map<tripoint_bub_ms, ter_id> &ter_override );
+        static void get_furn_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
                                              const std::bitset<NUM_TERCONN> &connect_group,
                                              const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                             const std::map<tripoint, furn_id> &furn_override );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-                                      const std::map<tripoint, ter_id> &ter_override,
+                                             const std::map<tripoint_bub_ms, furn_id> &furn_override );
+        void get_terrain_orientation( const tripoint_bub_ms &p, int &rota, int &subtile,
+                                      const std::map<tripoint_bub_ms, ter_id> &ter_override,
                                       const std::array<bool, 5> &invisible,
                                       const std::bitset<NUM_TERCONN> &rotate_group );
 
@@ -539,77 +575,81 @@ class cata_tiles
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
-        bool apply_vision_effects( const tripoint &pos, visibility_type visibility, int &height_3d );
-        void draw_square_below( const point &p, const nc_color &col, int sizefactor );
-        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
+        bool apply_vision_effects( const tripoint_bub_ms &pos, visibility_type visibility, int &height_3d );
+        void draw_square_below( const point_bub_ms &p, const nc_color &col, int sizefactor );
+        bool draw_terrain( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                            const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_terrain_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_furniture( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_graffiti( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                             const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_trap( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                         const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_part_con( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                             const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_field_or_item( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                          const std::array<bool, 5> &invisible, bool roof, bool memorize_only );
-        bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_vpart_no_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_vpart_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_vpart_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_critter_at_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                     const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
-        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
+        bool draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
+        bool draw_zombie_revival_indicators( const tripoint_bub_ms &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible, bool memorize_only );
-        void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
-        void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
+        void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
+        void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
                                         int &height_3d );
+        void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
+                                        int &height_3d ) {
+            draw_entity_with_overlays( ch, tripoint_bub_ms( p.raw() ), ll, height_3d );
+        }
 
-        bool draw_item_highlight( const tripoint &pos, int &height_3d );
+        bool draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d );
 
     public:
         // Animation layers
-        void init_explosion( const tripoint &p, int radius );
+        void init_explosion( const tripoint_bub_ms &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
+        void init_custom_explosion_layer( const std::map<tripoint_bub_ms, explosion_tile> &layer );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
-        void init_draw_bullet( const tripoint &p, std::string name );
+        void init_draw_bullet( const tripoint_bub_ms &p, std::string name );
         void draw_bullet_frame();
         void void_bullet();
 
-        void init_draw_hit( const tripoint &p, std::string name );
+        void init_draw_hit( const tripoint_bub_ms &p, std::string name );
         void draw_hit_frame();
         void void_hit();
 
-        void draw_footsteps_frame( const tripoint &center );
+        void draw_footsteps_frame( const tripoint_bub_ms &center );
 
         // pseudo-animated layer, not really though.
-        void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
+        void init_draw_line( const tripoint_bub_ms &p, std::vector<tripoint_bub_ms> trajectory,
                              std::string line_end_name, bool target_line );
         void draw_line();
         void void_line();
 
-        void init_draw_cursor( const tripoint &p );
+        void init_draw_cursor( const tripoint_bub_ms &p );
         void draw_cursor();
         void void_cursor();
 
-        void init_draw_highlight( const tripoint &p );
+        void init_draw_highlight( const tripoint_bub_ms &p );
         void draw_highlight();
         void void_highlight();
 
@@ -621,48 +661,51 @@ class cata_tiles
         void draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings );
         void void_sct();
 
-        void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
+        void init_draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
+                              const tripoint_rel_ms &offset );
         void draw_zones_frame();
         void void_zones();
 
-        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
+        void init_draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id );
         void draw_async_anim();
         void void_async_anim();
 
-        void init_draw_radiation_override( const tripoint &p, int rad );
+        void init_draw_radiation_override( const tripoint_bub_ms &p, int rad );
         void void_radiation_override();
 
-        void init_draw_terrain_override( const tripoint &p, const ter_id &id );
+        void init_draw_terrain_override( const tripoint_bub_ms &p, const ter_id &id );
         void void_terrain_override();
 
-        void init_draw_furniture_override( const tripoint &p, const furn_id &id );
+        void init_draw_furniture_override( const tripoint_bub_ms &p, const furn_id &id );
         void void_furniture_override();
 
-        void init_draw_graffiti_override( const tripoint &p, bool has );
+        void init_draw_graffiti_override( const tripoint_bub_ms &p, bool has );
         void void_graffiti_override();
 
-        void init_draw_trap_override( const tripoint &p, const trap_id &id );
+        void init_draw_trap_override( const tripoint_bub_ms &p, const trap_id &id );
         void void_trap_override();
 
-        void init_draw_field_override( const tripoint &p, const field_type_id &id );
+        void init_draw_field_override( const tripoint_bub_ms &p, const field_type_id &id );
         void void_field_override();
 
-        void init_draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+        void init_draw_item_override( const tripoint_bub_ms &p, const itype_id &id, const mtype_id &mid,
                                       bool hilite );
         void void_item_override();
 
-        void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       const units::angle &veh_dir, bool hilite, const point &mount );
+        void init_draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
+                                       const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
         void void_vpart_override();
 
-        void init_draw_below_override( const tripoint &p, bool draw );
+        void init_draw_below_override( const tripoint_bub_ms &p, bool draw );
         void void_draw_below_override();
 
-        void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+        void init_draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                          bool more, Creature::Attitude att );
         void void_monster_override();
 
-        bool has_draw_override( const tripoint &p ) const;
+        bool has_draw_override( const tripoint_bub_ms &p ) const;
+
+        void set_disable_occlusion( bool val );
 
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -673,10 +716,11 @@ class cata_tiles
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          * @throw std::exception On any error.
          */
         void load_tileset( const std::string &tileset_id, bool precheck = false,
-                           bool force = false, bool pump_events = false );
+                           bool force = false, bool pump_events = false, bool terrain = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -697,13 +741,24 @@ class cata_tiles
         }
         void do_tile_loading_report();
         std::optional<point> tile_to_player( const point &colrow ) const;
-        point player_to_tile( const point &pos ) const;
-        point player_to_screen( const point &pos ) const;
+        static std::optional<point_bub_ms> tile_to_player(
+            const point &colrow, const point_bub_ms &o,
+            const point &base_tile_cnt, bool iso );
+        point player_to_tile( const point_bub_ms &pos ) const;
+        point player_to_screen( const point_bub_ms &pos ) const;
+        point player_to_screen( const point_abs_omt &pos ) const {
+            // This weird type casting relies on the underlying logic being the same regardless of the coordinate system and scale.
+            return player_to_screen( point_bub_ms( pos.raw() ) );
+        }
+        static point_bub_ms screen_to_player(
+            const point &scr_pos, const point &tile_size,
+            const point &win_size, const point_bub_ms &center,
+            bool iso );
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
-        std::string get_omt_id_rotation_and_subtile(
-            const tripoint_abs_omt &omp, int &rota, int &subtile );
+        std::pair<std::string, bool> get_omt_id_rotation_and_subtile( const tripoint_abs_omt &omp,
+                int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report_map( const maptype &tiletypemap, TILE_CATEGORY category,
@@ -754,6 +809,8 @@ class cata_tiles
 
         bool in_animation = false;
 
+        bool disable_occlusion = false;
+
         bool do_draw_explosion = false;
         bool do_draw_custom_explosion = false;
         bool do_draw_bullet = false;
@@ -766,52 +823,53 @@ class cata_tiles
         bool do_draw_zones = false;
         bool do_draw_async_anim = false;
 
-        tripoint exp_pos;
+        tripoint_bub_ms exp_pos;
         int exp_rad = 0;
 
-        std::map<tripoint, explosion_tile> custom_explosion_layer;
-        std::map<tripoint, std::string> async_anim_layer;
+        std::map<tripoint_bub_ms, explosion_tile> custom_explosion_layer;
+        std::map<tripoint_bub_ms, std::string> async_anim_layer;
 
-        tripoint bul_pos;
+        tripoint_bub_ms bul_pos;
         std::string bul_id;
 
-        tripoint hit_pos;
+        tripoint_bub_ms hit_pos;
         std::string hit_entity_id;
 
-        tripoint line_pos;
+        tripoint_bub_ms line_pos;
         bool is_target_line = false;
-        std::vector<tripoint> line_trajectory;
+        std::vector<tripoint_bub_ms> line_trajectory;
         std::string line_endpoint_id;
 
-        std::vector<tripoint> cursors;
-        std::vector<tripoint> highlights;
+        std::vector<tripoint_bub_ms> cursors;
+        std::vector<tripoint_bub_ms> highlights;
 
         weather_printable anim_weather;
         std::string weather_name;
 
-        tripoint zone_start;
-        tripoint zone_end;
-        tripoint zone_offset;
+        tripoint_bub_ms zone_start;
+        tripoint_bub_ms zone_end;
+        tripoint_rel_ms zone_offset;
 
         // offset values, in tile coordinates, not pixels
         point o;
         // offset for drawing, in pixels.
         point op;
 
-        std::map<tripoint, int> radiation_override;
-        std::map<tripoint, ter_id> terrain_override;
-        std::map<tripoint, furn_id> furniture_override;
-        std::map<tripoint, bool> graffiti_override;
-        std::map<tripoint, trap_id> trap_override;
-        std::map<tripoint, field_type_id> field_override;
+        std::map<tripoint_bub_ms, int> radiation_override;
+        std::map<tripoint_bub_ms, ter_id> terrain_override;
+        std::map<tripoint_bub_ms, furn_id> furniture_override;
+        std::map<tripoint_bub_ms, bool> graffiti_override;
+        std::map<tripoint_bub_ms, trap_id> trap_override;
+        std::map<tripoint_bub_ms, field_type_id> field_override;
         // bool represents item highlight
-        std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
+        std::map<tripoint_bub_ms, std::tuple<itype_id, mtype_id, bool>> item_override;
         // int, angle, bool represents part_mod, veh_dir, and highlight respectively
         // point represents the mount direction
-        std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
-        std::map<tripoint, bool> draw_below_override;
+        std::map<tripoint_bub_ms, std::tuple<vpart_id, int, units::angle, bool, point_rel_ms>>
+                vpart_override;
+        std::map<tripoint_bub_ms, bool> draw_below_override;
         // int represents spawn count
-        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 
     private:
         /**

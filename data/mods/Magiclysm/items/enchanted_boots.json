@@ -187,7 +187,9 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] } ]
+    },
     "material": [ "leather" ],
     "armor": [
       {
@@ -225,8 +227,8 @@
     "description": "One of the traditional items of the ancient elven warrior societies, these soft leather boots are worked with silver inlays in the shape of vines and leaves.  They allow the wearer to walk in complete silence and move faster when in the wilderness.",
     "weight": "902 g",
     "volume": "2 L",
-    "price": 300000,
-    "price_postapoc": 15000,
+    "price": "3 kUSD",
+    "price_postapoc": "150 USD",
     "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
@@ -276,16 +278,6 @@
                   { "u_is_on_terrain_with_flag": "YOUNG" }
                 ]
               },
-              { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-              { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-              { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-              { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-              { "not": { "u_near_om_location": "road_end", "range": 1 } },
-              { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-              { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-              { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
               { "not": { "u_near_om_location": "road", "range": 1 } }
             ]
           },

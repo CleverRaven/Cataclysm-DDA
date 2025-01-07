@@ -2,37 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "debug_itemgroup_test" ],
-    "object": {
-      "fill_ter": "t_pavement",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "items": { " ": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ] }
-    }
+    "om_terrain": "debug_itemgroup_test",
+    "object": { "fill_ter": "t_pavement", "items": { " ": [ { "item": "milspec_arsenal_group_only_ammo", "chance": 100 } ] } }
   },
   {
     "type": "overmap_terrain",
@@ -40,6 +11,7 @@
     "name": "debug_item_group_test",
     "sym": "T",
     "color": "light_red",
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {

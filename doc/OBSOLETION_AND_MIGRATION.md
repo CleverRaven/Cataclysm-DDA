@@ -10,7 +10,7 @@ Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
 AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
 
-```C++
+```json
 {
   "type": "MIGRATION", // type, mandatory
   "id": "arrowhead",  // id of item, that you want to migrate, mandatory
@@ -43,6 +43,10 @@ Additionally, `COMESTIBLE` items have temperature and rot processing, and are th
 
 * In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
 * In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
+
+# Vehicle migration
+
+Vehicles do not need any migration, simple deletion is enough
 
 # Vehicle part migration
 Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
@@ -78,7 +82,7 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```c++
+```json
   {
     "type": "TRAIT_MIGRATION",      // Mandatory. String. Must be "TRAIT_MIGRATION"
     "id": "hair_red_mohawk",        // Mandatory. String. Id of the trait that has been removed.
@@ -114,9 +118,124 @@ Monster can be removed without migration, the game replace all critters without 
 
 Recipes can be removed without migration, the game will simply delete the recipe when loaded
 
+# Terrain and furniture migration
+
+Terrain and furniture migration replace the provided id as submaps are loaded. You can use `f_null` with `to_furn` to remove furniture entirely without creating errors, however `from_ter` must specify a non null `to_ter`.
+
+```json
+{
+    "type": "ter_furn_migration",   // Mandatory. String. Must be "ter_furn_migration"
+    "from_ter": "t_old_ter",        // Optional*. String. Id of the terrain to replace.
+    "from_furn": "f_old_furn",      // Optional*. String. Id of the furniture to replace.
+    "to_ter": "t_new_ter",          // Mandatory if from_ter specified, optional otherwise. String. Id of new terrain to place. Overwrites existing ter when used with from_furn.
+    "to_furn": "f_new_furn",        // Mandatory if from_furn specified, optional otherwise. String. Id of new furniture to place.
+                                    // *Exactly one of these two must be specified.
+},
+```
+
+## Examples
+
+Replace a fence that bashes into t_dirt into a furniture that can be used seamlessly over all terrains
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fence_dirt",
+    "to_ter": "t_dirt",
+    "to_furn": "f_fence"
+  }
+```
+
+Move multiple ids that don't need to be unique any more to a single id
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_spring",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
+...
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_winter",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
+
+# Trap migration
+
+Trap migration replaces the provided id as submaps are loaded. You can use `tr_null` with `to_trap` to remove the trap entirely without creating errors.
+
+```json
+{
+    "type": "trap_migration",   // Mandatory. String. Must be "trap_migration"
+    "from_trap": "tr_old_trap",        // Mandatory. String. Id of the trap to replace.
+    "to_trap": "tr_new_trap",      // Mandatory. String. Id of the new trap to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_migrated_id",
+    "to_trap": "tr_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_obsoleted_id",
+    "to_trap": "tr_null"
+  }
+```
+
+# Field migration
+
+Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
+
+```json
+{
+    "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
+    "from_field": "fd_old_field",        // Mandatory. String. Id of the field to replace.
+    "to_field": "fd_new_field",      // Mandatory. String. Id of the new field to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_migrated_id",
+    "to_field": "fd_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_obsoleted_id",
+    "to_field": "fd_null"
+  }
+```
+
 # Overmap terrain migration
 
-Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
+Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
+If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
 ```json
   {
@@ -160,6 +279,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 }
 ```
 
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
+
 # Ammo types
 
 Ammo types don't need an infrastructure to be obsoleted, but it is required to remove all items that use this ammo type
@@ -198,4 +322,19 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
     "dependencies": [ "dda" ],
     "obsolete": true
   }
+```
+
+When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
 ```

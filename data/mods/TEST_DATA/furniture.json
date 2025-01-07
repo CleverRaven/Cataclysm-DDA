@@ -67,6 +67,16 @@
   },
   {
     "type": "furniture",
+    "id": "test_f_migration_new_id",
+    "name": "Furniture Test Migration",
+    "description": "Id to test migration from it's invalid counterparts test_t_migration_old_id and test_f_migration_old_id to.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
     "id": "test_f_oxytorch1",
     "name": "Oxytorch Test Furniture 1",
     "description": "Oxytorch furniture with valid data.",

@@ -1,0 +1,152 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_BIRD_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_bird" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_bird')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_bird')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_FELINE_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_feline" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_feline" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_feline')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_feline')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_INSECT_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_insect" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_insect" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_insect')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_insect')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_LUPINE_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_lupine" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_lupine" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_lupine')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_lupine')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_PLANT_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_plant" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_plant" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_plant')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_plant')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_SPIDER_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_spider" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_spider" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_spider')", "+=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_spider')", "-=", "2500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ]
+  }
+]

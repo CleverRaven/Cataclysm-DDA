@@ -379,7 +379,7 @@
   },
   {
     "type": "SPELL",
-    "id": "AEA_FATIGUE",
+    "id": "AEA_SLEEPINESS",
     "name": { "str": "Artifact Dimensional Fatigue" },
     "description": "Creates some dimensional fatigue at a random point within range.",
     "valid_targets": [ "ground", "self", "ally", "hostile" ],

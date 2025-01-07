@@ -39,7 +39,7 @@
     "id": "BGSS_OUT_OF_TOWN_2_STORY4",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "The shop was empty, actually.  She was desperate though, so I broke in.  I found out more about the chaos in towns from the store radio.  Got my friend some painkillers and gravol, but when I came out to the boat, well… it was too late for her.",
+      "gendered_line": "The shop was empty, actually.  She was desperate though, so I broke in.  I found out more about the chaos in towns from the store radio.  Got my friend some painkillers and Gravol, but when I came out to the boat, well… it was too late for her.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

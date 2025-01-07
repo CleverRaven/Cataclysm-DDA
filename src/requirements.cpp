@@ -158,9 +158,9 @@ std::string tool_comp::to_string( const int batch, const int ) const
         //~ %1$s: tool name, %2$d: charge requirement
         return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
                                          charge_total ),
-                              item::tname( type, 1, tname::item_name ), charge_total );
+                              item::tname( type, 1, tname::base_item_name ), charge_total );
     } else {
-        return item::tname( type, std::abs( count ), tname::item_name );
+        return item::tname( type, std::abs( count ), tname::base_item_name );
     }
 }
 
@@ -176,16 +176,16 @@ std::string item_comp::to_string( const int batch, const int avail ) const
             return string_format( npgettext( "requirement", "%2$d %1$s (have infinite)",
                                              "%2$d %1$s (have infinite)",
                                              c ),
-                                  item_temp.tname( 1, tname::item_name ), c );
+                                  item_temp.tname( 1, tname::base_item_name ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%2$d %1$s (have %3$d)",
                                              "%2$d %1$s (have %3$d)", c ),
-                                  item_temp.tname( 1, tname::item_name ), c, avail );
+                                  item_temp.tname( 1, tname::base_item_name ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: charge requirement
             return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
-                                  item_temp.tname( 1, tname::item_name ), c );
+                                  item_temp.tname( 1, tname::base_item_name ), c );
         }
     } else {
         if( avail == item::INFINITE_CHARGES ) {
@@ -193,16 +193,16 @@ std::string item_comp::to_string( const int batch, const int avail ) const
             return string_format( npgettext( "requirement", "%2$d %1$s (have infinite)",
                                              "%2$d %1$s (have infinite)",
                                              c ),
-                                  item_temp.tname( c, tname::item_name ), c );
+                                  item_temp.tname( c, tname::base_item_name ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
             return string_format( npgettext( "requirement", "%2$d %1$s (have %3$d)",
                                              "%2$d %1$s (have %3$d)", c ),
-                                  item_temp.tname( c, tname::item_name ), c, avail );
+                                  item_temp.tname( c, tname::base_item_name ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: required count
             return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
-                                  item_temp.tname( c, tname::item_name ), c );
+                                  item_temp.tname( c, tname::base_item_name ), c );
         }
     }
 }
@@ -243,6 +243,9 @@ void tool_comp::load( const JsonValue &value )
         comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
+        if( comp.size() > 2 && comp.get_string( 2 ) != "LIST" ) {
+            value.throw_error( R"(expected "LIST")" );
+        }
     }
     if( count == 0 ) {
         value.throw_error( "tool count must not be 0" );
@@ -273,6 +276,8 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else {
+            value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
         }
     }
     if( count <= 0 ) {
@@ -598,13 +603,20 @@ template<typename T>
 void requirement_data::check_consistency( const std::vector< std::vector<T> > &vec,
         const std::string &display_name )
 {
+
     for( const auto &list : vec ) {
+        bool requirement_was_empty = true;
         for( const auto &comp : list ) {
+            requirement_was_empty = false;
             if( comp.requirement ) {
                 debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name );
             }
 
             comp.check_consistency( display_name );
+        }
+        if( requirement_was_empty ) {
+            debugmsg( "Requirement %s is empty, recipes using it have no valid results.  Some input must be invalid.",
+                      display_name );
         }
     }
 }
@@ -711,6 +723,10 @@ void requirement_data::finalize()
         } );
         requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
+            if( list.empty() ) {
+                debugmsg( "Requirements data %s tools vector contains impossible requirements.  Recipes using this requirement set will be impossible to make.",
+                          r.first.c_str() );
+            }
             std::vector<tool_comp> new_list;
             for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
@@ -820,6 +836,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
+    output_buffer.reserve( 2 );
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
         output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );
@@ -1307,7 +1324,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             std::vector<item *> del;
             craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -1645,6 +1662,10 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
             alter_item_comp_vector without_dupes = next.components;
             without_dupes[next.index] = this_requirement;
             pending.push( { without_dupes, next.index + 1 } );
+        }
+
+        if( alternatives_.empty() && pending.empty() ) {
+            debugmsg( "Recipe definition %s somehow has no valid recipes!", context.str() );
         }
 
         // Because this algorithm is super-exponential in the worst case, add a

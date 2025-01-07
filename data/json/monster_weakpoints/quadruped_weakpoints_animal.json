@@ -1,0 +1,111 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_animal_quadruped",
+    "weakpoints": [
+      {
+        "name": "the head",
+        "is_head": true,
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "damage_mult": { "physical": 1.1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the eye",
+        "is_head": true,
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "melee": 10, "ranged": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the chest",
+        "armor_mult": { "bash": 2 },
+        "difficulty": { "melee": 2, "ranged": 1 },
+        "damage_mult": { "stab": 1.25, "bullet": 1.33 },
+        "coverage": 18
+      },
+      {
+        "name": "the vitals",
+        "armor_mult": { "physical": 0.45 },
+        "difficulty": { "ranged": 4 },
+        "damage_mult": { "physical": 2 },
+        "coverage_mult": { "melee": 0 },
+        "coverage": 7,
+        "effects": [
+          {
+            "effect": "bleed",
+            "intensity": [ 10, 15 ],
+            "duration": [ 10, 20 ],
+            "chance": 75,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 20, 30 ],
+            "duration": [ 20, 30 ],
+            "chance": 85,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 30, 40 ],
+            "duration": [ 30, 40 ],
+            "chance": 95,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the leg",
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 25 ] },
+          { "effect": "downed", "chance": 33, "message": "The %s is knocked down!", "damage_required": [ 26, 100 ] }
+        ],
+        "coverage": 16
+      }
+    ]
+  }
+]

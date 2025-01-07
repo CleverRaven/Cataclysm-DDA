@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set-up Comvent
-        uses: rytswd/comvent@v0.5.2
+        uses: rytswd/comvent@main
         id: comvent
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +65,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set-up Comvent
-        uses: rytswd/comvent@v0.5.2
+        uses: rytswd/comvent@main
         id: comvent
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

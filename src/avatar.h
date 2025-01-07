@@ -2,25 +2,30 @@
 #ifndef CATA_SRC_AVATAR_H
 #define CATA_SRC_AVATAR_H
 
-#include <cstddef>
-#include <iosfwd>
+#include <array>
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
+#include <string_view>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "coordinates.h"
+#include "character_id.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "item.h"
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
-#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class advanced_inv_area;
 class advanced_inv_listitem;
@@ -28,30 +33,27 @@ class advanced_inventory_pane;
 class cata_path;
 class diary;
 class faction;
-class item;
 class item_location;
 class JsonObject;
 class JsonOut;
+class map_memory;
+class memorized_tile;
 class mission;
 class monster;
 class nc_color;
 class npc;
 class talker;
 struct bionic;
+struct mtype;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-enum class character_type : int;
-class map_memory;
-class memorized_tile;
-
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
@@ -102,9 +104,6 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         // initialize avatar and avatar mocks
         void initialize( character_type type );
-        void add_profession_items();
-        void randomize( bool random_scenario, bool play_now = false );
-        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -156,11 +155,8 @@ class avatar : public Character
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        std::string display_name( bool possessive = false, bool capitalize_first = false ) const;
 
-        /** Provides the window and detailed morale data */
-        void disp_morale();
-        /** Opens the medical window */
-        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -174,7 +170,7 @@ class avatar : public Character
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
+         * Returns the target of the active mission or @ref tripoint_abs_omt::invalid if there is
          * no active mission.
          */
         tripoint_abs_omt get_active_mission_target() const;
@@ -203,7 +199,7 @@ class avatar : public Character
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
-                      bool is_computer = false, bool is_not_conversation = false );
+                      bool is_computer = false, bool is_not_conversation = false, const std::string &debug_topic = "" );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -236,6 +232,15 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
+        /** smash a map feature */
+        struct smash_result {
+            int skill;
+            int resistance;
+            bool did_smash;
+            bool success;
+        };
+        smash_result smash( tripoint_bub_ms &smashp );
+
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
@@ -243,7 +248,7 @@ class avatar : public Character
 
         void wake_up() override;
         // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms::zero );
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
@@ -281,10 +286,12 @@ class avatar : public Character
         std::string preferred_aiming_mode;
 
         // checks if the point is blocked based on characters current aiming state
-        bool cant_see( const tripoint &p );
+        // TODO Remove untyped overload
+        bool cant_see( const tripoint &p ) const;
+        bool cant_see( const tripoint_bub_ms &p ) const;
 
         // rebuilds the full aim cache for the character if it is dirty
-        void rebuild_aim_cache();
+        void rebuild_aim_cache() const;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -315,9 +322,9 @@ class avatar : public Character
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt,
+        bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
                           int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
@@ -356,11 +363,10 @@ class avatar : public Character
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
+        int get_daily_calories( unsigned days_ago, std::string const &type ) const;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
-        void randomize_hobbies();
-        void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
 
@@ -376,7 +382,7 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        bool aim_cache_dirty = true;
+        mutable bool aim_cache_dirty = true;
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
@@ -434,7 +440,7 @@ class avatar : public Character
         std::unique_ptr<npc> shadow_npc;
 
         // true when the space is still visible when aiming
-        cata::mdarray<bool, point_bub_ms> aim_cache;
+        mutable cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

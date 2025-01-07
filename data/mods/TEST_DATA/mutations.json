@@ -8,6 +8,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "cancels": [
+      "TEST_CONSISTENCY_CHECK",
       "TEST_ENCH_MUTATION",
       "TEST_GOOD1",
       "TEST_GOOD2",
@@ -39,6 +40,15 @@
   },
   {
     "type": "mutation",
+    "id": "TEST_CONSISTENCY_CHECK",
+    "name": "Dummy Test Trait",
+    "points": 0,
+    "description": "Test trait to trip the consistency check: it shouldn't cause a load error since it overwrites a basegame trait.",
+    "prereqs": [ "WINGS_STUB" ],
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
     "id": "TEST_TRIGGER",
     "name": { "str": "OR Test trigger" },
     "points": 1,
@@ -46,7 +56,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", ">", "20" ] },
+          "condition": { "math": [ "u_val('morale') > 20" ] },
           "msg_on": { "text": "Your mood is above 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -54,19 +64,19 @@
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('hunger')", ">", "110" ] },
+          "condition": { "math": [ "u_val('hunger') > 110" ] },
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_pain()", ">", "110" ] },
+          "condition": { "math": [ "u_pain() > 110" ] },
           "msg_on": { "text": "You're in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('thirst')", ">", "110" ] },
+          "condition": { "math": [ "u_val('thirst') > 110" ] },
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('stamina')", "<", "1" ] },
+          "condition": { "math": [ "u_val('stamina') < 1" ] },
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -92,7 +102,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "20" ] },
+          "condition": { "math": [ "u_val('morale') < 20" ] },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -100,19 +110,19 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('hunger')", "<", "110" ] },
+          "condition": { "math": [ "u_val('hunger') < 110" ] },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_pain()", "<", "110" ] },
+          "condition": { "math": [ "u_pain() < 110" ] },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('thirst')", "<", "110" ] },
+          "condition": { "math": [ "u_val('thirst') < 110" ] },
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('stamina')", ">", "1" ] },
+          "condition": { "math": [ "u_val('stamina') > 1" ] },
           "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -136,7 +146,7 @@
     "description": "This mutation is meant to test the trigger system.  It is currently off.",
     "triggers": [
       [ { "condition": { "and": [ { "math": [ "moon_phase() > 3" ] }, { "math": [ "moon_phase() < 5" ] } ] } } ],
-      [ { "condition": { "math": [ "u_pain()", ">", "110" ] } } ]
+      [ { "condition": { "math": [ "u_pain() > 110" ] } } ]
     ],
     "transform": { "target": "TEST_TRIGGER_2_active", "msg_transform": "The trigger is triggered.", "active": true, "moves": 10 }
   },
@@ -154,7 +164,7 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_pain()", "<", "110" ] },
+          "condition": { "math": [ "u_pain() < 110" ] },
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -370,6 +380,24 @@
     "processed_eocs": [ "EOC_mark_mutation_test" ],
     "deactivated_eocs": [ "EOC_mark_mutation_test" ],
     "activated_is_setup": true
+  },
+  {
+    "type": "mutation",
+    "id": "purifiability_first",
+    "name": { "str": "Tests setting purifiability via EOCs" },
+    "points": 1,
+    "valid": true,
+    "purifiable": true,
+    "description": "Tests setting purifiability via EOCs - purifiable by default, can be flipped in gametime"
+  },
+  {
+    "type": "mutation",
+    "id": "purifiability_second",
+    "name": { "str": "Tests setting purifiability via EOCs" },
+    "points": 1,
+    "valid": true,
+    "purifiable": false,
+    "description": "Tests setting purifiability via EOCs - nonpurifiable by default, can't be flipped in gametime"
   },
   {
     "type": "mutation",

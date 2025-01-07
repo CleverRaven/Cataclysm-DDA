@@ -8,13 +8,7 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_spawn_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": {
-        "om_terrain": "haz_sar_b_4",
-        "om_special": "Hazardous Waste Sarcophagus",
-        "reveal_radius": 1,
-        "search_range": 240,
-        "min_distance": 60
-      }
+      "assign_mission_target": { "om_terrain": "haz_sar_b_4", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 1, "min_distance": 60 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b_4",
@@ -34,20 +28,19 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "inhaler",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline_low": 30,
-    "deadline_high": 48,
+    "deadline": [ "30 days", "48 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be in the back with the good stuff.",
       "inquire": "Find any inhaler yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -74,14 +67,13 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline_low": 24,
-    "deadline_high": 48,
+    "deadline": [ "24 days", "48 days" ],
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter, either antibiotics or broad-spectrum antibiotics will do.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be in the back, either antibiotics or broad-spectrum antibiotics will do.",
       "inquire": "Find any antibiotics yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -96,7 +88,21 @@
       ]
     },
     "end": {
-      "effect": [ { "npc_lose_effect": "infection" }, "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ]
+      "effect": [
+        { "npc_lose_effect": "infection" },
+        "stop_guard",
+        { "set_npc_rule": "investigate_noises" },
+        "npc_thankful",
+        {
+          "if": { "u_has_item": "antibiotics" },
+          "then": { "u_consume_item": "antibiotics", "popup": true },
+          "else": {
+            "if": { "u_has_item": "strong_antibiotic" },
+            "then": { "u_consume_item": "strong_antibiotic", "popup": true },
+            "else": { "u_consume_item": "panacea", "popup": true }
+          }
+        }
+      ]
     },
     "fail": { "effect": "npc_die" }
   },
@@ -115,7 +121,7 @@
       "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figurin' one of those choppers that were flyin' round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open 'er at.",
       "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
+      "advice": "Survivors were talkin' 'bout seeing 'em falling out of the sky but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.  Black boxes are housed in the tail to survive the crash so check there when you do find one.  Now get to it!",
       "inquire": "How 'bout that black box?",
       "success": "America, fuck yeah!",
       "success_lie": "What?!  I oughta whip your ass.",
@@ -132,7 +138,7 @@
     "item": "black_box_transcript",
     "start": {
       "effect": { "u_spawn_item": "black_box" },
-      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "search_range": 240, "z": 0 }
+      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
@@ -318,21 +324,12 @@
     "start": {
       "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
       "effect": "follow_only",
-      "assign_mission_target": {
-        "om_terrain": "bank",
-        "om_terrain_match_type": "PREFIX",
-        "om_special": "bank",
-        "search_range": 120,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "bank", "om_terrain_match_type": "PREFIX", "om_special": "bank", "random": true, "z": 0 }
     },
     "end": {
       "effect": [
         "stop_following",
-        {
-          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
-        }
+        { "weighted_list_eocs": [ [ "get_katana", 5 ], [ "get_deagle_44", 10 ], [ "get_m4_carbine", 6 ] ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -382,7 +379,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 120 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -406,9 +403,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -432,7 +427,7 @@
     "value": 150000,
     "item": "visions_solitude",
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3, "search_range": 180 },
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3 },
       "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -512,14 +507,7 @@
         ]
       },
       "effect": "follow_only",
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_match_type": "CONTAINS",
-        "search_range": 80,
-        "min_distance": 10,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "CONTAINS", "min_distance": 10, "random": true, "z": 0 }
     },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -550,7 +538,6 @@
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 60,
         "min_distance": 5,
         "z": 0
       },
@@ -585,7 +572,6 @@
         "om_terrain_match_type": "PREFIX",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 60,
         "min_distance": 5,
         "z": 0
       },
@@ -681,14 +667,7 @@
     "item": "priest_diary",
     "start": {
       "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 80,
-        "min_distance": 5,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "min_distance": 5, "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
@@ -713,7 +692,7 @@
     "difficulty": 5,
     "value": 70000,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 2, "search_range": 60 },
+      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 2 },
       "effect": "follow",
       "update_mapgen": { "place_npcs": [ { "class": "tracker_gunslinger", "x": 11, "y": 11, "target": true } ] }
     },
@@ -721,7 +700,7 @@
     "dialogue": {
       "describe": "You seem to know this new world better than most…",
       "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer… of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
-      "accepted": "Rodger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
+      "accepted": "Roger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
       "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I hope the bastard is packing heat… else we'll need to grab him a gun before we hit our next target.",
       "inquire": "Found a gunslinger?",
@@ -740,14 +719,7 @@
     "start": {
       "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "x": [ 3, 21 ], "y": [ 6, 21 ], "friendly": true, "target": true } ] },
       "effect": [ { "u_spawn_item": "dog_whistle" } ],
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_replace": "field",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 43,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_replace": "field", "om_terrain_match_type": "PREFIX", "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
@@ -787,7 +759,7 @@
     "id": "MISSION_PROVE_YOUR_WORTH",
     "type": "mission_definition",
     "name": { "str": "Prove your worth to Foodperson" },
-    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 foodplace loyalty cards</color>.",
+    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 Foodplace loyalty cards</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fp_loyalty_card",
     "count": 10,
@@ -795,7 +767,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "npc_add_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
         { "u_spawn_item": "badge_foodkid" }
       ]
     },
@@ -845,7 +817,7 @@
       "and": [
         { "u_has_item": "duffelbag" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "math": [ "u_skill('survival')", ">=", "1" ] }
+        { "math": [ "u_skill('survival') >= 1" ] }
       ]
     },
     "difficulty": 1,
@@ -882,7 +854,7 @@
     "id": "MISSION_PYROMANIAC",
     "type": "mission_definition",
     "name": { "str": "Angry pyromaniac" },
-    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
+    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring at least 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 0,
@@ -892,14 +864,7 @@
     "has_generic_rewards": false,
     "start": {
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_replace": "forest",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 75,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_replace": "forest", "om_terrain_match_type": "PREFIX", "random": true, "z": 0 }
     },
     "end": {
       "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
@@ -957,12 +922,10 @@
     "description": "You have some time left until you can transfer control to your companions, provided you have <color_yellow>established a Basecamp</color> and <color_yellow>have at least 1 NPC companion</color>.",
     "difficulty": 0,
     "value": 0,
+    "deadline": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
-      "effect": [
-        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
-        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
-      ]
+      "effect": [ { "math": [ "u_timer_time_of_last_succession = time('now')" ] }, { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" } ]
     }
   },
   {
@@ -970,19 +933,9 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession) > time_between_succession" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
-    "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "effect": [
-      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
-    ]
+    "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
   },
   {
     "type": "effect_on_condition",
@@ -991,15 +944,24 @@
     "required_event": "game_avatar_new",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+      {
+        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
+        "deadline": { "math": [ "time('now') + time_between_succession" ] }
+      }
     ]
+  },
+  {
+    "//": "DUMB HACK ALERT! We need to check during both game_start and game_begin, because game_start runs first. If we only listen during game_begin then EOC_FACTION_SUCCESSION_CHANGE_INIT finds the variable doesn't exist when it runs during game_start, substituting a value of 0 turns. Double assigning the same value is harmless, just stupid. It shouldn't be necessary to make two EOCs for this. Oh well, what can you do",
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMEBEGIN_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession = time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1009,8 +971,11 @@
     "//1": "Only run EOC if character is currently on succession cooldown!",
     "condition": {
       "and": [
+        "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
-        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+        { "math": [ "time_since(u_timer_time_of_last_succession) < time_between_succession" ] },
+        { "math": [ "u_hp('torso') != 0" ] },
+        { "math": [ "u_hp('head') != 0" ] }
       ]
     },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",

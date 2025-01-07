@@ -7,6 +7,36 @@
   },
   "configurePresets": [
     {
+      "name": "windows-x64",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Windows x64 MSYS2 (MinGW)",
+      "description": "Target Windows (64-bit) with the MingGW Win64 development environment.",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "DYNAMIC_LINKING": "False",
+        "CURSES": "True", "LOCALIZE": "True", "TILES": "False", "SOUND": "False", "TESTS": "True",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
+      }
+    },
+    {
+      "name": "windows-x64-msvc",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Windows x64 MSVC",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment.",
+      "generator": "Visual Studio 17 2022",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg"
+      },
+      "cacheVariables": {
+        "DYNAMIC_LINKING": "False",
+        "CURSES": "True", "LOCALIZE": "True", "TILES": "False", "SOUND": "False", "TESTS": "True",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
+      }
+    },
+    {
       "name": "windows-tiles-sounds-x64",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSYS2 (MinGW)",
@@ -23,7 +53,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "inherits": "windows-tiles-sounds-x64",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
@@ -35,20 +65,32 @@
       }
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
+      "name": "windows-tiles-sounds-x64-clang-cl",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "displayName": "Windows Tiles Sounds x64 LLVM",
-      "description": "Target Windows (64-bit) with the LLVM development environment.",
-      "inherits": "windows-tiles-sounds-x64",
+      "displayName": "Windows Tiles Sounds x64 ClangCL",
+      "description": "Target Windows (64-bit) with the ClangCL development environment.",
+      "inherits": "windows-tiles-sounds-x64-msvc",
+      "toolset": "CLangCL",
       "environment": {
-        "VCPKG_ROOT": "C:/vcpkg"
+        "CXXFLAGS": "-ftime-trace"
       },
       "cacheVariables": {
-        "LLVM_ROOT": "C:/Program Files/LLVM",
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/LLVM.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE": null,
+        "VCPKG_MANIFEST_DIR": "${sourceDir}/msvc-full-features",
         "VCPKG_APPLOCAL_DEPS": "False"
+      }
+    },
+    {
+      "name": "linux-x64",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Linux x64",
+      "description": "Target Linux (64-bit) with the GCC development environment.",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "DYNAMIC_LINKING": "True",
+        "CURSES": "True", "LOCALIZE": "True", "TILES": "False", "SOUND": "False", "TESTS": "True",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
     },
     {
@@ -81,12 +123,29 @@
   ],
   "buildPresets": [
     {
+      "name": "windows-x64",
+      "configurePreset": "windows-x64",
+      "configuration":  "RelWithDebInfo"
+    },
+    {
+      "name": "windows-x64-msvc",
+      "configurePreset": "windows-x64-msvc",
+      "configuration": "RelWithDebInfo"
+    },
+    {
       "name": "windows-tiles-sounds-x64",
-      "configurePreset": "windows-tiles-sounds-x64"
+      "configurePreset": "windows-tiles-sounds-x64",
+      "configuration":  "RelWithDebInfo"
+    },
+    {
+      "name": "linux-x64",
+      "configurePreset": "linux-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "configurePreset": "linux-tiles-sounds-x64",
+      "configuration":  "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64-vcpkg",
@@ -94,21 +153,28 @@
     },
     {
       "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "configurePreset": "windows-tiles-sounds-x64-msvc",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
-      "configurePreset": "windows-tiles-sounds-x64-llvm"
+      "name": "windows-tiles-sounds-x64-clang-cl",
+      "configurePreset": "windows-tiles-sounds-x64-clang-cl",
+      "configuration": "RelWithDebInfo",
+      "environment": {
+        "UseMultiToolTask":  "true"
+      }
     }
   ],
   "testPresets": [
     {
       "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "configurePreset": "windows-tiles-sounds-x64-msvc",
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "configurePreset": "linux-tiles-sounds-x64",
+      "configuration": "RelWithDebInfo"
     }
   ]
 }

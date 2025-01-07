@@ -113,7 +113,7 @@
     "terrain": [
       { "result": "t_dirt", "valid_terrain": [ "t_soil" ], "message": "The solid earth sinks away." },
       { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" },
-      { "result": "t_hole", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
+      { "result": "t_open_air", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
     ]
   },
   {
@@ -243,6 +243,34 @@
         "result": "f_dirtmound_shallow",
         "valid_furniture": [ "f_rubble_rock" ],
         "message": "The loose rock falls apart into a pile of dirt."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_entrap_target_in_stone",
+    "furniture": [
+      {
+        "result": "f_ierde_lithic_gaol_fang",
+        "valid_furniture": [ "f_null" ],
+        "message": "Fangs of rock erupt around the target!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_entrap_target_in_stone_ground_zero",
+    "furniture": [ { "result": "f_null", "valid_furniture": [ "f_ierde_lithic_gaol_fang" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_ierde_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "You place both hands on the living earth and feel the rhythms of the rock.",
+        "message_good": true
       }
     ]
   }

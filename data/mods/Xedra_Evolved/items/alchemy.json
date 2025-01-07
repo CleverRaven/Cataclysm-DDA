@@ -7,7 +7,7 @@
     "weight": "253 g",
     "color": "magenta",
     "addiction_type": "alcohol",
-    "fatigue_mod": 112,
+    "sleepiness_mod": 112,
     "stim": 34,
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -17,8 +17,8 @@
     "addiction_potential": 6,
     "calories": 157,
     "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
-    "price": 170,
-    "price_postapoc": 50,
+    "price": "1 USD 70 cent",
+    "price_postapoc": "50 cent",
     "material": [ "alcohol" ],
     "primary_material": "water",
     "volume": "250 ml",
@@ -35,8 +35,8 @@
     "description": "Sixdust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 500,
+    "price": "6 USD",
+    "price_postapoc": "5 USD",
     "material": [ "water" ],
     "symbol": "=",
     "color": "yellow_red",
@@ -67,7 +67,8 @@
       "activation_message": "You feel better almost instantly.",
       "effects": [ { "id": "curesome" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "prophets_lsd",
@@ -114,6 +115,30 @@
     }
   },
   {
+    "id": "nether_snare",
+    "type": "TOOL",
+    "name": "snaring pentagram trap",
+    "category": "traps",
+    "properties": { "capture_species": "NETHER" },
+    "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
+    "longest_side": "60 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "lead",
+    "symbol": "*",
+    "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_nether_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the pentagram snare."
+    }
+  },
+  {
     "id": "spiritshow_dust",
     "name": { "str_sp": "spirit show dust" },
     "description": "A key ingredient for Victorian seances led by actual occultists.  This dust summons spirits from beyond to walk the earth again for a short time.  The spirits it summons are mindless and disappear upon being touched.",
@@ -130,13 +155,13 @@
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "material": [ "powder" ],
-    "price": 2500
+    "price": "25 USD"
   },
   {
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "charm of Marzanna" },
+    "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
@@ -219,11 +244,43 @@
     "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_spider" } ] }
   },
   {
+    "id": "väinämöinens_kantele_imitation",
+    "looks_like": "kantele",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "Väinämöinen's Kantele, imitation", "str_pl": "Väinämöinen's Kanteles, imitation" },
+    "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's jawbone.  Does it glimmer in the light?  Do its notes echo and linger more than normal?",
+    "weight": "550 g",
+    "volume": "3000 ml",
+    "longest_side": "46 cm",
+    "price": "55 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": [ { "type": "cast_spell", "spell_id": "kantele_spell", "no_fail": true, "level": 3 }, { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a haunting melody on your kantele, you sing tragic poetry while you play.",
+        "You play an enchanting composition on your kantele, the words you sing along speak of the mysteries of the forest and sea.",
+        "You play a somber piece on your kantele, you sing of a land you can never return to, the past."
+      ]
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "life_extension_potion",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "life extension potion" },
-    "description": "The primary means by which alchemists gain wealthy patrons these potions will add decades of healthy life to their users span.  But the ingredients are rare and even this won't prolong life forever.  You'll have to resort to other means of achieving immortality, if that's even a goal you are seeking.",
+    "description": "A source of considerable wealth for the few alchemists talented enough to distill them, these potions are capable of adding decades to the lifespan of those who can afford the price of the rare and expensive ingredients they require.  They are however not able to prolong a life indefinitely beyond its natural years, and you will need to find other means to achieve immortality, if that is your goal.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -236,19 +293,22 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.",
-      "effect_on_conditions": [
-        {
-          "id": "extend_life",
-          "effect": [
-            { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
-            { "u_add_trait": "EXTEND_LIFE" }
-          ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "extend_life" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "extend_life",
+    "condition": { "not": { "u_has_trait": "EXTEND_LIFE" } },
+    "effect": [
+      { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
+      { "u_add_trait": "EXTEND_LIFE" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "This was a very valuable elixir that you just wasted drinking yourself.  You can't become more unaging.",
+        "type": "neutral"
+      }
+    ]
   },
   {
     "id": "potion_dex",
@@ -259,7 +319,7 @@
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "wicked_quick_hands", "no_fail": true, "level": 0 },
     "color": "green",
-    "price": 3000
+    "price": "30 USD"
   },
   {
     "id": "potion_strength",
@@ -285,27 +345,30 @@
     "id": "hyde_formula",
     "name": { "str_sp": "Hyde Formula" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the formula.",
-      "effect_on_conditions": [
-        {
-          "id": "hyde_formula",
-          "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ]
-        }
-      ]
-    },
+    "consumption_effect_on_conditions": [ "hyde_formula" ],
     "type": "COMESTIBLE",
     "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
   },
   {
+    "type": "effect_on_condition",
+    "id": "hyde_formula",
+    "condition": { "not": { "u_has_trait": "HYDE" } },
+    "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ],
+    "false_effect": [
+      {
+        "u_message": "If this was a just world choosing to drink this concotion more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.",
+        "type": "neutral"
+      }
+    ]
+  },
+  {
     "id": "plant_imbuement",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Trees" },
-    "description": ".",
+    "description": "In a wooden bowl, Faewild and Dreamdross are mixed together.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -318,11 +381,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_plant_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_plant_fae" ]
   },
   {
     "id": "earth_imbuement",
@@ -342,11 +401,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_earth_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_earth_fae" ]
   },
   {
     "id": "water_imbuement",
@@ -366,11 +421,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_water_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_water_fae" ]
   },
   {
     "id": "air_imbuement",
@@ -390,11 +441,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_air_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_air_fae" ]
   },
   {
     "id": "fire_imbuement",
@@ -414,18 +461,14 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_fire_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_fire_fae" ]
   },
   {
     "id": "doll_imbuement",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of Parchment" },
-    "description": ".",
+    "description": "While looking in a mirror, Faewild and Dreamdross are ground to dust.  That dust is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into what almost looks like liquid porcelain.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -438,10 +481,6 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_doll_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_doll_fae" ]
   }
 ]

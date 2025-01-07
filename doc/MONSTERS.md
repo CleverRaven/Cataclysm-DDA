@@ -21,7 +21,7 @@ These properties are required for all monsters:
 
 Property          | Description
 ---               | ---
-`name`            | (string or object) Monster name, and optional plural name and translation context
+`name`            | (string or object) Monster name, and optional plural name and translation context. Three words maximum.
 `description`     | (string) In-game description of the monster, in one or two sentences
 `hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-hp-scaling)
 `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
@@ -55,7 +55,7 @@ Property                 | Description
 `melee_damage`           | (array of objects) List of damage instances added to die roll on monster melee attack. Also see [monster maximum damage scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-maximum-damage-scaling)
 `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
-`grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
+`grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`. A default zombie has a grab strength of `20`
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
@@ -94,6 +94,8 @@ Property                 | Description
 `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 `biosignature`           | (object) Droppings or feces left by the animal or monster
 `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+`dissect`                | (string) (Optional) ID of a "harvest" type describing what is returned when a corpse of this monster is dissected
+`decay`                  | (string) (Optional) ID of a "harvest" type describing what is left when a corpse of this monster rots away
 `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 `shearing`               | (array of objects) Items produced when the monster is sheared
@@ -104,6 +106,7 @@ Property                 | Description
 `absorb_move_cost_min`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a minimum movement cost for absorbing items regardless of the volume of the consumed item. Default 1.
 `absorb_move_cost_max`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a maximum movement cost for absorbing items regardless of the volume of the consumed item. -1 for no limit. Default -1.
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
+`no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
 
 Properties in the above tables are explained in more detail in the sections below.
@@ -322,7 +325,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 ## "grab_strength"
 (integer, optional)
 
-Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
+Base intensity of the grab effect applied by this monster as used by a `grab`-type special attack unless overwritten by the `grab_data` of the attack itself, default 1, range 1-100. See [Grab attacks](MONSTER_SPECIAL_ATTACKS.md#grab_attacks) for more information.
 
 ## "armor"
 (object, optional)
@@ -343,13 +346,15 @@ Field              | Description
 `id`               | id of the weakpoint. Defaults to `name`, if not specified.
 `name`             | name of the weakpoint. Used in hit messages.
 `coverage`         | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+`is_good`          | marks mutation, that is beneficial for you to hit (like headshot); false means it is a bad weakpoint for you to hit (like thick piece of armor); default true;
+`is_head`          | determines whether this weakpoint is part of the monster's head and can trigger a headshot; Only functions when `is_good` is also true, default false;
 `coverage_mult`    | object mapping weapon types to constant coverage multipliers.
-`difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%.
+`difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%. For bad weakpoint, attacker's skill will reduce the chance of hitting it.
 `armor_mult`       | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
 `armor_penalty`    | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
-`required_effects` | list of effect names applied to the monster required to hit the weakpoint.
+`condition`        | condition, that need to be met for weakpoint to be used. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
 The `effects` field is a list of objects with the following subfields:
@@ -357,6 +362,7 @@ The `effects` field is a list of objects with the following subfields:
 Field              | Description
 ---                | ---
 `effect`           | The effect type.
+`effect_on_conditions` | Array of EoCs that would be run. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `chance`           | The probability of causing the effect.
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.
@@ -449,7 +455,8 @@ How the monster behaves on death.
 {
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
-    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
+    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
 }
 ```
 
@@ -540,10 +547,9 @@ The monster's reproduction cycle, if any. Supports:
 
 Field          | Description
 ---            | ---
-`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
+`baby_type`    | (object) Specifies the type of reproduction. Types can be `{ "baby_type": { "baby_egg": "item_id" }`, `{ "baby_type": { "baby_egg_group": "item_group_id" }`, `{ "baby_type": { "baby_monster": "monster_id" }`, `{ "baby_type": { "baby_monster_group": "monster_group_id" }`. Only one type can be used.
 
 ## "zombify_into"
 (monster string id, optional)

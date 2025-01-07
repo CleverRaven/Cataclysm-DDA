@@ -83,6 +83,7 @@
       {
         "id": "thick bark",
         "name": "a particularly thick patch of the bark",
+        "is_good": false,
         "armor_mult": { "all": 1.25 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "melee": 0.75 },

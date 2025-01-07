@@ -10,7 +10,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
@@ -21,7 +21,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -33,7 +33,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork_simple", 1 ] ]
   },
@@ -47,7 +47,7 @@
     "difficulty": 2,
     "time": "90 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "using": [ [ "tailoring_felt_small", 6 ] ]
   },
   {
@@ -157,7 +157,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_felt_patchwork", 11 ] ]
   },
   {
@@ -212,7 +212,7 @@
         [ "beaker", 1 ],
         [ "flask_hip", 1 ]
       ],
-      [ [ "wire", 1 ] ],
+      [ [ "any_wire", 1, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
@@ -281,7 +281,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ] ],
+    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "plastic_bottles_any", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
@@ -303,42 +303,6 @@
     ],
     "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_leatherworking_basic" } ]
-  },
-  {
-    "result": "goggles_swim",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "45 m",
-    "autolearn": true,
-    "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "duct_tape", 120 ], [ "medical_tape", 120 ] ],
-      [ [ "superglue", 1 ] ]
-    ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
-  },
-  {
-    "result": "goggles_welding",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "mechanics",
-    "difficulty": 2,
-    "skills_required": [ "fabrication", 1 ],
-    "time": "1 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
-    "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
-      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
-    ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
     "result": "hat_boonie",
@@ -378,6 +342,18 @@
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton_small", 2 ] ]
+  },
+  {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 3 ] ]
+  },
+  {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 1 ] ]
   },
   {
     "result": "hat_fur",
@@ -426,7 +402,8 @@
     "time": " 2 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "plastic_molding", 10 ] ]
+    "using": [ [ "plastic_molding", 5 ] ],
+    "components": [ [ [ "plastic_chunk", 7 ] ] ]
   },
   {
     "result": "hat_hard_hooded",
@@ -479,6 +456,28 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_small", 16 ], [ "cordage", 2 ] ]
+  },
+  {
+    "result": "helmet_aztec",
+    "//": "A log is required in this recipe, as I don't think you can bend 2x4s into the shape of an eagle.",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "16 h",
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "components": [ [ [ "log", 1 ] ], [ [ "2x4", 1 ] ], [ [ "feather", 50 ] ] ],
+    "byproducts": [ [ "splinter", 200 ] ]
   },
   {
     "result": "helmet_barbute",
@@ -554,6 +553,39 @@
     "using": [ [ "armor_chitin", 17 ] ]
   },
   {
+    "result": "helmet_chitin_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
+    "using": [ [ "armor_chitin", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_fibers" }
+    ]
+  },
+  {
+    "result": "helmet_chitin_light_xs",
+    "type": "recipe",
+    "copy-from": "helmet_chitin_light",
+    "time": "1 h",
+    "using": [ [ "armor_chitin", 7 ] ]
+  },
+  {
+    "result": "xl_helmet_chitin_light",
+    "type": "recipe",
+    "copy-from": "helmet_chitin_light",
+    "time": "2 h 20 m",
+    "using": [ [ "armor_chitin", 15 ] ]
+  },
+  {
     "result": "helmet_conical",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -627,6 +659,42 @@
     "type": "recipe",
     "copy-from": "helmet_acidchitin",
     "time": "3 h 20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 17 ] ] ]
+  },
+  {
+    "result": "helmet_acidchitin_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "book_learn": [ [ "textbook_arthropod", 6 ] ],
+    "skills_required": [ [ "fabrication", 4 ], [ "chemistry", 2 ] ],
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 10 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_fibers" }
+    ]
+  },
+  {
+    "result": "helmet_acidchitin_light_xs",
+    "type": "recipe",
+    "copy-from": "helmet_acidchitin",
+    "time": "2 h 30 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 7 ] ] ]
+  },
+  {
+    "result": "xl_helmet_acidchitin_light",
+    "type": "recipe",
+    "copy-from": "helmet_acidchitin",
+    "time": "2 h 50 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 17 ] ] ]
   },
@@ -1498,7 +1566,7 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "components": [
-      [ [ "plastic_sheet_small", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "plastic_sheet_small", 2 ], [ "plastic_bottles_any", 1, "LIST" ] ],
       [ [ "cotton_patchwork", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
       [ [ "charcoal", 10 ] ]
     ],
@@ -1833,16 +1901,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [
-        [ "tshirt", 1 ],
-        [ "flag_shirt", 1 ],
-        [ "linuxtshirt", 1 ],
-        [ "tshirt_tour", 1 ],
-        [ "technician_shirt_gray", 1 ],
-        [ "tshirt_text", 1 ]
-      ]
-    ],
+    "components": [ [ [ "tshirt", 1 ], [ "technician_shirt_gray", 1 ] ] ],
     "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
@@ -1913,28 +1972,6 @@
     ]
   },
   {
-    "result": "miner_hat",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "reversible": true,
-    "components": [
-      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
-      [ [ "flashlight", 1 ] ],
-      [
-        [ "cotton_patchwork", 2 ],
-        [ "leather", 2 ],
-        [ "cordage", 1, "LIST" ],
-        [ "duct_tape", 10 ],
-        [ "medical_tape", 20 ]
-      ]
-    ]
-  },
-  {
     "result": "nomex_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2001,6 +2038,7 @@
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
         [ "soldering_iron_portable", 84 ],
+        [ "integrated_electrokit", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2034,6 +2072,7 @@
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
         [ "soldering_iron_portable", 84 ],
+        [ "integrated_electrokit", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2068,6 +2107,7 @@
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
         [ "soldering_iron_portable", 84 ],
+        [ "integrated_electrokit", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2098,6 +2138,7 @@
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
         [ "soldering_iron_portable", 84 ],
+        [ "integrated_electrokit", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2133,6 +2174,7 @@
         [ "welder_crude", 84 ],
         [ "soldering_iron", 84 ],
         [ "soldering_iron_portable", 84 ],
+        [ "integrated_electrokit", 84 ],
         [ "integrated_welder", 84 ]
       ]
     ],
@@ -2199,7 +2241,7 @@
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "30 m" },
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork_simple", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
@@ -2257,13 +2299,7 @@
     "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [
-        [ "goggles_ski", 1 ],
-        [ "goggles_welding", 1 ],
-        [ "sunglasses", 1 ],
-        [ "fancy_sunglasses", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
+      [ [ "goggles_ski", 1 ], [ "sunglasses", 1 ], [ "fancy_sunglasses", 1 ], [ "fitover_sunglasses", 1 ] ],
       [ [ "polycarbonate_chunk", 4 ], [ "glasses_bal", 2 ] ],
       [ [ "leather", 3 ] ],
       [ [ "sheet_kevlar_layered", 2 ] ]
@@ -3342,7 +3378,11 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -3358,7 +3398,11 @@
     "copy-from": "qt_helmet_nasal",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -3369,7 +3413,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
@@ -3546,7 +3594,11 @@
     "book_learn": [ [ "textbook_weparabic", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -3561,7 +3613,11 @@
     "copy-from": "qt_helmet_turban",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [  ] ]
   },
@@ -3572,7 +3628,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [  ] ]
   },
   {
@@ -3716,7 +3776,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 30 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xl_qt_chainmail_face",
@@ -3861,7 +3921,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 40 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xl_qt_chainmail_aventail",
@@ -4039,7 +4099,11 @@
     "book_learn": [ [ "textbook_weparabic", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "gold_small", 2 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -4055,7 +4119,11 @@
     "copy-from": "qt_steel_facemask",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "gold_small", 1 ] ] ]
   },
@@ -4066,7 +4134,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {

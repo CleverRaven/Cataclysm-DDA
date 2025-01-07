@@ -1,15 +1,5 @@
 [
   {
-    "id": "8mm_bootleg",
-    "copy-from": "8mm_caseless",
-    "type": "AMMO",
-    "name": { "str_sp": "bootleg 8x40mm FMJ" },
-    "description": "A bootleg duplicate of the Rivtech 8x40mm caseless round.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 } },
-    "extend": { "effects": [ "RECYCLED" ], "flags": [ "CASELESS_ROUNDS" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "8mm_caseless",
     "type": "AMMO",
     "name": { "str_sp": "8x40mm FMJ" },
@@ -17,8 +7,8 @@
     "description": "An 8x40mm caseless cartridge with a rectangular shape, consisting of a jacketed 127gr bullet housed inside of an advanced propellant body.  Upon firing, the body will be consumed, leaving nothing behind in the chamber.  Proprietary ammunition for Rivtech 8x40 caseless guns.",
     "weight": "12 g",
     "volume": "150 ml",
-    "price": 11600,
-    "price_postapoc": 8000,
+    "price": "116 USD",
+    "price_postapoc": "80 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "CASELESS_ROUNDS" ],
     "material": [ { "type": "steel", "portion": 33 }, { "type": "plastic", "portion": 50 }, { "type": "powder", "portion": 17 } ],
     "symbol": "=",

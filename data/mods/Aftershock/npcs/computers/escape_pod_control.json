@@ -13,7 +13,7 @@
   {
     "type": "talk_topic",
     "id": [ "ESPOD_CONTROL_READY" ],
-    "dynamic_line": "&************************************************\n\nINTEGRITY CHK : ███████████████ 100% (COMPLETE)\nNAV TRANSFER :  ███████████████ 100% (COMPLETE)\nFUELING :       ███████████████ 100% (COMPLETE)\n\n************************************************\n*  Operation Succesfull                        *\n************************************************",
+    "dynamic_line": "&************************************************\n\nINTEGRITY CHK : ███████████████ 100% (COMPLETE)\nNAV TRANSFER :  ███████████████ 100% (COMPLETE)\nFUELING :       ███████████████ 100% (COMPLETE)\n\n************************************************\n*  Operation Successful                         *\n************************************************",
     "responses": [
       {
         "text": "Continue.",
@@ -25,7 +25,7 @@
   {
     "type": "talk_topic",
     "id": [ "ESPOD_CONTROL_CONTINUE" ],
-    "dynamic_line": "&Escape pod launch procedure:\n\n    1) Ready escape pod.  (COMPLETE)\n    2) Secure Passangers/Cargo.\n    3) Launch from pod controls.",
+    "dynamic_line": "&Escape pod launch procedure:\n\n    1) Ready escape pod.  (COMPLETE)\n    2) Secure Passengers/Cargo.\n    3) Launch from pod controls.",
     "responses": [ { "text": "Shut down.", "topic": "TALK_DONE" } ]
   }
 ]

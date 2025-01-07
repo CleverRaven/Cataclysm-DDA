@@ -367,6 +367,36 @@
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
   {
+    "id": "medium_pressure_tank",
+    "type": "vehicle_part",
+    "name": { "str": "medium pressurized tank" },
+    "//": "10 gallon tank.",
+    "item": "medium_propane_tank",
+    "location": "fuel_source",
+    "broken_color": "red",
+    "durability": 150,
+    "description": "A medium tank for pressurized gasses.",
+    "categories": [ "movement" ],
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "flags": [ "GASTANK" ],
+    "damage_reduction": { "all": 28, "stab": 12 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+  },
+  {
     "id": "large_pressure_tank",
     "type": "vehicle_part",
     "name": { "str": "large pressurized tank" },
@@ -447,7 +477,7 @@
     "item": "30gal_drum_aluminum",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ], [ "drilling_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
     }

@@ -7,20 +7,12 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 4,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "s_air_term",
-        "om_special": "o_airport",
-        "reveal_radius": 6,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 15,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "s_air_term", "om_special": "o_airport", "reveal_radius": 6, "min_distance": 15, "z": 0 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
           { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
-          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
           { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
           { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
         ]
@@ -48,7 +40,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
       }
@@ -75,14 +67,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "prison_alcatraz_9",
-        "om_special": "Alcatraz Prison",
-        "reveal_radius": 1,
-        "search_range": 6,
-        "min_distance": 1,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "prison_alcatraz_9", "om_special": "Alcatraz Prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
       }
@@ -109,14 +94,7 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "prison_island_1_8",
-        "om_special": "Island prison",
-        "reveal_radius": 1,
-        "search_range": 6,
-        "min_distance": 1,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "prison_island_1_8", "om_special": "Island prison", "reveal_radius": 1, "min_distance": 1, "z": 0 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
       }
@@ -163,7 +141,7 @@
     "name": { "str": "Prepare for your next show" },
     "description": "Become the best clown, make sure that your next show will make everyone laugh by training your social skills to perfection.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "math": [ "u_skill('speech')", ">=", "6" ] },
+    "goal_condition": { "math": [ "u_skill('speech') >= 6" ] },
     "difficulty": 3,
     "value": 0,
     "end": {
@@ -209,8 +187,8 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "math": [ "u_skill('melee')", ">=", "5" ] },
-        { "math": [ "u_skill('dodge')", ">=", "5" ] },
+        { "math": [ "u_skill('melee') >= 5" ] },
+        { "math": [ "u_skill('dodge') >= 5" ] },
         { "u_has_item": "judo_belt_black" }
       ]
     },
@@ -472,13 +450,9 @@
         { "u_has_item": "jumpsuit_skeleton" },
         { "u_has_item": "mummy_jumpsuit" },
         { "u_has_item": "bodysuit_lycra" },
-        { "u_has_item": "wolfsuit" },
-        { "u_has_item": "dragonsuit" },
-        { "u_has_item": "felinesuit" },
-        { "u_has_item": "dinosuit" },
+        { "u_has_item": "fursuit" },
         { "u_has_item": "bondage_suit" },
         { "u_has_item": "clown_suit" },
-        { "u_has_item": "sharksuit" },
         { "u_has_item": "jumpsuit_skeleton_zipped" },
         { "u_has_item": "maid_dress" },
         { "u_has_item": "mummy_dress" },
@@ -584,7 +558,6 @@
         { "u_has_item": "dnd" },
         { "u_has_item": "g_warhammer" },
         { "u_has_item": "g_warhammer40k" },
-        { "u_has_item": "cards_magic" },
         { "u_has_item": "deck_of_cards" },
         { "u_has_item": "chess" },
         { "u_has_item": "checkers" },
@@ -636,11 +609,11 @@
     "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics Before You Die!" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "strong_antibiotic" }, { "u_has_item": "antibiotic" }, { "u_has_item": "weak_antibiotic" } ] },
     "difficulty": 1,
     "value": 0,
-    "origins": [ "ORIGIN_GAME_START" ],
-    "item": "antibiotics"
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_HELICOPTER_REFUEL",
@@ -651,9 +624,7 @@
     "destination": "s_air_hangars",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -666,14 +637,7 @@
     "difficulty": 4,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "helipad_nw",
-        "reveal_radius": 10,
-        "om_special": "military helipad",
-        "search_range": 70,
-        "min_distance": 25,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "helipad_nw", "reveal_radius": 10, "om_special": "military helipad", "min_distance": 25, "z": 0 }
     },
     "origins": [ "ORIGIN_GAME_START" ]
   },
@@ -685,15 +649,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "s_air_helicopter_pad",
-        "om_special": "o_airport",
-        "reveal_radius": 6,
-        "random": true,
-        "search_range": 65,
-        "min_distance": 15,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "s_air_helicopter_pad", "om_special": "o_airport", "reveal_radius": 6, "min_distance": 15, "z": 0 },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_zombie_military_pilot", "x": 1, "y": 1 },
@@ -727,7 +683,7 @@
     "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -738,8 +694,21 @@
     "goal": "MGOAL_KILL_NEMESIS",
     "difficulty": 5,
     "value": 0,
+    "//": "monster_kill_goal MUST be 1 or else the mission will spawn a new nemesis on its death.",
+    "monster_kill_goal": 1,
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SURVIVE_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Survive your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can fight it but never truly kill it.  It won't end until you die.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 10,
+    "value": 0,
+    "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

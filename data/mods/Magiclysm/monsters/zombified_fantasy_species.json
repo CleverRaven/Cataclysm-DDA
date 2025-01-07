@@ -1,0 +1,166 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dwarf",
+    "name": { "str": "zombie dwarf", "str_pl": "zombie dwarves" },
+    "copy-from": "mon_zombie_tough",
+    "description": "Once a dwarf, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
+    "proportional": { "volume": 0.7, "weight": 0.9 },
+    "speed": 65,
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_day": 15,
+    "vision_night": 8,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dwarf_miner",
+    "name": { "str": "zombie dwarven miner" },
+    "copy-from": "mon_zombie_miner",
+    "description": "Once a dwarven miner, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
+    "proportional": { "hp": 1.2, "volume": 0.7, "weight": 0.9, "speed": 0.9 },
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_day": 15,
+    "vision_night": 8,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_elf",
+    "name": { "str": "zombie elf", "str_pl": "zombie elves" },
+    "copy-from": "mon_zombie",
+    "description": "Its face twisted in an expression of pure rage and with glassy eyes, this elf looks nothing like the ethereal elves from before the Cataclysm.  Though it also lacks the elves' characteristic grace, its movements are quieter than the other dead.",
+    "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
+    "//": "Better night vision than default zombies, but not as good as living elves.",
+    "vision_night": 5,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
+    "extend": { "flags": [ "QUIETMOVES" ] }
+  },
+  {
+    "id": "mon_zombie_goblin",
+    "type": "MONSTER",
+    "name": { "str": "zombie goblin" },
+    "copy-from": "mon_zombie",
+    "description": "With bared teeth and black eyes filled with rage, this formerly-living goblin is now a walking nightmare.  While small, unlike the human zombies it was born with teeth and claws.",
+    "proportional": { "hp": 0.5, "speed": 1.05, "volume": 0.5, "weight": 0.5 },
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "GOBLIN" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body" ],
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5, "attack_upper": false },
+      {
+        "id": "scratch",
+        "attack_upper": false,
+        "cooldown": 4,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ]
+      }
+    ],
+    "//": "zombie goblins are basically blind during the day",
+    "vision_day": 3,
+    "vision_night": 15,
+    "death_drops": "feral_goblin_death_drops",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" }
+  },
+  {
+    "id": "mon_zombie_ravenfolk",
+    "type": "MONSTER",
+    "name": { "str_sp": "zombie ravenfolk" },
+    "copy-from": "mon_zombie",
+    "description": "With bedraggled wings, dull eyes, and beak hanging open, this ravenfolk body still walks, a slight sway as it moves.",
+    "proportional": { "hp": 0.6, "speed": 1.1, "weight": 0.75 },
+    "bodytype": "angel",
+    "species": [ "RAVENFOLK", "ZOMBIE" ],
+    "volume": "62500 ml",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoints": [
+      {
+        "id": "wing",
+        "name": "the wings",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "coverage_mult": { "point": 0.25 },
+        "effects": [ { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 12
+      }
+    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_basic_bird" ],
+    "harvest": "zombie_ravenfolk",
+    "special_attacks": [
+      [ "SHRIEK_ALERT", 15 ],
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_ravenfolk_peck",
+        "cooldown": 15,
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 8 } ],
+        "hitsize_min": 4,
+        "hit_dmg_u": "%1$s buries its beak in your %2$s!",
+        "hit_dmg_npc": "%1$s buries its beak in <npcname>!",
+        "miss_msg_u": "%1$s tries to peck you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to peck <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s tries to peck your %2$s, but fails to penetrate your armor.",
+        "no_dmg_msg_npc": "%1$s tries to peck <npcname>, but fails to penetrate their armor."
+      },
+      {
+        "id": "scratch",
+        "attack_upper": true,
+        "cooldown": 2,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ]
+      },
+      { "type": "leap", "cooldown": 15, "max_range": 6, "message": "%1$s leaps with a flutter of wings!" }
+    ],
+    "vision_day": 35,
+    "death_drops": "feral_ravenfolk_death_drops",
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
+  },
+  {
+    "id": "mon_zombie_lizardfolk",
+    "copy-from": "mon_zombie",
+    "type": "MONSTER",
+    "name": { "str_sp": "zombie lizardfolk" },
+    "description": "A proud servant of dragons reduced to a walking corpse, this lizardfolk's scales are streaked with grime and its black eyes burn with rage.  It has not lost its teeth and claws in the transition to undeath.",
+    "species": [ "LIZARDFOLK" ],
+    "volume": "80 L",
+    "weight": "100 kg",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
+    "armor": { "bash": 3, "cut": 4, "stab": 4, "bullet": 2 },
+    "harvest": "zombie_lizardfolk",
+    "//": "No grab--they have multiple natural weapons so they just attack",
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      {
+        "id": "scratch",
+        "attack_upper": true,
+        "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 11 } ]
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "lizardfolk_zombie_bite",
+        "cooldown": 10,
+        "move_cost": 200,
+        "range": 1,
+        "//": "With their long muzzles lizardfolk can bite without grabbing, but it's still a little awkward, hence the move cost.",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15 } ],
+        "min_mul": 0.3,
+        "hit_dmg_u": "%1$s's lunges forward, and its teeth sink into your %2$s!",
+        "hit_dmg_npc": "%1$s's lunges forward, and its teeth sink into <npcname>!",
+        "no_dmg_msg_u": "%1$s's lunges at your %2$s, but its teeth glance off your armor.",
+        "no_dmg_msg_npc": "%1$s's lunges at <npcname>, but its teeth glance off their armor.",
+        "miss_msg_u": "%s lunges forward to bite you, but you dodge!",
+        "miss_msg_npc": "%s lunges forward to bite <npcname>, but they dodge!"
+      }
+    ],
+    "death_drops": "feral_lizardfolk_death_drops",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE" }
+  }
+]

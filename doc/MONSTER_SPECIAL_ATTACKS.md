@@ -8,6 +8,7 @@
     - [Hardcoded special attacks](#hardcoded-special-attacks)
     - [JSON special attacks](#json-special-attacks)
         - [`bite`](#bite)
+        - [`grab`](#grab-attacks)
     - [Non-melee special attacks](#non-melee-special-attacks)
         - [`gun`](#gun)
         - [`spell`](#spell)
@@ -43,7 +44,7 @@ Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared t
 
 It contains either: 
 * An `id` of a [hardcoded special attack](#hardcoded-special-attacks), or a [JSON-declared attacks](/data/json/monster_special_attacks).
-* A `type` member (string) plus a `cooldown` member (integer) pair, for [partially hardcoded special attacks](#partially-hardcoded-special-attacks).
+* A `type` member (string) plus a `cooldown` member (integer or this can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info.) pair, for [partially hardcoded special attacks](#partially-hardcoded-special-attacks).
 * A spell (see [MAGIC.md](MAGIC.md)).
 
 Depending on the kind of attack, it may contain additional required members.  Example:
@@ -73,17 +74,16 @@ In the case of separately defined attacks the object has to contain at least an 
     { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
+This monster can attempt an acid attack every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 
 ## Hardcoded special attacks
 
 These special attacks are mostly hardcoded in C++ and are generally not configurable with JSON (unless otherwise documented).  JSON-declared replacements are mentioned when available.
 
-- ```ABSORB_ITEMS``` Consumes objects it moves over to gain HP.  A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). A list of materials that the monster can absorb can be specified with `absorb_materials` (can be string or string array, not specified = absorb all materials).
+- ```ABSORB_ITEMS``` Consumes objects it moves over to gain HP.  A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). A list of materials that the monster can absorb can be specified with `absorb_materials` (can be string or string array, not specified = absorb all materials) and forbidden with `no_absorb_materials` (can be string or string array, not specified = absorb all materials specified by absorb_materials).
 - ```ABSORB_MEAT``` Absorbs adjacent meat items (maximum absorbable item volume depends on the monster's volume), regenerating health in the process.
 - ```ACID``` Spits acid.
-- ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```BIO_OP_BIOJUTSU``` Attacks with any of the below martial art attacks.
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
@@ -96,11 +96,9 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
-- ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.  Note: Legacy special attack.
 - ```COPBOT``` Cop-bot warns then tazes the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
-- ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```EAT_CARRION``` The monster will nibble on organic corpses, including zombies and plants, damaging them and filling its stomach if it has the EATS flag.
@@ -108,7 +106,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20). If paired with the EATS flag, this will fill its stomach.
 - ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyzes the player with fear.
-- ```FLAMETHROWER``` Shoots a stream of fire.
 - ```FLESH_GOLEM``` Attacks the player with 5-10 bash, has a chance to inflict `downed` if the attack connects.  Also roars menacingly for some reason.
 - ```FLESH_TENDRIL``` Spawns gangrenous impalers or crawlers, pulls targets close when 4 > range > 1, either flings or grabs them when adjacent.
 - ```FORMBLOB``` Attacks a neighboring tile, effect depends on the tile's inhabitant: spawns small slimes depending on its speed if empty, slimes players/NPCs, speeds up friendly slimes, heals brain slimes, converts nonfriendly flesh/veggy non-huge monsters to slimes of appropriate size.  Decreases in size if it did any of those and its current speed is below a threshold.
@@ -130,14 +127,11 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.  Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
 - ```HOWL``` "an ear-piercing howl!".
-- ```IMPALE``` Stabbing attack against the target's torso, with a chance to inflict `downed`.  Note: superseded by the JSON-defined `"impale"`.
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
 - ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
 - ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
-- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away.  If targeting an adjacent enemy it always hits the head and causes heavy bleeding.  JSON equivalents of the two elements are `"longswipe"` and `"cut_throat"` respectively.
 - ```LUNGE``` Performs a jumping attack from some distance away, which can inflict `downed` to the target.
 - ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
-- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```NONE``` No special attack.
 - ```PAID_BOT```  For creature with the `PAY_BOT` flag, removes the ally status when the pet effect runs out.
 - ```PARA_STING``` Shoots a paralyzing dart at the player.
@@ -150,7 +144,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```RATTLE``` "a sibilant rattling sound!".
 - ```RESURRECT``` Revives the dead (again).
 - ```RIOTBOT``` Sprays teargas or relaxation gas, can handcuff players, and can use a blinding flash.
-- ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.).
 - ```SEARCHLIGHT``` Tracks targets with a searchlight.
 - ```SHOCKING_REVEAL``` Shoots bolts of lightning, and reveals a SHOCKING FACT! Very fourth-wall breaking.  Used solely by Crazy Cataclysm.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
@@ -162,11 +155,8 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```SPIT_SAP``` Spits sap (acid damage, 12 range).
 - ```SPLIT``` Creates a copy of itself if it has twice the maximum HP that it should normally have.  This can be achieved by combining this with `ABSORB_ITEMS`.
 - ```STARE``` Stares at the player and inflicts ramping debuffs (`taint>tindrift`).
-- ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, dealing 5-10 damage.  JSON equivalent is `"stretch_attack"`
-- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, dealing stab damage and potentially infecting without grabbing.  JSON equivalent (without the chance of deep bites) is `"stretch_bite"`.
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shocks the player.
-- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range. JSON equivalent is `"tentacle"`.
 - ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
@@ -181,7 +171,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 
 | field                       | description
 | ---                         | ---
-| `cooldown`			      | Integer, amount of turns between uses.
+| `cooldown`			      | Integer or Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info, amount of turns between uses.
 | `damage_max_instance`       | Array of objects.  See also [MONSTERS.md#melee_damage](MONSTERS.md#melee_damage).
 | `min_mul`, `max_mul`        | Sets the bounds on the range of damage done.  For each attack, the above defined amount of damage will be multiplied by a
 |						      | randomly rolled multiplier between the values `min_mul` and `max_mul`.  Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
@@ -189,7 +179,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
 |						      | targeted with a chance proportional to the value.
-| `condition`                 | Object, dialog conditions enabling the attack - see `NPC.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
+| `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `grab`                      | Boolean, default false. Denotes this attack as a grabbing one. See `grabs` for further information
@@ -206,6 +196,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `self_effects_onhit`         | Array of `effects` the monster applies to itself when successfully hitting with the attack.
 | `self_effects_ondmg`         | Array of `effects` the monster applies to itself when damaging its target.
 | `throw_strength`		      | Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
+| `eoc`                       | Array of ids, runs effect on condition, with `u` as attacker, and `npc` as victim, and `damage` as context variable with total damage dealt. See `NPCs.md`
 | `miss_msg_u`			      | String, message for missed attack against the player.
 | `miss_msg_npc`		      | String, message for missed attack against an NPC.
 | `hit_dmg_u`                 | String, message for successful attack against the player.
@@ -287,7 +278,7 @@ Casts a separately-defined spell at the monster's target.  Spells with `target_s
 | ---                            | ------------------------------------------------------------------------------------------------------- |
 | `spell_data`                   | List of spell properties for the attack.                                                                |
 | `min_level`                    | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.    |
-| `cooldown `                    | How often the monster can cast this spell.
+| `cooldown `                    | Integer or a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. How often the monster can cast this spell.
 | `monster_message`              | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`. |
 | `condition`                    | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the casting monster and `npc` to the target unless the spell allows no target (in which case only self-conditions can be defined).
 | `allow_no_target`              | Bool, default `false`. If `true` the monster will cast it even without a hostile target.                |

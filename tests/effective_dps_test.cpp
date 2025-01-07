@@ -4,7 +4,9 @@
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "flag.h"
 #include "item.h"
+#include "item_factory.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
@@ -13,10 +15,10 @@
 #include "test_data.h"
 #include "type_id.h"
 
-static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -121,7 +123,7 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     item good_sword( "test_balanced_sword" );
 
     SECTION( "against a debug monster with no armor or dodge" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
         CHECK( good_sword.effective_dps( dummy, mummy ) == Approx( 38.0f ).epsilon( 0.15f ) );
@@ -143,7 +145,7 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     }
 
     SECTION( "effect of STR and DEX on damage per second" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         SECTION( "STR 6, DEX 6" ) {
             dummy.str_max = 6;
@@ -281,9 +283,32 @@ TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
         return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
     };
 
+    std::unordered_set<itype_id> tested;
     for( std::pair<const itype_id, double> &weap : test_data::expected_dps ) {
+        if( weap.first->src.empty() || weap.first->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        tested.emplace( weap.first );
         INFO( string_format( "%s's dps changed, if it's intended replace the value in the respective file in data/mods/TEST_DATA/expected_dps_data.",
                              weap.first.str() ) );
         CHECK( calc_expected_dps( weap.first ) == weap.second );
+    }
+
+    for( const itype *it : item_controller->all() ) {
+        if( it->src.empty() || it->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        if( it->has_flag( flag_PSEUDO ) ) {
+            continue;
+        }
+        if( !item( it ).is_melee() ) {
+            continue;
+        }
+        if( tested.find( it->get_id() ) != tested.end() ) {
+            continue;
+        }
+        INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
+                             it->get_id().str() ) );
+        CHECK( calc_expected_dps( it->get_id() ) <= 5.0 );
     }
 }

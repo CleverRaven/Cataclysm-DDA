@@ -6,9 +6,8 @@
     "description": "A large American flag, made to fly in even the worst conditions.",
     "weight": "3200 g",
     "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -17,11 +16,42 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "debug_energy_shield",
+    "type": "ARMOR",
+    "name": { "str": "weak energy shield" },
+    "description": "A weak energy shield that protects against ballistic damage.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "ballistic_shield" ],
+    "material_thickness": 0.3,
+    "max_energy_shield_hp": 4,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
@@ -51,7 +81,7 @@
       {
         "id": "agender_pride_flag",
         "name": { "str": "agender flag" },
-        "description": "A large green grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.",
+        "description": "A large green gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.",
         "weight": 2
       },
       {
@@ -81,13 +111,13 @@
       {
         "id": "asexual_pride_flag",
         "name": { "str": "asexual flag" },
-        "description": "A large purple, white, grey and black asexual flag.  Black for asexuality (feeling no sexual attraction), grey for grey-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "description": "A large purple, white, gray and black asexual flag.  Black for asexuality (feeling no sexual attraction), gray for gray-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
         "weight": 2
       },
       {
         "id": "aromantic_pride_flag",
         "name": { "str": "aromantic flag" },
-        "description": "A large black, grey, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
         "weight": 2
       },
       {
@@ -105,7 +135,7 @@
       {
         "id": "intersex_pride_flag",
         "name": { "str": "intersex flag" },
-        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colours as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colors as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
         "weight": 2
       },
       {
@@ -117,7 +147,7 @@
       {
         "id": "agender_pride_flag",
         "name": { "str": "agender flag" },
-        "description": "A large green, white, grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "description": "A large green, white, gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
         "weight": 2
       },
       {
@@ -140,7 +170,7 @@
       {
         "id": "bear_pride_flag",
         "name": { "str": "bear flag" },
-        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner."
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colors of different bear species, you can see a black bear paw in the upper right corner."
       }
     ]
   },
@@ -233,7 +263,7 @@
       },
       {
         "id": "bahamanian_flag",
-        "name": { "str": "Bahamanain flag" },
+        "name": { "str": "Bahamanian flag" },
         "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
         "weight": 10,
         "append": true
@@ -408,7 +438,7 @@
       },
       {
         "id": "columbian_flag",
-        "name": { "str": "Columbian flag" },
+        "name": { "str": "Colombian flag" },
         "description": "It has a yellow, navy blue, and red stripe running horizontally.",
         "weight": 10,
         "append": true
@@ -1039,7 +1069,7 @@
       {
         "id": "macedonian_flag",
         "name": { "str": "Macedonian flag" },
-        "description": "A flag that features a stylised yellow sun on a red field, with eight broadening rays extending from the center to the edge of the field.",
+        "description": "A flag that features a stylized yellow sun on a red field, with eight broadening rays extending from the center to the edge of the field.",
         "weight": 10,
         "append": true
       },
@@ -1122,7 +1152,7 @@
       },
       {
         "id": "portugese_flag",
-        "name": { "str": "Portugese flag" },
+        "name": { "str": "Portuguese flag" },
         "description": "A flag that features a vertically striped bicolor of green and red, with the lesser coat of arms of centered over the color boundary.",
         "weight": 10,
         "append": true
@@ -1291,7 +1321,7 @@
       {
         "id": "spanish_flag",
         "name": { "str": "Spanish flag" },
-        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the spanish coat of arms off centered toward the hoist.",
+        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the Spanish coat of arms off centered toward the hoist.",
         "weight": 10,
         "append": true
       },
@@ -1319,7 +1349,7 @@
       {
         "id": "swedish_flag",
         "name": { "str": "Swedish flag" },
-        "description": "A flag that features a blue field charged with a yellow nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "description": "A flag that features a blue field charged with a yellow Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -1424,7 +1454,7 @@
       {
         "id": "ugandan_flag",
         "name": { "str": "Ugandan flag" },
-        "description": "A flag that features six equal horizontal bands of black, yellow, red, black, yellow, and red, a white disc is superimposed at the center with a grey crowned crane, facing the hoist side.",
+        "description": "A flag that features six equal horizontal bands of black, yellow, red, black, yellow, and red, a white disc is superimposed at the center with a gray crowned crane, facing the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -1563,9 +1593,8 @@
     "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
     "weight": "900 g",
     "volume": "3 L",
-    "price": 5000,
-    "price_postapoc": 150,
-    "to_hit": -1,
+    "price": "50 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "]",
     "looks_like": "cloak",
@@ -1612,9 +1641,8 @@
     "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
     "weight": "1500 g",
     "volume": "6 L",
-    "price": 50000,
-    "price_postapoc": 300,
-    "to_hit": -2,
+    "price": "500 USD",
+    "price_postapoc": "3 USD",
     "material": [ "cotton" ],
     "symbol": "]",
     "looks_like": "cloak",
@@ -1640,9 +1668,8 @@
     "description": "A primitive cloak.  Ötzi wore one, too.",
     "weight": "710 g",
     "volume": "1600 ml",
-    "price": 2000,
-    "price_postapoc": 1000,
-    "to_hit": -1,
+    "price": "20 USD",
+    "price_postapoc": "10 USD",
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1668,9 +1695,8 @@
     "description": "A heavy cloak meant to be thrown over your body.",
     "weight": "1175 g",
     "volume": "3 L",
-    "price": 10700,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "107 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -1698,10 +1724,9 @@
     "//": "16.5 oz.",
     "weight": "1800 g",
     "volume": "4 L",
-    "price": 20000,
-    "price_postapoc": 1500,
+    "price": "200 USD",
+    "price_postapoc": "15 USD",
     "material": [ "denim" ],
-    "to_hit": -3,
     "looks_like": "coat_rain",
     "symbol": "[",
     "color": "light_blue",
@@ -1726,9 +1751,8 @@
     "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The black side is currently facing outwards.  Use it to reverse it and show the red side.",
     "weight": "150 g",
     "volume": "2500 ml",
-    "price": 10800,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "108 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1775,9 +1799,8 @@
     "description": "A black cloak meant to be thrown over your body.  Commonly used by witches and other creatures of the night.",
     "weight": "100 g",
     "volume": "2000 ml",
-    "price": 9000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "90 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1803,9 +1826,8 @@
     "description": "A heavy fur cloak meant to be thrown over your body.",
     "weight": "1735 g",
     "volume": "4 L",
-    "price": 24500,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "cloak_leather",
@@ -1832,9 +1854,8 @@
     "description": "A heavy leather cloak meant to be thrown over your body.",
     "weight": "2060 g",
     "volume": "3500 ml",
-    "price": 24500,
-    "price_postapoc": 1000,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "10 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1861,9 +1882,8 @@
     "description": "A heavy woolen cloak meant to be thrown over your body.",
     "weight": "900 g",
     "volume": "3750 ml",
-    "price": 24500,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "245 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1890,9 +1910,8 @@
     "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
     "weight": "1587 g",
     "volume": "2500 ml",
-    "price": 22500,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "225 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1919,9 +1938,8 @@
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
     "weight": "1552 g",
     "volume": "3500 ml",
-    "price": 5500000,
-    "price_postapoc": 25000,
-    "to_hit": -1,
+    "price": "55 kUSD",
+    "price_postapoc": "250 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1975,9 +1993,8 @@
     "description": "A simple wool garment worn over the torso and upper arms.",
     "weight": "907 g",
     "volume": "1250 ml",
-    "price": 12000,
-    "price_postapoc": 750,
-    "to_hit": -1,
+    "price": "120 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2012,12 +2029,11 @@
     "color": "black",
     "name": { "str": "makeshift poncho" },
     "description": "A large plastic trash bag with holes cut out for the head and arms.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "vinyl" ],
     "weight": "30 g",
     "volume": "50 ml",
-    "to_hit": -1,
     "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
@@ -2030,9 +2046,9 @@
     "symbol": "[",
     "color": "yellow",
     "name": { "str": "rain poncho" },
-    "description": "A lightweigh plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
-    "price": 5000,
-    "price_postapoc": 50,
+    "description": "A lightweight plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "vinyl" ],
     "weight": "280 g",
     "volume": "250 ml",
@@ -2056,8 +2072,8 @@
     "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
     "weight": "907 g",
     "volume": "4 L",
-    "price": 9000,
-    "price_postapoc": 25,
+    "price": "90 USD",
+    "price_postapoc": "25 cent",
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -2084,9 +2100,8 @@
     "description": "Perfect for reading all those books you scavenged.",
     "weight": "625 g",
     "volume": "3 L",
-    "price": 3600,
-    "price_postapoc": 250,
-    "to_hit": -1,
+    "price": "36 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blanket",

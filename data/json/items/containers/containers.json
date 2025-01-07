@@ -9,9 +9,8 @@
     "ascii_picture": "2lcanteen",
     "weight": "155 g",
     "volume": "2625 ml",
-    "price": 1000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -36,22 +35,22 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "30gal_barrel",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "30 gallon barrel" },
+    "name": { "str": "30 gallon plastic barrel" },
     "looks_like": "55gal_drum",
     "description": "A huge plastic barrel with a watertight lid.",
     "ascii_picture": "30gal_barrel",
     "weight": "6800 g",
-    "volume": "118125 ml",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "volume": "165640 ml",
+    "longest_side": "72 cm",
+    "price": "71 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
@@ -60,13 +59,14 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "112500 ml",
+        "max_contains_volume": "113560 ml",
         "max_contains_weight": "255 kg"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "//": "Based on https://www.amazon.com/dp/B0025QI4XC"
   },
   {
     "id": "30gal_drum",
@@ -78,9 +78,9 @@
     "ascii_picture": "30gal_drum",
     "weight": "7600 g",
     "volume": "105 L",
-    "price": 8000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -94,6 +94,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
@@ -107,9 +108,9 @@
     "ascii_picture": "55gal_drum",
     "weight": "20 kg",
     "volume": "210 L",
-    "price": 10000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -123,6 +124,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
@@ -136,13 +138,32 @@
     "//": "durasack woven polypropylene bags",
     "weight": "750 g",
     "volume": "750 ml",
-    "price": 85,
-    "price_postapoc": 5,
+    "price": "85 cent",
+    "price_postapoc": "5 cent",
     "material": [ "plastic" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
+  },
+  {
+    "id": "bag_durasack_cement",
+    "type": "GENERIC",
+    "name": { "str": "durable plastic sack, cement" },
+    "looks_like": "bag_plastic",
+    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "//": "durasack woven polypropylene bags",
+    "copy-from": "bag_durasack",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Instructions on what to do with the contents of the bag.",
+      "effect_on_conditions": [ "EOC_CEMENT_INSTRUCTIONS" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CEMENT_INSTRUCTIONS",
+    "condition": { "and": [ { "not": { "u_has_trait": "ILLITERATE" } }, { "not": "u_driving" } ] },
+    "effect": [ { "u_learn_recipe": "mortar_build" } ]
   },
   {
     "id": "bag_canvas",
@@ -154,14 +175,12 @@
     "ascii_picture": "bag_canvas",
     "weight": "415 g",
     "volume": "1 L",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_canvas_small",
@@ -173,14 +192,12 @@
     "ascii_picture": "bag_canvas_small",
     "weight": "20 g",
     "volume": "14 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_plastic",
@@ -188,18 +205,48 @@
     "category": "container",
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
-    "description": "A small, open plastic bag.  Essentially trash.",
-    "ascii_picture": "bag_plastic",
+    "description": "An open plastic bag.  Essentially trash.",
     "weight": "5 g",
     "volume": "10 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "6 L",
+        "max_contains_weight": "10 kg",
+        "moves": 400
+      }
+    ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
+  },
+  {
+    "id": "bag_plastic_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small plastic bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small, open plastic bag.  Essentially trash.",
+    "weight": "1 g",
+    "volume": "2 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "transparent": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1250 g",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray"
   },
   {
     "id": "bag_garbage",
@@ -207,13 +254,12 @@
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and water-resistant; this could easily be repurposed.",
     "ascii_picture": "bag_garbage",
     "weight": "40 g",
     "volume": "42 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
@@ -229,9 +275,8 @@
     "ascii_picture": "nylon_bag",
     "weight": "280 g",
     "volume": "2 L",
-    "price": 400,
-    "price_postapoc": 100,
-    "to_hit": -1,
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -254,7 +299,15 @@
     "ascii_picture": "bag_garbage_reinforced",
     "weight": "400 g",
     "volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "98 L",
+        "watertight": true,
+        "max_contains_weight": "46 kg",
+        "moves": 400
+      }
+    ]
   },
   {
     "id": "bag_paper_powder",
@@ -268,20 +321,27 @@
     "volume": "10 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": false,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 200
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
+  },
+  {
+    "id": "bag_paper_powder_bulk",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "20 g",
+    "volume": "40 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -293,13 +353,14 @@
     "ascii_picture": "bag_zipper",
     "weight": "2 g",
     "volume": "10 ml",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,
@@ -307,8 +368,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -319,11 +379,12 @@
     "ascii_picture": "bag_zipper_gallon",
     "weight": "20 g",
     "volume": "75 ml",
-    "price_postapoc": 13,
+    "price_postapoc": "13 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "4500 ml",
         "max_contains_weight": "3000 g",
         "max_item_length": "29 cm",
@@ -336,7 +397,7 @@
     "id": "dry_bag_large",
     "type": "GENERIC",
     "category": "container",
-    "//": "For reference was used Extrawheel Dry bag Sailor 80L",
+    "//1": "For reference was used Extrawheel Dry bag Sailor 80L",
     "name": { "str": "large dry bag" },
     "looks_like": "bag_canvas",
     "description": "A huge watertight bag made of strong plastic.  Commonly used in activities with high risk of wetting the equipment, such as kayaking.",
@@ -344,9 +405,10 @@
     "weight": "1500 g",
     "volume": "1500 ml",
     "longest_side": "35 cm",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
@@ -359,7 +421,8 @@
         "moves": 800
       }
     ],
-    "color": "blue"
+    "color": "blue",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_body_bag",
@@ -373,7 +436,7 @@
     "volume": "5500 ml",
     "//1": "This is ~85% of the package volume from the amazon listing, with the assumption that the player would be squishing it harder to condense the volume.",
     "price": "30 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
@@ -401,9 +464,10 @@
     "weight": "2400g",
     "volume": "2260 ml",
     "longest_side": "150 cm",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Assumption that you're wrapping it around your hand to use it as a weapon. The weight might do something to make it more damaging I guess?",
     "material": [ "leather" ],
     "symbol": ")",
     "pocket_data": [
@@ -415,7 +479,8 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bag_iv",
@@ -427,9 +492,8 @@
     "looks_like": "bag_plastic",
     "weight": "10 g",
     "volume": "50 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
@@ -437,6 +501,7 @@
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
@@ -450,14 +515,15 @@
     "category": "container",
     "name": { "str": "glass bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A watertight glass bottle, holds 750 ml of liquid.",
+    "description": "A watertight glass bottle, holds 750 mL of liquid.",
     "ascii_picture": "bottle_glass",
-    "weight": "450 g",
-    "volume": "953 ml",
-    "longest_side": "276 mm",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "weight": "511 g",
+    "volume": "1082 ml",
+    "//1": "Calculated as a cylinder of 2.9in diameter and 10in height, to account for it getting thinner near the top.",
+    "longest_side": "29 cm",
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "cyan",
@@ -466,6 +532,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "750 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
@@ -473,15 +540,17 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
     "id": "bottle_plastic",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
+    "description": "A watertight plastic bottle, holds 500 mL of liquid.  Some may be factory-sealed to increase shelf life.",
     "ascii_picture": "bottle_plastic",
     "weight": "13 g",
     "volume": "510 ml",
@@ -489,9 +558,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
@@ -499,9 +568,8 @@
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -523,6 +591,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
@@ -531,9 +600,8 @@
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown",
@@ -545,7 +613,7 @@
     "category": "container",
     "name": { "str": "small plastic bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A watertight plastic bottle, holds 250 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 250 mL of liquid.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "7 g",
     "volume": "255 ml",
@@ -555,19 +623,108 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_tiny",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "tiny plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "35 ml",
+    "longest_side": "4 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "30 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_tiny_glue",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_tiny",
+    "name": { "str": "tiny plastic glue bottle" },
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.  Due to the design of the tip, it cannot be refilled.",
+    "longest_side": "120 mm",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD" ] },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bottle_plastic_tiny_superglue",
+        "name": { "str": "large superglue bottle" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "small_squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small squeeze tube" },
+    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "11 ml",
+    "longest_side": "3 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4 ml",
+        "max_item_volume": "4 ml",
+        "max_contains_weight": "50 g",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "small_squeeze_tube_superglue",
+        "name": { "str": "superglue tube" },
+        "description": "This one reads \"Super Glue - All Purpose!\", with directions and cautions below.",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -584,19 +741,18 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bottle_plastic_pill_painkiller",
@@ -619,6 +775,128 @@
     "color": "green"
   },
   {
+    "id": "bottle_plastic_seasoning",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL plastic bottle, for storing large amounts of powder seasoning.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "13 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "64 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_cyan"
+  },
+  {
+    "id": "bottle_plastic_seasoning_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small plastic bottle, the kind seasoning comes in.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "7 g",
+    "volume": "255 ml",
+    "longest_side": "14 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white"
+  },
+  {
+    "id": "bottle_glass_seasoning",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL glass bottle, for storing large amounts of powder seasoning.",
+    "weight": "450 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "64 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "bottle_glass_seasoning_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small glass bottle, the kind seasoning comes in.",
+    "weight": "150 g",
+    "volume": "251 ml",
+    "longest_side": "72 mm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 200
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
     "id": "bottle_twoliter",
     "type": "GENERIC",
     "category": "container",
@@ -629,8 +907,8 @@
     "weight": "53 g",
     "volume": "2040 ml",
     "longest_side": "31 cm",
-    "price": 25,
-    "price_postapoc": 10,
+    "price": "25 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "cyan",
@@ -639,6 +917,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "2 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
@@ -653,13 +932,12 @@
     "category": "container",
     "name": { "str": "clay bowl" },
     "looks_like": "bowl_plastic",
-    "description": "A clay bowl with a waterproofed hide lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
+    "description": "A clay bowl with a waterproofed hide lid.  Can be used as a container or as a tool.  Holds 250 mL of liquid.",
     "ascii_picture": "bowl_clay",
     "weight": "60 g",
     "volume": "295 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -672,6 +950,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -684,8 +963,8 @@
     "ascii_picture": "bowl_wood",
     "weight": "48 g",
     "volume": "300 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -711,8 +990,8 @@
     "ascii_picture": "bowl_wood",
     "weight": "88 g",
     "volume": "550 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -738,8 +1017,8 @@
     "ascii_picture": "bowl_coconut",
     "weight": "55 g",
     "volume": "300 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -765,8 +1044,8 @@
     "ascii_picture": "bowl_skull",
     "weight": "112 g",
     "volume": "520 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "bone" ],
     "symbol": ")",
     "color": "white",
@@ -792,13 +1071,12 @@
     "ascii_picture": "box_cigarette",
     "weight": "15 g",
     "volume": "95 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "case_cigar",
@@ -810,8 +1088,8 @@
     "ascii_picture": "case_cigar",
     "weight": "95 g",
     "volume": "323 ml",
-    "price": 10000,
-    "price_postapoc": 50,
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wood", "leather" ],
     "symbol": "u",
     "color": "brown",
@@ -844,12 +1122,11 @@
         "max_item_length": "11 cm"
       }
     ],
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "box_small",
@@ -871,8 +1148,8 @@
       }
     ],
     "//": "~7x20x15 or ~4x22x22",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -883,8 +1160,7 @@
       "type": "transform",
       "moves": 500,
       "need_empty": true
-    },
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    }
   },
   {
     "id": "box_small_folded",
@@ -897,8 +1173,8 @@
     "volume": "900 ml",
     "longest_side": "30 cm",
     "//": "~1x27x30 or ~1x26x44",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -915,8 +1191,8 @@
     "volume": "51000 ml",
     "longest_side": "51 cm",
     "//": "(25x40x50)",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -949,8 +1225,8 @@
     "volume": "6000 ml",
     "longest_side": "80 cm",
     "//": "(1x80x75)",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -967,8 +1243,8 @@
     "volume": "329000 ml",
     "longest_side": "91 cm",
     "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -1004,8 +1280,8 @@
     "volume": "18000 ml",
     "longest_side": "150 cm",
     "//": "(1x150x120)",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -1022,8 +1298,8 @@
     "volume": "334000 ml",
     "longest_side": "91 cm",
     "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -1050,8 +1326,8 @@
     "volume": "205000 ml",
     "longest_side": "201 cm",
     "//": "(200x50x20)",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1084,8 +1360,35 @@
     "volume": "22000 ml",
     "longest_side": "220 cm",
     "//": "(220x100x1)",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_oversize_reinforced",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reinforced oversize cardboard box", "str_pl": "reinforced oversize cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An oversize cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
+    "ascii_picture": "box_oversize",
+    "weight": "4002 g",
+    "volume": "205000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": "10 USD",
+    "price_postapoc": "20 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
@@ -1122,8 +1425,8 @@
       }
     ],
     "//": "~7x20x15 or ~4x22x22",
-    "price": 2000,
-    "price_postapoc": 5,
+    "price": "20 USD",
+    "price_postapoc": "5 cent",
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown"
@@ -1140,8 +1443,8 @@
     "volume": "58800 ml",
     "longest_side": "52 cm",
     "//": "(25x40x50)",
-    "price": 2000,
-    "price_postapoc": 20,
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1167,8 +1470,8 @@
     "volume": "394400 ml",
     "longest_side": "92 cm",
     "//": "(60x60x90)",
-    "price": 5000,
-    "price_postapoc": 40,
+    "price": "50 USD",
+    "price_postapoc": "40 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1194,8 +1497,8 @@
     "volume": "255600 ml",
     "longest_side": "202 cm",
     "//": "(200x50x20)",
-    "price": 5000,
-    "price_postapoc": 40,
+    "price": "50 USD",
+    "price_postapoc": "40 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1229,8 +1532,8 @@
       }
     ],
     "//": "~7x20x15 or ~4x22x22",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray"
@@ -1247,8 +1550,8 @@
     "volume": "50750 ml",
     "longest_side": "51 cm",
     "//": "(25x40x50)",
-    "price": 8000,
-    "price_postapoc": 40,
+    "price": "80 USD",
+    "price_postapoc": "40 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1274,8 +1577,8 @@
     "volume": "330000 ml",
     "longest_side": "91 cm",
     "//": "(60x60x90)",
-    "price": 16000,
-    "price_postapoc": 80,
+    "price": "160 USD",
+    "price_postapoc": "80 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1301,8 +1604,8 @@
     "volume": "206000 ml",
     "longest_side": "201 cm",
     "//": "(200x50x20)",
-    "price": 16000,
-    "price_postapoc": 80,
+    "price": "160 USD",
+    "price_postapoc": "80 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1326,8 +1629,8 @@
     "weight": "725 g",
     "volume": "5500 ml",
     "longest_side": "25 cm",
-    "price": 300,
-    "price_postapoc": 10,
+    "price": "3 USD",
+    "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1341,6 +1644,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -1353,8 +1657,8 @@
     "weight": "815 g",
     "volume": "26300 ml",
     "longest_side": "37 cm",
-    "price": 450,
-    "price_postapoc": 10,
+    "price": "4 USD 50 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1379,8 +1683,8 @@
     "ascii_picture": "bucket_wood",
     "weight": "1250 g",
     "volume": "7500 ml",
-    "price": 300,
-    "price_postapoc": 10,
+    "price": "3 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ")",
     "color": "c_brown",
@@ -1405,18 +1709,17 @@
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
     "weight": "286 g",
-    "volume": "3001 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "to_hit": -1,
+    "volume": "250 ml",
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
@@ -1435,8 +1738,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "can_drink",
@@ -1447,9 +1749,8 @@
     "ascii_picture": "can_drink",
     "weight": "13 g",
     "volume": "262 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -3,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
@@ -1466,8 +1767,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "carton_sealed",
@@ -1480,9 +1780,8 @@
     "weight": "28 g",
     "volume": "2003 ml",
     "longest_side": "32 cm",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic", "aluminum", "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1509,9 +1808,8 @@
     "ascii_picture": "carton_milk",
     "weight": "28 g",
     "volume": "2003 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1524,8 +1822,7 @@
         "max_contains_weight": "5 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "carton_egg",
@@ -1538,9 +1835,8 @@
     "weight": "28 g",
     "volume": "620 ml",
     "longest_side": "29 cm",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
@@ -1548,13 +1844,11 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "watertight": false,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "plastic_bag_vac",
@@ -1566,22 +1860,20 @@
     "ascii_picture": "plastic_bag_vac",
     "weight": "2 g",
     "volume": "10 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "%",
     "color": "red",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "open_container": true,
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "can_food",
@@ -1595,8 +1887,8 @@
     "weight": "40 g",
     "volume": "262 ml",
     "longest_side": "8 cm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
@@ -1612,7 +1904,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "can_medium",
@@ -1637,8 +1929,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "525 ml",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -1651,9 +1943,8 @@
     "weight": "155 g",
     "volume": "1575 ml",
     "longest_side": "20 cm",
-    "price": 800,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "8 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -1692,8 +1983,8 @@
     "weight": "530 g",
     "volume": "1250 ml",
     "longest_side": "32 cm",
-    "price": 1595,
-    "price_postapoc": 100,
+    "price": "15 USD 95 cent",
+    "price_postapoc": "1 USD",
     "material": [ "steel" ],
     "symbol": "I",
     "color": "green",
@@ -1715,13 +2006,13 @@
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
-    "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+    "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
     "weight": "268 g",
     "volume": "295 ml",
-    "price": 1000,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
@@ -1734,7 +2025,36 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "container",
+    "id": "clay_cup",
+    "name": { "str": "clay cup" },
+    "symbol": "u",
+    "description": "A simple clay cup used for holding liquid.",
+    "weight": "318 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "material": [ "clay" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "330 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://woolandclay.co/products/copy-of-clay-rose-ceramic-cup?variant=44312937103577&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&srsltid=AfmBOooF-nJhokvYE4XmLVMLYkPNM71TgbC7qana3ZQRLCV2Q7qviZy_tHU&com_cvv=8fb3d522dc163aeadb66e08cd7450cbbdddc64c6cf2e8891f6d48747c6d56d2c"
   },
   {
     "id": "clay_hydria",
@@ -1742,13 +2062,13 @@
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
-    "description": "A 15-liter clay pot with three handles for carrying and pouring.",
+    "description": "A 15-liter clay pot with three handles for carrying and pouring.  It also has a waterproofed hide lid.",
     "ascii_picture": "clay_hydria",
     "weight": "1955 g",
     "volume": "17700 ml",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1761,8 +2081,10 @@
         "max_contains_weight": "25 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "clay_watercont",
@@ -1774,9 +2096,9 @@
     "ascii_picture": "clay_watercont",
     "weight": "4887 g",
     "volume": "44250 ml",
-    "price": 10000,
-    "price_postapoc": 10,
-    "to_hit": -2,
+    "price": "100 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1789,7 +2111,27 @@
         "max_contains_weight": "50 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "clay_watercont_no_lid",
+    "type": "GENERIC",
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
   },
   {
     "id": "cup_plastic",
@@ -1800,9 +2142,8 @@
     "ascii_picture": "cup_plastic",
     "weight": "6 g",
     "volume": "262 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1816,8 +2157,7 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "cup_foil",
@@ -1828,8 +2168,8 @@
     "ascii_picture": "cup_foil",
     "weight": "24 g",
     "volume": "5 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1843,7 +2183,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -1851,14 +2192,13 @@
     "category": "container",
     "name": { "str": "glass flask" },
     "looks_like": "bottle_glass",
-    "description": "A 250 ml laboratory conical flask, with a rubber stopper.",
+    "description": "A 250 mL laboratory conical flask, with a rubber stopper.",
     "ascii_picture": "flask_glass",
     "weight": "48 g",
     "volume": "360 ml",
     "longest_side": "132 mm",
-    "price": 400,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "4 USD",
+    "price_postapoc": "10 cent",
     "material": [ "glass", "rubber" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1867,13 +2207,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1250 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 3 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "test_tube",
@@ -1881,14 +2221,13 @@
     "category": "container",
     "name": { "str": "test tube" },
     "looks_like": "flask_glass",
-    "description": "A 10 ml laboratory cylindrical test tube, with a rubber stopper.",
+    "description": "A 10 mL laboratory cylindrical test tube, with a rubber stopper.",
     "ascii_picture": "test_tube",
     "weight": "11 g",
     "volume": "20 ml",
     "longest_side": "100 mm",
-    "price": 300,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "3 USD",
+    "price_postapoc": "10 cent",
     "material": [ { "type": "glass", "portion": 90 }, { "type": "rubber", "portion": 10 } ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1897,13 +2236,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "10 ml",
         "max_contains_weight": "50 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 1 }
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "beaker",
@@ -1911,14 +2251,14 @@
     "category": "container",
     "name": { "str": "beaker" },
     "looks_like": "flask_glass",
-    "description": "A 250 ml laboratory beaker.  Basically a cup with delusions of grandeur.",
+    "description": "A 250 mL laboratory beaker.  Basically a cup with delusions of grandeur.",
     "ascii_picture": "beaker",
     "weight": "150 g",
     "volume": "251 ml",
     "longest_side": "72 mm",
-    "price": 500,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1933,7 +2273,9 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "gradcylinder",
@@ -1946,9 +2288,9 @@
     "weight": "150 g",
     "volume": "177 ml",
     "longest_side": "25 cm",
-    "price": 500,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
@@ -1965,7 +2307,9 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "test_tube_micro",
@@ -1973,13 +2317,12 @@
     "category": "container",
     "name": { "str": "microcentrifuge tube" },
     "looks_like": "test_tube",
-    "description": "A plastic tube with a little built in snap-cap, a great way to store a tiny amount of liquid.  Great for Jell-O shots if 1 ml is enough of a shot for you.  Cool people call these \"eppies\".",
+    "description": "A plastic tube with a little built in snap-cap, a great way to store a tiny amount of liquid.  Great for Jell-O shots if 1 mL is enough of a shot for you.  Cool people call these \"eppies\".",
     "ascii_picture": "test_tube_micro",
     "weight": "1 g",
     "volume": "2ml",
-    "price": 10,
-    "price_postapoc": 5,
-    "to_hit": -1,
+    "price": "10 cent",
+    "price_postapoc": "5 cent",
     "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
@@ -1988,12 +2331,42 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "5 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "petri_dish",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "Petri dish", "str_pl": "Petri dishes" },
+    "description": "A 90 mm Petri dish, commonly used in labs dealing with microorganisms or tissue samples.",
+    "weight": "25 g",
+    "volume": "145 ml",
+    "longest_side": "96 mm",
+    "price": "4 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "glass" ],
+    "symbol": "u",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "93 ml",
+        "max_contains_weight": "450 g"
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "//": "Based on https://www.amazon.com/dp/B074Y6GD2R"
   },
   {
     "id": "flask_hip",
@@ -2001,14 +2374,14 @@
     "category": "clothing",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
-    "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
+    "description": "A 250 mL metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "ascii_picture": "flask_hip",
     "weight": "270 g",
     "volume": "650 ml",
     "longest_side": "13 cm",
-    "price": 4000,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -2034,6 +2407,7 @@
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 3 }
   },
@@ -2049,7 +2423,7 @@
     "volume": "3530 ml",
     "longest_side": "20 cm",
     "price": "20 USD",
-    "price_postapoc": 60,
+    "price_postapoc": "60 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
@@ -2059,6 +2433,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -2066,7 +2441,7 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 },
+    "melee_damage": { "bash": 4 },
     "//": "Based on https://www.amazon.com/dp/B0936RC7M1"
   },
   {
@@ -2081,7 +2456,7 @@
     "volume": "690 ml",
     "longest_side": "127 mm",
     "price": "5 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2090,6 +2465,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -2098,7 +2474,7 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 4 },
+    "melee_damage": { "bash": 2 },
     "//2": "Based on https://www.kilnerjar.co.uk/0025400-preserve-jar-05-litre/"
   },
   {
@@ -2111,9 +2487,9 @@
     "weight": "1587 g",
     "volume": "10500 ml",
     "longest_side": "33 cm",
-    "price": 1250,
-    "price_postapoc": 50,
-    "to_hit": -2,
+    "price": "12 USD 50 cent",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -2122,12 +2498,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "10 L",
         "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jerrycan_big",
@@ -2140,9 +2518,9 @@
     "weight": "4300 g",
     "volume": "26750 ml",
     "longest_side": "47 cm",
-    "price": 5000,
-    "price_postapoc": 100,
-    "to_hit": -3,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
@@ -2157,8 +2535,9 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "jug_clay",
@@ -2166,12 +2545,13 @@
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
-    "description": "A clay container with a lid, used to hold and pour liquids.",
+    "description": "A clay container with a waterproofed hide lid, used to hold and pour liquids.",
     "ascii_picture": "jug_clay",
     "weight": "400 g",
     "volume": "1180 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2184,8 +2564,9 @@
         "max_contains_weight": "2 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "jug_plastic",
@@ -2195,12 +2576,12 @@
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "ascii_picture": "jug_plastic",
-    "weight": "190 g",
-    "volume": "3825 ml",
+    "weight": "160 g",
+    "volume": "4402 ml",
+    "//1": "Calculated as a cylinder of 6in diameter and 9.5in height, to account for it getting thinner near the top.",
     "longest_side": "28 cm",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2209,13 +2590,15 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "//2": "Based on https://www.amazon.com/dp/B07GC1VJ9T"
   },
   {
     "id": "fuel_tin",
@@ -2229,8 +2612,8 @@
     "volume": "4290 ml",
     "price": "12 USD",
     "//1": "Price calculated from https://www.uline.com/Product/Detail/S-22157/Hazardous-Materials-Packaging/Metal-F-Style-Can-with-Cap-1-Gallon",
-    "price_postapoc": 400,
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "neutral" },
+    "price_postapoc": "4 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "longest_side": "24 cm",
     "symbol": ")",
@@ -2246,7 +2629,8 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet"
+    "//2": "Based on https://www.pipelinepackaging.com/1-gallon-f-style-can-unlined-42-mm-rel-610x907-un-rated-bulk-pallet",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "keg",
@@ -2258,9 +2642,9 @@
     "ascii_picture": "keg",
     "weight": "5040 g",
     "volume": "50050 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2274,6 +2658,7 @@
         "max_contains_weight": "100 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 10 }
@@ -2288,9 +2673,9 @@
     "ascii_picture": "keg",
     "weight": "12600 g",
     "volume": "52500 ml",
-    "price": 8000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2304,9 +2689,10 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "large_stomach_sealed",
@@ -2317,9 +2703,8 @@
     "ascii_picture": "large_stomach_sealed",
     "weight": "783 g",
     "volume": "500 ml",
-    "price": 4000,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2331,8 +2716,7 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "metal_tank",
@@ -2344,9 +2728,9 @@
     "ascii_picture": "metal_tank",
     "weight": "5668 g",
     "volume": "60050 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "to_hit": -4,
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2359,6 +2743,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 6 }
@@ -2375,9 +2760,9 @@
     "volume": "2430 ml",
     "longest_side": "23 cm",
     "//": "230 x 116 mm cylinder, 2.5mm thickness with some additional weight for attachments",
-    "price": 1000,
-    "price_postapoc": 50,
-    "to_hit": -4,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2390,9 +2775,10 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "canteen_wood",
@@ -2404,9 +2790,8 @@
     "ascii_picture": "canteen_wood",
     "weight": "232 g",
     "volume": "1750 ml",
-    "price": 800,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
@@ -2442,9 +2827,8 @@
     "ascii_picture": "stomach_sealed",
     "weight": "453 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2456,8 +2840,7 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "waterproof_smart_phone_case",
@@ -2470,8 +2853,8 @@
     "weight": "50 g",
     "volume": "150 ml",
     "longest_side": "16 cm",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -2709,7 +3092,7 @@
       {
         "id": "pinhead_case",
         "name": { "str": "Hellraiser smartphone case" },
-        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-grey, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
+        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-gray, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
         "weight": 5
       },
       {
@@ -2841,13 +3224,13 @@
       {
         "id": "pa_case",
         "name": { "str": "Paranormal Activity smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-grey color throughout, symbolizing the film's eeriness and supernatural horror.",
+        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-gray color throughout, symbolizing the film's eeriness and supernatural horror.",
         "weight": 5
       },
       {
         "id": "cloverfield_case",
         "name": { "str": "Cloverfield Monster smartphone case" },
-        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a grey-green background, with a scratchy film reel aesthetic found throughout the case.",
+        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a gray-green background, with a scratchy film reel aesthetic found throughout the case.",
         "weight": 5
       },
       {
@@ -3073,12 +3456,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "100 ml",
-        "max_contains_weight": "230 g",
+        "max_contains_volume": "111 ml",
+        "max_contains_weight": "233 g",
         "max_item_length": "15 cm",
         "moves": 100,
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
       }
     ]
@@ -3093,8 +3477,8 @@
     "ascii_picture": "waterproof_camera_case",
     "weight": "50 g",
     "volume": "275 ml",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -3106,6 +3490,7 @@
         "moves": 100,
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "item_restriction": [ "camera" ]
       }
     ]
@@ -3120,9 +3505,8 @@
     "ascii_picture": "waterskin",
     "weight": "453 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3146,8 +3530,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -3159,9 +3542,8 @@
     "ascii_picture": "waterskin2",
     "weight": "783 g",
     "volume": "500 ml",
-    "price": 4000,
-    "price_postapoc": 50,
-    "to_hit": -1,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3184,8 +3566,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -3197,9 +3578,8 @@
     "ascii_picture": "waterskin3",
     "weight": "990 g",
     "volume": "750 ml",
-    "price": 6000,
-    "price_postapoc": 100,
-    "to_hit": -1,
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -3222,8 +3602,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "melee_damage": { "bash": 3 }
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "wooden_barrel",
@@ -3235,9 +3614,9 @@
     "ascii_picture": "wooden_barrel",
     "weight": "42408 g",
     "volume": "110 L",
-    "price": 12000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
@@ -3263,14 +3642,13 @@
     "ascii_picture": "wrapper",
     "weight": "3 g",
     "volume": "5 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS", "TINDER" ]
+    "flags": [ "TINDER" ]
   },
   {
     "id": "wrapper_foil",
@@ -3282,15 +3660,16 @@
     "//": "50 cm length, 30 cm width, 0.02 mm thickness - 3ml, but without wrapper roll 4 times as much",
     "weight": "8 g",
     "volume": "12 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
     "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_foil_roll",
@@ -3302,8 +3681,8 @@
     "weight": "52 g",
     "volume": "96 ml",
     "longest_side": "30 cm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": "o",
     "color": "dark_gray",
@@ -3316,7 +3695,7 @@
         "volume_multiplier": 0.75
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "wrapper_pr",
@@ -3328,8 +3707,7 @@
     },
     "ascii_picture": "wrapper_pr",
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",
@@ -3341,8 +3719,8 @@
     "ascii_picture": "styrofoam_cup",
     "weight": "50 g",
     "volume": "501 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -3364,10 +3742,10 @@
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "ascii_picture": "plastic_bucket",
-    "weight": "1360 g",
+    "weight": "260 g",
     "volume": "4500 ml",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -3376,7 +3754,6 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "open_container": true,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
@@ -3392,9 +3769,8 @@
     "ascii_picture": "condom",
     "weight": "5 g",
     "volume": "15 ml",
-    "price": 0,
-    "price_postapoc": 25,
-    "to_hit": -5,
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -3487,27 +3863,13 @@
         "ascii_picture": "condom_flavored_orange",
         "weight": 40,
         "append": true
-      },
-      {
-        "id": "condom_flavored_foodplace",
-        "name": { "str": "food™ flavored condom" },
-        "description": "A condom with Foodplace's delicious food™ flavored lube, in purple packaging to match.",
-        "ascii_picture": "condom_flavored_foodplace",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "condom_flavored_jalapeno",
-        "name": { "str": "jalapeno flavored condom" },
-        "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "ascii_picture": "condom_flavored_jalapeno",
-        "append": true
       }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
+        "transparent": true,
         "max_contains_volume": "3750 ml",
         "max_contains_weight": "7 kg",
         "max_item_length": "26 cm"
@@ -3515,6 +3877,23 @@
     ],
     "flags": [ "BANK_NOTE_SHAPED" ],
     "properties": { "burst_when_filled": "75" }
+  },
+  {
+    "id": "condom_sealed",
+    "type": "GENERIC",
+    "looks_like": "condom",
+    "name": { "str": "sealed condom" },
+    "description": "A sealed condom wrapper, activate to open it.",
+    "ascii_picture": "condom_sealed",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "flags": [ "BANK_NOTE_SHAPED" ]
   },
   {
     "id": "balloon",
@@ -3535,8 +3914,9 @@
     "ascii_picture": "can_food_big",
     "weight": "350 g",
     "volume": "3003 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
@@ -3552,7 +3932,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "survival_kit_box",
@@ -3564,8 +3945,9 @@
     "ascii_picture": "survival_kit_box",
     "weight": "800 g",
     "volume": "2300 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
@@ -3578,7 +3960,9 @@
         "max_contains_weight": "4000 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "large_survival_kit_box",
@@ -3590,8 +3974,8 @@
     "ascii_picture": "large_survival_kit_box",
     "weight": "850 g",
     "volume": "8900 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "8500 ml", "max_contains_weight": "20000 g" } ],
     "material": [ "cardboard" ],
     "symbol": ")",
@@ -3607,8 +3991,8 @@
     "ascii_picture": "box_tea",
     "weight": "10 g",
     "volume": "105 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "green",
@@ -3618,13 +4002,13 @@
     "id": "stand_flyer",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "flyer stand" },
-    "description": "A small stand made to show off various flyers.",
+    "name": { "str": "flier stand" },
+    "description": "A small stand made to show off various fliers.",
     "ascii_picture": "stand_flyer",
     "weight": "326 g",
     "volume": "5962 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "H",
     "color": "white",
@@ -3662,9 +4046,8 @@
     "ascii_picture": "1st_aid_box",
     "weight": "200 g",
     "volume": "2900 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
@@ -3674,6 +4057,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "20 cm",
         "rigid": true,
+        "transparent": true,
         "moves": 100
       }
     ],
@@ -3691,9 +4075,8 @@
     "//": "Was introduced without anchoring to a real example, but is similar to this: https://www.amazon.com/Livans-Tactical-Rip-Away-Military-Emergency/dp/B07Y7BRB83",
     "weight": "329 g",
     "volume": "1250 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -2,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cotton", "neoprene" ],
     "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
@@ -3704,7 +4087,6 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "20 cm",
         "moves": 100,
-        "rigid": false,
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -3720,9 +4102,8 @@
     "ascii_picture": "rc_car_box",
     "weight": "400 g",
     "volume": "3200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3745,9 +4126,8 @@
     "ascii_picture": "stirling_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3766,13 +4146,12 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
-    "description": "A small box with an image of children building things.  It's labelled 'Makerspace Learner Kit'.",
+    "description": "A small box with an image of children building things.  It's labeled 'Makerspace Learner Kit'.",
     "ascii_picture": "maker_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3795,9 +4174,8 @@
     "ascii_picture": "robot_kit_box",
     "weight": "400 g",
     "volume": "3200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "pocket_data": [
       {
@@ -3821,15 +4199,13 @@
     "ascii_picture": "mre_bag_small",
     "weight": "70 g",
     "volume": "100 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3849,15 +4225,13 @@
     "ascii_picture": "mre_bag",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3877,15 +4251,13 @@
     "ascii_picture": "mre_package",
     "weight": "320 g",
     "volume": "450 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1625 ml",
         "max_contains_weight": "4 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3906,15 +4278,13 @@
     "ascii_picture": "mre_bag_dessert",
     "weight": "35 g",
     "volume": "50 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "125 ml",
         "max_contains_weight": "750 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3934,15 +4304,13 @@
     "ascii_picture": "mre_bag_spread",
     "weight": "10 g",
     "volume": "12 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "31 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3962,15 +4330,13 @@
     "ascii_picture": "mre_bag_spread",
     "weight": "10 g",
     "volume": "12 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "32 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -3991,15 +4357,14 @@
     "ascii_picture": "ipok",
     "weight": "50 g",
     "volume": "50 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
+        "transparent": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4020,8 +4385,9 @@
     "weight": "45 kg",
     "volume": "222 L",
     "longest_side": "91 cm",
-    "price": 10000,
-    "price_postapoc": 1500,
+    "price": "100 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4036,7 +4402,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_medium_drying",
@@ -4048,8 +4414,9 @@
     "weight": "45 kg",
     "volume": "222 L",
     "longest_side": "91 cm",
-    "price": 5000,
-    "price_postapoc": 750,
+    "price": "50 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4073,7 +4440,7 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aquarium_small",
@@ -4085,8 +4452,9 @@
     "weight": "22 kg",
     "volume": "133 L",
     "longest_side": "91 cm",
-    "price": 5000,
-    "price_postapoc": 1000,
+    "price": "50 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4102,7 +4470,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_small_drying",
@@ -4114,8 +4482,9 @@
     "weight": "22 kg",
     "volume": "133 L",
     "longest_side": "91 cm",
-    "price": 1500,
-    "price_postapoc": 350,
+    "price": "15 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4140,7 +4509,7 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "aquarium_large",
@@ -4152,8 +4521,9 @@
     "weight": "80 kg",
     "volume": "400 L",
     "longest_side": "183 cm",
-    "price": 50000,
-    "price_postapoc": 2500,
+    "price": "500 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4169,7 +4539,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "aquarium_large_drying",
@@ -4181,8 +4551,9 @@
     "weight": "80 kg",
     "volume": "400 L",
     "longest_side": "183 cm",
-    "price": 20000,
-    "price_postapoc": 1000,
+    "price": "200 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -4207,6 +4578,34 @@
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
+    "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "pressurized_canister",
+    "type": "TOOL",
+    "category": "tool_magazine",
+    "name": { "str": "pressurized canister" },
+    "description": "A small tank for containing pressurized gases.",
+    "weight": "25 g",
+    "volume": "350 ml",
+    "longest_side": "12 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -4221,9 +4620,9 @@
     "weight": "591 g",
     "volume": "5030 ml",
     "longest_side": "30 cm",
-    "price": 2000,
-    "price_postapoc": 500,
-    "to_hit": -4,
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4237,8 +4636,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "medium_propane_tank",
@@ -4252,9 +4651,9 @@
     "weight": "6720 g",
     "volume": "23250 ml",
     "longest_side": "50 cm",
-    "price": 2000,
-    "price_postapoc": 500,
-    "to_hit": -4,
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -4268,8 +4667,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "large_propane_tank",
@@ -4283,9 +4682,9 @@
     "weight": "22727 g",
     "volume": "80 L",
     "longest_side": "117 cm",
-    "price": 6000,
-    "price_postapoc": 500,
-    "to_hit": -4,
+    "price": "60 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4299,8 +4698,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "xl_propane_tank",
@@ -4314,9 +4713,9 @@
     "weight": "96 kg",
     "volume": "390 L",
     "longest_side": "122 cm",
-    "price": 6000,
-    "price_postapoc": 500,
-    "to_hit": -4,
+    "price": "60 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4330,8 +4729,80 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 10 }
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 15 }
+  },
+  {
+    "id": "small_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "small biogas tank" },
+    "description": "A small tank of biogas, commonly used for camping stoves and torches.",
+    "copy-from": "small_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "medium_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "medium biogas tank" },
+    "description": "A medium-sized tank of biogas, commonly used for barbeques.",
+    "copy-from": "medium_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "10 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "large_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "large biogas tank" },
+    "description": "A large tank of biogas, commonly used for heating.",
+    "copy-from": "large_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "75 L",
+        "max_contains_weight": "25 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "extra large biogas tank" },
+    "description": "A massive tank of biogas, commonly used for heating a home or vehicle.",
+    "copy-from": "xl_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "350 L",
+        "max_contains_weight": "50 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
   },
   {
     "id": "shot_glass",
@@ -4343,8 +4814,8 @@
     "weight": "100 g",
     "volume": "116 ml",
     "longest_side": "58 mm",
-    "price": 300,
-    "price_postapoc": 5,
+    "price": "3 USD",
+    "price_postapoc": "5 cent",
     "material": [ "glass" ],
     "symbol": "v",
     "color": "cyan",
@@ -4371,9 +4842,9 @@
     "ascii_picture": "30gal_drum_aluminum",
     "weight": "2565 g",
     "volume": "130 L",
-    "price": 8000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4386,8 +4857,8 @@
         "max_contains_weight": "250 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -4400,9 +4871,9 @@
     "ascii_picture": "55gal_drum_aluminum",
     "weight": "10 kg",
     "volume": "230 L",
-    "price": 10000,
-    "price_postapoc": 250,
-    "to_hit": -5,
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -4415,6 +4886,7 @@
         "max_contains_weight": "500 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
@@ -4428,24 +4900,21 @@
     "ascii_picture": "squeeze_tube",
     "weight": "8150 mg",
     "volume": "221 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "to_hit": -2,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
+        "transparent": true,
         "max_contains_volume": "299 ml",
         "max_contains_weight": "2500 g"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -4457,9 +4926,8 @@
     "ascii_picture": "squeeze_tube_small",
     "weight": "3500 mg",
     "volume": "95 ml",
-    "price": 50,
-    "price_postapoc": 5,
-    "to_hit": -2,
+    "price": "50 cent",
+    "price_postapoc": "5 cent",
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
@@ -4467,9 +4935,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
+        "transparent": true,
         "max_contains_volume": "82 ml",
         "max_contains_weight": "500 g"
       }
@@ -4488,9 +4955,8 @@
     "ascii_picture": "bottle_gourd",
     "weight": "300 g",
     "volume": "2500 ml",
-    "price": 300,
-    "price_postapoc": 60,
-    "to_hit": 1,
+    "price": "3 USD",
+    "price_postapoc": "60 cent",
     "material": [ "wood" ],
     "symbol": "6",
     "color": "brown",
@@ -4528,8 +4994,8 @@
     "weight": "400 g",
     "volume": "4325 ml",
     "longest_side": "21 cm",
-    "price": 10,
-    "price_postapoc": 3,
+    "price": "10 cent",
+    "price_postapoc": "3 cent",
     "material": [ "steel" ],
     "symbol": "o",
     "color": "light_gray",
@@ -4543,6 +5009,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -4555,8 +5022,8 @@
     "weight": "50 g",
     "volume": "4325 ml",
     "longest_side": "21 cm",
-    "price": 10,
-    "price_postapoc": 3,
+    "price": "10 cent",
+    "price_postapoc": "3 cent",
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "green",
@@ -4565,6 +5032,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "3785 ml",
         "max_contains_weight": "10 kg"
       }
@@ -4582,21 +5050,12 @@
     "weight": "282 g",
     "volume": "2050 ml",
     "longest_side": "21 cm",
-    "price": 1400,
-    "price_postapoc": 100,
+    "price": "14 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
     "symbol": "l",
     "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": false,
-        "open_container": false,
-        "max_contains_volume": "1100 ml",
-        "max_contains_weight": "2 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1100 ml", "max_contains_weight": "2 kg" } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
@@ -4609,17 +5068,14 @@
     "ascii_picture": "pencil_case",
     "weight": "200 g",
     "volume": "1730 ml",
-    "price": 900,
-    "price_postapoc": 100,
+    "price": "9 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "p",
     "color": "dark_gray",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "watertight": false,
-        "open_container": false,
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm"
@@ -4636,8 +5092,8 @@
     "ascii_picture": "cardboard_roll",
     "weight": "1 g",
     "volume": "6 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": "o",
     "color": "dark_gray",
@@ -4663,9 +5119,8 @@
     "weight": "181 g",
     "volume": "724 ml",
     "longest_side": "10 cm",
-    "price": 1500,
-    "price_postapoc": 50,
-    "to_hit": 1,
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wood" ],
     "looks_like": "clay_canister",
     "symbol": ")",
@@ -4675,12 +5130,46 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "open_container": true,
         "max_contains_volume": "341 ml",
         "max_item_volume": "250 ml",
         "max_contains_weight": "1150 g",
         "moves": 400
       }
     ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "tankard_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "steel tankard" },
+    "//1": "https://www.kultofathena.com/product/stainless-steel-tankard/",
+    "description": "While not as historic as one may think, it's considered a finer luxury in these trying times.  Drink responsibly.",
+    "weight": "181 g",
+    "volume": "724 ml",
+    "longest_side": "10 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "looks_like": "clay_canister",
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "341 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1150 g",
+        "moves": 400
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "melee_damage": { "bash": 1 },
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -4692,8 +5181,8 @@
     "weight": "40 g",
     "volume": "200 ml",
     "longest_side": "15 cm",
-    "price": 200,
-    "price_postapoc": 10,
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "white",
@@ -4702,6 +5191,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4709,6 +5199,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4716,6 +5207,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4723,6 +5215,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4730,6 +5223,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4737,6 +5231,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4744,6 +5239,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "20 ml",
         "max_contains_weight": "40 g",
         "moves": 150
@@ -4759,12 +5255,13 @@
     "weight": "120 g",
     "volume": "500 ml",
     "longest_side": "22 cm",
-    "price": 500,
-    "price_postapoc": 25,
+    "price": "5 USD",
+    "price_postapoc": "25 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4772,6 +5269,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4779,6 +5277,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4786,6 +5285,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4793,6 +5293,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4800,6 +5301,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4807,6 +5309,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4814,6 +5317,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4821,6 +5325,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4828,6 +5333,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4835,6 +5341,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4842,6 +5349,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4849,6 +5357,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -4856,6 +5365,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150

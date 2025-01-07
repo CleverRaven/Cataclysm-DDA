@@ -9,6 +9,8 @@
 
 #include <cstring>
 #include <cstdint>
+#include <vector>
+#include <string>
 
 namespace ImTui {
 
@@ -16,10 +18,13 @@ using TChar = unsigned char;
 using TColor = unsigned char;
 
 // single screen cell
-// 0x0000FFFF - char
-// 0x00FF0000 - foreground color
-// 0xFF000000 - background color
-using TCell = uint32_t;
+struct TCell
+{
+    TColor fg;
+    TColor bg;
+    uint32_t ch;
+    uint8_t chwidth;
+};
 
 struct TScreen {
     int nx = 0;
@@ -28,7 +33,6 @@ struct TScreen {
     int nmax = 0;
 
     TCell * data = nullptr;
-
     ~TScreen() {
         if (data) delete [] data;
     }
@@ -52,5 +56,15 @@ struct TScreen {
         data = new TCell[nmax];
     }
 };
+
+struct ImplImtui_Data
+{
+    TScreen Screen;
+};
+
+static ImplImtui_Data* ImTui_Impl_GetBackendData()
+{
+    return ImGui::GetCurrentContext() ? (ImplImtui_Data*)ImGui::GetIO().BackendPlatformUserData : nullptr;
+}
 
 }

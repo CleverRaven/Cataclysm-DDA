@@ -1,0 +1,144 @@
+[
+  {
+    "type": "item_group",
+    "//": "Itemgroups copied over--due to the way they're implemented, it's difficult to add through copy-from",
+    "id": "mutagenic_field_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "iv_mutagen_elfa", "prob": 2 },
+          { "item": "iv_mutagen_alpha", "prob": 2 },
+          { "item": "iv_mutagen_raptor", "prob": 2 },
+          { "item": "iv_mutagen_medical", "prob": 2 },
+          { "item": "iv_mutagen_chimera", "prob": 2 },
+          { "item": "iv_mutagen_plant", "prob": 2 },
+          { "item": "iv_mutagen_insect", "prob": 2 },
+          { "item": "iv_mutagen_spider", "prob": 2 },
+          { "item": "iv_mutagen_snail", "prob": 2 },
+          { "item": "iv_mutagen_batrachian", "prob": 2 },
+          { "item": "iv_mutagen_fish", "prob": 2 },
+          { "item": "iv_mutagen_slime", "prob": 2 },
+          { "item": "iv_mutagen_rat", "prob": 2 },
+          { "item": "iv_mutagen_chiropteran", "prob": 2 },
+          { "item": "iv_mutagen_beast", "prob": 2 },
+          { "item": "iv_mutagen_cattle", "prob": 2 },
+          { "item": "iv_mutagen_cephalopod", "prob": 2 },
+          { "item": "iv_mutagen_bird", "prob": 2 },
+          { "item": "iv_mutagen_lizard", "prob": 2 },
+          { "item": "iv_mutagen_troglobite", "prob": 2 },
+          { "item": "iv_mutagen_ursine", "prob": 2 },
+          { "item": "iv_mutagen_feline", "prob": 2 },
+          { "item": "iv_mutagen_lupine", "prob": 2 },
+          { "item": "iv_mutagen_mouse", "prob": 2 },
+          { "item": "iv_mutagen_rabbit", "prob": 2 },
+          { "item": "iv_mutagen_crustacean", "prob": 2 },
+          { "item": "manatouched_serum", "prob": 1 },
+          { "item": "iv_purifier", "prob": 2 }
+        ]
+      },
+      { "item": "iv_mutagen", "prob": 100, "count": 1 },
+      { "item": "syringe", "prob": 100, "count": 2 },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_catalyst_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "iv_mutagen", "prob": 100, "count": 5 },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_primer_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "iv_mutagen_elfa", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_alpha", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_raptor", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_medical", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_chimera", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_plant", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_insect", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_spider", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_snail", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_batrachian", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_fish", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_slime", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_rat", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_chiropteran", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_beast", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_cattle", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_cephalopod", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_bird", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_lizard", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_troglobite", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_ursine", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_feline", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_lupine", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_mouse", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_rabbit", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "iv_mutagen_crustacean", "prob": 2, "count": [ 4, 5 ] },
+          { "item": "manatouched_serum", "prob": 1, "count": [ 4, 5 ] },
+          { "item": "iv_purifier", "prob": 2, "count": [ 4, 5 ] }
+        ]
+      },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "mutagen_elfa", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_alpha", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_raptor", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_medical", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_chimera", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_plant", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_insect", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_spider", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_snail", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_batrachian", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_fish", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_slime", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_rat", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_chiropteran", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_beast", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_cattle", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_cephalopod", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_bird", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_lizard", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_troglobite", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_ursine", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_feline", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_lupine", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_rabbit", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "mutagen_crustacean", "count": [ 7, 11 ], "prob": 2 },
+          { "item": "manatouched_serum", "count": [ 7, 11 ], "prob": 1 }
+        ]
+      },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  }
+]

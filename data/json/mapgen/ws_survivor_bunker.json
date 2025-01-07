@@ -4,8 +4,8 @@
     "subtype": "distribution",
     "id": "oa_ig_sb_water",
     "items": [
-      { "item": "water_clean", "prob": 30, "charges-min": 50, "charges-max": 200, "container-item": "keg" },
-      { "item": "water_clean", "prob": 70, "charges-max": 50, "container-item": "keg" }
+      { "item": "water_clean", "prob": 30, "charges": [ 50, 200 ], "container-item": "keg" },
+      { "item": "water_clean", "prob": 70, "charges": [ 0, 50 ], "container-item": "keg" }
     ]
   },
   {
@@ -76,14 +76,8 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_soil",
-        "<": "t_ladder_up",
-        "|": "t_wall_wood",
-        ".": "t_dirt_underground",
-        "r": "t_dirtmound",
-        "D": "t_door_locked_interior"
-      },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "#": "t_soil", "<": "t_ladder_up", ".": "t_dirt_underground", "r": "t_dirtmound", "D": "t_door_locked_interior" },
       "furniture": {
         "s": "f_sandbag_half",
         "S": "f_sandbag_wall",

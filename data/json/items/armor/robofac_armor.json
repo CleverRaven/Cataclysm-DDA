@@ -10,8 +10,8 @@
     "//2": "Why no PALS? Fundamentally PALS is a decent system but adds a pile of additional weight in straps and fasteners, they also unless very well designed aren't particularly low profile and can catch on stuff. It's fun for a game but in the real world you can just buy a bag with the pockets and utility you want, or as the current fad in Tacticool Operators ™️  go with a micro rig or a dedicated pre pocketed harness. So for military use where you are expected to carry 270 rounds of ammo weight is a lot less splitting hairs. In an apocalypse scenario where you will be moving on foot, potentially with low calories to supplement and no chain of resupply that weight can really matter.",
     "weight": "960 g",
     "volume": "250 ml",
-    "price": 4000,
-    "price_postapoc": 750,
+    "price": "40 USD",
+    "price_postapoc": "7 USD 50 cent",
     "symbol": "[",
     "material": [ "nylon", "kevlar" ],
     "color": "light_gray",
@@ -202,7 +202,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -279,9 +279,8 @@
     "//": "nv goggles weight 1020g.  hub armor rig weight 960g for full body.  figure this strikes a decent midpoint, esp.  since weight here becomes head encumb.  materials wise, same nylon/kevlar weave as the poncho; the visor is being handwaved per the riot helmet and motorcycle helmet visors as precedent.",
     "weight": "1200 g",
     "volume": "1200 ml",
-    "price": 10000,
-    "price_postapoc": 2000,
-    "to_hit": -1,
+    "price": "100 USD",
+    "price_postapoc": "20 USD",
     "material": [ "nylon", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -308,7 +307,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -366,7 +365,7 @@
     "looks_like": "tac_fullhelmet",
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
-    "extend": { "flags": [ "IR_EFFECT" ] },
+    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "power_draw": "1 W",
     "revert_to": "robofac_head_rig",
     "use_action": [
@@ -401,8 +400,8 @@
     "description": "A modified army harness, repurposed to carry several small and a single medium sized drone alongside the tools to maintain them.",
     "weight": "425 g",
     "volume": "500 ml",
-    "price": 3900,
-    "price_postapoc": 3000,
+    "price": "39 USD",
+    "price_postapoc": "30 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "tool_belt",
@@ -513,11 +512,11 @@
     "abstract": "robofac_mantle",
     "type": "ARMOR",
     "category": "armor",
-    "name": "abstract mantle",
+    "name": { "str": "abstract mantle", "//~": "NO_I18N" },
     "weight": "6853 g",
     "volume": "6600 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -556,11 +555,11 @@
     "abstract": "robofac_skirt",
     "type": "ARMOR",
     "category": "armor",
-    "name": "abstract armored skirt",
+    "name": { "str": "abstract armored skirt", "//~": "NO_I18N" },
     "weight": "2454 g",
     "volume": "3500 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -590,12 +589,12 @@
     "abstract": "robofac_vambraces",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces" },
+    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces", "//~": "NO_I18N" },
     "looks_like": "armguard_hard",
     "weight": "845 g",
     "volume": "4000 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -617,12 +616,12 @@
     "abstract": "robofac_greaves",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves" },
+    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves", "//~": "NO_I18N" },
     "looks_like": "legguard_hard",
     "weight": "1295 g",
     "volume": "5000 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -644,11 +643,11 @@
     "abstract": "robofac_helmet",
     "type": "ARMOR",
     "category": "armor",
-    "name": "abstract helmet",
+    "name": { "str": "abstract helmet", "//~": "NO_I18N" },
     "weight": "1176 g",
     "volume": "1750 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -694,7 +693,11 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of synthetic fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
@@ -748,7 +751,11 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of high-strength material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
@@ -802,7 +809,11 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
@@ -836,7 +847,7 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 4 }, { "type": "rubber", "portion": 4 } ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
   },
   {
@@ -856,7 +867,11 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
@@ -899,7 +914,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 turnout helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting Nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
   },
@@ -909,8 +924,12 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 ballistic helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar", "portion": 4 } ],
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra Kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
@@ -919,7 +938,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 soldier helmet",
-    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the Cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
       { "type": "qt_steel", "portion": 1 },

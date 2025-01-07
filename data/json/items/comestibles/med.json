@@ -58,8 +58,8 @@
     "looks_like": "flu_shot",
     "weight": "12 g",
     "volume": "10ml",
-    "price": 3400,
-    "price_postapoc": 1000,
+    "price": "34 USD",
+    "price_postapoc": "10 USD",
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "pink",
@@ -141,7 +141,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some aspirin.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
@@ -164,7 +164,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some ibuprofen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 216 ] ]
@@ -187,7 +187,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some naproxen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 432 ] ]
@@ -210,7 +210,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some acetaminophen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_acetaminophen", "duration": 9000 } ]
     }
   },
@@ -230,7 +230,7 @@
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take some metaprolol." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take some %s." },
     "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
@@ -289,14 +289,14 @@
     "addiction_potential": 3,
     "addiction_type": "caffeine",
     "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
-    "fatigue_mod": 9
+    "sleepiness_mod": 9
   },
   {
     "id": "chaw",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing tobacco" },
-    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
+    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite among baseball players, cowboys, and other macho types.",
     "weight": "4 g",
     "volume": "4 ml",
     "price": "33 cent",
@@ -321,8 +321,8 @@
     "description": "Dilute hydrogen peroxide, for use as an antiseptic and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
     "weight": "28 g",
     "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 500,
+    "price": "1 USD",
+    "price_postapoc": "5 USD",
     "charges": 10,
     "symbol": "~",
     "color": "white",
@@ -330,6 +330,28 @@
     "container": "bottle_plastic_small",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
+  },
+  {
+    "id": "skunk_spray_neutralizing_solution",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "skunk spray neutralizing solution" },
+    "description": "A combination of hydrogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
+    "weight": "28 g",
+    "volume": "250 ml",
+    "price": "1 USD",
+    "price_postapoc": "5 USD",
+    "charges": 10,
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You cover yourself in the solution everywhere the spray touched your body.",
+      "effects": [ { "id": "skunk_spray_neutralizer" } ]
+    }
   },
   {
     "id": "cig",
@@ -357,7 +379,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "cigar" },
-    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.\nA gentleman's vice, cigars set the civil man apart from the savage.",
+    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.",
     "weight": "9 g",
     "volume": "50 ml",
     "price": "2 USD",
@@ -380,8 +402,8 @@
     "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
     "weight": "240 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "price": "30 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "!",
     "color": "red",
@@ -414,7 +436,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some codeine.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ]
     }
   },
@@ -448,7 +470,7 @@
     "weight": "61 g",
     "color": "brown",
     "addiction_type": "amphetamine",
-    "fatigue_mod": 60,
+    "sleepiness_mod": 60,
     "stim": 20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -458,15 +480,16 @@
     "addiction_potential": 60,
     "calories": 49,
     "description": "A potent cocktail of amphetamines, caffeine and corn syrup, this stuff puts a spring in your step, a fire in your eye, and a bad case of tachycardia tremors in your somersaulting heart.",
-    "price": 9000,
-    "price_postapoc": 300,
+    "price": "90 USD",
+    "price_postapoc": "3 USD",
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
     "flags": [ "EATEN_COLD", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "myopia_contacts_weekly",
@@ -491,7 +514,7 @@
           {
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
             }
           }
@@ -518,7 +541,7 @@
           {
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
             }
           }
@@ -543,7 +566,7 @@
           {
             "id": "EOC_myopia_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
             }
           }
@@ -568,7 +591,7 @@
           {
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
             }
           }
@@ -592,7 +615,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
           }
         ]
       }
@@ -614,10 +637,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" } }
           }
         ]
       }
@@ -639,7 +659,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
           }
         ]
       }
@@ -661,10 +681,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" } }
           }
         ]
       }
@@ -687,7 +704,7 @@
           {
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
             }
           }
@@ -712,7 +729,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -743,7 +760,7 @@
           {
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
             }
           }
@@ -768,7 +785,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -798,10 +815,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" } }
           }
         ]
       }
@@ -823,10 +837,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" } }
           }
         ]
       }
@@ -870,8 +881,8 @@
     "description": "Daytime cold and flu medication, non-drowsy formula.  Will suppress coughing, aching, headaches and runny noses, but you'll still need lots of fluids and rest.",
     "weight": "48 g",
     "volume": "250 ml",
-    "price": 800,
-    "price_postapoc": 1000,
+    "price": "8 USD",
+    "price_postapoc": "10 USD",
     "charges": 5,
     "symbol": "~",
     "color": "yellow",
@@ -889,8 +900,8 @@
     "weight": "27 g",
     "volume": "250 ml",
     "material": [ { "type": "isopropyl", "portion": 7 }, { "type": "water", "portion": 3 } ],
-    "price": 1500,
-    "price_postapoc": 500,
+    "price": "15 USD",
+    "price_postapoc": "5 USD",
     "charges": 10,
     "symbol": "~",
     "color": "light_cyan",
@@ -904,7 +915,7 @@
     "id": "disinfectant_makeshift",
     "type": "COMESTIBLE",
     "name": { "str_sp": "makeshift antiseptic" },
-    "price_postapoc": 250,
+    "price_postapoc": "2 USD 50 cent",
     "copy-from": "disinfectant",
     "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect wounds.",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
@@ -1025,7 +1036,7 @@
     "volume": "1 ml",
     "stack_size": 10,
     "charges": 10,
-    "price": 1000,
+    "price": "10 USD",
     "container": "jar_3l_glass_sealed",
     "sealed": false,
     "symbol": "!",
@@ -1087,6 +1098,26 @@
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
+    "id": "steroid_eyedrops",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "steroid eyedrops" },
+    "description": "A topical corticosteroid in the form of eye drops.  Can be used to treat irritation and inflammation of the eyes.",
+    "volume": "1 ml",
+    "weight": "3 g",
+    "price": "7 USD 50 cent",
+    "price_postapoc": "65 cent",
+    "symbol": "!",
+    "color": "light_blue",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You put the anti-inflammatory eyedrops into your eyes.",
+      "effects": [ { "id": "steroid_eye", "duration": "3 h" } ],
+      "moves": 300
+    },
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
+  },
+  {
     "id": "flu_shot",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1094,8 +1125,8 @@
     "description": "A pharmaceutical flu shot designed for mass vaccinations, still in its packaging.  Purported to provide immunity to influenza, for the flu season for which it was developed.",
     "weight": "12 g",
     "volume": "10ml",
-    "price": 5000,
-    "price_postapoc": 1500,
+    "price": "50 USD",
+    "price_postapoc": "15 USD",
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",
@@ -1299,8 +1330,8 @@
     "weight": "40 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "material": [ "oil" ],
     "symbol": "~",
     "color": "yellow",
@@ -1326,8 +1357,8 @@
     "weight": "40 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "material": [ "oil" ],
     "symbol": "~",
     "color": "yellow",
@@ -1364,8 +1395,8 @@
     "description": "Nighttime cold and flu medication.  Useful when trying to sleep with a head full of virions.  Will cause drowsiness.",
     "weight": "48 g",
     "volume": "250 ml",
-    "price": 800,
-    "price_postapoc": 750,
+    "price": "8 USD",
+    "price_postapoc": "7 USD 50 cent",
     "charges": 5,
     "symbol": "~",
     "color": "blue",
@@ -1425,7 +1456,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some oxycodone.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
@@ -1457,11 +1488,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Can be used to treat insomnia.",
-      "effect_on_conditions": [ "EOC_SLEEP" ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
+    "sleepiness_mod": -40
   },
   {
     "id": "poppy_pain",
@@ -1482,7 +1510,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some poppy painkiller.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 } ]
     }
   },
@@ -1500,13 +1528,10 @@
     "symbol": "!",
     "color": "magenta",
     "healthy": -2,
-    "addiction_type": "opiate",
+    "addiction_type": [ "sleeping pill", "opiate" ],
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Can be used to treat insomnia.",
-      "effect_on_conditions": [ "EOC_SLEEP" ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
+    "sleepiness_mod": -40
   },
   {
     "id": "poppysyrup",
@@ -1516,8 +1541,8 @@
     "description": "Cough syrup made from mutated poppy.  Will make you sleepy.",
     "weight": "48 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "2 USD 50 cent",
     "charges": 5,
     "symbol": "~",
     "color": "magenta",
@@ -1526,7 +1551,7 @@
     "stim": -3,
     "healthy": -1,
     "addiction_potential": 15,
-    "addiction_type": "sleeping pill",
+    "addiction_type": [ "sleeping pill", "opiate" ],
     "use_action": [ "FLUSLEEP" ]
   },
   {
@@ -1539,7 +1564,7 @@
     "weight": "40 g",
     "volume": "75 ml",
     "price": "10 USD",
-    "price_postapoc": "50 USD",
+    "price_postapoc": "25 USD",
     "symbol": "!",
     "color": "brown",
     "healthy": -1,
@@ -1608,7 +1633,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "light_gray",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
@@ -1621,8 +1646,8 @@
     "material": [ { "type": "water", "portion": 991 }, { "type": "salt", "portion": 9 } ],
     "weight": "51 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 125,
+    "price": "5 USD",
+    "price_postapoc": "1 USD 25 cent",
     "charges": 5,
     "symbol": "~",
     "color": "light_cyan",
@@ -1667,8 +1692,8 @@
     "weight": "40 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "material": [ "oil" ],
     "symbol": "~",
     "color": "yellow",
@@ -1689,7 +1714,7 @@
     "price_postapoc": "25 cent",
     "symbol": "!",
     "color": "brown",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "stim": 1,
     "healthy": -2,
     "fun": 5,
@@ -1727,7 +1752,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some tramadol.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill_l", "duration": 27000 } ]
     }
   },
@@ -1741,7 +1766,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "90 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "30 cent",
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
@@ -1750,7 +1775,10 @@
       "type": "consume_drug",
       "activation_message": "You take the %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
-    }
+    },
+    "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
+    "//2": "TODO: Fix this...",
+    "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ] ]
   },
   {
     "id": "calcium_tablet",
@@ -1762,7 +1790,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "20 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "9 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
@@ -1780,13 +1808,14 @@
     "volume": "12 ml",
     "price": "1 cent",
     "fun": -8,
-    "price_postapoc": "12 cent",
+    "price_postapoc": "2 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "white",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "flavored_bonemeal_tablet",
@@ -1799,13 +1828,30 @@
     "volume": "11 ml",
     "price": "7 cent",
     "fun": -2,
-    "price_postapoc": "17 cent",
+    "price_postapoc": "3 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "yellow",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
+  },
+  {
+    "id": "vitc_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement" },
+    "description": "A small white tablet promising more vitamin C than a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "7 cent",
+    "price_postapoc": "15 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
   },
   {
     "id": "gummy_vitamins",
@@ -1814,7 +1860,7 @@
     "name": { "str_sp": "gummy vitamin" },
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "material": [ "drug_filler" ],
-    "price_postapoc": "1 USD",
+    "price_postapoc": "40 cent",
     "fun": 4,
     "container": "null",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
@@ -1912,7 +1958,8 @@
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
       "moves": 40
-    }
+    },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "xanax",
@@ -1934,7 +1981,6 @@
       {
         "id": "xanax",
         "name": { "str_sp": "Xanax" },
-        "append": true,
         "description": "An anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual."
       }
     ],
@@ -1973,8 +2019,8 @@
     "material": [ "drug_filler" ],
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
     "container": "bottle_plastic_small",
     "charges": 10,
     "symbol": "%",
@@ -2043,8 +2089,8 @@
     "weight": "50 g",
     "volume": "250 ml",
     "charges": 7,
-    "price": 50,
-    "price_postapoc": 50,
+    "price": "50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "oil" ],
     "phase": "liquid",
     "symbol": "~",
@@ -2084,8 +2130,8 @@
     "description": "A medical cream that provides both vascular restriction and anesthetic properties.",
     "weight": "5 g",
     "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 3000,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "30 USD",
     "charges": 6,
     "stack_size": 60,
     "symbol": "u",

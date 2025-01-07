@@ -115,8 +115,8 @@
     "//": "Based on the Med-Eng EOD 9 and EOD 10 suits.",
     "weight": "13500 g",
     "volume": "15 L",
-    "price": 1509000,
-    "price_postapoc": 18000,
+    "price": "15 kUSD 90 USD",
+    "price_postapoc": "180 USD",
     "warmth": 65,
     "material": [ "kevlar", "plastic_pad", "nomex" ],
     "symbol": "[",
@@ -160,8 +160,8 @@
     "description": "An armored jacket constructed from Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  It is lighter than normal EOD armor to allow for wearing a plate carrier beneath it.  It features two pockets in the arms covering the deltoids for additional optional protection.",
     "weight": "7000 g",
     "volume": "15 L",
-    "price": 410160,
-    "price_postapoc": 5900,
+    "price": "4 kUSD 101 USD 60 cent",
+    "price_postapoc": "59 USD",
     "warmth": 40,
     "material": [ "kevlar", "plastic_pad", "nomex" ],
     "symbol": "[",
@@ -220,13 +220,13 @@
     "volume": "2950 ml",
     "longest_side": "46 cm",
     "//": "Based on the plate from the MED-ENG EOD 9N.  People don't seem willing to buy the EOD 10 to shoot at and MED-ENG ain't telling us how not-bullet proof the suit is.",
-    "price": 361300,
-    "price_postapoc": 2000,
+    "price": "3 kUSD 613 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar", "plastic_pad", "thermo_resin", "qt_steel" ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 5,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -261,7 +261,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -280,7 +280,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -313,7 +313,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -346,7 +346,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
@@ -403,7 +403,7 @@
     "longest_side": "30 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -466,14 +466,14 @@
     "weight": "1551 g",
     "volume": "1599 ml",
     "longest_side": "21 cm",
-    "price": 94400,
-    "price_postapoc": 800,
+    "price": "944 USD",
+    "price_postapoc": "8 USD",
     "material": [ "thermo_resin" ],
     "symbol": ",",
     "color": "light_gray",
     "material_thickness": 14,
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "encumbrance": 8,
@@ -501,7 +501,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
@@ -550,7 +550,7 @@
     "longest_side": "20 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -609,8 +609,8 @@
     "copy-from": "esapi_plate",
     "name": { "str": "compromised ceramic front plate" },
     "description": "A large ballistic plate that has been cracked by damage.  It no longer provides reliable protection, but it's still just as heavy.",
-    "price": 0,
-    "price_postapoc": 1,
+    "price": "0 cent",
+    "price_postapoc": "1 cent",
     "looks_like": "esapi_plate",
     "material": [ "damaged_ceramic" ]
   },
@@ -620,8 +620,8 @@
     "copy-from": "esbi_plate",
     "name": { "str": "compromised ceramic side plate" },
     "description": "A medium-sized ballistic plate that has been cracked by damage.  It no longer provides reliable protection, but it's still just as heavy.",
-    "price": 0,
-    "price_postapoc": 1,
+    "price": "0 cent",
+    "price_postapoc": "1 cent",
     "looks_like": "esbi_plate",
     "material": [ "damaged_ceramic" ]
   },
@@ -1225,6 +1225,15 @@
     ]
   },
   {
+    "id": "fbi_armor_vest",
+    "type": "ARMOR",
+    "copy-from": "soft_3a_vest",
+    "name": { "str": "FBI ballistic vest" },
+    "//": "Based on the exact model; https://www.tyrtactical.com/shop/tyr-tactical-male-epic-federal-outer-carrier/",
+    "description": "A ranger green soft ballistic vest with MOLLE rigging used by federal law enforcement agencies.  Soft armor plates inside the vest provide solid defense against shrapnel and small-caliber rounds.  \"FBI\" is emblazoned across the front and back in large, yellow lettering, and it includes a pocket for storing evidence.  Use it to attach or detach pouches.",
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ]
+  },
+  {
     "id": "level_3_vest",
     "type": "ARMOR",
     "category": "armor",
@@ -1310,46 +1319,10 @@
     ]
   },
   {
-    "id": "dragonskin",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "dragon skin vest" },
-    "//": "Based on a true story related to the real-world design",
-    "description": "This type of ballistic vest once promised to be the future of body armor, claiming to allow a greater range of movement than conventional ballistic vests as well as better protection.  Created by the now-defunct company Meridian Ballistics, it features a unique design consisting of overlapping ceramic disks, and was once famously demonstrated on TV absorbing high-energy rifle rounds at point blank.\n\nThe US Army quickly snapped up several hundred units of the armor, but testing soon revealed that they were extremely heavy, weighing almost fifty pounds, and that the design failed spectacularly in environmental tests.  After a series of investigations, claims of fraud, and court hearings, Meridian went bankrupt, and the Department of Justice subsequently dropped this design from its certifications.\n\nThere were no known users of these vests by the time that the world ended; this one was either an original production in the hands of a collector, or a similar design from a different company.  Whatever the case may be, you have one now, in all its unwieldy glory.",
-    "weight": "21545 g",
-    "volume": "6 L",
-    "price": "5000 USD",
-    "price_postapoc": "60 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "material": [ "ceramic", "nylon" ],
-    "symbol": "[",
-    "looks_like": "kevlar",
-    "color": "yellow",
-    "warmth": 12,
-    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
-    "//2": "Ceramic disks in real-life dragon skin are 6.4mm thick; the actual fabric itself wasn't intended to provide high-grade protection, and so it's quite thin here.",
-    "//3": "The double instance of ceramic here represents possible hits on parts where the disks themselves are overlapping, providing enhanced protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "ceramic", "covered_by_mat": 90, "thickness": 6.4 },
-          { "type": "ceramic", "covered_by_mat": 30, "thickness": 6.4 }
-        ],
-        "encumbrance": 8,
-        "coverage": 100,
-        "cover_vitals": 90,
-        "covers": [ "torso" ]
-      }
-    ],
-    "melee_damage": { "bash": 6 }
-  },
-  {
     "id": "xl_ballistic_vest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL ballistic vest" },
+    "name": { "str": "ballistic vest" },
     "description": "An enormous handmade ballistic vest built with of lots of salvaged ballistic Kevlar panels.  It's bulkier than a factory made US Army vest, but it is customized for the benefit of an abnormally large mutant who couldn't wear such armors otherwise.  Coated in MOLLE webbing to support modular loadouts for the tacticool mutant.  It could be outfitted with steel plates for further protection.",
     "weight": "4500 g",
     "volume": "9 L",
@@ -1359,7 +1332,7 @@
     "material": [ "nylon", "kevlar_layered" ],
     "color": "light_gray",
     "warmth": 15,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE", "PREFIX_XL" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -1380,7 +1353,7 @@
     "id": "xl_ballistic_vest_lc",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL ballistic vest (mild steel plates)", "str_pl": "XL ballistic vests (mild steel plates)" },
+    "name": { "str": "ballistic vest (mild steel plates)", "str_pl": "ballistic vests (mild steel plates)" },
     "description": "An enormous handmade ballistic vest built with lots of salvaged ballistic Kevlar panels and homemade \"ballistic inserts\" made of mild steel.  The thin metal isn't the most protective, but it's probably better than just plain Kevlar.",
     "weight": "12500 g",
     "volume": "9 L",
@@ -1389,7 +1362,7 @@
     "material": [ "nylon", "kevlar_layered", "lc_steel" ],
     "color": "light_gray",
     "warmth": 20,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE", "PREFIX_XL" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -1411,7 +1384,7 @@
     "id": "xl_ballistic_vest_qt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL ballistic vest (tempered steel plates)", "str_pl": "XL ballistic vests (tempered steel plates)" },
+    "name": { "str": "ballistic vest (tempered steel plates)", "str_pl": "ballistic vests (tempered steel plates)" },
     "description": "An enormous handmade ballistic vest made of lots of salvaged ballistic Kevlar panels and ten NIJ IIIA plates inserted into custom-made pockets - four each for your front and back and one each for your sides.  Monstrously heavy but extremely protective.",
     "weight": "18000 g",
     "volume": "9 L",
@@ -1421,7 +1394,7 @@
     "material": [ "nylon", "kevlar_layered", "qt_steel" ],
     "color": "light_gray",
     "warmth": 20,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE", "PREFIX_XL" ],
     "use_action": [ { "type": "attach_molle", "size": 12 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -1448,8 +1421,8 @@
     "weight": "1034 g",
     "volume": "812 ml",
     "//": "Density test expects 1.275, so volume derived from this",
-    "price": 60000,
-    "price_postapoc": 100,
+    "price": "600 USD",
+    "price_postapoc": "1 USD",
     "symbol": ",",
     "material": [ "kevlar_layered", "nylon" ],
     "color": "dark_gray",
@@ -1479,8 +1452,8 @@
     "weight": "417 g",
     "volume": "392 ml",
     "//": "33cm x 22cm x 5.4mm",
-    "price": 60000,
-    "price_postapoc": 100,
+    "price": "600 USD",
+    "price_postapoc": "1 USD",
     "symbol": ",",
     "material": [ "kevlar_layered", "nylon" ],
     "color": "dark_gray",
@@ -1508,8 +1481,8 @@
     "description": "Front and back nylon collar assemblies with soft armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
     "weight": "621 g",
     "volume": "488 ml",
-    "price": 60000,
-    "price_postapoc": 100,
+    "price": "600 USD",
+    "price_postapoc": "1 USD",
     "symbol": ",",
     "material": [ "kevlar_layered", "nylon" ],
     "color": "dark_gray",

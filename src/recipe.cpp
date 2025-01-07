@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "effect_on_condition.h"
@@ -45,6 +46,7 @@ static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -477,7 +479,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs = id->funcs();
     if( funcs.size() != 1 ) {
         debugmsg( "update_mapgen %s used for blueprint, but has %zu versions, where it should have exactly one",
-                  funcs.size() );
+                  id.c_str(), funcs.size() );
         return result;
     }
 
@@ -661,7 +663,7 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( category == "CC_BUILDING" ) {
+    if( category.is_valid() && category->is_building ) {
         if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
             return std::string();
         }
@@ -1216,17 +1218,21 @@ std::string recipe::result_name( const bool decorated ) const
 {
     std::string name;
     if( !name_.empty() ) {
+        // if the recipe has an explicit name (such as for proficiency training) - use that
         name = name_.translated();
-    } else if( !variant().empty() ) {
-        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
-        [this]( const itype_variant_data & itvar ) {
-            return itvar.id == variant();
-        } );
-        if( iter_var != result_->variants.end() ) {
-            name = iter_var->alt_name.translated();
-        }
     } else {
-        name = item::tname( result_, 1, tname::item_name );
+        // Names are tricky, so we have to create a temporary fake result item to get one.
+        // As of 2025-01-01 there's no better way around this.
+        item temp_item( result_ );
+        // Use generic item name by default.
+        tname::segment_bitset segs = tname::base_item_name;
+        if( !variant().empty() ) {
+            // ..but if the recipe calls for a specific varaint - then use that variant.
+            // Note that `temp_item` is likely to already have a random variant set at the time of creation.
+            temp_item.set_itype_variant( variant() );
+            segs = tname::item_identity_name;
+        }
+        name = temp_item.tname( 1, segs );
     }
     if( decorated &&
         uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
@@ -1320,12 +1326,12 @@ bool recipe::npc_can_craft( std::string &reason ) const
         return false;
     }
     if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
         return false;
     }
     for( const auto& [bp, _] : get_byproducts() ) {
         if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
             return false;
         }
     }
