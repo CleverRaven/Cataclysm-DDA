@@ -7,17 +7,6 @@
 #include "output.h"
 #include "imgui/imgui.h"
 
-enum class scroll : int {
-    none = 0,
-    line_up,
-    line_down,
-    page_up,
-    page_down
-};
-
-void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int width,
-                           scroll &s );
-
 class iteminfo_window : public cataimgui::window
 {
     public:
@@ -36,7 +25,7 @@ class iteminfo_window : public cataimgui::window
         int height;
         input_context ctxt;
 
-        scroll s;
+        cataimgui::scroll s;
 };
 
 #endif // CATA_SRC_UI_ITEMINFO_H

@@ -34,32 +34,42 @@
     "id": "fbi_investigator",
     "name": "FBI Paranormal Investigator",
     "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
-    "points": 3,
+    "points": 4,
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 5, "name": "pistol" },
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "shotgun" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "throw" },
       { "level": 4, "name": "speech" },
+      { "level": 3, "name": "swimming" },
       { "level": 5, "name": "deduction" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar", "prof_gunsmithing_basic", "prof_gun_cleaning" ],
     "items": {
       "both": {
         "entries": [
           { "item": "pants" },
           { "item": "dress_shirt" },
           { "item": "tie_skinny" },
-          { "item": "blazer" },
-          { "item": "trenchcoat" },
+          { "item": "jacket_windbreaker", "variant": "windbreaker_fbi" },
           { "item": "gloves_light" },
+          { "item": "hat_ball", "variant": "hat_fbi" },
+          { "item": "badge_fbi" },
           { "item": "wristwatch" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "group": "army_mags_usp9" },
-          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
+          { "group": "holster_glock19_fed", "container-item": "holster" },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "wyld_candy", "count": 10, "container-item": "null", "entry-wrapper": "wrapper_wyld" }
         ]
       },
@@ -173,6 +183,66 @@
           { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xe_gracken_hunter",
+    "name": "Xedra Offworld Team: Big Game Hunter",
+    "description": "You are what Xedra refers to as a non-local guide.  A mature Gracken hired on to join the Offworld Acquisitions Team, you trained in human long distance weaponry in order to take down big game and create new improvements to bring back to your people.  They gave you a big gun and a little training in how to use it and in return you help them know what things in other dimensions to hunt and what to run from.",
+    "recipes": [
+      "gracken_strong_arms",
+      "gracken_long_arms",
+      "gracken_shade_arms",
+      "gracken_shade_hands",
+      "gracken_sharp_nails",
+      "gracken_dextrous_hands"
+    ],
+    "traits": [
+      "THRESH_SPECIES_GRACKEN",
+      "GRACKEN_BUILD",
+      "NIGHTVISION",
+      "SHADE_SKIN",
+      "SHADE_LEGS",
+      "SHADE_ARMS",
+      "SHADE_HANDS",
+      "SHADE_FEET",
+      "SHADE_STOMACH",
+      "SHADE_EVOLUTION_GLAND",
+      "RADIOTROPHIC",
+      "GRACKEN",
+      "PROF_FED"
+    ],
+    "points": 7,
+    "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "item": "colt_saa", "ammo-item": "45colt_jhp", "container-item": "holster", "charges": 6 },
+          { "item": "45colt_jhp", "charges": 30 },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
+          { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -504,46 +574,6 @@
   },
   {
     "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_eater",
-    "name": "Awakened Eater",
-    "description": "Ever since the Cataclysm you've been able to clearly see elements of other realities that have intruded your own.  You also think you'd be able to consume these intrusions to give you power far beyond a normal human.",
-    "points": 4,
-    "spells": [ { "id": "spring_heeled_leap", "level": 4 }, { "id": "spell_dodge", "level": 4 } ],
-    "traits": [ "EATER" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_dreamer",
-    "name": "Awakened Dreamer",
-    "description": "Ever since the Cataclysm you've become far more aware of the weakened gap between realities.  Specifically, of what is on the other side.  Surprisingly, it doesn't seem universally hostile, and you think you'd be able to bring some of these entities over if you desired.",
-    "points": 4,
-    "spells": [ { "id": "create_dream_dross", "level": 4 }, { "id": "summon_shifter", "level": 4 } ],
-    "traits": [ "DREAMER" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_inventor",
-    "name": "Awakened Inventor",
-    "description": "Ever since the Cataclysm you've begun having crazy ideas on how to create technological devices.  While conventional logic would label these designs as silly or even insane, something tells you that they'd work regardless.",
-    "points": 4,
-    "traits": [ "INVENTOR" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_dreamsmith",
-    "name": "Awakened Dreamsmith",
-    "description": "Ever since the Cataclysm you've gained an instinctive sense of how to work dreamdross into tools and armor.  It will still take some effort to put these vague ideas to proper use",
-    "//": "TODO: add some basic recipes they could know, if possible",
-    "points": 4,
-    "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
-    "traits": [ "DREAMSMITH" ]
-  },
-  {
-    "type": "profession",
     "id": "paraclesian_ierde",
     "name": { "male": "Ierde", "female": "Ierda" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.\n\nAs a spirit of the earth, your powers are strengthened by contact with the soil and the rock and weakened by separation from the living earth.",
@@ -551,6 +581,7 @@
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "IERDE_MEDITATION" ],
     "items": {
       "both": {
         "entries": [
@@ -577,6 +608,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_NURTURE_GREEN" ],
     "items": {
       "both": {
         "entries": [
@@ -603,6 +635,7 @@
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "UNDINE_MOVEMENT" ],
     "items": {
       "both": {
         "entries": [
@@ -629,6 +662,7 @@
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SALAMANDER_FIRE_DANCE" ],
     "items": {
       "both": {
         "entries": [
@@ -655,6 +689,7 @@
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "HOMULLUS_SOCIAL" ],
     "items": {
       "both": {
         "entries": [
@@ -681,6 +716,7 @@
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SYLPH_EVERYWHERE_NOWHERE" ],
     "items": {
       "both": {
         "entries": [
@@ -767,5 +803,101 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "cryptid_hunter",
+    "name": "Cryptid Hunter",
+    "description": "You spent months trying to find one of these elusive creatures, searching all over the country in the hopes of proving beyond doubt that they exist.  You recently found enough trustworthy information to write down a map that will certainly lead you to a cryptid.  Now that the supernatural is undeniable you feel that you should find a cryptid anyway, if only to say that you didn't do all this work for nothing.",
+    "//": "This grants a map to a random cryptid and a note with basic info on said cryptid.  Otherwise a version of the park ranger with less gear and without the weapons as they explored far and wide in search of cryptids without having combat training.",
+    "//2": "No camera because their plan is to locate and bring back a cryptid, not take photographies that will be accused of being edited.",
+    "npc_background": "BG_survival_story_WORKER_PUBLIC",
+    "points": 3,
+    "proficiencies": [ "prof_driver", "prof_wound_care" ],
+    "skills": [
+      { "level": 5, "name": "survival" },
+      { "level": 5, "name": "firstaid" },
+      { "level": 5, "name": "driving" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "boots_hiking" },
+          { "item": "diving_watch" },
+          { "item": "e_tool" },
+          { "item": "knife_folding" },
+          { "item": "multitool" },
+          { "item": "pants" },
+          { "item": "rollmat" },
+          { "item": "socks" },
+          { "item": "travelpack" },
+          { "item": "vest" },
+          { "item": "water_clean" },
+          { "item": "whistle_multitool" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_two_way_radio" },
+          { "group": "random_cryptid_map" },
+          { "group": "full_1st_aid" },
+          { "item": "black_pen", "charges": 100 },
+          { "item": "lighter", "charges": 100 },
+          { "item": "permanent_marker", "charges": 500 },
+          { "item": "tshirt" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "xedra_chronomancer_profession",
+    "name": "Paradox Survivor",
+    "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "sweatshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_matches" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "item_group",
+    "id": "random_cryptid_map",
+    "//": "This item group gives a random cryptid map and the associated notes when starting as a cryptid hunter.  The probabilities are intended to be equal with each other.",
+    "subtype": "distribution",
+    "items": [ { "group": "deathworm_map", "prob": 50 }, { "group": "sevenoclock_map", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "deathworm_map",
+    "entries": [ { "item": "deathworm_map" }, { "item": "deathworm_note" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "sevenoclock_map",
+    "entries": [ { "item": "sevenoclock_map" }, { "item": "sevenoclock_note" } ]
   }
 ]

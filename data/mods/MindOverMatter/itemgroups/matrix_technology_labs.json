@@ -15,7 +15,7 @@
       { "group": "chem_lab", "prob": 30 },
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "memory_card_unread", "prob": 50 },
+      { "item": "memory_card_unread", "prob": 5 },
       { "item": "file", "prob": 50 },
       { "item": "camera_pro", "prob": 20 },
       { "item": "deck_of_cards", "prob": 15 },
@@ -32,7 +32,7 @@
       { "item": "lanyard", "prob": 5 },
       { "item": "chemistry_set", "prob": 4 },
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "wrapped_rad_badge", "prob": 10 },
       { "item": "software_electronics_reference", "prob": 10 },
       { "item": "software_useless", "prob": 20 },
@@ -65,7 +65,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_tools",
-    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ] ]
+    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ], [ "telepathic_focusing_tool", 4 ] ]
   },
   {
     "type": "item_group",
@@ -131,7 +131,7 @@
       { "group": "chem_lab", "prob": 30 },
       { "item": "laptop", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "memory_card_unread", "prob": 50 },
+      { "item": "memory_card_unread", "prob": 5 },
       { "item": "file", "prob": 50 },
       { "item": "camera_pro", "prob": 20 },
       { "item": "deck_of_cards", "prob": 15 },
@@ -148,7 +148,7 @@
       { "item": "badge_doctor", "prob": 2 },
       { "item": "lanyard", "prob": 5 },
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "wrapped_rad_badge", "prob": 10 },
       { "item": "software_electronics_reference", "prob": 10 },
       { "item": "software_useless", "prob": 20 },
@@ -194,6 +194,11 @@
     "id": "clairsentience_telepathy_matrix_technology",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "collection_mindsight_and_note", "prob": 1 }, { "item": "psionic_telepathic_dampener", "prob": 1 } ]
+    "items": [
+      { "group": "collection_mindsight_and_note", "prob": 1 },
+      { "item": "psionic_telepathic_dampener", "prob": 1 },
+      { "item": "schematics_telepathic_focusing_tool", "prob": 1 },
+      { "item": "telepathic_focusing_tool", "prob": 1 }
+    ]
   }
 ]

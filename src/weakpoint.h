@@ -34,15 +34,20 @@ struct weakpoint_attack {
     };
 
     // The source of the attack.
-    const Creature *source;
+    Creature *source;
     // The target of the attack.
-    const Creature *target;
+    Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
     // The type of the attack.
     attack_type type;
     // Whether the attack from a thrown object.
     bool is_thrown;
+    /**
+    * How accurate the ranged attack is.
+    * -1.0 means not a ranged attack.
+    */
+    double accuracy = -1.0;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.
@@ -127,6 +132,8 @@ struct weakpoint {
     translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
+    // Separate wp that benefit attacker and hurt monster from wp that do not
+    bool is_good = true;
     // Multiplier for existing armor values. Defaults to 1.
     std::unordered_map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.
@@ -136,7 +143,7 @@ struct weakpoint {
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::unordered_map<damage_type_id, float> crit_mult;
     // Dialogue conditions of weakpoint
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
     bool has_condition = false;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
@@ -144,6 +151,7 @@ struct weakpoint {
     weakpoint_difficulty coverage_mult;
     // Difficulty gates, varying by the attack type.
     weakpoint_difficulty difficulty;
+    bool is_head = false;
 
     weakpoint();
     // Gets translated name

@@ -46,7 +46,7 @@
     "type": "item_group",
     "id": "REFUGEE_Draco_carried",
     "subtype": "collection",
-    "entries": [ { "item": "wire" } ]
+    "entries": [ { "item": "lc_wire" } ]
   },
   {
     "type": "item_group",
@@ -59,7 +59,7 @@
     "id": "refugee_DracoDune",
     "name_unique": "Draco Dune",
     "gender": "male",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Draco",
     "attitude": 0,
     "mission": 7,
@@ -85,7 +85,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Draco.", "topic": "TALK_REFUGEE_Draco_1_firstmeet" },
-      { "text": "Hi Draco, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Draco, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -118,7 +118,7 @@
         "condition": { "compare_string": [ "7", { "u_val": "general_meeting_Draco_Dune_convo_depth" } ] },
         "topic": "TALK_REFUGEE_Draco_7"
       },
-      { "text": "Hi Draco, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Draco, nice to see you too.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -127,7 +127,7 @@
     "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully… we've had our fill of sadness around here.",
     "responses": [
       { "text": "What about you, how're you doing?", "topic": "TALK_REFUGEE_Draco_2" },
-      { "text": "Yeah, it's tough everywhere.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "Yeah, it's tough everywhere.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -138,7 +138,7 @@
       {
         "text": "What about you, what's your story?",
         "topic": "TALK_REFUGEE_Draco_3",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "No more indeed.", "topic": "TALK_DONE" }
     ]
@@ -211,7 +211,7 @@
     "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders of how things used to be.  I think a sing-along or two could do folks good.",
     "responses": [
       { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
-      { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
+      { "text": "I don't need to hear amateur-hour karaoke around here.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -255,7 +255,7 @@
       },
       "no": "Man, just imagine what I could do with a new guitar."
     },
-    "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "7" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 7" ] } },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
@@ -297,7 +297,7 @@
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
     ]
@@ -314,7 +314,7 @@
       {
         "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
       { "text": "I'm not doing this.", "topic": "TALK_DONE" }
@@ -328,7 +328,7 @@
       {
         "text": "I can help.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]
@@ -416,7 +416,7 @@
     "dynamic_line": "Well, let me know when you have.  I'm not going anywhere.",
     "responses": [
       { "text": "Sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
-      { "text": "Let's talk about something else.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "<done_conversation_section>", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "I'm not your drug dealer, buddy.", "topic": "TALK_DONE" }
     ]
   },
@@ -426,7 +426,7 @@
     "dynamic_line": { "gendered_line": "Sold!  Thanks for helping me out, friend.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "No problem, Draco.", "topic": "TALK_REFUGEE_Draco_7" },
-      { "text": "You're welcome.  Later.", "topic": "TALK_DONE" }
+      { "text": "You're welcome.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -438,37 +438,37 @@
       {
         "text": "[Shuffle back and forth a little.]",
         "topic": "TALK_REFUGEE_Draco_Dance_1",
-        "condition": { "math": [ "u_val('dodge')", "<", "1" ] },
+        "condition": { "math": [ "u_val('dodge') < 1" ] },
         "switch": true
       },
       {
         "text": "[Do a little dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_2",
-        "condition": { "math": [ "u_val('dodge')", "<", "6" ] },
+        "condition": { "math": [ "u_val('dodge') < 6" ] },
         "switch": true
       },
       {
         "text": "[Perform a decent dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_3",
-        "condition": { "math": [ "u_val('dodge')", "<", "10" ] },
+        "condition": { "math": [ "u_val('dodge') < 10" ] },
         "switch": true
       },
       {
         "text": "[Perform an impressive dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_4",
-        "condition": { "math": [ "u_val('dodge')", "<", "15" ] },
+        "condition": { "math": [ "u_val('dodge') < 15" ] },
         "switch": true
       },
       {
         "text": "[Perform a masterful dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_5",
-        "condition": { "math": [ "u_val('dodge')", "<", "20" ] },
+        "condition": { "math": [ "u_val('dodge') < 20" ] },
         "switch": true
       },
       {
         "text": "[Perform a legendary dance.]",
         "topic": "TALK_REFUGEE_Draco_Dance_6",
-        "condition": { "math": [ "u_val('dodge')", ">", "20" ] },
+        "condition": { "math": [ "u_val('dodge') > 20" ] },
         "switch": true,
         "default": true
       }
@@ -480,14 +480,17 @@
     "dynamic_line": "Not in the mood to dance, huh?  Or perhaps you should try wearing something less encumbering.  You know, if you want to.",
     "responses": [
       { "text": "I'll consider it.  Thanks for the tunes.", "topic": "TALK_REFUGEE_Draco_7" },
-      { "text": "Thanks, Later.", "topic": "TALK_DONE" }
+      { "text": "Thanks, later.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance_2",
     "dynamic_line": "Ah yes, that's the spirit!  This place could sure use more dancing.",
-    "responses": [ { "text": "Cheers!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Cheers!", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Cheers!  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -496,13 +499,19 @@
       "gendered_line": "Oh my, am I dealing with a professional dancer here?  Sweet moves, friend.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Cheers!  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance_4",
     "dynamic_line": "Oh my oh my.  That was impressive!  Sweet moves!",
-    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Cheers!  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -511,13 +520,19 @@
       "gendered_line": "Daym.  You're probably the best dancer I've ever had the honor of meeting.  Well done.  Well done indeed.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Cheers!  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance_6",
     "dynamic_line": "Oh wow.  I didn't even know the human body could move like that.  I don't know what to say.  That was amazing!",
-    "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Cheers!  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
@@ -528,6 +543,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "end": {
       "effect": [
         { "u_add_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },

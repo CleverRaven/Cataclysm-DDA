@@ -26,12 +26,12 @@
         ],
         "prob": 50
       },
-      { "group": "clothing_outdoor_pants", "damage-min": 1, "damage-max": 4 },
-      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
-      { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+      { "group": "clothing_outdoor_pants", "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "lab_shoes", "damage": [ 1, 4 ], "prob": 50 },
+      { "group": "shirts", "damage": [ 1, 4 ], "prob": 50 },
+      { "group": "jackets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "underwear", "damage": [ 1, 3 ] },
       { "item": "corpse", "damage": 4 }
     ]
   },
@@ -186,78 +186,6 @@
         "type": "SHOUT_NOISE",
         "increment": 0.2,
         "power_per_increment": 100
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ACID",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BASH",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BIO",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_COLD",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_CUT",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ELEC",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_HEAT",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_STAB",
-        "increment": 0.1,
-        "power_per_increment": -500
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BULLET",
-        "increment": 0.1,
-        "power_per_increment": -500
       },
       {
         "weight": 50,

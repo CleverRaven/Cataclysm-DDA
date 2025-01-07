@@ -331,8 +331,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -402,8 +400,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -460,8 +456,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -649,12 +643,12 @@
     "volume": "60 ml",
     "longest_side": "9 cm",
     "price": "30 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "LEATHER_AWL", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 6 },
     "weapon_category": [ "SHIVS" ]
@@ -1096,7 +1090,7 @@
     "looks_like": "arming_sword",
     "type": "TOOL",
     "name": { "str_sp": "jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.",
     "replace_materials": { "mc_steel": "steel" }
   },
   {
@@ -1105,7 +1099,7 @@
     "looks_like": "jian",
     "type": "TOOL",
     "name": { "str_sp": "mild steel jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
@@ -1118,7 +1112,7 @@
     "category": "weapons",
     "looks_like": "jian",
     "name": { "str_sp": "medium steel jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "890 g",
     "volume": "2 L",
     "longest_side": "90 cm",
@@ -1141,7 +1135,7 @@
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "high steel jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
@@ -1152,7 +1146,7 @@
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "hardened steel jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel" },
     "proportional": { "price_postapoc": 1.1, "price": 1.1 },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 1 ] ] }
@@ -1163,7 +1157,7 @@
     "type": "TOOL",
     "copy-from": "mc_jian",
     "name": { "str_sp": "tempered steel jian" },
-    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
+    "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao saber, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 2 ] ] }
@@ -1689,8 +1683,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -2569,7 +2561,7 @@
     "volume": "3250 ml",
     "longest_side": "140 cm",
     "material": [ "monolith" ],
-    "//": "The stone blade isnt fully solid, and the idea is it gets AOE techniques and reach attacks from that (besides actually being quite long), should normally be inferior DPS wise vs a katana or nodachi.",
+    "//": "The stone blade isn't fully solid, and the idea is it gets AOE techniques and reach attacks from that (besides actually being quite long), should normally be inferior DPS wise vs a katana or nodachi.",
     "flags": [ "SPEAR", "REACH_ATTACK", "UNBREAKABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
@@ -2580,17 +2572,16 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str": "pair of butterfly swords", "str_pl": "pairs of butterfly swords" },
-    "description": "A matched pair of traditional Shaolin butterfly swords.  They are about the same size as machetes, but have hand guards and wider blades.",
-    "//": "basically 2x the weight, 1.3x the damage, 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
+    "name": { "str": "butterfly sword" },
+    "description": "A Shaolin butterfly sword, about the same size as a machete but with hand guards and wider blades.  Traditionally used in pairs, but just one is more than enough.",
     "price": "500 USD",
     "price_postapoc": "60 USD",
     "material": [ "steel" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
-    "weight": "1766 g",
-    "volume": "1500 ml",
+    "weight": "883 g",
+    "volume": "750 ml",
     "longest_side": "50 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
@@ -2884,7 +2875,7 @@
         {
           "id": "EOC_toolweapon_activate__combatsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "combatsaw_on",
@@ -2918,7 +2909,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__combatsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "combatsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "combatsaw_off" } }
         }
       ]
     },
@@ -2928,7 +2919,7 @@
         {
           "id": "EOC_toolweapon_running__combatsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "12",
               "sound_message": { "i18n": true, "str": "Your combat chainsaw growls." },
@@ -2966,7 +2957,7 @@
         {
           "id": "EOC_toolweapon_activate__e_combatsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "e_combatsaw_on",
@@ -3008,7 +2999,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__e_combatsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "e_combatsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "e_combatsaw_off" } }
         }
       ]
     },
@@ -3018,7 +3009,7 @@
         {
           "id": "EOC_toolweapon_running__e_combatsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "12",
               "sound_message": { "i18n": true, "str": "Your electric combat chainsaw growls." },
@@ -3122,8 +3113,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -3171,8 +3160,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -3257,7 +3244,7 @@
     "copy-from": "mc_kilij",
     "type": "TOOL",
     "name": { "str": "mild steel kilij", "str_pl": "mild steel kilijes" },
-    "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has been made of mild steel, and doesn't even have a proper grip or truly sharp edge.",
+    "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has been made of mild steel, and doesn't even have a proper grip or truly sharp edge.",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
@@ -3269,7 +3256,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "medium steel kilij", "str_pl": "medium steel kilijes" },
-    "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of medium steel.",
+    "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of medium steel.",
     "weight": "2200 g",
     "volume": "1250 ml",
     "longest_side": "90 cm",
@@ -3292,7 +3279,7 @@
     "copy-from": "mc_kilij",
     "type": "TOOL",
     "name": { "str": "high steel kilij", "str_pl": "high steel kilijes" },
-    "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of high steel.",
+    "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of high steel.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
     "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
@@ -3302,7 +3289,7 @@
     "copy-from": "mc_kilij",
     "type": "TOOL",
     "name": { "str": "hardened steel kilij", "str_pl": "hardened steel kilijes" },
-    "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of hardened steel.",
+    "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one has a proper grip and is made of hardened steel.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.1, "price": 1.1 },
     "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 2 ] ] }
@@ -3312,7 +3299,7 @@
     "copy-from": "mc_kilij",
     "type": "TOOL",
     "name": { "str": "tempered steel kilij", "str_pl": "tempered steel kilijes" },
-    "description": "A Turkish sabre, the kilij is quite a bit heavier than most Middle Eastern sabres and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one is made of tempered steel, and has a razor's edge and is impeccably balanced.",
+    "description": "A Turkish saber, the kilij is quite a bit heavier than most Middle Eastern sabers and has a distinctive wide tip called a yelman, which gives it vicious cutting power but means it requires a special scabbard.\n\nThis one is made of tempered steel, and has a razor's edge and is impeccably balanced.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }

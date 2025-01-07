@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -39,9 +40,9 @@
         "........................"
       ],
       "terrain": {
-        "}": "t_railing_v",
-        "®": "t_carpet_green",
-        "l": "t_carpet_green",
+        "}": "t_railing",
+        "®": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "=": "t_floor_noroof",
         "₸": "t_floor_noroof",
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
@@ -51,15 +52,15 @@
         "A": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "g": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "U": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        ",": "t_carpet_purple",
-        "&": "t_carpet_purple",
-        "¤": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "D": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "?": "t_carpet_purple",
-        "I": "t_carpet_purple",
-        "b": "t_carpet_purple"
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "¤": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "D": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "I": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "b": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "furniture": {
         "(": "f_speaker_cabinet",

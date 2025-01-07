@@ -8,6 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "types": [ "HERITAGE" ],
     "vitamin_rates": [
       [ "mutagen", 1 ],
       [ "mutagen_alpha", 1 ],
@@ -39,7 +40,8 @@
     ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "flags": [ "MEND_ALL" ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -67,21 +69,24 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_activated" ],
+    "processed_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_healing" ],
     "deactivated_eocs": [ "EOC_WEREWOLF_HYBRID_FORM_deactivated" ]
   },
   {
     "type": "mutation",
     "id": "WEREWOLF_HYBRID_FORM_TRAITS",
-    "name": { "str": "Werewolf Hybrid Form" },
+    "name": { "str": "Werewolf Hybrid Form", "//~": "NO_I18N" },
     "points": 99,
-    "description": "You are a hybrid of wolf and human.  This provides the actual effects of werewolf hybrid form.  Should not be player-visible",
+    "description": {
+      "str": "You are a hybrid of wolf and human.  This provides the actual effects of werewolf hybrid form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "visibility": 30,
     "ugliness": 30,
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -95,36 +100,91 @@
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
           { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 },
           { "value": "SOCIAL_PERSUADE", "add": -50 },
-          { "value": "SOCIAL_INTIMIDATE", "add": 40 }
+          { "value": "SOCIAL_INTIMIDATE", "add": 40 },
+          { "value": "METABOLISM", "multiply": 4 },
+          { "value": "LEARNING_FOCUS", "add": -10 },
+          { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
         "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "HEARING_MULT", "multiply": 0.75 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 4 }
-        ]
-      },
-      {
         "condition": { "and": [ { "not": "is_day" }, { "math": [ "moon_phase() == 4" ] } ] },
         "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
-      },
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "6 seconds",
-              "spell_effects": [ { "id": "goblin_fruit_regeneration_spell" }, { "id": "shapeshifter_remove_pain_spell" } ]
-            }
-          ]
-        }
       }
     ],
-    "flags": [ "NO_SPELLCASTING", "PRED3", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
-    "override_look": { "id": "mon_loup_garou", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_claws_werewolf", "integrated_werewolf_teeth", "integrated_lupine_fur" ]
+    "flags": [ "NO_SPELLCASTING", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "override_look": { "id": "mon_loup_garou", "tile_category": "monster" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_PHYSICAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the fine dexterity for that.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_MENTAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SOCIALIZE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VIBE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      "u_cancel_activity",
+      {
+        "u_message": "Your mind is filled with the urge to sink your fangs into your enemies' throats, leaving no room for these passive activities.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_SHIFT_BACK_ON_SLEEP",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+    "effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" } ]
   }
 ]

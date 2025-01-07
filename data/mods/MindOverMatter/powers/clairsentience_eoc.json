@@ -3,9 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_DISCERN_WEAKNESS",
     "effect": [
-      { "math": [ "u_discern_weakness_clear_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_discern_weakness_clear_power_level", "=", "n_spell_level('clair_spot_weakness')" ] },
-      { "math": [ "u_nether_attunement_discern_weakness_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_discern_weakness_clear_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_discern_weakness_clear_power_level = n_spell_level('clair_spot_weakness')" ] },
+      { "math": [ "u_nether_attunement_discern_weakness_scaling = n_nether_attunement_power_scaling" ] },
       {
         "u_add_effect": "effect_clair_weak_point",
         "duration": {
@@ -49,6 +49,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RAD_SENSE_OUTSIDE_RECURRING",
     "condition": { "u_has_effect": "effect_clair_sense_rads_self" },
+    "deactivate_condition": { "not": { "u_has_trait": "CLAIRSENTIENT" } },
     "recurrence": 10,
     "effect": [
       { "u_remove_item_with": "clair_sense_rad_item" },
@@ -58,7 +59,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
-    "condition": { "math": [ "u_val('rad')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('rad') <= 0" ] },
     "effect": [
       {
         "u_message": "Turning your senses on yourself, you see none of the insidious glow typical of radiation.  You are in the clear, for now.",
@@ -69,10 +70,10 @@
       "run_eocs": [
         {
           "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_2",
-          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "0" ] }, { "math": [ "u_val('rad')", "<=", "50" ] } ] },
+          "condition": { "and": [ { "math": [ "u_val('rad') > 0" ] }, { "math": [ "u_val('rad') <= 50" ] } ] },
           "effect": [
             {
-              "u_message": "Turning your senses on yourself, you see see a few dull glimmers, hidden deep in your flesh.  The damage is minimal for now, but you had best not let it fester.",
+              "u_message": "Turning your senses on yourself, you see a few dull glimmers, hidden deep in your flesh.  The damage is minimal for now, but you had best not let it fester.",
               "type": "mixed"
             }
           ],
@@ -80,7 +81,7 @@
             "run_eocs": [
               {
                 "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_3",
-                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "51" ] }, { "math": [ "u_val('rad')", "<=", "100" ] } ] },
+                "condition": { "and": [ { "math": [ "u_val('rad') >= 51" ] }, { "math": [ "u_val('rad') <= 100" ] } ] },
                 "effect": [
                   {
                     "u_message": "Turning your senses on yourself, you see a dull glow along your core.  Your radiation is climbing, though it's still not in the danger zone.",
@@ -91,7 +92,7 @@
                   "run_eocs": [
                     {
                       "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_4",
-                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "101" ] }, { "math": [ "u_val('rad')", "<=", "200" ] } ] },
+                      "condition": { "and": [ { "math": [ "u_val('rad') >= 101" ] }, { "math": [ "u_val('rad') <= 200" ] } ] },
                       "effect": [
                         {
                           "u_message": "Turning your senses on yourself, you see a faint glow spreading outward from your core to your limbs.  You're getting closer to dangerous levels--you should deal with it before it gets worse.",
@@ -102,7 +103,7 @@
                         "run_eocs": [
                           {
                             "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_5",
-                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "201" ] }, { "math": [ "u_val('rad')", "<=", "500" ] } ] },
+                            "condition": { "and": [ { "math": [ "u_val('rad') >= 201" ] }, { "math": [ "u_val('rad') <= 500" ] } ] },
                             "effect": [
                               {
                                 "u_message": "Turning your senses on yourself, you see a glow along your bones.  You had best seek treatment, and soon.",
@@ -114,7 +115,7 @@
                               "run_eocs": [
                                 {
                                   "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_6",
-                                  "condition": { "math": [ "u_val('rad')", ">=", "501" ] },
+                                  "condition": { "math": [ "u_val('rad') >= 501" ] },
                                   "effect": [
                                     {
                                       "u_message": "Turning your senses on yourself, you see a steady glow all along your muscles and bones.  You are in real trouble if you don't deal with your radiation immediately.",
@@ -140,15 +141,59 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_CRAFTING_ADD_BLINDNESS_WHEN_CRAFTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRAFT", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_clair_craft_bonus_blindness", "duration": "12 hours" },
+      { "u_message": "You close your eyes as the visions overtake you.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_CRAFTING_REMOVE_BLINDNESS_WHEN_DONE_CRAFTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_clair_craft_bonus_blindness" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRAFT", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_clair_craft_bonus_blindness" },
+      { "u_message": "You open your eyes as the visions fade.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
     "effect": [
       { "u_location_variable": { "u_val": "clair_astral_projection_original_location" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_clair_astral_projection", "duration": "PERMANENT" },
       { "u_add_effect": "incorporeal", "duration": "PERMANENT" },
       { "u_message": "As you meditate, you feel your spirit slipping free from your body.", "type": "good" },
+      { "u_add_trait": "CLAIR_ASTRAL_PROJECTION_APPEARANCE" },
       { "u_spawn_item": "body_astral_projection", "suppress_message": true },
       { "u_spawn_item": "item_clair_astral_projection_cord", "suppress_message": true, "force_equip": true },
-      { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "0" ] }
+      { "math": [ "u_spell_level('clair_astral_projection_return') = 0" ] }
     ]
   },
   {
@@ -158,8 +203,9 @@
       { "u_remove_item_with": "item_clair_astral_projection_cord" },
       { "u_lose_effect": "effect_clair_astral_projection" },
       { "u_lose_effect": "incorporeal" },
-      { "math": [ "u_spell_level('clair_astral_projection_passwall')", "=", "-1" ] },
-      { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "-1" ] },
+      { "u_lose_trait": "CLAIR_ASTRAL_PROJECTION_APPEARANCE" },
+      { "math": [ "u_spell_level('clair_astral_projection_passwall') = -1" ] },
+      { "math": [ "u_spell_level('clair_astral_projection_return') = -1" ] },
       {
         "u_teleport": { "u_val": "clair_astral_projection_original_location" },
         "success_message": "You snap back into your body once again."
@@ -189,7 +235,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_clair_astral_projection" },
-        { "or": [ { "u_has_effect": "winded" }, { "math": [ "u_val('stamina')", "==", "0" ] } ] }
+        { "or": [ { "u_has_effect": "winded" }, { "math": [ "u_val('stamina') == 0" ] } ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE" } ]

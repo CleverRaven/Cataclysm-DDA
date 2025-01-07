@@ -29,7 +29,10 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "map.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -48,6 +51,8 @@
 #include "units.h"
 
 static const efftype_id effect_pet( "pet" );
+
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class ui_adaptor;
 
@@ -173,8 +178,8 @@ class wish_mutate_callback: public uilist_callback
 
             ImGui::TableSetColumnIndex( 2 );
 
-            if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < vTraits.size() ) {
-                const mutation_branch &mdata = vTraits[menu->hovered].obj();
+            if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->previewing].obj();
 
                 ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
                 ImGui::NewLine();
@@ -274,27 +279,27 @@ void debug_menu::wishmutate( Character *you )
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
             if( threshold || profession ) {
-                if( you->has_trait( mstr ) ) {
+                if( you->has_permanent_trait( mstr ) ) {
                     do {
                         you->remove_mutation( mstr );
                         rc++;
-                    } while( you->has_trait( mstr ) && rc < 10 );
+                    } while( you->has_permanent_trait( mstr ) && rc < 10 );
                 } else {
                     do {
                         you->set_mutation( mstr );
                         rc++;
-                    } while( !you->has_trait( mstr ) && rc < 10 );
+                    } while( !you->has_permanent_trait( mstr ) && rc < 10 );
                 }
-            } else if( you->has_trait( mstr ) ) {
+            } else if( you->has_permanent_trait( mstr ) ) {
                 do {
                     you->remove_mutation( mstr );
                     rc++;
-                } while( you->has_trait( mstr ) && rc < 10 );
+                } while( you->has_permanent_trait( mstr ) && rc < 10 );
             } else {
                 do {
                     you->mutate_towards( mstr );
                     rc++;
-                } while( !you->has_trait( mstr ) && rc < 10 );
+                } while( !you->has_permanent_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.selected;
@@ -377,7 +382,7 @@ void debug_menu::wishbionics( Character *you )
 
                     you->perform_install( bio, upbio_uid, difficulty, success, level, "NOT_MED",
                                           bio->canceled_mutations,
-                                          you->pos() );
+                                          you->pos_bub() );
                 }
                 break;
             }
@@ -672,7 +677,7 @@ class wish_monster_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->hovered;
+                const int entnum = menu->previewing;
                 const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
                 if( entnum != lastent ) {
                     lastent = entnum;
@@ -713,33 +718,105 @@ class wish_monster_callback: public uilist_callback
         ~wish_monster_callback() override = default;
 };
 
+static void setup_wishmonster( uilist &pick_a_monster, std::vector<const mtype *> &mtypes )
+{
+    pick_a_monster.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+    pick_a_monster.selected = uistate.wishmonster_selected;
+    int i = 0;
+    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+        pick_a_monster.addentry( i, true, 0, montype.nname() );
+        pick_a_monster.entries[i].extratxt.txt = montype.sym;
+        pick_a_monster.entries[i].extratxt.color = montype.color;
+        pick_a_monster.entries[i].extratxt.left = 1;
+        ++i;
+        mtypes.push_back( &montype );
+    }
+}
+
+void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
+{
+    bool population_group = query_yn(
+                                _( "Is this a population-based horde, based on an existing monster group?  Select \"No\" to manually assign monsters." ) );
+    mongroup new_group;
+    // Just in case, we manually set some values
+    new_group.abs_pos = project_to<coords::sm>( loc );
+    new_group.target = new_group.abs_pos.xy();
+    new_group.population = 1; // overwritten if population_group
+    new_group.horde = true;
+    new_group.type = GROUP_ZOMBIE; // overwritten if population_group
+    if( population_group ) {
+        uilist type_selection;
+        std::vector<mongroup_id> possible_groups;
+        int i = 0;
+        for( auto &group_pair : MonsterGroupManager::Get_all_Groups() ) {
+            possible_groups.emplace_back( group_pair.first );
+            type_selection.addentry( i, true, -1, group_pair.first.c_str() );
+            i++;
+        }
+        type_selection.query();
+        int &selected = type_selection.ret;
+        if( selected < 0 || static_cast<size_t>( selected ) >= possible_groups.size() ) {
+            return;
+        }
+        const mongroup_id selected_group( possible_groups[selected] );
+        new_group.type = selected_group;
+        int new_value = new_group.population; // default value if query declined
+        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        new_group.population = new_value;
+        overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
+        there.debug_force_add_group( new_group );
+        return; // Don't go to adding individual monsters, they'll override the values we just set
+    }
+
+
+    wishmonstergroup_mon_selection( new_group );
+    overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
+    there.debug_force_add_group( new_group );
+}
+
+void debug_menu::wishmonstergroup_mon_selection( mongroup &group )
+{
+
+    std::vector<const mtype *> mtypes;
+    uilist new_mon_selection;
+    setup_wishmonster( new_mon_selection, mtypes );
+    wish_monster_callback cb( mtypes );
+    new_mon_selection.callback = &cb;
+    new_mon_selection.query();
+    int &selected = new_mon_selection.ret;
+    if( selected < 0 || static_cast<size_t>( selected ) >= mtypes.size() ) {
+        return;
+    }
+    const mtype_id &mon_type = mtypes[ selected ]->id;
+    for( int i = 0; i < cb.group; i++ ) {
+        monster new_mon( mon_type );
+        if( cb.friendly ) {
+            new_mon.friendly = -1;
+            new_mon.add_effect( effect_pet, 1_turns, true );
+        }
+        if( cb.hallucination ) {
+            new_mon.hallucination = true;
+        }
+        group.monsters.emplace_back( new_mon );
+    }
+}
+
 void debug_menu::wishmonster( const std::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 
     uilist wmenu;
-    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
-    wmenu.selected = uistate.wishmonster_selected;
+    setup_wishmonster( wmenu, mtypes );
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
-
-    int i = 0;
-    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
-        wmenu.addentry( i, true, 0, montype.nname() );
-        wmenu.entries[i].extratxt.txt = montype.sym;
-        wmenu.entries[i].extratxt.color = montype.color;
-        wmenu.entries[i].extratxt.left = 1;
-        ++i;
-        mtypes.push_back( &montype );
-    }
 
     do {
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( std::optional<tripoint> spawn = p ? p : g->look_around() ) {
+            if( std::optional<tripoint_bub_ms> spawn = p ? tripoint_bub_ms( p.value() ) : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
+                for( const tripoint_bub_ms &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -802,6 +879,11 @@ class wish_item_callback: public uilist_callback
         const std::vector<const itype *> &standard_itype_ids;
         const std::vector<const itype_variant_data *> &itype_variants;
         std::string &last_snippet_id;
+
+        int entnum = -1;
+        std::string header;
+        std::vector<iteminfo> info;
+        item tmp;
 
         explicit wish_item_callback( const std::vector<const itype *> &ids,
                                      const std::vector<const itype_variant_data *> &variants, std::string &snippet_ids ) :
@@ -913,67 +995,65 @@ class wish_item_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
+            const int entnum = menu->previewing;
+            if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
+                tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
+
+                const itype_variant_data *variant = itype_variants[entnum];
+                if( variant != nullptr && tmp.has_itype_variant( false ) ) {
+                    // Set the variant type as shown in the selected list item.
+                    std::string variant_id = variant->id;
+                    tmp.set_itype_variant( variant_id );
+                }
+
+                if( !tmp.type->snippet_category.empty() ) {
+                    if( renew_snippet ) {
+                        last_snippet_id = tmp.snip_id.str();
+                        renew_snippet = false;
+                    } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
+                        std::string snip = chosen_snippet_id.second;
+                        if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
+                            tmp.snip_id = snippet_id( snip );
+                            last_snippet_id = snip;
+                        }
+                    } else {
+                        tmp.snip_id = snippet_id( last_snippet_id );
+                    }
+                }
+
+                header = string_format( "#%d: %s%s%s", entnum,
+                                        standard_itype_ids[entnum]->get_id().c_str(),
+                                        incontainer ? _( " (contained)" ) : "",
+                                        flags.empty() ? "" : _( " (flagged)" ) );
+                info = tmp.get_info( true );
+            }
+
             ImVec2 info_size = ImGui::GetContentRegionAvail();
             info_size.x = desired_extra_space_right( );
+            info_size.y -= ( 3.0 * ImGui::GetTextLineHeightWithSpacing() ) - ImGui::GetFrameHeightWithSpacing();
+
             ImGui::TableSetColumnIndex( 2 );
-            if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->hovered;
-                if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                    item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
-
-                    const itype_variant_data *variant = itype_variants[entnum];
-                    if( variant != nullptr && tmp.has_itype_variant( false ) ) {
-                        // Set the variant type as shown in the selected list item.
-                        std::string variant_id = variant->id;
-                        tmp.set_itype_variant( variant_id );
-                    }
-
-                    if( !tmp.type->snippet_category.empty() ) {
-                        if( renew_snippet ) {
-                            last_snippet_id = tmp.snip_id.str();
-                            renew_snippet = false;
-                        } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
-                            std::string snip = chosen_snippet_id.second;
-                            if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
-                                tmp.snip_id = snippet_id( snip );
-                                last_snippet_id = snip;
-                            }
-                        } else {
-                            tmp.snip_id = snippet_id( last_snippet_id );
-                        }
-                    }
-
-                    const std::string header = string_format( "#%d: %s%s%s", entnum,
-                                               standard_itype_ids[entnum]->get_id().c_str(),
-                                               incontainer ? _( " (contained)" ) : "",
-                                               flags.empty() ? "" : _( " (flagged)" ) );
-                    ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
-                                                header.c_str() ).x ) * 0.5 );
-                    ImGui::TextColored( c_cyan, "%s", header.c_str() );
-
-                    display_item_info( tmp.get_info( true ), {} );
-                }
-
-                float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
-                if( ImGui::GetCursorPosY() < y ) {
-                    ImGui::SetCursorPosY( y );
-                }
-                ImGui::TextColored( c_green, "%s", msg.c_str() );
-                msg.erase();
-                input_context ctxt( menu->input_category, keyboard_mode::keycode );
-                ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                             ctxt.get_desc( "FILTER" ).c_str(),
-                             ctxt.get_desc( "CONTAINER" ).c_str(),
-                             ctxt.get_desc( "FLAG" ).c_str(),
-                             ctxt.get_desc( "EVERYTHING" ).c_str(),
-                             ctxt.get_desc( "SNIPPET" ).c_str(),
-                             ctxt.get_desc( "QUIT" ).c_str() );
+            if( ImGui::BeginChild( "wish item", info_size ) ) {
+                ImGui::SetCursorPosX( ( info_size.x - ImGui::CalcTextSize( header.c_str() ).x ) * 0.5 );
+                ImGui::TextColored( c_cyan, "%s", header.c_str() );
+                display_item_info( info, {} );
             }
             ImGui::EndChild();
+
+            ImGui::TextColored( c_green, "%s", msg.c_str() );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                         ctxt.get_desc( "FILTER" ).c_str(),
+                         ctxt.get_desc( "CONTAINER" ).c_str(),
+                         ctxt.get_desc( "FLAG" ).c_str(),
+                         ctxt.get_desc( "EVERYTHING" ).c_str(),
+                         ctxt.get_desc( "SNIPPET" ).c_str(),
+                         ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
 
@@ -1028,7 +1108,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "SCROLL_DESC_UP", translation() },
         { "SCROLL_DESC_DOWN", translation() },
     };
-    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+    wmenu.desired_bounds = { -0.9, -0.9, 0.9, 0.9 };
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( itypes, ivariants, snipped_id_str );
     wmenu.callback = &cb;

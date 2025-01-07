@@ -55,5 +55,45 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "TELEKIN_SHIELD" ]
+  },
+  {
+    "id": "effect_suppression_belt_fire_protection",
+    "type": "effect_type",
+    "//": "Blank to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "HEAT_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_disease",
+    "name": [ "Unearthly Cold" ],
+    "desc": [ "You are chilled from the inside out." ],
+    "apply_message": "A numbing cold spreads out from your stomach to your whole body.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300 ],
+      "vomit_chance": [ 600 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 2 ],
+      "health_tick": [ 60 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_max": [ 2 ],
+      "sleepiness_chance": [ 4 ],
+      "sleepiness_tick": [ 60 ],
+      "sleepiness_max_val": [ 700 ]
+    },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -40 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_nightmares",
+    "//": "Hidden effect to set off an EoC",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

@@ -43,5 +43,51 @@
     "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_mace",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "shadowy warrior" },
+    "looks_like": "mon_memory",
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_axe",
+    "copy-from": "mon_feral_armored_battleaxe",
+    "name": { "str": "shadowy warrior" },
+    "looks_like": "mon_memory",
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "name": { "str": "shadowy warrior" },
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "looks_like": "mon_memory",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
   }
 ]

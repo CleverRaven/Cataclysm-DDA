@@ -126,7 +126,7 @@
   {
     "type": "MONSTER",
     "abstract": "mon_amalgamation_abstract_small",
-    "name": { "str": "abstracted amalgamation" },
+    "name": { "str": "abstracted amalgamation", "//~": "NO_I18N" },
     "color": "white",
     "symbol": "a",
     "bodytype": "spider",

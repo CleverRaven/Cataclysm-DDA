@@ -17,8 +17,8 @@
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
             { "not": { "npc_has_trait": "VAMPIRE" } },
-            { "math": [ "n_npc_trust()", ">=", "10" ] },
-            { "math": [ "n_npc_value()", ">=", "10" ] },
+            { "math": [ "n_npc_trust() >= 10" ] },
+            { "math": [ "n_npc_value() >= 10" ] },
             { "u_has_trait": "VAMPIRE" }
           ]
         }
@@ -43,10 +43,9 @@
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
             { "not": { "npc_has_trait": "VAMPIRE" } },
-            { "math": [ "n_npc_trust()", "<=", "9" ] },
-            { "math": [ "n_npc_value()", "<=", "9" ] },
-            { "math": [ "n_npc_trust()", ">", "0" ] },
-            { "math": [ "n_npc_value()", ">", "0" ] },
+            { "not": { "and": [ { "math": [ "n_npc_trust() >= 10" ] }, { "math": [ "n_npc_value() >= 10" ] } ] } },
+            { "math": [ "n_npc_trust() > 0" ] },
+            { "math": [ "n_npc_value() > 0" ] },
             { "u_has_trait": "VAMPIRE" }
           ]
         }
@@ -91,8 +90,7 @@
         "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_NOPE",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", "<=", "0" ] },
-            { "math": [ "n_npc_value()", "<=", "0" ] },
+            { "or": [ { "math": [ "n_npc_trust() <= 0" ] }, { "math": [ "n_npc_value() <= 0" ] } ] },
             { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
             { "not": { "npc_has_trait": "ACIDBLOOD" } },
             { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },

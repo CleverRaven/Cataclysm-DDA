@@ -20,6 +20,7 @@
     - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
     - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
     - [Monster spells](#monster-spells)
+    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
   - [Enchantments](#enchantments)
     - [The `relic_data` field](#the-relic_data-field)
     - [Variables](#variables)
@@ -67,6 +68,8 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
+    "get_level_formula_id": "jmath_get_level_formula",        // The id of a jmath formula that calculates what level the spell is for a given exp value.  Must be the inverse of exp_for_level_formula_id.
+    "exp_for_level_formula_id": "jmath_exp_for_level_formula",// The id of a jmath formula that calculates how much exp is required for a given level.  Must be the inverse of get_level_formula_id.
     "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
     "accuracy_increment": 1.5
@@ -172,7 +175,7 @@ Effect                 | Description
 `charm_monster`        | Charms a monster that has less hp than damage() for approximately duration().
 `dash`                 | Dashes forward up to range and hits targets in a cone at the target.
 `directed_push`        | Pushes `valid_targets` in aoe away from the target location, with a distance of damage().  Negative values pull instead.
-`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster.
+`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
 `flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
@@ -229,15 +232,17 @@ Field group | Description | Example
 `min_range`, `max_range`, `range_increment` | Distance from the caster to the target.  Can be omitted if the target is the caster (giving an buff/debuff, spawning an item).  <br>Note: the reality bubble diameter is ~60 tiles. | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
 `min_aoe`, `max_aoe`, `aoe_increment` | Short for "area of effect", area/zone of tiles that the spell will affect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
 `min_accuracy`, `max_accuracy`, `accuracy_increment` | Accuracy of the spell.  -20 accuracy will cause it to always miss, 20 will cause it always hit.  Currently doesn't work. | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
-`min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: dot values are rounded up, so 1.1 will be 2. | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
+`min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: decimal values use roll_remainder(); having 0.5 would result in dot dealing 1 damage randomly every 2 seconds on average. Affected by `affected_body_parts` field | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
 `min_pierce`, `max_pierce`, `pierce_increment` | Armor "piercing", how much armor of the same `damage_type` the spell will ignore. | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
+`min_bash_scaling`, `max_bash_scaling`, `bash_scaling_increment` | Converts a spell with the "attack" effect's damage into the scaling amount of terrain damage.  | "min_bash_scaling": 1.0, <br>"max_bash_scaling": 2.0, <br>"bash_scaling_increment": 0.1,
 `base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's written in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 `base_energy_cost`, `final_energy_cost`, `energy_increment` | Amount of energy spent for cast.  If several spells are chained, only the first one will apply the cost.  Ignored for monsters and items that cast spells. | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Allows the spell to spawn fields.  `field_id` describes which field will be spawned, `field_chance` describes the chance as ( 1 / `field_chance`).  <br>`min_field_intensity`, `max_field_intensity` and `field_intensity_increment` modify the field intensity and it's growth (e.g. fd_electricity intensity 1 is "spark", while intensity 10 is "electric cloud").  <br>`field_intensity_variance` allows to randomly increase or decrease the intensity of the spell as a percent (e.g. intensity 10 and variance 0.1 means it can grow or shrink by 10%, or go from 9 to 11). | "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
 `effect_str` | The "effect" the spell has (see [EFFECTS_JSON](EFFECTS_JSON.md)).  Varies according to the spell `effect` field. | "effect_str": "zapped", "effect_str": "mon_zombie",
 `max_level` | How much you can train the spell.  Default is 0.  Ignored for monsters and items that cast spells. | "max_level": 10,
 `difficulty` | How hard is to cast the spell.  A high difficulty spell is easier to fail, failing grants spell XP at no resource cost.  It also limits the maximum spellcasting skill that can be gained by casting it (e.g. difficulty 10 will train up to spellcasting lvl 10). | "difficulty": 7,
-`affected_body_parts` | `body_part` where the `effect_str` will occur.  Set at `torso` by default.  Currently doesn't work. | "affected_body_parts": [ "head" ] 
+`multiple_projectiles` | If value is bigger than one, instead of shooting single spell with damage X, you will shoot `multiple_projectiles` amount of projectiles with damage `damage/multiple_projectiles`, which may damage different body parts (each projectile has 75% chance to hit torso still). Doesn't interact with affected_body_parts | "multiple_projectiles": 2,
+`affected_body_parts` | `body_part` where the `attack`, `dot` or `effect_str` will occur.  For effects, set at `torso` by default. For attack and dot, picks a random bodypart, weighted by it's hit_size | "affected_body_parts": [ "head" ] 
 `extra_effects` | Allows to cast a secondary spell `id` immediately after the primary spell.  Allows for multiple `id`s. | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
 `learn_spells` | Allow user to learn the spell `id` when they reach that spell level  (e.g. `"create_atomic_light": 5` means user will learn create_atomic_light when they reach level 5 of the primary spell).  Allows for multiple `id`s. | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
 `teachable` | Whether it's possible to teach this spell between characters.  Default is true. | `"teachable": true`
@@ -282,7 +287,7 @@ Flag                       | Description
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
 `NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
-`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
+`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). If affected_body_parts is specified, deal percentage damage only to this body parts. Works with both attacks and DOTs
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
@@ -297,6 +302,7 @@ Flag                       | Description
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 `SPAWN_WITH_DEATH_DROPS`   | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+`SPLIT_DAMAGE`             | If used, instead of dealing damage to a random body part, damage would be spread evenly across entire body, unless affected_body_parts is specificed. Works only on characters (NPC or Avatar), for monsters do not have limbs. Works with both attacks and DOTs
 `SWAP_POS`                 | A projectile spell swaps the positions of the caster and target.
 `TARGET_TELEPORT`          | Teleport spell changes to maximum range target with aoe as variation around target.
 `UNSAFE_TELEPORT`          | Teleport spell risks killing the caster or others.
@@ -612,6 +618,43 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
 
+### Custom Spell Experience Requirements
+
+Spells may have custom formulas for their xp requirements to level by combining the `get_level_formula_id` and `exp_for_level_formula_id` fields.
+These fields both take the id of a jmath_function that they can use to calculate the xp requirement instead of the default formula.
+The given jmath functions must only have 1 argument (for the spell level or experience) and they should not make any calls to the alpha or beta talkers.  Spell calculations are intended to be character agnostic, and while using functions such as u_skill('DEDUCTION') will not error, it will always be calculated from the player characters data, even if for an npc or other uses of spell xp calculations.
+Also, keep in mind that changing the spell experience requirements of an existing spell will likely do strange things to any characters that already knew the spell before the xp requirements were changed.
+
+Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
+
+Constant Spell Exp Requirement Example:
+```json
+  {
+    "id": "test_spell",
+    "type": "SPELL",
+    "name": "test",
+    "description": "constant spell experience formula.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "min_damage": 1,
+    "max_damage": 1,
+    "get_level_formula_id": "magic_test_func_get_level",
+    "exp_for_level_formula_id": "magic_test_func_exp_for_level"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_get_level",
+    "num_args": 1,
+    "return": "_0 / 1000"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_exp_for_level",
+    "num_args": 1,
+    "return": "1000 * _0"
+  },
+```
+
 
 ## Enchantments
 
@@ -632,13 +675,16 @@ Identifier                  | Description
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
+All fields except for `type` and `id` are optional.  This includes the otherwise obligatory `name` and `description`.  If a name and description are set, they will be displayed in the EFFECTS tab.
 
-There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
+There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the inline enchantment inside something (in this case, an item):
 
 ```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
+    "name": { "str": "Invisibility" },
+    "description": "You are invisible.  Just that.",
     "condition": "ALWAYS",
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
@@ -649,6 +695,31 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "melee_damage_bonus": [ // adds this amount of damage to attack; adding damage adds flat number to attacks, multiplier multiplies existing damage after adding
+    { "type": "bash", "add": 10 }, // add 10 would straight add 10 damage of this type to each attack
+    { "type": "cut", "add": -3 }, // add -3 would decrease any cut damage up to zero
+    { "type": "heat", "multiply": 0.5 }, // 0.5 would mean damage be increased by 50%
+    { "type": "acid", "multiply": -0.5 }, // -0.5 would mean 50% decrease of damage
+    { "type": "necrotic", "add": 10, "multiply": 0.1 }, // any damage_type is supported
+    { "type": "biological", "add": { "math": [ "Nemesis_iteration * -1" ] } } // supports math and stuff, works for both character/npcs and monsters. multiple `melee_damage_bonus`es of the same type do stack
+    ],
+    "incoming_damage_mod": [ // any incoming damage would be modified by this value
+      { "type": "bash", "add": 10 }, // adding would increase the taken damage (hurt more!)
+      { "type": "stab", "add": -8 }, // negative adding would subtract damage taken by this amount
+      { "type": "cut", "multiply": -0.5 }, // multiplication would multiply entire damage; -0.5 would result in 50% of damage being removed
+      { "type": "bullet", "add": 1 }, // `"multiply": 1` would double all incoming bullet damage
+      { "type": "electric", "add": { "math": [ "rand(3) * -1" ] } }, // supports math and stuff, works for both character/npcs and monsters. multiple `incoming_damage_mod`es of the same type do stack
+      { "type": "acid", "add": 1, "multiply": 1 } // damage is subtracted before your physical armor (chain mail or similar), best works for decreasing incoming damage, as if character has additional layer of armor
+    ],
+    "incoming_damage_mod_post_absorbed": [ // works exactly same as incoming_damage_mod, but is applied after your physical armor (chain mail or similar), so best works for adding damage, as if character is specifically suseptible to this type of damage
+      { "type": "bash", "add": 10 },
+      { "type": "stab", "add": -8 },
+      { "type": "cut", "multiply": -0.5 },
+      { "type": "bullet", "add": 1 },
+      { "type": "electric", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "acid", "add": 1, "multiply": 1 }
+    ],
+    
     "intermittent_activation": {
       "effects": [
         {
@@ -659,9 +730,51 @@ There are two possible syntaxes.  The first is by defining an enchantment object
         }
       ]
     }
+    "special_vision": [   // defines creatures (monsters or NPC) you can see in some irregular ways, thermal, supernatural, you name it
+      {
+        "condition": { "and": [ { "npc_has_flag": "ELECTRIC" }, "u_see_npc" ] },   // this need to return true to see the critter; u is character, npc is critter being watched
+        "distance": 20, // how far special_vision is applied. for technical reasons special_vision do not stack, having multiple special_visions of the same nature will not result in special_visions of bigger distance
+        "precise": true,  // if true, you can aim the critter as if it's visible, if false, your ability to aim it would be limited.  Default false
+        "ignores_aiming_cone": true, // if true, aiming the gun do not obscure sensing the creature.  Default false
+        "descriptions": [ // if condition is true, this will assign a dedicated id (used for tiles) and text, depending on text_condition
+          { 
+            "id": "infrared_creature_tiny", 
+            "text_condition": { "math": [ "n_val('size') == 1" ] }, // optional condition for this specific id to be used. Default true.  Be sure to not use condition that can change in between moves (like any math with random result, `rand(1)` etc); 
+                        // while text with tags is stored and re-evaluated only when cursor changes its position, tiles are re-evaluated every frame, even on pause
+            "text": "Message 1.",
+            "symbol": "@",  // symbol, that would be used in ascii.  Optional, default is `?`
+            "color": "c_magenta" // color of symbol, that would be used in ascii.  Optional, default is `c_red`
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "Message 2."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "Message 3. <fuck_you>" // tags are also supported
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "Message 4."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "Message 5."
+          },
+          {
+            "id": "infrared_creature_medium",
+             "text": "Last message."  // descriptions are read in order they are in json, adding dummy condition that always return true can be used as a fallback if none previous condition matches;
+             // otherwise default description is `You sense a creature here.`, and default id is `infrared_creature`
+          }
+        ]
+      }
+    ]
   }
 ```
-Note: all fields except for `type` and `id` are optional.
 
 ```json
   {
@@ -674,7 +787,6 @@ Note: all fields except for `type` and `id` are optional.
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
   }
 ```
-
 
 ### The `relic_data` field
 
@@ -777,7 +889,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
     "type": "enchantment",
     "id": "BITE_STR",
     "has": "WIELD",
-    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] },
+    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] },
     "values": [ { "value": "STRENGTH", "add": 5 } ]
   }
 ```
@@ -788,16 +900,7 @@ The following is a list of possible enchantment `values`:
 
 Character status value  | Description
 ---                     |---
-`ARMOR_ACID`            | Negative values give armor against the damage, positive values make you accept more damage of this type.
-`ARMOR_ALL`             |
-`ARMOR_BASH`            | 
-`ARMOR_BIO`             | 
-`ARMOR_BULLET`          | 
-`ARMOR_COLD`            | 
-`ARMOR_CUT`             | 
-`ARMOR_ELEC`            | 
-`ARMOR_HEAT`            | 
-`ARMOR_STAB`            | 
+`ARMOR_ALL`             | Gives this amount of protection against any damage type except one with "no_resist": true. For more precise changes use incoming_damage_mod or item_armor_bonus
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
 `ATTACK_SPEED`          | Affects attack speed of item, even if it's not the one you're wielding, and throwing cost (capped at 25 moves). `"add": 10` adds 10 moves to each attack (makes it longer), `"add": -10` makes each attack faster for 10 moves; `"multiply": 1` doubles the speed of each attack
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
@@ -821,15 +924,6 @@ Character status value  | Description
 `DODGE_CHANCE`          | Modifies the probability to dodge an attack. Default is 0, so better to use `add`
 `EFFECTIVE_HEALTH_MOD`  | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
 `EQUIPMENT_DAMAGE_CHANCE` | Modifies the likelihood that weapons and armor take durability damage.  Since it's a percent, using 'multiply' is recommended.  Positive values increase likelihood of damage while negative values decrease likelihood.  `multiply`: -1 and below result in indestructible equipment.
-`EXTRA_ACID`            | EXTRA_TYPE increases received damage of the selected type.
-`EXTRA_BASH`            | 
-`EXTRA_BIO`             | 
-`EXTRA_BULLET`          | 
-`EXTRA_COLD`            | 
-`EXTRA_CUT`             | 
-`EXTRA_ELEC`            | 
-`EXTRA_HEAT`            | 
-`EXTRA_STAB`            | 
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
 `EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers.  From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
 `FALL_DAMAGE`           | Affects the amount of fall damage you take.
@@ -851,12 +945,12 @@ Character status value  | Description
 `MAX_MANA`              | 
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | Adds damage to melee attacks
+`MELEE_TO_HIT`          | Modifies melee attacks' `to_hit`. `add` is recommended since `to_hit` can be below 0 and has a small typical range.
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
 `METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
-`MOTION_VISION_RANGE`   | Reveals all monsters as a red `?` within the specified radius.
 `MOVE_COST`             | 
 `MUT_INSTABILITY_MOD`   | Modifies your instability score, which affects the chance to get bad mutation (scales with amount of good mutations you have, capping at 67%, check `Character::roll_bad_mutation` for more information). `add: 1` would be equal to having 1 good mutation more, increasing the chance to get bad mutation, `add: -1` would be like you have one good mutation less, decreasing the chance to get bad mutation.
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
@@ -878,6 +972,7 @@ Character status value  | Description
 `PHASE_DISTANCE`        | Distance the character is able to teleport through impassible terrain.  Values less than 1 do nothing and the max distance is 48 tiles.
 `POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
+`RANGED_ARMOR_PENETRATION` | Adds armor penetration to ranged attacks.
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
 `RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
@@ -890,10 +985,6 @@ Character status value  | Description
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
-`SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
-`SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
-`SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
-`SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `SKILL_RUST_RESIST`     | when `add`, chance / 100 to resist skill rust; when `multiply`, multiplier for skill rust amount - the smaller, the less experience you will rust
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
@@ -912,34 +1003,11 @@ Character status value  | Description
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
+`WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
-
-
-Melee-only enchantment values | Description
----                           |---
-`ITEM_DAMAGE_ACID`            | 
-`ITEM_DAMAGE_BASH`            | 
-`ITEM_DAMAGE_BIO`             | 
-`ITEM_DAMAGE_BULLET`          | 
-`ITEM_DAMAGE_COLD`            | 
-`ITEM_DAMAGE_CUT`             | 
-`ITEM_DAMAGE_ELEC`            | 
-`ITEM_DAMAGE_HEAT`            | 
-`ITEM_DAMAGE_PURE`            | 
-`ITEM_DAMAGE_STAB`            | 
-
 
 Enchanted item value | Description
 ---                  |---
-`ITEM_ARMOR_ACID`    | 
-`ITEM_ARMOR_BASH`    | 
-`ITEM_ARMOR_BIO`     | 
-`ITEM_ARMOR_BULLET`  | 
-`ITEM_ARMOR_COLD`    | 
-`ITEM_ARMOR_CUT`     | 
-`ITEM_ARMOR_ELEC`    | 
-`ITEM_ARMOR_HEAT`    | 
-`ITEM_ARMOR_STAB`    | 
 `ITEM_ATTACK_SPEED`  | 
 
 ### Enchantments on monsters
@@ -947,16 +1015,6 @@ A small subset of enchantments can be applied to monsters via effects. These are
 
 Character status value  | Description
 ---                     |---
-`ARMOR_ACID`            | Negative values give armor against the damage, positive values make the monster accept more damage of this type.
-`ARMOR_ALL`             | 
-`ARMOR_BASH`            | 
-`ARMOR_BIO`             | 
-`ARMOR_BULLET`          | 
-`ARMOR_COLD`            | 
-`ARMOR_CUT`             | 
-`ARMOR_ELEC`            | 
-`ARMOR_HEAT`            | 
-`ARMOR_STAB`            | 
 `REGEN_HP`              | Affects the rate the monster recovers hp.
 `VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
@@ -965,11 +1023,11 @@ Character status value  | Description
 ### Enchantment value examples
 
 ```C++
-  { "value": "ARMOR_ELEC", "add": -20 }       // subtracts 20 points of incoming electrical damage
+  { "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] },      // subtracts 20 points of incoming electrical damage
   { "value": "ATTACK_SPEED", "add": -60 }     // subtracts 60 attack moves, making the attacker faster
-  { "value": "ARMOR_COLD", "multiply": -0.4 } // subtracts 40% of incoming cold damage
-  { "value": "ARMOR_HEAT", "multiply": 0.4 }  // increases damage taken from fire by 40%
-  { "value": "ARMOR_CUT", "add": 2 }          // increases incoming cut damage by 2
-  { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%
-  { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140%
+  { "incoming_damage_mod": [ { "type": "cold", "multiply": -0.4 } ] } // subtracts 40% of incoming cold damage
+  { "incoming_damage_mod": [ { "type": "heat", "multiply": 0.4 } ] } // increases damage taken from fire by 40%
+  { "incoming_damage_mod": [ { "type": "cut", "add": 2 } ] } // increases incoming cut damage by 2
+  { "incoming_damage_mod": [ { "type": "biological", "multiply": -1.4 } ] } // subtracts 100 percent of incoming biological damage
+  { "incoming_damage_mod": [ { "type": "acid", "multiply": 1.4 } ] } // increases incoming acid damage by 140%
 ```

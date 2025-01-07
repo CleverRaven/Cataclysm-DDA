@@ -66,27 +66,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "eoc_conjunctivitis_itch",
-    "recurrence": [ "10 minutes", "45 minutes" ],
-    "condition": {
-      "and": [
-        { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
-        { "not": { "u_has_effect": "formication" } },
-        { "not": { "u_has_effect": "took_antihistamine" } },
-        { "not": { "u_has_effect": "sleep" } }
-      ]
-    },
-    "effect": [ { "u_add_effect": "formication", "duration": 300, "target_part": "head" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "eoc_conjunctivitis_sting",
-    "recurrence": [ "10 minutes", "45 minutes" ],
+    "recurrence": [ "45 minutes", "120 minutes" ],
     "condition": { "and": [ { "u_has_effect": "conjunctivitis", "bodypart": "eyes" }, { "not": { "u_has_effect": "sleep" } } ] },
     "effect": [
       {
         "u_add_effect": "smoke_eyes",
-        "duration": 180,
+        "duration": 300,
         "intensity": { "math": [ "u_effect_intensity('smoke_eyes', 'bodypart': 'eyes') + 1" ] },
         "target_part": "eyes"
       }
@@ -104,7 +90,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DERMATIK_BIRTH_INIT",
     "recurrence": [ "3 minutes", "10 minutes" ],
-    "condition": { "and": [ { "math": [ "u_vitamin('dermatik_larva_size')", ">=", "1440" ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ] },
+    "condition": { "and": [ { "math": [ "u_vitamin('dermatik_larva_size') >= 1440" ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ] },
     "effect": { "u_lose_effect": "dermatik" }
   },
   {
@@ -115,10 +101,10 @@
     "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
     "effect": [
       {
-        "if": { "math": [ "u_vitamin('dermatik_larva_size')", ">=", "1440" ] },
+        "if": { "math": [ "u_vitamin('dermatik_larva_size') >= 1440" ] },
         "then": [
           { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
-          { "math": [ "NUM_LARVA", "=", "u_val('size')" ] },
+          { "math": [ "NUM_LARVA = u_val('size')" ] },
           {
             "u_message": "<global_val:NUM_LARVA> dermatik larvae bursts out of the bulge of flesh on your <global_val:IMPREGNATED_BODYPART>!",
             "type": "bad"
@@ -131,7 +117,7 @@
           },
           { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
           { "turn_cost": "6 seconds" },
-          { "math": [ "HOW_MUCH_WILL_THIS_SUCK", "=", "rng(21, 30)" ] },
+          { "math": [ "HOW_MUCH_WILL_THIS_SUCK = rng(21, 30)" ] },
           { "math": [ "u_vitamin('blood')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
           { "math": [ "u_vitamin('redcells')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
           {
@@ -139,13 +125,13 @@
             "target_part": { "global_val": "IMPREGNATED_BODYPART" },
             "duration": { "math": [ "HOW_MUCH_WILL_THIS_SUCK * 60" ] }
           },
-          { "math": [ "u_pain()", "+=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] },
+          { "math": [ "u_pain('type': 'perceived')", "+=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] },
           { "math": [ "u_hp(IMPREGNATED_BODYPART)", "-=", "HOW_MUCH_WILL_THIS_SUCK * 2" ] }
         ],
         "else": { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size') / 3" ] }
       },
       { "u_lose_effect": "dermatik_visible" },
-      { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] }
+      { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] }
     ]
   },
   {

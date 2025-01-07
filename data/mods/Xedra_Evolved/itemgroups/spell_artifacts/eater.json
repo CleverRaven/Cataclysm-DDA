@@ -120,13 +120,18 @@
       { "item": "artifact_skull", "prob": 100 },
       { "item": "artifact_eye_left", "prob": 50 },
       { "item": "eater_book_artifact", "prob": 50 },
-      { "item": "artifact_muscle", "prob": 50 }
+      { "item": "artifact_muscle", "prob": 50 },
+      { "item": "artifact_anchor", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
     "id": "xe_eater_spell_tier4",
     "subtype": "distribution",
-    "entries": [ { "item": "artifact_eye_right", "prob": 100 }, { "item": "ring_artifact", "prob": 50 } ]
+    "entries": [
+      { "item": "artifact_eye_right", "prob": 100 },
+      { "item": "ring_artifact", "prob": 50 },
+      { "item": "artifact_sand", "prob": 50 }
+    ]
   }
 ]

@@ -2,6 +2,19 @@
 
 #include <cstdlib>
 
+// Moved from obsolete coordinate_conversions
+static point om_to_omt_copy( const point &p )
+{
+    return point( p.x * OMAPX, p.y * OMAPY );
+}
+
+static point omt_to_ms_copy( const point &p )
+{
+    return point( p.x * 2 * SEEX, p.y * 2 * SEEY );
+}
+
+// End of moved code.
+
 void real_coords::fromabs( const point &abs )
 {
     const point norm( std::abs( abs.x ), std::abs( abs.y ) );
@@ -34,6 +47,12 @@ void real_coords::fromabs( const point &abs )
     om_pos.y = om_sub.y / 2;
 }
 
+void real_coords::fromomap( const point &rel_om, const point &rel_om_pos )
+{
+    const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
+    fromabs( omt_to_ms_copy( a ) );
+}
+
 point_rel_ms rebase_rel( point_sm_ms p )
 {
     return point_rel_ms( p.raw() );
@@ -45,6 +64,10 @@ point_rel_ms rebase_rel( point_omt_ms p )
 point_rel_ms rebase_rel( point_bub_ms p )
 {
     return point_rel_ms( p.raw() );
+}
+point_rel_sm rebase_rel( point_bub_sm p )
+{
+    return point_rel_sm( p.raw() );
 }
 point_sm_ms rebase_sm( point_rel_ms p )
 {
@@ -58,6 +81,10 @@ point_bub_ms rebase_bub( point_rel_ms p )
 {
     return point_bub_ms( p.raw() );
 }
+point_bub_sm rebase_bub( point_rel_sm p )
+{
+    return point_bub_sm( p.raw() );
+}
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p )
 {
     return tripoint_rel_ms( p.raw() );
@@ -70,6 +97,10 @@ tripoint_rel_ms rebase_rel( tripoint_bub_ms p )
 {
     return tripoint_rel_ms( p.raw() );
 }
+tripoint_rel_sm rebase_rel( tripoint_bub_sm p )
+{
+    return tripoint_rel_sm( p.raw() );
+}
 tripoint_sm_ms rebase_sm( tripoint_rel_ms p )
 {
     return tripoint_sm_ms( p.raw() );
@@ -81,6 +112,10 @@ tripoint_omt_ms rebase_omt( tripoint_rel_ms p )
 tripoint_bub_ms rebase_bub( tripoint_rel_ms p )
 {
     return tripoint_bub_ms( p.raw() );
+}
+tripoint_bub_sm rebase_bub( tripoint_rel_sm p )
+{
+    return tripoint_bub_sm( p.raw() );
 }
 point_bub_ms rebase_bub( point_omt_ms p )
 {

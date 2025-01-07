@@ -77,15 +77,15 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
+static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
-static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
@@ -282,10 +282,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
 
     // Draw the explosion, but only if the explosion center is within the reality bubble
     map &bubble_map = get_map();
-    if( bubble_map.inbounds( m->getabs( p ) ) ) {
-        std::map<tripoint, nc_color> explosion_colors;
+    if( bubble_map.inbounds( m->getglobal( p ) ) ) {
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
-            const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( pt ) ) );
+            const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
 
             if( !bubble_map.inbounds( bubble_pos ) ) {
                 continue;
@@ -302,10 +302,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                 col = c_yellow;
             }
 
-            explosion_colors[bubble_pos.raw()] = col;
+            explosion_colors[bubble_pos] = col;
         }
 
-        draw_custom_explosion( get_player_character().pos(), explosion_colors );
+        draw_custom_explosion( explosion_colors );
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -337,7 +337,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         }
 
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( pt ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
         Creature *critter = creatures.creature_at( bubble_pos, true );
         if( critter == nullptr ) {
             continue;
@@ -429,9 +429,9 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range<tripoint_bub_ms> area = m->bub_points_on_zlevel( src.z() );
+    const tripoint_range<tripoint_bub_ms> area = m->points_on_zlevel( src.z() );
 
-    m->build_obstacle_cache( area.min().raw(), area.max().raw() + tripoint_south_east, obstacle_cache );
+    m->build_obstacle_cache( area.min(), area.max() + tripoint::south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -459,13 +459,14 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getabs( target ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( target ) ) );
         Creature *critter = creatures.creature_at( bubble_pos );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
             dealt_projectile_attack frag;
             frag.proj = proj;
+            frag.shrapnel = true;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance( damage_bullet, damage );
             // dealt_dam.total_damage() == 0 means armor block
@@ -511,7 +512,8 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
     return distrib;
 }
 
-void explosion( const Creature *source, const tripoint &p, float power, float factor, bool fire,
+void explosion( const Creature *source, const tripoint_bub_ms &p, float power, float factor,
+                bool fire,
                 int casing_mass, float frag_mass )
 {
     explosion_data data;
@@ -534,7 +536,7 @@ bool explosion_processing_active()
     return process_explosions_in_progress;
 }
 
-void explosion( const Creature *source, const tripoint &p, const explosion_data &ex )
+void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex )
 {
     _explosions.emplace_back( source, get_map().getglobal( p ), ex );
 }
@@ -597,18 +599,18 @@ void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
     }
 }
 
-void flashbang( const tripoint &p, bool player_immune )
+void flashbang( const tripoint_bub_ms &p, bool player_immune )
 {
     draw_explosion( p, 8, c_white );
     Character &player_character = get_player_character();
-    int dist = rl_dist( player_character.pos(), p );
+    int dist = rl_dist( player_character.pos_bub(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
         if( !player_character.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) &&
             !player_character.is_wearing( itype_rm13_armor_on ) ) {
             player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
-        if( here.sees( player_character.pos(), p, 8 ) ) {
+        if( here.sees( player_character.pos_bub(), p, 8 ) ) {
             int flash_mod = 0;
             if( player_character.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
@@ -632,12 +634,12 @@ void flashbang( const tripoint &p, bool player_immune )
             continue;
         }
         // TODO: can the following code be called for all types of creatures
-        dist = rl_dist( critter.pos(), p );
+        dist = rl_dist( critter.pos_bub(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos_bub(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag( mon_flag_HEARS ) ) {
@@ -649,7 +651,7 @@ void flashbang( const tripoint &p, bool player_immune )
     // TODO: Blind/deafen NPC
 }
 
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
+void shockwave( const tripoint_bub_ms &p, int radius, int force, int stun, int dam_mult,
                 bool ignore_player )
 {
     draw_explosion( p, radius, c_blue );
@@ -658,34 +660,34 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posz() != p.z ) {
+        if( critter.posz() != p.z() ) {
             continue;
         }
-        if( rl_dist( critter.pos(), p ) <= radius ) {
+        if( rl_dist( critter.pos_bub(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            g->knockback( p, critter.pos(), force, stun, dam_mult );
+            g->knockback( p, critter.pos_bub(), force, stun, dam_mult );
         }
     }
     // TODO: combine the two loops and the case for avatar using all_creatures()
     for( npc &guy : g->all_npcs() ) {
-        if( guy.posz() != p.z ) {
+        if( guy.posz() != p.z() ) {
             continue;
         }
-        if( rl_dist( guy.pos(), p ) <= radius ) {
+        if( rl_dist( guy.pos_bub(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.get_name() );
-            g->knockback( p, guy.pos(), force, stun, dam_mult );
+            g->knockback( p, guy.pos_bub(), force, stun, dam_mult );
         }
     }
     Character &player_character = get_player_character();
-    if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
+    if( rl_dist( player_character.pos_bub(), p ) <= radius && !ignore_player &&
         ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
           !player_character.is_barefoot() ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, player_character.pos(), force, stun, dam_mult );
+        g->knockback( p, player_character.pos_bub(), force, stun, dam_mult );
     }
 }
 
-void scrambler_blast( const tripoint &p )
+void scrambler_blast( const tripoint_bub_ms &p )
 {
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
@@ -697,7 +699,7 @@ void scrambler_blast( const tripoint &p )
     }
 }
 
-void emp_blast( const tripoint &p )
+void emp_blast( const tripoint_bub_ms &p )
 {
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
@@ -710,8 +712,9 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
-        here.ter( p ) == ter_t_card_industrial ) {
+    const ter_id &t = here.ter( p );
+    if( t == ter_t_card_science || t == ter_t_card_military ||
+        t == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -723,11 +726,9 @@ void emp_blast( const tripoint &p )
             if( sight ) {
                 add_msg( _( "The nearby doors slide open!" ) );
             }
-            for( int i = -3; i <= 3; i++ ) {
-                for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
-                    }
+            for( const tripoint_bub_ms &pos : here.points_in_radius( p, 3 ) ) {
+                if( here.ter( pos ) == ter_t_door_metal_locked ) {
+                    here.ter_set( pos, ter_t_floor );
                 }
             }
         }
@@ -797,10 +798,10 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( player_character.posx() == p.x && player_character.posy() == p.y &&
-        player_character.posz() == p.z ) {
+    if( player_character.pos_bub() == p ) {
         if( player_character.get_power_level() > 0_kJ &&
-            !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+            !player_character.has_flag( json_flag_EMP_IMMUNE ) &&
+            !player_character.has_flag( json_flag_EMP_ENERGYDRAIN_IMMUNE ) ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );
@@ -821,59 +822,49 @@ void emp_blast( const tripoint &p )
         for( item_location &it : player_character.all_items_loc() ) {
             // Render any electronic stuff in player's possession non-functional
             if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
-                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) &&
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( faults::random_of_type( "shorted" ) );
+                it->faults.insert( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
+                                   faults::random_of_type( "shorted" ) );
             }
         }
     }
 
     for( item &it : here.i_at( p ) ) {
         // Render any electronic stuff on the ground non-functional
-        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
-            get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
             if( sight ) {
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( faults::random_of_type( "shorted" ) );
+            it.set_fault( get_option<bool>( "GAME_EMP" ) ? fault_emp_reboot :
+                          faults::random_of_type( "shorted" ) );
+            //map::make_active adds the item to the active item processing list, so that it can reboot without further interaction
+            item_location loc = item_location( map_cursor( p ), &it );
+            here.make_active( loc );
         }
     }
     // TODO: Drain NPC energy reserves
 }
-
-void nuke( const tripoint_abs_omt &p )
-{
-    tinymap tmpmap;
-    tmpmap.load( p, false );
-
-    item mininuke( itype_mininuke_act );
-    mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
-    tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
-
-    tmpmap.save();
-}
-
-void resonance_cascade( const tripoint &p )
+void resonance_cascade( const tripoint_bub_ms &p )
 {
     Character &player_character = get_player_character();
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
-                                  player_character.pos() ) );
+                                  player_character.pos_bub() ) );
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                                player_character.pos() ) ) );
+                                                player_character.pos_bub() ) ) );
         player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = p.x < 8 ? 0 : p.x - 8;
-    int endx = p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8;
-    int starty = p.y < 8 ? 0 : p.y - 8;
-    int endy = p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8;
-    tripoint dest( startx, starty, p.z );
+    int startx = p.x() < 8 ? 0 : p.x() - 8;
+    int endx = p.x() + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x() + 8;
+    int starty = p.y() < 8 ? 0 : p.y() - 8;
+    int endy = p.y() + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y() + 8;
+    tripoint_bub_ms dest( startx, starty, p.z() );
     map &here = get_map();
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
+    for( int &i = dest.x(); i <= endx; i++ ) {
+        for( int &j = dest.y(); j <= endy; j++ ) {
             switch( rng( 1, 80 ) ) {
                 case 1:
                 case 2:
@@ -906,7 +897,7 @@ void resonance_cascade( const tripoint &p )
                             }
                             if( !one_in( 3 ) ) {
                                 // TODO: fix point types
-                                here.add_field( tripoint_bub_ms{ k, l, p.z }, type, 3 );
+                                here.add_field( tripoint_bub_ms{ k, l, p.z()}, type, 3 );
                             }
                         }
                     }

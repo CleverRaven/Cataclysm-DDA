@@ -139,5 +139,23 @@
       },
       { "group": "party_rocker_death_drop", "prob": 100, "damage": [ 1, 3 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "jackson_drops",
+    "entries": [
+      { "item": "jacket_leather_red", "prob": 100 },
+      { "item": "jeans_red", "prob": 100 },
+      { "item": "socks", "prob": 100 },
+      { "item": "dance_shoes", "prob": 100 },
+      { "item": "glove_jackson", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "shia_stuff",
+    "subtype": "distribution",
+    "entries": [ { "item": "knife_small", "variant": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
   }
 ]

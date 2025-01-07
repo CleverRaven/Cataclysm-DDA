@@ -75,7 +75,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
-    "reproduction": { "baby_egg": "fungal_pod", "baby_count": 6, "baby_timer": 3 },
+    "reproduction": { "baby_type": { "baby_egg": "fungal_pod" }, "baby_count": 6, "baby_timer": 3 },
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN" ],
     "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   },
@@ -98,7 +98,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "fungaloid_mass",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
-    "reproduction": { "baby_monster": "mon_fungaloid_saproling", "baby_count": 1, "baby_timer": 1 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_fungaloid_saproling" }, "baby_count": 1, "baby_timer": 1 },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN", "IMMOBILE" ],
     "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }

@@ -180,6 +180,14 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
+    "monsters": [
+      { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_feral_zebra_agent_p90", "weight": 100, "pack_size": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_GENIUS_IERDE",
     "monsters": [
       { "monster": "mon_monstrous_badger", "weight": 150, "cost_multiplier": 0 },
@@ -348,6 +356,30 @@
       { "monster": "mon_hedge_armed_warrior_spear", "weight": 400 },
       { "monster": "mon_hedge_armored_warrior_axe", "weight": 200 },
       { "monster": "mon_hedge_armored_warrior_mace", "weight": 200 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOSTS_OF_SAMHAIN",
+    "monsters": [
+      { "monster": "mon_samhain_ghost_mace", "weight": 333 },
+      { "monster": "mon_samhain_ghost_axe", "weight": 333 },
+      { "monster": "mon_samhain_ghost_spear", "weight": 333 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_UPGRADE",
+    "monsters": [ { "monster": "mon_zombie_monochrome", "weight": 30 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
+    "default": "mon_zombie_monochrome",
+    "monsters": [
+      { "monster": "mon_zombie_monochrome", "weight": 450 },
+      { "monster": "mon_zombie_monochrome_2", "weight": 225 },
+      { "monster": "mon_zombie_monochrome_3", "weight": 100 }
     ]
   }
 ]

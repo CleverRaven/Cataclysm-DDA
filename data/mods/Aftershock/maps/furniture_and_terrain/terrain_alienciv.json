@@ -23,7 +23,7 @@
     "name": "coral floor",
     "description": "Filaments of white coral grow tall and weave themselves into a sinuous wall.  The living surface is ornately grooved, and golden light slowly flows within its gaps.",
     "roof": "t_coral_floor_no_roof",
-    "symbol": "LINE_XOXO",
+    "symbol": "#",
     "looks_like": "t_rock_wall",
     "color": "light_gray",
     "move_cost": 0,

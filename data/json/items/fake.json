@@ -2,8 +2,8 @@
   {
     "abstract": "fake_item",
     "type": "GENERIC",
-    "name": { "str": "fake item" },
-    "description": "Dummy item.",
+    "name": { "str": "fake item", "//~": "NO_I18N" },
+    "description": { "str": "Dummy item.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
     "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY" ],
     "weight": "1 g",
@@ -15,8 +15,8 @@
     "id": "fake_crafting_tool",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": { "str": "fake crafting tool" },
-    "description": "Used for practice recipes and the like.",
+    "name": { "str": "fake crafting tool", "//~": "NO_I18N" },
+    "description": { "str": "Used for practice recipes and the like.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
@@ -45,6 +45,72 @@
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "use_action": [ "DIG" ],
     "qualities": [ [ "DIG", 2 ] ]
+  },
+  {
+    "id": "internal_mp3",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "WearMan" },
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
+    "use_action": [
+      {
+        "target": "internal_mp3_music",
+        "menu_text": "Play music",
+        "msg": "Your ears are alive with the sound of music.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "You're out of juice, recharge and you'll be hot to go."
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "internal_mp3_music",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "WearMan" },
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
+    "use_action": [
+      {
+        "target": "internal_mp3_radio",
+        "menu_text": "Switch to radio",
+        "msg": "You switch your WearMan to the radio.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "You're out of juice, recharge and you'll be hot to go."
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
+    "power_draw": "1 W",
+    "revert_to": "internal_mp3",
+    "tick_action": [ "MP3_ON" ]
+  },
+  {
+    "id": "internal_mp3_radio",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "WearMan" },
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
+    "use_action": [
+      "RADIO_ON",
+      {
+        "target": "internal_mp3",
+        "menu_text": "Turn off the radio",
+        "msg": "You turn off the radio.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "You're out of juice, recharge and you'll be hot to go."
+      }
+    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
+    "power_draw": "1 W",
+    "revert_to": "internal_mp3",
+    "tick_action": [ "RADIO_TICK" ]
   },
   {
     "id": "integrated_ar",
@@ -132,13 +198,6 @@
     "qualities": [ [ "ANVIL", 4 ] ]
   },
   {
-    "id": "fake_anvil_crude",
-    "type": "TOOL",
-    "copy-from": "fake_item",
-    "name": { "str": "anvil" },
-    "qualities": [ [ "ANVIL", 2 ] ]
-  },
-  {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
@@ -181,7 +240,7 @@
     "id": "fake_power_tool",
     "type": "TOOL",
     "copy-from": "fake_item",
-    "name": { "str": "fake power tool" },
+    "name": { "str": "fake power tool", "//~": "NO_I18N" },
     "ammo": [ "battery" ],
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
   },
@@ -201,7 +260,7 @@
   },
   {
     "abstract": "fake_appliance_tool",
-    "name": { "str": "fake appliance tool" },
+    "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
@@ -215,6 +274,15 @@
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
     "charged_qualities": [ [ "DRILL", 3 ] ]
+  },
+  {
+    "id": "glassblowers_crucible_tool",
+    "type": "TOOL",
+    "name": { "str": "glassblower's crucible" },
+    "copy-from": "fake_appliance_tool",
+    "symbol": "o",
+    "color": "brown",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
   },
   {
     "id": "tablesaw_tool",
@@ -350,8 +418,8 @@
     "id": "pseudo_magazine",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "pseudo magazine" },
-    "description": "Pseudo magazine for use in dirty vehicle hacks.",
+    "name": { "str": "pseudo magazine", "//~": "NO_I18N" },
+    "description": { "str": "Pseudo magazine for use in dirty vehicle hacks.", "//~": "NO_I18N" },
     "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "DEBUG_ONLY" ],
     "ammo_type": [ "battery" ],
     "capacity": 1000000,
@@ -414,12 +482,23 @@
     "charges_per_use": 20
   },
   {
+    "id": "debug_item_search",
+    "name": { "str": "debug item search", "//~": "NO_I18N" },
+    "type": "GENERIC",
+    "symbol": "?",
+    "description": { "str": "This is a dummy item used by item search.  You should never see it outside of debug.", "//~": "NO_I18N" },
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "fake_dynamite_50lbs",
     "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "fake 50lbs dynamite car bomb" },
-    "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "name": { "str": "fake 50lbs dynamite car bomb", "//~": "NO_I18N" },
+    "description": {
+      "str": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+      "//~": "NO_I18N"
+    },
     "weight": "22680 g",
     "volume": "15020 ml",
     "price": 6000,

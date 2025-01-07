@@ -79,7 +79,7 @@
     "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
     "type": "body_graph",
     "id": "tiny_full_body_widget",
-    "fill_sym": "#",
+    "fill_sym": " ",
     "fill_color": "white",
     "rows": [
       "1eme1                                   ",
@@ -104,7 +104,8 @@
       "8": { "body_parts": [ "foot_r" ] },
       "9": { "body_parts": [ "leg_l" ] },
       "0": { "body_parts": [ "foot_l" ] }
-    }
+    },
+    "label_fill": "∀"
   },
   {
     "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",

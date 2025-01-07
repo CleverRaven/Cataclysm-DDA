@@ -22,6 +22,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
@@ -123,23 +124,40 @@ void clear_zones()
     zm.clear();
 }
 
+void clear_basecamps()
+{
+    std::optional<basecamp *> camp;
+    do {
+        const tripoint_abs_omt &avatar_pos = get_avatar().global_omt_location();
+        camp = overmap_buffer.find_camp( avatar_pos.xy() );
+        if( camp && *camp != nullptr ) {
+            ( **camp ).remove_camp( avatar_pos );
+        }
+    } while( camp );
+}
+
 void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
+    if( const tripoint_abs_sm &abs_sub = here.get_abs_sub(); abs_sub.z() != 0 ) {
+        // Reset z level to 0
+        here.load( tripoint_abs_sm( abs_sub.xy(), 0 ), false );
+    }
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
     for( int z = zmin; z <= zmax; ++z ) {
         clear_fields( z );
     }
     clear_zones();
-    wipe_map_terrain();
     clear_npcs();
+    wipe_map_terrain();
     clear_creatures();
     here.clear_traps();
     for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
     here.process_items();
+    clear_basecamps();
 }
 
 void clear_map_and_put_player_underground()
@@ -149,7 +167,7 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              const bool death_drops )
 {
     monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
@@ -158,13 +176,13 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     return *test_monster_ptr;
 }
 
-// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint::zero with a given
 // terrain, and no furniture, traps, or items.
 void build_test_map( const ter_id &terrain )
 {
     map &here = get_map();
-    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( tripoint_bub_ms::zero,
+            tripoint_bub_ms( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         here.furn_set( p, furn_id( "f_null" ) );
         here.ter_set( p, terrain );
         here.trap_set( p, trap_id( "tr_null" ) );
@@ -183,19 +201,19 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     clear_map( z_bottom - 1, z_surface + 1 );
 
     map &here = get_map();
-    const tripoint p1( 0, 0, z_bottom - 1 );
-    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
-    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
+    const tripoint_bub_ms p1( 0, 0, z_bottom - 1 );
+    const tripoint_bub_ms p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( p1, p2 ) ) {
 
-        if( p.z == z_surface ) {
+        if( p.z() == z_surface ) {
             here.ter_set( p, surface );
-        } else if( p.z < z_surface && p.z > z_bottom ) {
+        } else if( p.z() < z_surface && p.z() > z_bottom ) {
             here.ter_set( p, mid );
-        } else if( p.z == z_bottom ) {
+        } else if( p.z() == z_bottom ) {
             here.ter_set( p, bottom );
-        } else if( p.z < z_bottom ) {
+        } else if( p.z() < z_bottom ) {
             here.ter_set( p, ter_t_rock );
-        } else if( p.z > z_surface ) {
+        } else if( p.z() > z_surface ) {
             here.ter_set( p, ter_t_open_air );
         }
     }
@@ -207,7 +225,7 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );
-    item battery( "light_battery_cell" );
+    item battery( "medium_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();

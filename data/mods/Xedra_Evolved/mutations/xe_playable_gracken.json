@@ -22,6 +22,7 @@
       "SHADE_SKIN",
       "SHADE_LEGS",
       "SHADE_ARMS",
+      "SHADE_EYES",
       "SHADE_HANDS",
       "SHADE_FEET",
       "SHADE_STOMACH",
@@ -42,7 +43,9 @@
     "profession": true,
     "points": 2,
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
+    "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -54,6 +57,22 @@
     "valid": false,
     "purifiable": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_EYES",
+    "name": { "str": "Shade Eyes" },
+    "description": "Bright yellow eyes shine out from the shadowy crevices of your face.",
+    "//": "This is the baseline Gracken eyes mutation. TODO: Jsonify nightvision so you can ditch the NIGHTVISION trait.",
+    "types": [ "EYES" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 4,
+    "ugliness": 1,
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "gracken_eyes" } ] } ]
   },
   {
     "type": "mutation",
@@ -186,7 +205,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "cut", "add": 2 } ] } ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -226,13 +245,60 @@
     "name": { "str": "Shade Stomach" },
     "description": "Your dietary needs are so minimized that you could travel months or years without eating.  There are consequences to this.  One is an inability to process normal food.  Another is a pretty constant state of weariness, but this is the best way to handle interdimensional travel until you are able to develop an organ to consume local foods.  The ambient energies here are much weaker than what you normally encounter out in the Nether between universes, you need exposure to nuclear radiation to gain calories on this planet, for now.",
     "//": "This is the baseline Gracken stomach mutation.",
-    "types": [ "STOMACH" ],
+    "types": [ "DIET" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
     "enchantments": [
-      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -1 }, { "value": "METABOLISM", "multiply": -0.8 } ] }
+      {
+        "values": [
+          { "value": "KCAL", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -0.8 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }
+        ]
+      }
     ],
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_OMNIVORE",
+    "name": { "str": "Omnivorous Stomach" },
+    "description": "You eat a wide variety of foods native to this world that would be appropriate for the dominant species.",
+    "//": "This is one path of Gracken stomach mutations.",
+    "types": [ "DIET" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_CARNIVORE",
+    "name": { "str": "Carnivorous Stomach" },
+    "description": "You eat an exclusively meat-based diet as befits an apex predator of this planet.",
+    "//": "This is one path of Gracken stomach mutations.",
+    "types": [ "DIET" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
+    "flags": [ "CARNIVORE_DIET" ],
+    "vitamin_rates": [ [ "vitC", -1200 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_HERBIVORE",
+    "name": { "str": "Herbivore Stomach" },
+    "description": "You eat a herbivorous diet.  The benefit of this is you never have to kill for your food.  Unless the plants were trying to kill you first.",
+    "//": "This is one path of Gracken stomach mutations.",
+    "types": [ "DIET" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },
@@ -251,7 +317,6 @@
     "type": "mutation",
     "id": "RADIOTROPHIC",
     "name": { "str": "Radiotrophic" },
-    "types": [ "DIET" ],
     "points": 3,
     "vitamin_cost": 160,
     "description": "Your system has adapted to radiation.  While irradiated, you will convert the radiation into calories.",

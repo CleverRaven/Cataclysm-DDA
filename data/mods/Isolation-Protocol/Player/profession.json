@@ -132,5 +132,111 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_geas_knight",
+    "entries": [ { "item": "iso_bolt_blackwood_bodkin", "charges": 16 } ]
+  },
+  {
+    "type": "profession",
+    "id": "iso_geas_knight",
+    "name": "Geas Knight",
+    "description": "A warrior from a destroyed land, bound by ancient oaths sworn in the language of stars and stone.",
+    "points": 6,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "dodge" }
+    ],
+    "traits": [ "iso_trait", "iso_geas" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "iso_old_cloak" },
+          { "item": "iso_old_armor" },
+          { "item": "iso_crossbow_sling" },
+          { "item": "socks_wool" },
+          { "item": "boots" },
+          { "item": "iso_old_sword" },
+          { "item": "iso_repeating_crossbow", "ammo-item": "iso_bolt_blackwood_bodkin", "charges": 4 },
+          { "item": "quiver", "contents-group": "quiver_geas_knight" },
+          { "item": "baldric" },
+          { "item": "loincloth" }
+        ]
+      },
+      "female": { "entries": [ { "item": "undershirt" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "iso_bionic_vampire",
+    "name": "Bionic Vampire",
+    "description": "An assassin more metal than meat, driven onward by their faulty cybernetics.",
+    "points": 6,
+    "proficiencies": [ "prof_gross_anatomy", "prof_bionic_swords_familiar", "prof_bionic_swords_pro" ],
+    "//": "Once it's possible, this guy should have fully-cybernetic arms. Right now, bio_armor_arms + bio_hydraulics will have to do.",
+    "CBMs": [
+      "bio_blade",
+      "bio_tattoo_led",
+      "bio_ar",
+      "bio_watch",
+      "bio_armor_eyes",
+      "bio_hydraulics",
+      "bio_shock",
+      "bio_climate",
+      "bio_weight",
+      "bio_armor_arms",
+      "bio_targeting",
+      "bio_uncanny_dodge",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_blood_filter",
+      "bio_ads",
+      "bio_ods",
+      "bio_soporific",
+      "bio_faraday",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "iso_trait", "iso_bionic_vampire" ],
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "tank_top" },
+          { "item": "jacket_leather" },
+          { "item": "pants_leather" },
+          { "item": "boots" },
+          { "item": "gloves_fingerless" },
+          { "item": "wristwatch" },
+          { "item": "gum" },
+          { "group": "charged_smart_phone" },
+          { "item": "ruby_gold_earring" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
   }
 ]

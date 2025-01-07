@@ -133,7 +133,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -169,7 +169,7 @@
       "ter_set": "t_thconc_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -204,7 +204,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     }
@@ -233,7 +233,7 @@
       "ter_set": "t_thconc_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     }
@@ -2452,7 +2452,7 @@
     "id": "t_secretdoor_metal_c",
     "name": "metal wall",
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "looks_like": "t_wall_metal",
     "color": "cyan",
     "move_cost": 0,
@@ -2499,7 +2499,7 @@
     "id": "t_secretdoor_concrete_c",
     "name": "concrete wall",
     "description": "A faux concrete wall positioned and joined seamlessly with the wall, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "looks_like": "t_concrete_wall",
     "color": "light_gray",
     "move_cost": 0,
@@ -3019,7 +3019,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_strconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -3071,7 +3071,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_strconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -3086,7 +3086,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
-    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_o",
     "copy-from": "t_door_glass_c"
   },
@@ -3101,9 +3101,19 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
-    "flags": [ "DOOR", "NOITEM", "SUPPORTS_ROOF" ],
+    "flags": [ "DOOR", "NOITEM", "SUPPORTS_ROOF", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_lab_o",
-    "copy-from": "t_door_glass_frosted_c"
+    "copy-from": "t_door_glass_frosted_c",
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -3117,7 +3127,17 @@
     "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
     "close": "t_door_glass_frosted_c",
-    "copy-from": "t_door_glass_o"
+    "copy-from": "t_door_glass_o",
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
   },
   {
     "type": "terrain",

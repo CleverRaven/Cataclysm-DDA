@@ -1,0 +1,283 @@
+[
+  {
+    "id": "afs_energy_shield",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Riemann shell" },
+    "description": "A thin shell of altered reality containing enormous electromagnetic potential, such that it might behave as a solid object under certain conditions.  A Riemann shell can defend against a wide variety of physical and energy attacks, but can be overwhelmed and forced to collapse into deadly radiation with prolonged assault.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "riemann_space" ],
+    "environmental_protection": 20,
+    "material_thickness": 5.0,
+    "max_energy_shield_hp": 1200,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "SPAWN_ACTIVE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "SEMITANGIBLE",
+      "POWERARMOR_COMPATIBLE",
+      "UNRESTRICTED"
+    ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [ { "id": "_afs_energy_shield", "effect": { "run_eocs": "EOC_afs_do_shield" } } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_backpack_shieldgen",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "SHD-1k Riemann Shield Generator" },
+    "description": "A backpack mounted shield generator for infantry use, capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
+    "weight": "10 kg",
+    "volume": "18000 ml",
+    "price": "120 kUSD",
+    "price_postapoc": "120 kUSD",
+    "ammo": [ "battery" ],
+    "material": [ "nylon", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "warmth": 10,
+    "charges_per_use": 400,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "POWERARMOR_COMPATIBLE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 1,
+      "menu_text": "Activate",
+      "effect_on_conditions": [
+        {
+          "id": "afs_backpack_shieldgen_activate",
+          "effect": {
+            "run_eocs": "EOC_start_shield",
+            "variables": {
+              "transform_target": "afs_backpack_shieldgen_on",
+              "shield_max_hp": "600",
+              "shield_regen": "2",
+              "shield_regen_rate": "1",
+              "turn_cost": "1",
+              "success_message": "a",
+              "failure_message": "b"
+            }
+          }
+        }
+      ]
+    },
+    "armor": [
+      {
+        "encumbrance": [ 3, 12 ],
+        "volume_encumber_modifier": 0,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back", "torso_waist" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_backpack_shieldgen_on",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "SHD-1k Riemann Shield Generator (active)", "str_pl": "SHD-1k Riemann Shield Generators (active)" },
+    "copy-from": "afs_backpack_shieldgen",
+    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
+    "//": "A hundred watts isnt much IRL, but this is powered with laser magazines, so theres an extra layer of abstraction here.",
+    "power_draw": "1 kW",
+    "revert_to": "afs_backpack_shieldgen",
+    "charges_per_use": 0,
+    "extend": { "flags": [ "SHIELD_GENERATOR" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "ammo_scale": 0,
+      "menu_text": "Deactivate",
+      "effect_on_conditions": [
+        {
+          "id": "afs_backpack_shieldgen_deactivate",
+          "effect": { "run_eocs": "EOC_stop_shield", "variables": { "transform_target": "afs_backpack_shieldgen" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "afs_backpack_shieldgen_tick",
+          "condition": "has_alpha",
+          "effect": { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] },
+          "false_effect": { "transform_item": "afs_backpack_shieldgen" }
+        }
+      ]
+    }
+  },
+  {
+    "id": "spawn_shield",
+    "type": "SPELL",
+    "name": "Spawn Riemann Shield",
+    "description": "Creates a shield.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_FAIL", "CONCENTRATE", "SOMATIC", "PERMANENT_ALL_LEVELS", "NO_EXPLOSION_SFX" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "afs_energy_shield",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
+    "id": "EOC_start_shield",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_worn_with_flag": "ENERGY_SHIELD" } }, "has_ammo" ] },
+        "then": [
+          { "turn_cost": { "context_val": "turn_cost" } },
+          { "u_cast_spell": { "id": "spawn_shield", "hit_self": true } },
+          { "u_message": { "context_val": "success_message" } },
+          { "transform_item": { "context_val": "transform_target" }, "active": true },
+          { "math": [ "_shield_uid = rand(1200)" ] },
+          { "math": [ "n_shield_gen_uid = _shield_uid" ] },
+          {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "id": [ "afs_energy_shield" ] } ],
+            "true_eocs": [
+              {
+                "id": "_SHIELD_SETUP",
+                "effect": [
+                  { "math": [ "n_shield_uid = _shield_uid" ] },
+                  { "math": [ "n_shield_is_bionic = 0" ] },
+                  { "math": [ "n_shield_turn = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = 0" ] },
+                  { "math": [ "n_ENERGY_SHIELD_HP = _shield_max_hp*0.1" ] },
+                  { "math": [ "n_ENERGY_SHIELD_MAX_HP = _shield_max_hp" ] },
+                  { "math": [ "n_SHIELD_REGEN = _shield_regen" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = shield_regen_rate" ] },
+                  { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP" ] }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": { "u_message": { "context_val": "failure_message" } }
+      }
+    ]
+  },
+  {
+    "id": "EOC_afs_do_shield",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "u_proceed_shield = 0" ] },
+      { "math": [ "_shield_uid = n_shield_uid" ] },
+      { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP*100" ] },
+      {
+        "//": "If the shield is bionic, we check if the bionic is still active.  Else we proceed to check for a shield generator item.",
+        "if": { "and": [ { "math": [ "n_shield_is_bionic", "==", "1" ] }, { "u_has_flag": "BIO_SHIELD_ACTIVE" } ] },
+        "then": [ { "math": [ "u_proceed_shield = 1" ] } ],
+        "else": [
+          {
+            "//": "We check if the shield generator that made this shield is still active.",
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
+            "true_eocs": [
+              {
+                "id": "_afs_actually_do_shield",
+                "condition": { "math": [ "_shield_uid", "==", "n_shield_gen_uid" ] },
+                "effect": [ { "math": [ "u_proceed_shield = 1" ] } ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_proceed_shield", "==", "1" ] },
+        "then": [
+          { "math": [ "n_shield_turn++" ] },
+          {
+            "if": {
+              "and": [ { "math": [ "n_SHIELD_REGEN", "!=", "0" ] }, { "math": [ "n_shield_turn/n_SHIELD_REGEN_RATE", ">", "1" ] } ]
+            },
+            "then": [
+              { "math": [ "n_shield_turn = 0" ] },
+              { "math": [ "n_ENERGY_SHIELD_HP", "+=", "n_SHIELD_REGEN" ] },
+              {
+                "math": [
+                  "n_ENERGY_SHIELD_HP",
+                  "=",
+                  "n_ENERGY_SHIELD_HP > n_ENERGY_SHIELD_MAX_HP ? n_ENERGY_SHIELD_MAX_HP : n_ENERGY_SHIELD_HP"
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [ { "u_remove_item_with": "afs_energy_shield" }, { "math": [ "u_shield_ratio = -1" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_stop_shield",
+    "type": "effect_on_condition",
+    "effect": [
+      { "transform_item": { "context_val": "transform_target" } },
+      { "u_remove_item_with": "afs_energy_shield" },
+      { "math": [ "u_shield_ratio = -1" ] }
+    ]
+  },
+  {
+    "//": "This bit is only here to do a final update of the UI when a generator is dropped.",
+    "id": "EOC_check_drop_shield_gen",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_DROP", { "context_val": "activity" } ] },
+        { "math": [ "u_shield_power_ratio", ">=", "0" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_shield_power_ratio = -1" ] },
+      {
+        "//": "We check if we have another shield generator to update the UI power gauge.",
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
+        "true_eocs": [ { "id": "_afs_drop_update_power", "effect": [ { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_detonate_shield",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_armor_destroyed",
+    "condition": { "and": [ { "compare_string": [ "afs_energy_shield", { "context_val": "itype" } ] } ] },
+    "effect": [
+      { "math": [ "u_shield_ratio = -1" ] },
+      { "u_emit": "heavy_rad_glimmer", "chance_mult": 2 },
+      { "u_message": "The shield blasts you with radiation as it dissipates.", "type": "bad" }
+    ]
+  }
+]

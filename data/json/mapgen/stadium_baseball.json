@@ -453,7 +453,7 @@
         "*": "t_open_air",
         ">": "t_stairs_down_no_roof"
       },
-      "furniture": { "#": "f_small_satelitte_dish", "?": "f_sofa", "h": "f_armchair", "6": "f_console_broken" },
+      "furniture": { "#": "f_small_satellite_dish", "?": "f_sofa", "h": "f_armchair", "6": "f_console_broken" },
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 60 },
         "é": { "item": "hotdog_fridge", "chance": 70 },

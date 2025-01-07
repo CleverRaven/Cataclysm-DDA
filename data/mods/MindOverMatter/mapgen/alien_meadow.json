@@ -1,0 +1,380 @@
+[
+  {
+    "om_terrain": "alien_meadow_core",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111"
+      ],
+      "place_fields": [
+        { "field": "fd_meadow_portal", "x": 10, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 10, "y": 12, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 11, "y": 10, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 11, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 11, "y": 12, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 11, "y": 13, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 10, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 12, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 12, "y": 13, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 13, "y": 11, "intensity": 1 },
+        { "field": "fd_meadow_portal", "x": 13, "y": 12, "intensity": 1 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "alien_meadow_palette" ]
+    }
+  },
+  {
+    "om_terrain": "alien_meadow_join",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111",
+        "111111111111111111111111"
+      ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 500 ],
+            [ "alien_meadow_12x12_pond", 20 ],
+            [ "alien_meadow_12x12_solid_pond", 20 ],
+            [ "alien_meadow_12x12_shrubs", 20 ],
+            [ "alien_meadow_12x12_trees", 20 ],
+            [ "alien_meadow_12x12_tree_trap", 20 ]
+          ],
+          "x": 8,
+          "y": 8
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "alien_meadow_palette" ]
+    }
+  },
+  {
+    "om_terrain": "alien_meadow_end",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 10,
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "111111111111111111111111",
+        "211111111111111111111112",
+        "222211111111111111112222",
+        " 2222222222222222222222 ",
+        "    222222222222222     ",
+        "     2            2222  ",
+        "    222         2222222 ",
+        "    222       2  22222  ",
+        "            2222        ",
+        "222222    2222222       ",
+        "  22222     2222        ",
+        "    22222    2          ",
+        "                        ",
+        "          222       2   ",
+        "          2222      22  ",
+        "           22      222  ",
+        "                        ",
+        "  22                22  ",
+        "  22                 22 ",
+        "         22             ",
+        "         22             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "alien_meadow_palette" ]
+    }
+  },
+  {
+    "om_terrain": "alien_meadow_end",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 2,
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "111111111111111111111111",
+        "211111111111111111111112",
+        "222211111111111111112222",
+        "22222221111111111222222 ",
+        " 222222222222222222222  ",
+        "  2222222222222222222   ",
+        "   222222222222222222   ",
+        "   22222222   222222    ",
+        "  222222        22    22",
+        "   2222    22         22",
+        "    2     2222          ",
+        "   222   222222      2  ",
+        "    2     2222      222 ",
+        "        22         22 22",
+        "  22   2222 22      222 ",
+        "   22   22 2222      2  ",
+        "           2222         ",
+        "     2      22          ",
+        "     22   2        22   ",
+        "         22        22   ",
+        "2                      2",
+        "2                      2",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "alien_meadow_palette" ]
+    }
+  },
+  {
+    "om_terrain": "alien_meadow_end",
+    "type": "mapgen",
+    "method": "json",
+    "weight": 2,
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "111111111111111111111111",
+        "211111111111111111111112",
+        " 222111111122221111222  ",
+        " 2222221112222211222    ",
+        " 222 222222  222222 2   ",
+        "2222  2 222   222222    ",
+        " 2 2  22 222  2  22 2   ",
+        "   222             222  ",
+        "                  22222 ",
+        "  2                 2222",
+        "22             2      22",
+        "22            222       ",
+        "2           22 2222     ",
+        "          222 2222      ",
+        "        2222            ",
+        "         22             ",
+        "                22      ",
+        "                212     ",
+        "                 2      ",
+        "                        ",
+        "                        ",
+        "          22            ",
+        "           2            ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "alien_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_pond",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " 7   7777   ",
+        "   77 ~ 77  ",
+        " 777 ~~~ 77 ",
+        "77 ~~~~~~ 7 ",
+        " 77 ~~~~~ 77",
+        "  7 ~~~~~~77",
+        "  77 ~~~~ 7 ",
+        "7  77  ~ 77 ",
+        "  77777777  ",
+        " 7  777777  ",
+        "       7  7 ",
+        "   7        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 250 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ],
+          [ "t_alien_meadow_tree_1", 10 ],
+          [ "t_alien_meadow_tree_2", 10 ],
+          [ "t_alien_meadow_tree_3", 10 ]
+        ],
+        "~": "t_water_sh"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_solid_pond",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " 7 7    777 ",
+        " 777  ~  77 ",
+        "77   ~~~  7 ",
+        "77 ~~~~~~ 7 ",
+        " 7  ~~~~~ 77",
+        " 77 ~~~~~ 77",
+        "  7  ~~~~ 7 ",
+        "7 77  ~~  77",
+        "  777    77 ",
+        " 7  777777  ",
+        "       7  7 ",
+        "   7        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 500 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ]
+        ],
+        "~": "t_alien_meadow_pond_goo"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_shrubs",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 250 ],
+          [ "t_alien_meadow_shrub_1", 10 ],
+          [ "t_alien_meadow_shrub_2", 10 ],
+          [ "t_alien_meadow_shrub_3", 10 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_trees",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [
+          [ "t_null", 500 ],
+          [ "t_alien_meadow_shrub_1", 2 ],
+          [ "t_alien_meadow_shrub_2", 2 ],
+          [ "t_alien_meadow_shrub_3", 2 ],
+          [ "t_alien_meadow_tree_1", 25 ],
+          [ "t_alien_meadow_tree_2", 25 ],
+          [ "t_alien_meadow_tree_3", 25 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "alien_meadow_12x12_tree_trap",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777RRR777 ",
+        "77777RTR7777",
+        "77777RRR7777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "T": "t_alien_meadow_tree_trap",
+        "R": "t_alien_meadow_tree_trap_roots_obvious",
+        "7": [
+          [ "t_null", 30 ],
+          [ "t_alien_meadow_tree_trap_roots_tall_grass", 15 ],
+          [ "t_alien_meadow_tree_trap_roots_obvious", 2 ]
+        ]
+      }
+    }
+  }
+]

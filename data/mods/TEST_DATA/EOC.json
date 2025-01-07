@@ -121,7 +121,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_item_math_test_nested",
-    "effect": [ { "math": [ "n_hp('ALL')", "=", "100" ] } ]
+    "effect": [ { "math": [ "n_hp('ALL') = 100" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -186,62 +186,58 @@
         "search_data": [ { "id": "backpack", "worn_only": true } ],
         "true_eocs": [ "EOC_armor_math_test_nested" ]
       },
-      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
-      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+      { "math": [ "u_key1 = u_coverage('torso')" ] },
+      { "math": [ "u_key2 = u_encumbrance('torso')" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_armor_math_test_nested",
-    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
+    "effect": [ { "math": [ "n_key1 = n_coverage('torso')" ] }, { "math": [ "n_key2 = n_encumbrance('torso')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
-      { "math": [ "u_context", "=", "0" ] },
-      {
-        "run_eoc_until": "EOC_until_nested",
-        "condition": { "math": [ "u_context", "<", "10000" ] },
-        "iteration": 10000
-      }
+      { "math": [ "u_context = 0" ] },
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "u_context < 10000" ] }, "iterations": 10000 }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
-    "effect": [ { "math": [ "u_context", "++" ] }, { "math": [ "key1", "=", "u_context" ] } ]
+    "effect": [ { "math": [ "u_context++" ] }, { "math": [ "key1 = u_context" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_stored_condition_test",
     "effect": [
-      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "set_condition": "to_test", "condition": { "math": [ "_context > 0" ] } },
       { "run_eocs": "EOC_stored_condition_test_nested" },
-      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+      { "run_eocs": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_stored_condition_test_nested",
     "condition": { "get_condition": "to_test" },
-    "effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "1" ] } ],
-    "false_effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "0" ] } ]
+    "effect": [ { "math": [ "context = _context" ] }, { "math": [ "key1 = 1" ] } ],
+    "false_effect": [ { "math": [ "context = _context" ] }, { "math": [ "key1 = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_stored_condition_test_nested_var",
     "condition": { "get_condition": { "context_val": "condition_name" } },
-    "effect": [ { "math": [ "key2", "=", "1" ] } ],
-    "false_effect": [ { "math": [ "key2", "=", "0" ] } ]
+    "effect": [ { "math": [ "key2 = 1" ] } ],
+    "false_effect": [ { "math": [ "key2 = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test",
     "effect": [
-      { "math": [ "u_ukey", "=", "3" ] },
+      { "math": [ "u_ukey = 3" ] },
       {
-        "run_eoc_with": "EOC_run_with_test_nested",
+        "run_eocs": "EOC_run_with_test_nested",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
       }
     ]
@@ -250,9 +246,9 @@
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_queued",
     "effect": [
-      { "math": [ "u_ukey", "=", "3" ] },
+      { "math": [ "u_ukey = 3" ] },
       {
-        "queue_eoc_with": "EOC_run_with_test_nested",
+        "run_eocs": "EOC_run_with_test_nested",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
         "time_in_future": "1 seconds"
       }
@@ -261,15 +257,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_nested",
-    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+    "effect": [ { "math": [ "key1 = _key1" ] }, { "math": [ "key2 = _key2" ] }, { "math": [ "key3 = _key3" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_expects_pass",
     "effect": [
-      { "math": [ "u_ukey", "=", "3" ] },
+      { "math": [ "u_ukey = 3" ] },
       {
-        "run_eoc_with": "EOC_run_with_test_nested2",
+        "run_eocs": "EOC_run_with_test_nested2",
         "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
       }
     ]
@@ -277,20 +273,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_expects_fail",
-    "effect": [ { "run_eoc_with": "EOC_run_with_test_nested2" } ]
+    "effect": [ { "run_eocs": "EOC_run_with_test_nested2" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_nested2",
     "condition": { "expects_vars": [ "key1", "key2", "key3" ] },
-    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+    "effect": [ { "math": [ "key1 = _key1" ] }, { "math": [ "key2 = _key2" ] }, { "math": [ "key3 = _key3" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_try_kill",
     "effect": [
       { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
-      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+      { "run_eocs": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
     ]
   },
   {
@@ -300,26 +296,32 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_math_addiction",
+    "id": "EOC_math_addiction_setup",
     "effect": [
-      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
       { "u_spawn_item": "backpack", "force_equip": true },
       { "u_spawn_item": "test_whiskey_caffenated", "container": "bottle_glass" },
       {
         "u_run_inv_eocs": "all",
         "true_eocs": [ { "id": "EOC_math_addiction_nested", "effect": [ { "u_activate": "ALCOHOL" } ] } ]
-      },
-      { "math": [ "key_add_intensity", "=", "u_addiction_intensity(add_id)" ] },
-      { "math": [ "key_add_turn", "=", "u_addiction_turns(add_id)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_addiction_check",
+    "effect": [
+      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
+      { "math": [ "key_add_intensity = u_addiction_intensity(add_id)" ] },
+      { "math": [ "key_add_turn = u_addiction_turns(add_id)" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_armor",
     "effect": [
-      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
-      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
-      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+      { "math": [ "key1 = u_armor('bash', 'torso')" ] },
+      { "math": [ "key2 = u_armor('acid', 'torso')" ] },
+      { "math": [ "key3 = u_armor('bash', 'head')" ] }
     ]
   },
   {
@@ -332,8 +334,8 @@
         "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
         "target_var": { "global_val": "loc" }
       },
-      { "math": [ "key_field_strength", "=", "u_field_strength(field_id_1)" ] },
-      { "math": [ "key_field_strength_north", "=", "field_strength(field_id_2, 'location': loc)" ] }
+      { "math": [ "key_field_strength = u_field_strength(field_id_1)" ] },
+      { "math": [ "key_field_strength_north = field_strength(field_id_2, 'location': loc)" ] }
     ]
   },
   {
@@ -344,8 +346,8 @@
       { "u_spawn_item": "backpack", "force_equip": true },
       { "u_spawn_item": { "global_val": "item_id" } },
       { "u_spawn_item": { "global_val": "item_id" } },
-      { "math": [ "key_item_count", "=", "u_item_count(item_id)" ] },
-      { "math": [ "key_charge_count", "=", "u_charge_count(item_id)" ] }
+      { "math": [ "key_item_count = u_item_count(item_id)" ] },
+      { "math": [ "key_charge_count = u_charge_count(item_id)" ] }
     ]
   },
   {
@@ -353,18 +355,18 @@
     "id": "EOC_math_proficiency",
     "effect": [
       { "set_string_var": "prof_test", "target_var": { "global_val": "prof_id" } },
-      { "math": [ "key_total_time_required", "=", "u_proficiency(prof_id, 'format': 'total_time_required')" ] },
-      { "math": [ "u_proficiency(prof_id, 'direct': true)", "=", "50" ] },
-      { "math": [ "key_time_spent_50", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'percent', 'direct': true)", "=", "50" ] },
-      { "math": [ "key_percent_50", "=", "u_proficiency(prof_id, 'format': 'percent')" ] },
-      { "math": [ "key_percent_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'permille', 'direct': true)", "=", "50" ] },
-      { "math": [ "key_permille_50", "=", "u_proficiency(prof_id, 'format': 'permille')" ] },
-      { "math": [ "key_permille_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'time_left', 'direct': true)", "=", "50" ] },
-      { "math": [ "key_time_left_50", "=", "u_proficiency(prof_id, 'format': 'time_left')" ] },
-      { "math": [ "key_time_left_50_turn", "=", "u_proficiency(prof_id)" ] }
+      { "math": [ "key_total_time_required = u_proficiency(prof_id, 'format': 'total_time_required')" ] },
+      { "math": [ "u_proficiency(prof_id, 'direct': true) = 50" ] },
+      { "math": [ "key_time_spent_50 = u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'percent', 'direct': true) = 50" ] },
+      { "math": [ "key_percent_50 = u_proficiency(prof_id, 'format': 'percent')" ] },
+      { "math": [ "key_percent_50_turn = u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'permille', 'direct': true) = 50" ] },
+      { "math": [ "key_permille_50 = u_proficiency(prof_id, 'format': 'permille')" ] },
+      { "math": [ "key_permille_50_turn = u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'time_left', 'direct': true) = 50" ] },
+      { "math": [ "key_time_left_50 = u_proficiency(prof_id, 'format': 'time_left')" ] },
+      { "math": [ "key_time_left_50_turn = u_proficiency(prof_id)" ] }
     ]
   },
   {
@@ -375,16 +377,16 @@
       { "set_string_var": "test_spell_pew", "target_var": { "global_val": "spell_id_2" } },
       { "set_string_var": "test_trait", "target_var": { "global_val": "school_id" } },
       { "u_add_trait": { "global_val": "school_id" } },
-      { "math": [ "u_spell_level(spell_id_1)", "=", "1" ] },
-      { "math": [ "u_spell_level(spell_id_2)", "=", "10" ] },
-      { "math": [ "key_spell_level", "=", "u_spell_level(spell_id_1)" ] },
-      { "math": [ "key_highest_spell_level", "=", "u_spell_level('null')" ] },
-      { "math": [ "key_school_level_test_trait", "=", "u_school_level(school_id)" ] },
-      { "math": [ "key_spell_count", "=", "u_spell_count()" ] },
-      { "math": [ "key_spell_count_test_trait", "=", "u_spell_count('school': school_id)" ] },
-      { "math": [ "u_spell_level_adjustment('null')", "=", "1" ] },
-      { "math": [ "u_spell_level_adjustment(spell_id_1)", "=", "1" ] },
-      { "math": [ "u_school_level_adjustment(school_id)", "=", "1" ] }
+      { "math": [ "u_spell_level(spell_id_1) = 1" ] },
+      { "math": [ "u_spell_level(spell_id_2) = 10" ] },
+      { "math": [ "key_spell_level = u_spell_level(spell_id_1)" ] },
+      { "math": [ "key_highest_spell_level = u_spell_level('null')" ] },
+      { "math": [ "key_school_level_test_trait = u_school_level(school_id)" ] },
+      { "math": [ "key_spell_count = u_spell_count()" ] },
+      { "math": [ "key_spell_count_test_trait = u_spell_count('school': school_id)" ] },
+      { "math": [ "u_spell_level_adjustment('null') = 1" ] },
+      { "math": [ "u_spell_level_adjustment(spell_id_1) = 1" ] },
+      { "math": [ "u_school_level_adjustment(school_id) = 1" ] }
     ]
   },
   {
@@ -417,17 +419,17 @@
     "type": "effect_on_condition",
     "id": "EOC_mon_nearby_test",
     "effect": [
-      { "math": [ "mons", "=", "u_monsters_nearby()" ] },
-      { "math": [ "triffs", "=", "u_mon_species_nearby('PLANT')" ] },
-      { "math": [ "group", "=", "u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
-      { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
-      { "math": [ "zombs_friends", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'friendly')" ] },
-      { "math": [ "zombs_both", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'both')" ] },
+      { "math": [ "mons = u_monsters_nearby()" ] },
+      { "math": [ "triffs = u_mon_species_nearby('PLANT')" ] },
+      { "math": [ "group = u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
+      { "math": [ "zombs = u_monsters_nearby('mon_zombie')" ] },
+      { "math": [ "zombs_friends = u_monsters_nearby('mon_zombie', 'attitude': 'friendly')" ] },
+      { "math": [ "zombs_both = u_monsters_nearby('mon_zombie', 'attitude': 'both')" ] },
       { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
-      { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
-      { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
+      { "math": [ "zplust = u_monsters_nearby('mon_zombie', _tough_id)" ] },
+      { "math": [ "zplust_adj = u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
       { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
-      { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
+      { "math": [ "smoks = u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
     ]
   },
   {
@@ -443,7 +445,7 @@
         "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
         "target_var": { "global_val": "key1" }
       },
-      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "math": [ "key2 = game_option('NPC_SPAWNTIME')" ] },
       { "run_eocs": "EOC_options_test_nested" }
     ]
   },
@@ -451,7 +453,7 @@
     "type": "effect_on_condition",
     "id": "EOC_options_test_nested",
     "condition": { "math": [ "game_option('AUTOSAVE')" ] },
-    "effect": [ { "math": [ "key3", "=", "1" ] } ]
+    "effect": [ { "math": [ "key3 = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -472,10 +474,10 @@
     "type": "effect_on_condition",
     "id": "EOC_math_test_context",
     "effect": [
-      { "math": [ "_simple", "=", "12" ] },
-      { "math": [ "simple_global", "=", "_simple" ] },
+      { "math": [ "_simple = 12" ] },
+      { "math": [ "simple_global = _simple" ] },
       { "run_eocs": [ "EOC_math_test_nested_context" ] },
-      { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+      { "math": [ "non_nested_simple_global = _nested_simple" ] }
     ]
   },
   {
@@ -492,33 +494,33 @@
     "type": "effect_on_condition",
     "id": "EOC_mark_mutation_test",
     "effect": [
-      { "math": [ "test_val", "=", "1" ] },
+      { "math": [ "test_val = 1" ] },
       { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_nested_context",
-    "effect": [ { "math": [ "_nested_simple", "=", "7" ] }, { "math": [ "nested_simple_global", "=", "_nested_simple" ] } ]
+    "effect": [ { "math": [ "_nested_simple = 7" ] }, { "math": [ "nested_simple_global = _nested_simple" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_equals_assign",
-    "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
-    "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
+    "effect": [ { "math": [ "math_test = -3^2" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_inline_condition",
     "condition": { "math": [ "u_val('stamina') == 500" ] },
-    "effect": [ { "math": [ "_noop", "=", "0" ] } ]
+    "effect": [ { "math": [ "_noop = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_test_greater_increment",
-    "condition": { "math": [ "math_test", ">", "0" ] },
+    "condition": { "math": [ "math_test > 0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
-    "false_effect": [ { "math": [ "math_test", "--" ] } ]
+    "false_effect": [ { "math": [ "math_test--" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -526,9 +528,9 @@
     "effect": {
       "switch": { "math": [ "math_test" ] },
       "cases": [
-        { "case": -1, "effect": { "math": [ "math_test_result", "=", "1" ] } },
-        { "case": 9, "effect": { "math": [ "math_test_result", "=", "2" ] } },
-        { "case": 10, "effect": { "math": [ "math_test_result", "=", "3" ] } }
+        { "case": -1, "effect": { "math": [ "math_test_result = 1" ] } },
+        { "case": 9, "effect": { "math": [ "math_test_result = 2" ] } },
+        { "case": 10, "effect": { "math": [ "math_test_result = 3" ] } }
       ]
     }
   },
@@ -549,13 +551,13 @@
     "id": "EOC_math_diag_w_vars",
     "effect": [
       { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
-      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+      { "math": [ "myskill_math = u_skill(myskill)" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_jmath_test",
-    "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
+    "effect": [ { "math": [ "blorgy = jmath_test_blorg(1, 2)" ] } ]
   },
   {
     "type": "jmath_function",
@@ -572,12 +574,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mess_pass",
-    "effect": { "math": [ "weighted_var", "=", "1" ] }
+    "effect": { "math": [ "weighted_var = 1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_mess_fail",
-    "effect": { "math": [ "weighted_var", "=", "-999" ] }
+    "effect": { "math": [ "weighted_var = -999" ] }
   },
   {
     "type": "effect_on_condition",
@@ -590,7 +592,7 @@
     "type": "effect_on_condition",
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
-    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+    "effect": [ { "math": [ "u_activitiy_incrementer++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -600,10 +602,10 @@
     "effect": [
       { "set_string_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
       { "set_string_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
-      { "math": [ "key3", "=", "_difficulty" ] },
-      { "math": [ "key4", "=", "_cost" ] },
-      { "math": [ "key5", "=", "_cast_time" ] },
-      { "math": [ "key6", "=", "_damage" ] }
+      { "math": [ "key3 = _difficulty" ] },
+      { "math": [ "key4 = _cost" ] },
+      { "math": [ "key5 = _cast_time" ] },
+      { "math": [ "key6 = _damage" ] }
     ]
   },
   {
@@ -639,7 +641,7 @@
     "required_event": "character_finished_activity",
     "effect": [
       { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
-      { "math": [ "key2", "=", "_canceled" ] },
+      { "math": [ "key2 = _canceled" ] },
       { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
     ]
   },
@@ -650,7 +652,7 @@
     "required_event": "character_starts_activity",
     "effect": [
       { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
-      { "math": [ "key2", "=", "_resume" ] },
+      { "math": [ "key2 = _resume" ] },
       { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
     ]
   },
@@ -710,7 +712,7 @@
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_kills_monster" },
       { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
-      { "math": [ "test_exp", "=", "_exp" ] }
+      { "math": [ "test_exp = _exp" ] }
     ]
   },
   {
@@ -758,27 +760,24 @@
     "//": "tests adding a variable, that's in another variable",
     "effect": [
       { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "=", "5" ] },
-      { "math": [ "key2", "=", "key1 + v_testing" ] },
+      { "math": [ "v_testing = 5" ] },
+      { "math": [ "key2 = key1 + v_testing" ] },
       { "set_string_var": "u_key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "=", "3" ] },
-      { "math": [ "global_u", "=", "u_key1 + v_testing" ] },
+      { "math": [ "v_testing = 3" ] },
+      { "math": [ "global_u = u_key1 + v_testing" ] },
       { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
-      { "math": [ "v_testing", "=", "2" ] },
-      { "math": [ "global_context", "=", "_key1 + v_testing" ] },
+      { "math": [ "v_testing = 2" ] },
+      { "math": [ "global_context = _key1 + v_testing" ] },
       { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
       { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
-      { "math": [ "v_testing", "=", "1" ] },
-      { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
+      { "math": [ "v_testing = 1" ] },
+      { "math": [ "global_nested = _key2 + v_testing" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_math_spell_xp",
-    "effect": [
-      { "math": [ "u_spell_exp('test_eoc_spell')", "=", "1000" ] },
-      { "math": [ "key1", "=", "u_spell_exp('test_eoc_spell')" ] }
-    ]
+    "effect": [ { "math": [ "u_spell_exp('test_eoc_spell') = 1000" ] }, { "math": [ "key1 = u_spell_exp('test_eoc_spell')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -805,7 +804,7 @@
     "//": "tests adding a recipe to the player",
     "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
     "effect": { "u_learn_recipe": "cattail_jelly" },
-    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+    "false_effect": { "math": [ "fail_var = 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -813,15 +812,15 @@
     "//": "tests forgetting a recipe from the player",
     "condition": { "u_know_recipe": "cattail_jelly" },
     "effect": { "u_forget_recipe": "cattail_jelly" },
-    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+    "false_effect": { "math": [ "fail_var = 1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_map_test",
     "effect": [
       { "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
-      { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
-      { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
+      { "math": [ "key_distance_loc = distance('u', _loc)" ] },
+      { "math": [ "key_distance_npc = distance('u', 'npc')" ] }
     ]
   },
   {
@@ -844,7 +843,7 @@
     "//": "tests adding a martial art to the player",
     "condition": { "not": { "u_has_martial_art": "style_aikido" } },
     "effect": { "u_learn_martial_art": "style_aikido" },
-    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+    "false_effect": { "math": [ "fail_var = 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -860,7 +859,7 @@
     "effect": [
       { "message": "collection: ", "popup": true },
       {
-        "run_eoc_with": {
+        "run_eocs": {
           "id": "_EOC_spawn_item_group_test_collection",
           "effect": {
             "u_spawn_item": "test_EOC_spawn_item_group_collection",
@@ -874,7 +873,7 @@
       },
       { "message": "distribution: ", "popup": true },
       {
-        "run_eoc_with": {
+        "run_eocs": {
           "id": "_EOC_spawn_item_group_test_distribution",
           "effect": {
             "u_spawn_item": "test_EOC_spawn_item_group_distribution",
@@ -899,10 +898,10 @@
           {
             "id": "EOC_tell_me_about_it",
             "effect": [
-              { "math": [ "mymelee", "=", "n_melee_damage('ALL')" ] },
-              { "math": [ "mymelee_bash", "=", "n_melee_damage('bash')" ] },
-              { "math": [ "mygun", "=", "n_gun_damage('ALL')" ] },
-              { "math": [ "mygun_bullet", "=", "n_gun_damage('bullet')" ] }
+              { "math": [ "mymelee = n_melee_damage('ALL')" ] },
+              { "math": [ "mymelee_bash = n_melee_damage('bash')" ] },
+              { "math": [ "mygun = n_gun_damage('ALL')" ] },
+              { "math": [ "mygun_bullet = n_gun_damage('bullet')" ] }
             ]
           }
         ]

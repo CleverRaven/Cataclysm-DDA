@@ -317,16 +317,13 @@ query_popup::result query_popup::query_once()
     if( cancel ) {
         ctxt.register_action( "QUIT" );
     }
-#if defined(WIN32) || defined(TILES)
-    ctxt.set_timeout( 50 );
-#endif
 
     result res;
     // Assign outside construction of `res` to ensure execution order
     res.wait_input = !anykey;
     do {
         ui_manager::redraw();
-        res.action = ctxt.handle_input();
+        res.action = ctxt.handle_input( 50 );
         res.evt = ctxt.get_raw_input();
 
         // If we're tracking mouse movement

@@ -56,7 +56,7 @@
   {
     "id": "bio_armor_arms",
     "type": "bionic",
-    "name": { "str": "Arms Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Arms" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "protec": [
@@ -69,8 +69,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -119,9 +117,6 @@
       "WINGS_STUB",
       "WINGS_BAT",
       "WINGS_BUTTERFLY",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ARM_FEATHERS",
@@ -155,14 +150,11 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -178,7 +170,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Head Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "protec": [
@@ -189,8 +181,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -231,9 +221,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -290,20 +277,17 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
-    "name": { "str": "Legs Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Legs" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "protec": [
@@ -316,8 +300,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -361,9 +343,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -397,20 +376,17 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Torso Alloy Plating" },
+    "name": { "str": "Subcutaneous Protective Mesh - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3, "stab": 3 } ] ],
@@ -419,8 +395,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -464,9 +438,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -490,14 +461,11 @@
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -827,6 +795,25 @@
     "activated_on_install": true
   },
   {
+    "id": "bio_mp3",
+    "type": "bionic",
+    "name": { "str": "WearMan" },
+    "description": "Surgically implanted into your skull near the eardrums are two speakers, as well as a small port behind the left earlobe.  They can pick up local radio waves and play downloaded music in concert hall quality.  It came pre-installed with \"Rubik's Mickse\".",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "internal_mp3" ]
+  },
+  {
+    "id": "bio_voice_b",
+    "type": "bionic",
+    "name": { "str": "AudioVox" },
+    "description": "Hailing from a world choked with neon smog, and appreciated by Exodii artists, the AudioVox implant allows you to change, remodulate, and even autotune your voice.  It also causes vocalizations /(such as shouts and singing/) to be much louder.  It consists of an electronic voice box, synthetic larynx and multiple speakers implanted throughout your throat.",
+    "occupied_bodyparts": [ [ "torso", 3 ], [ "mouth", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 25 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
+    "canceled_mutations": [ "GROWL", "SNARL", "HISS", "CROAK", "BOOMING_VOICE" ],
+    "mutation_conflicts": [ "SCREECH" ]
+  },
+  {
     "id": "bio_emp",
     "type": "bionic",
     "name": { "str": "Directional EMP" },
@@ -948,7 +935,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "active_flags": [ "ELECTRIC_IMMUNE" ],
+    "active_flags": [ "ELECTRIC_IMMUNE", "EMP_ENERGYDRAIN_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1035,7 +1022,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": { "str": "Respirator" },
-    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically activate when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "25 kJ"
@@ -1047,6 +1034,25 @@
     "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "condition": { "or": [ { "npc_has_flag": "DIGS" }, { "and": [ "npc_is_underwater", { "npc_has_flag": "CAN_DIG" } ] } ] },
+            "distance": 20,
+            "descriptions": [
+              {
+                "id": "ground_sonar_sense",
+                "symbol": "?",
+                "color": "c_green",
+                "text": "You sense some creature moving underground here."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "act_cost": "200 J",
     "react_cost": "200 J",
     "time": "1 s"
@@ -1119,7 +1125,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": "1 s"
@@ -1413,7 +1419,7 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "passive_pseudo_items": [ "fake_razor" ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ]
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ]
   },
   {
     "id": "bio_recycler",

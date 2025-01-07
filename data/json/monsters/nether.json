@@ -115,7 +115,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "special_attacks": [
       { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
       { "type": "bite", "cooldown": 5 }
@@ -453,11 +453,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "If you're seeing this message it's a bug.",
-      "pet": "If you're seeing this message it's a bug."
-    },
+    "petfood": { "food": [ "DOGFOOD" ], "feed": ".", "pet": "." },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
@@ -665,7 +661,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -727,6 +723,31 @@
       "NOGIB"
     ],
     "armor": { "bash": 8, "electric": 3 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(250,650)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "mon_star_vampire_coiling",
@@ -835,7 +856,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 5 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -872,6 +893,31 @@
         "allow_no_target": true,
         "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
         "monster_message": ""
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(125,325)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
       }
     ]
   },
@@ -1874,7 +1920,16 @@
     "type": "MONSTER",
     "description": "A figure in a high-tech suit, their outline contorted as though you were viewing them through a prism.  Their movements are strained but determined, pushing through apparent pain with feverish resolve, dead-set on reaching their target.",
     "name": { "str": "mercenary officer" },
-    "copy-from": "mon_zombie_bio_op",
+    "copy-from": "mon_zombie_base",
+    "diff": 5,
+    "speed": 95,
+    "color": "red_cyan",
+    "melee_skill": 7,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "luminance": 4,
+    "special_when_hit": [ "ZAPBACK", 75 ],
     "hp": 150,
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
     "death_drops": "xedra_officer_set",
@@ -1887,10 +1942,15 @@
         "spell_data": { "id": "spell_conjure_memories" },
         "cooldown": 30,
         "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
-      }
+      },
+      { "id": "bio_op_takedown", "cooldown": 20 }
     ],
     "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } },
-    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 }
+    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 },
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+      "families": [ "prof_wp_syn_armored" ]
+    }
   },
   {
     "id": "mon_XEDRA_soldier",
@@ -2029,7 +2089,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "mutant_mammal_leather",
-    "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_carrion_grub" }, "baby_count": 1, "baby_timer": 330 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "IMMOBILE", "ANIMAL" ]
   },
@@ -2115,7 +2175,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "mutant_animal_large_noskin",
-    "reproduction": { "baby_monster": "mon_nether_leech", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_nether_leech" }, "baby_count": 1, "baby_timer": 330 },
     "flags": [ "SMELLS" ]
   },
   {

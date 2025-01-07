@@ -1,0 +1,8 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ZOMBIFY_INTO_ENABLED",
+    "stype": "bool",
+    "value": false
+  }
+]

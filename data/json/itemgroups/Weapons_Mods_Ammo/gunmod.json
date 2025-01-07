@@ -21,7 +21,9 @@
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
-      [ "choke", 50 ]
+      [ "choke", 50 ],
+      [ "big_brass_catcher", 20 ],
+      [ "offset_grip", 5 ]
     ]
   },
   {
@@ -58,7 +60,8 @@
       [ "rifle_scope_high_end_mount", 20 ],
       [ "modern_handguard", 20 ],
       [ "bipod_handguard", 10 ],
-      [ "high_end_folding_stock", 10 ]
+      [ "high_end_folding_stock", 10 ],
+      [ "muzzle_weight", 10 ]
     ]
   },
   {
@@ -75,7 +78,6 @@
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
       [ "m26_mass", 35 ],
-      [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
     ]
   },
@@ -160,6 +162,13 @@
     "//": "Default mods for the Kalashnikov AKS-74 variant of the 5.45x39mm fighting rifle",
     "subtype": "collection",
     "entries": [ { "item": "stock_mount" }, { "item": "folding_stock" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "c96_mods",
+    "//": "Default possible mods for the C96.",
+    "subtype": "distribution",
+    "entries": [ { "item": "stock_mauser", "prob": 40 } ]
   },
   {
     "type": "item_group",

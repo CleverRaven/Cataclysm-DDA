@@ -25,6 +25,7 @@
     "dodge": 5,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "flags": [
       "SEES",
       "HEARS",
@@ -66,6 +67,7 @@
     "dodge": 3,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "flags": [
       "SEES",
       "HEARS",
@@ -83,7 +85,6 @@
   },
   {
     "id": "mon_zombie_dog",
-    "alias": "mon_zombie_fast",
     "type": "MONSTER",
     "name": { "str": "zombie dog" },
     "description": "The deformed, animated corpse of a canine; a sinewy beast which can easily outpace its two-legged friends.",
@@ -111,6 +112,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_canine" ],
     "vision_night": 4,
     "harvest": "zombie_dog",
+    "decay": "zombie_decay_bone",
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "death_drops": "mon_dog_death_drops",
     "burn_into": "mon_dog_scorched",
@@ -160,7 +162,7 @@
     "melee_dice_sides": 4,
     "bleed_rate": 50,
     "vision_day": 30,
-    "upgrades": { "half_life": 42, "into": "mon_dog_zombie_brute" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_dog_acidic" },
     "fungalize_into": "mon_zombie_dog_fungus"
   },
   {
@@ -216,6 +218,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_fur",
+    "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
     "flags": [
@@ -262,6 +265,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_ungulate" ],
     "vision_day": 50,
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
@@ -298,6 +302,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_fur",
+    "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ],
     "armor": { "electric": 1 }
@@ -330,6 +335,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "fungalize_into": "mon_zoose_fungus",
@@ -364,6 +370,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "zombie_fur",
+    "decay": "zombie_decay_bone",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOUGAR_UPGRADE" },
@@ -412,6 +419,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_HORSE_UPGRADE" },
     "fungalize_into": "mon_zombie_horse_fungus",
@@ -464,6 +472,7 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "harvest": "zombie_fur",
+    "decay": "zombie_decay_bone",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 4, "cut": 1, "electric": 3 }
   },
@@ -497,6 +506,7 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "harvest": "zombie_fur",
+    "decay": "zombie_decay_bone",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 1, "cut": 2, "electric": 1 }
   },
@@ -530,6 +540,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 3, "cut": 3, "electric": 3 }
   },
@@ -562,6 +573,7 @@
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
     "flags": [
       "SEES",
@@ -582,8 +594,7 @@
   {
     "id": "mon_zllama",
     "type": "MONSTER",
-    "name": { "str": "vicious vicuña" },
-    "//": "The wild ancestor of the llama is called a vicuña.",
+    "name": { "str": "zombie llama" },
     "description": "This llama oozes a dark oil from a multitude of lesions and cuts.  Its wool has sloughed off with parts of its skin, revealing pulsating muscles and flesh.  Its mouth drips with a sickly green substance which it seems to be chewing on.",
     "default_faction": "zombie",
     "bodytype": "horse",
@@ -606,6 +617,7 @@
     "morale": 100,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_ungulate" ],
     "special_attacks": [
@@ -654,54 +666,10 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_ungulate" ],
     "vision_night": 15,
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "fungalize_into": "mon_zeer_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 1, "cut": 3, "electric": 1 }
-  },
-  {
-    "id": "mon_zpider_mass",
-    "type": "MONSTER",
-    "name": { "str": "mass of zombie spiders", "str_pl": "masses of zombie spiders" },
-    "description": "Thousands, maybe millions of spiders piled up high, each slowly oozing sticky green pus, struggling to keep the fetid mass together and moving.",
-    "default_faction": "zombie",
-    "bodytype": "blob",
-    "species": [ "ZOMBIE", "SPIDER" ],
-    "volume": "18 L",
-    "weight": "23 kg",
-    "hp": 40,
-    "speed": 70,
-    "attack_cost": 70,
-    "material": [ "iflesh" ],
-    "symbol": "s",
-    "color": "light_green",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "dodge": 1,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "vision_day": 5,
-    "vision_night": 5,
-    "harvest": "arachnid_tainted",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "NOHEAD",
-      "VENOM",
-      "CLIMBS",
-      "WEBWALK",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "INSECTICIDEPROOF"
-    ],
-    "armor": { "cut": 3, "stab": 3, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_zeindeer",
@@ -731,42 +699,9 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_ungulate" ],
     "vision_night": 10,
     "harvest": "zombie_leather",
+    "decay": "zombie_decay_bone",
     "fungalize_into": "mon_zeindeer_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 5, "cut": 4, "electric": 1 }
-  },
-  {
-    "id": "mon_gastro_bufo",
-    "type": "MONSTER",
-    "name": { "str": "gastro bufo" },
-    "description": "A massive toad stumbling around while leaking acid from its skin.  Doesn't look friendly at all.",
-    "copy-from": "mon_proxy_frog_zombie",
-    "volume": "200 L",
-    "weight": "280 kg",
-    "hp": 200,
-    "speed": 75,
-    "attack_cost": 75,
-    "symbol": "R",
-    "dodge": 2,
-    "harvest": "zombie_animal_acid",
-    "emit_fields": [ { "emit_id": "emit_acid_drop", "delay": "1 s" } ],
-    "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 10,
-        "move_cost": 0,
-        "max_range": 10,
-        "min_consider_range": 2,
-        "condition": { "not": { "u_has_effect": "maimed_leg" } }
-      },
-      { "id": "grab_drag", "cooldown": 3 },
-      { "id": "drag_followup" },
-      [ "ACID_BARF", 5 ]
-    ],
-    "special_when_hit": [ "ACIDSPLASH", 100 ],
-    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "burn_into": "mon_frog_smoker_hulk",
-    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
-    "delete": { "flags": [ "RANGED_ATTACKER" ] }
   }
 ]

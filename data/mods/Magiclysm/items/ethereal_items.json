@@ -25,7 +25,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
     "techniques": [ "WBLOCK_3" ],
     "melee_damage": { "bash": 20 }
   },
@@ -106,7 +106,7 @@
     "sided": true,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 14 }
   },
@@ -127,7 +127,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -179,7 +179,8 @@
       "TRADER_AVOID",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "MAGIC_FOCUS"
+      "MAGIC_FOCUS",
+      "UNRESTRICTED"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -250,14 +251,12 @@
       "FIRESTARTER",
       "LIGHT_8",
       "FLAMING",
-      "FIRE"
+      "FIRE",
+      "RELIC_PINK"
     ],
     "to_hit": 3,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 30 } ] } ]
-    },
     "category": "weapons",
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 6, "heat": 30 }
   },
   {
     "id": "fleshpouch",
@@ -282,7 +281,8 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "ZERO_WEIGHT"
+      "ZERO_WEIGHT",
+      "UNRESTRICTED"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
@@ -313,7 +313,6 @@
   },
   {
     "id": "druid_recurve",
-    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -377,7 +376,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -411,7 +410,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -516,7 +515,8 @@
       "STURDY",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
-      "PADDED"
+      "PADDED",
+      "UNRESTRICTED"
     ],
     "armor": [
       {
@@ -662,10 +662,7 @@
     "weight": "900 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
-    },
-    "melee_damage": { "bash": 12, "cut": 2 }
+    "melee_damage": { "bash": 12, "cut": 2, "heat": 28 }
   },
   {
     "id": "decaying_boneclub",
@@ -683,10 +680,7 @@
     "volume": "800 ml",
     "longest_side": "70 cm",
     "to_hit": 3,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ]
-    },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12, "biological": 8 }
   },
   {
     "id": "impactsling",
@@ -723,28 +717,6 @@
     "reload_noise_volume": 3,
     "loudness": 6,
     "melee_damage": { "bash": 4 }
-  },
-  {
-    "id": "aura_caustic",
-    "type": "ARMOR",
-    "name": "acid aura",
-    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   },
   {
     "id": "aura_werewolf",
@@ -848,7 +820,16 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "every", "balance": "good" },
     "weapon_category": [ "CLAWS" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "UNRESTRICTED"
+    ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
@@ -872,11 +853,11 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
     "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
-        "encumbrance": 0,
+        "encumbrance": 8,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -909,10 +890,7 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
-    },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1, "pure": 3 }
   },
   {
     "id": "longsword_holy",
@@ -1224,7 +1202,8 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "MAGICAL_MIND_PROTECTION"
     ]
   },
   {
@@ -1259,7 +1238,8 @@
       "PSYSHIELD_PARTIAL",
       "PORTAL_PROOF",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "MAGICAL_MIND_PROTECTION"
     ]
   },
   {
@@ -1333,60 +1313,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 1250,
+    "capacity": 1,
     "looks_like": "spiral_stone",
-    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "IS_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_2",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_3",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_4",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 8000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_5",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_6",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   },
@@ -1415,10 +1345,7 @@
     ],
     "qualities": [ [ "WELD", 2 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 2 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 6 } ] } ]
-    }
+    "melee_damage": { "bash": 2, "electric": 6 }
   },
   {
     "type": "GENERIC",
@@ -1472,12 +1399,12 @@
           "has": "WORN",
           "condition": "ALWAYS",
           "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+          "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
+          "incoming_damage_mod": [ { "type": "heat", "multiply": 0.6 } ],
           "values": [
             { "value": "DEXTERITY", "add": -1 },
             { "value": "STRENGTH", "add": 1 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
-            { "value": "ARMOR_HEAT", "multiply": 0.6 },
-            { "value": "ITEM_DAMAGE_STAB", "add": 3 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }
           ]
         }
       ]
@@ -1564,8 +1491,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1586,8 +1513,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1608,8 +1535,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1630,8 +1557,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1652,8 +1579,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1675,8 +1602,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "earthshaper map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -1695,8 +1622,8 @@
   {
     "id": "item_druid_disinfectant",
     "type": "GENERIC",
-    "name": { "str_sp": "druid antiseptic" },
-    "description": "A magical disinfectant.  You should never actually see this.",
+    "name": { "str_sp": "druid antiseptic", "//~": "NO_I18N" },
+    "description": { "str": "A magical disinfectant.  You should never actually see this.", "//~": "NO_I18N" },
     "weight": "0 g",
     "volume": "0 ml",
     "symbol": "~",
@@ -1734,9 +1661,6 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
-    },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1820,5 +1744,44 @@
     "description": "This lens has been etched with small symbols and infused with mana.  Holding it up to your eye allows you to see further than any mundane binoculars allow.",
     "flags": [ "ENHANCED_VISION", "TRADER_AVOID" ],
     "relic_data": { "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "item_druid_goodberry",
+    "name": { "str": "handful of goodberries", "str_pl": "handfuls of goodberries" },
+    "description": "A set of magical berries.  They look absolutely delicious.",
+    "weight": "144 g",
+    "color": "pink",
+    "spoils_in": "24 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "calories": 1500,
+    "price": "1 USD 78 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "fun": 6,
+    "flags": [ "EDIBLE_FROZEN", "TRADER_AVOID" ],
+    "vitamins": [ [ "vitC", 50 ], [ "iron", 50 ], [ "calcium", 50 ], [ "fruit_allergen", 1 ] ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the goodberries.",
+      "effect_on_conditions": [ "EOC_DRUID_EAT_THE_GOODBERRY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_EAT_THE_GOODBERRY",
+    "//": "Will not unbreak your limbs, but heals you.",
+    "effect": [
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+    ]
   }
 ]

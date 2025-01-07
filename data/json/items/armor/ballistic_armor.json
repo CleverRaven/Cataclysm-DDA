@@ -226,7 +226,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 5,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -261,7 +261,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -280,7 +280,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -313,7 +313,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -346,7 +346,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
@@ -403,7 +403,7 @@
     "longest_side": "30 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -473,7 +473,7 @@
     "color": "light_gray",
     "material_thickness": 14,
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [
       {
         "encumbrance": 8,
@@ -501,7 +501,7 @@
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
     "damage_verb": "makes a crunch, something has shifted",
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
   {
@@ -550,7 +550,7 @@
     "longest_side": "20 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -1317,42 +1317,6 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ]
-  },
-  {
-    "id": "dragonskin",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "dragon skin vest" },
-    "//": "Based on a true story related to the real-world design",
-    "description": "This type of ballistic vest once promised to be the future of body armor, claiming to allow a greater range of movement than conventional ballistic vests as well as better protection.  Created by the now-defunct company Meridian Ballistics, it features a unique design consisting of overlapping ceramic disks, and was once famously demonstrated on TV absorbing high-energy rifle rounds at point blank.\n\nThe US Army quickly snapped up several hundred units of the armor, but testing soon revealed that they were extremely heavy, weighing almost fifty pounds, and that the design failed spectacularly in environmental tests.  After a series of investigations, claims of fraud, and court hearings, Meridian went bankrupt, and the Department of Justice subsequently dropped this design from its certifications.\n\nThere were no known users of these vests by the time that the world ended; this one was either an original production in the hands of a collector, or a similar design from a different company.  Whatever the case may be, you have one now, in all its unwieldy glory.",
-    "weight": "21545 g",
-    "volume": "6 L",
-    "price": "5000 USD",
-    "price_postapoc": "60 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "material": [ "ceramic", "nylon" ],
-    "symbol": "[",
-    "looks_like": "kevlar",
-    "color": "yellow",
-    "warmth": 12,
-    "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
-    "//2": "Ceramic disks in real-life dragon skin are 6.4mm thick; the actual fabric itself wasn't intended to provide high-grade protection, and so it's quite thin here.",
-    "//3": "The double instance of ceramic here represents possible hits on parts where the disks themselves are overlapping, providing enhanced protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "ceramic", "covered_by_mat": 90, "thickness": 6.4 },
-          { "type": "ceramic", "covered_by_mat": 30, "thickness": 6.4 }
-        ],
-        "encumbrance": 8,
-        "coverage": 100,
-        "cover_vitals": 90,
-        "covers": [ "torso" ]
-      }
-    ],
-    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_ballistic_vest",

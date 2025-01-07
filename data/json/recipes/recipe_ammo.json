@@ -77,19 +77,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "wire_barbed_baseball",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
-    "components": [ [ [ "baseball", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",

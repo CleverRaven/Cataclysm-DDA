@@ -20,7 +20,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_2" }
     ]
   },
@@ -53,7 +53,7 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -67,7 +67,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_BIOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -82,7 +82,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_2" }
     ]
   },
@@ -115,7 +115,7 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -128,7 +128,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_CLAIR_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -144,7 +144,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_ELECTRO_MATRIX_AWAKENING_2" }
     ]
   },
@@ -177,7 +177,7 @@
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -191,7 +191,7 @@
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_ELECTRO_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -206,7 +206,7 @@
       { "u_add_effect": "stunned", "duration": 5 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_2" }
     ]
   },
@@ -237,11 +237,11 @@
       { "u_add_trait": "PHOTO_EYES" },
       { "u_add_effect": "effect_photokin_arms", "duration": "5 minutes" },
       { "u_add_effect": "effect_photokin_invisibility", "duration": "5 minutes" },
-      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -254,7 +254,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "queue_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_PHOTOKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -270,7 +270,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_2" }
     ]
   },
@@ -304,7 +304,7 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -317,7 +317,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_PYROKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -333,7 +333,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_2" }
     ]
   },
@@ -366,7 +366,7 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -379,7 +379,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TELEKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -395,7 +395,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_2" }
     ]
   },
@@ -428,7 +428,7 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -441,7 +441,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TELEPATH_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -457,7 +457,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_2" }
     ]
   },
@@ -492,7 +492,7 @@
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -505,7 +505,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_TELEPORT_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -521,7 +521,7 @@
       { "u_add_effect": "stunned", "duration": 10 }
     ],
     "false_effect": [
-      { "math": [ "u_awakening_reducer", "=", "(matrix_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (matrix_awakening_odds(u_awakening_countup))" ] },
       { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_2" }
     ]
   },
@@ -554,7 +554,7 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
@@ -567,7 +567,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_VITAKIN_CRYSTAL_DRAINING", "time_in_future": "1 seconds" },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 }
     ]
   },
@@ -602,7 +602,7 @@
         ]
       },
       { "u_assign_activity": "ACT_CRYSTAL_AWAKENING_MEDITATION", "duration": 5 },
-      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ],
     "false_effect": [
       {
@@ -611,13 +611,14 @@
       },
       { "u_add_effect": "psionic_overload", "duration": "1 hours" },
       { "u_add_effect": "stunned", "duration": 10 },
-      { "queue_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_CORUSCATING_CRYSTAL_DRAINING", "time_in_future": "1 seconds" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_DISTANT",
     "global": true,
+    "run_for_npcs": true,
     "recurrence": [ "5 minutes", "10 minutes" ],
     "condition": {
       "and": [
@@ -630,7 +631,7 @@
     },
     "deactivate_condition": { "not": { "is_weather": "distant_portal_storm" } },
     "effect": [
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
           [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
@@ -651,7 +652,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_MEDIUM",
     "global": true,
-    "recurrence": [ "2 minutes", "5 minutes" ],
+    "run_for_npcs": true,
+    "recurrence": [ "1 minutes", "2 minutes" ],
     "condition": {
       "and": [
         "u_is_outside",
@@ -663,7 +665,7 @@
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
           [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
@@ -684,7 +686,8 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_PSION_AWAKENING_CLOSE",
     "global": true,
-    "recurrence": [ "1 minutes", "2 minutes" ],
+    "run_for_npcs": true,
+    "recurrence": [ "2 minutes", "5 minutes" ],
     "condition": {
       "and": [
         "u_is_outside",
@@ -696,7 +699,7 @@
     },
     "deactivate_condition": { "not": { "is_weather": "close_portal_storm" } },
     "effect": [
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] },
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] },
       {
         "weighted_list_eocs": [
           [ "EOC_PORTAL_NULL_AWAKENING", { "math": [ "147 * e^(-0.24 * ps_str) + 5" ] } ],
@@ -739,7 +742,7 @@
       { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -773,7 +776,7 @@
       { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -807,7 +810,7 @@
       { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -842,7 +845,7 @@
       { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -876,7 +879,7 @@
       { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -911,7 +914,7 @@
       { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -944,7 +947,7 @@
       { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -978,7 +981,7 @@
       { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {
@@ -1012,7 +1015,7 @@
       { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" },
       { "u_add_effect": "psionic_awakened", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "math": [ "u_awakening_countup", "+=", "1" ] },
-      { "math": [ "u_awakening_reducer", "=", "(portal_storm_awakening_odds(u_awakening_countup))" ] }
+      { "math": [ "u_awakening_reducer = (portal_storm_awakening_odds(u_awakening_countup))" ] }
     ],
     "false_effect": [
       {

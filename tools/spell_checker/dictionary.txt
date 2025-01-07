@@ -336,6 +336,8 @@ asshat
 assistive
 asswagon
 asswipe
+astrodon
+astrodons
 astrolaspis
 astrolaspises
 Aśvaghosa
@@ -539,6 +541,7 @@ BBs
 BCE
 BDSM
 BDU
+Bealtaine
 bearcub
 bearmantle
 bearmantles
@@ -874,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -990,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1097,6 +1102,8 @@ chk
 Chloe
 Cho
 chode
+chokeberry
+chokeberries
 chokepoints
 Chol
 chonker
@@ -1111,6 +1118,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -1266,6 +1276,7 @@ Creighton
 creped
 crêpes
 crewmember
+crimsonite
 criniere
 CRISPR
 criss
@@ -1484,6 +1495,9 @@ dex
 Dhamma
 Dhammapada
 dharmachakra
+diaspora
+dichloroisocyanurate
+didn
 Dharmasastra
 dhyâna
 di
@@ -1782,6 +1796,8 @@ EOCs
 EOD
 eolocanth
 eolocanths
+eolambia
+eolambias
 eoraptor
 eoraptors
 EPA
@@ -2059,6 +2075,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -2151,6 +2168,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -2352,6 +2370,7 @@ gravesite
 Gravol
 GravyField
 Grayfield
+grayscale
 greatbow
 greatbows
 greatclub
@@ -2621,6 +2640,8 @@ HMS
 HMTD
 hnefatafl
 Hobbes
+hobblebush
+hobbleberries
 hoc
 Hockomock
 hodag
@@ -2808,6 +2829,7 @@ imager
 imagers
 Imaginifer
 Imaginifers
+Imbolc
 imbuement
 IMEs
 ImGui
@@ -3406,6 +3428,8 @@ Likvidator
 Likvidators
 lil
 Lila
+lilin
+Lilit
 lilypad
 Lima
 limbed
@@ -3450,6 +3474,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm
@@ -3491,6 +3516,7 @@ Ludlow
 Ludos
 Ludwig
 Luger
+Lughnasadh
 Luigi
 Luke
 Luliya
@@ -4115,6 +4141,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -4180,6 +4208,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip
@@ -4390,6 +4419,7 @@ Ojibwe
 ok
 okie
 Okinawan
+Oklahoma
 Olaf
 Olam
 o'lantern
@@ -4622,6 +4652,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -4768,6 +4800,8 @@ polymorphed
 polypous
 polysexual
 Pontius
+pooka
+pookas
 Popol
 populifolia
 Populus
@@ -5190,6 +5224,7 @@ RPK
 RTG
 RTGs
 Ru
+ruach
 Rubaiyat
 rubbles
 Rubik
@@ -5255,6 +5290,7 @@ Sambal
 Sambucus
 samghati
 samghatis
+Samhain
 Sâmhita
 Sammarinese
 Sammy
@@ -5404,6 +5440,8 @@ segmentata
 Segway
 Seinerweisen
 seldomly
+selkie
+selkies
 selfie
 Semin
 semirural
@@ -5461,6 +5499,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm
@@ -5528,6 +5568,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair
@@ -5578,6 +5619,7 @@ Sikorsky
 Silat
 siloed
 siloing
+silverberry
 Silvergram
 Silvergrams
 Silverhawk
@@ -5891,6 +5933,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer
@@ -6224,7 +6267,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese
@@ -6356,6 +6401,7 @@ Trollope
 Troodon
 TropiCataclysm
 Trotsky
+trow
 TRS
 truckstop
 TrueFoodperson
@@ -6384,6 +6430,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing

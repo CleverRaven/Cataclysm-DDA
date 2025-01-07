@@ -212,7 +212,7 @@
         [ "beaker", 1 ],
         [ "flask_hip", 1 ]
       ],
-      [ [ "wire", 1 ] ],
+      [ [ "any_wire", 1, "LIST" ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
@@ -303,42 +303,6 @@
     ],
     "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_leatherworking_basic" } ]
-  },
-  {
-    "result": "goggles_swim",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "45 m",
-    "autolearn": true,
-    "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "duct_tape", 120 ], [ "medical_tape", 120 ] ],
-      [ [ "super_glue", 1 ] ]
-    ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
-  },
-  {
-    "result": "goggles_welding",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "mechanics",
-    "difficulty": 2,
-    "skills_required": [ "fabrication", 1 ],
-    "time": "1 h",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
-    "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
-      [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
-    ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
     "result": "hat_boonie",
@@ -2335,13 +2299,7 @@
     "using": [ [ "adhesive", 1 ], [ "sewing_aramids", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [
-        [ "goggles_ski", 1 ],
-        [ "goggles_welding", 1 ],
-        [ "sunglasses", 1 ],
-        [ "fancy_sunglasses", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
+      [ [ "goggles_ski", 1 ], [ "sunglasses", 1 ], [ "fancy_sunglasses", 1 ], [ "fitover_sunglasses", 1 ] ],
       [ [ "polycarbonate_chunk", 4 ], [ "glasses_bal", 2 ] ],
       [ [ "leather", 3 ] ],
       [ [ "sheet_kevlar_layered", 2 ] ]
@@ -3420,7 +3378,11 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -3436,7 +3398,11 @@
     "copy-from": "qt_helmet_nasal",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -3447,7 +3413,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
@@ -3624,7 +3594,11 @@
     "book_learn": [ [ "textbook_weparabic", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [  ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -3639,7 +3613,11 @@
     "copy-from": "qt_helmet_turban",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [  ] ]
   },
@@ -3650,7 +3628,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [  ] ]
   },
   {
@@ -3794,7 +3776,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 30 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xl_qt_chainmail_face",
@@ -3939,7 +3921,7 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_weparabic", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 40 ] ], [ [ "qt_wire", 1 ] ], [ [ "cotton_patchwork", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" }, { "proficiency": "prof_quenching" } ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
     "result": "xl_qt_chainmail_aventail",
@@ -4117,7 +4099,11 @@
     "book_learn": [ [ "textbook_weparabic", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "gold_small", 2 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -4133,7 +4119,11 @@
     "copy-from": "qt_steel_facemask",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "gold_small", 1 ] ] ]
   },
@@ -4144,7 +4134,11 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {

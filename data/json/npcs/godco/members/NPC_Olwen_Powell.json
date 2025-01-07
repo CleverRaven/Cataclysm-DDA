@@ -3,16 +3,12 @@
     "type": "talk_topic",
     "id": [ "TALK_GODCO_Olwen_2", "TALK_GODCO_Olwen_Mood", "TALK_GODCO_Olwen_Story", "TALK_GODCO_Olwen_Skills" ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Olwen_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Olwen_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Olwen_Mood" },
       {
         "text": "How's your family?",
         "topic": "TALK_GODCO_Olwen_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "I heard you were handy with computers.", "topic": "TALK_GODCO_Olwen_Skills" }
     ]
@@ -21,7 +17,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "What in the world are you still doing around here, come back to screw me over?",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ],
@@ -41,31 +37,27 @@
         "topic": "TALK_GODCO_Olwen_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
           ]
         }
       },
       {
-        "text": "Hey, Olwen.  I can't stay to talk.",
+        "text": "Hey, Olwen.  <end_talking_leave>",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
       {
         "text": "What's with the attitude?",
         "topic": "TALK_GODCO_Olwen_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
           ]
         }
       },
-      {
-        "text": "No, I'll be on my way.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
-      }
+      { "text": "No, I'll be on my way.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {
@@ -103,7 +95,7 @@
         },
         "topic": "TALK_GODCO_Olwen_Mutant_Traveler"
       },
-      { "text": "I'd rather not say, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "I'd rather not say.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -112,7 +104,7 @@
     "dynamic_line": "Not many travelers come through here these days.  There's not much left to wander too, besides a horde of <zombies>.",
     "responses": [
       { "text": "Any old port in a storm, I guess.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -122,7 +114,7 @@
     "responses": [
       { "text": "Sure does.", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "Why would that be?", "topic": "TALK_GODCO_Olwen_You_Mutant" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -131,7 +123,7 @@
     "dynamic_line": "I suppose a lot of us are these days, with all the nasty things wandering around.  I hope you like it here, might not be the most comfortable, but it'll do for me.",
     "responses": [
       { "text": "Any old port in a storm, I guess.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -145,7 +137,7 @@
         "topic": "TALK_TRAIN"
       },
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,8 +145,8 @@
     "id": "TALK_GODCO_Olwen_Mood",
     "dynamic_line": "They're alright, I suppose.  Helena's an asshole as usual, we're low on supplies, and all scared to go twenty feet outside the gate.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -163,8 +155,8 @@
     "dynamic_line": "Not much too it, really.  I came here on that bus with everyone else when <the_cataclysm> happened to stroll by.  I've been servicing everyone's electronics since then.",
     "responses": [
       { "text": "Could you tell me about your past?", "topic": "TALK_GODCO_Olwen_Background" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,8 +164,8 @@
     "id": "TALK_GODCO_Olwen_Background",
     "dynamic_line": "Why not?  Oversharing is kind of my thing anyway.  Got any more interview questions?",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -181,8 +173,8 @@
     "id": "TALK_GODCO_Olwen_Family",
     "dynamic_line": "My dad's having a hard time letting go of the past.  Got any more interview questions?",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -192,8 +184,8 @@
     "speaker_effect": { "effect": { "npc_add_var": "general_training_olwen_can_teach", "value": "yes" } },
     "responses": [
       { "text": "Could you teach me anything?", "topic": "TALK_TRAIN" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -201,7 +193,7 @@
     "id": "TALK_GODCO_Olwen_You_Mutant",
     "dynamic_line": "Well, this is a really xenophobic bunch, and regard some of your, changes, as a curse brought on by God.  I'm cool with you though, not like some of these other <name_b>.  There are a few who wouldn't mind you, though.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Olwen_2" },
       { "text": "In that case, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },

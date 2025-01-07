@@ -27,7 +27,7 @@
         "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
       },
       { "text": "What are you doing here?", "topic": "TALK_RANCH_CONSTRUCTION_2_JOB" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

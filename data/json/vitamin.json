@@ -517,6 +517,7 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Consumed human flesh" },
+    "flags": [ "NO_SELL" ],
     "min": 0,
     "max": 10000,
     "rate": "1 h"
@@ -576,7 +577,7 @@
     "//": "used so allergies and restrictions could be inherited in cooking process",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Fruit" },
+    "name": { "str": "Junk" },
     "min": 0,
     "max": 1,
     "rate": "1 h"

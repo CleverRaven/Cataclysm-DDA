@@ -19,6 +19,48 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "warp_wood_floor_tokens",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "2x4", 25 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "warp_flagstone_floor_tokens",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "rock_large", 25 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "warp_sand_floor_tokens",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "material_sand", 2500 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "warp_waterwalking_stone",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -259,5 +301,51 @@
     "components": [ [ [ "warptoken", 30 ] ] ],
     "flags": [ "BLIND_EASY" ],
     "result_eocs": [ "EOC_WARPED_POND_CREATION" ]
+  },
+  {
+    "result": "warped_autodoc_upgrader_1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": false,
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 20 ] ],
+      [ [ "ether", 150 ] ],
+      [ [ "xanax", 8 ] ],
+      [ [ "record_patient", 1 ] ],
+      [ [ "medical_sample", 2 ] ],
+      [ [ "vacutainer", 1 ] ],
+      [ [ "gloves_medical", 6 ] ],
+      [ [ "stethoscope", 2 ] ]
+    ]
+  },
+  {
+    "result": "warped_autodoc_upgrader_2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": false,
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 40 ] ],
+      [ [ "oxycodone", 10 ] ],
+      [ [ "record_patient", 3 ] ],
+      [ [ "diazepam", 5 ] ],
+      [ [ "morphine", 10 ] ],
+      [ [ "medical_sample", 10 ] ],
+      [ [ "badge_doctor", 1 ] ],
+      [ [ "software_medical", 1 ] ]
+    ]
   }
 ]

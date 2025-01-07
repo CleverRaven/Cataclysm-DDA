@@ -2,8 +2,8 @@
   {
     "id": "pain_damage",
     "type": "SPELL",
-    "name": { "str": "Pain" },
-    "description": "Increases pain.",
+    "name": { "str": "Pain", "//~": "NO_I18N" },
+    "description": { "str": "Increases pain.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -18,8 +18,8 @@
   {
     "id": "stamina_damage",
     "type": "SPELL",
-    "name": { "str": "Tired" },
-    "description": "Decreases stamina.",
+    "name": { "str": "Tired", "//~": "NO_I18N" },
+    "description": { "str": "Decreases stamina.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -34,8 +34,8 @@
   {
     "type": "SPELL",
     "id": "mon_summon_zombie_gasbag_crawler",
-    "name": { "str": "Summon Gangrenous Crawlers" },
-    "description": "Summons 2 permanent gangrenous crawlers.",
+    "name": { "str": "Summon Gangrenous Crawlers", "//~": "NO_I18N" },
+    "description": { "str": "Summons 2 permanent gangrenous crawlers.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "max_level": 1,
@@ -53,8 +53,8 @@
   {
     "type": "SPELL",
     "id": "crushed_giant_summoning",
-    "name": { "str": "Summon Gangrenous Monsters" },
-    "description": "Summons 2 permanent gangrenous impalers.",
+    "name": { "str": "Summon Gangrenous Monsters", "//~": "NO_I18N" },
+    "description": { "str": "Summons 2 permanent gangrenous impalers.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground" ],
     "extra_effects": [ { "id": "mon_summon_zombie_gasbag_crawler" } ],
@@ -73,8 +73,8 @@
   {
     "type": "SPELL",
     "id": "frog_mother_summon",
-    "name": { "str": "Summon Tadpole Constrictors" },
-    "description": "Summons several temporary tadpoles.",
+    "name": { "str": "Summon Tadpole Constrictors", "//~": "NO_I18N" },
+    "description": { "str": "Summons several temporary tadpoles.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "hostile" ],
     "min_damage": 2,
@@ -94,8 +94,8 @@
   {
     "type": "SPELL",
     "id": "wretch_hurt_self",
-    "name": { "str": "Wretch Hurt Self" },
-    "description": "Hurts yourself.",
+    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 5,
     "max_damage": 15,
@@ -107,8 +107,8 @@
   {
     "type": "SPELL",
     "id": "frog_mother_hurt_self",
-    "name": { "str": "Frog Mother Hurt Self" },
-    "description": "Hurts yourself.",
+    "name": { "str": "Frog Mother Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 10,
     "max_damage": 20,
@@ -120,8 +120,8 @@
   {
     "type": "SPELL",
     "id": "fragile_frog_leap",
-    "name": { "str": "Fragile Frog Leap" },
-    "description": "Cast after a burned frog monster leaps; causes self harm and creates a smoke cloud.",
+    "name": { "str": "Fragile Frog Leap", "//~": "NO_I18N" },
+    "description": { "str": "Cast after a burned frog monster leaps; causes self harm and creates a smoke cloud.", "//~": "NO_I18N" },
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 0,
     "message": "",
@@ -144,8 +144,8 @@
   {
     "type": "SPELL",
     "id": "dusty_frog_leap",
-    "name": { "str": "Dusty Frog Leap" },
-    "description": "Cast after a burned frog monster leaps; causes self harm and creates a smoke plume.",
+    "name": { "str": "Dusty Frog Leap", "//~": "NO_I18N" },
+    "description": { "str": "Cast after a burned frog monster leaps; causes self harm and creates a smoke plume.", "//~": "NO_I18N" },
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 0,
     "message": "",
@@ -168,8 +168,8 @@
   {
     "id": "fragile_no_more",
     "type": "SPELL",
-    "name": "Fragile No More",
-    "description": "removes conditional effect for burned frogs crumble after leaping.",
+    "name": { "str": "Fragile No More", "//~": "NO_I18N" },
+    "description": { "str": "removes conditional effect for burned frogs crumble after leaping.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "remove_effect",
     "effect_str": "fragile_frog",
@@ -178,8 +178,8 @@
   {
     "type": "SPELL",
     "id": "small_raptor_spawn",
-    "name": { "str": "Summon Raptors" },
-    "description": "Summons a few zombiespawn raptors.",
+    "name": { "str": "Summon Raptors", "//~": "NO_I18N" },
+    "description": { "str": "Summons a few zombiespawn raptors.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -194,8 +194,8 @@
   {
     "type": "SPELL",
     "id": "big_raptor_spawn",
-    "name": { "str": "Summon Many Raptors" },
-    "description": "Summons many zombiespawn raptors.",
+    "name": { "str": "Summon Many Raptors", "//~": "NO_I18N" },
+    "description": { "str": "Summons many zombiespawn raptors.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 3,
@@ -210,8 +210,8 @@
   {
     "type": "SPELL",
     "id": "wretch_raptor_spawn",
-    "name": { "str": "Summon Raptor" },
-    "description": "Summons a flesh raptor while dealing some damage to the zombie.",
+    "name": { "str": "Summon Raptor", "//~": "NO_I18N" },
+    "description": { "str": "Summons a flesh raptor while dealing some damage to the zombie.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -226,8 +226,8 @@
   {
     "type": "SPELL",
     "id": "hive_raptor_spawn",
-    "name": { "str": "Summon Raptor" },
-    "description": "Summons a zombie-spawn raptor without killing the zombie.",
+    "name": { "str": "Summon Raptor", "//~": "NO_I18N" },
+    "description": { "str": "Summons a zombie-spawn raptor without killing the zombie.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -241,8 +241,8 @@
   {
     "type": "SPELL",
     "id": "shady_raptor_spawn",
-    "name": { "str": "Summon Shady Raptors" },
-    "description": "Summons a few shady zombiespawn raptors.",
+    "name": { "str": "Summon Shady Raptors", "//~": "NO_I18N" },
+    "description": { "str": "Summons a few shady zombiespawn raptors.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -257,8 +257,8 @@
   {
     "type": "SPELL",
     "id": "wretch_fungal_raptor_spawn",
-    "name": { "str": "Summon Raptor" },
-    "description": "Summons a fungal flesh raptor while dealing some damage to the zombie.",
+    "name": { "str": "Summon Raptor", "//~": "NO_I18N" },
+    "description": { "str": "Summons a fungal flesh raptor while dealing some damage to the zombie.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -273,8 +273,8 @@
   {
     "type": "SPELL",
     "id": "small_fungal_raptor_spawn",
-    "name": { "str": "Summon Fungal Raptors" },
-    "description": "Summons a few fungal raptors.",
+    "name": { "str": "Summon Fungal Raptors", "//~": "NO_I18N" },
+    "description": { "str": "Summons a few fungal raptors.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -289,8 +289,8 @@
   {
     "type": "SPELL",
     "id": "spawning_zombie_die",
-    "name": { "str": "Spawning Zombie Die" },
-    "description": "For zombies that are spawning something and die in the process.",
+    "name": { "str": "Spawning Zombie Die", "//~": "NO_I18N" },
+    "description": { "str": "For zombies that are spawning something and die in the process.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "EXTRA_EFFECTS_FIRST" ],
     "min_damage": 2000,
     "max_damage": 2000,
@@ -303,8 +303,8 @@
   {
     "type": "SPELL",
     "id": "soft_squelch",
-    "name": { "str": "Soft Squelch" },
-    "description": "Noise, emitted by the monster when it explode with gore.",
+    "name": { "str": "Soft Squelch", "//~": "NO_I18N" },
+    "description": { "str": "Noise, emitted by the monster when it explode with gore.", "//~": "NO_I18N" },
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 6,
     "max_damage": 16,
@@ -317,8 +317,8 @@
   {
     "type": "SPELL",
     "id": "phase_skulker_teleport",
-    "name": { "str": "Phase Skulker Teleport" },
-    "description": "Teleports the monster.",
+    "name": { "str": "Phase Skulker Teleport", "//~": "NO_I18N" },
+    "description": { "str": "Teleports the monster.", "//~": "NO_I18N" },
     "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "none" ],
@@ -332,8 +332,8 @@
   {
     "type": "SPELL",
     "id": "cellar_spider_leg_detach",
-    "name": { "str": "Detach Leg" },
-    "description": "The hurt leg of the cellar spider wriggles loose.  Ew.",
+    "name": { "str": "Detach Leg", "//~": "NO_I18N" },
+    "description": { "str": "The hurt leg of the cellar spider wriggles loose.  Ew.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "valid_targets": [ "self" ],
@@ -363,8 +363,8 @@
   {
     "type": "SPELL",
     "id": "centipede_mom_summon",
-    "name": { "str": "Summon Centipede" },
-    "description": "Summons a small, sometimes pissed off centipede.",
+    "name": { "str": "Summon Centipede", "//~": "NO_I18N" },
+    "description": { "str": "Summons a small, sometimes pissed off centipede.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "base_casting_time": 200,
@@ -381,8 +381,8 @@
   {
     "type": "SPELL",
     "id": "phase_shrike_teleport",
-    "name": { "str": "Phase Skulker Teleport" },
-    "description": "Electric explosion followed by a teleport.",
+    "name": { "str": "Phase Skulker Teleport", "//~": "NO_I18N" },
+    "description": { "str": "Electric explosion followed by a teleport.", "//~": "NO_I18N" },
     "extra_effects": [ { "id": "phase_skulker_teleport", "hit_self": true } ],
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "effect": "attack",
@@ -404,8 +404,8 @@
   {
     "type": "SPELL",
     "id": "spur_shrill",
-    "name": { "str": "Spur Shrill" },
-    "description": "Heals nearby scrap swarms.",
+    "name": { "str": "Spur Shrill", "//~": "NO_I18N" },
+    "description": { "str": "Heals nearby scrap swarms.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "targeted_monster_ids": [ "mon_shrapnel_swarm" ],
     "effect": "attack",
@@ -426,8 +426,8 @@
   {
     "type": "SPELL",
     "id": "shock_cone",
-    "name": { "str": "an arc of electricity" },
-    "description": "Spawns electric fields.",
+    "name": { "str": "an arc of electricity", "//~": "NO_I18N" },
+    "description": { "str": "Spawns electric fields.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
@@ -456,13 +456,13 @@
   {
     "type": "SPELL",
     "id": "shock_blast",
-    "name": { "str": "Shock Blast" },
-    "description": "Spawns electric fields in a blast",
+    "name": { "str": "Shock Blast", "//~": "NO_I18N" },
+    "description": { "str": "Spawns electric fields in a blast", "//~": "NO_I18N" },
     "base_casting_time": 10,
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self", "ground" ],
-    "flags": [ "LOUD" ],
+    "flags": [ "LOUD", "SPLIT_DAMAGE" ],
     "damage_type": "electric",
     "max_level": 4,
     "min_damage": 4,
@@ -488,8 +488,8 @@
   {
     "type": "SPELL",
     "id": "hit_and_run",
-    "name": { "str": "Running Away" },
-    "description": "Causes monster to run away for 5 turns.",
+    "name": { "str": "Running Away", "//~": "NO_I18N" },
+    "description": { "str": "Causes monster to run away for 5 turns.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "effect": "attack",
@@ -500,8 +500,8 @@
   {
     "type": "SPELL",
     "id": "dermatik_emergence",
-    "name": { "str": "Dermatik Emergence" },
-    "description": "The incubating dermatik larvae flee their host.",
+    "name": { "str": "Dermatik Emergence", "//~": "NO_I18N" },
+    "description": { "str": "The incubating dermatik larvae flee their host.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "base_casting_time": 20,
@@ -520,8 +520,8 @@
   {
     "type": "SPELL",
     "id": "mutant_frenzy",
-    "name": { "str": "Mutant Frenzy" },
-    "description": "Speeds up allied mutants in a radius.",
+    "name": { "str": "Mutant Frenzy", "//~": "NO_I18N" },
+    "description": { "str": "Speeds up allied mutants in a radius.", "//~": "NO_I18N" },
     "valid_targets": [ "ally" ],
     "targeted_monster_ids": [
       "mon_mutant_antler",
@@ -549,8 +549,8 @@
   {
     "type": "SPELL",
     "id": "spread_sludge",
-    "name": { "str": "Spread Sludge" },
-    "description": "Splatters sludge along the ground in a cone.",
+    "name": { "str": "Spread Sludge", "//~": "NO_I18N" },
+    "description": { "str": "Splatters sludge along the ground in a cone.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -567,29 +567,9 @@
     "max_field_intensity": 2
   },
   {
-    "type": "SPELL",
-    "id": "spread_fungal_acid",
-    "name": { "str": "Spread Hallucinogenic Acid" },
-    "description": "Splatters hallucinogenic acid in the air in blasts.",
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "min_aoe": 2,
-    "max_aoe": 3,
-    "base_casting_time": 100,
-    "min_range": 1,
-    "max_range": 1,
-    "effect": "attack",
-    "effect_str": "emit_hallucinogenic_spores_blast",
-    "shape": "blast",
-    "field_id": "fd_hallucinogenic_spores",
-    "field_chance": 2,
-    "min_field_intensity": 1,
-    "max_field_intensity": 2
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "npc_is_character", "has_beta" ] },
+    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "has_beta", "npc_is_character" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
       { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
@@ -630,8 +610,8 @@
   {
     "type": "SPELL",
     "id": "base_portal",
-    "name": { "str": "Base characteristics of portal spells" },
-    "description": "Base portal stats.",
+    "name": { "str": "Base characteristics of portal spells", "//~": "NO_I18N" },
+    "description": { "str": "Base portal stats.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
@@ -646,8 +626,8 @@
   {
     "type": "SPELL",
     "id": "shifting_mass_attack",
-    "name": { "str": "Shifting Mass Attack" },
-    "description": "Drains some of your essence.",
+    "name": { "str": "Shifting Mass Attack", "//~": "NO_I18N" },
+    "description": { "str": "Drains some of your essence.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "min_damage": -25,
     "max_damage": -50,
@@ -657,8 +637,8 @@
   {
     "type": "SPELL",
     "id": "portal_hurt_self",
-    "name": { "str": "Hurt Self" },
-    "description": "Touching/perceiving you is bad for the other side as well.",
+    "name": { "str": "Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Touching/perceiving you is bad for the other side as well.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 5,
     "max_damage": 5,
@@ -670,8 +650,8 @@
   {
     "type": "SPELL",
     "id": "portal_severely_hurt_self",
-    "name": { "str": "Hurt Self" },
-    "description": "Touching/perceiving you is bad for the other side as well.",
+    "name": { "str": "Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Touching/perceiving you is bad for the other side as well.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 30,
     "max_damage": 30,
@@ -685,7 +665,7 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      { "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
       { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
       { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
@@ -693,8 +673,8 @@
   {
     "type": "SPELL",
     "id": "impossible_shape_attack",
-    "name": { "str": "Impossible Shape Attack" },
-    "description": "Hurts you mentally.",
+    "name": { "str": "Impossible Shape Attack", "//~": "NO_I18N" },
+    "description": { "str": "Hurts you mentally.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "min_range": 50,
     "max_range": 50,
@@ -703,7 +683,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness", ">", "10" ] } ] },
+    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness > 10" ] } ] },
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
@@ -715,14 +695,14 @@
         "decay_start": "24 hours"
       },
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness", "=", "0" ] },
+      { "math": [ "u_madness = 0" ] },
       {
         "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
       }
     ],
     "false_effect": [
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness", "++" ] },
+      { "math": [ "u_madness++" ] },
       {
         "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
       }
@@ -731,8 +711,8 @@
   {
     "type": "SPELL",
     "id": "absence_capture_attack",
-    "name": { "str": "Absence Capture Attack" },
-    "description": "Traps you with nothing.",
+    "name": { "str": "Absence Capture Attack", "//~": "NO_I18N" },
+    "description": { "str": "Traps you with nothing.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "min_range": 12,
     "max_range": 12,
@@ -741,7 +721,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -777,8 +757,8 @@
   {
     "id": "skunk_squirt",
     "type": "SPELL",
-    "name": { "str": "Skunk Spray" },
-    "description": "Skunk spray defense mechanism.",
+    "name": { "str": "Skunk Spray", "//~": "NO_I18N" },
+    "description": { "str": "Skunk spray defense mechanism.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "cone",
@@ -794,8 +774,8 @@
     "id": "boomer_claymore_initial",
     "type": "SPELL",
     "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
-    "name": { "str": "Initial Boomer Claymore Attack" },
-    "description": "Nothing to see here.",
+    "name": { "str": "Initial Boomer Claymore Attack", "//~": "NO_I18N" },
+    "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -809,9 +789,10 @@
   {
     "id": "boomer_claymore",
     "type": "SPELL",
-    "name": { "str": "Boomer Claymore Attack" },
-    "description": "Nothing to see here.",
+    "name": { "str": "Boomer Claymore Attack", "//~": "NO_I18N" },
+    "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "cone",
     "min_damage": 30,
@@ -826,8 +807,8 @@
   {
     "id": "create_noise",
     "type": "SPELL",
-    "name": { "str": "Do noise" },
-    "description": "Causes some noise",
+    "name": { "str": "Do noise", "//~": "NO_I18N" },
+    "description": { "str": "Causes some noise", "//~": "NO_I18N" },
     "flags": [ "NO_EXPLOSION_SFX" ],
     "message": "The %s makes a deafening screech",
     "sound_description": "a deafening screech",
@@ -844,8 +825,8 @@
   {
     "id": "boomer_claymore_suicide",
     "type": "SPELL",
-    "name": { "str": "Boomer Suicide Spell" },
-    "description": "Nothing to see here.",
+    "name": { "str": "Boomer Suicide Spell", "//~": "NO_I18N" },
+    "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "self" ],
     "effect": "attack",
     "shape": "blast",
@@ -857,8 +838,8 @@
   {
     "type": "SPELL",
     "id": "mon_twisting_blade_attack",
-    "name": { "str": "Twisting Blade Attack" },
-    "description": "Hurts you mentally.",
+    "name": { "str": "Twisting Blade Attack", "//~": "NO_I18N" },
+    "description": { "str": "Hurts you mentally.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "effect_str": "EOC_mon_twisting_blade_attack"
   },
@@ -875,8 +856,8 @@
   {
     "type": "SPELL",
     "id": "mon_swarm_structure_attack",
-    "name": { "str": "Swarm Structure Action" },
-    "description": "Teleports and summons monsters.",
+    "name": { "str": "Swarm Structure Action", "//~": "NO_I18N" },
+    "description": { "str": "Teleports and summons monsters.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "extra_effects": [ { "id": "portal_severely_hurt_self", "hit_self": true } ],
     "min_range": 15,
@@ -886,7 +867,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
+    "condition": { "math": [ "distance('u', 'npc') > 4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -903,8 +884,8 @@
   {
     "type": "SPELL",
     "id": "mon_reflection_attack",
-    "name": { "str": "Reflection Action" },
-    "description": "Teleports and harms monsters.",
+    "name": { "str": "Reflection Action", "//~": "NO_I18N" },
+    "description": { "str": "Teleports and harms monsters.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "min_range": 15,
     "max_range": 15,
@@ -920,9 +901,7 @@
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            {
-              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
-            },
+            { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
             { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
@@ -930,10 +909,8 @@
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            {
-              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
-            },
-            { "math": [ "portal_dungeon_reflect_strength", "++" ] }
+            { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
+            { "math": [ "portal_dungeon_reflect_strength++" ] }
           ]
         },
         {
@@ -962,8 +939,8 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -983,8 +960,8 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "math": [ "portal_dungeon_level", ">", "0" ] },
-                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
+                          { "math": [ "portal_dungeon_level > 0" ] },
+                          { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc) < 1" ] }
                         ]
                       },
                       "effect": {
@@ -1012,8 +989,8 @@
   {
     "type": "SPELL",
     "id": "mon_reflection_revive",
-    "name": { "str": "Reflection Revive" },
-    "description": "Revives the reflection.",
+    "name": { "str": "Reflection Revive", "//~": "NO_I18N" },
+    "description": { "str": "Revives the reflection.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -1027,8 +1004,8 @@
   {
     "type": "SPELL",
     "id": "mon_XEDRA_officer_banish",
-    "name": { "str": "Officer banish" },
-    "description": "Stops the haunting.",
+    "name": { "str": "Officer banish", "//~": "NO_I18N" },
+    "description": { "str": "Stops the haunting.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
@@ -1042,13 +1019,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+    "effect": [ { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
   },
   {
     "type": "SPELL",
     "id": "mon_tainted_shadow_revive",
-    "name": { "str": "Tainted Shadow Revive" },
-    "description": "Revives the tainted shadow.",
+    "name": { "str": "Tainted Shadow Revive", "//~": "NO_I18N" },
+    "description": { "str": "Revives the tainted shadow.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -1063,14 +1040,14 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_SHADOW_RESPAWN",
     "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
+    "effect": [ { "run_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
     "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
   },
   {
     "id": "hallu_touch_suicide",
     "type": "SPELL",
-    "name": { "str": "Hallucination Touch Dissipation" },
-    "description": "Nothing to see here.",
+    "name": { "str": "Hallucination Touch Dissipation", "//~": "NO_I18N" },
+    "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "self" ],
     "effect": "attack",
     "shape": "blast",
@@ -1082,8 +1059,11 @@
   {
     "id": "hallucinator_touch",
     "type": "SPELL",
-    "name": { "str": "Give The Hallucination Effect" },
-    "description": "Spell that gives the player the effect, that will cause short term hallucination attacks.  You can see it only in debug menu.",
+    "name": { "str": "Give The Hallucination Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "Spell that gives the player the effect, that will cause short term hallucination attacks.  You can see it only in debug menu.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "effect_str": "hallucination_attacks",
@@ -1100,24 +1080,25 @@
   {
     "type": "SPELL",
     "id": "flatlander_attack",
-    "name": { "str": "flatlander attack" },
-    "description": "Dazes the player",
+    "name": { "str": "flatlander attack", "//~": "NO_I18N" },
+    "description": { "str": "Dazes the player", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "effect_str": "stunned",
+    "min_range": 4,
     "max_range": 4,
     "shape": "blast",
     "message": "",
     "min_duration": 100,
     "max_duration": 400,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "extra_effects": [ { "id": "flatlander_attack_nausea", "hit_self": true } ]
+    "extra_effects": [ { "id": "flatlander_attack_nausea" } ]
   },
   {
     "type": "SPELL",
     "id": "flatlander_attack_nausea",
-    "name": { "str": "flatlander attack nausea" },
-    "description": "Makes enemy nauseous",
+    "name": { "str": "flatlander attack nausea", "//~": "NO_I18N" },
+    "description": { "str": "Makes enemy nauseous", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -1130,8 +1111,8 @@
   {
     "type": "SPELL",
     "id": "star_vampire_invisibility_spell",
-    "name": { "str": "star vampire invisibility" },
-    "description": "Makes the star vampire invisible",
+    "name": { "str": "star vampire invisibility", "//~": "NO_I18N" },
+    "description": { "str": "Makes the star vampire invisible", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "invisibility",
@@ -1144,8 +1125,8 @@
   {
     "type": "SPELL",
     "id": "sloth_attack",
-    "name": { "str": "Sloth Attack" },
-    "description": "Slows you.",
+    "name": { "str": "Sloth Attack", "//~": "NO_I18N" },
+    "description": { "str": "Slows you.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "effect_str": "EOC_sloth_attack"
   },
@@ -1153,15 +1134,15 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "math": [ "portal_dungeon_slow_strength", "=", "max(portal_dungeon_slow_strength - 1, -75)" ] },
+      { "math": [ "portal_dungeon_slow_strength = max(portal_dungeon_slow_strength - 1, -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
   {
     "type": "SPELL",
     "id": "spell_conjure_memories",
-    "name": { "str": "Life Flashing" },
-    "description": "Brings back memories.",
+    "name": { "str": "Life Flashing", "//~": "NO_I18N" },
+    "description": { "str": "Brings back memories.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "max_range": 3,
     "effect_str": "EOC_conjure_memories"
@@ -1169,8 +1150,8 @@
   {
     "type": "SPELL",
     "id": "guilt_attack",
-    "name": { "str": "Guilt Attack" },
-    "description": "Makes things heavier.",
+    "name": { "str": "Guilt Attack", "//~": "NO_I18N" },
+    "description": { "str": "Makes things heavier.", "//~": "NO_I18N" },
     "copy-from": "base_portal",
     "effect_str": "EOC_guilt_attack"
   },
@@ -1178,15 +1159,15 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "math": [ "portal_dungeon_carry_strength", "=", "max(portal_dungeon_carry_strength - 1, -75)" ] },
+      { "math": [ "portal_dungeon_carry_strength = max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
   {
     "id": "fear_paralyze",
     "type": "SPELL",
-    "name": "Fear Paralyze",
-    "description": "Paralyzes you when you see the creature.",
+    "name": { "str": "Fear Paralyze", "//~": "NO_I18N" },
+    "description": { "str": "Paralyzes you when you see the creature.", "//~": "NO_I18N" },
     "effect": "effect_on_condition",
     "effect_str": "EOC_FEAR_PARALYZE",
     "message": "",
@@ -1216,15 +1197,15 @@
     "effect": [
       { "u_message": "The terrifying visage of the <npc_name> paralyzes you.", "type": "bad" },
       { "u_add_effect": "fearparalyze", "duration": 5 },
-      { "turn_cost": "4 s" }
+      { "turn_cost": { "math": [ "4 * u_speed() / 100" ] } }
     ],
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   },
   {
     "id": "stare",
     "type": "SPELL",
-    "name": "Stare",
-    "description": "Applies various effects when you see the creature.",
+    "name": { "str": "Stare", "//~": "NO_I18N" },
+    "description": { "str": "Applies various effects when you see the creature.", "//~": "NO_I18N" },
     "effect": "effect_on_condition",
     "effect_str": "EOC_STARE",
     "message": "",
@@ -1300,8 +1281,8 @@
   {
     "type": "SPELL",
     "id": "veiled_butterfly_irradiate",
-    "name": { "str": "Irradiate Player" },
-    "description": "Adds minor radiation to player.",
+    "name": { "str": "Irradiate Player", "//~": "NO_I18N" },
+    "description": { "str": "Adds minor radiation to player.", "//~": "NO_I18N" },
     "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_veiled_butterfly_irradiate",

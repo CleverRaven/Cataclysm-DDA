@@ -59,7 +59,7 @@ duration_or_var get_duration_or_var( const JsonObject &jo, const std::string_vie
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string_view &member,
         bool required = true,
         time_duration default_val = 0_seconds );
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d,
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialogue const &d,
                                        bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 translation_var_info read_translation_var_info( const JsonObject &jo );
@@ -67,13 +67,15 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
                       const std::string &value, int call_depth = 0 );
 void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value );
+void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
+                      const std::string &value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,
                               bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, std::string_view member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
-                     std::function<bool( dialogue & )> &condition, bool default_val );
+                     std::function<bool( const_dialogue const & )> &condition, bool default_val );
 
 void finalize_conditions();
 
@@ -86,19 +88,20 @@ void finalize_conditions();
  */
 struct conditional_t {
     public:
-        using func = std::function<bool( dialogue & )>;
+        using func = std::function<bool( const_dialogue const & )>;
 
         conditional_t() = default;
         explicit conditional_t( std::string_view type );
         explicit conditional_t( const JsonObject &jo );
 
-        static std::function<std::string( const dialogue & )> get_get_string( const JsonObject &jo );
-        static std::function<translation( const dialogue & )> get_get_translation( const JsonObject &jo );
-        static std::function<double( dialogue & )> get_get_dbl( std::string_view checked_value,
+        static std::function<std::string( const_dialogue const & )> get_get_string( const JsonObject &jo );
+        static std::function<translation( const_dialogue const & )> get_get_translation(
+            const JsonObject &jo );
+        static std::function<double( const_dialogue const & )> get_get_dbl( std::string_view checked_value,
                 char scope );
         std::function<void( dialogue &, double )>
         static get_set_dbl( std::string_view checked_value, char scope );
-        bool operator()( dialogue &d ) const {
+        bool operator()( const_dialogue const &d ) const {
             if( !condition ) {
                 return false;
             }

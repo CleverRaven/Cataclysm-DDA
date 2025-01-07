@@ -7,107 +7,119 @@
     "//": "AI EFFECTS BELOW THIS",
     "type": "effect_type",
     "id": "hit_by_player",
-    "name": [ "Hit By Player" ],
-    "desc": [ "AI tag for when monsters are hit by player.  This is a bug if you have it." ]
+    "name": [ { "str": "Hit By Player", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when monsters are hit by player.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "ridden",
-    "name": [ "Ridden" ],
-    "desc": [ "AI tag for when critter is being ridden.  This is a bug if you have it." ]
+    "name": [ { "str": "Ridden", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when critter is being ridden.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_suspend",
-    "name": [ "Suspended NPC" ],
-    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+    "name": [ { "str": "Suspended NPC", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when an NPC needs to be rebooted after an infinite loop.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
-    "desc": [ "AI tag for when critter is being harnessed by a vehicle.  This is a bug if you have it." ]
+    "desc": [
+      { "str": "AI tag for when critter is being harnessed by a vehicle.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "docile",
-    "name": [ "Docile Monster" ],
-    "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
+    "name": [ { "str": "Docile Monster", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when monsters are tamed.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "controlled",
-    "name": [ "Controlled Monster" ],
-    "desc": [ "AI tag for when monsters are being controlled by another.  This is a bug if you have it." ]
+    "name": [ { "str": "Controlled Monster", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "AI tag for when monsters are being controlled by another.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ]
   },
   {
     "type": "effect_type",
     "id": "run",
-    "name": [ "Hit-and-run Running" ],
-    "desc": [ "AI tag for when hit-and-run monsters run away.  This is a bug if you have it." ]
+    "name": [ { "str": "Hit-and-run Running", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when hit-and-run monsters run away.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "spooked",
-    "name": [ "Cornered Fighter Spooked" ],
-    "desc": [ "AI tag to let CORNERED_FIGHTER monsters try to flee.  This is a bug if you have it." ]
+    "name": [ { "str": "Cornered Fighter Spooked", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag to let CORNERED_FIGHTER monsters try to flee.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "spooked_recent",
-    "name": [ "Cornered Fighter Recently Spooked" ],
-    "desc": [ "AI tag to allow CORNERED_FIGHTER monsters to turn and fight.  This is a bug if you have it." ]
+    "name": [ { "str": "Cornered Fighter Recently Spooked", "//~": "NO_I18N" } ],
+    "desc": [
+      {
+        "str": "AI tag to allow CORNERED_FIGHTER monsters to turn and fight.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_well_fed",
     "name": [ "Well Fed" ],
     "show_in_info": true,
-    "desc": [ "AI tag for when critter has had enough to eat.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag for when critter has had enough to eat.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
+    "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_underfed",
     "name": [ "Underfed" ],
     "show_in_info": true,
-    "desc": [ "AI tag for when critter has not had enough to eat.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag for when critter has not had enough to eat.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
     "show_in_info": true,
-    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag for when a monster is dragging you behind it.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "operating",
-    "name": [ "Operating" ],
-    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
+    "name": [ { "str": "Operating", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for when a monster is operating on you.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "countdown",
-    "name": [ "Counting Down" ],
-    "desc": [ "AI tag for monster's counting down.  This is a bug if you have it." ]
+    "name": [ { "str": "Counting Down", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for monster's counting down.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "no_ammo",
-    "name": [ "No Ammo" ],
-    "desc": [ "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it." ]
+    "name": [ { "str": "No Ammo", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_lead",
-    "name": [ "Asked to Lead" ],
-    "desc": [ "AI tag for asking to lead NPCs.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked to Lead", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for asking to lead NPCs.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_follow",
-    "name": [ "Asked to Follow" ],
-    "desc": [ "AI tag for asking to NPCs to follow you.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked to Follow", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for asking to NPCs to follow you.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
@@ -118,170 +130,181 @@
   {
     "type": "effect_type",
     "id": "asked_to_socialize",
-    "name": [ "Asked to Socialize" ],
-    "desc": [ "AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked to Socialize", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_hint",
-    "name": [ "Asked to Hint" ],
-    "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked to Hint", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ]
   },
   {
     "type": "effect_type",
     "id": "asked_personal_info",
-    "name": [ "Asked Info" ],
-    "desc": [ "AI tag for asking to NPCs for personal information.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked Info", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for asking to NPCs for personal information.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "asked_for_item",
-    "name": [ "Asked for Item" ],
-    "desc": [ "AI tag for asking NPCs for items.  This is a bug if you have it." ]
+    "name": [ { "str": "Asked for Item", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for asking NPCs for items.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "currently_busy",
-    "name": [ "Currently Busy" ],
-    "desc": [ "AI cooldown tag for items or services.  This is a bug if you have it." ]
+    "name": [ { "str": "Currently Busy", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI cooldown tag for items or services.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "gave_quest_item",
-    "name": [ "Already Gave Quest Item" ],
-    "desc": [ "AI tag to prevent you from getting multiple quest items.  This is a bug if you have it." ]
+    "name": [ { "str": "Already Gave Quest Item", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "AI tag to prevent you from getting multiple quest items.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ]
   },
   {
     "type": "effect_type",
     "id": "catch_up",
-    "name": [ "Catch Up" ],
-    "desc": [ "AI tag for telling NPCs to catch up.  This is a bug if you have it." ],
+    "name": [ { "str": "Catch Up", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for telling NPCs to catch up.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "int_add_val": 1,
     "max_intensity": 15
   },
   {
     "type": "effect_type",
     "id": "allow_sleep",
-    "name": [ "Allow to Sleep" ],
-    "desc": [ "AI tag for telling NPCs to sleep.  This is a bug if you have it." ]
+    "name": [ { "str": "Allow to Sleep", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for telling NPCs to sleep.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_said",
-    "name": [ "Said Something Recently" ],
-    "desc": [ "AI tag to control NPC verbosity.  This is a bug if you have it." ]
+    "name": [ { "str": "Said Something Recently", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag to control NPC verbosity.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "socialized_recently",
-    "name": [ "Socialized Recently" ],
-    "desc": [ "AI tag for asking to NPCs to socialize.  This is a bug if you have it." ]
+    "name": [ { "str": "Socialized Recently", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag for asking to NPCs to socialize.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_run_away",
     "name": [ "Running Away" ],
-    "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag to enable NPCs to flee.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_flee_player",
     "name": [ "Running Away" ],
-    "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag to enable NPCs to flee the player.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_fire_bad",
-    "name": [ "Avoiding a Fire" ],
-    "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
+    "name": [ { "str": "Avoiding a Fire", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "npc_player_still_looking",
-    "name": [ "Waiting till You Find Something" ],
+    "name": [ { "str": "Waiting till You Find Something", "//~": "NO_I18N" } ],
     "desc": [
-      "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it."
+      {
+        "str": "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
     ]
   },
   {
     "type": "effect_type",
     "id": "infection",
-    "name": [ "Infection" ],
-    "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],
+    "name": [ { "str": "Infection", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for the infected NPC quest.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "base_mods": { "speed_mod": [ -80 ] }
   },
   {
     "type": "effect_type",
     "id": "pet",
-    "name": [ "Pet" ],
-    "desc": [ "AI tag used for pet critters.  This is a bug if you have it." ]
+    "name": [ { "str": "Pet", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for pet critters.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "paid",
-    "name": [ "Paid" ],
-    "desc": [ "AI tag used for paid critters.  This is a bug if you have it." ]
+    "name": [ { "str": "Paid", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for paid critters.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "pacified",
-    "name": [ "Pacified" ],
-    "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ]
+    "name": [ { "str": "Pacified", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for pacified critters.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "has_bag",
-    "name": [ "Has Bag" ],
-    "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ]
+    "name": [ { "str": "Has Bag", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for critters holding your bags.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "monster_armor",
-    "name": [ "Has Armor" ],
-    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
+    "name": [ { "str": "Has Armor", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for critters wearing armor.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "monster_saddled",
-    "name": [ "Has Saddle" ],
-    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+    "name": [ { "str": "Has Saddle", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for critters wearing a saddle.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "leashed",
-    "name": [ "Has Leash" ],
-    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+    "name": [ { "str": "Has Leash", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for critters wearing a leash.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "led_by_leash",
     "name": [ "Being Led by Leash" ],
-    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+    "desc": [
+      { "str": "AI tag used for critters forced to follow using a leash.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
-    "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
+    "desc": [ { "str": "AI tag used for tied up critters.  This is a bug if you have it.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "shrieking",
     "name": [ "Shrieking" ],
-    "desc": [ "AI tag used for screecher sounds.  This is a bug if you have it." ],
+    "desc": [ { "str": "AI tag used for screecher sounds.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "targeted",
-    "name": [ "Turret Is Targeted" ],
-    "desc": [ "AI tag used for turret targeting sounds.  This is a bug if you have it." ]
+    "name": [ { "str": "Turret Is Targeted", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for turret targeting sounds.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "bounced",
-    "name": [ "Bounced" ],
-    "desc": [ "AI tag used for bouncing ammo targeting.  This is a bug if you have it." ]
+    "name": [ { "str": "Bounced", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for bouncing ammo targeting.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
@@ -292,30 +315,31 @@
     "type": "effect_type",
     "id": "frenzy",
     "name": [ "Frenzied" ],
-    "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
+    "desc": [ { "str": "Monster effect used to buff allies.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "max_intensity": 5,
     "int_add_val": 1,
     "max_duration": "15 m",
     "base_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 1 ] },
-    "scaling_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 0.5 ] }
+    "scaling_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 0.5 ] },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "pushed",
-    "name": [ "Pushed" ],
-    "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
+    "name": [ { "str": "Pushed", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for monsters pushing each other.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "worked_on",
-    "name": [ "Worked On" ],
-    "desc": [ "AI tag used for robots being disabled.  This is a bug if you have it." ]
+    "name": [ { "str": "Worked On", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "AI tag used for robots being disabled.  This is a bug if you have it.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "venom_player1",
-    "name": [ "Weak Player Venom" ],
-    "desc": [ "Don't worry, you shouldn't get this." ],
+    "name": [ { "str": "Weak Player Venom", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Don't worry, you shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
     "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
@@ -323,8 +347,8 @@
   {
     "type": "effect_type",
     "id": "venom_player2",
-    "name": [ "Strong Player Venom" ],
-    "desc": [ "Don't worry, you really shouldn't get this." ],
+    "name": [ { "str": "Strong Player Venom", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Don't worry, you really shouldn't get this.", "//~": "NO_I18N" } ],
     "max_duration": 120,
     "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
     "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
@@ -333,7 +357,9 @@
     "type": "effect_type",
     "id": "dripping_mechanical_fluid",
     "name": [ "Mechanical Fluid Dripping" ],
-    "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
+    "desc": [
+      { "str": "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it.", "//~": "NO_I18N" }
+    ],
     "show_in_info": true
   },
   {
@@ -371,104 +397,246 @@
   {
     "type": "effect_type",
     "id": "acid_charged",
-    "name": [ "Charged Acid Glands" ],
+    "name": [ { "str": "Charged Acid Glands", "//~": "NO_I18N" } ],
     "//": "Enables special attacks where specified",
-    "desc": [ "Your acid glands are full and ready to burst.  Ew." ]
+    "desc": [ { "str": "Your acid glands are full and ready to burst.  Ew.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "maimed_acid_gland",
     "name": [ "Maimed Acid Glands" ],
     "//": "Disables special attacks where specified",
-    "desc": [ "Your acid glands got all leaky." ]
+    "desc": [ { "str": "Your acid glands got all leaky.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "elec_charged",
-    "name": [ "Charged Capacitor" ],
-    "desc": [ "Your capacitors sizzle with bioelectricity." ]
+    "name": [ { "str": "Charged Capacitor", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Your capacitors sizzle with bioelectricity.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "maimed_capacitor",
     "name": [ "Maimed Capacitor" ],
-    "desc": [ "You can't deal with this charge." ]
+    "desc": [ { "str": "You can't deal with this charge.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_tail",
     "name": [ "Maimed Tail" ],
-    "desc": [ "Your tail is broken.  You're not sure what to do with this information." ]
+    "desc": [ { "str": "Your tail is broken.  You're not sure what to do with this information.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_claws",
     "name": [ "Maimed Claws" ],
     "//": "Disables special attacks where specified",
-    "desc": [ "Your claws broke.  Like a broken nail, but somehow worse." ]
+    "desc": [ { "str": "Your claws broke.  Like a broken nail, but somehow worse.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_armor",
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
-    "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+    "desc": [ { "str": "You feel exposed -and pretty buggy- without your shell.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "disarmed",
-    "name": [ "Disarmed" ],
+    "name": [ { "str": "Disarmed", "//~": "NO_I18N" } ],
     "//": "Disables monster weapon attacks",
-    "desc": [ "You have been forced to drop any wielded weapon.  You can wield them again if you manage to survive." ]
+    "desc": [
+      {
+        "str": "You have been forced to drop any wielded weapon.  You can wield them again if you manage to survive.",
+        "//~": "NO_I18N"
+      }
+    ]
   },
   {
     "type": "effect_type",
     "id": "maimed_arm",
     "name": [ "Broken Arm" ],
     "//": "Disables base grabs, scratches and monster weapon attacks",
-    "desc": [ "Your arms are broken.  Your imaginary monster arms, so this is probably a bug." ]
+    "desc": [ { "str": "Your arms are broken.  Your imaginary monster arms, so this is probably a bug.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_mandible",
     "name": [ "Maimed Mandibles" ],
     "//": "Given by weakpoints, used to disable bites if specified in the bite def",
-    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+    "desc": [
+      {
+        "str": "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_tongue",
     "name": [ "Injured Tongue" ],
     "//": "Given by weakpoints, used to disable pulls if specified in the attack def",
-    "desc": [ "Cat got your tongue?  No?  Then it must have been a bug." ]
+    "desc": [ { "str": "Cat got your tongue?  No?  Then it must have been a bug.", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_leg",
     "name": [ "Maimed Legs" ],
-    "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
-    "base_mods": { "speed_mod": [ -20 ] }
+    "desc": [ { "str": "Your bugged legs are maimed beyond recognition.  How will you leap now?", "//~": "NO_I18N" } ],
+    "base_mods": { "speed_mod": [ -20 ] },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_stinger",
     "name": [ "Maimed Stinger" ],
     "//": "Same as maimed_mandible, no effect unless specified in the attack's definition",
-    "desc": [ "Your beautiful stinger is broken!  That must be a bug, right?" ]
+    "desc": [ { "str": "Your beautiful stinger is broken!  That must be a bug, right?", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "maimed_wings",
     "name": [ "Maimed Wings" ],
     "//": "Hardcoded effect handled by monster::flies via effect flag",
-    "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
-    "flags": [ "DISABLE_FLIGHT" ]
+    "desc": [ { "str": "Your wings are useless, robbing you of unlimited flight.", "//~": "NO_I18N" } ],
+    "flags": [ "DISABLE_FLIGHT" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "stumbled_into_invisible",
-    "name": [ "Stumbled Into Invisible Player" ],
-    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
+    "name": [ { "str": "Stumbled Into Invisible Player", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "This creature has stumbled into an invisible player and is now aware of their presence.", "//~": "NO_I18N" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "milked",
+    "name": [ "Milked" ],
+    "desc": [ { "str": "The creature has been partially or fully milked.", "//~": "NO_I18N" } ],
+    "max_duration": "1 d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "sheared",
+    "name": [ "Sheared" ],
+    "desc": [ { "str": "The creature has been fully sheared.", "//~": "NO_I18N" } ],
+    "max_duration": "90d",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fragile_frog",
+    "name": [ { "str": "Fragile Frog", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Applied by leap special attack of burned frog zombies, conditional for related spell.", "//~": "NO_I18N" } ],
+    "max_duration": "5 m"
+  },
+  {
+    "//": "Limits the number of police bots summoned to 3 every 6 hours",
+    "type": "effect_type",
+    "id": "eyebot_assisted",
+    "int_add_val": 1,
+    "max_intensity": 3,
+    "max_duration": "6 hours"
+  },
+  {
+    "//": "The eyebot can no longer summon police bots",
+    "type": "effect_type",
+    "id": "eyebot_depleted",
+    "int_add_val": 1,
+    "max_intensity": 10
+  },
+  {
+    "id": "photophobia",
+    "type": "effect_type",
+    "//": "max_duration doesn't seem to work here, the effect stays forever",
+    "max_duration": "5 s",
+    "name": [ "Photophobia" ],
+    "desc": [ { "str": "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it.", "//~": "NO_I18N" } ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 15 },
+          { "type": "cut", "add": 15 },
+          { "type": "bullet", "add": 50 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ { "str": "SWOLE", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "If you see this description it is a bug.", "//~": "NO_I18N" } ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ],
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grown_of_fuse",
+    "name": [ { "str": "Grown of Fusion", "//~": "NO_I18N" } ],
+    "desc": [
+      {
+        "str": "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp.",
+        "//~": "NO_I18N"
+      }
+    ],
+    "//": "stats modified by the zombie_fuse special attack.",
+    "//1": "scaling:",
+    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/250 HP: +1 size",
+    "max_intensity": 500,
+    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
+    "int_decay_step": 0
+  },
+  {
+    "id": "Shadow_Reveal",
+    "type": "effect_type",
+    "max_duration": "60 s",
+    "name": [ "Revealed" ],
+    "desc": [ { "str": "The shadows no longer hide you!", "//~": "NO_I18N" } ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "yrax_overcharged",
+    "name": [ { "str": "▙▜▛▜", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "▙▚▛▜▝▞▟", "//~": "NO_I18N" } ],
+    "show_in_info": true
   },
   {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -486,13 +654,6 @@
       { "limb_score": "reaction", "modifier": 0.5 },
       { "limb_score": "block", "modifier": 0.5 }
     ]
-  },
-  {
-    "type": "effect_type",
-    "id": "yrax_overcharged",
-    "name": [ "▙▜▛▜" ],
-    "desc": [ "▙▚▛▜▝▞▟" ],
-    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -688,6 +849,14 @@
   },
   {
     "type": "effect_type",
+    "id": "mech_recon_vision",
+    "//": "is applied when you ride a mech. Ideally should be jsonified in some way",
+    "name": [ "" ],
+    "desc": [ "." ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE", "nvg_great_mech" ]
+  },
+  {
+    "type": "effect_type",
     "id": "onfire",
     "name": [ "On Fire" ],
     "desc": [ "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames." ],
@@ -733,7 +902,12 @@
     "//1": "Copy of blind effect, used to temporarily remove vision as a utility function. Only use outside of EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW with extreme caution.",
     "id": "blind_no_msg",
     "name": [ "Blind" ],
-    "desc": [ "Range of Sight: 0.  You cannot see anything.  You shouldn't be able to see this description either!" ],
+    "desc": [
+      {
+        "str": "Range of Sight: 0.  You cannot see anything.  You shouldn't be able to see this description either!",
+        "//~": "NO_I18N"
+      }
+    ],
     "rating": "bad",
     "show_in_info": false,
     "limb_score_mods": [
@@ -1925,6 +2099,17 @@
     "show_in_info": true
   },
   {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ],
+    "show_in_info": true
+  },
+  {
     "type": "effect_type",
     "id": "glare",
     "name": [ "Glare" ],
@@ -2072,7 +2257,8 @@
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -2082,7 +2268,8 @@
     "max_duration": "6 m",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
-    "base_mods": { "vomit_chance": [ 500 ] }
+    "base_mods": { "vomit_chance": [ 500 ] },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -2157,7 +2344,9 @@
     "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_max_val": [ 4, 2 ], "pain_chance": [ 400, 1000 ] },
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.95 } ],
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "max_duration": "7 days",
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -2522,7 +2711,8 @@
     "main_parts_only": true,
     "resist_traits": [ "M_IMMUNE" ],
     "base_mods": { "speed_mod": [ -7, 0 ] },
-    "scaling_mods": { "speed_mod": [ -3, 0 ] }
+    "scaling_mods": { "speed_mod": [ -3, 0 ] },
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -3042,7 +3232,8 @@
       { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
       { "limb_score": "balance", "modifier": 0.8, "scaling": -0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -3055,6 +3246,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -3076,6 +3268,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -4084,20 +4277,6 @@
   },
   {
     "type": "effect_type",
-    "id": "milked",
-    "name": [ "Milked" ],
-    "desc": [ "The creature has been partially or fully milked." ],
-    "max_duration": "1 d"
-  },
-  {
-    "type": "effect_type",
-    "id": "sheared",
-    "name": [ "Sheared" ],
-    "desc": [ "The creature has been fully sheared." ],
-    "max_duration": "90d"
-  },
-  {
-    "type": "effect_type",
     "id": "pkill",
     "name": [ "Painkillers" ],
     "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
@@ -4404,20 +4583,6 @@
   },
   {
     "type": "effect_type",
-    "id": "grown_of_fuse",
-    "name": [ "Grown of Fusion" ],
-    "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
-    "//": "stats modified by the zombie_fuse special attack.",
-    "//1": "scaling:",
-    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
-    "//3": "/250 HP: +1 size",
-    "max_intensity": 500,
-    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
-    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
-    "int_decay_step": 0
-  },
-  {
-    "type": "effect_type",
     "id": "migo_atmosphere",
     "name": [ "Stinking Air", "Disorienting Air", "Disorienting Air", "Smothering Air", "Smothering Air" ],
     "desc": [
@@ -4616,21 +4781,6 @@
     "id": "hunger_blank"
   },
   {
-    "//": "Limits the number of police bots summoned to 3 every 6 hours",
-    "type": "effect_type",
-    "id": "eyebot_assisted",
-    "int_add_val": 1,
-    "max_intensity": 3,
-    "max_duration": "6 hours"
-  },
-  {
-    "//": "The eyebot can no longer summon police bots",
-    "type": "effect_type",
-    "id": "eyebot_depleted",
-    "int_add_val": 1,
-    "max_intensity": 10
-  },
-  {
     "id": "weakened_inertia",
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
@@ -4754,70 +4904,6 @@
     "rating": "bad"
   },
   {
-    "id": "lightsnare",
-    "type": "effect_type",
-    "name": [ "Snared" ],
-    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
-    "rating": "bad",
-    "show_intensity": false,
-    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
-  },
-  {
-    "id": "Shadow_Reveal",
-    "type": "effect_type",
-    "max_duration": "60 s",
-    "name": [ "Revealed" ],
-    "desc": [ "The shadows no longer hide you!" ],
-    "rating": "bad",
-    "show_intensity": false,
-    "show_in_info": true,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
-  },
-  {
-    "id": "photophobia",
-    "type": "effect_type",
-    "//": "max_duration doesn't seem to work here, the effect stays forever",
-    "max_duration": "5 s",
-    "name": [ "photophobia" ],
-    "desc": [ "It burns!  Thankfully, this can't ever happen to you.  This is a bug if you have it." ],
-    "rating": "bad",
-    "show_intensity": false,
-    "show_in_info": true,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": -0.5 },
-          { "value": "ARMOR_BASH", "add": 15 },
-          { "value": "ARMOR_STAB", "add": 15 },
-          { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 50 }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "nemesis_buff",
-    "type": "effect_type",
-    "max_duration": "1000 s",
-    "name": [ "SWOLE" ],
-    "desc": [ "If you see this description it is a bug." ],
-    "rating": "bad",
-    "show_intensity": false,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-        ]
-      }
-    ]
-  },
-  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
@@ -4893,40 +4979,6 @@
     "show_in_info": true
   },
   {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Exsanguination" ],
-    "desc": [ "The monster is greedily drinking your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Hemorrhage" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
     "id": "star_vampire_blood_drink_feral",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
@@ -4955,10 +5007,10 @@
     "type": "effect_type",
     "id": "cramped_space",
     "name": [ "Cramped Space" ],
-    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "desc": [ "Your movements are restricted by the surroundings." ],
     "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
-    "apply_message": "You are squeezed uncomfortably into the cramped space.",
-    "remove_message": "It feels good having room to move again.",
+    "apply_message": "Your movements are restricted by the surroundings.",
+    "remove_message": "You are able to move freely again.",
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],
@@ -5074,16 +5126,43 @@
   },
   {
     "type": "effect_type",
-    "id": "fragile_frog",
-    "name": [ "Fragile Frog" ],
-    "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
-    "max_duration": "5 m",
-    "show_in_info": true
-  },
-  {
-    "type": "effect_type",
     "id": "a_winner_is_u",
     "name": [ "Winning!" ],
     "//": "Used to display the winning screen upon winning like a winner."
+  },
+  {
+    "type": "effect_type",
+    "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
+    "id": "HACK_camp_vision_for_npc",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_5",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "This and the other effects with similar ids are used to set the range of creatures with the MIND_SEEING flag."
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_10",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_20",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_30",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

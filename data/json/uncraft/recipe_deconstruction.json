@@ -2057,7 +2057,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "lc_wire", 8 ] ] ]
   },
   {
     "result": "cell_phone",
@@ -2079,7 +2079,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap_aluminum", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]
@@ -2427,6 +2427,22 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "sheet_denim",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_denim_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -2561,9 +2577,9 @@
     "result": "fan",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
@@ -3059,15 +3075,6 @@
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
-    "result": "kiln_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 m",
-    "components": [ [ [ "charcoal", 10000 ] ], [ [ "char_kiln", 1 ] ] ]
-  },
-  {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "knife_large",
@@ -3159,7 +3166,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap_aluminum", 1 ] ], [ [ "wire", 5 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap_aluminum", 1 ] ], [ [ "lc_wire", 5 ] ] ]
   },
   {
     "result": "lawnmower",
@@ -3671,7 +3678,7 @@
     "time": "15 m",
     "decomp_learn": 3,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "wire", 2 ] ], [ [ "cable", 8 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "lc_wire", 2 ] ], [ [ "cable", 8 ] ] ]
   },
   {
     "result": "robot_controls",
@@ -4445,14 +4452,6 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
-    "result": "wire",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "wristwatch",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4718,7 +4717,7 @@
       [ [ "steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
-      [ [ "wire", 2 ] ],
+      [ [ "lc_wire", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -5097,7 +5096,7 @@
     "time": "5 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "sheet_nylon", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",
@@ -5713,7 +5712,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 1 ] ], [ [ "element", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 1 ] ], [ [ "element", 1 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "curling_iron",
@@ -5723,7 +5722,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "string_floss",
@@ -7302,9 +7301,9 @@
     "result": "skull_llama",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "bone", 35 ] ] ],
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

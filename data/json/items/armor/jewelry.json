@@ -132,7 +132,6 @@
     "weight": "10 g",
     "volume": "1 ml",
     "price": "500 USD",
-    "price_postapoc": "2 USD 50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
@@ -149,7 +148,7 @@
     "weight": "10 g",
     "volume": "1 ml",
     "price": "300 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
@@ -274,7 +273,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "diving_watch",
@@ -285,7 +284,6 @@
     "volume": "90 ml",
     "price": "120 USD",
     "price_postapoc": "7 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "gold_watch",
@@ -426,7 +424,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "cufflinks",
@@ -591,7 +589,7 @@
     "weight": "9 g",
     "volume": "1 ml",
     "price": "35 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "45 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "cufflinks",
     "symbol": "[",
@@ -746,7 +744,7 @@
     "weight": "15 g",
     "volume": "1 ml",
     "price": "35 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "75 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "cufflinks",
     "symbol": "[",
@@ -1033,7 +1031,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "gold_watch",
@@ -1044,7 +1042,6 @@
     "volume": "90 ml",
     "price": "500 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "gold" } ],
     "symbol": "[",
     "color": "yellow",
@@ -1075,7 +1072,6 @@
     "volume": "90 ml",
     "price": "180 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "silver" } ],
     "symbol": "[",
     "color": "light_gray",
@@ -1130,7 +1126,6 @@
     "volume": "100 ml",
     "price": "22 kUSD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
@@ -1146,7 +1141,7 @@
     "weight": "60 g",
     "volume": "15 ml",
     "price": "10 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "75 cent",
     "material": [ { "type": "bone", "portion": 8 }, { "type": "silver", "portion": 2 } ],
     "symbol": "[",
     "color": "white",
@@ -1608,7 +1603,6 @@
     "//": "far more expensive than gold watches, around $100,000 for most platinum watches ",
     "price": "100 kUSD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
@@ -1640,7 +1634,7 @@
     "weight": "15 g",
     "volume": "1 ml",
     "price": "150 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "25 cent",
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
@@ -1734,7 +1728,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_engagement",
@@ -1757,7 +1751,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_purity",
@@ -1780,7 +1774,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_signet",
@@ -1803,7 +1797,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_wedding",
@@ -1826,7 +1820,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "silver_necklace",
@@ -1914,7 +1908,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "leather_collar",
@@ -1939,7 +1933,6 @@
     "volume": "100 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "ascii_picture": "wristwatch",
     "symbol": "[",
@@ -1966,12 +1959,12 @@
   {
     "abstract": "badge_abstract",
     "type": "ARMOR",
-    "name": { "str": "badge template" },
-    "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
+    "name": { "str": "badge template", "//~": "NO_I18N" },
+    "description": { "str": "This is a template for police/medical badges.  If found in a game, it is a bug.", "//~": "NO_I18N" },
     "weight": "60 g",
     "volume": "8 ml",
     "price": "50 USD",
-    "price_postapoc": "7 USD",
+    "price_postapoc": "1 USD",
     "material": [ "brass" ],
     "symbol": "[",
     "color": "yellow",
@@ -1992,8 +1985,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "detective badge" },
-    "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "price_postapoc": "5 USD"
+    "description": "A tarnished golden shield gives an air of authority to the wearer."
   },
   {
     "id": "badge_marshal",
@@ -2060,7 +2052,22 @@
     "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
-    "color": "pink"
+    "color": "pink",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "faux_fur_cat_ears",
+        "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
+        "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+        "color": "pink"
+      },
+      {
+        "id": "bunny_ears_white",
+        "name": { "str": "pair of white bunny ears", "str_pl": "pairs of white bunny ears" },
+        "description": "A fuzzy pair of white bunny ears.  It does nothing, but there's no reason to look good even if no one's looking.",
+        "color": "light_gray"
+      }
+    ]
   },
   {
     "id": "fur_cat_tail",
@@ -2157,7 +2164,7 @@
     "weight": "18 mg",
     "volume": "1 ml",
     "price": "100 USD",
-    "price_postapoc": "25 cent",
+    "price_postapoc": "75 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_ear",
     "symbol": "[",
@@ -2274,7 +2281,6 @@
     "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
     "description": "A pair of shiny diamond and silver earrings.",
     "price": "80 USD",
-    "price_postapoc": "20 USD",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2286,7 +2292,7 @@
     "weight": "10 mg",
     "volume": "1 ml",
     "price": "60 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "45 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "silver_ear",
     "symbol": "[",
@@ -2561,7 +2567,7 @@
     "weight": "18 mg",
     "volume": "1 ml",
     "price": "100 USD",
-    "price_postapoc": "18 USD",
+    "price_postapoc": "75 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_ring",
     "symbol": "[",
@@ -2575,7 +2581,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2705,7 +2711,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "ALLOWS_TALONS" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [
       {
         "coverage": 0,
@@ -2871,7 +2877,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
     "armor": [
       {
         "coverage": 0,
@@ -4541,7 +4547,7 @@
       },
       {
         "id": "pistol_pendent3",
-        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiraled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
       }
     ],
     "weight": "24 g",
@@ -4655,7 +4661,6 @@
       { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },
-      { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str_sp": "God's Magnum" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
       { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },
       { "type": "COMPONENT_ID", "condition": "9mm_casing", "name": { "str_sp": "Sunrise Parabellum" } },
@@ -4837,7 +4842,7 @@
     "symbol": "u",
     "color": "white",
     "price": "10 USD",
-    "price_postapoc": "10 USD",
+    "price_postapoc": "10 cent",
     "weight": "42 g",
     "volume": "30 ml",
     "material": "bone",
@@ -4850,5 +4855,133 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "devil_horn_headband",
+    "type": "ARMOR",
+    "name": { "str": "pair of devil horns", "str_pl": "pairs of devil horns" },
+    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devillish.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": "^",
+    "color": "red",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "angel_halo_headband",
+    "type": "ARMOR",
+    "name": { "str": "angel halo" },
+    "description": "A plastic headband adorned with a fluffy halo.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic", "faux_fur" ],
+    "symbol": "^",
+    "color": "yellow",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "devil_tail",
+    "type": "ARMOR",
+    "name": { "str": "devil tail" },
+    "description": "A slick and long red tail that ends in a pointy spade.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": "s",
+    "color": "red",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "angel_wings",
+    "type": "ARMOR",
+    "name": { "str": "pair of angel wings", "str_pl": "pairs of angel wings" },
+    "description": "A rather impressive pair of white wings.  While they may not give you the ability to fly, they make you look angelic.",
+    "weight": "633 g",
+    "volume": "2 L",
+    "longest_side": "106 cm",
+    "price": "39 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "light_gray",
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 15, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "collar_playboy",
+    "type": "ARMOR",
+    "name": { "str": "collar with bowtie", "str_pl": "collars with bowtie" },
+    "description": "It's a detached collar with a bow tie, too.  It's usually worn with a sexy one-piece bunny suit and bunny ears headband.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "cotton" ],
+    "symbol": "-",
+    "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "cuffs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of cuffs", "str_pl": "pairs of cuffs" },
+    "description": "A pair of white cuffs.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 1,
+    "material_thickness": 1,
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 2,
+        "coverage": 10,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "bunny_ears_black",
+    "type": "ARMOR",
+    "name": { "str": "pair of black bunny ears", "str_pl": "pairs of black bunny ears" },
+    "description": "A fuzzy pair of black bunny ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "cotton", "plastic" ],
+    "symbol": "^",
+    "color": "dark_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "tail_bunny_playboy",
+    "type": "ARMOR",
+    "name": { "str": "bunny tail" },
+    "description": "A fluffy bunny tail ball, usually worn with a sexy one-piece bunny suit and bunny ears headband.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "cotton" ],
+    "symbol": "*",
+    "color": "light_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
   }
 ]

@@ -13,12 +13,12 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Maria_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Could you tell me about yourself?",
         "topic": "TALK_GODCO_Maria_Past",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Maria_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Maria_Godco" }
@@ -31,7 +31,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Buzz off <name_b>, I'm not interested in  <swear> chatting with you.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ],
@@ -56,7 +56,7 @@
         "text": "Hey Maria.  What's up?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -67,7 +67,7 @@
         "text": "Maria, why the sudden hostility?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_maria" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -75,10 +75,10 @@
         "topic": "TALK_GODCO_Maria_Angry"
       },
       {
-        "text": "Hey Maria.  I can't stay to talk right now.",
+        "text": "Hey Maria.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -88,7 +88,7 @@
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -112,7 +112,7 @@
         "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_can_sew_for_u" } ] },
         "topic": "TALK_GODCO_Maria_Retrieve_Order"
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -120,8 +120,8 @@
     "id": "TALK_GODCO_Maria_Story",
     "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled my car, and hiked the rest of the way.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,8 +129,8 @@
     "id": "TALK_GODCO_Maria_Past",
     "dynamic_line": "I always wanted to be a fashion designer when I was young.  I used to have a set of dolls, and I'd make dresses for them out of spare cloth I could find.  I took up sewing in high school, and I was trying to get a job with Fashion Nova before <the_cataclysm> screwed that up.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -139,8 +139,8 @@
     "dynamic_line": "Things are alright, could be better.  I've been mending clothes and sheets ever since I arrived, fixing this and that.  Theresa's been a big help in those regards, we've traded quilt patterns and designs quite a bit.",
     "responses": [
       { "text": "Could you tell me about Theresa?", "topic": "TALK_GODCO_Maria_Theresa" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -148,8 +148,8 @@
     "id": "TALK_GODCO_Maria_Theresa",
     "dynamic_line": "She's a kind old lady, does a lot of knitting.  She could probably make you something if you asked nicely.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,8 +162,8 @@
         "effect": [ { "npc_add_var": "general_trade_can_sew_for_u", "value": "yes" } ],
         "topic": "TALK_GODCO_Maria_Tailor_What"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -176,7 +176,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_tshirt", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -186,7 +186,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_pants", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -196,7 +196,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_jacket", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -206,7 +206,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_dress", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -216,7 +216,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_duster", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -226,7 +226,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_trenchcoat", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -236,7 +236,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_backpack", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -246,7 +246,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 15 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_gambeson", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 15 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -254,8 +254,8 @@
       { "text": "What can you sew?", "topic": "TALK_GODCO_Maria_Tailor_What" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "I've changed my mind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "I've changed my mind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -268,7 +268,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_tshirt" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
           ]
         },
         "effect": [
@@ -283,7 +283,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_pants" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
           ]
         },
         "effect": [
@@ -298,7 +298,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_jacket" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
           ]
         },
         "effect": [
@@ -313,7 +313,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_dress" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('2 d')" ] }
           ]
         },
         "effect": [
@@ -328,7 +328,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_duster" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('4 d')" ] }
           ]
         },
         "effect": [
@@ -343,7 +343,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_trenchcoat" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('4 d')" ] }
           ]
         },
         "effect": [
@@ -358,7 +358,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_backpack" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('4 d')" ] }
           ]
         },
         "effect": [
@@ -373,7 +373,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "general_trade_u_want_gambeson" } ] },
-            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
+            { "math": [ "time_since(n_timer_trade_knitting) >= time('4 d')" ] }
           ]
         },
         "effect": [
@@ -383,8 +383,8 @@
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
       },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -395,8 +395,8 @@
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -406,8 +406,8 @@
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "How long does it take you to make these?", "topic": "TALK_GODCO_Maria_Tailor_Time" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -417,8 +417,8 @@
     "responses": [
       { "text": "Let's get to it.", "topic": "TALK_GODCO_Maria_Tailor_Something" },
       { "text": "What's the price?", "topic": "TALK_GODCO_Maria_Tailor_Price" },
-      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
-      { "text": "Nevermind, I have to leave.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Maria_2" },
+      { "text": "<end_talking_nevermind>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {

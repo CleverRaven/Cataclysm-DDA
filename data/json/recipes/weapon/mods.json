@@ -259,20 +259,6 @@
     "components": [ [ [ "m26_mass", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "rm121aux_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
-    "time": "90 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "rm121aux", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "u_shotgun_mod",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -957,6 +943,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "big_brass_catcher",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "canvas_patch", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "adjustable_stock",
     "category": "CC_WEAPON",
@@ -1473,5 +1474,29 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m240", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "muzzle_weight",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "pistol", 3 ], [ "gun", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "difficulty": 4,
+    "time": "5 h",
+    "book_learn": [ [ "manual_pistol", 3 ], [ "text_gunsmith", 3 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 150 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap_aluminum", 3 ] ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
   }
 ]

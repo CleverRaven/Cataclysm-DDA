@@ -121,7 +121,7 @@
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 0,
-    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB", "CRAFT_IN_DARKNESS" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "sub_parts": [ "stalker_eye", "stalker_eye" ]
   },
@@ -134,6 +134,49 @@
     "opposite": "stalker_eye",
     "name": "stalker eye",
     "name_multiple": "stalker eyes"
+  },
+  {
+    "id": "gracken_eyes",
+    "type": "body_part",
+    "name": "gracken's eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "gracken's eyes" },
+    "heading": "s. eyes",
+    "heading_multiple": "s. eyes",
+    "encumbrance_text": "Ranged combat is hampered.",
+    "encumbrance_limit": 60,
+    "main_part": "head",
+    "opposite_part": "gracken_eyes",
+    "hit_size": 0.5,
+    "hit_difficulty": 1.15,
+    "limb_type": "sensor",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.5 ], [ "reaction", 1 ] ],
+    "side": "both",
+    "base_hp": 60,
+    "drench_capacity": 0,
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ],
+    "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
+    "sub_parts": [ "stalker_eye", "stalker_eye" ],
+    "effects_on_hit": [
+      {
+        "id": "blind",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 3,
+        "chance": 50,
+        "chance_dmg_scaling": 5,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ]
+  },
+  {
+    "id": "gracken_eye",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "bp_null",
+    "side": 2,
+    "opposite": "gracken_eye",
+    "name": "gracken eye",
+    "name_multiple": "gracken eyes"
   },
   {
     "id": "devil_tail",

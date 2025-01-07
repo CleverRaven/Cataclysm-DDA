@@ -25,7 +25,7 @@ static const skill_id skill_throw( "throw" );
 
 TEST_CASE( "throwing_distance_test", "[throwing], [balance]" )
 {
-    const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", { 60, 60, 0 }, {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
@@ -51,7 +51,8 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
            " PER: " << pstats.per << " SKL: " << pstats.skill_lvl;
 }
 
-static void reset_player( Character &you, const throw_test_pstats &pstats, const tripoint &pos )
+static void reset_player( Character &you, const throw_test_pstats &pstats,
+                          const tripoint_bub_ms &pos )
 {
     clear_character( you );
     CHECK( !you.in_vehicle );
@@ -84,8 +85,8 @@ static void test_throwing_player_versus(
     const int min_throws = min_throw_test_iterations,
     int max_throws = max_throw_test_iterations )
 {
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
+    const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
+    const tripoint_bub_ms player_start = { 30, 30, 0 };
     bool hit_thresh_met = false;
     bool dmg_thresh_met = false;
     throw_test_data data;
@@ -101,7 +102,7 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
-        dealt_projectile_attack atk = you.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = you.throw_item( mon.pos_bub(), it );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -231,8 +232,8 @@ static void test_player_kills_monster(
     Character &you, const std::string &mon_id, const std::string &item_id, const int range,
     const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
+    const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
+    const tripoint_bub_ms player_start = { 30, 30, 0 };
     int failure_turns = -1;
     int failure_num_items = -1;
     int failure_last_range = -1;
@@ -270,7 +271,7 @@ static void test_player_kills_monster(
             you.mod_moves( you.get_speed() );
             while( you.get_moves() > 0 ) {
                 you.wield( it );
-                you.throw_item( mon.pos(), it );
+                you.throw_item( mon.pos_bub(), it );
                 you.remove_weapon();
                 ++num_items;
             }

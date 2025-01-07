@@ -701,7 +701,7 @@
       { "id": "druid_summon_brambles", "level": 3 }
     ],
     "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_knives_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_butchering_basic", "prof_skinning_basic" ],
     "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "items": {
       "both": {
@@ -726,9 +726,17 @@
     "type": "profession",
     "id": "archer_druid",
     "name": "Archer Druid",
-    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living off of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
     "points": 5,
-    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "spells": [
       { "id": "druid_naturebow1", "level": 4 },
       { "id": "druid_natures_commune", "level": 3 },
@@ -985,7 +993,7 @@
       { "id": "recover_stamina", "level": 2 }
     ],
     "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "unarmed" },
@@ -1016,7 +1024,7 @@
     "points": 4,
     "spells": [ { "id": "light_healing", "level": 3 }, { "id": "biomancer_cure_disease_minor", "level": 3 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -1044,7 +1052,16 @@
     "name": "Wildborne Rider",
     "description": "Abandoned at a young age and raised by moose, you had to master the wilds to survive.  While the modern world has been devoured, you and your steed are no stranger to hardship.",
     "points": 6,
-    "proficiencies": [ "prof_bowyery", "prof_fibers", "prof_knapping", "prof_bow_basic", "prof_bow_expert" ],
+    "proficiencies": [
+      "prof_bowyery",
+      "prof_fibers",
+      "prof_knapping",
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy"
+    ],
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
@@ -1100,7 +1117,13 @@
       { "level": 2, "name": "survival" },
       { "level": 1, "name": "fabrication" }
     ],
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [
+      "prof_gunsmithing_basic",
+      "prof_gun_cleaning",
+      "prof_auto_rifles_familiar",
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "KELVINIST" ],
     "items": {
       "both": {
@@ -1282,7 +1305,7 @@
       "THRESH_SPECIES_ELF",
       "ANIMALEMPATH2",
       "ELVEN_BUILD",
-      "ELFA_NV",
+      "ELVEN_SIGHT",
       "ELVEN_BEAUTY",
       "ELVEN_SLEEP",
       "ELFA_EARS",

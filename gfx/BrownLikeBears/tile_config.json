@@ -3151,7 +3151,7 @@
         { "id": "dry_rice", "fg": 394, "rotates": false, "multitile": false },
         { "id": "dry_veggy", "fg": 1371, "rotates": false, "multitile": false },
         { "id": "dry_veggy_tainted", "fg": 1366, "rotates": false, "multitile": false },
-        { "id": "egg_bird", "fg": 1486, "rotates": false, "multitile": false },
+        { "id": "egg_chicken", "fg": 1486, "rotates": false, "multitile": false },
         { "id": "egg_reptile", "fg": 1426, "rotates": false, "multitile": false },
         { "id": "fat", "fg": 1423, "rotates": false, "multitile": false },
         { "id": "fat_tainted", "fg": 1379, "rotates": false, "multitile": false },

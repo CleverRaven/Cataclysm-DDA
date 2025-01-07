@@ -152,6 +152,8 @@ static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
 static constexpr int MIN_SPEED_TPS = 1;
 static constexpr int MAX_SPEED_TPS = 3;
+// 16 tiles/s is roughly 55 knots, helicopter efficiency is greatest around 50-70 knots.
+static constexpr int MAX_AIR_SPEED_TPS = 16;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -301,6 +303,7 @@ struct auto_navigation_data {
     bool land_ok;
     bool water_ok;
     bool air_ok;
+    bool is_flying;
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
     // max acceleration
@@ -616,8 +619,8 @@ Tripoint auto_navigation_data::adjust_z( const Tripoint &p ) const
 
 void vehicle::autodrive_controller::compute_coordinates()
 {
-    data.view_bounds = { point_zero, {NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y} };
-    data.nav_bounds = { point_zero, {NAV_MAP_SIZE_X, NAV_MAP_SIZE_Y} };
+    data.view_bounds = { point::zero, {NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y} };
+    data.nav_bounds = { point::zero, {NAV_MAP_SIZE_X, NAV_MAP_SIZE_Y} };
     data.next_omt_bounds = { {OMT_SIZE, 0}, {OMT_SIZE * 2, OMT_SIZE} };
 
     const tripoint_rel_omt omt_diff = data.next_omt - data.current_omt;
@@ -625,7 +628,7 @@ void vehicle::autodrive_controller::compute_coordinates()
     point mid_omt( OMT_SIZE / 2, OMT_SIZE / 2 );
     const tripoint_abs_ms abs_mid_omt = project_to<coords::ms>( data.current_omt ) + mid_omt;
 
-    data.nav_to_view = { point_zero, quad_rotation::d0, {NAV_VIEW_PADDING, NAV_VIEW_PADDING} } ;
+    data.nav_to_view = { point::zero, quad_rotation::d0, {NAV_VIEW_PADDING, NAV_VIEW_PADDING} } ;
     data.nav_to_map = { mid_omt, next_dir, abs_mid_omt.raw().xy() };
     data.view_to_map = data.nav_to_map;
     data.view_to_map.pre_offset += data.nav_to_view.post_offset;
@@ -637,19 +640,19 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     tileray tdir( to_angle( facing ) );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
-    const point pivot = driven_veh.pivot_point();
+    const point_rel_ms pivot = driven_veh.pivot_point();
     for( const vehicle_part &part : driven_veh.parts ) {
         if( part.removed ) {
             continue;
         }
-        tripoint pos;
+        tripoint_rel_ms pos;
         driven_veh.coord_translate( tdir, pivot, part.mount, pos );
-        if( extent_map.find( pos.y ) == extent_map.end() ) {
-            extent_map[pos.y] = { pos.x, pos.x };
+        if( extent_map.find( pos.y() ) == extent_map.end() ) {
+            extent_map[pos.y()] = {pos.x(), pos.x()};
         } else {
-            auto &extent = extent_map[pos.y];
-            extent.first = std::min( extent.first, pos.x );
-            extent.second = std::max( extent.second, pos.x );
+            auto &extent = extent_map[pos.y()];
+            extent.first = std::min( extent.first, pos.x() );
+            extent.second = std::max( extent.second, pos.x() );
         }
     }
     for( const auto &extent : extent_map ) {
@@ -665,10 +668,10 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
-            tripoint pos;
+            tripoint_rel_ms pos;
             driven_veh.coord_translate( tdir, pivot, part.mount, pos );
-            for( tripoint pt : points_in_radius( pos, radius ) ) {
-                ret.occupied_zone.emplace_back( pt.xy() );
+            for( tripoint_rel_ms pt : points_in_radius( pos, radius ) ) {
+                ret.occupied_zone.emplace_back( pt.xy().raw() );
             }
         }
     }
@@ -741,18 +744,18 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     }
 
     // don't drive over visible traps
-    if( here.can_see_trap_at( pt.raw(), driver ) ) {
+    if( here.can_see_trap_at( pt, driver ) ) {
         return false;
     }
 
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
-    const furn_id furniture = here.furn( pt );
+    const furn_id &furniture = here.furn( pt );
     if( furniture != furn_str_id::NULL_ID() && furniture.obj().movecost != 0 ) {
         return false;
     }
 
-    const ter_id terrain = here.ter( pt );
+    const ter_id &terrain = here.ter( pt );
     if( terrain == ter_str_id::NULL_ID() ) {
         return false;
     }
@@ -778,7 +781,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
-    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
+    } else if( terrain_type.is_smashable() ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
     } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
@@ -795,7 +798,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     point_queue ramp_points;
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
-            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), z );
+            const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
             const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;
@@ -815,10 +818,10 @@ void vehicle::autodrive_controller::enqueue_if_ramp( point_queue &ramp_points,
     }
     ramp_points.visited.emplace( p );
     if( p.z() < OVERMAP_HEIGHT && here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, p ) ) {
-        ramp_points.enqueue( p + tripoint_above );
+        ramp_points.enqueue( p + tripoint::above );
     }
     if( p.z() > -OVERMAP_DEPTH && here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p ) ) {
-        ramp_points.enqueue( p + tripoint_below );
+        ramp_points.enqueue( p + tripoint::below );
     }
 }
 
@@ -858,7 +861,7 @@ void vehicle::autodrive_controller::compute_obstacles_from_enqueued_ramp_points(
 
 void vehicle::autodrive_controller::compute_valid_positions()
 {
-    const coord_transformation veh_rot = {point_zero, -data.nav_to_map.rotation, point_zero};
+    const coord_transformation veh_rot = { point::zero, -data.nav_to_map.rotation, point::zero };
     for( orientation facing : all_orientations() ) {
         const vehicle_profile &profile = data.profile( data.nav_to_map.transform( facing ) );
         for( int mx = 0; mx < NAV_MAP_SIZE_X; mx++ ) {
@@ -867,7 +870,7 @@ void vehicle::autodrive_controller::compute_valid_positions()
                 bool valid = true;
                 for( const point &veh_pt : profile.occupied_zone ) {
                     const point view_pt = data.nav_to_view.transform( nav_pt ) + veh_rot.transform(
-                                              veh_pt ) - veh_rot.transform( point_zero );
+                                              veh_pt ) - veh_rot.transform( point::zero );
                     if( !data.view_bounds.contains( view_pt ) || data.is_obstacle[view_pt.x][view_pt.y] ) {
                         valid = false;
                         break;
@@ -893,7 +896,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
     } else {
         // set the goal at the edge of cur_omt and next_omt (in next_omt space,
         // pointing away from cur_omt)
-        goal_transform = { point( OMT_SIZE - 1, 0 ), quad_rotation::d0, point_zero };
+        goal_transform = { point( OMT_SIZE - 1, 0 ), quad_rotation::d0, point::zero };
     }
     constexpr int max_turns = NUM_ORIENTATIONS / 8 + 1;
     const int x = 2 * OMT_SIZE - 1;
@@ -928,7 +931,11 @@ void vehicle::autodrive_controller::precompute_data()
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
         data.air_ok = driven_veh.has_sufficient_rotorlift();
-        data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
+        data.is_flying = driven_veh.is_rotorcraft() && driven_veh.is_flying_in_air();
+        data.max_speed_tps = std::min(
+                                 data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,
+                                 driven_veh.safe_velocity() / VMIPH_PER_TPS
+                             );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
             data.acceleration[speed_tps] = driven_veh.acceleration( true, speed_tps * VMIPH_PER_TPS );
@@ -977,7 +984,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
         return ret;
     }
     static constexpr std::array<point, 4> neighbor_deltas = {
-        point_east, point_south, point_west, point_north
+        point::east, point::south, point::west, point::north
     };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
@@ -1199,7 +1206,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     }
     for( const point &p : collision_zone ) {
         const tripoint_bub_ms next = data.adjust_z( veh_pos + p );
-        if( !driver.sees( next ) ) {
+        if( !data.is_flying && !driver.sees( next ) ) {
             return collision_check_result::slow_down;
         }
         if( !check_drivable( next ) ) {
@@ -1262,17 +1269,18 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
     return data.path.back();
 }
 
-std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
+std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overlay_data() const
 {
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
-    std::vector<std::tuple<point, int, std::string>> ret;
+    std::vector<std::tuple<point_rel_ms, int, std::string>> ret;
+    ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
-    if( autodrive_local_target != tripoint_zero ) {
-        ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
+    if( autodrive_local_target != tripoint_abs_ms::zero ) {
+        ret.emplace_back( ( autodrive_local_target - veh_pos ).xy(), catacurses::red, "T" );
     }
-    for( const point &pt_elem : collision_check_points ) {
-        ret.emplace_back( pt_elem - veh_pos.raw().xy(), catacurses::yellow, "C" );
+    for( const point_abs_ms &pt_elem : collision_check_points ) {
+        ret.emplace_back( pt_elem - veh_pos.xy(), catacurses::yellow, "C" );
     }
 
     if( !active_autodrive_controller ) {
@@ -1286,20 +1294,20 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
             const vehicle_profile &profile = data.profile( dir );
             for( const point &p : profile.occupied_zone ) {
                 if( p.x == 0 && p.y == 0 ) {
-                    ret.emplace_back( p, catacurses::cyan, to_string( dir ) );
+                    ret.emplace_back( point_rel_ms( p ), catacurses::cyan, to_string( dir ) );
                 } else {
-                    ret.emplace_back( p, catacurses::green, "x" );
+                    ret.emplace_back( point_rel_ms( p ), catacurses::green, "x" );
                 }
             }
             for( const point &p : profile.collision_points ) {
-                ret.emplace_back( p, catacurses::red, "o" );
+                ret.emplace_back( point_rel_ms( p ), catacurses::red, "o" );
             }
         } else if( debug_str == "is_obstacle" ) {
             for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
                 for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
                     const bool obstacle = data.is_obstacle[dx][dy];
                     const int color = obstacle ? catacurses::red : catacurses::green;
-                    const point pt = data.view_to_map.transform( point( dx, dy ) ) - veh_pos.raw().xy();
+                    const point_rel_ms pt{ data.view_to_map.transform( point( dx, dy ) ) - veh_pos.raw().xy() };
                     ret.emplace_back( pt, color, obstacle ? "o" : "x" );
                 }
             }
@@ -1310,7 +1318,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                     const point nav_pt( dx, dy );
                     const bool valid = data.valid_position( tdir, nav_pt );
                     const int color = valid ? catacurses::green : catacurses::red;
-                    const point pt = data.nav_to_map.transform( nav_pt ) - veh_pos.raw().xy();
+                    const point_rel_ms pt{ data.nav_to_map.transform( nav_pt ) - veh_pos.raw().xy() };
                     ret.emplace_back( pt, color, to_string( dir ) );
                 }
             }
@@ -1320,23 +1328,23 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                 goal_map[addr.get_point()] |= data.nav_to_map.transform( addr.facing_dir ) == dir;
             }
             for( const auto &entry : goal_map ) {
-                const point pt = data.nav_to_map.transform( entry.first ) - veh_pos.raw().xy();
+                const point_rel_ms pt{ data.nav_to_map.transform( entry.first ) - veh_pos.raw().xy() };
                 const int color = entry.second ? catacurses::green : catacurses::yellow + 8;
                 ret.emplace_back( pt, color, "g" );
             }
         } else if( debug_str == "goal_points" ) {
             for( point p : data.goal_points ) {
-                const point pt = data.nav_to_map.transform( p ) - veh_pos.raw().xy();
+                const point_rel_ms pt{ data.nav_to_map.transform( p ) - veh_pos.raw().xy() };
                 ret.emplace_back( pt, catacurses::white, "G" );
             }
         } else if( debug_str == "path" ) {
             for( const navigation_step &step : data.path ) {
-                ret.emplace_back( ( step.pos - veh_pos ).raw().xy(), 8 + catacurses::yellow,
+                ret.emplace_back( ( step.pos - veh_pos ).xy(), 8 + catacurses::yellow,
                                   to_string( step.steering_dir ) );
             }
         } else if( debug_str == "omt" ) {
-            const point offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).raw().xy();
-            static const std::vector<point> corners = {point_zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1}};
+            const point_rel_ms offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).xy();
+            static const std::vector<point> corners = { point::zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1} };
             for( point corner : corners ) {
                 ret.emplace_back( corner + offset, catacurses::cyan, "+" );
             }
@@ -1377,7 +1385,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
-        driver.add_msg_if_player( _( "Can't see a path forward." ) );
+        driver.add_msg_if_player( m_warning, _( "Can't see a path forward." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
     }
@@ -1422,7 +1430,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
             // nothing we can do about it now, hope we don't crash!
             break;
         }
-        pldrive( driver, { signum( turn_delta ), 0 } );
+        pldrive( driver, signum( turn_delta ), 0 );
     }
     // Don't do anything else below; the driver's turn may be over (moves <= 0) so
     // any extra actions would be "cheating".
@@ -1442,7 +1450,7 @@ void vehicle::stop_autodriving( bool apply_brakes )
     is_patrolling = false;
     is_following = false;
     autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
+    autodrive_local_target = tripoint_abs_ms::zero;
     collision_check_points.clear();
     active_autodrive_controller.reset();
 }

@@ -41,7 +41,7 @@
     "id": "screw_press",
     "type": "TOOL",
     "name": { "str": "screw press", "str_pl": "screw presses" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "description": { "str": "This is a crafting_pseudo_item if you have it something is wrong.", "//~": "NO_I18N" },
     "weight": "70000 g",
     "volume": "100 L",
     "price": "200 USD",
@@ -71,7 +71,7 @@
     "type": "TOOL",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
     "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
-    "//": "https://www.amazon.com/dp/B07CDR4KFM",
+    "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "weight": "680 g",
     "volume": "1500 ml",
@@ -91,7 +91,7 @@
           {
             "id": "EOC_toolweapon_activate__carver",
             "effect": {
-              "run_eoc_with": "EOC_toolweapon_activate",
+              "run_eocs": "EOC_toolweapon_activate",
               "variables": {
                 "turn_cost": "0.8",
                 "transform_target": "carver_on",
@@ -126,7 +126,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__carver",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "carver_off" } }
           }
         ]
       },
@@ -138,7 +138,7 @@
         {
           "id": "EOC_toolweapon_running__carver",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "10",
               "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },
@@ -249,7 +249,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "clay pot" },
-    "description": "A crude clay pot with a lid, used for cooking.",
+    "description": "A crude clay pot used for cooking.",
     "weight": "480 g",
     "volume": "2100 ml",
     "price": "25 USD",
@@ -257,7 +257,15 @@
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2100 g",
+        "open_container": true,
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -846,7 +854,7 @@
     "weight": "1360 g",
     "volume": "12585 ml",
     "longest_side": "30 cm",
-    "//": "size, weight, pricing, power, etc. was based on https://www.amazon.com/Hawaiian-Shaved-Ice-S900A-Machine/dp/B004UBMRKG/ref=asc_df_B004UBMRKG",
+    "//": "size, weight, pricing, power, etc. was based on https://www.amazon.com/dp/B004UBMRKG",
     "price": "50 USD",
     "price_postapoc": "1 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1005,7 +1013,7 @@
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1",
+    "//": "Based on https://www.amazon.com/dp/B07WWW1S84",
     "melee_damage": { "bash": 10 }
   },
   {
@@ -1100,8 +1108,8 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "tinyweldtank", "weldtank" ],
-        "default_magazine": "tinyweldtank"
+        "item_restriction": [ "tinyweldtank", "smallweldtank", "weldtank" ],
+        "default_magazine": "smallweldtank"
       }
     ],
     "qualities": [ [ "HOTPLATE", 2 ] ],
@@ -1164,5 +1172,28 @@
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" } ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ]
+  },
+  {
+    "id": "crystallizing_sugar",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "crystallizing sugar" },
+    "description": "Sweet, sweet sugar in the process of crystallizing.  It needs two weeks to form solid crystals.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "sugar" ],
+    "weight": "10 g",
+    "volume": "10 ml",
+    "use_action": {
+      "type": "delayed_transform",
+      "target": "sugar",
+      "msg": "You break up the crystallized sugar into a coarse powder.",
+      "not_ready_msg": "The sugar is still crystallizing.",
+      "moves": 300,
+      "transform_age": 1209600,
+      "//": "2 weeks for cristallizing sugar, based on the real-life example"
+    },
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

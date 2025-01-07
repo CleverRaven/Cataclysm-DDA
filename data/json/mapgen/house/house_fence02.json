@@ -97,7 +97,7 @@
       ],
       "terrain": {
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        ")": "t_railing_v",
+        ")": "t_railing",
         ",": "t_floor_noroof",
         "`": "t_door_locked",
         "₸": "t_floor_noroof",

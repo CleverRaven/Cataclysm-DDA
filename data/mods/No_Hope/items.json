@@ -202,8 +202,8 @@
     "type": "GUN",
     "symbol": "(",
     "color": "green",
-    "name": { "str_sp": "Tankbot Main Gun" },
-    "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
+    "name": { "str_sp": "Tankbot Main Gun", "//~": "NO_I18N" },
+    "description": { "str": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!", "//~": "NO_I18N" },
     "price": "999 kUSD 999 USD 99 cent",
     "material": [ "steel" ],
     "skill": "launcher",
@@ -312,5 +312,21 @@
     "material": [ "paper" ],
     "weight": "1 g",
     "volume": "1 ml"
+  },
+  {
+    "id": "necropolis_freq",
+    "type": "BOOK",
+    "name": { "str": "frequency list" },
+    "description": "A notepad with a number of frequencies scribbled on it.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "pocket_firstaid",
+    "color": "light_cyan",
+    "intelligence": 2,
+    "time": "10 m"
   }
 ]

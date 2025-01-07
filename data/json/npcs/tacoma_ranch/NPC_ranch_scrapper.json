@@ -30,7 +30,7 @@
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCRAPPER_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCRAPPER_HIRE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -58,8 +58,8 @@
         "topic": "TALK_DONE",
         "effect": [ { "add_mission": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP" } ]
       },
-      { "text": "Never mind.", "topic": "TALK_NONE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

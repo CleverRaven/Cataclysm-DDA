@@ -57,6 +57,7 @@
   * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
 * [Palettes](#palettes)
   * [Palette ids as mapgen values](#palette-ids-as-mapgen-values)
+  * [Recommended palettes to use](#recommended-palettes-to-use)
 * [Using update_mapgen](#using-update_mapgen)
   * [Overmap tile specification](#overmap-tile-specification)
     * ["assign_mission_target"](#assign_mission_target)
@@ -296,24 +297,35 @@ Examples:
 
 # JSON object definition
 
-The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"` and `"terrain"`. All other fields are
-optional.
-
-
 ## Fill terrain using "fill_ter"
 Fill with the given terrain.
 
-Value: `"string"`: Valid terrain id from data/json/terrain.json
+terrain id string or [mapgen value](#mapgen-values)
 
-Example: `"fill_ter": "t_region_groundcover"`
+### Examples
+
+Every tile lacking a terrain character definition will be `t_region_groundcover`
+`"fill_ter": "t_region_groundcover"`
+
+Every tile lacking a terrain character definition will the same one of `t_floor`, `t_pavement` and `t_concrete` across the omt, with `t_floor`being twice as likely to be picked
+```json
+"parameters": {
+  "floor_type": {
+    "type": "ter_str_id",
+    "scope": "omt",
+    "default": { "distribution": [ [ "t_floor", 2 ], [ "t_pavement", 1 ], [ "t_concrete", 1 ] ] }
+  }
+},
+"fill_ter": { "param": "floor_type" },
+```
 
 
 ## ASCII map using "rows" array
 
 Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
 and defining multiple overmap terrains maps at once (in which case a multiple of 24),
-where each character is defined by "terrain" and optionally "furniture" or other entries below.
-Defaults to all spaces " " if unset.
+where each character can be defined by "terrain" and "furniture" or other entries below.
+`"rows"` can be omitted entirely in which case each row is set to all `" "` (of the appropriate size if used with nests).
 
 Usage:
 
@@ -324,19 +336,9 @@ Usage:
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet
 (with water) or items from an item group or fields at the square given by a character.
 
-Any character used here must have some definition elsewhere to indicate its purpose.  Failing to do so is an error which
-will be caught by running the tests.  The tests will run automatically when you make a pull request for adding new maps
-to the game.  If you have defined `fill_ter` or you are writing nested mapgen, then there are a couple of exceptions.
-The space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the
-`rows`.
-
-As keys, you can use any Unicode characters which are not double-width.  This includes for example most European
-alphabets but not Chinese characters.  If you intend to take advantage of this, ensure that your editor is saving the
-file with a UTF-8 encoding.  Accents are acceptable, even when using [combining
-characters](https://en.wikipedia.org/wiki/Combining_character).  No normalization is performed; comparison is done at
-the raw bytes (code unit) level.  Therefore, there are literally an infinite number of mapgen key characters available.
-Please don't abuse this by using distinct characters that are visually indistinguishable, or which are so rare as to be
-unlikely to render correctly for other developers.
+If you specify one of `fill_ter`, `predecessor_mapgen`, `fallback_predecessor_mapgen` or you are writing nested mapgen
+then the space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the `rows`.
+Otherwise any character used must have some definition to indicate its purpose, whether directly in the mapgen or in a specified palette.
 
 Example:
 
@@ -373,7 +375,8 @@ Example:
 ### Row terrains in "terrain"
 **usually required by "rows"**
 
-Defines terrain ids for "rows", each key is a single character with a terrain id string
+Defines terrain ids for `"rows"`, each key is a single character with a terrain id string or [mapgen value](#mapgen-values)
+If you want to remove a terrain definition from a palette in preference of a fallback you can use `t_null`
 
 Value: `{object}: { "a", "t_identifier", ... }`
 
@@ -404,8 +407,8 @@ Example:
 ### Furniture symbols in "furniture" array
 **optional**
 
-Defines furniture ids for "rows" ( each character in rows is a terrain -or- terrain/furniture combo ). "f_null" means no
-furniture but the entry can be left out
+Defines furniture ids for `"rows"`, each key is a single character with a furniture id string or [mapgen value](#mapgen-values)
+If you want to remove a furniture definition from a palette you can use `f_null`
 
 Example:
 
@@ -424,6 +427,15 @@ Example:
   "d": "f_dumpster"
 },
 ```
+
+### Acceptable characters
+
+You should aim to make the rows as clear as possible with your character choice but
+you can use any Unicode characters which are not double-width.  This includes for example most European
+alphabets but not Chinese characters.  If you intend to take advantage of this, ensure that your editor is saving the
+file with a UTF-8 encoding.  Accents are acceptable, even when using [combining
+characters](https://en.wikipedia.org/wiki/Combining_character).  No normalization is performed; comparison is done at
+the raw bytes (code unit) level.  Therefore, there are literally an infinite number of mapgen key characters available.
 
 ## Mapgen flags
 `"flags"` may provide a list of flags to be applied to the mapgen.
@@ -512,7 +524,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`, `"bash"` and `"burn"`. Bash does one guarenteed bash while burn destroys terrain/furniture with FLAMMABLE/FLAMMABLE_HARD/FLAMMABLE_ASH and flammable items.
 | id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", "creature_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | z      | (optional) Z coordinate. Value from `-20 to 20`. The value is *relative* to the Z level nominally modified, cannot have a range, and can only be used for faction camps.
@@ -856,6 +868,7 @@ Example:
 | intensity | (optional, integer, array ) how concentrated the field is, from 1 to 3 or more.  Arrays are randomized.  See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
 | remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
+| chance    | (optional, integer) chance to spawn field; default `100` as 100%
 
 
 ### Place NPCs with "npcs"
@@ -1481,6 +1494,33 @@ For example, the following JSON used in a cabin mapgen definition
 causes half the cabins generated to use the regular `cabin_palette` and the
 other half to use `cabin_palette_abandoned`.
 
+## Recommended palettes to use
+
+These are a few palettes that have been generalized to be used in almost any map, usually to provide variation to terrain:
+
+| Palette                          | Usage
+| ---                              | ---
+| `parametrized_walls_palette`     | For having randomized inner and outer walls
+| `parametrized_highrise_walls_palette`     | For having randomized inner and outer walls in high-rise buildings
+| `parametrized_fences_palette`    | For having randomized fences
+| `parametrized_linoleum_palette`  | For having randomized linoleum colors
+| `parametrized_carpets_palette`   | For having randomized carpet colors
+
+
+These can all be found within [common_parameters.json](/data/json/mapgen_palettes/common_parameters.json)
+
+The following are recommended for use when making houses or similar domestic environments:
+
+| Palette                          | Usage
+| ---                              | ---
+| [`domestic_general_and_variant_palette`](/data/json/mapgen_palettes/house_general_palette.json)     | A palette which has most of the things needed for houses with additional palettes available within the file
+| [`construction_general_palette`](/data/json/mapgen_palettes/construction.json)    | A palette for buildings that are under construction, for a more concrete example of using this palette, look at [house_02](/data/json/mapgen/house/house02.json)
+| [`commercial`](/data/json/mapgen_palettes/commercial.json)  | For having randomized fridges/freezers **You will still need to add the parameters to your own symbols**
+| Any in [basement.json](/data/json/mapgen_palettes/basement.json)   | Palettes for usage within basements
+| [`roof_palette`](/data/json/mapgen_palettes/roof_palette.json)   | Palette that is be used in every roof
+
+There are many more within [`/data/json/mapgen_palettes`](/data/json/mapgen_palettes/) but these are the most important ones and will be used in many buildings.
+
 # Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
@@ -1496,7 +1536,7 @@ update_mapgen updates an existing overmap tile.  These fields provide a way to s
 ### "assign_mission_target"
 
 assign_mission_target assigns an overmap tile as the target of a mission.  Any update_mapgen in the same scope will
-update that overmap tile.  The closet overmap terrain with the required terrain ID will be used, and if there is no
+update that overmap tile.  The closest overmap terrain with the required terrain ID will be used, and if there is no
 matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will
 be used.
 

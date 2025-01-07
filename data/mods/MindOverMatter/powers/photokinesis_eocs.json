@@ -3,9 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LIGHT_UP_ENEMY_TARGET",
     "effect": [
-      { "math": [ "u_photokinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_photokinesis_power_level", "=", "n_spell_level('photokinetic_light_up_enemy')" ] },
-      { "math": [ "u_nether_attunement_photokinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_photokinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_photokinesis_power_level = n_spell_level('photokinetic_light_up_enemy')" ] },
+      { "math": [ "u_nether_attunement_photokinesis_scaling = n_nether_attunement_power_scaling" ] },
       {
         "u_add_effect": "effect_photokin_enemy_light",
         "duration": [
@@ -98,5 +98,95 @@
         { "case": 16, "effect": [ { "u_cast_spell": { "id": "photokinetic_create_light_03" }, "targeted": true } ] }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKINETIC_STERILIZE_FOODS",
+    "effect": [
+      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams = 0" ] },
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "title": "What food or drink do you want to sterilize?",
+        "search_data": [
+          { "category": "food", "excluded_flags": [ "IRRADIATED" ] },
+          { "category": "drink", "excluded_flags": [ "IRRADIATED" ] }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_PHOTOKINETIC_STERILIZE_FOODS_PREP",
+            "effect": [
+              { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "+=", "n_weight() / 1000" ] },
+              { "npc_set_flag": "PHOTOKIN_IRRADIATION_READY" }
+            ]
+          }
+        ]
+      },
+      { "math": [ "u_photokinetic_sterilize_item_weight_in_grams", "/=", "40" ] },
+      {
+        "u_add_effect": "effect_photokin_sterilization",
+        "duration": { "math": [ "max( ( u_photokinetic_sterilize_item_weight_in_grams + 1), 1)" ] }
+      },
+      {
+        "u_assign_activity": "ACT_PSI_PHOTOKIN_RADIATION_STERILIZATION",
+        "duration": { "math": [ "max( ( u_photokinetic_sterilize_item_weight_in_grams + 1), 1)" ] }
+      },
+      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RADIATION_STERILIZATION_CANCELS_STERILIZING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_PSI_PHOTOKIN_RADIATION_STERILIZATION", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_photokin_sterilization" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_photokin_sterilization" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST",
+    "condition": { "u_has_effect": "effect_photokin_sterilization" },
+    "effect": [
+      { "math": [ "u_calories()", "-=", "rand(2) + 1" ] },
+      { "run_eocs": "EOC_PHOTOKIN_RADIATION_STERILIZATION_COST", "time_in_future": [ 10, 15 ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_RADIATION_STERILIZATION_FINALIZE",
+    "condition": { "u_has_effect": "effect_photokin_sterilization" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": [ "PHOTOKIN_IRRADIATION_READY" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_PHOTOKIN_RADIATION_STERILIZATION_FINALIZE_END",
+            "effect": [ { "npc_unset_flag": "PHOTOKIN_IRRADIATION_READY" }, { "npc_set_flag": "IRRADIATED" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_INVISIBILITY_MELEE_CHARACTER",
+    "//": "This will not prevent invisibility from being removed if you use your psi on someone in melee range, but that is intended--the rippling light distortion from quick movement is what gives you away, and psi doesn't require body movements",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "u_has_effect": "effect_photokin_invisibility" },
+    "effect": [ { "u_lose_effect": "effect_photokin_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_REMOVE_INVISIBILITY_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_effect": "effect_photokin_invisibility" },
+    "effect": [ { "u_lose_effect": "effect_photokin_invisibility" } ]
   }
 ]

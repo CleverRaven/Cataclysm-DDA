@@ -147,6 +147,23 @@
   },
   {
     "type": "material",
+    "id": "crimsonite_metal",
+    "name": { "//~": "Translated from the Japanese hihi'irokane", "str": "Crimsonite" },
+    "density": 9,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 1000,
+    "conductive": true,
+    "chip_resist": 40,
+    "repaired_with": "crimsonite_ingot",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "resist": { "bash": 7, "cut": 15, "acid": 3, "heat": 75, "bullet": 16, "electric": 0 },
+    "repair_difficulty": 7
+  },
+  {
+    "type": "material",
     "id": "glassteel",
     "name": "Glassteel",
     "density": 2.5,

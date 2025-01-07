@@ -277,7 +277,6 @@
   {
     "type": "terrain",
     "id": "t_zebra",
-    "alias": [ "t_zebra_h", "t_zebra_v" ],
     "name": "pedestrian crossing",
     "connect_groups": [ "PAVEMENT", "PAVEMENT_ZEBRA" ],
     "connects_to": "PAVEMENT_ZEBRA",
@@ -653,6 +652,20 @@
   {
     "type": "terrain",
     "id": "t_stone_masonry_floor",
+    "name": "stone masonry floor",
+    "description": "A floor of carefully cut and laid stones, joined with mortar.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_stone_masonry_floor_balcony",
     "name": "stone masonry floor",
     "description": "A floor of carefully cut and laid stones, joined with mortar.",
     "symbol": ".",

@@ -83,8 +83,6 @@
       { "item": "44fmj", "prob": 15 },
       { "item": "44magnum", "prob": 35 },
       { "item": "45_super", "prob": 30 },
-      { "item": "460_rowland", "prob": 15 },
-      { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
       { "item": "57mm_ss", "prob": 15 },
       { "item": "380_p", "prob": 10 },
@@ -105,8 +103,6 @@
       { "item": "44fmj", "prob": 15 },
       { "item": "44magnum", "prob": 35 },
       { "item": "45_super", "prob": 30 },
-      { "item": "460_rowland", "prob": 15 },
-      { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
       { "item": "57mm_ss", "prob": 25 },
       { "item": "380_p", "prob": 10 },
@@ -210,8 +206,6 @@
       { "item": "reloaded_45colt_fmj", "prob": 1 },
       { "item": "reloaded_45colt_cowboy", "prob": 4 },
       { "item": "bp_45colt_cowboy", "prob": 3 },
-      { "item": "reloaded_460_fmj", "prob": 5 },
-      { "item": "reloaded_460_rowland", "prob": 5 },
       { "item": "reloaded_500_Magnum", "prob": 5 },
       { "item": "reloaded_50ae_jhp", "prob": 5 },
       { "item": "reloaded_50ae_fmj", "prob": 5 },
@@ -261,10 +255,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
-      { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "22_lr", "prob": 210, "charges": [ 1, 80 ] },
+      { "item": "22_ratshot", "prob": 1, "charges": [ 1, 100 ] },
       { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 19, "charges": [ 1, 20 ] },
       { "item": "3006_jsp", "prob": 6, "charges": [ 1, 20 ] },
@@ -283,10 +275,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "223", "prob": 40 },
-      { "item": "22_cb", "prob": 30 },
-      { "item": "22_fmj", "prob": 50 },
-      { "item": "22_lr", "prob": 40 },
-      { "item": "22_ratshot", "prob": 30 },
+      { "item": "22_lr", "prob": 150 },
+      { "item": "22_ratshot", "prob": 1 },
       { "item": "270win_jsp", "prob": 25 },
       { "item": "3006", "prob": 25 },
       { "item": "3006_incendiary", "prob": 1 },
@@ -301,10 +291,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "223", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "22_cb", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_fmj", "prob": 15, "charges": [ 0, 6 ] },
-      { "item": "22_lr", "prob": 20, "charges": [ 0, 6 ] },
-      { "item": "22_ratshot", "prob": 10, "charges": [ 0, 6 ] },
+      { "item": "22_lr", "prob": 65, "charges": [ 0, 6 ] },
+      { "item": "22_ratshot", "prob": 1, "charges": [ 0, 6 ] },
       { "item": "270win_jsp", "prob": 2, "charges": [ 0, 6 ] },
       { "item": "3006", "prob": 9, "charges": [ 0, 6 ] },
       { "item": "3006_jsp", "prob": 3, "charges": [ 0, 6 ] },
@@ -385,9 +373,7 @@
     "//": "Ammo for hunting rifles found within hunting supply stores and related locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
+      { "item": "22_lr", "prob": 130, "charges": [ 1, 80 ] },
       { "item": "270win_jsp", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 23, "charges": [ 1, 20 ] },
       { "item": "3006_jsp", "prob": 7, "charges": [ 1, 20 ] },
@@ -528,28 +514,14 @@
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "20x66_beanbag", "prob": 10 },
-      { "item": "20x66_flare", "prob": 10 },
-      { "item": "20x66_shot", "prob": 40 },
-      { "item": "20x66_slug", "prob": 20 },
-      { "item": "shot_dragon", "prob": 10 },
-      { "item": "shot_beanbag", "prob": 20 }
-    ]
+    "entries": [ { "item": "shot_dragon", "prob": 10 }, { "item": "shot_beanbag", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_rare_collection",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "collection",
-    "entries": [
-      { "item": "20x66_beanbag", "prob": 20 },
-      { "item": "20x66_flare", "prob": 20 },
-      { "item": "20x66_shot", "prob": 80 },
-      { "item": "20x66_slug", "prob": 40 },
-      { "item": "shot_dragon", "prob": 20 },
-      { "item": "shot_beanbag", "prob": 40 }
-    ]
+    "entries": [ { "item": "shot_dragon", "prob": 20 }, { "item": "shot_beanbag", "prob": 40 } ]
   },
   {
     "type": "item_group",
@@ -557,13 +529,6 @@
     "//": "Military specification shotgun ammo found at military sites.",
     "subtype": "distribution",
     "entries": [ { "item": "shot_he", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_shotgun_obscure",
-    "//": "Imported or otherwise very obscure shotgun ammo.",
-    "subtype": "distribution",
-    "entries": [  ]
   },
   {
     "type": "item_group",
@@ -595,7 +560,7 @@
   {
     "type": "item_group",
     "id": "ammo_launcher_grenade_adapter",
-    "//": "Adapters for for firing multiples of civilian legal ammo from a greneade launcher",
+    "//": "Adapters for firing multiples of civilian legal ammo from a greneade launcher",
     "subtype": "distribution",
     "entries": [ { "item": "40x46mm_hornets_nest_22lr", "prob": 50 }, { "item": "40x46mm_hornets_nest_410", "prob": 50 } ]
   },
@@ -778,7 +743,6 @@
       { "item": "454_casing", "prob": 60 },
       { "item": "4570_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
-      { "item": "460_casing", "prob": 60 },
       { "item": "50_casing", "prob": 60 },
       { "item": "500_casing", "prob": 60 },
       { "item": "50ae_casing", "prob": 60 },

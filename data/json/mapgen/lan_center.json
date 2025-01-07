@@ -53,8 +53,6 @@
         "C": "f_counter",
         "H": "f_armchair",
         "c": "f_chair",
-        "v": "f_vending_c",
-        "W": "f_vending_c",
         "Y": "f_rack_coat",
         "{": "f_fridge",
         "I": "f_desk",
@@ -66,15 +64,17 @@
         "@": "f_sofa"
       },
       "toilets": { "T": {  } },
+      "vendingmachines": {
+        "v": { "item_group": "vending_drink_items", "lootable": true },
+        "W": { "item_group": "vending_food_items", "lootable": true }
+      },
       "items": {
         "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 },
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "R": { "item": "softdrugs", "chance": 30 },
         "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
-        "{": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
-        "v": { "item": "vending_drink_items", "chance": 20, "repeat": [ 2, 4 ] },
-        "W": { "item": "vending_food_items", "chance": 20, "repeat": [ 2, 4 ] }
+        "{": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
   },
@@ -185,13 +185,12 @@
         "f": "f_fridge",
         "Y": "f_rack_coat",
         "t": "f_toilet",
-        "v": "f_vending_c",
         "{": "f_glass_fridge"
       },
+      "vendingmachines": { "v": { "item_group": "vending_drink_items", "lootable": true } },
       "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
       "place_items": [
         { "chance": 45, "item": "fridge", "x": 20, "y": 20 },
-        { "chance": 50, "item": "vending_food_items", "x": 14, "y": 20 },
         { "chance": 15, "repeat": [ 1, 3 ], "item": "trash", "x": 19, "y": 15 },
         { "chance": 50, "item": "vending_drink_items", "x": 15, "y": 20 },
         { "chance": 50, "item": "vending_drink_items", "x": 16, "y": 20 }

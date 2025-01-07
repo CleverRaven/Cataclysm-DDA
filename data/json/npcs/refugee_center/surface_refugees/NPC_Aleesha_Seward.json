@@ -4,7 +4,7 @@
     "id": "refugee_AleeshaSeward",
     "name_unique": "Aleesha Seward",
     "gender": "female",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Aleesha",
     "attitude": 0,
     "mission": 7,
@@ -96,7 +96,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, kid.  What's up?", "topic": "TALK_REFUGEE_Aleesha_1_firstmeet" },
-      { "text": "Hi Aleesha, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Aleesha, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -117,7 +117,7 @@
     },
     "responses": [
       { "text": "Hi, Aleesha.  What's up?", "topic": "TALK_REFUGEE_Aleesha_2" },
-      { "text": "Hi Aleesha.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Aleesha.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
     },
     "responses": [
       { "text": "Sorry, I didn't mean anything by it.  What's up?", "topic": "TALK_REFUGEE_Aleesha_2" },
-      { "text": "Sorry, I didn't mean anything by it.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Sorry, I didn't mean anything by it.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,9 +143,9 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ],
       "yes": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
-      "no": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.\"  She glances at the shuttered windows.  \"Jenny figures they're never going to let us go down there, so I guess we're going to sort it out up here, one way or another.  It's not fair, but 'fair' doesn't mean much in my life anymore."
+      "no": "I don't know what's up.  I'm not sure what we're even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.\"  She glances at the shuttered windows.  \"Jenny figures they're never going to let us go down there, so I guess we're going to sort it out up here, one way or another.  It's not fair, but 'fair' doesn't mean much in my life anymore."
     },
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -153,8 +153,8 @@
     "dynamic_line": "*narrows her eyes, her words coming out hoarse and clipped.  \"You can't just go asking people questions like that nowadays.  I'm a teenaged girl alone in an evacuation center after, like, literally everyone in the world died and came back as zombies.  What do you think my story is?  My entire family died, came back as zombies, and I somehow wound up here.\"",
     "responses": [
       { "text": "Who takes care of you here?", "topic": "TALK_REFUGEE_Aleesha_Background_caretaker" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,8 +162,8 @@
     "id": "TALK_REFUGEE_Aleesha_Background_caretaker",
     "dynamic_line": "Nobody really.  I'm old enough to work and get merch for my rations.  Jenny and Rhy look out for me though.  They think I don't notice that they're looking out for me, but I do.  It's okay, they're both cool.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,8 +172,8 @@
     "dynamic_line": "I don't have much of a hot take besides what I just said.  It's shit.  Not enough to do to stay busy, not enough to eat, and even if I had internet, all the YouTubers I follow are dead.",
     "responses": [
       { "text": "What YouTubers did you follow?", "topic": "TALK_REFUGEE_Aleesha_Background_influencers" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -181,8 +181,8 @@
     "id": "TALK_REFUGEE_Aleesha_Background_influencers",
     "dynamic_line": "*looks you up and down, an uncharacteristic glint of humor in her eyes.  \"Why, you thinking of subscribing?  I don't think you'd have heard of them, and even if you had, there's definitely no way for them to get any new content out.  Not anything worth watching anyway.\"",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

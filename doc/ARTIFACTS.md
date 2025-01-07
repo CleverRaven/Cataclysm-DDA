@@ -4,6 +4,12 @@
 
 An "artifact" is a special game item with unique "magic" effects.  It uses a base item id and enhances it with further abilities.
 
+Artifacts may have active or passive effects, requiring them to be worn, held in inventory, or wielded for their effects to work. Active effects may require 'charges', they may come with charges, or generate charges at certain intervals or when certain events occur. Passive effects apply regardless of charges if the artifact is correctly worn/held/wielded.
+
+For Dark Days Ahead, it is intended that effects of artifacts are not knowable without using them. Artifacts are intended to require the player to use and experiment with them to determine what effects, if any, they might have. Some effects are intentionally subtle or difficult to figure out, which is part of the intended gameplay.
+
+Mods are permitted to remove, add, or change this secrecy as they see fit, but there is not currently a way for them to do so.
+
 ## Generation
 
 The procedural generation of artifacts is defined in Json. The object looks like the following:
@@ -112,4 +118,6 @@ Resonance is assigned to artifacts in the JSON responsible for adding them to ma
 
 Resonance represents the potential dangers of artifacts on the human body to counterbalance their positive effects.  For the purposes of lore, artifacts should primarily cause such resonance effects when they are affecting a human body - such as when carried or wielded by the PC.  Resonance effects are currently hardcoded, and scale with the amount of resonance you have, beginning at 2,000 resonance (2,000 total power of artifacts carried).  Resonance of 2,000 causes an effect roughly every hour, but effect also occur more frequently the more resonance you have, becoming 100% more common for every whole 2,000 resonance. There are 4 "tiers" of effects in increasing severity kicking in at 2,000, 4,500, 7,500, 12,500 resonance. Each "tier" of resonance has a 50% chance to downgrade to a lower tier of severity. Example: you have 8,000 resonance. There is a 50% chance you will suffer a tier 3 resonance effect, a 25% chance you will suffer a tier 2 resonance effect, and a 25% chance you will suffer a tier 1 effect. If you had 4,000 resonance it would be a 50% chance to get a tier 2 effect and a 50% chance to get a tier 1 effect.
 
-These effects should be relatively vague - it should not be explicitly clear that carrying multiple artifacts is what's causing a player's misfortune, but it should be implied due to the effects not happening until the player picks up a bunch of cool-looking napkins and Rubik's cubes.  Tier 1 effects are nausea, low-strength hallucinations, and minor pain. Tier 2 effects are minor radiation (blocked by rad resistant gear), safe micro-teleports and a very loud noise.  Tier 3 effects include severe pain, severe radiation (not fully blockable by gear), and unsafe teleportation.  Tier 4 effects include hounds of Tindalos, incorporeal, and creating a tear in reality. The resonance factor of an artifact should be measurable, but only at some measurable opportunity cost.
+These effects should be relatively vague - it should not be explicitly clear that carrying multiple artifacts is what's causing a player's misfortune, but it should be implied due to the effects not happening until the player picks up a bunch of cool-looking napkins and Rubik's cubes.  Tier 1 effects are nausea, low-strength hallucinations, and minor pain. Tier 2 effects are minor radiation (blocked by rad resistant gear), safe micro-teleports and a very loud noise.  Tier 3 effects include severe pain, severe radiation (not fully blockable by gear), and unsafe teleportation.  Tier 4 effects include hounds of Tindalos, incorporeal, and creating a tear in reality.
+
+The resonance factor of an artifact is intended to be measurable, but only at some measurable opportunity cost. There is currently one way to do so ingame, but others could be added.

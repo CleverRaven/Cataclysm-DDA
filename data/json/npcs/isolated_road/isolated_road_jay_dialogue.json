@@ -22,9 +22,11 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "broken_kord", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_completed_quest" } ] }
           ]
         },
+        "effect": { "u_sell_item": "broken_kord" },
         "topic": "TALK_GUNSMITH_KORD"
       },
       {
@@ -45,8 +47,8 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('1 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) < time('1 d')" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
@@ -56,8 +58,8 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", "<", "time('5 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) < time('5 d')" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 800" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
@@ -67,8 +69,8 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('1 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('1 d')" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 200" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
@@ -78,8 +80,8 @@
         "text": "How are my rounds coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds)", ">=", "time('5 d')" ] },
-            { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_rounds) >= time('5 d')" ] },
+            { "math": [ "u_number_artisans_gunsmith_ammo_amount == 800" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_has_rounds_ordered" } ] }
           ]
         },
@@ -123,14 +125,14 @@
       },
       { "text": "Let's trade.", "topic": "TALK_GUNSMITH_SERVICES", "effect": "start_trade" },
       { "text": "How's the 'printing' thing going?", "topic": "TALK_GUNSMITH_RESTOCK" },
-      { "text": "I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_GUNSMITH_RESTOCK",
     "type": "talk_topic",
     "dynamic_line": "Next series of currency gotta be ready in around <interval>, fresh off the print!",
-    "responses": [ { "text": "I'll make sure to take a look.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'll make sure to take a look.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GUNSMITH_SHOP_ABOUT",
@@ -199,7 +201,6 @@
         "text": "I'm listening.",
         "effect": [
           { "add_mission": "MISSION_GUNSMITH_1" },
-          { "u_sell_item": "broken_kord" },
           { "u_add_var": "dialogue_artisans_gunsmith_accepted_quest", "value": "yes" }
         ],
         "topic": "TALK_GUNSMITH_Q1_DETAILS"

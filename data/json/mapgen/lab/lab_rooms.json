@@ -855,7 +855,7 @@
         ",,=.ccx"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "=": "t_chainfence_h", "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
+      "terrain": { "=": "t_chainfence", "^": [ [ "t_chaingate_c", 3 ], [ "t_chaingate_o", 1 ] ] },
       "mapping": { "l": { "items": [ { "item": "vet_softdrug", "chance": 80, "repeat": 2 } ] } },
       "place_monster": [
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "pack_size": [ 1, 2 ], "one_or_none": true },

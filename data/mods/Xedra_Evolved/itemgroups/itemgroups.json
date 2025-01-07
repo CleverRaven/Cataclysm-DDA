@@ -41,6 +41,7 @@
       { "item": "textbook_computer", "prob": 8 },
       { "item": "computer_science", "prob": 8 },
       { "item": "howto_computer", "prob": 6 },
+      { "group": "xed_books_crafting", "prob": 3 },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -52,7 +53,7 @@
       { "group": "toy_engine_kit", "prob": 1 },
       { "item": "instant_coffee", "prob": 15 },
       { "item": "strange_coffee", "prob": 5 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
       { "item": "poncho", "prob": 15 },
@@ -62,7 +63,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "umbrella", "prob": 5 },
@@ -191,6 +192,13 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
+    "id": "xed_books_crafting",
+    "//": "Itemgroup for crafting recipes in Xedra Offices and Labs.",
+    "entries": [ { "item": "book_moons_tears_ingot", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
     "id": "fae_furs",
     "items": [
       [ "hat_fur", 30 ],
@@ -229,6 +237,24 @@
   },
   {
     "type": "item_group",
+    "id": "bannerman_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mirror_march_estoc", "prob": 20 },
+      { "item": "moons_tears_mace", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_broadsword", "prob": 20 },
+      { "item": "moons_tears_arming_sword", "prob": 20 },
+      { "item": "moons_tears_estoc", "prob": 20 },
+      { "item": "moons_tears_spear", "prob": 30 },
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_spear", "prob": 3 },
+      { "item": "treesung_pike", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "banner_group",
     "subtype": "distribution",
     "entries": [
@@ -253,6 +279,20 @@
       { "item": "xl_boots_glimmer_fur", "prob": 20 },
       { "item": "xl_coat_glimmer_fur", "prob": 20 },
       { "item": "xl_duster_glimmer_fur", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "redcap_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "redcap_club", "prob": 20 },
+      { "item": "moons_tears_mace", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_spear", "prob": 20 },
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 },
+      { "item": "treesung_warhammer", "prob": 3 }
     ]
   },
   {
@@ -306,6 +346,20 @@
       { "item": "xs_boots_glimmer_fur", "prob": 20 },
       { "item": "xs_coat_glimmer_fur", "prob": 20 },
       { "item": "xs_duster_glimmer_fur", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pooka_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pooka_gladius", "prob": 20 },
+      { "item": "moons_tears_scimitar", "prob": 20 },
+      { "item": "moons_tears_broadsword", "prob": 20 },
+      { "item": "moons_tears_arming_sword", "prob": 20 },
+      { "item": "moons_tears_estoc", "prob": 20 },
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 }
     ]
   },
   {

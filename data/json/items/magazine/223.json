@@ -586,6 +586,7 @@
     "//": "Copied values of 7.62x39 clip.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
+    "category": "ammo",
     "name": { "str": "5.56x45mm/.300BLK 10-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten 5.56x45mm or .300 AAC Blackout rounds into a magazine.",
     "weight": "11 g",

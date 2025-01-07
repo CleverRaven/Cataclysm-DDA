@@ -4,7 +4,7 @@
     "id": "refugee_FatimaalJadir",
     "name_unique": "Fatima al Jadir",
     "gender": "female",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Fatima",
     "attitude": 0,
     "mission": 7,
@@ -98,8 +98,8 @@
         "condition": { "compare_string": [ "yes", { "u_val": "knowledge_trade_Fatima_Teacher" } ] }
       },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -114,7 +114,7 @@
     },
     "responses": [
       { "text": "Nice to meet you too, Fatima.  I'm just passing through.", "topic": "TALK_REFUGEE_Fatima_1_firstmeet" },
-      { "text": "Nice to meet you too, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Nice to meet you too, Fatima.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,7 +129,7 @@
     },
     "responses": [
       { "text": "Hi, Fatima.  How are things?", "topic": "TALK_REFUGEE_Fatima_2" },
-      { "text": "Hi, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Hi, Fatima.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -220,7 +220,7 @@
         "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail) > time('1 d')" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] } }
           ]
@@ -233,7 +233,7 @@
         "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail) > time('1 d')" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
             { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] }
           ]
@@ -242,18 +242,18 @@
         "failure": { "topic": "TALK_REFUGEE_Fatima_Teach_nobarter" },
         "success": { "topic": "TALK_REFUGEE_Fatima_Teach_yesbarter" }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
     "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail = time('now')" ] } },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -262,8 +262,8 @@
     "dynamic_line": "Oh, fine, you weasel.  I suppose I can manage for 3 notes.  I seriously can't go lower though, we'll be using up my resources and time and I gotta pay for the gas and the food somehow.",
     "speaker_effect": { "effect": { "u_add_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -289,6 +289,7 @@
     "value": 0,
     "item": "holybook_quran",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could use a bit of help to find a copy of the Quran.",
       "offer": "I feel silly asking this, but here goes.  I've never been really into reading holy books and stuff like that.  I usually went to the mosque on Friday, and I try to pray five times a day but I hardly ever manage it.  I guess I'm not a very good Muslim, but with all that's happened I would really love to have a copy of the Quran to read.  This seems like a time to get back in touch with God, you know?",
@@ -304,7 +305,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_flag_Fatima_Mission1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   }

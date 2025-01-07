@@ -257,7 +257,7 @@
       {
         "group": "GODCO_russell_carried",
         "rigid": true,
-        "condition": { "math": [ "n_NEVER", "==", "1" ] },
+        "condition": { "math": [ "n_NEVER == 1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -1033,10 +1033,10 @@
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
       { "item": "glowstick", "prob": 50, "charges": 1400 },
       { "item": "handflare", "prob": 50, "charges": 300 },
+      { "item": "pur_tablets", "prob": 10, "count": [ 15, 50 ] },
       { "item": "gasoline_lantern", "prob": 7, "charges": [ 100, -1 ] },
       { "item": "oil_lamp", "prob": 7, "charges": [ 100, -1 ] },
       { "item": "lamp_oil", "prob": 5, "charges": [ 100, -1 ] },
-      { "item": "pur_tablets", "prob": 10, "count": [ 5, 15 ] },
       { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {

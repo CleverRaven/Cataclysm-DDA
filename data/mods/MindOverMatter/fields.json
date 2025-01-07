@@ -90,6 +90,668 @@
     "phase": "gas"
   },
   {
+    "id": "fd_pyrokinetic_aura",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "burning air",
+        "sym": "&",
+        "convection_temperature_mod": 10,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "yellow",
+        "convection_temperature_mod": 20,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "yellow",
+        "convection_temperature_mod": 30,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "yellow",
+        "convection_temperature_mod": 40,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "yellow",
+        "convection_temperature_mod": 50,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "red",
+        "convection_temperature_mod": 60,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "red",
+        "convection_temperature_mod": 70,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "red",
+        "convection_temperature_mod": 80,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "red",
+        "convection_temperature_mod": 90,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "red",
+        "convection_temperature_mod": 100,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "magenta",
+        "convection_temperature_mod": 110,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "color": "magenta",
+        "convection_temperature_mod": 120,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          }
+        ]
+      }
+    ],
+    "immunity_data": { "flags": [ "HEAT_IMMUNE", "HEATSINK", "FIREPROOF", "FIREY" ] },
+    "decay_amount_factor": 5,
+    "has_fire": true,
+    "percent_spread": 10,
+    "priority": -1,
+    "half_life": "1 seconds",
+    "phase": "gas"
+  },
+  {
     "id": "fd_cold_air_nether_deep",
     "type": "field_type",
     "intensity_levels": [
@@ -225,5 +887,26 @@
     "half_life": "30 minutes",
     "phase": "plasma",
     "display_field": true
+  },
+  {
+    "id": "fd_meadow_portal",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirling portal",
+        "color": "magenta",
+        "sym": "*",
+        "dangerous": true,
+        "monster_spawn_chance": 6000,
+        "monster_spawn_count": 1,
+        "monster_spawn_radius": 1,
+        "monster_spawn_group": "GROUP_ALIEN_MEADOW"
+      }
+    ],
+    "description_affix": "under",
+    "priority": 8,
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_fatigue"
   }
 ]

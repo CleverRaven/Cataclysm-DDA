@@ -38,7 +38,7 @@
       "feed": "The %s seems to tolerate you.  It cautiously lets you pat its head and seems friendly for now.",
       "pet": "The %s reluctantly wags its tail while you pat their massive head."
     },
-    "reproduction": { "baby_monster": "mon_direwolf_cub", "baby_count": 2, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_direwolf_cub" }, "baby_count": 2, "baby_timer": 360 },
     "baby_flags": [ "SPRING" ],
     "flags": [
       "SEES",
@@ -118,7 +118,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FIRE" ],
     "harvest": "mammal_fur",
-    "reproduction": { "baby_monster": "mon_sabcat_cub", "baby_count": 2, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_sabcat_cub" }, "baby_count": 2, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
     "dissect": "dissect_feline_sample_single",
     "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!  It emits a growling purr as you pet it." },
@@ -207,7 +207,7 @@
     "fear_triggers": [ "FIRE" ],
     "harvest": "mammal_fur",
     "dissect": "dissect_feline_sample_single",
-    "reproduction": { "baby_monster": "mon_cave_lion_cub", "baby_count": 3, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cave_lion_cub" }, "baby_count": 3, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
     "flags": [
       "SEES",
@@ -284,7 +284,7 @@
     "dodge": 8,
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "reproduction": { "baby_monster": "mon_bobcat_cub", "baby_count": 2, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_bobcat_cub" }, "baby_count": 2, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
     "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!  It emits a satisfied purr as you pet it." },
     "harvest": "mammal_small_fur",
@@ -344,7 +344,7 @@
       { "id": "scratch_grab_required", "min_mul": 1, "max_mul": 1.5 }
     ],
     "description": "A large predatory flightless bird with monstrous beak and strong legs.  Truly, the dinosaurs never went extinct, they just grew more feathers.",
-    "reproduction": { "baby_egg": "egg_titanis_walleri", "baby_count": 1, "baby_timer": 540 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_titanis_walleri" }, "baby_count": 1, "baby_timer": 540 },
     "baby_flags": [ "SUMMER" ],
     "flags": [
       "SEES",

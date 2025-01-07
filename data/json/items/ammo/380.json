@@ -59,7 +59,7 @@
     "copy-from": "380_FMJ",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP +P" },
-    "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  This defensive loading is designed to maximize performance, and tends to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
+    "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  This defensive loading is designed to maximize performance and tends to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": "1 USD 90 cent",
     "price_postapoc": "15 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -72,7 +72,6 @@
     "copy-from": "380_FMJ",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP FMJ, black powder" },
-    "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -87,7 +86,6 @@
     "copy-from": "380_JHP",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP JHP, black powder" },
-    "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -102,7 +100,6 @@
     "copy-from": "380_FMJ",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP FMJ, reloaded" },
-    "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -112,7 +109,6 @@
     "copy-from": "380_JHP",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP JHP, reloaded" },
-    "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -122,7 +118,6 @@
     "copy-from": "380_p",
     "type": "AMMO",
     "name": { "str_sp": ".380 ACP +P, reloaded" },
-    "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  This defensive loading is designed to maximize performance, and tends to be more accurate than practice ammo.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -133,7 +128,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".380 ACP FMJ, matchhead powder" },
-    "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_380_FMJ",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -144,7 +138,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".380 ACP JHP, matchhead powder" },
-    "description": ".380 ACP ammunition with a jacketed hollow point 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider for self-defense.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_380_JHP",
     "extend": { "effects": [ "MATCHHEAD" ] }

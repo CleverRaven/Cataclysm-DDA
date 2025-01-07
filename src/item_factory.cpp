@@ -223,6 +223,25 @@ static bool is_physical( const itype &type )
            !type.has_flag( flag_ZERO_WEIGHT );
 }
 
+template<typename T>
+bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
+{
+    bool result = false;
+    if( obj.has_array( name ) ) {
+        // An array means first is min, second entry is max. Both are mandatory.
+        JsonArray arr = obj.get_array( name );
+        result |= arr.read_next( pa.first );
+        result |= arr.read_next( pa.second );
+    } else {
+        // Not an array, should be a single numeric value, which is set as min and max.
+        result |= obj.read( name, pa.first );
+        result |= obj.read( name, pa.second );
+    }
+    result |= obj.read( name + "-min", pa.first );
+    result |= obj.read( name + "-max", pa.second );
+    return result;
+}
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // Add relic data by ID we defered
@@ -1419,10 +1438,6 @@ void Item_factory::finalize()
             it->second.recipes.push_back( p.first );
         }
     }
-    for( auto &e : m_template_groups ) {
-        auto &isd = e.second;
-        isd->finalize( itype_id::NULL_ID() );
-    }
 }
 void item_blacklist_t::clear()
 {
@@ -1649,7 +1664,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character *p, item &it, const tripoint &pos ) const override {
+        std::optional<int> use( Character *p, item &it, const tripoint_bub_ms &pos ) const override {
             return cpp_function( p, &it, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -1839,6 +1854,7 @@ void Item_factory::init()
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
     add_iuse( "PORTAL", &iuse::portal );
+    add_iuse( "POST_UP", &iuse::post_up );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
@@ -1886,6 +1902,7 @@ void Item_factory::init()
     add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
     add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WATER_TABLETS", &iuse::water_tablets );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "SEXTANT", &iuse::sextant );
@@ -2015,6 +2032,9 @@ void Item_factory::check_definitions() const
 
         if( !type->category_force.is_valid() ) {
             msg += "undefined category " + type->category_force.str() + "\n";
+        }
+        if( type->has_flag( flag_ENERGY_SHIELD ) && !type->armor ) {
+            msg += "has ENERGY_SHIELD flag specified but the item isn't armor";
         }
 
         if( type->armor ) {
@@ -3095,6 +3115,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
     optional( jo, was_loaded, "power_armor", power_armor, false );
+    optional( jo, was_loaded, "max_energy_shield_hp", max_energy_shield_hp, 0 );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
 
@@ -3415,11 +3436,21 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         }
     }
 
-    if( jo.has_string( "rot_spawn" ) ) {
-        slot.rot_spawn = mongroup_id( jo.get_string( "rot_spawn" ) );
+    if( jo.has_object( "rot_spawn" ) ) {
+        JsonObject jo_rot = jo.get_object( "rot_spawn" );
+        if( jo_rot.has_string( "monster" ) ) {
+            slot.rot_spawn_monster = mtype_id( jo_rot.get_string( "monster" ) );
+            slot.rot_spawn_group = mongroup_id::NULL_ID();
+            load_min_max( slot.rot_spawn_monster_amount, jo_rot, "amount" );
+        }
+        if( jo_rot.has_string( "group" ) ) {
+            slot.rot_spawn_group = mongroup_id( jo_rot.get_string( "group" ) );
+            slot.rot_spawn_monster = mtype_id::NULL_ID();
+        }
+        if( jo_rot.has_int( "chance" ) ) {
+            assign( jo_rot, "chance", slot.rot_spawn_chance, strict, 0, 100 );
+        }
     }
-    assign( jo, "rot_spawn_chance", slot.rot_spawn_chance, strict, 0 );
-
 }
 
 void islot_brewable::load( const JsonObject &jo )
@@ -3543,6 +3574,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    assign( jo, "min_str_required_mod_if_prone", slot.min_str_required_mod_if_prone );
     if( jo.has_array( "add_mod" ) ) {
         slot.add_mod.clear();
         for( JsonArray curr : jo.get_array( "add_mod" ) ) {
@@ -4161,7 +4193,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 {
     bool strict = src == "dda";
 
-    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+    restore_on_out_of_scope restore_check_plural( check_plural );
     if( jo.has_string( "abstract" ) ) {
         check_plural = check_plural_t::none;
     }
@@ -4194,10 +4226,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         if( jrel.has_object( "melee_damage" ) ) {
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
+        if( jrel.has_int( "to_hit" ) ) {
+            def.m_to_hit += jrel.get_int( "to_hit" );
+        }
     }
     def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
-        assign( jo, "to_hit", def.m_to_hit, strict );
+        mandatory( jo, false, "to_hit", def.m_to_hit );
         def.using_legacy_to_hit = true;
     } else if( jo.has_object( "to_hit" ) ) {
         io::acc_data temp;
@@ -4217,6 +4252,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
+    optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
     assign( jo, "ascii_picture", def.picture_id );
     assign( jo, "repairs_with", def.repairs_with );
 
@@ -4848,25 +4884,6 @@ static Item_group *make_group_or_throw(
             to_string( ig->type ) + "\"" );
     }
     return ig;
-}
-
-template<typename T>
-bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
-{
-    bool result = false;
-    if( obj.has_array( name ) ) {
-        // An array means first is min, second entry is max. Both are mandatory.
-        JsonArray arr = obj.get_array( name );
-        result |= arr.read_next( pa.first );
-        result |= arr.read_next( pa.second );
-    } else {
-        // Not an array, should be a single numeric value, which is set as min and max.
-        result |= obj.read( name, pa.first );
-        result |= obj.read( name, pa.second );
-    }
-    result |= obj.read( name + "-min", pa.first );
-    result |= obj.read( name + "-max", pa.second );
-    return result;
 }
 
 template<typename T>

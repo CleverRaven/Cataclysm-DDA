@@ -119,13 +119,25 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_ASH_BREATH",
+    "name": { "str": "Exhalation of Ashes" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to breathe out a cloud of thick smoke.",
+    "prereqs": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_ash_breath_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_FLAME_BREATH",
     "name": { "str": "Breath of the Firedragon" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to breathe a cone of flames.",
-    "prereqs": [ "SALAMANDER_FLAME_PUNCH" ],
+    "prereqs": [ "SALAMANDER_ASH_BREATH" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_breath", 1 ] ]
   },
@@ -248,7 +260,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "changes_to": [ "SALAMANDER_HEAT_EYES2" ],
     "category": [ "SALAMANDER" ],
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -259,7 +271,7 @@
     "prereqs": [ "SALAMANDER_EYES" ],
     "category": [ "SALAMANDER" ],
     "social_modifiers": { "persuade": 10, "lie": 10 },
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -369,7 +381,7 @@
     "id": "SALAMANDER_HEALTH_FOR_MANA",
     "name": { "str": "Burning New Wood" },
     "points": 6,
-    "description": "In times of extreme need, the Salamander can can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
+    "description": "In times of extreme need, the Salamander can fuel their powers with their own body.  Activate this to restore mana at the cost of health.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH", "SALAMANDER_BIGGER_STOMACH2" ],
     "prereqs2": [ "SALAMANDER_SKIN_1", "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
@@ -585,11 +597,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
-          { "value": "ARMOR_HEAT", "add": -1000 },
-          { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ],
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 }, { "type": "cold", "multiply": 0.5 } ],
         "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],

@@ -18,7 +18,7 @@
     "type": "npc_class",
     "id": "NC_ROBOFAC_INTERCOM",
     "name": { "str": "intercom" },
-    "job_description": "Reading this line is a bug",
+    "job_description": ".",
     "common": false,
     "bonus_str": { "rng": [ 8, 10 ] },
     "bonus_int": { "rng": [ 1, 2 ] },
@@ -32,9 +32,7 @@
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_armor",
         "rigid": true,
-        "condition": {
-          "or": [ { "math": [ "u_hub01_good_candidate", "==", "1" ] }, { "math": [ "u_hub01_completed_missions", ">=", "2" ] } ]
-        },
+        "condition": { "or": [ { "math": [ "u_hub01_good_candidate == 1" ] }, { "math": [ "u_hub01_completed_missions >= 2" ] } ] },
         "refusal": "You're not yet qualified to buy this"
       },
       {
@@ -43,7 +41,7 @@
         "strict": true,
         "condition": {
           "and": [
-            { "math": [ "hub01_uhmwpe_researched", "==", "1" ] },
+            { "math": [ "hub01_uhmwpe_researched == 1" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_can_buy_armor" } ] } }
           ]
         }
@@ -73,7 +71,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
-            { "math": [ "hub01_hwp_exotic_researched", "==", "1" ] }
+            { "math": [ "hub01_hwp_exotic_researched == 1" ] }
           ]
         }
       },
@@ -177,10 +175,10 @@
           "run_eocs": [
             {
               "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
-              "condition": { "math": [ "free_merchants_hub_trade_route", "==", "1" ] },
+              "condition": { "math": [ "free_merchants_hub_trade_route == 1" ] },
               "effect": [
                 { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
-                { "math": [ "free_merchants_hub_trade_route", "=", "2" ] },
+                { "math": [ "free_merchants_hub_trade_route = 2" ] },
                 { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
               ],
               "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
@@ -223,12 +221,7 @@
       "TALK_ROBOFAC_INTERCOM_SERVICES",
       "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END",
-      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
-      "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END",
-      "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED",
-      "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED",
-      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED",
-      "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED"
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
     ],
     "type": "talk_topic",
     "dynamic_line": {
@@ -236,7 +229,6 @@
       "no": [
         "So, do you need something?",
         "Yes, mercenary?",
-        "Mercenary.",
         "Mercenary.",
         "Well?",
         "Say it.",
@@ -320,6 +312,29 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA"
       },
       {
+        "text": "I have found more of those golden robots, can you make anything of them yet?",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } }
+              ]
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS"
+      },
+      {
         "text": "What the hell were you testing out there?",
         "condition": {
           "and": [
@@ -397,7 +412,7 @@
           "and": [
             { "u_has_faction_trust": 5 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
-            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            { "math": [ "isherwood_gear_status < 1" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
@@ -419,13 +434,13 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ] },
-            { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+            { "math": [ "isherwood_barry_rescued == 1" ] },
             { "u_has_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS"
       },
-      { "text": "I have to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -434,7 +449,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_met_robofac_intercom" } ],
       "yes": "&The intercom is silent.",
-      "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirrs as it focuses on you.  There is no immediate response."
+      "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirs as it focuses on you.  There is no immediate response."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_intercom_u_met_robofac_intercom", "value": "yes" }, "sentinel": "met_intercom" },
     "responses": [
@@ -505,7 +520,7 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
-        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
       },
       { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
       { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
@@ -520,7 +535,7 @@
       {
         "text": "Look, there must be something we can work out.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
-        "effect": [ { "math": [ "u_talked_to_hub", "=", "1" ] } ]
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
       },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
@@ -570,20 +585,12 @@
     "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
     "speaker_effect": {
       "effect": [
-        {
-          "u_sell_item": "template_armor",
-          "count": 1,
-          "true_eocs": {
-            "id": "EOC_nano_ask",
-            "effect": [
-              { "u_add_faction_trust": 2 },
-              { "math": [ "u_timer_hub_rnd_u_waiting_on_armor", "=", "time('now')" ] },
-              { "u_add_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" },
-              { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
-              { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" }
-            ]
-          }
-        }
+        { "u_consume_item": "template_armor", "count": 1, "popup": true },
+        { "u_add_faction_trust": 2 },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_armor = time('now')" ] },
+        { "u_add_var": "dialogue_hub_rnd_u_gave_armor_disk", "value": "yes" },
+        { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_u_hub_prototypes", "value": "yes" }
       ],
       "sentinel": "gave_armor_template"
     },
@@ -591,11 +598,6 @@
       { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll see you then.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_fema_data",
-    "effect": { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
   },
   {
     "//": "These are all dialogues related to the breadcrumb quest from the refugee center to deliver a hard drive.",
@@ -618,7 +620,10 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "effect": [
+          { "u_consume_item": "fema_data", "count": 1, "popup": true },
+          { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_END"
       },
       {
@@ -654,7 +659,10 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "effect": [
+          { "u_consume_item": "fema_data", "count": 1, "popup": true },
+          { "u_add_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
       },
       {
@@ -763,7 +771,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
     "type": "talk_topic",
     "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
-    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate", "=", "1" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_hub01_good_candidate = 1" ] } },
     "responses": [
       {
         "text": "Thank you.",

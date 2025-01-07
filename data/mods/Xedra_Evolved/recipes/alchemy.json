@@ -431,19 +431,38 @@
     "result": "doll_imbuement",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",
-    "skill_used": "deduction",
-    "skills_required": [ [ "deduction", 5 ], [ "spellcraft", 5 ] ],
-    "difficulty": 3,
-    "time": "55 m",
+    "skill_used": "chemistry",
+    "skills_required": [ [ "deduction", 5 ] ],
+    "difficulty": 7,
+    "time": "2 h",
     "flags": [ "SECRET" ],
     "tools": [ [ [ "mirror", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [
       [ [ "blood", 1 ] ],
       [ [ "fae_blood", 1 ] ],
-      [ [ "life_extension_potion", 1 ] ],
       [ [ "homullus_sample", 5 ] ],
-      [ [ "faewild", 55 ] ],
-      [ [ "scrap_dreamdross", 55 ] ]
+      [ [ "faewild", 5 ] ],
+      [ [ "scrap_dreamdross", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "plant_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ [ "deduction", 5 ] ],
+    "difficulty": 7,
+    "time": "2 h",
+    "flags": [ "SECRET" ],
+    "tools": [ [ [ "bowl_wood", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "components": [
+      [ [ "blood", 1 ] ],
+      [ [ "fae_blood", 1 ] ],
+      [ [ "arvore_sample", 5 ] ],
+      [ [ "faewild", 5 ] ],
+      [ [ "scrap_dreamdross", 5 ] ]
     ]
   }
 ]

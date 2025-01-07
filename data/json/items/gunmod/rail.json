@@ -95,5 +95,43 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "flags": [ "LASER_SIGHT" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "offset_grip",
+    "type": "GUNMOD",
+    "name": { "str": "offset grip" },
+    "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.",
+    "weight": "125 g",
+    "volume": "250 ml",
+    "price": "300 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "install_time": "2 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "handling_modifier": 4,
+    "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "blacklist_mod": [
+      "combination_gun_shotgun",
+      "grip",
+      "grip_mod",
+      "wooden_grip",
+      "m203",
+      "m203_mod",
+      "m320_mod",
+      "m320_mod_mod",
+      "M6_shotgun",
+      "masterkey",
+      "masterkey_mod",
+      "m26_mass",
+      "m26_mass_mod",
+      "rm121aux",
+      "rm121aux_mod",
+      "u_shotgun",
+      "u_shotgun_mod",
+      "robofac_handguard"
+    ],
+    "min_skills": [ [ "gun", 2 ] ]
   }
 ]

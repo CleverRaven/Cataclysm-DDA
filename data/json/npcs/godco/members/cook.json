@@ -10,7 +10,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Could you be on your way, please?  We don't take kindly to sinners like you.",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Could you be on your way, please?  I'm rather busy.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ],
@@ -50,7 +50,7 @@
         "topic": "TALK_GODCO_chef_idle_chat",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -61,7 +61,7 @@
         "topic": "TALK_GODCO_chef_get_food",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
@@ -73,7 +73,7 @@
         "topic": "TALK_GODCO_chef_get_food_joinee",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "npc_has_effect": "u_got_meal" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
@@ -83,7 +83,7 @@
         "text": "Can I do anything for you?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
           ]
         },
@@ -95,7 +95,7 @@
         "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_chef" } ] }
       },
       {
-        "text": "Okay, man.  I'll be on my way.",
+        "text": "Okay, man.  <end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
       }
@@ -106,22 +106,18 @@
     "type": "talk_topic",
     "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, let's chat." ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_chef_past",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_chef_past", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },
       {
         "text": "Is there any way I could join the community?",
         "topic": "TALK_GODCO_chef_join",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Could you tell me about Katherine?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_u_know_about_family" } ] }
           ]
         },
@@ -131,14 +127,14 @@
         "text": "Could you tell me about Jeremiah?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_u_know_about_family" } ] }
           ]
         },
         "topic": "TALK_GODCO_chef_jeremiah"
       },
       { "text": "I've changed my mind, forget about it.", "topic": "TALK_NONE" },
-      { "text": "On second thought, I gotta go.  See ya, <name_g>.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  See ya, <name_g>.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -167,7 +163,7 @@
     "responses": [
       { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_chef" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef" },
       { "text": "I'll do that.", "topic": "TALK_DONE" }
     ]
   },
@@ -209,10 +205,7 @@
     "dynamic_line": "She's my wife, worked for the Church before <the_cataclysm>.  She used to organize charities for the needy, now we're the ones in need of charity.  She has a bit of a high horse these days, but a nice lady once you get to know her.  We've been married for 28 years, and I couldn't ask for a better wife.",
     "responses": [
       { "text": "Who's Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      {
-        "text": "That's good to hear.  I'd like to ask you about something else.",
-        "topic": "TALK_GODCO_chef_idle_chat"
-      },
+      { "text": "That's good to hear.  <done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
       { "text": "That's good to hear, but I gotta go.", "topic": "TALK_DONE" }
     ]
   },
@@ -223,8 +216,8 @@
     "responses": [
       { "text": "Who's Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Why would they have an issue with each other?", "topic": "TALK_GODCO_chef_k&j_conflict" },
-      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
-      { "text": "I gotta go, see you later.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -234,8 +227,8 @@
     "responses": [
       { "text": "Could you tell me more about Katherine?", "topic": "TALK_GODCO_chef_katherine" },
       { "text": "Could you tell me more about Jeremiah?", "topic": "TALK_GODCO_chef_jeremiah" },
-      { "text": "I'd like to ask you about something else.", "topic": "TALK_GODCO_chef_idle_chat" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_chef_idle_chat" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

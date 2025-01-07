@@ -134,6 +134,7 @@ static const std::string ANY_INPUT = "ANY_INPUT";
 static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 static const std::string COORDINATE = "COORDINATE";
 static const std::string TIMEOUT = "TIMEOUT";
+static const std::string QUIT = "QUIT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -445,6 +446,11 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
+        if( g->uquit == QUIT_EXIT ) {
+            g->uquit = QUIT_EXIT_PENDING;
+            result = &QUIT;
+            break;
+        }
         const std::string &action = input_to_action( next_action );
 
         //Special global key to toggle language to english and back
@@ -560,21 +566,21 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_north );
+        return transform( tripoint::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_south );
+        return transform( tripoint::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_west );
+        return transform( tripoint::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_east );
+        return transform( tripoint::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_north_west );
+        return transform( tripoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_north_east );
+        return transform( tripoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_south_west );
+        return transform( tripoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_south_east );
+        return transform( tripoint::south_east );
     } else {
         return std::nullopt;
     }
@@ -595,21 +601,56 @@ const
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_rel_ms( tripoint_north ) );
+        return transform( tripoint_rel_ms::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south ) );
+        return transform( tripoint_rel_ms::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms( tripoint_west ) );
+        return transform( tripoint_rel_ms::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms( tripoint_east ) );
+        return transform( tripoint_rel_ms::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_west ) );
+        return transform( tripoint_rel_ms::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_east ) );
+        return transform( tripoint_rel_ms::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_west ) );
+        return transform( tripoint_rel_ms::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_east ) );
+        return transform( tripoint_rel_ms::south_east );
+    } else {
+        return std::nullopt;
+    }
+}
+
+std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
+const
+{
+    static const auto noop = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
+    tripoint_rel_omt p ) {
+        return p;
+    } );
+    static const auto rotate = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
+    tripoint_rel_omt p ) {
+        rotate_direction_cw( p.x(), p.y() );
+        return p;
+    } );
+    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+
+    if( action == "UP" ) {
+        return transform( tripoint_rel_omt::north );
+    } else if( action == "DOWN" ) {
+        return transform( tripoint_rel_omt::south );
+    } else if( action == "LEFT" ) {
+        return transform( tripoint_rel_omt::west );
+    } else if( action == "RIGHT" ) {
+        return transform( tripoint_rel_omt::east );
+    } else if( action == "LEFTUP" ) {
+        return transform( tripoint_rel_omt::north_west );
+    } else if( action == "RIGHTUP" ) {
+        return transform( tripoint_rel_omt::north_east );
+    } else if( action == "LEFTDOWN" ) {
+        return transform( tripoint_rel_omt::south_west );
+    } else if( action == "RIGHTDOWN" ) {
+        return transform( tripoint_rel_omt::south_east );
     } else {
         return std::nullopt;
     }
@@ -640,7 +681,7 @@ static const std::map<fallback_action, int> fallback_keys = {
 };
 
 keybindings_ui::keybindings_ui( bool permit_execute_action,
-                                input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
+                                input_context *parent ) : cataimgui::window( _( "KEYBINDINGS" ), ImGuiWindowFlags_NoNav )
 {
     this->ctxt = parent;
 
@@ -843,13 +884,16 @@ bool input_context::action_reset( const std::string &action_id )
     std::vector<input_event> conflicting_events;
     std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                conflicting_events.emplace_back( event );
-            }
+        auto iter_basic = inp_mngr.basic_action_contexts.find( context );
+        if( iter_basic == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_basic->second.find( action_id );
+        if( iter_action == iter_basic->second.end() ) {
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            conflicting_events.emplace_back( event );
         }
     }
     if( !resolve_conflicts( conflicting_events, action_id ) ) {
@@ -858,20 +902,30 @@ bool input_context::action_reset( const std::string &action_id )
 
     // RESET KEY BINDINGS
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        bool is_in_cus = cus.find( action_id ) != cus.end();
-
-        if( is_in_cus ) {
-            inp_mngr.remove_input_for_action( action_id, context );
+        // reset -> remove from user created keybindings
+        auto iter_cus = inp_mngr.action_contexts.find( context );
+        if( iter_cus != inp_mngr.action_contexts.end() ) {
+            if( iter_cus->second.find( action_id ) != iter_cus->second.end() ) {
+                inp_mngr.remove_input_for_action( action_id, context );
+            }
         }
 
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                inp_mngr.add_input_for_action( action_id, context, event );
-            }
+        // reset the original keybindings
+        auto iter_def = inp_mngr.basic_action_contexts.find( context );
+        if( iter_def == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_def->second.find( action_id );
+        if( iter_action == iter_def->second.end() ) {
+            continue;
+        }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            inp_mngr.add_input_for_action( action_id, context, event );
         }
     }
     return true;
@@ -1119,7 +1173,6 @@ action_id input_context::display_menu( bool permit_execute_action )
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
-            get_help().load();
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }
@@ -1142,8 +1195,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return std::nullopt;
@@ -1158,24 +1211,35 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 
     point p = coordinate + offset;
     // If no offset is specified, account for the window location
-    if( offset == point_zero ) {
+    if( offset == point::zero ) {
         p -= win_min;
     }
     // Some windows (notably the overmap) want 0,0 to be the center of the screen
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    return tripoint( p, get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
+
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
 
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
-        return get_coordinates( capture_win )->xy();
+        return coord3d->xy().raw();
     } else {
         return std::nullopt;
     }

@@ -72,7 +72,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     CHECK( mag->ammo_types().count( gun_ammo ) );
     CHECK( mag->ammo_capacity( gun_ammo ) == mag_cap );
     CHECK( mag->ammo_current().is_null() );
-    CHECK( mag->ammo_data() == nullptr );
+    CHECK( !mag->has_ammo_data() );
 
     GIVEN( "An empty magazine" ) {
         CHECK( mag->ammo_remaining() == 0 );
@@ -96,7 +96,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag->ammo_current() == ammo_id );
-                    REQUIRE( mag->ammo_data() );
+                    REQUIRE( mag->has_ammo_data() );
                 }
                 AND_THEN( "the magazine is filled to capacity" ) {
                     REQUIRE( mag->remaining_ammo_capacity() == 0 );
@@ -126,7 +126,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( mag->ammo_current() == ammo_id );
-                    REQUIRE( mag->ammo_data() );
+                    REQUIRE( mag->has_ammo_data() );
                 }
                 AND_THEN( "the magazine is filled with the correct quantity" ) {
                     REQUIRE( mag->ammo_remaining() == mag_cap - 2 );
@@ -206,7 +206,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
         CHECK( gun->ammo_capacity( gun_ammo ) == 0 );
         CHECK( gun->ammo_remaining() == 0 );
         CHECK( gun->ammo_current().is_null() );
-        CHECK( gun->ammo_data() == nullptr );
+        CHECK( !gun->has_ammo_data() );
 
         WHEN( "the gun is reloaded with an incompatible magazine" ) {
             item_location mag = player_character.i_add( item( bad_mag ) );
@@ -237,7 +237,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 AND_THEN( "the gun contains no ammo" ) {
                     REQUIRE( gun->ammo_current().is_null() );
                     REQUIRE( gun->ammo_remaining() == 0 );
-                    REQUIRE( gun->ammo_data() == nullptr );
+                    REQUIRE( !gun->has_ammo_data() );
                 }
             }
         }
@@ -264,7 +264,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 AND_THEN( "the gun contains the correct amount and type of ammo" ) {
                     REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
                     REQUIRE( gun->ammo_current() == ammo_id );
-                    REQUIRE( gun->ammo_data() );
+                    REQUIRE( gun->has_ammo_data() );
                 }
 
                 AND_WHEN( "the guns magazine is further reloaded with compatible but different ammo" ) {
@@ -359,7 +359,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
         CHECK( gun->ammo_capacity( gun_ammo ) == mag_cap );
         CHECK( gun->ammo_remaining() == 0 );
         CHECK( gun->ammo_current().is_null() );
-        CHECK( gun->ammo_data() == nullptr );
+        CHECK( !gun->has_ammo_data() );
 
         WHEN( "the gun is reloaded with incompatible ammo" ) {
             item_location ammo = player_character.i_add( item( bad_ammo ) );
@@ -380,7 +380,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( gun->ammo_current() == ammo_id );
-                    REQUIRE( gun->ammo_data() );
+                    REQUIRE( gun->has_ammo_data() );
                 }
                 AND_THEN( "the gun is filled to capacity" ) {
                     REQUIRE( gun->remaining_ammo_capacity() == 0 );
@@ -410,7 +410,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
 
                 AND_THEN( "the current ammo is updated" ) {
                     REQUIRE( gun->ammo_current() == ammo_id );
-                    REQUIRE( gun->ammo_data() );
+                    REQUIRE( gun->has_ammo_data() );
                 }
                 AND_THEN( "the gun is filled with the correct quantity" ) {
                     REQUIRE( gun->ammo_remaining() == mag_cap - 2 );

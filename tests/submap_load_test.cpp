@@ -46,7 +46,7 @@ static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" )
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static const point_sm_ms &corner_ne = point_sm_ms_zero;
+static const point_sm_ms &corner_ne = point_sm_ms::zero;
 static const point_sm_ms corner_nw( SEEX - 1, 0 );
 static const point_sm_ms corner_se( 0, SEEY - 1 );
 static const point_sm_ms corner_sw( SEEX - 1, SEEY - 1 );
@@ -851,7 +851,7 @@ static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_p
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    REQUIRE( savegame_version == 34 );
+    REQUIRE( savegame_version == 36 );
     int version = 0;
     JsonObject sm_json = jsin.get_object();
     if( sm_json.has_member( "version" ) ) {
@@ -1464,7 +1464,7 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     REQUIRE( is_normal_submap( sm, checks ) );
     // Just check there are computers in the right place
     // Checking more is complicated
-    REQUIRE( sm.has_computer( point_sm_ms( point_south ) ) );
+    REQUIRE( sm.has_computer( point_sm_ms( point::south ) ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
 }
 

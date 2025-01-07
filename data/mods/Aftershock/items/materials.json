@@ -3,7 +3,7 @@
     "type": "material",
     "id": "titanium",
     "name": "Titanium",
-    "density": 10,
+    "density": 4.502,
     "chip_resist": 20,
     "repaired_with": "afs_scrap_titanium",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
@@ -70,6 +70,23 @@
     "//": "lightweight high-protection-value armors that degrade easily.",
     "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "afs_plasma": 2, "bullet": 8, "electric": 0 },
     "repair_difficulty": 9
+  },
+  {
+    "type": "material",
+    "id": "riemann_space",
+    "name": "Riemann space",
+    "density": 1,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
+    "bash_dmg_verb": "agitated",
+    "cut_dmg_verb": "agitated",
+    "soft": true,
+    "//": "Impenetrable to all damage types.  The material energy shields are made of.",
+    "resist": { "bash": 1000, "cut": 1000, "acid": 1000, "heat": 1000, "bullet": 1000, "afs_plasma": 1000, "electric": 1000 }
   },
   {
     "type": "material",

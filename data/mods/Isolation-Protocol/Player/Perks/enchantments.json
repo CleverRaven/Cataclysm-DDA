@@ -34,5 +34,33 @@
     "description": "OH you aren't getting away with that.",
     "condition": { "u_has_effect": "iso_eff_hypo_o" },
     "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.5 }, { "value": "RANGED_DAMAGE", "multiply": 0.5 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_ench_geas_buff",
+    "name": { "str": "Ancient vow" },
+    "description": "Lightless monster!  I give you oblivion!\n\n Deal 15% more damage and regen 100% more stamina per turn when fighting high danger enemies.",
+    "condition": { "u_has_effect": "iso_eff_geas_buff" },
+    "values": [
+      { "value": "RANGED_DAMAGE", "multiply": 0.15 },
+      { "value": "MELEE_DAMAGE", "multiply": 0.15 },
+      { "value": "STAMINA_REGEN_MOD", "add": 1 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_bionic_vampire_buff",
+    "name": { "str": "Assassin's Drive" },
+    "description": "Hey man, it's just business.",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_at_om_location": "iso_elevator_safe" },
+          { "u_at_om_location": "iso_hallway_safe" },
+          { "u_at_om_location": "iso_next_level_elevator" }
+        ]
+      }
+    },
+    "values": [ { "value": "POWER_TRICKLE", "add": -5000 } ]
   }
 ]

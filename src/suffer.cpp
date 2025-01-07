@@ -36,6 +36,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -282,11 +283,22 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_sleepiness( mut_id->cost );
             }
         }
+        if( mut_id->mana ) {
+            // no enough mana
+            if( you.magic->available_mana() < mut_id->cost ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You don't have enough mana to keep your %s going." ),
+                                       you.mutation_name( mut_id ) );
+                you.deactivate_mutation( mut_id );
+            } else {
+                you.magic->mod_mana( you, -mut_id->cost );
+            }
+        }
 
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
-            d.set_value( "npctalk_var_this", mut_id.str() );
+            d.set_value( "this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -333,7 +345,13 @@ void suffer::while_grabbed( Character &you )
     creature_tracker &creatures = get_creature_tracker();
     int crowd = 0;
     int impassable_ter = 0;
-    for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
+    // This looks scary, but it's really just casting the enum to an integer. So medium size characters == 3.
+    int your_size = static_cast<std::underlying_type_t<creature_size>>( you.get_size() );
+    int crush_grabs_req = your_size - 1;
+    // minimum of 1 grabber required
+    crush_grabs_req = std::max( 1, crush_grabs_req );
+
+    for( auto&& dest : here.points_in_radius( you.pos_bub(), 1, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
         if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
             crowd++;
@@ -345,8 +363,11 @@ void suffer::while_grabbed( Character &you )
         }
     }
 
-    // if we aren't near two monsters with GROUP_BASH we won't suffocate
-    if( crowd < 2 ) {
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Crowd pressure sum: character size requires %d grabbers, found %d ", crush_grabs_req, crowd );
+
+    // if we aren't near enough monsters with GROUP_BASH we won't suffocate
+    if( crowd < crush_grabs_req ) {
         return;
     }
     // Getting crushed against the wall counts as a monster
@@ -355,14 +376,14 @@ void suffer::while_grabbed( Character &you )
         crowd += impassable_ter;
     }
 
-    if( crowd == 2 ) {
-        // only a chance to lose breath at low grab chance, none with only a single zombie
+    if( crowd == crush_grabs_req ) {
+        // only a chance to lose breath at minimum grabs
         you.oxygen -= rng( 0, 1 );
-    } else if( crowd <= 4 ) {
+    } else if( crowd <= crush_grabs_req * 2 ) {
         you.oxygen -= 1;
-    } else if( crowd <= 6 ) {
+    } else if( crowd <= crush_grabs_req * 3 ) {
         you.oxygen -= rng( 1, 2 );
-    } else if( crowd <= 8 ) {
+    } else if( crowd <= crush_grabs_req * 4 ) {
         you.oxygen -= 2;
     }
 
@@ -579,7 +600,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
         inventory map_inv;
-        map_inv.form_from_map( you.pos(), 2, &you );
+        map_inv.form_from_map( you.pos_bub(), 2, &you );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                           map_inv.has_charges( itype_oxygen_tank, 1 ) ||
@@ -601,11 +622,11 @@ void suffer::from_asthma( Character &you, const int current_stim )
         } else if( nearby_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !here.use_charges( you.pos(), 2, itype_inhaler, amount ).empty() ) {
+            if( !here.use_charges( you.pos_bub(), 2, itype_inhaler, amount ).empty() ) {
                 you.add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
-            } else if( !here.use_charges( you.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !here.use_charges( you.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( you.pos_bub(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( you.pos_bub(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 you.add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                                   "and go back to sleep." ) );
             }
@@ -663,7 +684,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
 void suffer::in_sunlight( Character &you )
 {
-    const tripoint position = you.pos();
+    const tripoint_bub_ms position = you.pos_bub();
 
     if( !g->is_in_sunlight( position ) ) {
         return;
@@ -680,7 +701,8 @@ void suffer::in_sunlight( Character &you )
         const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
-        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature(
+                                          position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -1571,7 +1593,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad, _( "You attract the attention of something horrible." ),
                                            _( "<npcname> attracts the attention of something horrible." ) );
                 map &here = get_map();
-                for( const tripoint &dest : here.points_in_radius( you.pos(), 12 ) ) {
+                for( const tripoint_bub_ms &dest : here.points_in_radius( you.pos_bub(), 12 ) ) {
                     if( here.is_cornerfloor( dest ) ) {
                         here.add_field( dest, fd_tindalos_rift, 3 );
                         add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
@@ -1581,7 +1603,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
                 map &here = get_map();
-                here.add_field( you.pos(), fd_fatigue, 1 );
+                here.add_field( you.pos_bub(), fd_fatigue, 1 );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
@@ -1616,7 +1638,8 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
-                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                sounds::sound( you.pos_bub(), 5000, sounds::sound_t::movement,
+                               _( "A horribly loud grinding sound!" ),
                                true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad,
@@ -1657,7 +1680,7 @@ void Character::suffer()
         process_bionic( bio );
     }
 
-    for( const trait_id &mut_id : get_mutations() ) {
+    for( const trait_id &mut_id : get_functioning_mutations() ) {
         if( calendar::once_every( 1_seconds ) &&
             enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
                                              0 ) != 0 ) {

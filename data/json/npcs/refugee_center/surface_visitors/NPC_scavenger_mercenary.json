@@ -91,7 +91,7 @@
       { "text": "Who are you?", "topic": "TALK_SCAVENGER_MERC_NEW" },
       { "text": "Any tips for surviving?", "topic": "TALK_SCAVENGER_MERC_TIPS" },
       { "text": "What would it cost to hire you?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -128,7 +128,7 @@
     "responses": [
       { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
       { "text": "Okay, how much merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
-      { "text": "Well, thanks for the info.  Bye!", "topic": "TALK_DONE" }
+      { "text": "Well, thanks for the info.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

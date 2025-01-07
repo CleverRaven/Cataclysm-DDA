@@ -6,10 +6,37 @@
     "looks_like": "mon_cougar",
     "name": { "//~": "Named after the American folkloric monster.", "str": "hidebehind" },
     "description": "Even looking directly at this cougar and knowing that it is there, a part of your brain simply refuses to see it.  It flickers in and out of sight in a way that makes your eyes hurt, and if you turn your attention away from it even for a moment, it disappears completely.",
-    "vision_night": 18,
     "morale": 80,
+    "//vision_mindsight": "25",
     "//": "Extended flags are from telepathic suggestion that the hidebehind is not there.",
-    "extend": { "flags": [ "CAMOUFLAGE", "NIGHT_INVISIBILITY" ] }
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_hidebehind_obscurity_activate",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_obscurity_power" },
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "telepathic_ignorance_self" } },
+              { "not": { "npc_has_effect": "telepathic_ignorance" } }
+            ]
+          },
+          "monster_message": ""
+        },
+        {
+          "id": "psi_hidebehind_apply_mindsight",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_mindsight", "hit_self": true },
+          "cooldown": 1,
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_20" } } ] },
+          "monster_message": ""
+        }
+      ],
+      "flags": [ "MIND_SEEING" ]
+    }
   },
   {
     "id": "mon_bandersnatch",
@@ -30,7 +57,7 @@
       {
         "id": "ranged_pull",
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
         "miss_msg_u": "",
@@ -44,7 +71,7 @@
         "spell_data": { "id": "telekinetic_barrier_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
         },
         "monster_message": "The air around %1$s distorts."
       }
@@ -90,7 +117,7 @@
         "range": 3,
         "dodgeable": false,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 10 } ],
         "hit_dmg_u": "%1$s shrieks at you!",
         "hit_dmg_npc": "%1$s shrieks at <npcname>!",
@@ -104,76 +131,118 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "FLIES", "HIT_AND_RUN" ]
   },
   {
+    "id": "mon_cow_biokinetic",
+    "type": "MONSTER",
+    "copy-from": "mon_cow",
+    "name": { "str": "cow" },
+    "description": "The domestic cow, a baleful, ruminating farm animal.  She is quite muscular, and would be a great source of milk if domesticated or of meat and leather if slaughtered.  This one moves with an oddly fluid grace.",
+    "reproduction": {
+      "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_COW_PRE_HODAG_MUTANT_BABIES" },
+      "baby_count": 1,
+      "baby_timer": 343
+    },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_hodag_speed_boost",
+          "type": "spell",
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "monster_message": "%1$s moves too quickly for the eye to follow!"
+        },
+        {
+          "id": "psi_hodag_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 1,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        }
+      ]
+    }
+  },
+  {
     "id": "mon_hodag",
     "type": "MONSTER",
     "looks_like": "mon_cow",
+    "copy-from": "mon_cow",
     "name": { "str": "hodag" },
-    "description": "This was definitely a cow once, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
+    "description": "This is very similar to a cow, though the bone spikes growing from its back and its clawed feet separate it from any cow you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
     "//": "armor, HP, and speed boost power are from biokinesis",
-    "default_faction": "herbivore",
-    "bodytype": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "volume": "680388 ml",
-    "weight": "680388 g",
-    "//2": "HP based on current cow HP of 110.  If cow HP is raised, raise this proportionately.",
-    "hp": 250,
-    "speed": 130,
-    "material": [ "flesh" ],
+    "proportional": { "hp": 1.4 },
+    "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
     "symbol": "C",
     "color": "yellow",
     "aggression": 0,
     "morale": 80,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "special_attacks": [
-      [ "GRAZE", 20 ],
-      [ "EAT_CROP", 60 ],
-      {
-        "id": "scratch",
-        "move_cost": 140,
-        "cooldown": { "math": [ "1 + rand(3)" ] },
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.75 } ],
-        "min_mul": 1.5,
-        "max_mul": 3.5
-      },
-      { "id": "stag_smash", "cooldown": { "math": [ "7 + rand(15)" ] }, "min_mul": 0.8, "throw_strength": 70 },
-      {
-        "id": "psi_hodag_speed_boost",
-        "type": "spell",
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
-        "cooldown": { "math": [ "9 + rand(18)" ] },
-        "monster_message": "%1$s moves too quickly for the eye to follow!"
-      },
-      {
-        "id": "psi_hodag_hardened_skin",
-        "type": "spell",
-        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
-        "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "scratch",
+          "move_cost": 140,
+          "cooldown": { "math": [ "1 + rand(3)" ] },
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.75 } ],
+          "min_mul": 1.5,
+          "max_mul": 3.5
         },
-        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
-      }
-    ],
-    "dodge": 2,
-    "stomach_size": 6000,
-    "vision_day": 35,
-    "vision_night": 8,
-    "path_settings": { "max_dist": 10 },
+        { "id": "stag_smash", "cooldown": { "math": [ "7 + rand(15)" ] }, "min_mul": 0.8, "throw_strength": 70 },
+        {
+          "id": "psi_hodag_speed_boost",
+          "type": "spell",
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "monster_message": "%1$s moves too quickly for the eye to follow!"
+        },
+        {
+          "id": "psi_hodag_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 1,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_hodag_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_heightened_reflex" } } ]
+          },
+          "monster_message": "%1$s begins moving more quickly."
+        }
+      ]
+    },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "PLAYER_WEAK" ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
-    "zombify_into": "mon_zow",
-    "harvest": "mutant_cow_with_skull",
-    "dissect": "dissect_cattle_sample_small",
-    "families": [ "prof_intro_biology" ],
-    "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
-    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER", "WARM", "CORNERED_FIGHTER" ],
+    "reproduction": { "baby_type": { "baby_monster": "mon_hodag_calf" }, "baby_count": 1, "baby_timer": 343 },
+    "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
+  },
+  {
+    "id": "mon_hodag_calf",
+    "copy-from": "mon_cow_calf",
+    "looks_like": "mon_cow_calf",
+    "type": "MONSTER",
+    "name": { "str": "baby hodag" },
+    "description": "This is very similar to a calf, though the short bone spikes growing from its back and its clawed feet separate it from any calf you've ever seen.  Despite its fearsome armaments, it grazes placidly on grass.",
+    "proportional": { "hp": 1.4, "speed": 1.15 },
+    "relative": { "melee_skill": 1, "melee_dice_sides": 2 },
+    "symbol": "C",
+    "color": "light_gray",
+    "upgrades": { "age_grow": 180, "into": "mon_hodag" },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_hodag_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 1,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        }
+      ]
+    },
     "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
   },
   {
@@ -206,7 +275,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
     ],
@@ -215,7 +284,7 @@
     "weakpoint_sets": [ "wps_bird_body" ],
     "harvest": "bird_tiny",
     "dissect": "dissect_chimera_sample_small",
-    "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_cockatrice" }, "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "CORNERED_FIGHTER" ]
@@ -224,7 +293,7 @@
     "id": "mon_cockatrice_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "description": "A strange tiny chick, it could be from a number of different species.",
+    "description": "A strange tiny chick, it could be from a number of different species if it weren't for the patches of scales between its feathers.",
     "name": { "str": "strange chick" },
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -236,31 +305,17 @@
   },
   {
     "id": "mon_pigeon_passenger",
+    "copy-from": "mon_bird_flying_base",
     "type": "MONSTER",
     "//": "Intentionally unable to be culled when friendly.",
     "name": { "str": "pigeon passenger" },
     "description": "A gentle, plump, small-billed bird with a third eye, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles.  Is it following you?",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
     "volume": "1 L",
     "weight": "360 g",
     "hp": 4,
     "speed": 150,
-    "material": [ "flesh" ],
     "symbol": "v",
     "color": "dark_gray",
-    "aggression": -99,
-    "morale": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
     "fear_triggers": [ "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
     "special_attacks": [
@@ -269,29 +324,31 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$'s third eye opens and it coos!"
       },
       { "id": "pigeon_aura", "type": "spell", "spell_data": { "id": "pigeon_aura", "min_level": 4 }, "cooldown": 200 }
     ],
+    "reproduction": { "baby_type": { "baby_egg": "egg_pigeon_passenger" }, "baby_count": 3, "baby_timer": 32 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "FLIES",
-      "SWARMS",
-      "CANPLAY",
-      "KEEP_DISTANCE",
-      "HARDTOSHOOT"
-    ]
+    "extend": { "flags": [ "KEEP_DISTANCE", "HARDTOSHOOT" ] },
+    "delete": { "flags": [ "CAN_BE_CULLED" ] }
+  },
+  {
+    "id": "mon_pigeon_passenger_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "description": "A tiny darkly-colored chick, it could be from a number of different species if it weren't for the third eye below the center of its forehead.",
+    "upgrades": { "age_grow": 10, "into": "mon_pigeon_passenger" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
   },
   {
     "id": "mon_psi_gremlin",
@@ -301,8 +358,7 @@
     "name": { "str": "gremlin" },
     "//": "A Nether-affected fox",
     "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
-    "speed": 170,
-    "dodge": 7,
+    "relative": { "dodge": 1 },
     "special_attacks": [
       {
         "id": "psi_gremlin_power_draining_spell",
@@ -310,8 +366,18 @@
         "spell_data": { "id": "electrokinetic_power_draining" },
         "cooldown": { "math": [ "5 + rand(45)" ] },
         "allow_no_target": true,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "Sparks flicker over %1$s's fur."
+      },
+      {
+        "id": "psi_gremlin_neuro_acceleration",
+        "type": "spell",
+        "spell_data": { "id": "electrokinetic_neuro_acceleration_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_neuro_acceleration" } } ]
+        },
+        "monster_message": "%1$s begins moving more quickly."
       }
     ],
     "armor": { "electric": 40 },
@@ -348,7 +414,7 @@
     "stomach_size": 1000,
     "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
-    "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_pup" }, "baby_count": 4, "baby_timer": 270 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -359,7 +425,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_network_monster", "min_level": 5 },
         "cooldown": 50,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The direhound gazes upon its allies, and lets out a howl!"
       },
       {
@@ -394,5 +460,43 @@
       "EATS"
     ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_hellhound",
+    "copy-from": "mon_dog",
+    "type": "MONSTER",
+    "looks_like": "mon_dog",
+    "name": { "str": "hellhound" },
+    "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.  The air around it wavers like the haze over summer asphalt.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
+    "aggression": 4,
+    "morale": 40,
+    "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "4 s" } ],
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES" }, "baby_count": 4, "baby_timer": 270 },
+    "//": "FIXME: For some reason, extending special attacks does not work",
+    "special_attacks": [
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      {
+        "id": "psi_hellhound_breathe_fire",
+        "type": "spell",
+        "spell_data": { "id": "pyrokin_flamethrower_hellhound_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s barks out a stream of flame!"
+      }
+    ],
+    "extend": { "flags": [ "FIREPROOF" ], "armor": { "heat": 999 } }
+  },
+  {
+    "id": "mon_hellhound_pup",
+    "copy-from": "mon_dog_pup",
+    "type": "MONSTER",
+    "looks_like": "mon_dog_pup",
+    "name": { "str": "hellpup" },
+    "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.  Its breath is very hot.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
+    "upgrades": { "age_grow": 42, "into": "mon_hellhound" },
+    "armor": { "heat": 50 }
   }
 ]

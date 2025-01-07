@@ -17,7 +17,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 98,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "bash": 7 }
@@ -28,6 +28,20 @@
     "copy-from": "rock_flaking",
     "name": { "str": "flint" },
     "description": "A chunk of flint, the kind of rock that can make sparks if stuck against high-carbon steel.  It also chips in a semi-predictable way if struck, leaving a sharp edge."
+  },
+  {
+    "type": "GENERIC",
+    "id": "field_stone",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "field stone" },
+    "description": "A medium, flatish, heavy rock, big enough and flat enough to be used as a block in field stone walls.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "2628 g",
+    "volume": "1 L",
+    "longest_side": "35 cm",
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -71,7 +85,7 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 7 }
   },
   {
@@ -87,8 +101,8 @@
     "price_postapoc": "20 cent",
     "material": [ "stone" ],
     "volume": "36 L",
-    "longest_side": "2000 cm",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "longest_side": "200 cm",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 28 }
   },
   {
@@ -105,8 +119,8 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "longest_side": "40 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 7 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -121,8 +135,8 @@
     "price_postapoc": "20 cent",
     "material": [ "stone" ],
     "volume": "36 L",
-    "longest_side": "2000 cm",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "longest_side": "200 cm",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 28 }
   }
 ]

@@ -460,13 +460,7 @@
     "difficulty": 1,
     "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "sheet_cotton", 7 ] ],
-      [ [ "cotton_patchwork", 4 ] ],
-      [ [ "sheet", 4 ] ],
-      [ [ "spring", 4 ] ],
-      [ [ "wire", 20 ] ]
-    ]
+    "components": [ [ [ "sheet_cotton", 7 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "sheet", 4 ] ], [ [ "hc_wire", 30 ] ] ]
   },
   {
     "result": "character_sheet",

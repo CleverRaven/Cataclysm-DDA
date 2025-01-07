@@ -100,7 +100,7 @@
     "type": "profession",
     "id": "afs_captain_bearman",
     "name": "Captain Schwarz Walder, Cannibal",
-    "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends.  Eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
+    "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends, eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
     "points": 10,
     "CBMs": [
       "bio_targeting",
@@ -119,7 +119,9 @@
       "prof_disarming",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_butchering_basic",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 3, "name": "gun" },
@@ -134,7 +136,7 @@
       { "level": 4, "name": "survival" }
     ],
     "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
-    "//": "replace esapu armor with an XL environmentally controlled armor once those exist",
+    "//": "replace esapi armor with an XL environmentally controlled armor once those exist",
     "items": {
       "both": {
         "entries": [
@@ -225,6 +227,8 @@
     "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
     "points": 3,
     "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
+    "skills": [ { "level": 2, "name": "unarmed" }, { "level": 2, "name": "stabbing" } ],
     "items": {
       "both": { "entries": [ { "item": "suit" }, { "item": "dress_shoes" }, { "item": "bootsheath" }, { "item": "ceramic_knife" } ] },
       "male": { "entries": [ { "item": "briefs" }, { "item": "undershirt" } ] },
@@ -424,7 +428,7 @@
       { "level": 1, "name": "melee" },
       { "level": 2, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_auto_rifles_familiar", "prof_auto_pistols_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [

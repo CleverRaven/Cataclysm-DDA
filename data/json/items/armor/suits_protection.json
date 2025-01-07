@@ -9,7 +9,6 @@
     "volume": "9500 ml",
     "price": "260 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -28,8 +27,7 @@
     "warmth": 20,
     "material_thickness": 6,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "armor_chitin",
@@ -41,7 +39,6 @@
     "volume": "17500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -117,7 +114,6 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -5,
     "material": [ "fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -147,8 +143,7 @@
     "warmth": 45,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_farmor",
@@ -177,7 +172,6 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -5,
     "material": [ "faux_fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -206,8 +200,7 @@
     ],
     "warmth": 40,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_faux_farmor",
@@ -235,7 +228,6 @@
     "volume": "7 L",
     "price": "120 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -5,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -254,8 +246,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor",
@@ -284,7 +275,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -306,7 +297,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "12 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -341,7 +332,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -410,7 +401,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -460,7 +451,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -585,7 +576,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -710,7 +701,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -838,7 +829,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -963,7 +954,7 @@
     "volume": "9 L",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "leather", "budget_steel" ],
     "symbol": "[",
     "color": "brown",
@@ -1046,7 +1037,7 @@
     "volume": "30 L",
     "price": "7 kUSD 800 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1063,12 +1054,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
-    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance than its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "3 kg",
     "volume": "12500 ml",
     "price": "600 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1157,7 +1147,7 @@
     "volume": "15500 ml",
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1194,7 +1184,7 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "melee_damage": { "bash": 6, "cut": 3 }
   },
   {
     "id": "armor_xl_scrapsuit",
@@ -1222,7 +1212,6 @@
     "volume": "15500 ml",
     "price": "500 USD",
     "price_postapoc": "2 USD",
-    "to_hit": -5,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
@@ -1242,7 +1231,6 @@
     "volume": "3500 ml",
     "price": "120 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
@@ -1271,7 +1259,7 @@
     "abstract": "base_chainmail_hauberk",
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "9356 g",
     "//": "Should be lighter when irl hauberk as it does not cover legs",
@@ -1334,7 +1322,7 @@
   {
     "abstract": "xl_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1378,7 +1366,7 @@
     "abstract": "xs_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
-    "name": { "str": "chainmail hauberk" },
+    "name": { "str": "chainmail hauberk", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1548,7 +1536,7 @@
     "abstract": "base_chainmail_sjumpsuit",
     "copy-from": "base_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
     "weight": "10669 g",
     "pocket_data": [
@@ -1605,7 +1593,7 @@
   {
     "abstract": "xl_chainmail_sjumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_sjumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1649,7 +1637,7 @@
     "abstract": "xs_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
-    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1797,7 +1785,7 @@
     "abstract": "base_chainmail_jumpsuit",
     "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "13131 g",
     "volume": "3250 ml",
@@ -1874,7 +1862,7 @@
   {
     "abstract": "xl_chainmail_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1940,7 +1928,7 @@
     "abstract": "xs_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
-    "name": { "str": "chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2110,7 +2098,7 @@
     "abstract": "base_chainmail_suit",
     "copy-from": "base_chainmail_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "14446 g",
     "pocket_data": [
@@ -2182,7 +2170,7 @@
   {
     "abstract": "xl_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -2248,7 +2236,7 @@
     "abstract": "xs_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
-    "name": { "str": "chainmail armor" },
+    "name": { "str": "chainmail armor", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2681,7 +2669,6 @@
     "volume": "8255 ml",
     "price": "200 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -5,
     "//": "real bite suits are made with linen, but we don't have linen, so denim is the closest approx. (canvas is always waterproofed and these suits are not)",
     "material": [ "kevlar", "denim" ],
     "symbol": "[",
@@ -2779,7 +2766,6 @@
     "volume": "1500 ml",
     "price": "130 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -5,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -3085,30 +3071,6 @@
     }
   },
   {
-    "id": "stillsuit",
-    "type": "ARMOR",
-    "name": { "str": "WS-47G moisture retention suit" },
-    "description": "The WebbStar moisture retention suit utilizes advanced technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the micro-motions of the body, especially breathing and walking motions.  Because of this, your walking speed is impaired while wearing it.",
-    "weight": "3481 g",
-    "volume": "7500 ml",
-    "price": "45 kUSD",
-    "price_postapoc": "20 USD",
-    "material": [ "lycra", "neoprene" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "dark_gray",
-    "warmth": 15,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "MUNDANE" ],
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] },
-        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
-      ]
-    },
-    "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
     "id": "suit",
     "type": "ARMOR",
     "name": { "str": "suit" },
@@ -3117,7 +3079,6 @@
     "volume": "4750 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -3198,7 +3159,7 @@
     "volume": "6500 ml",
     "price": "580 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -3264,7 +3225,6 @@
     "volume": "4750 ml",
     "price": "224 USD",
     "price_postapoc": "5 USD 50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "suit",
@@ -3298,7 +3258,6 @@
     "volume": "4687 ml",
     "price": "220 USD 65 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "touring_suit",

@@ -1,5 +1,20 @@
 [
   {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bat",
+    "byproducts": [ [ "splinter", 30 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2 } ],
+    "components": [ [ [ "wooden_post", 1 ] ] ]
+  },
+  {
     "result": "hollow_cane",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -28,7 +43,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "raw_butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -333,12 +348,13 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "150 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "adhesive", 5 ] ],
-    "components": [ [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "sharp_rock", 6 ], [ "flint", 6 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1235,7 +1251,8 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",
@@ -1555,7 +1572,8 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_quenching", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",

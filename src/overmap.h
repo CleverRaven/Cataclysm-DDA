@@ -230,7 +230,7 @@ class overmap
         /**
          * @return The (local) overmap terrain coordinates of a randomly
          * chosen place on the overmap with the specific overmap terrain.
-         * Returns @ref invalid_tripoint if no suitable place has been found.
+         * Returns @ref tripoint_om_omt::invalid if no suitable place has been found.
          */
         tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
                                          std::optional<city> target_city = std::nullopt ) const;
@@ -294,10 +294,6 @@ class overmap
             return inbounds( tripoint_om_omt( p, 0 ), clearance );
         }
         /**
-         * Dummy value, used to indicate that a point returned by a function is invalid.
-         */
-        static constexpr tripoint_abs_omt invalid_tripoint{ tripoint_min };
-        /**
          * Return a vector containing the absolute coordinates of
          * every matching note on the current z level of the current overmap.
          * @returns A vector of note coordinates (absolute overmap terrain
@@ -333,7 +329,16 @@ class overmap
         void clear_connections_out();
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
+        // Whether the tripoint's point is true in city_tiles
+        bool is_in_city( const tripoint_om_omt &p ) const;
+        // Returns the distance to the nearest city_tile within max_dist_to_check or std::nullopt if there isn't one
+        std::optional<int> distance_to_city( const tripoint_om_omt &p,
+                                             int max_dist_to_check = OMAPX ) const;
     private:
+        // Any point that is part of or surrounded by a city
+        std::unordered_set<point_om_omt> city_tiles;
+        // Fill in any gaps in city_tiles that don't connect to the map edge
+        void flood_fill_city_tiles();
         std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
     public:
         /** Unit test enablers to check if a given mongroup is present. */
@@ -498,7 +503,6 @@ class overmap
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        bool build_slimepit( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying
@@ -507,7 +511,7 @@ class overmap
             const point_om_omt &dest, int z, bool must_be_unexplored ) const;
         pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
-            om_direction::type dir, size_t len ) const;
+            om_direction::type dir, size_t len );
     public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
@@ -523,7 +527,6 @@ class overmap
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
         std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
-        void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
         void good_river( const tripoint_om_omt &p );
@@ -540,6 +543,7 @@ class overmap
 
         // DEBUG ONLY!
         void debug_force_add_group( const mongroup &group );
+        std::vector<std::reference_wrapper<mongroup>> debug_unsafe_get_groups_at( tripoint_abs_omt &loc );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.

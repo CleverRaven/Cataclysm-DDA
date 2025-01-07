@@ -535,7 +535,6 @@
     "volume": "25 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
@@ -560,7 +559,6 @@
     "volume": "25 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -574,7 +572,6 @@
     "description": "An active glowstick, currently producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
     "volume": "25 ml",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
@@ -637,15 +634,15 @@
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },
-    "description": "A heavy-duty aluminum LED flashlight, often used by security guards.  It even works underwater, and it's not bad for smacking hooligans.  It also has a shoulder strap on it's handle, for easier transportation.",
-    "//": "https://www.amazon.com/dp/B00Y8AHZYC, todo add low brightness mode",
-    "//2": "volume is average between cylinder volume (without handle) and entire unit as rectangular. Should be fine since handle is big and hollow, and it can be strapped anyway.",
-    "weight": "720 g",
-    "volume": "4267 ml",
-    "longest_side": "25 cm",
-    "price": "46 USD",
-    "price_postapoc": "15 cent",
-    "material": [ "aluminum" ],
+    "description": "A heavy-duty LED flashlight with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners but it can also be used for smacking hooligans.  It has a spring-loaded clip that can be attached to your torso.",
+    "//1": "https://www.nightstick.com/collections/fire/products/xpp-5564rxa",
+    "//2": "volume is a 159 mm * 70 mm * 64 mm rectangle",
+    "weight": "290 g",
+    "volume": "712 ml",
+    "longest_side": "16 cm",
+    "price": "65 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "thermo_resin", "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
@@ -653,7 +650,7 @@
     "armor_data": {
       "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "BELTED" ],
+    "flags": [ "BELT_CLIP", "BELTED" ],
     "use_action": [
       {
         "type": "transform",
@@ -665,7 +662,14 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -673,7 +677,7 @@
     "copy-from": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (on)", "str_pl": "heavy-duty flashlights (on)" },
-    "power_draw": "6 W",
+    "power_draw": "4 W",
     "revert_to": "heavy_flashlight",
     "use_action": [
       {
@@ -685,7 +689,7 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "LIGHT_650", "CHARGEDIM", "BELT_CLIP", "BELTED" ]
   },
   {
     "id": "lightstrip",
@@ -846,7 +850,7 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tinyweldtank", "weldtank", "smallweldtank" ] } ]
   },
   {
     "id": "oxylamp_on",
@@ -952,13 +956,16 @@
     "description": "A smart lamp which can be deactivated remotely.  Currently it is turned on.",
     "power_draw": "1321 mW",
     "revert_to": "smart_lamp",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "smart_lamp",
-      "msg": "Your smart lamp turned off.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "smart_lamp",
+        "msg": "Your smart lamp turned off.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "6 W" }
+    ],
     "flags": [
       "NO_UNLOAD",
       "NO_RELOAD",
@@ -982,7 +989,7 @@
     "//": "dimensions from pool_cue as least heavy ingredient from all",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "wood", "portion": 14 }, { "type": "cotton", "portion": 1 }, { "type": "gasoline", "portion": 1 } ],
     "symbol": "/",
     "color": "brown",
@@ -1010,7 +1017,7 @@
     "longest_side": "122 cm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "wood", "portion": 14 }, { "type": "cotton", "portion": 1 }, { "type": "gasoline", "portion": 1 } ],
     "symbol": "/",
     "color": "brown",
@@ -1078,5 +1085,147 @@
       { "type": "firestarter", "moves": 100 }
     ],
     "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE", "FIRESTARTER", "FIRE" ]
+  },
+  {
+    "id": "candle_small",
+    "type": "TOOL",
+    "name": { "str": "small candle" },
+    "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  You'll need a lighter or matches to light it.",
+    "weight": "4 g",
+    "volume": "45 ml",
+    "longest_side": "150 mm",
+    "price": "50 cent",
+    "price_postapoc": "2 cent",
+    "material": [ "paraffin_wax" ],
+    "symbol": ",",
+    "color": "blue_white",
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
+    "use_action": {
+      "target": "candle_small_lit",
+      "msg": "You light the candle.",
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light",
+      "type": "transform"
+    },
+    "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
+  },
+  {
+    "id": "candle_small_lit",
+    "type": "TOOL",
+    "copy-from": "candle_small",
+    "name": { "str": "small candle" },
+    "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  This candle is lit.",
+    "turns_per_charge": 63,
+    "use_action": [
+      { "type": "firestarter", "moves": 100 },
+      {
+        "ammo_scale": 0,
+        "target": "candle_small",
+        "msg": "The candle winks out.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "extend": { "flags": [ "LIGHT_6", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
+  },
+  {
+    "id": "menorah",
+    "type": "TOOL",
+    "name": { "str": "menorah" },
+    "description": "An eight-branched candelabra more properly called a 'hanukkiah', the menorah is used to celebrate the Jewish festival of Hanukkah.",
+    "weight": "229 g",
+    "volume": "1931 ml",
+    "longest_side": "184 mm",
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "4 g",
+        "max_contains_volume": "350 ml",
+        "max_item_length": "151 mm",
+        "item_restriction": [ "candle_small", "candle_small_lit" ],
+        "transparent": true
+      }
+    ]
   }
 ]

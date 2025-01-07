@@ -947,3 +947,20 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
     }
 }
+
+#ifdef LOCALIZE
+TEST_CASE( "tname_i18n_order", "[item][tname][translations]" )
+{
+    item backpack( "backpack" );
+    backpack.burnt = 1;
+    backpack.set_flag( flag_FILTHY );
+    REQUIRE( backpack.tname() == "<color_c_green>++</color> burnt backpack (filthy)" );
+
+    set_language( "ru" );
+    TranslationManager::GetInstance().LoadDocuments( { "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo" } );
+    CHECK( backpack.tname() ==
+           "<color_c_green>++</color> backpack (burnt) (filthy)" );
+
+    set_language( "en" );
+}
+#endif

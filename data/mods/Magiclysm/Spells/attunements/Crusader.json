@@ -37,11 +37,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -6 },
-            { "value": "ARMOR_BASH", "add": -6 },
-            { "value": "ARMOR_STAB", "add": -6 },
-            { "value": "ARMOR_BULLET", "add": -3 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -6 },
+            { "type": "stab", "add": -6 },
+            { "type": "cut", "add": -6 },
+            { "type": "bullet", "add": -3 }
           ]
         }
       ]
@@ -54,21 +54,21 @@
     "name": "Holy Shield",
     "description": "Crusaders have the ability to summon a magically enhanced shield to their arm to protect them in armed combat.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "effect": "spawn_item",
     "shape": "blast",
     "effect_str": "holy_shield",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12960000, 2000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000, 0.03)" ] },
+    "min_duration": 360000,
+    "max_duration": 12960000,
+    "duration_increment": 360000,
     "spell_class": "CRUSADER",
     "difficulty": 4,
     "max_level": 35,
     "base_casting_time": 1500,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 3)" ] },
+    "base_energy_cost": 500,
     "energy_source": "MANA"
   },
   {
@@ -77,7 +77,7 @@
     "name": "Sword of Judgement",
     "description": "This blade of light will cut through any evil it makes contact with!  You can change its shape into a dagger, great sword, spear or mace.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_damage": 1,
     "max_damage": 1,
@@ -85,10 +85,10 @@
     "effect_str": "longsword_judgement",
     "shape": "blast",
     "base_casting_time": 1500,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 2)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12960000, 2000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000, 0.03)" ] },
+    "base_energy_cost": 500,
+    "min_duration": 360000,
+    "max_duration": 12960000,
+    "duration_increment": 360000,
     "difficulty": 4,
     "max_level": 35,
     "spell_class": "CRUSADER",
@@ -120,14 +120,20 @@
     "material": [ "concentrated_mana" ],
     "weapon_category": [ "LONG_SWORDS", "GREAT_SWORDS" ],
     "techniques": [ "RSTRIKE", "WBLOCK_2", "BRUTAL", "RAPID" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD",
+      "RELIC_PINK"
+    ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "weight": "1067 g",
     "volume": "2750 ml",
     "longest_side": "120cm",
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
-    },
     "use_action": [
       {
         "target": "dagger_judgement",
@@ -147,7 +153,16 @@
     "color": "light_gray",
     "looks_like": "kris",
     "description": "A short blade made of glowing, radiant fire.  It explodes with radiance when striking enemies.",
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_KNIFE",
+      "RELIC_PINK"
+    ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "weight": "328 g",
     "volume": "750 ml",
@@ -155,9 +170,6 @@
     "material": "concentrated_mana",
     "techniques": [ "RSTRIKE", "WBLOCK_1", "RAPID" ],
     "weapon_category": [ "KNIVES" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 5 } ] } ]
-    },
     "use_action": [
       {
         "target": "zwei_judgement",
@@ -186,7 +198,8 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS",
       "TRADER_AVOID",
-      "SHEATH_SWORD"
+      "SHEATH_SWORD",
+      "RELIC_PINK"
     ],
     "weight": "1868 g",
     "volume": "3250 ml",
@@ -195,9 +208,6 @@
     "techniques": [ "RSTRIKE", "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "weapon_category": [ "GREAT_SWORDS" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 15 } ] } ]
-    },
     "use_action": [
       {
         "target": "qiang_judgement",
@@ -226,7 +236,8 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS",
       "TRADER_AVOID",
-      "SHEATH_SPEAR"
+      "SHEATH_SPEAR",
+      "RELIC_PINK"
     ],
     "weight": "822 g",
     "volume": "2500 ml",
@@ -235,9 +246,6 @@
     "techniques": [ "RSTRIKE", "WBLOCK_1", "IMPALE" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 11 } ] } ]
-    },
     "use_action": [
       {
         "target": "mace_judgement",
@@ -257,7 +265,16 @@
     "color": "light_gray",
     "looks_like": "mace",
     "description": "A short and hefty mace glowing with radiant fire.  It explodes with radiance when striking enemies.",
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "BELT_CLIP" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "BELT_CLIP",
+      "RELIC_PINK"
+    ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "weight": "882 g",
     "volume": "1250 ml",
@@ -265,9 +282,6 @@
     "material": "concentrated_mana",
     "techniques": [ "RSTRIKE", "WBLOCK_1", "SWEEP" ],
     "weapon_category": [ "MACES" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 13 } ] } ]
-    },
     "use_action": [
       {
         "target": "longsword_judgement",

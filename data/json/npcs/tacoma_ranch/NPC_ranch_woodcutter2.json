@@ -28,7 +28,7 @@
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_WOODCUTTER_2_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_WOODCUTTER_2_HIRE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

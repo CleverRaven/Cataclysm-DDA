@@ -12,7 +12,14 @@
     "symbol": "0",
     "color": "yellow",
     "looks_like": "pumpkin",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 22 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
@@ -108,8 +115,8 @@
   {
     "abstract": "inflatable_decoration",
     "type": "TOOL",
-    "name": { "str": "inflatable" },
-    "description": "A generic inflatable abstract to use for specific items.",
+    "name": { "str": "inflatable", "//~": "NO_I18N" },
+    "description": { "str": "A generic inflatable abstract to use for specific items.", "//~": "NO_I18N" },
     "weight": "3 kg",
     "volume": "5 L",
     "price": "50 USD",

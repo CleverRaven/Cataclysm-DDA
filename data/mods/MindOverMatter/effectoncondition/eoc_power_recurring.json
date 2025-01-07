@@ -1,6 +1,11 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR",
+    "effect": [ { "run_eocs": "EOC_PSIONICS_KCAL_COST" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_NETHER_ATTUNEMENT_PERIODIC_ADJUSTMENT",
     "recurrence": [ "30 seconds", "30 seconds" ],
     "condition": {

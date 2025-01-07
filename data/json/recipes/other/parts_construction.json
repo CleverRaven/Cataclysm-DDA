@@ -365,19 +365,19 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "long_pole",
-    "byproducts": [ [ "splinter", 30 ] ],
+    "result": "soaking_long_pole",
+    "byproducts": [ [ "splinter", 60 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "5 h 40 m",
+    "time": "2 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
-      [ [ "wood_beam", 1 ] ],
+      [ [ "wooden_post_long", 1 ] ],
       [
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],
@@ -390,17 +390,15 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "spear_shaft",
+    "result": "soaking_spear_shaft",
     "byproducts": [ [ "splinter", 12 ] ],
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "5 h 40 m",
-    "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
+    "time": "1 h 40 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "max_experience": "100 m" } ],
-    "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25 } ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 1 },
@@ -554,25 +552,6 @@
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "reinforced_glass_pane", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "result": "reinforced_glass_pane",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "40 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 80 ], [ "glue_strong", 250 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ] ]
   },
   {
     "type": "recipe",

@@ -10,6 +10,7 @@
 
 #include "enums.h"
 #include "flat_set.h"
+#include "item_location.h"
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -159,6 +160,7 @@ class uistatedata
         bool distraction_mutation = true;
         bool distraction_oxygen = true;
         bool distraction_withdrawal = true;
+        bool distraction_all = true; // NOLINT(cata-serialize)
         bool numpad_navigation = false;
 
         // V Menu Stuff
@@ -214,6 +216,13 @@ class uistatedata
         std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
+        /**
+         * A function pointer to be run before the player's next action (but after activities conclude).
+         *
+         * Useful for opening a menu with passed arguments.
+         * As it is not serialized it should not be used for any game state logic! Like moving a character.
+         */
+        std::optional<std::function<void()>> open_menu; // NOLINT(cata-serialize)
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>

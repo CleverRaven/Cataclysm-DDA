@@ -239,10 +239,11 @@
     "default": "mon_chicken",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_chicken", "weight": 10, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_chicken", "weight": 14, "pack_size": [ 1, 4 ] },
       { "monster": "mon_duck_domestic", "weight": 6, "pack_size": [ 1, 3 ] },
       { "monster": "mon_goose", "weight": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_turkey_domestic", "weight": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_turkey_domestic", "weight": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_guinea_fowl", "weight": 1, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -398,7 +399,6 @@
     "name": "GROUP_BUNKER",
     "monsters": [
       { "monster": "mon_zombie_armored", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_bio_op", "weight": 150, "cost_multiplier": 10 },
       { "monster": "mon_zombie_soldier", "weight": 600, "cost_multiplier": 3 }
     ]
   },
@@ -463,7 +463,6 @@
       { "monster": "mon_skeleton_hulk" },
       { "monster": "mon_zombie_kevlar_2" },
       { "monster": "mon_zombie_soldier_blackops_1" },
-      { "monster": "mon_zombie_bio_op" },
       { "monster": "mon_zombie_survivor_elite" },
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
@@ -474,11 +473,6 @@
       { "monster": "mon_spawn_raptor" },
       { "monster": "mon_spawn_raptor_shady" }
     ]
-  },
-  {
-    "name": "GROUP_MUTATION_SNAIL",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
   },
   {
     "type": "monstergroup",
@@ -505,9 +499,10 @@
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   },
   {
+    "name": "GROUP_RATTLESNAKE",
     "type": "monstergroup",
-    "name": "GROUP_JABBERWOCK",
-    "monsters": [ { "monster": "mon_jabberwock" } ]
+    "monsters": [ { "monster": "mon_rattlesnake", "weight": 19 }, { "monster": "mon_rattlesnake_big", "weight": 1 } ],
+    "//": "Normally for the time until mutants start spawning we take the growth time of a mutant baby with default evolution rates. But because rattlesnakes follow the mutation logic of invertebrates, we assume there were some mildly oversized variations at the start of the Cataclysm already."
   },
   {
     "type": "monstergroup",
@@ -515,7 +510,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
-      { "monster": "mon_beaver", "weight": 10 },
+      { "group": "GROUP_BEAVER", "weight": 10 },
       { "monster": "mon_fox_red", "weight": 10 },
       { "monster": "mon_fox_gray", "weight": 10 },
       { "monster": "mon_mink", "weight": 5 },

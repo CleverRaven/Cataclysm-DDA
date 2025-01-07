@@ -40,8 +40,8 @@
     "copy-from": "heavy_plus_battery_cell",
     "type": "MAGAZINE",
     "category": "tool_magazine",
-    "name": { "str": "heavy modified battery", "str_pl": "heavy modified batteries" },
-    "description": "A heavy battery cell that was modified and replaced with much more effective cells inside.",
+    "name": { "str": "modified tool battery", "str_pl": "modified tool batteries" },
+    "description": "A tool battery cell that was modified and replaced with much more effective cells inside.",
     "count": 3125,
     "capacity": 3125,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY", "INVENTOR_CRAFTED" ],
@@ -56,7 +56,7 @@
     "weight": "2000 g",
     "volume": "2500 ml",
     "material": [ "steel", "plastic" ],
-    "extend": { "flags": [ "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -84,24 +84,27 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-        "default_magazine": "medium_battery_cell"
-      },
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD",
       {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 10,
         "charge_rate": "100 W"
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "melee_damage": { "bash": 4 }
@@ -148,6 +151,39 @@
       }
     ],
     "use_action": [ { "type": "cast_spell", "spell_id": "inventor_portal_closer_spell", "no_fail": true, "level": 0 } ],
-    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED" ]
+  },
+  {
+    "id": "xedra_inventor_time_pierce_tool",
+    "type": "TOOL",
+    "name": { "str": "Time Piercing Device" },
+    "description": "A small remote with a sharp spike at the end.  You can activate this device while poking it into a zone of frozen time in order to unfreeze the area you're touching.",
+    "looks_like": "spike",
+    "weight": "300 g",
+    "volume": "400 ml",
+    "longest_side": "30 cm",
+    "material": [ "aluminum", "steel" ],
+    "symbol": ";",
+    "color": "white",
+    "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 150,
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "xedra_inventor_time_pierce",
+      "no_fail": true,
+      "level": 1,
+      "need_wielding": true,
+      "mundane": true
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "melee_damage": { "stab": 10 }
   }
 ]

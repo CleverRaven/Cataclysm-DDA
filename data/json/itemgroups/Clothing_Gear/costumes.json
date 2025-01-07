@@ -75,7 +75,12 @@
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
       { "item": "eyepatch_leather", "prob": 20 },
-      { "item": "hakama", "prob": 1 }
+      { "item": "hakama", "prob": 1 },
+      { "item": "devil_tail", "prob": 15 },
+      { "item": "angel_wings", "prob": 15 },
+      { "item": "cuffs", "prob": 25 },
+      { "item": "collar_playboy", "prob": 25 },
+      { "item": "tail_bunny_playboy", "prob": 25 }
     ]
   },
   {
@@ -206,7 +211,10 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nun_wimple", "prob": 12 }
+      { "item": "nun_wimple", "prob": 12 },
+      { "item": "devil_horn_headband", "prob": 15 },
+      { "item": "angel_halo_headband", "prob": 15 },
+      { "item": "bunny_ears_black", "prob": 25 }
     ]
   },
   {
@@ -334,11 +342,13 @@
       { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
-      { "item": "wolfsuit", "prob": 10 },
+      { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
+      { "item": "wool_suit_devil", "prob": 15 },
+      { "item": "bunny_suit_playboy", "prob": 25 },
       { "item": "dinosuit", "prob": 10 },
       { "item": "sharksuit", "prob": 10 },
       { "item": "beekeeping_suit", "prob": 5 },

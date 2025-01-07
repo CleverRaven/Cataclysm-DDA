@@ -156,7 +156,6 @@ Use the `Home` key to return to the top.
     - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
-      - [`move_cost_mod`](#move_cost_mod)
       - [`keg_capacity`](#keg_capacity)
       - [`deployed_item`](#deployed_item)
       - [`lockpick_result`](#lockpick_result)
@@ -173,7 +172,6 @@ Use the `Home` key to return to the top.
       - [`surgery_skill_multiplier`](#surgery_skill_multiplier)
     - [Terrain](#terrain)
       - [`type`](#type-2)
-      - [`move_cost`](#move_cost)
       - [`heat_radiation`](#heat_radiation)
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
@@ -188,6 +186,7 @@ Use the `Home` key to return to the top.
       - [`curtain_transform`](#curtain_transform)
       - [`shoot`](#shoot)
       - [`harvest_by_season`](#harvest_by_season)
+      - [`liquid_source`](#liquid_source)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
       - [`id`](#id-1)
@@ -198,8 +197,10 @@ Use the `Home` key to return to the top.
       - [`connects_to`](#connects_to)
       - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
+      - [`move_cost_mod`](#move_cost_mod)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
+      - [`fall_damage_reduction`](#fall_damage_reduction)
       - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
       - [`looks_like`](#looks_like)
       - [`color` or `bgcolor`](#color-or-bgcolor)
@@ -458,6 +459,21 @@ order of the entries does not matter.
 ```
 
 Currently, only some JSON values support this syntax (see [here](/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+
+The string extractor will extract all encountered strings from JSON for translation. But if some string should not be translated, such as text that is not normally visible to the player (names and descriptions of monster-only effects and spells), then you can write `"NO_I18N"` in the comment for translators:
+
+```JSON
+"name": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell"
+},
+"description": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell Description"
+}
+```
+
+The extractor will skip these two specified strings and only these, extracting the remaining unmarked strings from the same JSON object.
 
 ## Comments
 
@@ -921,11 +937,11 @@ Each turn, the player's addictions are processed using either the given `effect_
   {
     "type": "effect_on_condition", 
     "id": "EOC_MARLOSS_R_ADDICTION",
-    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
+    "condition": { "math": [ "rand(800) <= addiction_rational(800, 20, u_addiction_intensity('marloss_r'))" ] },
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus')", ">", "40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
     ]
   },
 ```
@@ -1974,6 +1990,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
     "description": "This is an example profession.",           // In-game description
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
     "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
     "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
     "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
@@ -3042,7 +3059,8 @@ See [MUTATIONS.md](MUTATIONS.md)
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
     "comfort": 0, // Same property affecting furniture and terrain
     "floor_bedding_warmth": -500, // Same property affecting furniture and terrain. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
-    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell()
+    "eocs": [ "EOC_COOL_EOC_TRAP" ], // array of eocs to trigger, only usable with "action": "eocs". The alpha talker is the creature that triggered the trap and the trap's location is passed as a context variable trap_location for use with ranged traps. Items can't currently trigger eoc traps.
+    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell(), only usable with "action": "spell"
     "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
     "drops": [ "beartrap" ], // ID of item spawned when disassembled
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ], // UNDODGEABLE means that it can not be dodged, no roll required. AVATAR_ONLY means only the player can trigger this trap.
@@ -3158,13 +3176,13 @@ Vehicle components when installed on a vehicle.
                               // quality and the quality level, that the vehicle part provides.
                               // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
 "transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
-                              // One of "post_terain", "post_furniture", or "post_field" is required.
-  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
-  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
-  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
-  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
-  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
-  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+  "pre_flags": [ "PLOWABLE" ], // (Optional) List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional*) The resulting terrain.
+  "post_furniture": "f_boulder", // (Optional*) The resulting furniture.
+  "post_field": "fd_fire",    // (Optional*) The resulting field.
+  "post_field_intensity": 10, // (Mandatory if post_field is specified) The field's intensity.
+  "post_field_age": "20 s"    // (Mandatory if post_field is specified) The field's time to live.
+                              // *One of "post_terrain", "post_furniture", or "post_field" is required.
 },
 "variants_bases": [ // variant bases to generate (see below)
   { "id": "scooter", "label": "Scooter" },
@@ -3516,39 +3534,60 @@ See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
-```C++
-"type" : "AMMO",      // Defines this as ammo
-...                   // same entries as above for the generic item.
-                      // additional some ammo specific entries:
-"ammo_type" : "shot", // Determines what it can be loaded in 
-"damage": {           // Ranged damage when fired
-  "damage_type": "bullet", // Type of the damage that would be dealt
-  "amount": 39,            // Amount of the damage to deal
-  "armor_penetration": 2,  // Flat armor penetration
-  "barrels": [             // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
-    { "barrel_length": "28 mm", "amount": 13 }, //if weapon has barrel lengh this or less, this amount of the damage would be applied
-    { "barrel_length": "30 mm", "amount": 14 },
-    { "barrel_length": "35 mm", "amount": 15 },
-    { "barrel_length": "39 mm", "amount": 16 }
-  ]
+```json
+{
+  "id": "223",            // ID of the ammo
+  "type": "AMMO",         // Defines this as ammo. It can use the same entries as a GENERIC item
+                          // Additionally, some AMMO specific entries consist of the following:
+  "ammo_type": "shot",    // Determines where the items can be loaded in. Requires a proper `"ammunition_type"` to be declared (see below). In this case, the `223` rounds can be loaded into magazines that accept `shot`-type ammo
+  "damage": {             // Ranged damage when fired
+    "damage_type": "bullet",  // Type of the damage that would be dealt
+    "amount": 39,             // Amount of damage to be dealt
+    "armor_penetration": 2,   // Flat armor penetration
+    "barrels": [              // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
+      { "barrel_length": "28 mm", "amount": 13 },  // If weapon has barrel lengh this or less, this amount of the damage would be applied
+      { "barrel_length": "30 mm", "amount": 14 },
+      { "barrel_length": "35 mm", "amount": 15 },
+      { "barrel_length": "39 mm", "amount": 16 }
+    ]
+  },
+  "range": 5,             // Range when fired
+  "recovery_chance": 6,   // Percentage of chance to recover the ammo after firing
+  "dispersion": 0,        // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
+  "shot_counter": 5,      // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5). Designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
+  "projectile_count": 5,  // Amount of pellets, that the ammo will shot, like in shotgun-like weapon. If used, `"shot_damage"` should be specified
+  "multi_projectile_effects": true,  // (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
+  "shot_damage": { "damage_type": "bullet", "amount": 15 },  // (Optional) Specifies the damage caused by a single projectile fired from this round. If present, projectile_count must also be specified. Syntax is the same as `"damage"`
+  "critical_multiplier": 4,  // If the hit is a critical hit, all ranged damage dealt will be multiplied by this
+  "shot_spread": 100,     // (Optional) Specifies the additional dispersion of single projectiles. Only meaningful if shot_count is present.
+  "recoil": 18,           // Recoil caused when firing. Roughly set to the projectile's muzzle energy in J, the same value the ammo's damage is derived from. See also the gun's min_cycle_recoil value
+  "count": 25,            // Number of rounds that spawn together
+  "stack_size": 50,       // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
+  "show_stats": true,     // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+  "loudness": 10,         // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
+  "casing": "223_casing", // Casing of the ammo that would be left after shooting
+  "effects": ["COOKOFF", "SHOT"]  // Ammo effcts, see below
 },
-"range" : 5,          // Range when fired
-"recovery_chance": 6, // Percentage of chance to recover the ammo after firing
-"dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
-"shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
-"projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified
-"multi_projectile_effects": true,// (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
-"shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present projectile_count must also be specified; syntax is equal to damage
-"critical_multiplier": 4, // All ranged damage dealt would be multiplied by this, if it was a critical hit
-"shot_spread": 100,   // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
-"recoil" : 18,        // Recoil caused when firing
-"count" : 25,         // Number of rounds that spawn together
-"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
-"show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
-"loudness": 10,       // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
-"casing": "223_casing", // casing of the ammo, that would be left after the shot
-"effects" : ["COOKOFF", "SHOT"] // ammo effcts, see below
 ```
+
+Additionally, non-`"type": "AMMO"` items can be considered as ammo (capable of being shot, capable of being loaded into a `MAGAZINE` pocket), by adding the `ammo_data` field, which supports the same fields as the `AMMO` type. Do note that a proper `ammunition_type` is also required:
+
+```json
+  {
+    "id": "water_clean",
+    "type": "COMESTIBLE",
+    ...
+    "ammo_data": { "ammo_type": "water", "damage": { "damage_type": "cold", "amount": 2 }, "range": 4 },
+    ...
+  },
+  {
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
+  },
+```
+
 
 ### Ammo Effects
 
@@ -3633,6 +3672,7 @@ Armor can be defined like this:
 "cover_vitals": 10,                 // What percentage of critical hit damage is mitigated
 "material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false,              // If this is a power armor item (those are special).
+"energy_shield_max_hp" : false,     // Determines the inital value for the `ENERGY_SHIELD_HP` and `ENERGY_SHIELD_MAX_HP` item variables used by energy shields. The field has no effect for armor pieces without the `ENERGY_SHIELD` flag.
 "non_functional" : "destroyed",     //this is the itype_id of an item that this turns into when destroyed. Currently only works for ablative armor.
 "damage_verb": "makes a crunch, something has shifted", // if an item uses non-functional this will be the description when it turns into its non functional variant.
 "valid_mods" : ["steel_padded"],    // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
@@ -3933,7 +3973,7 @@ The `conditional_names` field allows defining alternate names for items that wil
     },
     {
       "type": "VAR",
-      "condition": "npctalk_var_DISPLAY_NAME_MORALE",
+      "condition": "DISPLAY_NAME_MORALE",
       "name": { "str_sp": "%s (morale)" },
       "value" : "true"
     },
@@ -3952,7 +3992,7 @@ You can list as many conditional names for a given item as you want. Each condit
     - `COMPONENT_ID` Similar to `COMPONENT_ID_SUBSTRING`, but search the exact component match
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VITAMIN` which checks if an item has the specified vitamin (exact match).
-    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "value": "Felt Great" }` would be named: `npctalk_var_MORALE`.
+    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`.
     - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
@@ -4029,8 +4069,13 @@ CBMs can be defined like this:
   { "type": "wheat", "portion": 5 }
 ],
 "primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
-"rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
-"rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
+"rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
+  "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
+  "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
+  "amount": 2,                    // if "monster" is used, defines how many instances of this monster will be spawned; 
+  "amount": [ 1, 3 ],             // also can be an array, then the game will roll the number between two values
+  "chance": 70                    // chance for the monster to spawn from a single item
+}
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
 "petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
 ```
@@ -4158,7 +4203,7 @@ Guns can be defined like this:
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "gun_jam_mult": 1.25       // Multiplier for gun mechanincal malfunctioning, mostly when it's damaged; Values lesser than 1 reflect better quality of the gun, that jam less; bigger than 1 result in gun being more prone to malfunction and jam at lesser damage level; zero gun_jam_mult (and zero mag_jam_mult if magazine is presented) would remove any chance for a gun to malfunction. Only apply if gun has any fault from gun_mechanical_simple group presented; Jam chances are described in Character::handle_gun_damage(); at this moment it is roughly: 0.05% for undamaged gun, 3% for 1 damage (|\), 15% for 2 damage (|.), 45% for 3 damage (\.), and 80% for 4 damage (XX), then this and magazine values are summed up
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
-"min_cycle_recoil": 0,     // Minimum ammo recoil for gun to be able to fire more than once per attack.
+"min_cycle_recoil": 0,     // Minimum ammo recoil for the gun to be able to fire more than once per attack (to cycle), else shooting it results in a cycling failure. Set at 90% of the base ammo recoil, or 75% of the value if the weapon is known to cycle with blackpowder. This is to prevent the weapon from cycling with any kind of ammo
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ], // Type of faults, that can be applied to this gun; usually are inherited from single abstract like rifle_base, but exceptions exist
 "handling": 10             // handling of the weapon; better handling means less recoil
@@ -4463,6 +4508,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "transform",                      // The type of method, in this case one that transforms the item
   "target": "gasoline_lantern_on",          // The item to transform to
+  "target_group": "twisted_geometry",       // If used, target is a random item from itemgroup
   "variant_type": "condom_plain",           // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
   "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
@@ -4472,8 +4518,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_charges": 1,                        // Number of charges the item needs to transform
   "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges
   "need_empty": true,                       // Whether the item must be empty to be transformed; false by default
-  "need_worn": true,                        // Whether the item must be worn to be transformed; false by default
-  "need_wielding": true,                    // Whether the item must be wielded to be transformed; false by default
+  "need_worn": true,                        // Whether the item must be worn to be transformed, cast spells, or use EOCs; false by default
+  "need_wielding": true,                    // Whether the item must be wielded to be transformed, cast spells, or use EOCs; false by default
   "qualities_needed": { "WRENCH_FINE": 1 }, // Tool qualities needed, e.g. "fine bolt turning 1"
   "target_charges": 3,                      // Number of charges the transformed item has
   "rand_target_charges": [ 10, 15, 25 ],    // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
@@ -4736,6 +4782,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 },
 "use_action": {
   "type": "effect_on_conditions",          // Activate effect_on_conditions
+  "menu_text": "Infuse saline",            // (optional) Text displayed in the activation screen. Defaults to "Activate item"
   "description": "This debugs the game",   // Usage description
   "effect_on_conditions": [ "test_cond" ]  // IDs of the effect_on_conditions to activate
 },
@@ -5065,17 +5112,13 @@ Fixed string, must be `furniture` to identify the JSON object as such.
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost_mod`
-
-Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
-
 #### `keg_capacity`
 
-Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
 
 #### `deployed_item`
 
-Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
+(Optional) Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
 
 #### `lockpick_result`
 
@@ -5087,7 +5130,7 @@ Item id string used to create furniture. Allows player to interact with the furn
 
 #### `light_emitted`
 
-How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `boltcut`
@@ -5152,11 +5195,11 @@ oxytorch: {
 ```
 
 #### `prying`
-(Optional) Data for using with pyring tools
+(Optional) Data for using with prying tools
 ```cpp
 "prying": {
     "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
-    "duration": "1 seconds", // (optional) time required for prying nails, default is 1 second
+    "duration": "1 seconds", // (optional) time required for prying, default is 1 second
     "message": "You finish prying the door.", // (optional) message that will be displayed when finished prying successfully
     "byproducts": [ // (optional) list of items that will be spawned when finished successfully
         {
@@ -5234,6 +5277,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
       { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
       { "seasons": [ "summer" ], "id": "burdock_summer_harv" }
     ],
+    "liquid_source": { "id": "water", "min_temp": 7.8, "count": [ 24, 48 ] },
     "roof": "t_roof",
     "examine_action": "pit",
     "boltcut": {
@@ -5274,17 +5318,13 @@ Fixed string, must be "terrain" to identify the JSON object as such.
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost`
-
-Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
-
 #### `heat_radiation`
 
-Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
+(Optional) Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
 
 #### `light_emitted`
 
-How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `lockpick_result`
@@ -5444,6 +5484,19 @@ Example:
 "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
 ```
 
+#### `liquid_source`
+
+(Optional) Object, that contain liquids this terrain or furniture can give
+
+Example:
+```c++
+"liquid_source": {
+  "id": "water",      // id of a liquid given by ter/furn
+  "min_temp": 7.8,    // the lowest possible temperature of liquid taken from here, in centigrade; Used only by "water_source" examine action. Liquid is either the ambient temperature or the `min_temp`, whichever is higher.
+  "count": [ 24, 48 ] // if source is finite, how much there should be of it. Omit if it need to have infinite amount of liquid. Accepts either single number, or array of two numbers. Used only by "finite_water_source" examine action
+}
+```
+
 #### `roof`
 
 (Optional) The terrain of the terrain on top of this (the roof).
@@ -5524,9 +5577,13 @@ Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
 
+#### `move_cost_mod`
+
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
 #### `comfort`
 
-How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
+(Optional) How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
     uncomfortable = -999,
     neutral = 0,
     slightly_comfortable = 3,
@@ -5535,11 +5592,15 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+(Optional) Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+
+#### `fall_damage_reduction`
+
+(Optional) Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 
-Increase warmth received on feet from nearby fire  (default = 300)
+(Optional) Increase warmth received on feet from nearby fire  (default = 300)
 
 #### `looks_like`
 
@@ -5553,7 +5614,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `coverage`
 
-The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
+(Optional) The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
 
 #### `max_volume`
 
@@ -6169,6 +6230,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
@@ -6203,7 +6265,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         { "item": "sheet_cotton", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
-    }
+    },
+    "indestructible": true // Field cannot be bashed or destroyed, but may still expire over time.  Useful when combined with the bash field because it can allow fields to prevent bashing terrain but not be destructible.
   }
 ```
 

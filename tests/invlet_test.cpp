@@ -236,21 +236,21 @@ static invlet_state check_invlet( Character &you, item &it, const char invlet )
 
 static void drop_at_feet( Character &you, const std::string &id )
 {
-    size_t size_before = get_map().i_at( you.pos() ).size();
+    size_t size_before = get_map().i_at( you.pos_bub() ).size();
 
     item *found = retrieve_item( you, id );
     REQUIRE( found );
     item_location loc( you, found );
     you.set_moves( 100 );
-    you.drop( loc, you.pos() );
+    you.drop( loc, you.pos_bub() );
     you.activity.do_turn( you );
 
-    REQUIRE( get_map().i_at( you.pos() ).size() == size_before + 1 );
+    REQUIRE( get_map().i_at( you.pos_bub() ).size() == size_before + 1 );
 }
 
 static void pick_up_from_feet( Character &you, const std::string &id )
 {
-    map_stack items = get_map().i_at( you.pos() );
+    map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( you.get_location() ), id );
@@ -296,7 +296,7 @@ static void add_item( Character &you, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            get_map().add_item( you.pos(), it );
+            get_map().add_item( you.pos_bub(), it );
             break;
         case INVENTORY:
             you.i_add( it );
@@ -460,7 +460,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
-        get_map().i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos_bub() );
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some two items that can be wielded, worn, and picked up
@@ -542,7 +542,7 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
-    get_map().i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos_bub() );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     // some stackable item that can be wielded and worn
@@ -595,7 +595,7 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
     dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
-    get_map().i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos_bub() );
 
     // two items of the same type that do not stack
     item tshirt1( "tshirt" );
@@ -680,7 +680,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
-        get_map().i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos_bub() );
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some stackable item
@@ -750,7 +750,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
 TEST_CASE( "Inventory_letter_test", "[.invlet]" )
 {
     avatar &dummy = get_avatar();
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );
     get_map().ter_set( spot, ter_id( "t_dirt" ) );

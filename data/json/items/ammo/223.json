@@ -143,7 +143,6 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": { "str_sp": ".223 Remington, black powder" },
-    "description": ".223 Remington ammunition with a 55gr bullet, patterned after the M193 loading.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -158,7 +157,6 @@
     "copy-from": "556",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO, black powder" },
-    "description": "5.56x45mm ammunition with a 62gr FMJ bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -173,7 +171,6 @@
     "copy-from": "556_incendiary",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO tracer, black powder" },
-    "description": "An M856 tracer round.  Traditional practice is to load one tracer per every four normal rounds to help keep the weapon they are fired from on target.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -188,7 +185,6 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": { "str_sp": ".223 Remington, reloaded" },
-    "description": ".223 Remington ammunition with a 55gr bullet, patterned after the M193 loading.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -198,7 +194,6 @@
     "copy-from": "556",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO, reloaded" },
-    "description": "5.56x45mm ammunition with a 62gr FMJ bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -208,7 +203,6 @@
     "copy-from": "556_incendiary",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO tracer, reloaded" },
-    "description": "An M856 tracer round.  Traditional practice is to load one tracer per every four normal rounds to help keep the weapon they are fired from on target.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

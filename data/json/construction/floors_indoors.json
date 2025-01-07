@@ -465,9 +465,9 @@
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "180 m",
+    "time": "580 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_terrain": "t_drystone_wall_half",
     "post_terrain": "t_drystone_wall"
   },
@@ -478,9 +478,9 @@
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_drystone_wall_half"
   },
@@ -565,7 +565,7 @@
       [ { "id": "DRILL", "level": 1 } ]
     ],
     "components": [
-      [ [ "wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
+      [ [ "lc_wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
       [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
       [
         [ "sheet_metal", 4 ],
@@ -629,7 +629,13 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [
       [ [ "log", 3 ] ],
-      [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_natural_short", 2, "LIST" ], [ "chain", 1 ], [ "vine_30", 1 ] ]
+      [
+        [ "lc_wire", 6 ],
+        [ "wire_barbed", 4 ],
+        [ "rope_natural_short", 2, "LIST" ],
+        [ "chain", 1 ],
+        [ "vine_30", 1 ]
+      ]
     ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade"
@@ -676,9 +682,13 @@
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
+    "components": [
+      [ [ "rock_large", 83 ], [ "field_stone", 500 ] ],
+      [ [ "rock", 50 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
+    ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -689,9 +699,13 @@
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
+    "components": [
+      [ [ "rock_large", 83 ], [ "field_stone", 500 ] ],
+      [ [ "rock", 50 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
+    ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },

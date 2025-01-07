@@ -384,7 +384,7 @@
     "type": "talk_topic",
     "dynamic_line": "I can teach you a few tricks.",
     "speaker_effect": { "effect": { "npc_add_var": "dialogue_foodperson_npc_success_training", "value": "yes" } },
-    "responses": [ { "text": "…", "topic": "TALK_TRAIN" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_TRAIN" }, { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FOODPERSON_NOSHELTER",

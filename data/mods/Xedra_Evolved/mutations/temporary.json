@@ -42,7 +42,13 @@
     "purifiable": false,
     "activated_eocs": [ "EOC_ETHEREAL_WINGS_INITIATE" ],
     "//": "No body part is intentional.  The wings should not be attackable by enemies or get in the way of clothes or armor.  These are also intended as less of a wide stat boost than the other dream toggleable mutations and instead specifically allow flight and carry weight.",
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
+      },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.2 } ] }
+    ],
     "flags": [ "GLIDE", "FEATHER_FALL" ]
   },
   {
@@ -66,7 +72,8 @@
           { "gain": "karma_arm_lw_r" },
           { "gain": "karma_arm_lw_l" }
         ]
-      }
+      },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
     ]
   },
   {
@@ -81,7 +88,10 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_DEVIL_TAIL_INITIATE" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "devil_tail" } ] },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -96,7 +106,10 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] },
+      { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -126,14 +139,16 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_BEAR_TRAITS",
-    "name": { "str": "Bear Form" },
-    "points": 99,
-    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+    "name": { "str": "Bear Form", "//~": "NO_I18N" },
+    "points": 98,
+    "description": {
+      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -150,7 +165,6 @@
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
-      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
       {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
@@ -162,18 +176,250 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [
-      "MUTE",
-      "MYOPIC_IN_LIGHT",
-      "NO_SPELLCASTING",
-      "PRED3",
-      "QUADRUPED_CROUCH",
-      "QUADRUPED_RUN",
-      "TOUGH_FEET",
-      "TEMPORARY_SHAPESHIFT",
-      "SHAPESHIFT_SIZE_HUGE"
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "override_look": { "id": "mon_bear", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "TURN_INTO_DEER_TRAITS",
+    "name": { "str": "Deer Form", "//~": "NO_I18N" },
+    "points": 98,
+    "description": {
+      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.1 },
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "MOVE_COST", "multiply": -0.5 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "NIGHT_VIS", "add": 6 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "skills": [ { "value": "dodge", "add": 2 } ],
+        "mutations": [ "ANTLERS", "HOOVES" ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
     ],
-    "override_look": { "id": "mon_bear", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_deer", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "TURN_INTO_COUGAR_TRAITS",
+    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
+    "points": 98,
+    "description": {
+      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "NIGHT_VIS", "add": 11 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.2 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -0.6 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_cougar", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "TURN_INTO_OWL_TRAITS",
+    "name": { "str": "Owl Form", "//~": "NO_I18N" },
+    "points": 98,
+    "description": {
+      "str": "You are an owl.  This provides the actual effects of owl form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "bodytemp_modifiers": [ 500, 1200 ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.75 },
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "DEXTERITY", "add": 6 },
+          { "value": "PERCEPTION", "add": 6 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
+        "skills": [ { "value": "dodge", "add": 4 } ],
+        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      },
+      {
+        "condition": { "u_is_on_terrain": "t_open_air" },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "//2": "override below is because apparently we have no owls in the game",
+    "override_look": { "id": "mon_albino_penguin", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_WAR_OWL_FORM_TRAITS",
+    "name": { "str": "Strix Form", "//~": "NO_I18N" },
+    "points": 98,
+    "ugliness": 30,
+    "visibility": 30,
+    "description": {
+      "str": "You are in strix form.  This provides the actual effects of strix form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "bodytemp_modifiers": [ 500, 1200 ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": 1.25 },
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 6 },
+          { "value": "PERCEPTION", "add": 6 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.6 }
+        ],
+        "skills": [ { "value": "dodge", "add": 4 }, { "value": "unarmed", "add": 1 } ],
+        "mutations": [ "BEAK", "BIRD_EYE", "BIRD_LEGS", "DOWN", "EAGLEEYED", "HOLLOW_BONES", "LIGHTEATER", "SCREECH", "WINGS_BIRD" ]
+      }
+    ],
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TURN_INTO_RAVEN_TRAITS",
+    "name": { "str": "Raven Form", "//~": "NO_I18N" },
+    "points": 98,
+    "description": {
+      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "bodytemp_modifiers": [ 300, 800 ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.75 },
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "DEXTERITY", "add": 8 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "NIGHT_VIS", "add": 4 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
+        "skills": [ { "value": "dodge", "add": 6 } ],
+        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      },
+      {
+        "condition": { "u_is_on_terrain": "t_open_air" },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "override_look": { "id": "mon_raven", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Bush disguise", "//~": "NO_I18N" },
+    "points": 99,
+    "description": { "str": "You are a bush and no one can see you.", "//~": "NO_I18N" },
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "override_look": { "id": "t_shrub", "tile_category": "terrain" },
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_TREE",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Tree disguise", "//~": "NO_I18N" },
+    "override_look": { "id": "t_tree", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_POND",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Pond disguise", "//~": "NO_I18N" },
+    "override_look": { "id": "t_water_sh", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Grass disguise", "//~": "NO_I18N" },
+    "override_look": { "id": "t_grass_long", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_ROCK",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Rock disguise", "//~": "NO_I18N" },
+    "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
   }
 ]

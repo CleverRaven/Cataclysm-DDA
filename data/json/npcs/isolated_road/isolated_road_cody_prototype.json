@@ -64,7 +64,7 @@
         "text": "Is the Obrez finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) < time('7 d')" ] },
             { "compare_string": [ "obrez", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -74,7 +74,7 @@
         "text": "Is the Obrez finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) > time('7 d')" ] },
             { "compare_string": [ "obrez", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -89,7 +89,7 @@
         "text": "Is the Pressin finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) < time('7 d')" ] },
             { "compare_string": [ "pressin", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -99,7 +99,7 @@
         "text": "Is the Pressin finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) > time('7 d')" ] },
             { "compare_string": [ "pressin", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -114,7 +114,7 @@
         "text": "Is the Louverture finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) < time('14 d')" ] },
             { "compare_string": [ "LOUVERTURE", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -124,7 +124,7 @@
         "text": "Is the Louverture finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) > time('14 d')" ] },
             { "compare_string": [ "LOUVERTURE", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -139,7 +139,7 @@
         "text": "Is the Disorder finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) < time('14 d')" ] },
             { "compare_string": [ "DISORDER", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
@@ -149,13 +149,13 @@
         "text": "Is the Disorder finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
+            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype) > time('14 d')" ] },
             { "compare_string": [ "DISORDER", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_DISORDER_COMPLETE"
       },
-      { "text": "Nevermind.", "topic": "TALK_BLACKSMITH_SERVICES" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },
   {
@@ -173,7 +173,7 @@
           { "u_consume_item": "mosin44", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "obrez" }
         ],
@@ -188,14 +188,14 @@
           { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "obrez" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -220,28 +220,8 @@
     "id": "TALK_BLACKSMITH_PRESSIN",
     "//": "Pressin Pistol Knife",
     "type": "talk_topic",
-    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
     "responses": [
-      {
-        "text": "[P230, switchblade, 20 merch] See you in a week.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "sig_p230", "count": 1 } },
-            { "u_has_items": { "item": "switchblade", "count": 1 } },
-            { "u_has_items": { "item": "FMCNote", "count": 20 } }
-          ]
-        },
-        "effect": [
-          { "u_consume_item": "sig_p230", "count": 1, "popup": true },
-          { "u_consume_item": "switchblade", "count": 1, "popup": true },
-          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
-          { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-          { "u_add_var": "dialogue_artisans_u_current_project", "value": "pressin" }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
       {
         "text": "[PPK, switchblade, 20 merch] See you in a week.",
         "condition": {
@@ -256,7 +236,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "pressin" }
         ],
@@ -276,14 +256,14 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "pressin" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -319,14 +299,14 @@
           { "u_consume_item": "flamethrower", "count": 1, "popup": true },
           { "u_consume_item": "mace", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "LOUVERTURE" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -367,14 +347,14 @@
           { "u_consume_item": "FMCNote", "count": 80, "popup": true },
           { "u_consume_item": "22_lr", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "DISORDER" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },

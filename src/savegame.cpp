@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 34;
+const int savegame_version = 36;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -112,9 +112,9 @@ void game::serialize( std::ostream &fout )
     json.member( "om_x", pos_om.x() );
     json.member( "om_y", pos_om.y() );
     // view offset
-    json.member( "view_offset_x", u.view_offset.x );
-    json.member( "view_offset_y", u.view_offset.y );
-    json.member( "view_offset_z", u.view_offset.z );
+    json.member( "view_offset_x", u.view_offset.x() );
+    json.member( "view_offset_y", u.view_offset.y() );
+    json.member( "view_offset_z", u.view_offset.z() );
 
     json.member( "grscent", scent.serialize() );
     json.member( "typescent", scent.serialize( true ) );
@@ -229,9 +229,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        data.read( "view_offset_x", u.view_offset.x );
-        data.read( "view_offset_y", u.view_offset.y );
-        data.read( "view_offset_z", u.view_offset.z );
+        data.read( "view_offset_x", u.view_offset.x() );
+        data.read( "view_offset_y", u.view_offset.y() );
+        data.read( "view_offset_z", u.view_offset.z() );
 
         calendar::turn = time_point( tmpturn );
         calendar::start_of_cataclysm = time_point( tmpcalstart );
@@ -513,6 +513,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "city_tiles" ) {
+            om_member.read( city_tiles );
         } else if( name == "connections_out" ) {
             om_member.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -536,7 +538,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         } else if( name == "radios" ) {
             JsonArray radios_json = om_member;
             for( JsonObject radio_json : radios_json ) {
-                radio_tower new_radio{ point_om_sm( point_min ) };
+                radio_tower new_radio{ point_om_sm::invalid };
                 for( JsonMember radio_member : radio_json ) {
                     const std::string radio_member_name = radio_member.name();
                     if( radio_member_name == "type" ) {
@@ -755,7 +757,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     JsonObject jo = ja.next_object();
 
     std::string type;
-    point_abs_om om_pos( point_min );
+    point_abs_om om_pos = point_abs_om::invalid;
     int z = 0;
 
     jo.read( "type", type );
@@ -1251,6 +1253,9 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    json.member( "city_tiles", city_tiles );
+    fout << std::endl;
+
     json.member( "connections_out", connections_out );
     fout << std::endl;
 
@@ -1545,6 +1550,7 @@ void weather_manager::unserialize_all( const JsonObject &w )
 
 void global_variables::unserialize( JsonObject &jo )
 {
+    // global variables
     jo.read( "global_vals", global_values );
     // potentially migrate some variable names
     for( std::pair<std::string, std::string> migration : migrations ) {
@@ -1554,6 +1560,8 @@ void global_variables::unserialize( JsonObject &jo )
             global_values.insert( std::move( extracted ) );
         }
     }
+
+    game::legacy_migrate_npctalk_var_prefix( global_values );
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1675,7 +1683,7 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         if( elem.revert.is_uniform() ) {
-            jsout.member( "revert", elem.revert.get_ter( point_sm_ms_zero ) );
+            jsout.member( "revert", elem.revert.get_ter( point_sm_ms::zero ) );
         } else {
             jsout.member( "revert" );
             jsout.start_array();
@@ -1833,6 +1841,8 @@ void npc::import_and_clean( const JsonObject &data )
     companion_mission_points = defaults.companion_mission_points;
     companion_mission_time = defaults.companion_mission_time;
     companion_mission_time_ret = defaults.companion_mission_time_ret;
+    companion_mission_exertion = defaults.companion_mission_exertion;
+    companion_mission_travel_time = defaults.companion_mission_travel_time;
     companion_mission_inv.clear();
     chatbin.missions.clear();
     chatbin.missions_assigned.clear();

@@ -7,7 +7,8 @@
     "sym": "+",
     "color": "white",
     "see_cost": "none",
-    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE", "SHOULD_NOT_SPAWN" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE", "SHOULD_NOT_SPAWN" ],
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",

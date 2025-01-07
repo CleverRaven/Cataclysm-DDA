@@ -8,7 +8,7 @@
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_afs_electrokin_see_electricity", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
         "time_in_future": [
           {
             "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -32,7 +32,7 @@
     "id": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_see_electricity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
@@ -44,7 +44,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
         "time_in_future": [
           {
             "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -66,7 +66,7 @@
       { "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE", "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] },
       { "u_add_effect": "effect_afs_electrokin_hacking_interface", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
         "time_in_future": [
           {
             "math": [
@@ -131,7 +131,7 @@
     "id": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_hacking_interface')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
@@ -143,7 +143,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
         "time_in_future": [
           {
             "math": [
@@ -168,7 +168,7 @@
       { "u_message": "The hair on your body stands up on end.", "type": "good" },
       { "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" ] },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+        "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
         "time_in_future": [
           {
             "math": [
@@ -184,7 +184,7 @@
       },
       { "u_add_effect": "effect_afs_electrokin_personal_battery", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
         "time_in_future": [
           {
             "math": [
@@ -213,7 +213,7 @@
     "condition": { "u_has_effect": "effect_afs_electrokin_personal_battery" },
     "effect": [
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+        "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
         "time_in_future": [
           {
             "math": [
@@ -227,24 +227,77 @@
           }
         ]
       },
+      { "math": [ "u_afs_electrokin_personal_battery_count = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [
-          { "flags": [ "RECHARGE" ] },
-          { "flags": [ "ELECTRONIC" ] },
-          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-          { "flags": [ "USE_UPS" ] }
-        ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
         "true_eocs": [
           {
-            "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count++" ] } ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_FINALIZATION", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_FINALIZATION",
+    "//": "The one that actually does the charging",
+    "condition": { "u_has_effect": "effect_afs_electrokin_personal_battery" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
-                "math": [
-                  "n_val('power')",
-                  "+=",
-                  "1 + ((u_spell_level('afs_electrokinetic_personal_battery') / 5) * scaling_factor(u_val('intelligence')) )"
+                "if": { "math": [ "u_afs_electrokin_personal_battery_count > 0" ] },
+                "then": {
+                  "math": [
+                    "n_afs_electrokin_charging_value_counter",
+                    "+=",
+                    "( (u_spell_level('afs_electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) / u_afs_electrokin_personal_battery_count"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "EOC_AFS_LECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",
+            "condition": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
+            "effect": [
+              {
+                "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 5" ] },
+                "then": [ { "math": [ "n_val('power')", "+=", "5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "5" ] } ],
+                "else": [
+                  {
+                    "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 4" ] },
+                    "then": [ { "math": [ "n_val('power')", "+=", "4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "4" ] } ],
+                    "else": [
+                      {
+                        "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 3" ] },
+                        "then": [ { "math": [ "n_val('power')", "+=", "3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "3" ] } ],
+                        "else": [
+                          {
+                            "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 2" ] },
+                            "then": [ { "math": [ "n_val('power')", "+=", "2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "2" ] } ],
+                            "else": [
+                              {
+                                "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
+                                "then": [ { "math": [ "n_val('power')", "+=", "1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "1" ] } ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 ]
               }
             ]
@@ -258,7 +311,7 @@
     "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_personal_battery" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_personal_battery')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
@@ -270,7 +323,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
+        "run_eocs": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
         "time_in_future": [
           {
             "math": [

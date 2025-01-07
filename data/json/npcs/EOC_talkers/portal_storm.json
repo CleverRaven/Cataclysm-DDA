@@ -98,7 +98,7 @@
     "responses": [
       { "text": "No ", "topic": "TALK_PORTAL_STORM_DO_FOR_ME" },
       {
-        "text": "Will it.  'Your gut feels like this is jumping out of a plane without a parachute.'",
+        "text": "Will it.  <color_red>'Your gut feels like this is jumping out of a plane without a parachute.'</color>",
         "topic": "TALK_PORTAL_STORM_WILL_IT",
         "effect": { "give_achievement": "escaped_the_cataclysm" }
       },

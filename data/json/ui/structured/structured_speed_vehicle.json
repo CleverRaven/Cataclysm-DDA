@@ -36,11 +36,15 @@
     "width": 27,
     "clauses": [
       {
-        "id": "not_driving",
+        "id": "not_controlling_vehicle",
         "widgets": [ "structured_wield_simple", "structured_speed_layout" ],
-        "condition": { "not": "u_driving" }
+        "condition": { "not": "u_controlling_vehicle" }
       },
-      { "id": "driving", "widgets": [ "structured_fuel", "structured_vehicle_speed" ], "condition": "u_driving" }
+      {
+        "id": "controlling_vehicle",
+        "widgets": [ "structured_fuel", "structured_vehicle_speed" ],
+        "condition": "u_controlling_vehicle"
+      }
     ]
   },
   {

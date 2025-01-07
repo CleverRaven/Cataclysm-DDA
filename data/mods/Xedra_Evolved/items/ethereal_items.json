@@ -87,13 +87,19 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD",
+      "RELIC_PINK"
+    ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
-    },
     "category": "weapons",
-    "melee_damage": { "bash": 2, "stab": 31 }
+    "melee_damage": { "bash": 2, "stab": 31, "cold": 10 }
   },
   {
     "id": "dagger_dreamdross",
@@ -188,7 +194,7 @@
         "type": "repair_item",
         "item_action_type": "repair_metal",
         "materials": [ "forged_dreamstuff", "moon_tears", "moon_tears_fine_chain" ],
-        "skill": "survival",
+        "skill": "deduction",
         "tool_quality": 0,
         "cost_scaling": 0.1,
         "move_cost": 100
@@ -324,8 +330,8 @@
     "id": "undine_waters_map",
     "type": "GENERIC",
     "category": "maps",
-    "name": { "str": "undine waters map" },
-    "description": "The item for .",
+    "name": { "str": "undine waters map", "//~": "NO_I18N" },
+    "description": { "str": "The item for .", "//~": "NO_I18N" },
     "weight": "30 g",
     "volume": "250 ml",
     "flags": [ "PAPER_SHAPED" ],
@@ -375,9 +381,6 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
-    },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -385,14 +388,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "invulnerable iron skin" },
-    "description": "The essence of iron.",
+    "description": "Fae iron essence.",
     "weight": "0 g",
     "volume": "0 L",
-    "material": [ "iron" ],
+    "material": [ "moon_tears" ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 5,
-    "material_thickness": 5,
+    "material_thickness": 0.6,
     "environmental_protection": 2,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
     "armor": [
@@ -410,9 +413,13 @@
           "values": [
             { "value": "ATTACK_SPEED", "multiply": -0.2 },
             { "value": "FORCEFIELD", "add": 0.1 },
-            { "value": "PAIN_REMOVE", "add": 45 },
-            { "value": "ITEM_DAMAGE_BASH", "add": 10 }
+            { "value": "PAIN_REMOVE", "add": 45 }
           ]
+        },
+        {
+          "has": "WORN",
+          "condition": { "not": "u_has_weapon" },
+          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
         }
       ]
     }
@@ -422,8 +429,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -444,8 +451,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -466,8 +473,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -488,8 +495,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -510,8 +517,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -532,8 +539,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",

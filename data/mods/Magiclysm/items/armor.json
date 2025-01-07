@@ -40,10 +40,10 @@
   {
     "id": "xl_armguard_demonchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL demon chitin arm guards", "str_pl": "pairs of XL demon chitin arm guards" },
+    "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
     "copy-from": "armguard_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_demonchitin",
@@ -58,10 +58,10 @@
   {
     "id": "xl_armor_demonchitin",
     "type": "ARMOR",
-    "name": { "str": "XL demon chitin armor" },
+    "name": { "str": "demon chitin armor" },
     "copy-from": "armor_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "helmet_demonchitin",
@@ -76,10 +76,10 @@
   {
     "id": "xl_helmet_demonchitin",
     "type": "ARMOR",
-    "name": { "str": "XL demon chitin helmet" },
+    "name": { "str": "demon chitin helmet" },
     "copy-from": "helmet_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "gauntlets_demonchitin",
@@ -94,10 +94,10 @@
   {
     "id": "xl_gauntlets_demonchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL demon chitin gauntlets", "str_pl": "pairs of XL demon chitin gauntlets" },
+    "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
     "copy-from": "gauntlets_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "boots_demonchitin",
@@ -112,10 +112,10 @@
   {
     "id": "xl_boots_demonchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL demon chitin boots", "str_pl": "pairs of XL demon chitin boots" },
+    "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
     "copy-from": "boots_demonchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "type": "PET_ARMOR",

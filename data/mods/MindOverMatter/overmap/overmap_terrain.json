@@ -283,5 +283,33 @@
       "phavan_office_skyscraper_lab_upper_se"
     ],
     "copy-from": "generic_office_skyscraper"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "alien_meadow",
+    "copy-from": "generic_open_land",
+    "name": "alien meadow",
+    "sym": ",",
+    "color": "red",
+    "travel_cost_type": "field",
+    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_core",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_end",
+    "copy-from": "alien_meadow"
   }
 ]

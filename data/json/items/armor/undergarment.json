@@ -593,7 +593,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",
@@ -686,7 +685,6 @@
     "volume": "1250 ml",
     "price": "110 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -750,7 +748,7 @@
     "id": "garter_belt",
     "type": "ARMOR",
     "name": { "str": "garter belt" },
-    "description": "A black, decorated undergarment commonly used in combination with stockings.  They don't cover much, but they do help you feel sexy.",
+    "description": "A simple, decorated undergarment commonly used in combination with stockings.  They don't cover much, but they do help you feel sexy.",
     "weight": "80 g",
     "volume": "200 ml",
     "looks_like": "panties",
@@ -761,7 +759,80 @@
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "SKINTIGHT", "VARSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 38, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 38, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_garter_belt",
+        "name": { "str": "garter belt" },
+        "description": "A simple, decorated undergarment commonly used in combination with stockings.  They don't cover much, but they do help you feel sexy.",
+        "color": "dark_gray",
+        "append": true
+      },
+      {
+        "id": "black_garter_belt",
+        "name": { "str": "black garter belt" },
+        "description": "This one is colored black.",
+        "color": "dark_gray",
+        "append": true
+      },
+      {
+        "id": "white_garter_belt",
+        "name": { "str": "white garter belt" },
+        "description": "This one is colored white.",
+        "color": "white",
+        "append": true
+      },
+      {
+        "id": "red_garter_belt",
+        "name": { "str": "red garter belt" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true
+      },
+      {
+        "id": "blue_garter_belt",
+        "name": { "str": "blue garter belt" },
+        "description": "This one is colored blue.",
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "green_garter_belt",
+        "name": { "str": "green garter belt" },
+        "description": "This one is colored green.",
+        "color": "green",
+        "append": true
+      },
+      {
+        "id": "pink_garter_belt",
+        "name": { "str": "pink garter belt" },
+        "description": "This one is colored pink.",
+        "color": "pink",
+        "append": true
+      },
+      {
+        "id": "purple_garter_belt",
+        "name": { "str": "purple garter belt" },
+        "description": "This one is colored purple.",
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "teal_garter_belt",
+        "name": { "str": "teal garter belt" },
+        "description": "This one is colored teal.",
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "magenta_garter_belt",
+        "name": { "str": "magenta garter belt" },
+        "description": "This one is colored magenta.",
+        "color": "magenta",
+        "append": true
+      }
+    ]
   },
   {
     "id": "leg_warmers",

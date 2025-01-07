@@ -5,14 +5,14 @@
     "recurrence": "3 minutes",
     "global": true,
     "condition": { "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] } },
-    "effect": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "++" ] }, { "math": [ "u_ISO_DANGER", "++" ] } ]
+    "effect": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER++" ] }, { "math": [ "u_ISO_DANGER++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "ISO_DANGER_LEVEL_SPAWNER",
     "recurrence": "5 minutes",
     "global": true,
-    "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "25" ] },
+    "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER >= 25" ] },
     "effect": [
       {
         "u_spawn_monster": "mon_tindalos",
@@ -27,7 +27,7 @@
       "run_eocs": [
         {
           "id": "ISO_CURRENT_LEVEL_DANGER_medium",
-          "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] },
+          "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER >= 20" ] },
           "effect": [
             {
               "u_spawn_monster": "mon_darkman",
@@ -42,7 +42,7 @@
             "run_eocs": [
               {
                 "id": "ISO_CURRENT_LEVEL_DANGER_low",
-                "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] },
+                "condition": { "math": [ "u_ISO_CURRENT_LEVEL_DANGER >= 15" ] },
                 "effect": [
                   {
                     "u_spawn_monster": "mon_shadow",

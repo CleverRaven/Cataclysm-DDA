@@ -145,7 +145,9 @@
       { "group": "trait_group_fantasy_species", "prob": 50 },
       { "group": "trait_group_MANA_REGEN", "prob": 15 },
       { "group": "trait_group_MANA_MULT", "prob": 5 },
-      { "group": "trait_group_MANA_ADD", "prob": 10 }
+      { "group": "trait_group_MANA_ADD", "prob": 10 },
+      { "group": "trait_group_SCHOOL_DEFICIENCY_SINGLE", "prob": 15 },
+      { "group": "trait_group_SCHOOL_DEFICIENCY_MULTIPLE", "prob": 2 }
     ]
   },
   {
@@ -264,7 +266,7 @@
     "traits": [
       { "trait": "THRESH_SPECIES_RAVENFOLK" },
       { "trait": "RAVENFOLK_BUILD" },
-      { "trait": "WINGS_BIRD" },
+      { "trait": "RAVENFOLK_WINGS" },
       { "trait": "DOWN" },
       { "trait": "BEAK_RAVEN" },
       { "trait": "RAVENFOLK_LEGS" },
@@ -316,6 +318,36 @@
       { "trait": "MANA_SUB1", "prob": 100 },
       { "trait": "MANA_SUB2", "prob": 15 },
       { "trait": "MANA_SUB3", "prob": 1 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_SCHOOL_DEFICIENCY_SINGLE",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "NO_CASTING_CHANNELING_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_EVOCATION_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_CONJURATION_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_ENHANCEMENT_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_ENERVATION_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_CONVEYANCE_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_RESTORATION_SPELLS", "prob": 1 },
+      { "trait": "NO_CASTING_TRANSFORMATION_SPELLS", "prob": 1 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_SCHOOL_DEFICIENCY_MULTIPLE",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "NO_CASTING_CHANNELING_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_EVOCATION_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_CONJURATION_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_ENHANCEMENT_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_ENERVATION_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_CONVEYANCE_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_RESTORATION_SPELLS", "prob": 25 },
+      { "trait": "NO_CASTING_TRANSFORMATION_SPELLS", "prob": 25 }
     ]
   }
 ]

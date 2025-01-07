@@ -4,209 +4,147 @@
     "type": "MONSTER",
     "name": { "str": "Dr. Brain" },
     "description": "An ordinary-looking scientist lost amid the carnage, were it not for the bloodshot eyes, the enlarged cranium, and the fact that the zombies ignore them.  Bits of paper and chemistry equipment lazily float in the air near them.",
+    "copy-from": "mon_feral_psion_default",
     "//": "This is supposed to be a rare boss kind of monster, with both telepathic and telekinetic abililites, but no tougher than a normal zombie.",
     "default_faction": "science",
-    "looks_like": "chud",
-    "bodytype": "human",
     "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 2,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
-    "vision_day": 50,
-    "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_psychic",
     "zombify_into": "mon_zombie_scientist",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE" ],
-    "special_attacks": [
-      [ "PARROT_AT_DANGER", 15 ],
-      {
-        "id": "psi_drbrain_flashbang",
-        "type": "spell",
-        "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
-        "cooldown": { "math": [ "6 + rand(12)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
-      },
-      {
-        "id": "psi_drbrain_blast",
-        "type": "spell",
-        "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
-        "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s stares at %3$s!"
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "mon_telekinetic_mindhammer",
-        "cooldown": { "math": [ "5 + rand(10)" ] },
-        "move_cost": 80,
-        "range": 6,
-        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25 } ],
-        "dodgeable": false,
-        "uncanny_dodgeable": true,
-        "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
-        "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
-        "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
-        "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
-        "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
-        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
-      },
-      {
-        "id": "smash",
-        "move_cost": 80,
-        "cooldown": { "math": [ "4 + rand(8)" ] },
-        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
-        "hitsize_min": 12,
-        "range": 8,
-        "throw_strength": 70,
-        "dodgeable": false,
-        "uncanny_dodgeable": true,
-        "blockable": false,
-        "effects_require_dmg": false,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
-        "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
-        "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
-        "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
-        "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
-      },
-      {
-        "id": "psi_drbrain_momentum_alteration",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_momentum_monster" },
-        "cooldown": 1,
-        "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_psi_null" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+    "extend": {
+      "special_attacks": [
+        [ "PARROT_AT_DANGER", 15 ],
+        {
+          "id": "psi_drbrain_flashbang",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
+          "cooldown": { "math": [ "6 + rand(12)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
         },
-        "monster_message": "The air around %1$s wavers."
-      },
-      {
-        "id": "psi_drbrain_inertial_barrier",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_barrier_monster" },
-        "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        {
+          "id": "psi_drbrain_blast",
+          "type": "spell",
+          "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s stares at %3$s!"
         },
-        "monster_message": "The air around %1$s distorts."
-      },
-      [ "PULL_METAL_WEAPON", 8 ]
-    ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "HUMAN",
-      "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER",
-      "TEEP_IMMUNE"
-    ]
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_telekinetic_mindhammer",
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "move_cost": 80,
+          "accuracy": 7,
+          "range": 6,
+          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25 } ],
+          "dodgeable": false,
+          "uncanny_dodgeable": true,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
+          "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
+          "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
+          "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
+          "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
+          "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
+        },
+        {
+          "id": "smash",
+          "move_cost": 80,
+          "cooldown": { "math": [ "4 + rand(8)" ] },
+          "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
+          "hitsize_min": 12,
+          "accuracy": 7,
+          "range": 8,
+          "throw_strength": 70,
+          "dodgeable": false,
+          "uncanny_dodgeable": true,
+          "blockable": false,
+          "effects_require_dmg": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+          "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
+          "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
+          "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+          "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+        },
+        {
+          "id": "psi_drbrain_momentum_alteration",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_momentum_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
+          },
+          "monster_message": "The air around %1$s wavers."
+        },
+        {
+          "id": "psi_drbrain_inertial_barrier",
+          "type": "spell",
+          "spell_data": { "id": "telekinetic_barrier_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          },
+          "monster_message": "The air around %1$s distorts."
+        },
+        [ "PULL_METAL_WEAPON", 8 ]
+      ],
+      "flags": [ "TEEP_IMMUNE", "PUSH_MON" ]
+    }
   },
   {
     "id": "mon_feral_security_psychic",
     "type": "MONSTER",
     "name": "feral security guard, Ψ Division",
     "description": "A security guard gone feral, or so you thought.  As you look closer, you notice the relatively-normal appearance, the clear eyes, and the patch on their uniform with a Ψ shape in front of the logo of XEDRA.  The zombies around them ignore them as they move smoothly and purposefully through the ruins.",
+    "copy-from": "mon_feral_psion_default",
     "default_faction": "science",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 110,
-    "material": [ "flesh" ],
+    "proportional": { "speed": 1.1 },
+    "relative": { "melee_skill": 3, "melee_dice": 1, "dodge": 4 },
     "color": "pink",
     "symbol": "@",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "attack_cost": 85,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 5,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 35,
-    "vision_night": 7,
-    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_security_death_drops_psychic",
     "zombify_into": "mon_zombie_survivor",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "special_attacks": [
-      [ "PARROT_AT_DANGER", 15 ],
-      {
-        "id": "smash",
-        "attack_upper": true,
-        "throw_strength": 50,
-        "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
-      },
-      [ "BIO_OP_DISARM", 15 ],
-      {
-        "id": "bio_op_takedown",
-        "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
-      },
-      {
-        "id": "psi_biokin_guard_hardened_skin",
-        "type": "spell",
-        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
-        "cooldown": 120,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+    "extend": {
+      "special_attacks": [
+        [ "PARROT_AT_DANGER", 15 ],
+        {
+          "id": "smash",
+          "attack_upper": true,
+          "throw_strength": 50,
+          "cooldown": { "math": [ "7 + rand(14)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
         },
-        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
-      }
-    ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "HUMAN",
-      "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER",
-      "PATH_AVOID_FIRE",
-      "PRIORITIZE_TARGETS",
-      "STUN_IMMUNE"
-    ]
+        [ "BIO_OP_DISARM", 15 ],
+        {
+          "id": "bio_op_takedown",
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        },
+        {
+          "id": "psi_biokin_guard_hardened_skin",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+          "cooldown": 120,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+          "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        }
+      ],
+      "flags": [ "STUN_IMMUNE" ]
+    }
   },
   {
     "id": "mon_feral_security_captain_psychic",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_bio3",
     "name": "feral security captain, Ψ Division",
-    "looks_like": "chud",
+    "default_faction": "science",
     "description": "A feral security guard with a military-style uniform, bearing the XEDRA logo and some kind of rank insignia.  Their movements are precise, controlled, and inhumanly smooth, and while their eyes are still bloodshot, they have a spark lacking in most ferals you've seen.",
     "death_drops": "feral_security_captain_death_drops_psychic"
   }

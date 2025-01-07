@@ -326,29 +326,6 @@
     ]
   },
   {
-    "id": "clothing_soldier_broken_armor_set",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "group": "clothing_military" },
-      { "item": "elbow_pads", "prob": 10 },
-      { "item": "knee_pads", "prob": 85 },
-      {
-        "distribution": [ { "group": "army_helmet_nvg", "prob": 10 }, { "item": "helmet_army", "prob": 90 } ],
-        "prob": 80
-      },
-      { "item": "gloves_tactical", "prob": 60 },
-      { "group": "military_ballistic_vest", "prob": 100 },
-      { "group": "molle_backpacks_and_accessories", "prob": 85 },
-      { "group": "clothing_tactical_leg", "prob": 15 },
-      {
-        "distribution": [ { "group": "clothing_glasses", "prob": 60 }, { "item": "glasses_bal", "prob": 30 } ],
-        "prob": 20
-      },
-      { "group": "clothing_watch", "prob": 5 }
-    ]
-  },
-  {
     "id": "clothing_soldier_heavy_set",
     "type": "item_group",
     "subtype": "collection",
@@ -974,8 +951,9 @@
       [ "keikogi", 25 ],
       [ "zubon_gi", 25 ],
       [ "hakama_gi", 10 ],
-      [ "mouthpiece", 5 ],
       [ "obi_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "jikatabi_sneakers", 5 ],
       [ "geta", 1 ],
       [ "haori", 1 ],
       [ "yukata", 1 ]
@@ -1632,11 +1610,7 @@
       { "group": "superglue", "prob": 20 },
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],
-      [ "wolfsuit", 3 ],
-      [ "dinosuit", 2 ],
-      [ "sharksuit", 2 ],
-      [ "felinesuit", 3 ],
-      [ "dragonsuit", 2 ],
+      [ "fursuit", 5 ],
       [ "zentai", 5 ],
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
@@ -3231,7 +3205,6 @@
       [ "tireplate", 10 ],
       [ "ballistic_vest_esapi", 2 ],
       { "group": "military_ballistic_vest", "prob": 4 },
-      [ "dragonskin", 1 ],
       [ "corset", 1 ],
       [ "corset_waist", 1 ],
       [ "football_armor", 18 ],
@@ -4183,17 +4156,14 @@
     "items": [
       { "item": "bondage_suit", "prob": 10 },
       { "item": "bodysuit_lycra", "prob": 10 },
-      { "item": "dinosuit", "prob": 5 },
-      { "item": "sharksuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
       { "item": "motorbike_armor", "prob": 15 },
       { "item": "suit", "prob": 70 },
       { "item": "touring_suit", "prob": 20 },
-      { "item": "wolfsuit", "prob": 3 },
-      { "item": "felinesuit", "prob": 3 },
-      { "item": "dragonsuit", "prob": 1 },
+      { "item": "fursuit", "prob": 3 },
       { "item": "wool_suit", "prob": 40 },
+      { "item": "wool_suit_devil", "prob": 15 },
       { "item": "unitard", "prob": 60 },
       { "item": "zentai", "prob": 5 },
       { "item": "wetsuit", "prob": 2 },
@@ -4405,7 +4375,6 @@
     "//": "decorative finger rings worn by people.",
     "subtype": "distribution",
     "items": [
-      { "item": "ring_wedding", "prob": 50, "count": [ 1, 2 ] },
       { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
       { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
       { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
@@ -4536,7 +4505,6 @@
       { "group": "accessory_cat", "prob": 1 },
       { "group": "accessory_weaponcarry", "prob": 5 },
       { "group": "accessory_sportsgear", "prob": 5 },
-      { "item": "ring_wedding", "prob": 1 },
       { "item": "american_flag", "prob": 1 },
       { "item": "pride_flag", "prob": 1 },
       { "item": "national_flag", "prob": 1 },
@@ -4553,11 +4521,7 @@
     "items": [
       { "group": "clothing_glasses", "prob": 50 },
       { "group": "clothing_watch", "prob": 15 },
-      { "item": "copper_ring", "prob": 6, "count": [ 1, 3 ] },
-      { "item": "silver_ring", "prob": 4, "count": [ 1, 3 ] },
-      { "item": "gold_ring", "prob": 3, "count": [ 1, 3 ] },
-      { "item": "diamond_ring", "prob": 1 },
-      { "item": "platinum_ring", "prob": 1 },
+      { "group": "accessory_ring", "prob": 15 },
       { "group": "accessory_earring", "prob": 15 },
       { "group": "accessory_bracelet", "prob": 15 },
       { "group": "accessory_teeth", "prob": 2 },

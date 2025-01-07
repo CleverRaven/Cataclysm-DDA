@@ -11,7 +11,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "wire", 3 ], [ "cable", 30 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "any_wire", 3, "LIST" ], [ "cable", 30 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -210,34 +210,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "portable_game",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "skills_required": [ "computer", 5 ],
-    "difficulty": 8,
-    "time": "1 h",
-    "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "glue_any", 1 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
-      { "proficiency": "prof_elec_circuits" },
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_integrated_circuits" }
-    ],
-    "components": [
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "electrohack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -408,7 +380,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "any_wire", 1, "LIST" ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
       [ [ "cable", 5 ] ]
@@ -496,44 +468,6 @@
       ],
       [ [ "cable", 15 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "geiger_off",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": "35 m",
-    "reversible": true,
-    "decomp_learn": 5,
-    "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap_aluminum", 6 ] ], [ [ "cable", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "rad_monitor",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "35 m",
-    "reversible": true,
-    "decomp_learn": 7,
-    "book_learn": [ [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ], [ "atomic_survival", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_semiconductors" }
-    ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",

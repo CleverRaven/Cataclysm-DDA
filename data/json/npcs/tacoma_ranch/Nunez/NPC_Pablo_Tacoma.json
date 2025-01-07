@@ -102,8 +102,8 @@
     "dynamic_line": "Can't complain,\" he stretches his neck and pops his shoulder.  \"No, really, I can't.  The work is hard, but people here really want to *do* something, not just hide inside and hope someone saves us.  I've been helping doing general labor a bit, but also working out an inventory system for our supplies.  It's already helped us get a few important bits in earlier than we'd have noticed otherwise.  Post-apocalyptic accounting, ha!  Who'd have thought?\"",
     "responses": [
       { "text": "Keeping inventory is similar to accounting?  Really?", "topic": "TALK_TACOMA_Pablo_Accounting1" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -111,8 +111,8 @@
     "id": "TALK_TACOMA_Pablo_Accounting1",
     "dynamic_line": "If you want the honest truth, only a bit.  It's not much like filing income tax.  Still, I know my way around a spreadsheet and I don't mind staring at numbers all day.  I think people were dubious at first, but now that it's starting to show real value they're coming around.\"",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -120,8 +120,8 @@
     "id": "TALK_TACOMA_Pablo_Trailer1",
     "dynamic_line": "Oh, Dana tells that story better than me.  Basically we found it at an old trailer park and she liked the bakery, so we figured out a way to get it back here.  We definitely earned some cred for coming with our own shelter.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -130,8 +130,8 @@
     "dynamic_line": "Yeah, she would say that.\"  He makes intense eye contact.  \"Not just a bakery, my friend.  A real, post apocalyptic, honest-to-god culinary experience!  We're planning to grow food and crops here.  Central's plan is to import our crops directly, and pay us for our work.  I don't think they've even thought much about transport, outside just shipping them back home.  If we do local site processing we can prevent storage losses, and make higher value material to sell out!  And Central still benefits from having a dedicated bread basket!",
     "responses": [
       { "text": "Do you know anything about building a 'culinary experience'?", "topic": "TALK_TACOMA_Pablo_Bakery2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -140,8 +140,8 @@
     "dynamic_line": "I'm being a bit tongue-in-cheek there.  Really I want some big wood fired ovens, tools for milling grain, tinning and canning equipment, stuff like that.  We'll make flour, jam, pickles, bread, maybe some sauerkraut and things.  All the old school ways of preserving food, from before fridges were commonplace.",
     "responses": [
       { "text": "Okay, but do you know anything about that?", "topic": "TALK_TACOMA_Pablo_Bakery3" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -150,8 +150,8 @@
     "dynamic_line": "Well…\" he tugs jokingly at his collar as though letting off steam.  \"I know a bit.  I used to make pickles and jams as a hobby.  With my mom.  When I was a teenager.  But I know the principles!  And Dana knows more than you'd think about grain and flour because she's a huge nerd for her craft.  We do have some knowledge gaps between design and implementation though.",
     "responses": [
       { "text": "What kind of gaps?", "topic": "TALK_TACOMA_Pablo_Bakery4" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -166,8 +166,8 @@
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -181,7 +181,7 @@
       ]
     },
     "responses": [
-      { "text": "No problem.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "No problem.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Well, I'd better go look into that.", "topic": "TALK_DONE" }
     ]
   },
@@ -196,7 +196,7 @@
       ]
     },
     "responses": [
-      { "text": "Sure.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sure.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Sure, I'll see what I can do.", "topic": "TALK_DONE" }
     ]
   },
@@ -206,8 +206,8 @@
     "dynamic_line": "Oh… oh, ok!  It's a good thing you showed me this, my basic guesses missed some important points.  Thanks, this will be helpful for a lot more than just the bakery.",
     "speaker_effect": { "effect": { "npc_add_var": "rootcellar_tacoma_bakery", "value": "helped" } },
     "responses": [
-      { "text": "No problem.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Any time!  But I'd better go.", "topic": "TALK_DONE" }
+      { "text": "No problem.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Any time!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -261,8 +261,8 @@
         "topic": "TALK_TACOMA_Pablo_Bakery-RootCellar1",
         "condition": {
           "and": [
-            { "math": [ "u_skill('survival')", ">=", "4" ] },
-            { "math": [ "u_skill('fabrication')", ">=", "4" ] },
+            { "math": [ "u_skill('survival') >= 4" ] },
+            { "math": [ "u_skill('fabrication') >= 4" ] },
             { "compare_string": [ "known", { "u_val": "rootcellar_tacoma_bakery" } ] },
             { "not": { "compare_string": [ "helped", { "npc_val": "rootcellar_tacoma_bakery" } ] } }
           ]
@@ -278,6 +278,7 @@
     "difficulty": 2,
     "value": 1000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "item": "fire_brick",
     "count": 20,
     "dialogue": {
@@ -300,6 +301,7 @@
     "difficulty": 2,
     "value": 1000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Ask Jenny Forcette if she can help Pablo Nunez with his mill designs.",
       "offer": "n/a",

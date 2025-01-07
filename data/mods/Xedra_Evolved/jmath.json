@@ -13,6 +13,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "xedra_chronomancer_level",
+    "num_args": 1,
+    "return": "(2 * u_val('intelligence') ) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chron_spell_calc",
+    "num_args": 3,
+    "return": " ((_0 * _1) + _2) * scaling_factor(u_val('intelligence'))"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_time",
     "num_args": 1,
     "//": "used to transform the variable time (the smallest measure is 1 second) to the spell time (the smallest measure is 1 move, 1 second = 100 moves)",
@@ -20,10 +32,15 @@
   },
   {
     "type": "jmath_function",
-    "id": "spell_exp_diff",
+    "id": "xedra_chronomancer_formula_get_level",
     "num_args": 1,
-    "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
-    "return": "spell_exp_for_level(_0 + 1) - spell_exp_for_level(_0)"
+    "return": "( sqrt( ( 2 / 375 ) * _0 + 0.25 )  ) - 0.5"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chronomancer_formula_exp_for_level",
+    "num_args": 1,
+    "return": "375 * 0.5 * _0 * (_0 + 1)"
   },
   {
     "type": "jmath_function",
@@ -68,6 +85,12 @@
     "id": "paraclesian_passive_spell_exp",
     "num_args": 1,
     "return": "u_skill('deduction') * 100 + _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chron_toggled_spell_count",
+    "num_args": 0,
+    "return": "( u_effect_intensity('effect_xedra_chronomancer_chronal_accel') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_destabilizing_strikes') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_stabilize_timeline') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_stable_timeloop') > 0 ? 1 : 0 )"
   },
   {
     "type": "jmath_function",
@@ -130,5 +153,37 @@
     "//": "This is where all newly-added tier five traits should be placed",
     "num_args": 0,
     "return": "u_has_trait('VAMPIRE_MASTER_MORTAL_MIND') + u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') + u_has_trait('VAMPIRE_SHADOW_FORM') + u_has_trait('VAMPIRE_LAST_BREATH_MIST') + u_has_trait('VAMPIRE_IRON_MIND') + u_has_trait('VAMPIRE_BLIND_THE_SUN')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "changeling_common_traits",
+    "//": "This is to make sure no individual changeling has a mutation count twice",
+    "num_args": 0,
+    "return": "(u_has_trait('UNKNOWING_CHANGELING_NOBLE') * u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_BROWNIE') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_POOKA') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_SELKIE') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_TROW') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "pooka_shapeshift_traits",
+    "num_args": 0,
+    "return": "u_has_trait('ANTLERS') + u_has_trait('HORNS_CURLED') + u_has_trait('LUPINE_EARS') + u_has_trait('FELINE_EARS') + u_has_trait('CLAWS') + u_has_trait('CLAWS_ST') + u_has_trait('WINGS_BIRD') + u_has_trait('URSINE_FUR') + u_has_trait('CHITIN2') + u_has_trait('POOKA_QUADRUPED_TRAITS') + u_has_trait('LEAPING_LEGS') + u_has_trait('TAIL_FLUFFY') + u_has_trait('TAIL_LONG')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "selkie_has_weather_mastery",
+    "num_args": 0,
+    "return": "1 + (u_has_trait('SELKIE_CHANGE_WEATHER_MASTER') * 1.5)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lilin_has_ruach_efficiency",
+    "num_args": 0,
+    "return": "1 - min( ( (u_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (u_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lilin_has_ruach_efficiency_beta",
+    "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
+    "num_args": 0,
+    "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
   }
 ]

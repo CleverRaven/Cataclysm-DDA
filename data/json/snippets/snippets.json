@@ -1,14 +1,20 @@
 [
   {
     "type": "snippet",
+    "category": "<punc.>",
+    "//": "full stop/dot symbol",
+    "text": [ { "text": { "ctxt": "punctuation", "str": "." } } ]
+  },
+  {
+    "type": "snippet",
     "category": "<lt>",
-    "text": [ { "text": { "ctxt": "less than symbol", "str": "<", "//~": "Escape sequence, do not translate" } } ],
+    "text": [ { "text": { "ctxt": "less than symbol", "str": "<", "//~": "NO_I18N" } } ],
     "//": "used to escape < to avoid it intefering with tag parsing"
   },
   {
     "type": "snippet",
     "category": "<gt>",
-    "text": [ { "text": { "ctxt": "greater than symbol", "str": ">", "//~": "Escape sequence, do not translate" } } ],
+    "text": [ { "text": { "ctxt": "greater than symbol", "str": ">", "//~": "NO_I18N" } } ],
     "//": "used to escape > to avoid it intefering with tag parsing"
   },
   {

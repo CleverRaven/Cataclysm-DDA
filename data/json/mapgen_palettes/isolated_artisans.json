@@ -67,7 +67,12 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
       "q": "f_birdbath",
-      "!": "f_generator_broken",
+      "!": [
+        [ "f_generator_broken", 25 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "*": "f_console",
       "X": "f_curtain",
       "V": "f_forge_artisan_0",
@@ -112,7 +117,7 @@
       ],
       "d": [
         { "item": "SUS_gunstore_safe", "chance": 5, "repeat": [ 0, 5 ] },
-        { "item": "SUS_gunstore_safe_obscure", "chance": 5, "repeat": [ 0, 5 ] }
+        { "item": "guns_common_display", "chance": 5, "repeat": [ 0, 5 ] }
       ],
       "T": [
         { "item": "guns_common_display", "chance": 20, "repeat": [ 0, 1 ] },

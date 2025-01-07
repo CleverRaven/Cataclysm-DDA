@@ -181,7 +181,7 @@
         "O": [ "t_wall_glass" ],
         "C": [ "t_conveyor" ],
         "_": [ "t_pavement" ],
-        "f": [ "t_chainfence_h" ],
+        "f": [ "t_chainfence" ],
         "s": [ "t_sidewalk" ],
         "[": [ "t_sidewalk" ],
         "w": [ "t_window" ],

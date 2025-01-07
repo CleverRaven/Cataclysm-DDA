@@ -106,6 +106,8 @@ void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const st
     relic_procgen_data_factory.load( jo, src );
 }
 
+relic::~relic() = default;
+
 void relic::add_active_effect( const fake_spell &sp )
 {
     active_effects.emplace_back( sp );
@@ -422,7 +424,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     caster.mod_moves( -moves );
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( caster, sp.level );
-        casting.cast_all_effects( caster, target );
+        casting.cast_all_effects( caster, tripoint_bub_ms( target ) );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;

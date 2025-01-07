@@ -85,7 +85,7 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "anvil", "description": " Craft: Anvil" },
+      { "id": "anvil_crude", "description": " Craft: Small Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" }
     ]
   },
@@ -98,7 +98,7 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "nail", "description": " Craft: Nail" },
-      { "id": "wire", "description": " Craft: Wire" },
+      { "id": "lc_wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" }
     ]
   },
@@ -310,7 +310,6 @@
       { "id": "sheet_metal_npc_drop", "description": " Craft: Sheet Metal, Drop Hammer" },
       { "id": "chain_npc_drop", "description": " Craft: Chain, Drop Hammer" },
       { "id": "nail_npc_drop", "description": " Craft: Nail, Drop Hammer" },
-      { "id": "wire_npc_drop", "description": " Craft: Wire, Drop Hammer" },
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
     ]

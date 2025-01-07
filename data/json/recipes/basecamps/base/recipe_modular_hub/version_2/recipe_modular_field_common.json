@@ -435,7 +435,7 @@
         [ "reinforced_solar_panel_v2", 2 ]
       ],
       [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
-      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "sheet_metal", 2 ], [ "lc_wire", 8 ] ],
       [ [ "pipe", 24 ] ]
     ],
     "check_blueprint_needs": false

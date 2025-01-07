@@ -41,7 +41,7 @@ const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
 
-class string_input_popup;
+class string_input_popup_imgui;
 class uilist_impl;
 
 catacurses::window new_centered_win( int nlines, int ncols );
@@ -61,115 +61,122 @@ struct mvwzstr {
  * uilist_entry: entry line for uilist
  */
 struct uilist_entry {
-    int retval;                 // return this int
-    bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
-    bool force_color = false;   // Never darken this option
-    // std::nullopt: automatically assign an unassigned hotkey
-    // input_event(): disable hotkey
-    std::optional<input_event> hotkey;
-    std::string txt;            // what it says on the tin
-    std::string desc;           // optional, possibly longer, description
-    std::string ctxt;           // second column text
-    nc_color hotkey_color;
-    nc_color text_color;
-    mvwzstr extratxt;
+        int retval;                 // return this int
+        bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
+        bool force_color = false;   // Never darken this option
+        // std::nullopt: automatically assign an unassigned hotkey
+        // input_event(): disable hotkey
+        std::optional<input_event> hotkey;
+        std::string txt;            // what it says on the tin
+        std::string desc;           // optional, possibly longer, description
+        std::string ctxt;           // second column text
+        nc_color hotkey_color;
+        nc_color text_color;
+        mvwzstr extratxt;
 
-    // In the following constructors, int key only support letters (a-z, A-Z) and
-    // digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable hotkey). Other
-    // values may not work under keycode mode.
+        // In the following constructors, int key only support letters (a-z, A-Z) and
+        // digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable hotkey). Other
+        // values may not work under keycode mode.
 
-    /**
-    * @param txt string that will be displayed on the entry first column
-    */
-    explicit uilist_entry( const std::string &txt );
-    /**
-    * @param txt string that will be displayed on the entry first column
-    * @param desc entry description if menu desc_enabled is true
-    * @see uilist::desc_enabled
-    */
-    uilist_entry( const std::string &txt, const std::string &desc );
-    /**
-    * @param txt string that will be displayed on the entry first column
-    * @param key hotkey character that when pressed will return this entry return value
-    */
-    uilist_entry( const std::string &txt, int key );
-    /**
-    * @param txt string that will be displayed on the entry first column
-    * @param key hotkey character that when pressed will return this entry return value
-    */
-    uilist_entry( const std::string &txt, const std::optional<input_event> &key );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    */
-    uilist_entry( int retval, bool enabled, int key, const std::string &txt );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    */
-    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
-                  const std::string &txt );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    * @param desc entry description if menu desc_enabled is true
-    * @see uilist::desc_enabled
-    */
-    uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    * @param desc entry description if menu desc_enabled is true
-    * @see uilist::desc_enabled
-    */
-    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
-                  const std::string &txt, const std::string &desc );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    * @param desc entry description if menu desc_enabled is true
-    * @param column string that will be displayed on the entry second column
-    * @see uilist::desc_enabled
-    */
-    uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc,
-                  const std::string &column );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    * @param desc entry description if menu desc_enabled is true
-    * @param column string that will be displayed on the entry second column
-    * @see uilist::desc_enabled
-    */
-    uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
-                  const std::string &txt, const std::string &desc,
-                  const std::string &column );
-    /**
-    * @param retval return value of this option when selected during menu query
-    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
-    * @param key hotkey character that when pressed will return this entry return value
-    * @param txt string that will be displayed on the entry first column
-    * @param keycolor color of the hotkey character
-    * @param txtcolor entry text string color
-    */
-    uilist_entry( int retval, bool enabled, int key, const std::string &txt,
-                  const nc_color &keycolor, const nc_color &txtcolor );
-    template<typename Enum, typename... Args,
-             typename = std::enable_if_t<std::is_enum_v<Enum>>>
-                                         explicit uilist_entry( Enum e, Args && ... args ) :
-                                             uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
-    {}
+        /**
+        * @param txt string that will be displayed on the entry first column
+        */
+        explicit uilist_entry( const std::string &txt );
+        /**
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        uilist_entry( const std::string &txt, const std::string &desc );
+        /**
+        * @param txt string that will be displayed on the entry first column
+        * @param key hotkey character that when pressed will return this entry return value
+        */
+        uilist_entry( const std::string &txt, int key );
+        /**
+        * @param txt string that will be displayed on the entry first column
+        * @param key hotkey character that when pressed will return this entry return value
+        */
+        uilist_entry( const std::string &txt, const std::optional<input_event> &key );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        */
+        uilist_entry( int retval, bool enabled, int key, const std::string &txt );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        */
+        uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
+                      const std::string &txt );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
+                      const std::string &txt, const std::string &desc );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @param column string that will be displayed on the entry second column
+        * @see uilist::desc_enabled
+        */
+        uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc,
+                      const std::string &column );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @param column string that will be displayed on the entry second column
+        * @see uilist::desc_enabled
+        */
+        uilist_entry( int retval, bool enabled, const std::optional<input_event> &key,
+                      const std::string &txt, const std::string &desc,
+                      const std::string &column );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param keycolor color of the hotkey character
+        * @param txtcolor entry text string color
+        */
+        uilist_entry( int retval, bool enabled, int key, const std::string &txt,
+                      const nc_color &keycolor, const nc_color &txtcolor );
+        template<typename Enum, typename... Args,
+                 typename = std::enable_if_t<std::is_enum_v<Enum>>>
+                                             explicit uilist_entry( Enum e, Args && ... args ) :
+                                                 uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+        {}
+
+    public:
+        const std::string &_txt_nocolor();  // what it says on the tin
+        const std::string &_ctxt_nocolor(); // second column text
+    private:
+        std::string _txt_nocolor_cached;   // cached return values of the above
+        std::string _ctxt_nocolor_cached;
 };
 
 /**
@@ -184,8 +191,8 @@ struct uilist_entry {
  *     }
  *   }
  *   void refresh( uilist *menu ) {
- *       if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < game_z.size() ) {
- *           ImGui::TextColored( c_red, "( %s )", game_z[menu->hovered]->name() );
+ *       if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < game_z.size() ) {
+ *           ImGui::TextColored( c_red, "( %s )", game_z[menu->previewing]->name() );
  *       }
  *   }
  * }
@@ -469,7 +476,7 @@ class uilist // NOLINT(cata-xy)
 
         weak_ptr_fast<uilist_impl> ui;
 
-        std::unique_ptr<string_input_popup> filter_popup;
+        std::unique_ptr<string_input_popup_imgui> filter_popup;
         std::string filter;
 
         int max_entry_len = 0;
@@ -483,7 +490,8 @@ class uilist // NOLINT(cata-xy)
         bool need_to_scroll = false;
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
-        int current_category = 0;
+        size_t current_category = 0;
+        size_t switch_to_category = 0;
 
     public:
         // Results
@@ -492,7 +500,7 @@ class uilist // NOLINT(cata-xy)
         input_event ret_evt;
         int ret = 0;
         int selected = 0;
-        int hovered = 0;
+        int previewing = 0;
 
         void set_selected( int index );
 };
@@ -548,12 +556,11 @@ class pointmenu_cb : public uilist_callback
 
         pimpl<impl_t> impl;
     public:
-        explicit pointmenu_cb( const std::vector< tripoint > &pts );
+        explicit pointmenu_cb( const std::vector< tripoint_bub_ms > &pts );
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };
 
-void kill_advanced_inv();
 void temp_hide_advanced_inv();
 
 /**

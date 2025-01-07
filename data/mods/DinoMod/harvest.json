@@ -3,390 +3,312 @@
     "id": "dino_feather_leather",
     "//": "drops regular stomach and small skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.02 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "dino_pred_feather_leather",
     "//": "drops regular stomach and small skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_pred_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.02 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "dino_large_feather",
     "//": "drops large stomach and regular skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "dino_sauropod",
     "//": "drops sauropod stomach and medium skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_sauropod", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
+        { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "stomach_sauropod", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.15 }
+      ]
+    }
   },
   {
     "id": "dino_large_pred",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "dino_med_feather_pred",
     "//": "drops large stomach and medium skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "dino_large_feather_pred",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "tyrannosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_tyrannosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_tyrannosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "allosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_allosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_allosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "acrocanthosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_acrocanthosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_acrocanthosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "giganotosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_giganotosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
-      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_giganotosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
   },
   {
     "id": "dino_large_leather",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_dino_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "torosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_torosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_torosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
+  },
+  {
+    "id": "lokiceratops",
+    "//": "drops large stomach and skull",
+    "type": "harvest",
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_lokiceratops", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "styracosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_styracosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_styracosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "centrosaurus",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_centrosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_centrosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "triceratops",
     "//": "drops large stomach and skull",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_triceratops", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.31 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-    ]
+    "copy-from": "mammal_large_leather",
+    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "skull_triceratops", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 }
+      ]
+    }
   },
   {
     "id": "zed_dino_leather",

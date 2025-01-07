@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -28,7 +27,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -49,7 +47,6 @@
     "volume": "500 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "25 USD",
-    "to_hit": -1,
     "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
@@ -74,7 +71,6 @@
     "volume": "500 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "25 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
@@ -365,7 +361,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "DURABLE_MELEE" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -414,13 +410,12 @@
     "volume": "250 ml",
     "price": "50 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "gloves_wraps",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS", "SOFT" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "SOFT" ],
     "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -438,7 +433,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 75,
@@ -469,7 +464,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 90,
@@ -561,7 +556,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -596,7 +590,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "faux_fur" ],
     "symbol": "[",
     "looks_like": "gloves_fur",
@@ -630,7 +623,6 @@
     "volume": "250 ml",
     "price": "500 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -693,14 +685,13 @@
     "volume": "400 ml",
     "price": "30 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "denim" ],
     "symbol": "[",
     "color": "light_blue",
     "looks_like": "gloves_leather",
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "warmth": 30,
+    "warmth": 15,
     "material_thickness": 0.65
   },
   {
@@ -711,7 +702,6 @@
     "weight": "122 g",
     "volume": "270 ml",
     "price_postapoc": "3 USD 50 cent",
-    "to_hit": 1,
     "material": [ "denim" ],
     "symbol": "[",
     "color": "light_blue",
@@ -730,7 +720,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.65
   },
   {
@@ -742,7 +732,6 @@
     "volume": "250 ml",
     "price": "11 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -778,7 +767,6 @@
     "volume": "250 ml",
     "price": "6 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_light",
@@ -832,7 +820,6 @@
     "volume": "250 ml",
     "price": "11 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_light",
@@ -852,7 +839,7 @@
     "volume": "1500 ml",
     "price": "400 USD",
     "price_postapoc": "30 USD",
-    "material": [ "iron", "leather" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
@@ -868,7 +855,7 @@
         "specifically_covers": [ "hand_back_l", "hand_back_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -877,7 +864,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -892,7 +879,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 80, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 2.0 }
         ]
       }
     ],
@@ -963,7 +950,6 @@
     "volume": "750 ml",
     "price": "65 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -981,7 +967,6 @@
     "volume": "250 ml",
     "price": "35 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "gloves_winter",
@@ -1016,14 +1001,13 @@
     "volume": "250 ml",
     "price": "35 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "gloves_wool",
     "color": "blue",
     "warmth": 40,
     "material_thickness": 3,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 7,
@@ -1108,7 +1092,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1126,7 +1110,7 @@
     "color": "brown",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1144,7 +1128,7 @@
     "color": "brown",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1162,7 +1146,7 @@
     "color": "blue",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 2, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1174,7 +1158,6 @@
     "volume": "1 L",
     "price": "11 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_light",
@@ -1202,7 +1185,6 @@
     "volume": "750 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "gloves_wool",
@@ -1221,7 +1203,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "gloves_light",
@@ -1241,7 +1222,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "gloves_fur",
@@ -1265,7 +1245,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 100,
@@ -1342,7 +1322,6 @@
     "volume": "750 ml",
     "price": "81 USD 25 cent",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -1679,7 +1658,7 @@
     "looks_like": "gloves_tactical",
     "color": "dark_gray",
     "warmth": 5,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 4,

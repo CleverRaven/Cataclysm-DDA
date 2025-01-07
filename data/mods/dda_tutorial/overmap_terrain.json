@@ -1,0 +1,17 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "tutorial", "tutorial_underground" ],
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_roof",
+    "copy-from": "tutorial",
+    "see_cost": "none"
+  }
+]

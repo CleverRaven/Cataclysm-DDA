@@ -98,7 +98,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "varmint rifle" },
-    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
+    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
@@ -140,7 +140,14 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [
       {
         "magazine_well": "34 ml",
@@ -249,7 +256,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ],
@@ -360,6 +374,7 @@
     "volume": "392 ml",
     "price": "679 USD",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "longest_side": "266 mm",
     "barrel_length": "140 mm",
     "material": [ "steel", "plastic", "aluminum" ],
@@ -423,7 +438,14 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "built_in_mods": [ "bipod" ],
     "pocket_data": [
       {
@@ -523,6 +545,7 @@
     "barrel_length": "190 mm",
     "price": "165 USD 99 cent",
     "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -534,6 +557,7 @@
     "clip_size": 6,
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "melee_damage": { "bash": 5 },
     "variant_type": "gun",
     "variants": [
       {
@@ -557,6 +581,7 @@
     "barrel_length": "254 mm",
     "price": "288 USD 99 cent",
     "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -570,6 +595,7 @@
     "clip_size": 6,
     "valid_mod_locations": [ [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ],
+    "melee_damage": { "bash": 5 },
     "variant_type": "gun",
     "variants": [
       {
@@ -603,8 +629,17 @@
     "dispersion": 320,
     "durability": 8,
     "min_cycle_recoil": 39,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "1911_22_mag" ] } ],
     "melee_damage": { "bash": 5 },
     "variant_type": "gun",
@@ -615,5 +650,107 @@
         "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
     ]
+  },
+  {
+    "id": "rio_bravo",
+    "looks_like": "marlin_9a",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "small game lever-action rifle" },
+    "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rio_bravo",
+        "name": { "str": "Rossi Rio Bravo" },
+        "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in its tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles which themselves were based off of the Winchester 1892."
+      }
+    ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/313-rio-bravo-wood-matte-black-22-lr-18-in",
+    "ascii_picture": "marlin_39a",
+    "weight": "2345 g",
+    "volume": "2101 ml",
+    "longest_side": "931 mm",
+    "barrel_length": "457 mm",
+    "price": "404 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood", "aluminum" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 5,
+    "ammo": [ "22" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 110,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 15,
+    "valid_mod_locations": [
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "henry_golden_boy",
+    "looks_like": "marlin_9a",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "small game lever-action rifle" },
+    "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "henry_golden_boy",
+        "name": { "str": "Henry Golden Boy" },
+        "description": "A modern .22 LR lever-action rifle, the Henry Golden Boy features an 20\" octagonal barrel with 16 rounds of ammo in its tube magazine, which is loaded from the front of the rifle.  It fairly resembles the original Henry Model 1860 with its brass colored receiver, though with wooden furniture at the front, and without a doubt using modern manufacturing."
+      }
+    ],
+    "//": "Stats from https://www.henryusa.com/rifles/golden-boy/",
+    "ascii_picture": "marlin_39a",
+    "weight": "3062 g",
+    "volume": "2116 ml",
+    "longest_side": "979 mm",
+    "barrel_length": "580 mm",
+    "price": "648 USD",
+    "price_postapoc": "11 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood", "aluminum", "brass" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 6,
+    "ammo": [ "22" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 100,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 16,
+    "valid_mod_locations": [
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 16 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

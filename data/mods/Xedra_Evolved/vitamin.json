@@ -25,6 +25,16 @@
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
+    "id": "lilin_ruach_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ruach" },
+    "min": 0,
+    "max": 6720,
+    "//": "Maximum amount is one lunar month's worth at 10 spent per hour.",
+    "rate": "0 m"
+  },
+  {
     "id": "cheval",
     "type": "vitamin",
     "vit_type": "counter",
@@ -81,6 +91,16 @@
     "rate": "0 m",
     "excess": "dreamer_eff",
     "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 800 ], [ 801, 1000 ] ]
+  },
+  {
+    "id": "xedra_chronomancer_insight",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Insight into Time" },
+    "//": "Counts how much insight a chronomancer has obtained.  They automatically obtain 1 per day and may obtain much more by killing particular monsters or other activities.",
+    "min": 0,
+    "max": 10000,
+    "rate": "0 m"
   },
   {
     "id": "mutagen_earthkin",
@@ -143,6 +163,72 @@
     "vit_type": "counter",
     "name": { "str": "Sylph Mutagen" },
     "excess": "mutagen_airkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_noble",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Noble Fair Folk Mutagen" },
+    "excess": "mutagen_fair_folk_noble",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_brownie",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Brownie Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_brownie",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_pooka",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Pooka Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_pooka",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_selkie",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Selkie Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_selkie",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fair_folk_commoner_trow",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Trow Mutagen" },
+    "excess": "mutagen_fair_folk_commoner_trow",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_lilin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lilin Mutagen" },
+    "excess": "mutagen_lilin",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

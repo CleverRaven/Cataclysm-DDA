@@ -59,5 +59,23 @@
       "str": "\"Ogthrod ai'f geb'l-ee'h 'ngah'ng ai'y zhro!\""
     },
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_dwarf", "mon_zombie_elf", "mon_zombie_goblin", "mon_zombie_ravenfolk", "mon_zombie_lizardfolk" ],
+    "sound": "wheezing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_dwarf", "mon_zombie_elf", "mon_zombie_goblin", "mon_zombie_lizardfolk" ],
+    "sound": "moaning.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_ravenfolk" ],
+    "sound": "screeching.",
+    "volume": 20
   }
 ]

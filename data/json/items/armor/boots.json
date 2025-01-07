@@ -48,7 +48,7 @@
     "volume": "2500 ml",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "dress_shoes",
     "color": "dark_gray",
@@ -206,7 +206,7 @@
     "volume": "4250 ml",
     "price": "135 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "boots_bone",
@@ -233,7 +233,7 @@
       },
       { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_boots_chitin",
@@ -288,7 +288,7 @@
     "volume": "2 L",
     "price": "70 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
@@ -338,7 +338,7 @@
     "volume": "3 L",
     "price": "60 USD",
     "price_postapoc": "6 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "{",
     "color": "light_blue",
     "looks_like": "boots",
@@ -374,7 +374,8 @@
       }
     ],
     "warmth": 20,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "foot_protectors_eod",
@@ -422,7 +423,8 @@
     "weight": "907 g",
     "volume": "1 L",
     "price": "25 USD",
-    "to_hit": -1,
+    "price_postapoc": "6 USD 50 cent",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": "[",
     "color": "brown",
@@ -438,7 +440,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_fur",
@@ -449,7 +451,7 @@
     "volume": "4500 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "fur" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -515,7 +517,7 @@
     "volume": "4500 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "boots_fur",
@@ -581,7 +583,7 @@
     "volume": "2 L",
     "price": "140 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -628,7 +630,7 @@
     "volume": "2 L",
     "price": "125 USD",
     "price_postapoc": "17 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -638,7 +640,7 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_larmor",
@@ -772,7 +774,7 @@
     "volume": "3 L",
     "price": "120 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -809,7 +811,7 @@
         "coverage": 80
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_boots_scrap",
@@ -886,7 +888,7 @@
     "volume": "3 L",
     "price": "120 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -920,21 +922,21 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "sneakers_steel",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
-    "description": "A descendant of the classic steeltoed boot, this modern footwear has become popular amongst working class people over the last couple of decades.",
+    "description": "A descendant of the classic steeltoed boot, this modern footwear has become popular among working class people over the last couple of decades.",
     "weight": "900 g",
     "volume": "1500 ml",
     "longest_side": "254 mm",
     "price": "120 USD",
     "price_postapoc": "9 USD 25 cent",
     "material": [ "leather", "plastic", "steel" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "light_blue",
@@ -975,7 +977,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_western",
@@ -1031,7 +1033,7 @@
     "volume": "3500 ml",
     "price": "70 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "wool", "plastic" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1068,7 +1070,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_winter",
@@ -1233,7 +1236,6 @@
     "volume": "3500 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1270,8 +1272,7 @@
         ],
         "coverage": 100
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "dance_shoes",
@@ -1282,7 +1283,7 @@
     "volume": "1500 ml",
     "price": "120 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1326,7 +1327,7 @@
     "volume": "1500 ml",
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1626,7 +1627,7 @@
     "longest_side": "33 cm",
     "price": "80 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1700,7 +1701,7 @@
     "volume": "3750 ml",
     "price": "80 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "knee_high_boots",
     "color": "dark_gray",
@@ -2275,7 +2276,7 @@
     "volume": "4250 ml",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -2444,7 +2445,6 @@
     "price": "50 USD 12 cent",
     "price_postapoc": "20 USD",
     "material": [ "budget_steel_chain", "leather" ],
-    "to_hit": -1,
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
@@ -2486,7 +2486,6 @@
     "volume": "500 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
@@ -2641,7 +2640,6 @@
     "volume": "750 ml",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "socks",
@@ -3416,5 +3414,96 @@
     "name": { "str_sp": "espadrilles" },
     "extend": { "flags": [ "PREFIX_XS", "UNDERSIZE" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 }
+  },
+  {
+    "id": "jikatabi",
+    "type": "ARMOR",
+    "name": { "str": "pair of jika-tabi", "str_pl": "pairs of jika-tabi" },
+    "description": "A pair of thin traditional Japanese split toed boots sewn out of leather.",
+    "weight": "230 g",
+    "volume": "500 ml",
+    "price": "30 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "brown",
+    "warmth": 20,
+    "material_thickness": 1.0,
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "encumbrance": 4,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 80
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "jikatabi_sneakers",
+    "type": "ARMOR",
+    "name": { "str": "pair of jika-tabi sneakers", "str_pl": "pairs of jika-tabi sneakers" },
+    "description": "A pair of comfortable modern split toed jika-tabi shoes with a rubber base.  Also known as ninja shoes.  Though originally developed for laborers in Japan, in the west they are usually found being used in outdoor martial arts practice.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": "40 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "canvas", "rubber" ],
+    "symbol": "[",
+    "looks_like": "sneakers",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 2,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   }
 ]

@@ -304,7 +304,7 @@
     "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
+        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies') == 0" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
       }
     ]
@@ -377,6 +377,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_all_terrain",
+    "name": { "str": "All Terrain" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
+    "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_bedtime_reader",
     "name": { "str": "Bedtime Stories" },
     "points": 0,
@@ -403,7 +413,26 @@
     "purifiable": false,
     "valid": false,
     "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": 4,
+            "precise": true,
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -427,7 +456,8 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 } ],
+        "melee_damage_bonus": [ { "type": "electric", "add": 3 } ]
       }
     ]
   },
@@ -800,7 +830,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
       }
     ]
   },
@@ -1178,5 +1208,41 @@
     "valid": false,
     "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "revolvers_are_cool",
+    "name": { "str": "Double Action Action" },
+    "description": "You always knew nothing can beat the good old six shooters.  You have a minor bonus using revolvers.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_has_wielded_with_flag": "RELOAD_ONE" }, { "u_has_wielded_with_skill": "pistol" } ] },
+        "values": [
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "add": 6 },
+          { "value": "RANGE", "add": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "22_is_cool",
+    "name": { "str": "Rimfire Rebel" },
+    "description": "You always appreciated the size of this little fella named \"Dot Two Two Long Rifle\", but they laughed at you.  Not anymore!  You found that the size of a bullet that small is perfect to hit into little spots between armor or narrow places.  .22 weapons have additional armor penetration and quadrupled chance to hit a weakpoint.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_ammotype": "22" },
+        "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
   }
 ]

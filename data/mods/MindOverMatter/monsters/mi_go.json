@@ -50,7 +50,7 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 7,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "message": "%1$s moves so quickly your eyes can barely follow it!"
       },
       {
@@ -58,8 +58,21 @@
         "type": "spell",
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s moves so quickly it's nothing but a blur!"
+      },
+      {
+        "id": "psi_juggernaut_heightened_reflexes",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+          ]
+        },
+        "monster_message": "%1$s begins moving much more quickly."
       }
     ],
     "flags": [
@@ -123,7 +136,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_illumination_migo", "min_level": 5 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
       {
@@ -131,7 +144,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 7 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
       {
@@ -139,7 +152,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
         "cooldown": { "math": [ "12 + rand(24)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       }
     ],
@@ -209,7 +222,7 @@
         "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 15, "armor_penetration": 0 } ],
         "dodgeable": false,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s looks at you and your mind reels!",
         "hit_dmg_npc": "%1$s looks at <npcname> and they flinch as if struck!",
         "miss_msg_u": "%s looks at you but nothing happens!",
@@ -220,7 +233,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_hallucinations_monster", "min_level": 10 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
       },
       {
@@ -228,7 +241,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       }
     ],

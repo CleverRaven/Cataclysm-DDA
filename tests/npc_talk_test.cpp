@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
@@ -51,7 +50,7 @@ static const itype_id itype_manual_speech( "manual_speech" );
 
 static const morale_type morale_haircut( "morale_haircut" );
 
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
@@ -75,7 +74,7 @@ static const trait_id trait_test_trait( "test_trait" );
 static npc &create_test_talker( bool shopkeep = false )
 {
     const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
+    const character_id model_id = get_map().place_npc( point_bub_ms( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -119,9 +118,8 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    // TODO: fix point types
-    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
-                                        get_player_character().pos() ) ) );
+    const tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( get_map().getglobal(
+                                        get_player_character().pos_bub() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
@@ -131,17 +129,17 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
-    player_character.set_value( "npctalk_var_test_var", "It's avatar" );
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
-    const tripoint test_origin( 15, 15, 0 );
+    const tripoint_bub_ms test_origin( 15, 15, 0 );
     player_character.setpos( test_origin );
 
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
-    beta.set_value( "npctalk_var_test_var", "It's npc" );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -338,6 +336,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
+    REQUIRE( !overmap_buffer.find_camp( get_avatar().global_omt_location().xy() ) );
     change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
@@ -1015,10 +1014,10 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     prep_test( d );
 
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_test_var", "It's global" );
+    globvars.set_global_value( "test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    d.set_value( "npctalk_var_test_var", "It's context" );
+    d.set_value( "test_var", "It's context" );
     gen_response_lines( d, 8 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
@@ -1080,7 +1079,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
     int expected_answers = 7;
@@ -1122,7 +1121,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( tripoint( -1, -2, -3 ) );
+    player_character.setpos( { -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
@@ -1137,7 +1136,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-                        get_player_character().getID(), mon_zombie_bio_op, 0 );
+                        get_player_character().getID(), mon_zombie, 0 );
     get_event_bus().send( e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
@@ -1217,7 +1216,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
     // Teardown
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
 }
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
@@ -1229,6 +1228,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     d.add_topic( "TALK_TEST_ARITHMETIC" );
     gen_response_lines( d, 31 );
 
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
@@ -1289,7 +1291,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.per_max == 9 );
 
-    std::string var_name = "npctalk_var_test_var_time_test_test";
+    std::string var_name = "test_var_time_test_test";
     player_character.set_value( var_name, std::to_string( 1 ) );
     // "Sets custom var to 10."
     effects = d.responses[ 9 ].success;
@@ -1521,5 +1523,5 @@ TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
     gen_response_lines( d, 1 );
     chosen = d.responses[0];
     chosen.success.apply( d );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
+    CHECK( globvars.get_global_value( "key1" ) == "bottle_glass" );
 }

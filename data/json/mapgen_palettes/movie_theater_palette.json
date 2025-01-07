@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "movie_theater_palette.json",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "furniture": {
       "a": "f_atm_off",
       "T": "f_counter",
@@ -11,7 +12,7 @@
       "7": "f_pinball_machine",
       "c": "f_stool",
       "e": "f_stool",
-      "#": "f_armchair",
+      "C": "f_armchair",
       "s": "f_sink",
       "t": "f_table",
       "{": "f_locker",
@@ -27,14 +28,13 @@
       "@": "f_sofa",
       "o": "f_oven",
       "r": "f_rack",
-      "F": "f_vending_c",
-      "v": "f_vending_c",
       "Z": "f_console_broken",
       "N": "f_bulletin"
     },
+    "vendingmachines": { "F": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
     "terrain": {
       "$": "t_carpet_green",
-      "#": "t_carpet_purple",
+      "C": "t_carpet_purple",
       "K": "t_carpet_purple",
       "b": "t_carpet_purple",
       "i": "t_carpet_purple",
@@ -43,16 +43,14 @@
       "e": "t_carpet_purple",
       ".": "t_thconc_floor",
       "_": "t_floor",
-      "!": "t_brick_wall",
-      "|": "t_wall_b",
       "%": "t_wall_glass",
       "+": "t_door_c",
       "^": "t_door_glass_c",
       "D": "t_door_metal_pickable",
       "d": "t_door_locked",
       "w": "t_window",
-      "-": "t_railing_h",
-      "R": "t_railing_h",
+      "-": "t_railing",
+      "R": "t_railing",
       "<": "t_ladder_up"
     }
   }

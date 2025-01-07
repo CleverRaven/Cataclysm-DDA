@@ -17,7 +17,7 @@
   "flags": [ "FOO" ],
   "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ],
   "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ],
-  "decays_into": [ "calcium", 2 ]
+  "decays_into": [ [ "calcium", 2 ], [ "blood", 6 ] ]
 },
 ```
 ### `id`

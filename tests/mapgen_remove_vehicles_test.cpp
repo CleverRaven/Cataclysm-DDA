@@ -34,7 +34,7 @@ void check_vehicle_still_works( vehicle &veh )
     here.displace_vehicle( veh, startp - veh.pos_bub() );
 }
 
-vehicle *add_test_vehicle( map &m, tripoint loc )
+vehicle *add_test_vehicle( map &m, tripoint_bub_ms loc )
 {
     return m.add_vehicle( vehicle_prototype_shopping_cart, loc, -90_degrees, 100, 0 );
 }
@@ -44,22 +44,22 @@ void remote_add_test_vehicle( map &m )
     wipe_map_terrain( &m );
     m.clear_traps();
     REQUIRE( m.get_vehicles().empty() );
-    add_test_vehicle( m, tripoint_zero );
+    add_test_vehicle( m, tripoint_bub_ms::zero );
     REQUIRE( m.get_vehicles().size() == 1 );
-    REQUIRE( m.veh_at( tripoint_bub_ms_zero ).has_value() );
+    REQUIRE( m.veh_at( tripoint_bub_ms::zero ).has_value() );
 }
 
 template<typename F, typename ID>
-void local_test( vehicle *veh, tripoint const &test_loc, F const &fmg, ID const &id )
+void local_test( vehicle *veh, tripoint_bub_ms const &test_loc, F const &fmg, ID const &id )
 {
     map &here = get_map();
     tripoint_abs_omt const this_test_omt =
         project_to<coords::omt>( get_map().getglobal( test_loc ) );
-    tripoint const this_test_loc = test_loc + point_east;
+    tripoint_bub_ms const this_test_loc = test_loc + point::east;
     vehicle *const veh2 = add_test_vehicle( here, this_test_loc );
     REQUIRE( here.veh_at( this_test_loc ).has_value() );
     REQUIRE( here.get_vehicles().size() == 2 );
-    REQUIRE( veh->global_pos3() == veh2->global_pos3() - point_east );
+    REQUIRE( veh->pos_bub() == veh2->pos_bub() - point::east );
     REQUIRE( veh->sm_pos == veh2->sm_pos );
 
     manual_mapgen( this_test_omt, fmg, id );
@@ -68,7 +68,7 @@ void local_test( vehicle *veh, tripoint const &test_loc, F const &fmg, ID const 
 }
 
 template<typename F, typename ID>
-void remote_test( vehicle *veh, tripoint const &test_loc, F const &fmg, ID const &id )
+void remote_test( vehicle *veh, tripoint_bub_ms const &test_loc, F const &fmg, ID const &id )
 {
     map &here = get_map();
     tripoint_abs_omt const this_test_omt =
@@ -89,7 +89,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     map &here = get_map();
     clear_avatar();
     // this position should prevent pointless mapgen
-    tripoint const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
+    tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
     get_avatar().setpos( start_loc );
     clear_map();
     REQUIRE( here.get_vehicles().empty() );
@@ -101,7 +101,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     here.board_vehicle( start_loc, &get_avatar() );
     veh->start_engines( &get_avatar(), true );
 
-    tripoint const test_loc = get_avatar().pos();
+    tripoint_bub_ms const test_loc = get_avatar().pos_bub();
     check_vehicle_still_works( *veh );
 
     SECTION( "nested remove_vehicle outside of main map" ) {
@@ -123,7 +123,8 @@ TEST_CASE( "mapgen_remove_vehicles" )
     SECTION( "update place then nested remove all on main map" ) {
         tripoint_abs_omt const this_test_omt =
             project_to<coords::omt>( get_map().getglobal( test_loc ) );
-        tripoint const this_test_loc = get_map().getlocal( project_to<coords::ms>( this_test_omt ) );
+        tripoint_bub_ms const this_test_loc = get_map().bub_from_abs( project_to<coords::ms>
+                                              ( this_test_omt ) );
         manual_mapgen( this_test_omt, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
         REQUIRE( here.get_vehicles().size() == 2 );
         REQUIRE( here.veh_at( this_test_loc ).has_value() );

@@ -283,7 +283,7 @@ static std::string current_playlist;
 static size_t current_playlist_at = 0;
 static size_t absolute_playlist_at = 0;
 static std::vector<std::size_t> playlist_indexes;
-static bool sound_init_success = false;
+bool sound_init_success = false;
 static std::map<std::string, music_playlist> playlists;
 static cata_path current_soundpack_path;
 
@@ -909,6 +909,16 @@ void load_soundset()
         sfx_preload.clear();
         std::vector<sfx_args> t_swap;
         sfx_preload.swap( t_swap );
+    }
+}
+
+// capitalized to mirror cata_tiles::InitSDL()
+void initSDLAudioOnly()
+{
+    const int ret = SDL_Init( SDL_INIT_AUDIO );
+    throwErrorIf( ret != 0, "SDL_Init failed" );
+    if( atexit( SDL_Quit ) ) {
+        debugmsg( "atexit failed to register SDL_Quit" );
     }
 }
 

@@ -5,6 +5,36 @@
     "replace": "combat_exoskeleton_light_salvaged"
   },
   {
+    "type": "MIGRATION",
+    "id": "dinosuit",
+    "replace": "fursuit",
+    "variant": "dinosuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wolfsuit",
+    "replace": "fursuit",
+    "variant": "wolfsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "felinesuit",
+    "replace": "fursuit",
+    "variant": "felinesuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "dragonsuit",
+    "replace": "fursuit",
+    "variant": "dragonsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sharksuit",
+    "replace": "fursuit",
+    "variant": "sharksuit"
+  },
+  {
     "id": "depowered_helmet",
     "type": "MIGRATION",
     "replace": "combat_exoskeleton_armor_head_light"
@@ -20,9 +50,24 @@
     "replace": "qt_steel_chunk"
   },
   {
+    "id": "fake_anvil_crude",
+    "type": "MIGRATION",
+    "replace": "fake_anvil"
+  },
+  {
     "id": "power_armor_generator",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "plasma_gun",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
+  },
+  {
+    "id": "plasma_rifle",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
   },
   {
     "id": "power_armor_helmet_basic",
@@ -193,7 +238,7 @@
   {
     "id": "egg_toad",
     "type": "MIGRATION",
-    "replace": "egg_odd_toad"
+    "replace": "egg_freedom_toad"
   },
   {
     "id": "superalloy_harness_dog",
@@ -1418,8 +1463,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_338fmjbt_200",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_338fmjbt_200"
+    "replace": "ammunition_can_30"
   },
   {
     "type": "MIGRATION",
@@ -1460,8 +1504,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_50_300AAC_otm_840",
-    "replace": "ammunition_can_50",
-    "variant": "ammunition_can_50_300AAC_otm_840"
+    "replace": "ammunition_can_50"
   },
   {
     "type": "MIGRATION",
@@ -1472,8 +1515,7 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_50_338fmjbt_400",
-    "replace": "ammunition_can_50",
-    "variant": "ammunition_can_50_338fmjbt_400"
+    "replace": "ammunition_can_50"
   },
   {
     "type": "MIGRATION",
@@ -1917,5 +1959,280 @@
     "id": "stabilizer_mod",
     "type": "MIGRATION",
     "replace": "rail_laser_sight"
+  },
+  {
+    "id": "wire",
+    "type": "MIGRATION",
+    "replace": "lc_wire"
+  },
+  {
+    "id": "piano_wire",
+    "type": "MIGRATION",
+    "replace": "qt_wire"
+  },
+  {
+    "id": "chain_link",
+    "type": "MIGRATION",
+    "replace": "lc_chain_link"
+  },
+  {
+    "id": "link_sheet",
+    "type": "MIGRATION",
+    "replace": "lc_link_sheet"
+  },
+  {
+    "id": "acr_300blk",
+    "type": "MIGRATION",
+    "replace": "sig_mcx_rattler_sbr"
+  },
+  {
+    "id": "egg_pattern_frog",
+    "type": "MIGRATION",
+    "replace": "egg_leo_frog"
+  },
+  {
+    "id": "egg_strange_frog",
+    "type": "MIGRATION",
+    "replace": "egg_bullfrog_frog"
+  },
+  {
+    "id": "egg_foul_toad",
+    "type": "MIGRATION",
+    "replace": "egg_fowler_toad"
+  },
+  {
+    "id": "egg_odd_toad",
+    "type": "MIGRATION",
+    "replace": "egg_freedom_toad"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_peeper_frog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_gray_frog"
+  },
+  {
+    "id": "egg_palette_frog",
+    "type": "MIGRATION",
+    "replace": "egg_pickerel_frog"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_vocal_bigfrog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_shift_bigfrog"
+  },
+  {
+    "id": "wire_barbed_baseball",
+    "type": "MIGRATION",
+    "replace": "baseball"
+  },
+  {
+    "id": "cx4",
+    "type": "MIGRATION",
+    "replace": "m9"
+  },
+  {
+    "id": "STI_DS_10",
+    "type": "MIGRATION",
+    "replace": "glock_20"
+  },
+  {
+    "id": "2011_22_mag",
+    "type": "MIGRATION",
+    "replace": "tdi_10mm_mag"
+  },
+  {
+    "id": "2011_17_mag",
+    "type": "MIGRATION",
+    "replace": "tdi_10mm_mag"
+  },
+  {
+    "id": "kp3at",
+    "type": "MIGRATION",
+    "replace": "rugerlcp"
+  },
+  {
+    "id": "kp3atmag",
+    "type": "MIGRATION",
+    "replace": "rugerlcpmag"
+  },
+  {
+    "id": "fn1910mag",
+    "type": "MIGRATION",
+    "replace": "hptcf380mag_8rd"
+  },
+  {
+    "id": "kpf9",
+    "type": "MIGRATION",
+    "replace": "glock_19"
+  },
+  {
+    "id": "kpf9mag",
+    "type": "MIGRATION",
+    "replace": "glockmag"
+  },
+  {
+    "id": "kpf9mag_8rd",
+    "type": "MIGRATION",
+    "replace": "glockmag"
+  },
+  {
+    "id": "mauser_m714",
+    "type": "MIGRATION",
+    "replace": "glock_19"
+  },
+  {
+    "id": "mausermag_20rd",
+    "type": "MIGRATION",
+    "replace": "glock17_22"
+  },
+  {
+    "id": "mausermag_10rd",
+    "type": "MIGRATION",
+    "replace": "glockmag"
+  },
+  {
+    "id": "taurus_spectrum",
+    "type": "MIGRATION",
+    "replace": "rugerlcp"
+  },
+  {
+    "id": "taurus_spectrum_mag",
+    "type": "MIGRATION",
+    "replace": "rugerlcpmag"
+  },
+  {
+    "id": "minidraco556",
+    "type": "MIGRATION",
+    "replace": "ak556"
+  },
+  {
+    "id": "arx160",
+    "type": "MIGRATION",
+    "replace": "ak47"
+  },
+  {
+    "id": "walther_ppq_40",
+    "type": "MIGRATION",
+    "replace": "glock_22"
+  },
+  {
+    "id": "ppq40mag_10rd",
+    "type": "MIGRATION",
+    "replace": "glock40mag"
+  },
+  {
+    "id": "ppq40mag_12rd",
+    "type": "MIGRATION",
+    "replace": "glock40mag"
+  },
+  {
+    "id": "ppq40mag_14rd",
+    "type": "MIGRATION",
+    "replace": "glock40mag"
+  },
+  {
+    "id": "90two40",
+    "type": "MIGRATION",
+    "replace": "glock_22"
+  },
+  {
+    "id": "90two40mag",
+    "type": "MIGRATION",
+    "replace": "glock40mag"
+  },
+  {
+    "id": "sig_p230",
+    "type": "MIGRATION",
+    "replace": "walther_ppk"
+  },
+  {
+    "id": "sigp230mag",
+    "type": "MIGRATION",
+    "replace": "ppkmag"
+  },
+  {
+    "id": "ammo_box_army_20_338",
+    "type": "MIGRATION",
+    "replace": "ammo_box_4"
+  },
+  {
+    "id": "peanutbutter_imitation",
+    "type": "MIGRATION",
+    "replace": "peanutbutter"
+  },
+  {
+    "id": "dragonskin",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "stillsuit",
+    "type": "MIGRATION",
+    "replace": "h20survivor_jumpsuit"
+  },
+  {
+    "id": "m1911-460",
+    "type": "MIGRATION",
+    "replace": "m1911"
+  },
+  {
+    "id": "460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "bp_460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "reloaded_460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "bp_460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "reloaded_460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "460_casing",
+    "type": "MIGRATION",
+    "replace": "45_casing"
+  },
+  {
+    "id": "kiln_full",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_lit",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_done",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
   }
 ]

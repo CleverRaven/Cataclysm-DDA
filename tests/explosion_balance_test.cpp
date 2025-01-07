@@ -48,7 +48,7 @@ static float get_damage_vs_target( const std::string &target_id )
 
     int damaging_hits = 0;
     int damage_taken = 0;
-    tripoint monster_position( 30, 30, 0 );
+    tripoint_bub_ms monster_position( 30, 30, 0 );
     clear_map_and_put_player_underground();
     int hits = 10000;
     for( int i = 0; i < hits; ++i ) {
@@ -77,8 +77,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     std::stringstream survivor_stats;
     int total_hp = 0;
     clear_map_and_put_player_underground();
-    tripoint origin( 30, 30, 0 );
-    std::map<int, std::vector<tripoint>> circles;
+    tripoint_bub_ms origin( 30, 30, 0 );
+    std::map<int, std::vector<tripoint_bub_ms>> circles;
     circles[0] = { origin };
     circles[5] = {
         { 25, 28, 0 }, { 25, 29, 0 }, { 25, 30, 0 }, { 25, 31, 0 }, { 25, 32, 0 },
@@ -98,7 +98,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         clear_creatures();
         // Spawn some monsters in a circle.
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : circles[range] ) {
+        for( const tripoint_bub_ms &monster_position : circles[range] ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -117,7 +117,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         } );
         num_survivors += survivors.size();
         for( Creature *survivor : survivors ) {
-            survivor_stats << survivor->pos() << " " << survivor->get_hp() << ", ";
+            survivor_stats << survivor->pos_bub() << " " << survivor->get_hp() << ", ";
             bool wounded = survivor->get_hp() < survivor->get_hp_max() * 0.75;
             num_wounded += wounded ? 1 : 0;
             total_hp += survivor->get_hp();
@@ -178,16 +178,16 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 {
     // Clear map
     clear_map_and_put_player_underground();
-    tripoint origin( 30, 30, 0 );
+    tripoint_bub_ms origin( 30, 30, 0 );
 
     vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
                               -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( get_map().veh_at( origin ) ) {
-        origin.x++;
+        origin.x()++;
     }
-    origin.x += range;
+    origin.x() += range;
 
     // Set off an explosion
     item grenade( explosive_id );

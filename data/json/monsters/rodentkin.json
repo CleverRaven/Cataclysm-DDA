@@ -7,7 +7,7 @@
     "name": { "str": "black rat" },
     "description": "The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" }
+    "upgrades": { "half_life": 15, "into": "mon_big_rat" }
   },
   {
     "id": "mon_lab_ratkin",
@@ -16,7 +16,7 @@
     "//": "Duplicate rats created to prevent all rats from evolving into mutant rats, any monster ending in ratkin should only appear in places where mutant rats can evolve.",
     "description": "The albino Norway rat, an omnivorous rodent with sleek white fur and a long, rough tail.  While its ancestors were harbingers of plague, these clever animals are omnipresent in modern biomedical research.",
     "default_faction": "ratkin",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 15, "into": "mon_big_rat" },
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
     "volume": "320 ml",
@@ -83,7 +83,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_RATKIN_EVOLVED" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,
@@ -120,7 +120,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
@@ -144,7 +144,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "stomach_size": 120,
-    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": false,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
@@ -186,6 +186,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 3,
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED", "STALK" ],
+    "upgrades": false,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_pack_rat",
     "stomach_size": 800,
@@ -233,10 +234,10 @@
     "death_drops": "ratkin_death_drops_teke",
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
-    "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER", "EATS" ],
+    "upgrades": false,
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
   },
   {
@@ -272,7 +273,8 @@
       [ "EAT_CARRION", 120 ]
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER", "EATS" ],
+    "upgrades": false,
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }

@@ -15,7 +15,13 @@
     "type": "item_group",
     "id": "SUS_book_nonf_soft",
     "copy-from": "SUS_book_nonf_soft",
-    "extend": { "items": [ { "item": "book_nonf_magic_origin_of_species", "prob": 1 } ] }
+    "extend": {
+      "items": [
+        { "item": "book_nonf_magic_origin_of_species", "prob": 1 },
+        { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 },
+        { "item": "book_nonf_history_antimagic_restraints", "prob": 1 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -30,6 +36,7 @@
     "extend": {
       "items": [
         { "group": "spellbook_tier_0", "prob": 80 },
+        { "item": "magazine_augmentative_review", "prob": 10 },
         { "group": "spellbook_loot_0", "prob": 4 },
         { "item": "history_botanical_enchantment", "prob": 2 }
       ]
@@ -46,6 +53,12 @@
         { "group": "dragon_books", "prob": 4 }
       ]
     }
+  },
+  {
+    "id": "book_mag_interests",
+    "type": "item_group",
+    "copy-from": "book_mag_interests",
+    "extend": { "items": [ { "item": "magazine_augmentative_review", "prob": 10 } ] }
   },
   {
     "type": "item_group",
@@ -111,13 +124,13 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "copy-from": "guns_pistol_rare",
+    "id": "guns_pistol_common",
+    "copy-from": "guns_pistol_common",
     "extend": {
       "items": [
-        { "item": "wand_magic_missile_minor", "prob": 35, "charges": [ 12, 34 ] },
-        { "item": "wand_fireball_minor", "prob": 25, "charges": [ 3, 24 ] },
-        { "item": "m47a1", "prob": 25, "charges": [ 0, 6 ] }
+        { "item": "wand_magic_missile_minor", "prob": 6, "charges": [ 12, 34 ] },
+        { "item": "wand_fireball_minor", "prob": 4, "charges": [ 3, 24 ] },
+        { "item": "m47a1", "prob": 4, "charges": [ 0, 6 ] }
       ]
     }
   },
@@ -505,6 +518,7 @@
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "item": "mring_fire_protection", "prob": 3 },
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "magical_reagents", "prob": 8 },
@@ -728,6 +742,8 @@
       { "item": "mring_speed_7", "prob": 10 },
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
+      { "item": "mring_fire_protection", "prob": 10 },
+      { "item": "mring_sustenance", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -743,6 +759,7 @@
       { "item": "mring_perception_4", "prob": 10 },
       { "item": "mring_speed_10", "prob": 10 },
       { "item": "mring_protection_8", "prob": 10 },
+      { "item": "mring_flying", "prob": 10 },
       { "item": "mring_wizardry_greater", "prob": 5 }
     ]
   },
@@ -869,14 +886,22 @@
     "type": "item_group",
     "//": "lesser enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_lesser", "prob": 10 }, { "item": "mbracer_lightning_lesser", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_defense_lesser", "prob": 10 },
+      { "item": "mbracer_lightning_lesser", "prob": 10 },
+      { "item": "mbracer_archery", "prob": 5 }
+    ]
   },
   {
     "id": "enchanted_bracers_greater",
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_blinding_strike", "prob": 10 },
+      { "item": "mbracer_defense_greater", "prob": 10 },
+      { "item": "mbracer_lightning_greater", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_bracelets",
@@ -1191,6 +1216,7 @@
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
           { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_light_target", "prob": 50 },
           { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
           { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
@@ -1202,6 +1228,7 @@
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
+          { "item": "spell_scroll_magus_silence", "prob": 35 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
@@ -1217,11 +1244,18 @@
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
           { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
-          { "item": "spell_scroll_magus_slow", "prob": 50 }
+          { "item": "spell_scroll_magus_slow", "prob": 50 },
+          { "item": "spell_scroll_magus_permanent_light", "prob": 30 }
         ],
         "prob": 10
       },
-      { "distribution": [ { "item": "recovery_spellbook", "prob": 10 } ], "prob": 5 }
+      {
+        "distribution": [
+          { "item": "spell_scroll_magus_cannot_move_attack_or_damage_target", "prob": 10 },
+          { "item": "recovery_spellbook", "prob": 10 }
+        ],
+        "prob": 5
+      }
     ]
   },
   {
@@ -1237,7 +1271,8 @@
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 },
-          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 }
+          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 },
+          { "item": "spell_scroll_animist_detect_wizards", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1245,8 +1280,10 @@
         "distribution": [
           { "item": "priest_advanced", "prob": 10 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
-          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
+          { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
         ],
         "prob": 35
       },
@@ -1322,7 +1359,8 @@
           { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 }
+          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 },
+          { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 2 }
         ],
         "prob": 10
       }
@@ -1419,7 +1457,8 @@
           { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
           { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 },
           { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 },
-          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 }
+          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 },
+          { "item": "spell_scroll_earthshaper_diggable_teleport", "prob": 30 }
         ],
         "prob": 10
       }
@@ -1455,7 +1494,8 @@
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
           { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
-          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 },
+          { "item": "spell_scroll_biomancer_get_more_blood", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1507,7 +1547,8 @@
           { "item": "spell_scroll_druid_bearmantle", "prob": 75 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
-          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
+          { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 },
+          { "item": "spell_scroll_druid_goodberry", "prob": 85 }
         ],
         "prob": 35
       },
@@ -1521,9 +1562,16 @@
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
           { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
-          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 }
+          { "item": "spell_scroll_druid_create_temporary_spring", "prob": 75 }
         ],
         "prob": 10
+      },
+      {
+        "distribution": [
+          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
+          { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
+        ],
+        "prob": 5
       }
     ]
   },
@@ -1575,6 +1623,7 @@
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
           { "item": "spell_scroll_blinding_flash", "prob": 50 },
+          { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 40 },
           { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
           { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
         ],
@@ -1848,5 +1897,76 @@
     "subtype": "collection",
     "id": "group_forge_warp_items",
     "items": [ { "item": "forge_warp_scroll", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ravenfolk_jewelry",
+    "//": "copied from jewelry_accessories with ear and teeth jewelry removed, plus no wedding/engagement rings",
+    "items": [
+      [ "gold_ring", 30 ],
+      [ "gold_bracelet", 30 ],
+      [ "gold_necklace", 30 ],
+      [ "gold_locket", 20 ],
+      [ "gold_hairpin", 20 ],
+      [ "platinum_ring", 2 ],
+      [ "platinum_bracelet", 2 ],
+      [ "platinum_necklace", 2 ],
+      [ "platinum_locket", 1 ],
+      [ "platinum_hairpin", 1 ],
+      [ "silver_necklace", 40 ],
+      [ "silver_bracelet", 40 ],
+      [ "silver_ring", 40 ],
+      [ "silver_locket", 30 ],
+      [ "silver_hairpin", 30 ],
+      [ "copper_bracelet", 15 ],
+      [ "copper_ring", 15 ],
+      [ "copper_necklace", 15 ],
+      [ "cowrie_necklace", 15 ],
+      [ "copper_locket", 15 ],
+      [ "copper_hairpin", 10 ],
+      [ "ring_purity", 5 ],
+      [ "cufflinks", 25 ],
+      [ "cufflinks_intricate", 15 ],
+      [ "diamond_ring", 10 ],
+      [ "jade_brooch", 30 ],
+      [ "tieclip", 35 ],
+      [ "pearl_collar", 30 ],
+      [ "holy_symbol", 20 ],
+      [ "gold_anklet", 20 ],
+      [ "silver_anklet", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_hunting_archery",
+    "copy-from": "SUS_hunting_archery",
+    "subtype": "collection",
+    "extend": { "items": [ { "item": "mbracer_archery", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mon_zombie_prisoner_death_drops",
+    "copy-from": "mon_zombie_prisoner_death_drops",
+    "subtype": "collection",
+    "//": "All prisoner zombies receive a shackle, as giving one to every prisoner was safer than hoping that no prisoner is able to teleport",
+    "//2": "The default is that the player and NPCs prisoners managed to remove theirs before the game starts.  The player can decide to start with one if they want to add more challenge",
+    "//3": "Lorewise the shackles become inert without a living wearer, so zombies won't have non-inert shackles",
+    "extend": { "items": [ { "item": "mana_leech_shackle_unlocked", "prob": 100 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "prison_weapons",
+    "copy-from": "prison_weapons",
+    "//": "All mana-leech shackles are inert until activated, so they won't ever be found in their active state unless worn by someone alive",
+    "extend": { "items": [ { "group": "mana_leech_shackle_and_unlock_scroll", "prob": 20 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "mana_leech_shackle_and_unlock_scroll",
+    "subtype": "collection",
+    "items": [
+      { "item": "mana_leech_shackle_unlocked", "count": [ 3, 8 ], "prob": 100 },
+      { "item": "mana_leech_unlock_scroll", "count": [ 3, 8 ], "prob": 100 }
+    ]
   }
 ]

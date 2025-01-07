@@ -164,6 +164,40 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 
+# Trap migration
+
+Trap migration replaces the provided id as submaps are loaded. You can use `tr_null` with `to_trap` to remove the trap entirely without creating errors.
+
+```json
+{
+    "type": "trap_migration",   // Mandatory. String. Must be "trap_migration"
+    "from_trap": "tr_old_trap",        // Mandatory. String. Id of the trap to replace.
+    "to_trap": "tr_new_trap",      // Mandatory. String. Id of the new trap to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_migrated_id",
+    "to_trap": "tr_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_obsoleted_id",
+    "to_trap": "tr_null"
+  }
+```
+
 # Field migration
 
 Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
@@ -171,8 +205,8 @@ Field migration replaces the provided id as submaps are loaded. You can use `fd_
 ```json
 {
     "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
-    "from_field": "t_old_field",        // Mandatory. String. Id of the field to replace.
-    "to_field": "f_new_field",      // Mandatory. String. Id of the new field to place.
+    "from_field": "fd_old_field",        // Mandatory. String. Id of the field to replace.
+    "to_field": "fd_new_field",      // Mandatory. String. Id of the new field to place.
 },
 ```
 
@@ -200,7 +234,8 @@ Errorlessly obsolete an id
 
 # Overmap terrain migration
 
-Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
+Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
+If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
 ```json
   {
@@ -244,6 +279,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 }
 ```
 
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
+
 # Ammo types
 
 Ammo types don't need an infrastructure to be obsoleted, but it is required to remove all items that use this ammo type
@@ -282,4 +322,19 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
     "dependencies": [ "dda" ],
     "obsolete": true
   }
+```
+
+When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
 ```

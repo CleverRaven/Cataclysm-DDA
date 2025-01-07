@@ -116,8 +116,9 @@ void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
-    if( !assign( jo, "color", color ) ) {
-        jo.throw_error( "missing mandatory member \"color\"" );
+    // TODO: Is there a generic_factory version of this?
+    if( !assign( jo, "color", color ) && !was_loaded ) {
+        jo.throw_error( "Missing mandatory member \"color\"" );
     }
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
@@ -141,8 +142,11 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "flags", _flags );
     optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
-    act = trap_function_from_string( jo.get_string( "action" ) );
-
+    if( jo.has_string( "action" ) ) {
+        act = trap_function_from_string( jo.get_string( "action" ) );
+    } else if( !was_loaded ) {
+        jo.throw_error( "Missing mandatory member \"action\"" );
+    }
     optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_none );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
@@ -151,7 +155,22 @@ void trap::load( const JsonObject &jo, const std::string_view )
     int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    optional( jo, was_loaded, "spell_data", spell_data );
+    if( jo.has_member( "spell_data" ) ) {
+        //This is kinda ugly but idk how to do it better bc std::function doesn't support normal equality
+        if( act.target_type() != trap_function_from_string( "spell" ).target_type() ) {
+            jo.throw_error_at( "spell_data",
+                               R"(Can't use "spell_data" without specifying "action": "spell")" );
+        }
+        optional( jo, was_loaded, "spell_data", spell_data );
+    }
+    if( jo.has_member( "eocs" ) ) {
+        if( act.target_type() != trap_function_from_string( "eocs" ).target_type() ) {
+            jo.throw_error_at( "eocs", R"(Can't use "eocs" without specifying "action": "eocs")" );
+        }
+        for( JsonValue jv : jo.get_array( "eocs" ) ) {
+            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    }
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "sound_threshold", sound_threshold );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
@@ -240,7 +259,7 @@ bool trap::detected_by_echolocation() const
     return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
 }
 
-bool trap::detect_trap( const tripoint &pos, const Character &p ) const
+bool trap::detect_trap( const tripoint_bub_ms &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
     // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
@@ -261,7 +280,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
-    const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
+    const int distance_penalty = rl_dist( p.pos_bub(), pos ) - 1;
 
     int proficiency_effect = -1;
     // Without at least a basic traps proficiency, your skill level is effectively three levels lower.
@@ -295,18 +314,6 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const Character &p ) const
-{
-    if( is_null() ) {
-        // There is no trap at all, so logically one can not see it.
-        return false;
-    }
-    if( is_always_invisible() ) {
-        return false;
-    }
-    return visibility < 0 || p.knows_trap( pos );
-}
-
 bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
 {
     if( is_null() ) {
@@ -319,7 +326,7 @@ bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger( const tripoint &pos ) const
+void trap::trigger( const tripoint_bub_ms &pos ) const
 {
     if( is_null() ) {
         return;
@@ -327,17 +334,17 @@ void trap::trigger( const tripoint &pos ) const
     act( pos, nullptr, nullptr );
 }
 
-void trap::trigger( const tripoint &pos, Creature &creature ) const
+void trap::trigger( const tripoint_bub_ms &pos, Creature &creature ) const
 {
     return trigger( pos, &creature, nullptr );
 }
 
-void trap::trigger( const tripoint &pos, item &item ) const
+void trap::trigger( const tripoint_bub_ms &pos, item &item ) const
 {
     return trigger( pos, nullptr, &item );
 }
 
-void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
+void trap::trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const
 {
     if( is_null() ) {
         return;
@@ -393,7 +400,7 @@ bool trap::triggered_by_sound( int vol, int dist ) const
     return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
-void trap::on_disarmed( map &m, const tripoint &p ) const
+void trap::on_disarmed( map &m, const tripoint_bub_ms &p ) const
 {
     for( const auto &i : components ) {
         const itype_id &item_type = std::get<0>( i );
@@ -401,7 +408,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
     }
-    for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
+    for( const tripoint_bub_ms &dest : m.points_in_radius( tripoint_bub_ms( p ), trap_radius ) ) {
         m.remove_trap( dest );
     }
 }

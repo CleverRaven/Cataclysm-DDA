@@ -53,6 +53,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_west_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_w_sides", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_skyisland_build_eastroom1",
     "effect": [ { "mapgen_update": "mx_skyisland_e1", "target_var": { "global_val": "OM_island_sube" } } ]
   },
@@ -73,6 +78,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_east_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_e_sides", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_skyisland_build_northroom1",
     "effect": [ { "mapgen_update": "mx_skyisland_n1", "target_var": { "global_val": "OM_island_subn" } } ]
   },
@@ -90,6 +100,11 @@
     "type": "effect_on_condition",
     "id": "EOC_skyisland_build_northroom4",
     "effect": [ { "mapgen_update": "mx_skyisland_n4", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_north_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_n_sides", "target_var": { "global_val": "OM_island_subn" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -119,95 +134,43 @@
       { "u_message": "Mapping island for future construction…" },
       {
         "u_location_variable": { "global_val": "OM_island_center" },
-        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "search_range": 4 }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS" }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subcenter" },
-        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "search_range": 4, "offset_z": -1 }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subnw" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": -1,
-          "offset_y": -1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1, "offset_y": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subn" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_y": -1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_y": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subne" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": 1,
-          "offset_y": -1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1, "offset_y": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subw" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": -1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_sube" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": 1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subsw" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": -1,
-          "offset_y": 1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1, "offset_y": 1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subs" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_y": 1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_y": 1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subse" },
-        "target_params": {
-          "om_terrain": "sky_island_core",
-          "om_terrain_match_type": "CONTAINS",
-          "search_range": 4,
-          "offset_z": -1,
-          "offset_x": 1,
-          "offset_y": 1
-        }
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1, "offset_y": 1 }
       }
     ]
   },
@@ -702,22 +665,57 @@
     "object": {
       "rows": [
         "                        ",
-        "       ###########      ",
-        ",     ##.........##     ",
-        ",/#####...........##    ",
-        ",/G..#.............#    ",
-        ",/G..#...-------...#    ",
-        ",/G..#...-------...#    ",
-        ",/G..#...-------...#xxxx",
-        ",/G..+....--O---...+----",
-        ",/G..#...-------...#xxxx",
-        ",/G..#...-------...#    ",
-        ",/G..#...-------...#    ",
-        ",/G..#.............#    ",
-        ",/#####...........##    ",
-        ",     ##.........##     ",
-        "       ###########      ",
         "                        ",
+        ",                       ",
+        ",/####                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/G..+                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/G..#                  ",
+        ",/####                  ",
+        ",                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_w_sides",
+    "object": {
+      "rows": [
+        "                   #####",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #x+xx",
+        "                   +----",
+        "                   #x+xx",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #####",
         "                        ",
         "                        ",
         "                        ",
@@ -842,22 +840,57 @@
     "object": {
       "rows": [
         "                        ",
-        "      ###########       ",
-        "     ##.........##     ,",
-        "    ##...........#####/,",
-        "    #.............#..G/,",
-        "    #...-------...#..G/,",
-        "    #...-------...#..G/,",
-        "xxxx#...-------...#..G/,",
-        "----+...---O--....+..G/,",
-        "xxxx#...-------...#..G/,",
-        "    #...-------...#..G/,",
-        "    #...-------...#..G/,",
-        "    #.............#..G/,",
-        "    ##...........#####/,",
-        "     ##.........##     ,",
-        "      ###########       ",
         "                        ",
+        "                       ,",
+        "                  ####/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  +..G/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  #..G/,",
+        "                  ####/,",
+        "                       ,",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_e_sides",
+    "object": {
+      "rows": [
+        "#####                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "xx+x#                   ",
+        "----+                   ",
+        "xx+x#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#####                   ",
         "                        ",
         "                        ",
         "                        ",
@@ -995,16 +1028,51 @@
         " ##.........-.........##",
         "  ##........-........## ",
         "   #########+#########  ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          ",
-        "           #.#          "
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_n_sides",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ########.########   ",
+        "    #......#.#......#   ",
+        "    #......#.#......#   ",
+        "    #......+.+......#   ",
+        "    #......#.#......#   ",
+        "    #......#.#......#   ",
+        "    ########.########   "
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "skyisland_bunker" ]

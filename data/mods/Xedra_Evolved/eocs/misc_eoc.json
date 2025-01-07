@@ -142,24 +142,24 @@
       }
     },
     "effect": [
-      { "math": [ "u_stormwrought_blood_charge", "++" ] },
+      { "math": [ "u_stormwrought_blood_charge++" ] },
       {
         "run_eocs": [
           {
             "id": "STORMWROUGHT_BLOOD_FULL_CHARGE",
-            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "25" ] },
+            "condition": { "math": [ "u_stormwrought_blood_charge >= 25" ] },
             "effect": [
               { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
               { "u_remove_item_with": "stormwrought_blood_itert" },
               { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
-              { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
+              { "math": [ "u_stormwrought_blood_charge = 0" ] }
             ],
             "false_effect": [
               {
                 "run_eocs": [
                   {
                     "id": "STORMWROUGHT_BLOOD_HIGH_CHARGE",
-                    "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "10" ] },
+                    "condition": { "math": [ "u_stormwrought_blood_charge >= 10" ] },
                     "effect": [
                       {
                         "u_message": "The stormwrought blood boils intensely for a moment before returning to its inert state.",
@@ -171,7 +171,7 @@
                         "run_eocs": [
                           {
                             "id": "STORMWROUGHT_BLOOD_LOW_CHARGE",
-                            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "1" ] },
+                            "condition": { "math": [ "u_stormwrought_blood_charge >= 1" ] },
                             "effect": [ { "u_message": "The stormwrought blood boils a little, then becomes inert again.", "type": "info" } ]
                           }
                         ]
@@ -233,7 +233,7 @@
             },
             { "u_remove_item_with": "revenant_effigy" },
             { "assign_mission": "MISSION_KILL_LUNA_ATTUNED" },
-            { "queue_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
+            { "run_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
           ],
           "false_effect": [
             {
@@ -249,5 +249,87 @@
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_LUNA_MISSION",
     "effect": { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_NEXT_WEATHER",
+    "effect": [ "next_weather" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_MOONS_TEARS_RECIPES",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "moon_tear_ingot",
+          "moons_tears_knife_baselard",
+          "moons_tears_broadsword",
+          "moons_tears_arming_sword",
+          "moons_tears_mace",
+          "moons_tears_scimitar",
+          "moons_tears_estoc",
+          "moons_tears_spear",
+          "moons_tears_battleaxe",
+          "moons_tears_katana"
+        ],
+        "type": "recipe",
+        "true_eocs": [  ],
+        "false_eocs": [  ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEP_NEAR_SEVENOCLOCK",
+    "eoc_type": "EVENT",
+    "required_event": "character_attempt_to_fall_asleep",
+    "condition": { "u_has_effect": "effect_sleep_shield_check" },
+    "effect": [ { "run_eocs": [ "EOC_SLEEP_SHIELD_SEVENOCLOCK", "EOC_MINIMUM_TIME_ASLEEP" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MINIMUM_TIME_ASLEEP",
+    "condition": { "math": [ "u_val('sleepiness') <= 100" ] },
+    "effect": [ { "math": [ "u_val('sleepiness') = 100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLEEP_SHIELD_SEVENOCLOCK",
+    "condition": { "not": { "math": [ "u_val('pos_z') == 10" ] } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_SLEEP_SHIELD_SEVENOCLOCK_2",
+          "effect": [
+            { "u_add_effect": "sleep", "duration": "8 hours" },
+            { "u_add_effect": "effect_hedge_no_nightmares", "duration": "8 hours" },
+            { "u_add_effect": "effect_sleep_shield", "duration": "72 hours" },
+            { "u_location_variable": { "u_val": "SLEEP_SHIELD_location" }, "min_radius": 0, "max_radius": 0 },
+            {
+              "u_location_variable": { "u_val": "SLEEP_SHIELD_destination" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": 10,
+              "z_override": true
+            },
+            { "u_teleport": { "u_val": "SLEEP_SHIELD_destination" }, "force": true }
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "Distrustful of the shenanigans you used to bring him at such a high altitude, the Man of the Nineteenth Hour refuses to shield you!",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAKE_UP_FROM_SLEEP_SHIELD",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "effect_sleep_shield" },
+    "effect": [ { "u_lose_effect": "effect_sleep_shield" }, { "u_teleport": { "u_val": "SLEEP_SHIELD_location" }, "force": true } ]
   }
 ]

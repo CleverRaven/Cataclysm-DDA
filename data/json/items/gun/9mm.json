@@ -44,64 +44,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ],
     "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "cx4",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "M9 pistol-caliber carbine" },
-    "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-caliber carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small caliber, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defense civilian roles.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cx4",
-        "name": { "str": "Cx4 Storm carbine" },
-        "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns."
-      }
-    ],
-    "weight": "2575 g",
-    "volume": "4458 ml",
-    "longest_side": "762 mm",
-    "barrel_length": "423 mm",
-    "price": "900 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "skill": "rifle",
-    "range": 6,
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
-    "dispersion": 180,
-    "durability": 10,
-    "min_cycle_recoil": 450,
-    "barrel_volume": "250 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "m9bigmag", "m9mag_10rd", "m9mag", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9mag_32rd", "m9mag_35rd" ]
-      }
-    ],
-    "melee_damage": { "bash": 8 }
   },
   {
     "id": "glock_19",
@@ -190,7 +142,14 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -418,28 +377,6 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "mauser_m714",
-    "copy-from": "mauser_c96",
-    "type": "GUN",
-    "name": { "str": "reproduction Mauser pistol" },
-    "description": "A modern take on the original Mauser design, this variant is chambered for 9x19mm cartridges and, unlike its elder brother, the pre-1900 Mauser Broomhandle, this firearm feeds from detachable box magazines.  Whilst it features surplus Mauser parts in its construction, the frame of the pistol is of relatively modern manufacture.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mauser_m714",
-        "name": { "str": "M714 Broomhandle pistol" },
-        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser's own 7.63x25mm cartridge."
-      }
-    ],
-    "weight": "1070 g",
-    "volume": "615 ml",
-    "price": "900 USD",
-    "price_postapoc": "5 USD",
-    "pocket_data": [
-      { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mausermag_20rd", "mausermag_10rd" ] }
-    ]
-  },
-  {
     "id": "mp40",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
@@ -556,7 +493,14 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -584,7 +528,7 @@
       {
         "id": "m9",
         "name": { "str": "Beretta M9A1 pistol" },
-        "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 until only recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40 S&W."
+        "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 until only recently.  It was formerly popular among law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40 S&W."
       },
       {
         "id": "90two",
@@ -717,7 +661,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -754,7 +698,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -903,24 +847,6 @@
     "price_postapoc": "25 USD",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "built_in_mods": [ "barrel_ported" ]
-  },
-  {
-    "id": "kpf9",
-    "copy-from": "kp32",
-    "type": "GUN",
-    "name": { "str": "Kel-Tec PF-9 pistol" },
-    "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow-up shots are difficult to place quickly.",
-    "weight": "357 g",
-    "volume": "357ml",
-    "longest_side": "149mm",
-    "barrel_length": "79 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "price": "180 USD",
-    "price_postapoc": "20 USD",
-    "ammo": [ "9mm" ],
-    "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "65 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ] } ],
-    "melee_damage": { "bash": 2 }
   },
   {
     "id": "m11",
@@ -1260,7 +1186,14 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -90,7 +90,8 @@ enum class do_activity_reason : int {
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
     NEEDS_CRAFT,             // There is at least one item to craft.
-    NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
+    NEEDS_DISASSEMBLE,        // There is at least one item to disassemble.
+    REFUSES_THIS_WORK        // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
 
 };
 
@@ -122,7 +123,8 @@ const std::vector<std::string> do_activity_reason_string = {
     "NEEDS_MOP",
     "NEEDS_FISHING",
     "NEEDS_CRAFT",
-    "NEEDS_DISASSEMBLE"
+    "NEEDS_DISASSEMBLE",
+    "REFUSES_THIS_WORK"
 };
 
 struct activity_reason_info {
@@ -241,8 +243,6 @@ void tree_communion_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 void vibe_do_turn( player_activity *act, Character *you );
-void view_recipe_do_turn( player_activity *act, Character *you );
-void wait_stamina_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -274,10 +274,8 @@ void toolmod_add_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void vehicle_finish( player_activity *act, Character *you );
 void vibe_finish( player_activity *act, Character *you );
-void view_recipe_finish( player_activity *act, Character *you );
 void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
-void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );

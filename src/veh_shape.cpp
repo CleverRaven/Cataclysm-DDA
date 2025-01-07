@@ -17,24 +17,24 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
 {
     avatar &you = get_avatar();
     on_out_of_scope cleanup( []() {
-        get_map().invalidate_map_cache( get_avatar().view_offset.z );
+        get_map().invalidate_map_cache( get_avatar().view_offset.z() );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
 
     cursor_allowed.clear();
     for( const vpart_reference &part : veh.get_all_parts() ) {
-        cursor_allowed.insert( tripoint_bub_ms( part.pos() ) );
+        cursor_allowed.insert( part.pos_bub() );
     }
 
     if( !set_cursor_pos( pos ) ) {
         debugmsg( "failed to set cursor at given part" );
-        set_cursor_pos( tripoint_bub_ms( veh.global_part_pos3( 0 ) ) );
+        set_cursor_pos( veh.bub_part_pos( 0 ) );
     }
 
     const auto target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
         const avatar &you = get_avatar();
-        g->draw_cursor_unobscuring( tripoint_bub_ms( you.pos() + you.view_offset ) );
+        g->draw_cursor_unobscuring( you.pos_bub() + you.view_offset );
     } );
     g->add_draw_callback( target_ui_cb );
     ui_adaptor ui;
@@ -141,7 +141,7 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
             .keep_menu_open()
             .skip_locked_check()
             .skip_theft_check()
-            .location( veh.global_part_pos3( part ) )
+            .location( veh.bub_part_pos( part ).raw() )
             .select( part.variant == vvid )
             .desc( _( "Confirm to save or exit to revert" ) )
             .symbol( vv.get_symbol_curses( 0_degrees, false ) )
@@ -199,14 +199,14 @@ bool veh_shape::set_cursor_pos( const tripoint_bub_ms &new_pos )
         get_map().invalidate_map_cache( z );
     }
     cursor_pos = target_pos;
-    you.view_offset = cursor_pos.raw() - you.pos();
+    you.view_offset = cursor_pos - you.pos_bub();
     return true;
 }
 
 bool veh_shape::handle_cursor_movement( const std::string &action )
 {
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
-        tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
+        tripoint_rel_ms edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
         set_cursor_pos( get_cursor_pos() + edge_scroll );
     } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         set_cursor_pos( get_cursor_pos() + *delta ); // move cursor with directional keys
@@ -215,18 +215,17 @@ bool veh_shape::handle_cursor_movement( const std::string &action )
     } else if( action == "zoom_out" ) {
         g->zoom_out();
     } else if( action == "SELECT" ) {
-        const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( g->w_terrain );
+        const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( g->w_terrain );
         if( !mouse_pos ) {
             return false;
         }
-        const tripoint_bub_ms mp( *mouse_pos );
-        if( get_cursor_pos() != mp ) {
-            set_cursor_pos( mp );
+        if( get_cursor_pos() != *mouse_pos ) {
+            set_cursor_pos( *mouse_pos );
         }
     } else if( action == "LEVEL_UP" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_above );
+        set_cursor_pos( get_cursor_pos() + tripoint::above );
     } else if( action == "LEVEL_DOWN" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_below );
+        set_cursor_pos( get_cursor_pos() + tripoint::below );
     } else {
         return false;
     }

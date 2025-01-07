@@ -37,7 +37,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "robofachq_rock", "robofachq_roof_e" ],
-    "name": "A buggy non-place",
+    "name": { "str": "A buggy non-place", "//~": "NO_I18N" },
     "vision_levels": "underground_stone",
     "looks_like": "empty_rock",
     "sym": "%",

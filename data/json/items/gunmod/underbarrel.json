@@ -455,45 +455,6 @@
     "melee_damage": { "stab": 6 }
   },
   {
-    "id": "rm121aux",
-    "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
-    "name": { "str": "caseless aux shotgun" },
-    "description": "Designated the Rivtech RM121 auxiliary weapon system, this is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "rm121aux",
-        "name": { "str": "RM121 aux shotgun" },
-        "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines."
-      }
-    ],
-    "weight": "1140 g",
-    "volume": "750 ml",
-    "longest_side": "380 mm",
-    "price": "1 kUSD 200 USD",
-    "price_postapoc": "50 USD",
-    "install_time": "5 m",
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-    "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "barrel_length": "419 mm", "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
-  },
-  {
-    "id": "rm121aux_mod",
-    "copy-from": "rm121aux",
-    "type": "GUNMOD",
-    "name": { "str": "modified RM121 aux shotgun" },
-    "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "u_shotgun",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",
@@ -610,5 +571,48 @@
       "moves": 150
     },
     "flags": [ "BIPOD", "SLOW_WIELD", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "muzzle_weight",
+    "type": "GUNMOD",
+    "name": { "str": "muzzle weight" },
+    "description": "A small weight attached below the barrel of a firearm to reduce muzzle climb, increasing bulk but allowing for faster follow-up shots.  Mainly used on competition handguns, but it can be added to combat pistols, too.",
+    "//": "Based on https://stores.sjcguns.com/sjc-full-size-m-p-frame-weight/, which was selected as an 'average' WRT weight.  This model does not extend beyond the barrel or the slide, and so is compatible with compensators, suppressors, etc.  Realistically every distinct model and chambering of pistol would need a custom-made weight, but that level of granularity doesn't seem to square with that of existing gunmods.",
+    "weight": "179 g",
+    "volume": "68 ml",
+    "longest_side": "68 mm",
+    "integral_longest_side": "0 cm",
+    "handling_modifier": 2,
+    "price": "175 USD",
+    "price_postapoc": "5 USD",
+    "install_time": "1 m",
+    "material": [ "aluminum" ],
+    "symbol": ":",
+    "color": "white",
+    "location": "underbarrel",
+    "mod_targets": [ "smg", "pistol" ],
+    "min_skills": [ [ "weapon", 3 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "ree_33_tripod",
+    "type": "GUNMOD",
+    "name": { "str": "heavy-duty tripod" },
+    "description": "Massive tripod, used by Exodii naval rifle so it can be used by lightweight units, providing firearm support.  Allows using naval rifle while prone.",
+    "weight": "6000 g",
+    "volume": "5800 ml",
+    "longest_side": "66 cm",
+    "price_postapoc": "5 USD",
+    "install_time": "5 m",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
+    "min_str_required_mod_if_prone": -83,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "ree_33" ],
+    "handling_modifier": 18,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "BIPOD", "SLOW_WIELD" ],
+    "melee_damage": { "bash": 12 }
   }
 ]

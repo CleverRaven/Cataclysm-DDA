@@ -7,7 +7,7 @@
     "destination": "safe_house",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -48,6 +48,52 @@
     "end": { "effect": { "run_eocs": "EOC_LUNA_ATTUNED_LOOT" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "id": "MISSION_SEVENOCLOCK",
+    "type": "mission_definition",
+    "name": { "str": "Find the source of the bloody footsteps." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "cabin_sevenoclock",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "old cabin" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "id": "MISSION_DEATHWORM",
+    "type": "mission_definition",
+    "name": { "str": "Find the source of the acid-burned hole." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "field_deathworm",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "field_deathworm", "om_special": "acid-scarred field" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "",
       "offer": "",

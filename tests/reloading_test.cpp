@@ -1135,14 +1135,14 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     }
 
     SECTION( "liquid reload from map" ) {
-        const tripoint test_origin( 60, 60, 0 );
+        const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
         dummy.setpos( test_origin );
-        const tripoint near_point = test_origin + tripoint_east;
+        const tripoint_bub_ms near_point = test_origin + tripoint::east;
 
         SECTION( "liquid in container on floor" ) {
             ammo_jug.remove_item();
-            ammo_jug = item_location( map_cursor( tripoint_bub_ms( near_point ) ), &here.add_item( near_point,
+            ammo_jug = item_location( map_cursor( near_point ), &here.add_item( near_point,
                                       item( "bottle_plastic" ) ) );
             ammo_jug->fill_with( item( "water_clean" ) );
             ammo_volume = ammo_jug->total_contained_volume();

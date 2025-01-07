@@ -6,6 +6,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -55,7 +56,7 @@ static const ter_str_id ter_t_tree_fungal_young( "t_tree_fungal_young" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spore_chance )
+void fungal_effects::fungalize( const tripoint_bub_ms &p, Creature *origin, double spore_chance )
 {
     Character &player_character = get_player_character();
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
@@ -68,7 +69,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
-    } else if( player_character.pos() == p ) {
+    } else if( player_character.pos_bub() == p ) {
         // TODO: Make this accept NPCs when they understand fungals
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
@@ -115,14 +116,14 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     }
 }
 
-void fungal_effects::create_spores( const tripoint &p, Creature *origin )
+void fungal_effects::create_spores( const tripoint_bub_ms &p, Creature *origin )
 {
-    for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &tmp : get_map().points_in_radius( p, 1 ) ) {
         fungalize( tmp, origin, 0.25 );
     }
 }
 
-void fungal_effects::marlossify( const tripoint &p )
+void fungal_effects::marlossify( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     const ter_t &terrain = here.ter( p ).obj();
@@ -141,7 +142,7 @@ void fungal_effects::marlossify( const tripoint &p )
     }
 }
 
-void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth )
+void fungal_effects::spread_fungus_one_tile( const tripoint_bub_ms &p, const int growth )
 {
     map &here = get_map();
     bool converted = false;
@@ -239,7 +240,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             } );
             if( seed == items.end() || !seed->is_seed() ) {
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
-                                            string_format( "%d,%d,%d.", p.x, p.y, p.z );
+                                            p.to_string_writable();
             } else {
                 *seed = item( "fungal_seeds", calendar::turn );
             }
@@ -247,11 +248,11 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
     }
 }
 
-void fungal_effects::spread_fungus( const tripoint &p )
+void fungal_effects::spread_fungus( const tripoint_bub_ms &p )
 {
     int growth = 1;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;
         }
@@ -267,7 +268,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( growth == 9 ) {
             return;
         }
-        for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
             if( !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified

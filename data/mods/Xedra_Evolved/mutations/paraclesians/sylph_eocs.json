@@ -10,12 +10,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "10" ] },
+    "condition": { "math": [ "u_val('mana') >= 10" ] },
     "effect": [  ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your fulgurating strikes!", "type": "bad" },
       { "u_lose_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-      { "queue_eocs": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -107,7 +107,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_FLY_AT_WILL",
-    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
+    "condition": { "math": [ "u_val('mana') >= 3" ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "3" ] },
       { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" },
@@ -132,7 +132,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "10" ] },
+    "condition": { "math": [ "u_val('mana') >= 10" ] },
     "effect": [ { "math": [ "u_val('mana')", "-=", "10" ] } ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your cloud body!", "type": "bad" },
@@ -160,10 +160,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_WIND_TRANSLOCATE_CHECK",
     "condition": {
-      "and": [
-        "u_is_outside",
-        { "or": [ { "math": [ "u_val('pos_z')", ">=", "3" ] }, { "math": [ "weather('windpower')", ">=", "20" ] } ] }
-      ]
+      "and": [ "u_is_outside", { "or": [ { "math": [ "u_val('pos_z') >= 3" ] }, { "math": [ "weather('windpower') >= 20" ] } ] } ]
     },
     "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
     "false_effect": [
@@ -173,7 +170,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_WIND_ATTUNEMENT_CHECK",
-    "condition": { "and": [ "u_is_outside", { "math": [ "u_val('pos_z')", ">=", "3" ] } ] },
+    "condition": { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 3" ] } ] },
     "effect": [ { "u_cast_spell": { "id": "sylph_wind_translocation_attune_real" }, "targeted": true } ],
     "false_effect": [ { "u_message": "You must be outdoors and high above the earth to cast this spell.", "type": "mixed" } ]
   },
@@ -182,8 +179,8 @@
     "id": "EOC_SYLPH_GOBLIN_FRUIT",
     "condition": {
       "or": [
-        { "and": [ "u_is_outside", { "math": [ "weather('windpower')", ">=", "15" ] } ] },
-        { "and": [ "u_is_outside", { "math": [ "u_val('pos_z')", ">=", "1" ] } ] }
+        { "and": [ "u_is_outside", { "math": [ "weather('windpower') >= 15" ] } ] },
+        { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 1" ] } ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],

@@ -18,8 +18,8 @@ static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 static void check_reload_time( const std::string &weapon, const std::string &ammo,
                                const std::string &container, int expected_moves )
 {
-    const tripoint test_origin( 60, 60, 0 );
-    const tripoint spot( 61, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    const tripoint_bub_ms spot( 61, 60, 0 );
     clear_map();
     avatar &shooter = get_avatar();
     g->place_critter_at( pseudo_debug_mon, spot );

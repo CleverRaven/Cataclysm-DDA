@@ -20,12 +20,13 @@
         "baseball",
         "football",
         "golf_ball",
-        "marble",
-        "metal_RPG_die",
-        "RPG_die",
         "rock",
         "sharp_rock",
-        "bearing"
+        "rock_flaking",
+        "brick",
+        "wood_block",
+        "lawn_dart",
+        "weighted_dart"
       ]
     ]
   },

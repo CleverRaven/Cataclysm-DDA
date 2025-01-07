@@ -25,11 +25,6 @@
     "info": "This gear will transform you into animal form, and may have some side effects."
   },
   {
-    "id": "ELECTROKINETIC_CHARGEABLE",
-    "type": "json_flag",
-    "info": "This item can be recharged by an electrokinetic"
-  },
-  {
     "id": "HEDGE_ENCHANTED",
     "type": "json_flag",
     "info": "This item has a <good>charm</good> on it."
@@ -38,5 +33,28 @@
     "id": "BLESSED_WEAPON",
     "type": "json_flag",
     "info": "This weapon does <good>extra damage</good> against creatures of the <info>Nether</info>."
+  },
+  {
+    "id": "EVIL_EYE_IMMUNE",
+    "type": "json_flag",
+    "info": "You are immune to the evil eye."
+  },
+  {
+    "id": "WARDING_SYMBOL",
+    "type": "json_flag",
+    "info": "Wearing this is <good>comforting</good>."
+  },
+  {
+    "id": "EVIL_EYE_IMMUNE_MONSTER",
+    "type": "monster_flag"
+  },
+  {
+    "id": "STABILIZED_TIMELINE",
+    "type": "json_flag",
+    "info": "You are immune to adverse affects on your timeline."
+  },
+  {
+    "id": "STABILIZED_TIMELINE",
+    "type": "monster_flag"
   }
 ]

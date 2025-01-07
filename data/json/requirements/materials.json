@@ -66,6 +66,18 @@
     "components": [ [ [ "meal_bone", 1 ], [ "meal_bone_tainted", 1 ] ] ]
   },
   {
+    "id": "skull_small",
+    "type": "requirement",
+    "//": "Small skulls",
+    "components": [ [ [ "skull_feline_small", 1 ], [ "skull_canis_small", 1 ], [ "skull_opossum", 1 ], [ "skull_skunk", 1 ] ] ]
+  },
+  {
+    "id": "skull_medium",
+    "type": "requirement",
+    "//": "Medium skulls",
+    "components": [ [ [ "skull_feline_medium", 1 ], [ "skull_canis_medium", 1 ], [ "skull_raccoon", 1 ], [ "skull_rabbit", 1 ] ] ]
+  },
+  {
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
@@ -354,6 +366,12 @@
     "components": [ [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_natural_short", 5, "LIST" ] ] ]
   },
   {
+    "id": "chain_material",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible, per 1080 g/9 m of rope",
+    "components": [ [ [ "chain", 1 ] ] ]
+  },
+  {
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
@@ -363,7 +381,7 @@
     "id": "rope_any_short",
     "type": "requirement",
     "//": "Materials used for lashing, when any rope or wire is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "wire", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "id": "rope_superior",
@@ -376,6 +394,21 @@
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
+  },
+  {
+    "id": "steel_chunk_any",
+    "type": "requirement",
+    "//": "Materials for when you just need a heavy chunk of metal, like for the makeshift hammer",
+    "components": [
+      [
+        [ "steel_chunk", 1 ],
+        [ "lc_steel_chunk", 1 ],
+        [ "mc_steel_chunk", 1 ],
+        [ "hc_steel_chunk", 1 ],
+        [ "ch_steel_chunk", 1 ],
+        [ "qt_steel_chunk", 1 ]
+      ]
+    ]
   },
   {
     "id": "steel_standard",
@@ -686,5 +719,11 @@
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
     "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
+  },
+  {
+    "id": "any_wire",
+    "type": "requirement",
+    "//": "All steel wires",
+    "components": [ [ [ "lc_wire", 1 ], [ "mc_wire", 1 ], [ "hc_wire", 1 ], [ "ch_wire", 1 ], [ "qt_wire", 1 ] ] ]
   }
 ]

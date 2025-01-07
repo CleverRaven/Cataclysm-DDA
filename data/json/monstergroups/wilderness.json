@@ -4,15 +4,15 @@
     "name": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
-      { "group": "GROUP_BEARS", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "group": "GROUP_COUGARS", "weight": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
-      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175, "cost_multiplier": 3 },
-      { "monster": "mon_mutant_experimental", "weight": 25, "cost_multiplier": 3 },
-      { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
-      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
-      { "monster": "mon_pickerel_frog", "weight": 200, "cost_multiplier": 5, "pack_size": [ 4, 16 ] }
+      { "monster": "mon_bat", "weight": 600, "pack_size": [ 2, 5 ] },
+      { "group": "GROUP_BEARS", "weight": 100 },
+      { "group": "GROUP_COUGARS", "weight": 100 },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175 },
+      { "monster": "mon_mutant_experimental", "weight": 25 },
+      { "monster": "mon_mole_cricket", "weight": 60 },
+      { "monster": "mon_woodlouse", "weight": 60, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_stag_beetle_larva", "weight": 40 },
+      { "monster": "mon_pickerel_frog", "weight": 200, "pack_size": [ 2, 4 ] }
     ]
   },
   {
@@ -169,7 +169,7 @@
       { "group": "GROUP_REINDEERS", "weight": 3, "cost_multiplier": 3, "pack_size": [ 2, 6 ], "event": "christmas" },
       { "monster": "mon_fox_gray", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_fox_red", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_coyote", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_COYOTE", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
       { "group": "GROUP_MOOSE", "weight": 1, "cost_multiplier": 3, "pack_size": [ 1, 3 ] }
     ]
   },
@@ -180,7 +180,6 @@
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_DEER_MUT_SPIDERS", "weight": 4, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       { "monster": "mon_bear_mutant_3headed", "weight": 1, "cost_multiplier": 10 }
     ]
   },
@@ -213,7 +212,8 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_hummingbird", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_woodpecker", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_woodpecker", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_guinea_fowl", "weight": 1, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -222,7 +222,7 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_rattlesnake", "weight": 3 },
+      { "group": "GROUP_RATTLESNAKE", "weight": 3 },
       { "monster": "mon_gartersnake", "weight": 10 },
       { "monster": "mon_wormsnake", "weight": 5 },
       { "monster": "mon_skink_fivelined", "weight": 2, "pack_size": [ 1, 2 ] }
@@ -275,8 +275,7 @@
       { "monster": "mon_zeindeer", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 5 ], "event": "christmas" },
       { "monster": "mon_zombie_dog", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_zombie_horse", "weight": 1, "cost_multiplier": 15, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zoose", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_zpider_mass", "weight": 1, "cost_multiplier": 10 }
+      { "monster": "mon_zoose", "weight": 1, "cost_multiplier": 10 }
     ]
   },
   {
@@ -285,7 +284,7 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_beaver", "weight": 8, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_BEAVER", "weight": 8, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_mink",
         "weight": 3,
@@ -690,7 +689,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_mink", "weight": 3, "pack_size": [ 1, 2 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_beaver", "weight": 8, "pack_size": [ 1, 3 ] }
+      { "group": "GROUP_BEAVER", "weight": 8, "pack_size": [ 1, 3 ] }
     ]
   }
 ]

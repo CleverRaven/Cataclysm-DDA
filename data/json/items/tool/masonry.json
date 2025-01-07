@@ -9,7 +9,7 @@
     "longest_side": "25 cm",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
@@ -23,9 +23,9 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__masonrysaw",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "masonrysaw_on",
@@ -47,7 +47,7 @@
     "type": "TOOL",
     "name": { "str": "masonry saw (on)", "str_pl": "masonry saws (on)" },
     "description": "This masonry saw is on and making a lot of noise.  Use it to turn it off.",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "masonrysaw_off",
@@ -60,7 +60,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__masonrysaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "masonrysaw_off" } }
         }
       ]
     },
@@ -70,7 +70,7 @@
         {
           "id": "EOC_toolweapon_running__masonrysaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your masonry saw buzzes." },
@@ -94,7 +94,7 @@
     "longest_side": "25 cm",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
@@ -121,7 +121,7 @@
     "type": "TOOL",
     "name": { "str": "electric masonry saw (on)", "str_pl": "electric masonry saws (on)" },
     "description": "This electric masonry saw is on and making a lot of noise.  Use it to turn it off.",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "//1": "I don't know whether we are allowed to have less than 1 turn per charge. Based on 13.2 to 1 conversion rate between",
     "//2": "epower and gasoline (according to jackhammer tools) it would be 0.3 turns per charge.",
     "turns_per_charge": 1,
@@ -137,7 +137,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__electric_masonrysaw",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "electric_masonrysaw_off" } }
           }
         ]
       },
@@ -155,7 +155,7 @@
         {
           "id": "EOC_toolweapon_running__electric_masonrysaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your electric masonry saw buzzes." },
@@ -194,7 +194,7 @@
     "weight": "349 g",
     "volume": "250 ml",
     "flags": [ "HURT_WHEN_WIELDED" ],
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "cut": 14 }
   }
 ]

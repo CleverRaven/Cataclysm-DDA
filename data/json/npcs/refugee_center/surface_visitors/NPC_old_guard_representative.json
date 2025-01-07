@@ -51,7 +51,7 @@
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ],
     "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
   },
@@ -124,7 +124,7 @@
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "<done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
@@ -133,7 +133,7 @@
     "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to one of the teamsters for the Free Merchants.  Maybe that's a way we could establish some friendlier relationships.",
     "responses": [
       { "text": "Good idea.  I'll go do that.", "topic": "TALK_DONE" },
-      { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Huh, maybe.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
@@ -146,11 +146,8 @@
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
         "effect": [ { "u_spawn_item": "antibiotics" }, "mission_success", "clear_mission" ]
       },
-      {
-        "text": "I'll have to think about it.  Let's talk about something else, for now.",
-        "topic": "TALK_OLD_GUARD_REP"
-      },
-      { "text": "On second thought, I should go.", "topic": "TALK_DONE" }
+      { "text": "I'll have to think about it.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -181,18 +178,19 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
       "update_mapgen": {
         "set": [
-          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 0, "y": 11 }
         ],
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
       "describe": "We need help…",
@@ -224,6 +222,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -247,10 +246,11 @@
     "difficulty": 2,
     "value": 10000,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 800 },
-      "effect": [ { "math": [ "old_guard_rep_scouting", "=", "1" ] } ]
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5 },
+      "effect": [ { "math": [ "old_guard_rep_scouting = 1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
       "describe": "Got a weird one for you this time…",
@@ -280,6 +280,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
@@ -302,13 +303,7 @@
     "difficulty": 10,
     "value": 300000,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "bandit_camp_1",
-        "om_special": "bandit_camp",
-        "reveal_radius": 1,
-        "min_distance": 10,
-        "search_range": 120
-      },
+      "assign_mission_target": { "om_terrain": "bandit_camp_1", "om_special": "bandit_camp", "reveal_radius": 1, "min_distance": 10 },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
         { "u_spawn_item": "sw629" },
@@ -319,6 +314,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dialogue": {
       "describe": "We need help…",
@@ -341,6 +337,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "I don't need anything major for now, Marshal.  Well, except…",
@@ -375,6 +372,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "We need more help…",

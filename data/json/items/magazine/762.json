@@ -3,6 +3,7 @@
     "id": "762x39_clip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
+    "category": "ammo",
     "name": { "str": "7.62x39mm 10-round clip" },
     "//": "Used comparison to other audited clips for this one.  Slightly longer than the 5 round clips, so changed values slightly to match.",
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten 7.62x39mm rounds into a compatible firearm.",

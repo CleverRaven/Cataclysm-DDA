@@ -174,6 +174,32 @@
     "widgets": [ "ll_place_info", "ll_place_overmap" ]
   },
   {
+    "id": "ll_carry_weight_label",
+    "width": 8,
+    "style": "symbol",
+    "text_align": "left",
+    "colors": [ "c_dark_gray" ],
+    "string": "Weight :",
+    "type": "widget"
+  },
+  {
+    "id": "ll_carry_weight_value",
+    "width": 12,
+    "style": "text",
+    "text_align": "left",
+    "var": "carry_weight_value",
+    "type": "widget"
+  },
+  {
+    "id": "ll_weight_carried_value",
+    "width": 13,
+    "style": "layout",
+    "label": "Weight Carried",
+    "arrange": "minimum_columns",
+    "widgets": [ "ll_carry_weight_label", "ll_carry_weight_value" ],
+    "type": "widget"
+  },
+  {
     "id": "legacy_labels_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -194,6 +220,7 @@
       "weapon_style_layout",
       "vehicle_acf_label_layout",
       "compass_all_danger_layout",
+      "ll_weight_carried_value",
       "rad_badge_desc",
       "sundial_label_layout"
     ]

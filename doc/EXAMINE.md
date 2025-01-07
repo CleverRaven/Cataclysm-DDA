@@ -16,7 +16,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```controls_gate``` Controls the attached gate.
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
-- ```finite_water_source``` Drink or get water from a water source. Unlike ordinary `water_source`, terrain with this examine action will get liquid from a finite source (liquid is placed on that tile as an item during the mapgen) and will stop functioning if said liquid if exhausted on that tile.
+- ```finite_water_source``` Drink or get liquid from this terrain/furniture. Unlike ordinary `water_source`, terrain with this examine action will get liquid from a finite source (liquid is placed on that tile as an item during the mapgen) and will stop functioning if said liquid if exhausted on that tile. Should be used in pair with `liquid_source`
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
@@ -37,8 +37,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```shrub_marloss``` Pick a Marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
-- ```toilet``` Either drink or get water out of the toilet.
-- ```water_source``` Drink or get water from a water source.
+- ```water_source``` Drink or get liquid from a furniture/terrain. Should be used in pair with `liquid_source`
 
 ## Examine Actors
 

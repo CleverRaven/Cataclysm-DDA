@@ -2265,6 +2265,21 @@
   },
   {
     "type": "material",
+    "id": "ballistic_shield",
+    "name": "Ballistic Barrier",
+    "density": 1,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "resonating", "cascading", "unraveling", "fractal" ],
+    "bash_dmg_verb": "agitated",
+    "cut_dmg_verb": "agitated",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 100 }
+  },
+  {
+    "type": "material",
     "id": "monolith_heavy",
     "name": "Monolith",
     "density": 400,

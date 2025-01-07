@@ -57,6 +57,7 @@ Format:
   "carry_override": "NC_EXAMPLE_carried",                                  // Optional. Defines an item group that replaces their carried items (in pockets, etc). Items which cannot
                                                                            // be carried will overflow(fall to the ground) when the NPC is loaded.
   "weapon_override": "NC_EXAMPLE_weapon",                                  // Optional. Defines an item group that replaces their wielded weapon.
+  "bye_message_override": "<fuck_you>",                                    // Optional. If used, overrides the default bye message (picked from <bye> snippet) to any another custom snippet
   "shopkeeper_item_group": [                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
@@ -272,47 +273,47 @@ For further information on snippets, see [New Contributor Guide: Dialogue](https
 
 Field | Default messages/snippets | Used for...
 ---|---|---
-`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
-`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags.json
-`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags.json
-`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags.json
-`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags.json
+`<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags_follower.json
+`<camp_food_thanks>` | `<camp_food_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<camp_larder_empty>` | `<camp_larder_empty>` | see data/json/npcs/talk_tags_follower.json
+`<camp_water_thanks>` | `<camp_water_thanks>` | see data/json/npcs/talk_tags_follower.json
+`<cant_flee>` | `<cant_flee>` | see data/json/npcs/talk_tags_line.json
 `<close_distance>` | `<close_distance>` | see data/json/npcs/talk_tags.json
-`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags.json
+`<combat_noise_warning>` | `<combat_noise_warning>` | see data/json/npcs/talk_tags_line.json
 `<danger_close_distance>` | `<danger_close_distance>` | see data/json/npcs/talk_tags.json
-`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags.json
+`<done_mugging>` | `<done_mugging>` | see data/json/npcs/talk_tags_line.json
 `<far_distance>` | `<far_distance>` | see data/json/npcs/talk_tags.json
-`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags.json
-`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags.json
-`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags.json
-`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags.json
-`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags.json
-`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags.json
-`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags.json
-`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags.json
-`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags.json
-`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags.json
-`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags.json
-`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags.json
-`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags.json
-`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags.json
-`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags.json
+`<fire_bad>` | `<fire_bad>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole_h>` | `<fire_in_the_hole_h>` | see data/json/npcs/talk_tags_line.json
+`<fire_in_the_hole>` | `<fire_in_the_hole>` | see data/json/npcs/talk_tags_line.json
+`<general_danger_h>` | `<general_danger_h>` | see data/json/npcs/talk_tags_line.json
+`<general_danger>` | `<general_danger>` | see data/json/npcs/talk_tags_line.json
+`<heal_self>` | `<heal_self>` | see data/json/npcs/talk_tags_line.json
+`<hungry>` | `<hungry>` | see data/json/npcs/talk_tags_follower.json
+`<im_leaving_you>` | `<im_leaving_you>` | see data/json/npcs/talk_tags_follower.json
+`<its_safe_h>` | `<its_safe_h>` | see data/json/npcs/talk_tags_line.json
+`<its_safe>` | `<its_safe>` | see data/json/npcs/talk_tags_line.json
+`<keep_up>` | `<keep_up>` | see data/json/npcs/talk_tags_follower.json
+`<kill_npc_h>` | `<kill_npc_h>` | see data/json/npcs/talk_tags_line.json
+`<kill_npc>` | `<kill_npc>` | see data/json/npcs/talk_tags_line.json
+`<kill_player_h>` | `<kill_player_h>` | see data/json/npcs/talk_tags_line.json
+`<let_me_pass>` | `<let_me_pass>` | see data/json/npcs/talk_tags_line.json
+`<lets_talk>` | `<lets_talk>` | see data/json/npcs/talk_tags_line.json
 `<medium_distance>` | `<medium_distance>` | see data/json/npcs/talk_tags.json
-`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags.json
-`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags.json
-`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags.json
-`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags.json
-`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags.json
-`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags.json
-`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags.json
-`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags.json
-`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags.json
-`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags.json
-`<wait>` | `<wait>` | see data/json/npcs/talk_tags.json
-`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags.json
-`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags.json
-`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags.json
+`<monster_warning_h>` | `<monster_warning_h>` | see data/json/npcs/talk_tags_line.json
+`<monster_warning>` | `<monster_warning>` | see data/json/npcs/talk_tags_line.json
+`<movement_noise_warning>` | `<movement_noise_warning>` | see data/json/npcs/talk_tags_line.json
+`<need_batteries>` | `<need_batteries>` | see data/json/npcs/talk_tags_follower.json
+`<need_booze>` | `<need_booze>` | see data/json/npcs/talk_tags_follower.json
+`<need_fuel>` | `<need_fuel>` | see data/json/npcs/talk_tags_follower.json
+`<no_to_thorazine>` | `<no_to_thorazine>` | see data/json/npcs/talk_tags_line.json
+`<run_away>` | `<run_away>` | see data/json/npcs/talk_tags_line.json
+`<speech_warning>` | `<speech_warning>` | see data/json/npcs/talk_tags_line.json
+`<thirsty>` | `<thirsty>` | see data/json/npcs/talk_tags_follower.json
+`<wait>` | `<wait>` | see data/json/npcs/talk_tags_follower.json
+`<warn_sleep>` | `<warn_sleep>` | see data/json/npcs/talk_tags_follower.json
+`<yawn>` | `<yawn>` | see data/json/npcs/talk_tags_follower.json
+`<yes_to_lsd>` | `<yes_to_lsd>` | see data/json/npcs/talk_tags_line.json
 `snip_bleeding` | `My %s is bleeding!` | The NPC is bleeding from their %s.
 `snip_bleeding_badly` | `My %s is bleeding badly!` | The NPC is bleeding badly from their %s.
 `snip_wound_bite` | `The bite wound on my %s looks bad.` | The NPC's %s was badly bitten.
@@ -611,7 +612,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 ---
 
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trials) for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. The "condition" field dictates whether the response will be shown. It can also have a trial object which can be used to either lie, persuade, or intimidate the NPC, or even test another conditional [see below](#trials) for details; different "effect"s can be applied for trial success/failure.
 
 Format:
 ```json
@@ -769,11 +770,20 @@ Similar to `opinion`, but adjusts the NPC's opinion of your character according 
 
 ### Response Availability
 
-#### condition
+#### `condition`
 This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
 
-#### switch and default
+#### `switch and default`
 The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
+
+#### `show_condition`
+An optional key that, if defined and evaluates to true, will allow the response to be displayed even if it has a condition evaluating false. The response still will not be selectable if its condition is false, unless debug mode is ON. Cannot be defined if `show_always: true`. Note: do not confuse `show_condition` with `condition`. Empty by default.
+
+#### `show_always`
+Shorthand for "show_condition": takes a boolean instead of a condition. False by default.
+
+#### `show_reason`
+An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`. Empty by default.
 
 Example:
 ```json
@@ -1221,17 +1231,11 @@ Mutator Name | Required Keys | Description
 ### Math
 A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
 ```JSON
-{ "math": [ "2 + 2 - 3", "==", "1" ] }
+{ "math": [ "2 + 2 - 3 == 1" ] }
 ```
 or idiomatically
 ```JSON
-{ "math": [ "lhs", "operator", "rhs" ] }
-```
-It takes an array as a parameter with 1, 2, or 3 strings:
-
-#### One string = return value
-```JSON
-{ "math": [ "lhs" ] }
+{ "math": [ "lhs operator rhs" ] }
 ```
 Example:
 ```JSON
@@ -1239,32 +1243,21 @@ Example:
 ```
 The expression in `lhs` is evaluated and passed on to the parent object.
 
-#### Two strings = unary operation
-```JSON
-{ "math": [ "lhs", "operator" ] }
-```
-Example:
-```JSON
-"effect": [ { "math": [ "math_test", "++" ] } ]
-```
-`lhs` must be an [assignment target](#assignment-target). `operator` can be `++` or `--` to increment or decrement, respectively.
 
-#### Three strings = assignment or comparison
+The expression can be split into any number of strings in order to get neat line breaks:
 ```JSON
-{ "math": [ "lhs", "operator", "rhs" ] }
+    "effect": [
+      {
+        "math": [
+          "BILE_IRRITANT_DURATION",
+          "=",
+          "u_effect_duration('bile_irritant') > 0 ? u_effect_duration('bile_irritant') + 120 + rand(90) : 240 + rand(180)"
+        ]
+      }
+    ]
 ```
-If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assignment:
-```JSON
-"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_spell_level('test_spell_pew') / 2" ] }
-```
-`lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
 
-
-If `operator` is `==`, `!=`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
-```JSON
-"condition": { "math": [ "u_val('stamina') * 2", ">=", "5000 + rand( 300 )" ] },
-```
-`lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
+The assignment `operators` `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `++`, and `--` can only be used at the top level. In this case, `lhs` must be a single [assignment target](#assignment-target). The `rhs` expression is evaluated and stored in the assignment target from `lhs`.
 
 #### Variables
 Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, `n_myvar` is scoped on the beta talker, and `_var` is a context variable, `v_var` is a [var_val](#var_val).
@@ -1274,11 +1267,11 @@ Examples:
     "//0": "return value of global var blorgy_counter",
     { "math": [ "blorgy_counter" ] },
     "//1": "result, x, and y are global variables",
-    { "math": [ "result", "=", "x + y" ] },
+    { "math": [ "result = x + y" ] },
     "//2": "u_z is the variable z on the alpha talker (avatar)",
-    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    { "math": [ "result = ( x + y ) * u_z" ] },
     "//3": "n_crazyness is the variable craziness on the beta talker (npc)",
-    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+    { "math": [ "n_crazyness * 2 >= ( x + y ) * u_z" ] },
 ```
 
 #### Constants
@@ -1328,69 +1321,75 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
-| armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/>Arguments are damagetype ID, bodypart ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
-| attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/><br/>Example:<br/>`"condition": { "math": [ "u_attack_speed()", ">=", "10"] }`| 
-| addiction_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters current intensity of the given addiction.<br/>Argument is addiction type ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_intensity('caffeine')", ">=", "1"] }`|
-| addiction_turns(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters current duration left (in turns) for the given addiction.<br/>Argument is addiction type ID. <br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_turns('caffeine')", ">=", "3600"] }`|
-| characters_nearby()     |  ✅  |   ❌   | u, n, global  | Return the number of nearby characters (that is, the avatar and/or NPCs who are not hallucinations). <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `allies`, `not_allies`, `any`. Assumes `any` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/>`allow_hallucinations`: `d`/`v` - False by default. If set to any non-zero number, all hallucinated NPCs in range will be counted as well.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_characters_nearby('radius': u_search_radius * 3, 'attitude': 'not_allies' )", ">", "0" ] }`<br/><br/>`"condition": { "math": [ "characters_nearby( 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
-| charge_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the charges of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_charge_count('light_battery_cell')", ">=", "100"] }`|
-| coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso')", ">", "0"] }`|
-| distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc)", "<=", "50"] }`|
-| effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
-| effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso')", ">", "1"] }`<br/>`{ "math": [ "_thing", "=", "u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
-| encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
-| energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
-| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`|
-| field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood')", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc)", ">", "5" ] }`|
-| has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
-| has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_trait('FEEBLE') ? 100 : 15" ] }`|
-| has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Argument is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|
-| has_var(`v`)    |  ✅   |   ❌  | g  | Check whether the variable is defined. Meant to be used as condition for ternaries.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "has_var(fancy_var) ? fancy_var : 15" ] }`|
-| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special values `ALL`, `ALL_MAJOR`, `ALL_MINOR`, get hp sum of all/major/minor bodyparts or set hp of all/major/minor bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso')", ">", "100"] }`|
-| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/>Argument is bodypart ID.<br/> For items, returns max amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "u_hp_max('torso')", ">=", "100"] }`|
-| game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/><br/>Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
-| gun_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's gun damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mygun", "=", "n_gun_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
-| item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack')", ">=", "1"] }`|
-| item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT')", ">=", "1"] }`|
-| melee_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's melee damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mymelee", "=", "n_melee_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
-| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3)", ">", "5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
+| armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/>Arguments are damagetype ID, bodypart ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso') >= 5"] }`|  
+| attack_speed()    |  ✅   |   ❌  | u, n  | Return the characters current adjusted attack speed with their current weapon.<br/><br/>Example:<br/>`"condition": { "math": [ "u_attack_speed() >= 10"] }`| 
+| speed()    |  ✅   |   ❌  | u, n  | Return the character or monster current movement speed, in moves (default character speed is 100).<br/><br/>Example:<br/>`"condition": { "math": [ "u_speed() >= 10"] }`| 
+| addiction_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters current intensity of the given addiction.<br/>Argument is addiction type ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_intensity('caffeine') >= 1"] }`|
+| addiction_turns(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters current duration left (in turns) for the given addiction.<br/>Argument is addiction type ID. <br/><br/>Example:<br/>`"condition": { "math": [ "u_addiction_turns('caffeine') >= 3600"] }`|
+| characters_nearby()     |  ✅  |   ❌   | u, n, global  | Return the number of nearby characters (that is, the avatar and/or NPCs who are not hallucinations). <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `allies`, `not_allies`, `any`. Assumes `any` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/>`allow_hallucinations`: `d`/`v` - False by default. If set to any non-zero number, all hallucinated NPCs in range will be counted as well.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_characters_nearby('radius': u_search_radius * 3, 'attitude': 'not_allies' ) > 0" ] }`<br/><br/>`"condition": { "math": [ "characters_nearby( 'radius': u_search_radius * 3, 'location': u_search_loc) > 5" ] }`|
+| charge_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the charges of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_charge_count('light_battery_cell') >= 100"] }`|
+| coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso') > 0"] }`|
+| distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc) <= 50"] }`|
+| effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] }`|
+| effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso') > 1"] }`<br/>`{ "math": [ "_thing = u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
+| encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
+| health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
+| energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
+| faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount", "=", "faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
+| field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
+| has_flag(`s`/`v`) | ✅ | ❌ | u, n | Check whether the actor has a flag. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_flag('MUTATION_TRESHOLD') ? 100 : 15" ] }`|
+| has_trait(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a trait. Meant to be used as condition for ternaries. Argument is trait ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_trait('FEEBLE') ? 100 : 15" ] }`|
+| sum_traits_of_category(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree (not one character has). Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category('RAT') < u_sum_traits_of_category('RAT', 'type': 'POSITIVE')" ] }`|
+| u_sum_traits_of_category_char_has(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return sum of all positive, negative, or all mutation in a mutation tree talker has at this moment. Argument is category id.<br/><br/>Optional kwargs:<br/> `type`: `s`/`v` - should it be only positive (points >= 0), only negative(points <= 0), or all traits altogether; possible values are `POSITIVE`, `NEGATIVE` and `ALL`(default).<br/><br/> Example:<br/>`"condition": { "math": [ "u_sum_traits_of_category_char_has('RAT') < u_sum_traits_of_category_char_has('RAT', 'type': 'POSITIVE')" ] }`|
+| has_proficiency(`s`/`v`)    |  ✅   |   ❌  | u, n  | Check whether the actor has a proficiency. Meant to be used as condition for ternaries. Argument is proficiency ID.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = u_has_proficiency('prof_intro_biology') ? 100 : 15" ] }`|
+| has_var(`v`)    |  ✅   |   ❌  | g  | Check whether the variable is defined. Meant to be used as condition for ternaries.<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = has_var(fancy_var) ? fancy_var : 15" ] }`|
+| hp(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters hp. Argument is bodypart ID. For special values `ALL`, `ALL_MAJOR`, `ALL_MINOR`, get hp sum of all/major/minor bodyparts or set hp of all/major/minor bodyparts.<br/><br/>For items, returns current amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "hp('torso') > 100"] }`|
+| hp_max(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters max amount of hp on a body part.<br/>Argument is bodypart ID.<br/> For items, returns max amount of damage required to destroy item.<br/><br/>Example:<br/>`"condition": { "math": [ "u_hp_max('torso') >= 100"] }`|
+| game_option(`s`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/><br/>Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME') >= 5"] }`|
+| gun_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's gun damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mygun = n_gun_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
+| item_count(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the number of a given item in the character's inventory.<br/>Argument is item ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_item_count('backpack') >= 1"] }`|
+| item_rad(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return irradiation of worn items with the specified flag.<br/>Argument is flag ID.<br/><br/>Optional kwargs:<br/>`aggregate`: `s`/`v` - Specify the aggregation function to run, in case there's more than one item. Valid values are `min`/`max`/`sum`/`average`/`first`/`last`. Defaults to `min` if not specified. <br/><br/>Example:<br/>`"condition": { "math": [ "u_item_rad('RAD_DETECT') >= 1"] }`|
+| melee_damage(`s`/`v`)     |  ✅  |   ❌   | u, n  | Return the item's melee damage. Argument is damage type. For special value `ALL`, return sum for all damage types. <br/><br/>Actor must be an item.<br/><br/>Example:<br/>`{ "math": [ "mymelee = n_melee_damage('ALL')" ] }`<br/>See `EOC_test_weapon_damage` for a complete example|
+| monsters_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Return the number of nearby monsters. Takes any number of `s`tring or `v`ariable positional parameters as monster IDs. <br/><br/>Optional kwargs:<br/>`radius`: `d`/`v` - limit to radius (rl_dist)<br/>`location`: `v` - center search on this location<br/>`attitude`: `s`/`v` - attitude filter. Must be one of `hostile`, `friendly`, `both`. Assumes `hostile` if not specified<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_monsters_nearby('radius': u_search_radius * 3) > 5" ] }`<br/><br/>`"condition": { "math": [ "monsters_nearby('mon_void_maw', 'mon_void_limb', mon_fotm_var, 'radius': u_search_radius * 3, 'location': u_search_loc)", ">", "5" ] }`|
 | mod_load_order(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns the load order of specified mod. Argument is mod id. Returns -1 is the mod is not loaded. |
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
-| num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
-| pain()     |  ✅  |   ✅   | u, n  | Return or set pain.  Optional kwargs:<br/>`type`: `s/v` - return the value of specific format.  Can be `perceived` (return pain value minus painkillers) or `raw`.  If not used, `raw` is used by default. <br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' )", ">=", "40" ] }` |
-| proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|
-| school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS')", ">=", "3"] }`|
-| school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')", "+=", "3"] }`|
-| skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
-| skill_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Argument is skill ID. <br/><br/> Optional kwargs:<br/>`format`: `s`/`v` - must be `percentage` or `raw`.<br/><br/>Example:<br/>`{ "math": [ "u_skill_exp('driving', 'format': crt_format)", "+=", "10"] }`|
-| spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID')", ">=", "5"] }`|
-| spell_exp_for_level(`d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level. <br/> Example:<br/>`"math": [ "spell_exp_for_level(u_spell_level('SPELL_ID')) * 5"] }`|
-| spell_count()    |  ✅   |   ❌  | u, n  | Return number of spells the character knows.<br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school.<br/><br/> Example:<br/>`"condition": { "math": [ "u_spell_count('school': 'MAGUS')", ">=", "10"] }`|
-| spell_level_sum()    |  ✅   |   ❌  | u, n  | Return sum of all spell levels character has; having one spell of class A with level 5, and another with lvl 10 would return 15. <br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school. Omitting return sum of all spells character has, no matter of the class.<br/>`level`: `d/v` - count only spells that are higher or equal this field. Default 0.<br/><br/> Example:<br/>`{ "math": [ "test_var1", "=", "u_spell_level_sum()" ] }`<br/>`{ "math": [ "test_var2", "=", "u_spell_level_sum('school': 'MAGUS')" ] }`<br/>`{ "math": [ "test_var3", "=", "u_spell_level_sum('school': 'MAGUS', 'level': '10')" ] }`|
-| spell_level(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written.<br/>Argument is spell ID. If `"null"` is given, return the highest level of spells the character knows (read only).<br/> Example:<br/>`"condition": { "math": [ "u_spell_level('SPELL_ID')", "==", "-1"] }`|
-| spell_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is spell ID. If `"null"` is given, adjust all spell level.<br/><br/>Example:<br/>`{ "math": [ "u_spell_level_adjustment('SPELL_ID')", "+=", "3"] }`|
-| spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`damage` - Multiplier - alters the damage of the given spell(s).  Negative damage result in healing.<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "-0.95" ] }`|
-| value_or(`v`,`d`/`v`)    |  ✅   |   ❌  | g  | Return value of variable if defined, otherwise the provided value<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg", "=", "value_or( fancy_var, 15 )" ] }`|
-| time(`s`/`v`)    |  ✅   |   ✅  | N/A<br/>(global)  | Return a numeric value (in turns) for a time period string (see [Units](JSON_INFO.md#units)).<br/><br/>Special Values:<br/>`now` - returns duration since turn zero<br/>`cataclysm` - returns duration between cataclysm and turn zero<br/><br/>`time('now')` can serve as an assignment target to change current turn.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Example:<br/>`{ "math": [ "time('now') - u_timer_caravan_RandEnc", ">", "time('1 h')" ] }`|
-| time_since(`v`)<br/>time_since('cataclysm')<br/>time_since('midnight')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period since time point stored in variable.<br/><br/>Special values:<br/>`cataclysm` - return time since start of cataclysm<br/>`midnight` - return time since midnight<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] }`<br/>`{ "math": [ "time_since('cataclysm', 'unit':'years') > 1" ] }`|
-| time_until(`v`)<br/>time_until('daylight_time')<br/>time_until('night_time')<br/>time_until('sunset')<br/>time_until('sunrise')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period until time point stored in variable.<br/><br/>Special values:<br/>`daylight_time` - when sun rises above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point<br/>`night_time` - when sun sets below civil dawn<br/>`sunrise` - sun above horizon<br/>`sunset` - sun below horizon<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "TIME_TILL_SUNRISE", "=", "time_until('sunrise', 'unit':'minutes')" ] },`<br/>`{ "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_SUNRISE>", "type": "good" },`|
+| num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set = num_input('Playstyle Perks Cost?', 4)" ]`|
+| pain()     |  ✅  |   ✅   | u, n  | Return or set pain.  Optional kwargs:<br/>`type`: `s/v` - return the value of specific format or assign in specific way.  Can be `perceived` ( for return, return pain value minus painkillers; for assigning, apply pain taking into account possible mutations, effects, cbms etc (pain sentitivity or pain deafness, for example)) or `raw` (for return, return flat amount of pain; for assigning, bypasses all checks).  If not used, `raw` is used by default. <br/> Example:<br/>`{ "math": [ "n_pain() = u_pain() + 9000" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) >= 40" ] }` <br/>`{ "math": [ "u_pain('type': 'perceived' ) += 22" ] }` |
+| proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent') = 50" ] }`|
+| school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS') >= 3"] }`|
+| school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')++"] }`|
+| skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving') >= 5"] }`<br/>`"condition": { "math": [ "u_skill(someskill) >= 5"] }`|
+| skill_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Argument is skill ID. <br/><br/> Optional kwargs:<br/>`format`: `s`/`v` - must be `percentage` or `raw`.<br/><br/>Example:<br/>`{ "math": [ "u_skill_exp('driving', 'format': crt_format)--"] }`|
+| spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID') >= 5"] }`|
+| spell_exp_for_level(`s`/`v`, `d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level for the given spell. Arguments are spell id and desired level.  <br/> Example:<br/>`"math": [ "spell_exp_for_level('SPELL_ID', u_spell_level('SPELL_ID') ) * 5"] }`|
+| spell_count()    |  ✅   |   ❌  | u, n  | Return number of spells the character knows.<br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school.<br/><br/> Example:<br/>`"condition": { "math": [ "u_spell_count('school': 'MAGUS') >= 10"] }`|
+| spell_level_sum()    |  ✅   |   ❌  | u, n  | Return sum of all spell levels character has; having one spell of class A with level 5, and another with lvl 10 would return 15. <br/><br/> Optional kwargs:<br/>`school`: `s/v` - return number of spells known of that school. Omitting return sum of all spells character has, no matter of the class.<br/>`level`: `d/v` - count only spells that are higher or equal this field. Default 0.<br/><br/> Example:<br/>`{ "math": [ "test_var1 = u_spell_level_sum()" ] }`<br/>`{ "math": [ "test_var2 = u_spell_level_sum('school': 'MAGUS')" ] }`<br/>`{ "math": [ "test_var3 = u_spell_level_sum('school': 'MAGUS', 'level': '10')" ] }`|
+| spell_level(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written.<br/>Argument is spell ID. If `"null"` is given, return the highest level of spells the character knows (read only).<br/> Example:<br/>`"condition": { "math": [ "u_spell_level('SPELL_ID') == -1"] }`|
+| spell_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is spell ID. If `"null"` is given, adjust all spell level.<br/><br/>Example:<br/>`{ "math": [ "u_spell_level_adjustment('SPELL_ID') += 3"] }`|
+| spellcasting_adjustment(`s`/`v`)    |   ❌  |  ✅   | u  | Temporary alters a property of spellcasting. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to default values before the event triggers. Multipliers have a default value of 1, while adjustments have a default value of 0. Assignment functions as an adjustment to the default value by the value assigned. So a `=` functions as you would expect a `+=` to function. Reading these values are not possible, and therefore using `+=` is not possible. <br/><br/>Possible argument values: <br/>`caster_level` - Adjustment - alters the caster level of the given spell(s). Works much like spell_level_adjustment, but will not be readable by `math` functions.<br/>`casting_time` - Multiplier - alters the casting time of the given spell(s).<br/>`damage` - Multiplier - alters the damage of the given spell(s).  Negative damage result in healing.<br/>`cost` - Multiplier - alters the cost of the given spells. Note that this does not change what items may be consumed by the spell(s).<br/>`aoe` - Multiplier - alters the area of effect of the spell(s).<br/>`range` - Multiplier - alters the range of the spell(s).<br/>`duration` - Multiplier - alters the duration of the spell(s).<br/>`difficulty` - Adjustment - alters the difficulty of the spell(s), thus altering the probability of failing spellcasting.<br/>`somatic_difficulty` - Multiplier - alters how much encumbrance affects spellcasting time and difficulty. If set to 0, it will also remove the need to have your hands free while casting. Note that as a multiplier, it starts of at 1, and setting the value actually adjusts it. So setting the valute to -1 will result in a final value of 0. Alternatively, setting it to -0,5 twice would also do the trick.<br/>`sound` - Multiplier - alters the loudness and how much mouth encumbrance affects the spell(s).<br/>`concentration` - Multiplier - alters how much focus alters the difficulty of the spell(s).<br/><br/> Optional kwargs:<br/>`flag_blacklist`: `s/v` and<br/>`flag_whitelist`: `s/v` - Only applies the modifier to spells that matches the blacklist and/or whitelist<br/>`mod`: `s/v`,  `school`: `s/v`,  `spell`: `s/v` - Only one of these can be applied. Limits what spells will be affected. If none are specified, the modification will apply to all spells (whitelist and blacklist still applies separately).<br/><br/>Example:<br/>`{ "math": [ "u_spellcasting_adjustment('casting_time', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = -0.95" ] }`|
+| value_or(`v`,`d`/`v`)    |  ✅   |   ❌  | g  | Return value of variable if defined, otherwise the provided value<br/><br/> Example:<br/>`"condition": { "math": [ "u_blorg = value_or( fancy_var, 15 )" ] }`|
+| time(`s`/`v`)    |  ✅   |   ✅  | N/A<br/>(global)  | Return a numeric value (in turns) for a time period string (see [Units](JSON_INFO.md#units)).<br/><br/>Special Values:<br/>`now` - returns duration since turn zero<br/>`cataclysm` - returns duration between cataclysm and turn zero<br/><br/>`time('now')` can serve as an assignment target to change current turn.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Example:<br/>`{ "math": [ "time('now') - u_timer_caravan_RandEnc > time('1 h')" ] }`|
+| time_since(`v`)<br/>time_since('cataclysm')<br/>time_since('midnight')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period since time point stored in variable.<br/><br/>Special values:<br/>`cataclysm` - return time since start of cataclysm<br/>`midnight` - return time since midnight<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "time_since(u_timer_caravan_RandEnc) > time('1 h')" ] }`<br/>`{ "math": [ "time_since('cataclysm', 'unit':'years') > 1" ] }`|
+| time_until(`v`)<br/>time_until('daylight_time')<br/>time_until('night_time')<br/>time_until('sunset')<br/>time_until('sunrise')    |  ✅   |   ❌  | N/A<br/>(global)  | Convenience function that returns a numeric value (in turns) for the time period until time point stored in variable.<br/><br/>Special values:<br/>`daylight_time` - when sun rises above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point<br/>`night_time` - when sun sets below civil dawn<br/>`sunrise` - sun above horizon<br/>`sunset` - sun below horizon<br/>`noon` - when the ingame clock reads 12:00<br/><br/>Optional kwargs:<br/> `unit`: specify return unit. Assumes `turns` if unspecified or empty.<br/><br/>Returns -1 if the argument is an undefined variable<br/><br/>Example:<br/>`{ "math": [ "TIME_TILL_SUNRISE = time_until('sunrise', 'unit':'minutes')" ] },`<br/>`{ "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_SUNRISE>", "type": "good" },`|
 | time_until_eoc(`s`/`v`)  |  ✅   |   ❌  | N/A<br/>(global)  | Returns time until next scheduled run of an EOC. Argument is EOC id.<br/><br/>Optional kwargs:<br/> `unit`: specify return unit<br/><br/>Returns -1 is the EOC is not scheduled. |
-| val(`s`)    |  ✅   |   varies  | u, n  | Return or set a Character or item value. Argument is a [Character/item aspect](#list-of-character-and-item-aspects).<br/><br/>These are all in one function for legacy reasons and are generally poorly tested. If you need one of them, consider porting it to a native math function.<br/><br/>Example:<br/>`{ "math": [ "u_val('strength')", "=", "2" ] }`|
-| npc_anger()    |  ✅   |  ✅   | u, n  | Return NPC anger toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_anger()", ">", "2" ] }`|
-| npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear()", "<", "2" ] }`|
-| npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust()", "=", "2" ] }`|
-| npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value()", "+=", "2" ] }`|
-| vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen')", "=", "0" ] }`|
-| warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game", "=", "(u_warmth('torso') / 100) * 2 - 100"] }`|
-| vision_range()    |  ✅   |   ❌  | u, n  | Return the character's or monsters visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "n_vision_range()", "<", "30"] }`|
-| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
-| damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
-| climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
-| climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
-| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
-| get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
+| val(`s`)    |  ✅   |   varies  | u, n  | Return or set a Character or item value. Argument is a [Character/item aspect](#list-of-character-and-item-aspects).<br/><br/>These are all in one function for legacy reasons and are generally poorly tested. If you need one of them, consider porting it to a native math function.<br/><br/>Example:<br/>`{ "math": [ "u_val('strength') = 2" ] }`|
+| npc_anger()    |  ✅   |  ✅   | u, n  | Return NPC anger toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_anger() > 2" ] }`|
+| npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear() < 2" ] }`|
+| npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust() = 2" ] }`|
+| npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value() += 2" ] }`|
+| weight()    |  ✅   |  ❌   | u, n  | Return creature or item weight, in miligrams. <br/><br/>Example:<br/> `{ "math": [ "u_weight() < 1000000" ] }`|
+| volume()    |  ✅   |  ❌   | u, n  | Return creature or item volume, in mililiters. <br/><br/>Example:<br/> `{ "math": [ "u_volume() < 1000" ] }`|
+| vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen') = 0" ] }`|
+| warmth(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters warmth on a body part.<br/>Argument is bodypart ID.<br/><br/>Example:<br/> The value displayed in-game is calculated as follows.<br/> `"{ "math": [ "u_warmth_in_game = (u_warmth('torso') / 100) * 2 - 100"] }`|
+| vision_range()    |  ✅   |   ❌  | u, n  | Return the character's or monsters visual range, adjusted by their mutations, effects, and other issues.<br/><br/>Example:<br/> `"{ "math": [ "n_vision_range() < 30"] }`|
+| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/>`precipitation` (in mm / h) either 0.5 (very_light ), 1.5 (light), or 3 (heavy). Read only.<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') ) == 21" ] }`|
+| damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level() < 1" ] }`|
+| climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat() < 0" ] }`|
+| climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill() < 0" ] }`|
+| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories() < 0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent') > 0" ] }`<br/>`"condition": { "math": [ "u_calories() = 110000" ] }`|
+| get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1412,7 +1411,6 @@ These can be read or written to with `val()`.
 | `focus` | ✅ | Current focus level. |
 | `friendly` | ✅ | Current friendly level. Only works for monsters. |
 | `grab_strength` | ❌ | Grab strength as defined in the monster definition. Only works for monsters |
-| `health` | ❌ | Current health level. |
 | `height` | ✅ | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320. |
 | `hunger` | ❌ | Current perceived hunger. |
 | `instant_thirst` | ❌ | Current thirst minus water in the stomach that hasn't been absorbed by the body yet. |
@@ -1434,7 +1432,7 @@ These can be read or written to with `val()`.
 | `stim` | ✅ | Current stim level. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`perception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
-| `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |
+| `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`perception_bonus` | ✅ | Bonus attributes |
 | `thirst` | ✅ | Current thirst. |
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
@@ -1458,7 +1456,7 @@ These functions can then be used like regular math functions, for example:
   {
     "type": "effect_on_condition",
     "id": "EOC_do_something",
-    "effect": [ { "math": [ "secret_value", "=", "my_math_function( u_pain(), 500)" ] } ]
+    "effect": [ { "math": [ "secret_value = my_math_function( u_pain(), 500)" ] } ]
   },
 ```
 so `_0` takes the value of `u_pain()` and `_1` takes the value 500 inside `my_math_function()`

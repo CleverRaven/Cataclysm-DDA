@@ -3,8 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
-    "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
-    "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
+    "condition": { "math": [ "telepathically_stole_recently >= 1" ] },
+    "deactivate_condition": { "not": { "u_has_trait": "TELEPATH" } },
+    "effect": [ { "math": [ "telepathically_stole_recently = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -28,7 +29,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "math": [ "_success", "!=", "false" ] }
+        { "math": [ "_success != false" ] }
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(100 * _difficulty)" ] } ]
@@ -55,7 +56,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "math": [ "_success", "==", "false" ] }
+        { "math": [ "_success == false" ] }
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]
@@ -106,7 +107,7 @@
             { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [
@@ -182,10 +183,22 @@
             { "compare_string": [ "dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
-            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+            { "compare_string": [ "downed", { "context_val": "effect" } ] },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 5" ] }
+              ]
+            },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 11" ] }
+              ]
+            }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]
@@ -258,8 +271,22 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE1",
-    "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
-    "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but you repel!", "type": "warning" },
+    "condition": { "or": [ { "u_has_effect": "effect_telepathic_psi_armor" }, { "u_has_flag": "TEEPSHIELD" } ] },
+    "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but you repel it!", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES",
+    "//": "This sets up a delayed reaction to eating the berries",
+    "effect": [ { "run_eocs": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES_2", "time_in_future": [ "5 minutes", "20 minutes" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES_2",
+    "effect": [
+      { "u_message": "Your stomach is seized with cramps!", "type": "bad" },
+      { "u_add_effect": "alienfoodpoison", "duration": { "math": [ "3600 + rand(16200)" ] } }
+    ]
   }
 ]

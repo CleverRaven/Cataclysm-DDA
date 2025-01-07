@@ -133,7 +133,7 @@
         { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
         { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
         {
-          "and": [ { "math": [ "u_val('pos_z')", "==", "6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
+          "and": [ { "math": [ "u_val('pos_z') == 6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
         }
       ]
     },
@@ -144,45 +144,38 @@
     "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT",
     "condition": {
       "or": [
-        { "u_has_effect": "effect_clair_speed_reader" },
-        { "u_has_effect": "effect_clair_see_auras" },
-        { "u_has_effect": "effect_clair_craft_bonus" },
-        { "u_has_effect": "effect_clair_perfect_shot" },
-        { "u_has_effect": "effect_photokin_light_local" },
-        { "u_has_item": "pyrokinetic_fire_tool" },
-        { "u_has_item": "pyrokinetic_torch_weld" },
-        { "u_has_effect": "effect_telekinetic_strength" },
-        { "u_has_item": "telekin_lifting_jack_1" },
-        { "u_has_item": "telekin_lifting_jack_2" },
-        { "u_has_item": "telekin_lifting_jack_3" },
-        { "u_has_item": "telekin_lifting_jack_4" },
-        { "u_has_item": "telekin_lifting_jack_5" },
-        { "u_has_item": "telekin_lifting_jack_6" },
-        { "u_has_item": "telekin_lifting_jack_7" },
-        { "u_has_item": "telekin_lifting_jack_8" },
-        { "u_has_item": "telekin_lifting_jack_9" },
-        { "u_has_item": "telekin_lifting_jack_10" },
-        { "u_has_item": "telekin_lifting_jack_11" },
-        { "u_has_item": "telekin_lifting_jack_12" },
-        { "u_has_item": "telekin_lifting_jack_13" },
-        { "u_has_item": "telekin_lifting_jack_14" },
-        { "u_has_item": "telekin_lifting_jack_15" },
-        { "u_has_item": "telekin_lifting_jack_16" },
-        { "u_has_item": "telekin_lifting_jack_17" },
-        { "u_has_item": "telekin_lifting_jack_18" },
-        { "u_has_item": "telekin_lifting_jack_19" },
-        { "u_has_item": "telekin_lifting_jack_20" },
-        { "u_has_effect": "effect_telekinetic_levitation" },
-        { "u_has_effect": "effect_telepathic_learning_bonus" },
-        { "u_has_effect": "telepathic_ignorance_self" }
+        { "npc_has_effect": "effect_clair_speed_reader" },
+        { "npc_has_effect": "effect_clair_see_auras" },
+        { "npc_has_effect": "effect_clair_craft_bonus" },
+        { "npc_has_effect": "effect_clair_perfect_shot" },
+        { "npc_has_effect": "effect_photokin_light_local" },
+        { "npc_has_effect": "effect_pyrokinetic_fire_tool" },
+        { "npc_has_item": "pyrokinetic_torch_weld" },
+        { "npc_has_effect": "effect_telekinetic_strength" },
+        { "npc_has_item": "telekin_lifting_jack_1" },
+        { "npc_has_item": "telekin_lifting_jack_2" },
+        { "npc_has_item": "telekin_lifting_jack_3" },
+        { "npc_has_item": "telekin_lifting_jack_4" },
+        { "npc_has_item": "telekin_lifting_jack_5" },
+        { "npc_has_item": "telekin_lifting_jack_6" },
+        { "npc_has_item": "telekin_lifting_jack_7" },
+        { "npc_has_item": "telekin_lifting_jack_8" },
+        { "npc_has_item": "telekin_lifting_jack_9" },
+        { "npc_has_item": "telekin_lifting_jack_10" },
+        { "npc_has_item": "telekin_lifting_jack_11" },
+        { "npc_has_item": "telekin_lifting_jack_12" },
+        { "npc_has_item": "telekin_lifting_jack_13" },
+        { "npc_has_item": "telekin_lifting_jack_14" },
+        { "npc_has_item": "telekin_lifting_jack_15" },
+        { "npc_has_item": "telekin_lifting_jack_16" },
+        { "npc_has_item": "telekin_lifting_jack_17" },
+        { "npc_has_item": "telekin_lifting_jack_18" },
+        { "npc_has_item": "telekin_lifting_jack_19" },
+        { "npc_has_item": "telekin_lifting_jack_20" },
+        { "npc_has_effect": "effect_telekinetic_levitation" },
+        { "npc_has_effect": "effect_telepathic_learning_bonus" }
       ]
     },
-    "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY",
-    "condition": { "or": [ { "u_has_effect": "effect_photokin_invisibility" } ] },
     "effect": [  ]
   },
   {
@@ -237,6 +230,31 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT",
     "condition": { "x_in_y_chance": { "x": 1, "y": 80 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_HAS_MIND",
+    "//": "we will assume that all npcs have mind, but in case it won't hold for some npc, potential fix would be making it `and[ npc_is_npc, not:{npc_has_flag:foo} ]`",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "not": { "npc_has_species": "PSI_NULL" } }, { "npc_has_flag": "HAS_MIND" } ] },
+            {
+              "and": [
+                { "not": { "npc_has_species": "PSI_NULL" } },
+                { "not": { "npc_has_species": "ZOMBIE" } },
+                { "npc_has_flag": "HUMAN" }
+              ]
+            },
+            "npc_is_npc"
+          ]
+        },
+        { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+      ]
+    },
     "effect": [  ]
   }
 ]
