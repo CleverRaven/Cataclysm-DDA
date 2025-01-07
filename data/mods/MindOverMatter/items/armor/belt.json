@@ -13,14 +13,8 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "material_thickness": 1.5,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_electronoetic"
-      }
-    ],
+    "ammo": [ "battery" ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
     "use_action": [
       {
         "type": "transform",
@@ -33,7 +27,14 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
     "armor": [
       {
         "encumbrance": 2,
@@ -42,7 +43,24 @@
         "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
-    ]
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "name": "Active Shield Belt",
+          "description": "The air around you has a faint shimmer.",
+          "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -8 },
+            { "type": "stab", "add": -20 },
+            { "type": "cut", "add": -15 },
+            { "type": "bullet", "add": -40 }
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "psionic_shield_belt_on",
@@ -93,6 +111,7 @@
     "looks_like": "leather_belt",
     "color": "red",
     "material_thickness": 1.5,
+    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -122,7 +141,20 @@
         "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
-    ]
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "name": "Active Suppresion Belt",
+          "description": "The air around you feels cool.",
+          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+        }
+      ]
+    }
   },
   {
     "id": "psionic_fire_shield_belt_on",
