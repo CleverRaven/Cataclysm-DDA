@@ -43,6 +43,14 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
                   id.c_str() );
     }
     optional( jo, was_loaded, "energy_source", energy_source );
+    if( jo.has_array( "cannot_cast_flags" ) ) {
+        for( auto &cannot_cast_flag : jo.get_string_array( "cannot_cast_flags" ) ) {
+            cannot_cast_flags.insert( cannot_cast_flag );
+        }
+    } else if( jo.has_string( "cannot_cast_flags" ) ) {
+        const std::string cannot_cast_flag = jo.get_string( "cannot_cast_flags" );
+        cannot_cast_flags.insert( cannot_cast_flag );
+    }
 }
 
 void magic_type::serialize( JsonOut &json ) const
@@ -54,6 +62,7 @@ void magic_type::serialize( JsonOut &json ) const
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
     json.member( "energy_source", energy_source );
+    json.member( "cannot_cast_flags", cannot_cast_flags, std::set<std::string> {} );
 
     json.end_object();
 }
