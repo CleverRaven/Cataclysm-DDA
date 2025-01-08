@@ -5172,10 +5172,10 @@
     "desc": [ "Your body's trying to repay its energy debt." ],
     "rating": "bad",
     "base_mods": {
-      "per_mod": [ -6 ],
-      "dex_mod": [ -6 ],
-      "str_mod": [ -6 ],
-      "speed_mod": [ -30 ],
+      "per_mod": [ -3 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -15 ],
       "pain_min": [ 2 ],
       "pain_chance": [ 100, 500 ]
     },

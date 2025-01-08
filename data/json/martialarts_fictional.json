@@ -701,25 +701,23 @@
       {
         "id": "berserk_buff_static",
         "name": "Anger",
-        "description": "Kill them or die trying. \n\nAccuracy increased by 10% of Strength.",
+        "description": "Kill them or die trying. \n\nAccuracy increased by 25% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "str", "scale": 0.1 } ]
+        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "str", "scale": 0.25 } ]
       }
     ],
     "onkill_buffs": [
       {
         "id": "berserk_buff_onkill",
         "name": "Harry",
-        "description": "One down. Then another. \n\nDamage multiplied by 7% of Strength. Stacks 3 times.",
+        "description": "One down. Then another. \n\nAdditional bash damage scaled by 10% of Strength. Stacks 3 times.",
         "unarmed_allowed": true,
         "buff_duration": 3,
         "max_stacks": 3,
         "persists": true,
         "flat_bonuses": [
           { "stat": "hit", "scale": 1.0 },
-          { "stat": "damage", "type": "bash", "scale": 0.1 },
-          { "stat": "damage", "type": "cut", "scale": 0.1 },
-          { "stat": "damage", "type": "stab", "scale": 0.1 }
+          { "stat": "damage", "type": "bash", "scale": 0.1 }
         ]
       }
     ],
@@ -745,8 +743,7 @@
     "messages": [ "You rip %s open!", "<npcname> rips %s open!" ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.1 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 }
     ]
   },
   {

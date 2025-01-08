@@ -1194,12 +1194,12 @@
           { "value": "BONUS_BLOCK", "add": -20 },
           { "value": "BONUS_DODGE", "add": -20 },
           { "value": "PAIN", "add": -100 },
-          { "value": "STRENGTH", "add": 14 },
-          { "value": "INTELLIGENCE", "add": -20 }
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "INTELLIGENCE", "add": -5 }
         ]
       }
     ],
-    "movecost_modifier": 0.7,
+    "movecost_modifier": 0.95,
     "valid": false
   },
   {
