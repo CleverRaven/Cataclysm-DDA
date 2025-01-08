@@ -380,7 +380,7 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
     auto it = std::begin( io_typefaces );
     for( ; it != std::end( io_typefaces ); ++it ) {
         if( !file_exist( it->path ) ) {
-            debugmsg( "Font file '%s' does not exist.", it->path );
+            printf( "Font file '%s' does not exist.\n", it->path.c_str() );
         } else {
             config.MergeMode = !first;
             config.FontBuilderFlags = it->imgui_config();
