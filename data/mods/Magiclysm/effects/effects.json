@@ -1707,8 +1707,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good",
-    "enchantments": [ { "values": [ {"value": "WEAKPOINT_ACCURACY", "multiply": {"math": [ "1+((u_skill('archery'))/3)" ]}}]}]
-
+    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": { "math": [ "1+((u_skill('archery'))/3)" ] } } ] } ]
   },
   {
     "type": "effect_type",
