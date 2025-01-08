@@ -131,7 +131,7 @@
     "responses": [
       { "text": "50 merch and you have a deal.", "effect": { "u_spawn_item": "FMCNote", "count": 50 }, "topic": "TALK_DONE" },
       {
-        "text": "You know what, I don't want your <swear> dirty money.  Go fuck yourself.",
+        "text": "You know what, I don't want your <freaking> dirty money.  Go fuck yourself.",
         "topic": "TALK_DONE",
         "effect": "hostile"
       }

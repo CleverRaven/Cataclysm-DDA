@@ -145,7 +145,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Parents",
-    "dynamic_line": "&Jeremiah leans his head towards your ear, speaking in a low whisper.  \"To be honest with you, I don't like my mom at all.  She's like a <swear> helicopter, always telling me what to do, where to go, who I can be with.  She never thinks of me as an individual, only some idea of who she thinks I am.  My dad's alright, he's the chef around here.\"",
+    "dynamic_line": "&Jeremiah leans his head towards your ear, speaking in a low whisper.  \"To be honest with you, I don't like my mom at all.  She's like a <freaking> helicopter, always telling me what to do, where to go, who I can be with.  She never thinks of me as an individual, only some idea of who she thinks I am.  My dad's alright, he's the chef around here.\"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Jeremiah_2" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -216,7 +216,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Angry",
-    "dynamic_line": "You know <swear> well what I'm upset about.  Now do like I said earlier and get lost.",
+    "dynamic_line": "You know very well what I'm upset about.  Now do like I said earlier and get lost.",
     "responses": [ { "text": "Fine, whatever.", "topic": "TALK_DONE" } ]
   }
 ]
