@@ -173,6 +173,7 @@ class item_pocket
         const item &back() const;
         item &front();
         const item &front() const;
+        /** Number of items in this pocket. */
         size_t size() const;
         void pop_back();
 
