@@ -5164,5 +5164,21 @@
     "id": "eff_mind_seeing_bonus_30",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "berserk_crashout_effect",
+    "name": [ "Post-Berserk Crash" ],
+    "desc": [ "Your body's trying to repay its energy debt." ],
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -6 ],
+      "dex_mod": [ -6 ],
+      "str_mod": [ -6 ],
+      "speed_mod": [ -30 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ]
+    },
+    "show_in_info": true
   }
 ]

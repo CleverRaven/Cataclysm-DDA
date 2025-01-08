@@ -820,5 +820,26 @@
       ]
     },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_berserk_crashout",
+    "recurrence": [ "2 minutes", "5 minutes" ],
+    "condition": { "u_has_trait": "ADRENALINE2_active" },
+    "deactivate_condition": { "not": { "u_has_trait": "ADRENALINE2_active" } },
+    "effect": [
+      { "u_message": "Your rage subsides. You feel TERRIBLE!", "type": "bad" },
+      { "u_add_effect": "berserk_crashout_effect", "duration": "10 minutes" },
+      { "u_add_effect": "dazed", "duration": "30 seconds" },
+      { "u_lose_trait": "ADRENALINE2_active" },
+      { "u_add_trait": "ADRENALINE2" },
+      { "u_forget_martial_art": "style_berserk" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_berserkstyle_learn",
+    "eoc_type": "ACTIVATION",
+    "effect": { "u_learn_martial_art": "style_berserk" }
   }
 ]
