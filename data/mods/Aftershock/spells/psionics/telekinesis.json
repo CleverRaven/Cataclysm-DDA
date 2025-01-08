@@ -21,8 +21,7 @@
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
-    "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "casting_time_increment": -4
   },
   {
     "id": "afs_telekinetic_item_pull_real",
@@ -130,8 +129,7 @@
         "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
-    "max_range": 40,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "max_range": 40
   },
   {
     "id": "afs_telekinetic_force_shove_toward_target",
@@ -152,8 +150,7 @@
     "min_range": {
       "math": [ "min( ( (u_spell_level('afs_telekinetic_move_creature') * 0.9) + 2) * scaling_factor(u_val('intelligence') ), 40)" ]
     },
-    "max_range": 40,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "max_range": 40
   },
   {
     "id": "afs_telekinetic_force_shove_away",
@@ -246,8 +243,8 @@
     "min_damage": 12,
     "max_damage": 12,
     "energy_source": "STAMINA",
-    "base_energy_cost": 4500,
-    "final_energy_cost": 2250,
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2500,
     "energy_increment": -125,
     "base_casting_time": 50,
     "final_casting_time": 20,
@@ -272,7 +269,40 @@
     },
     "max_damage": { "math": [ "( (u_spell_level('afs_telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ] },
     "min_range": 1,
-    "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+    "max_range": 1
+  },
+  {
+    "id": "afs_telekinetic_hammer",
+    "type": "SPELL",
+    "name": "[Ψ]Mindhammer",
+    "description": "Smash a single target or small area with a fist of telekinetic force.",
+    "message": "You smash your target with a fist of force.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": { "math": [ "( (u_spell_level('afs_telekinetic_hammer') * 1.25) + 18) * scaling_factor(u_val('intelligence') )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('afs_telekinetic_hammer') * 3.5) + 55) * scaling_factor(u_val('intelligence') )" ] },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
+    "min_range": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_hammer') * 0.9) + 3) * scaling_factor(u_val('intelligence') ) ), 70)" ]
+    },
+    "max_range": 70,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5750,
+    "final_energy_cost": 2750,
+    "energy_increment": -135,
+    "base_casting_time": 50,
+    "final_casting_time": 25,
+    "casting_time_increment": -2.5,
+    "sound_type": "combat",
+    "sound_description": "a heavy thud!"
   }
 ]
