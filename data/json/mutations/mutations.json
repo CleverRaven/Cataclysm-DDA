@@ -1170,7 +1170,7 @@
     "name": { "str": "Berserk" },
     "points": 3,
     "vitamin_cost": 160,
-    "description": "Flavortext, you go berserk. Comedown's terrible, make sure you're in a safe spot or else you're as good as dead.",
+    "description": "You can go berserk on demand, greatly increasing your strength and speed at the cost of intelligence. The comedown is terrible.",
     "prereqs": [ "ADRENALINE" ],
     "category": [ "BEAST" ],
     "active": true,
