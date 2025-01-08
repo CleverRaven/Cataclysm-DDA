@@ -60,8 +60,6 @@
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
-static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
-static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
@@ -1194,25 +1192,14 @@ bool spell::can_cast( const Character &guy ) const
         return true;
     };
 
-    add_msg("spell::can_cast %s", name());
     if( type->magic_type.has_value() ) {
-        add_msg("spell::can_cast %s has magic type: %s", name(), type->magic_type.value()->id.c_str() );
         for( std::string cannot_cast_flag_string: type->magic_type.value()->cannot_cast_flags ) {
-            add_msg("spell::can_cast %s checking flag %s", name(), cannot_cast_flag_string );
-            json_character_flag cannot_cast_flag(cannot_cast_flag_string);
+            json_character_flag cannot_cast_flag( cannot_cast_flag_string );
             if( guy.has_flag( cannot_cast_flag ) ) {
                 return false;
             }
         }
     }
-
-    // if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
-    //     return false;
-    // }
-
-    // if( guy.has_flag( json_flag_NO_PSIONICS ) && has_flag( spell_flag::PSIONIC ) ) {
-    //     return false;
-    // }
 
     if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
         return false;
