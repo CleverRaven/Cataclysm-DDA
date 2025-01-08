@@ -113,5 +113,18 @@
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
+  },
+  {
+    "id": "afs_ap_survival_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": { "str": "portable survival battery" },
+    "item": "afs_survival_battery",
+    "description": "A small battery to store electrical power in a static power grid.",
+    "color": "white",
+    "flags": [ "APPLIANCE" ],
+    "durability": 100,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "requirements": { "removal": { "time": "6 m" } }
   }
 ]

@@ -824,5 +824,22 @@
     "price": "20 USD",
     "price_postapoc": "20 USD",
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "afs_survival_battery",
+    "copy-from": "storage_battery",
+    "type": "MAGAZINE",
+    "name": { "str": "portable survival battery", "str_pl": "portable survival batteries" },
+    "looks_like": "small_storage_battery",
+    "description": "A storage battery fit for improvised shelters.",
+    "ascii_picture": "small_storage_battery",
+    "weight": "15 kg",
+    "volume": "5 L",
+    "price": "300 USD",
+    "price_postapoc": "300 USD",
+    "capacity": 1000,
+    "use_action": { "type": "deploy_appliance", "base": "afs_survival_battery" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "melee_damage": { "bash": 7 }
   }
 ]
