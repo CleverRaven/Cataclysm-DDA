@@ -15,6 +15,7 @@
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
       { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_morphic", "required": false }
@@ -43,6 +44,7 @@
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
       { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": true },
       { "proficiency": "prof_psionic_morphic", "required": false }
@@ -73,6 +75,7 @@
       { "proficiency": "prof_intro_chemistry", "required": false },
       { "proficiency": "prof_intro_biology", "required": false },
       { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }

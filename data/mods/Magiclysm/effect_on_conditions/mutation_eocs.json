@@ -1,6 +1,82 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_FANTASY_SPECIES_REMOVE_THRESHOLD_GAME_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "LIZARDFOLK_BUILD", "RAVENFOLK_BUILD" ] },
+    "effect": [ { "run_eocs": "EOC_FANTASY_SPECIES_REMOVE_THRESHOLD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FANTASY_SPECIES_REMOVE_THRESHOLD_RECURRENCE",
+    "recurrence": [ "1 days", "1 days" ],
+    "condition": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "LIZARDFOLK_BUILD", "RAVENFOLK_BUILD" ] },
+    "deactivate_condition": {
+      "not": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "LIZARDFOLK_BUILD", "RAVENFOLK_BUILD" ] }
+    },
+    "effect": [ { "run_eocs": "EOC_FANTASY_SPECIES_REMOVE_THRESHOLD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FANTASY_SPECIES_REMOVE_THRESHOLD",
+    "effect": [
+      { "u_lose_trait": "THRESH_SPECIES_ELF" },
+      { "u_lose_trait": "THRESH_SPECIES_DWARF" },
+      { "u_lose_trait": "THRESH_SPECIES_GOBLIN" },
+      { "u_lose_trait": "THRESH_SPECIES_LIZARDFOLK" },
+      { "u_lose_trait": "THRESH_SPECIES_RAVENFOLK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FANTASY_SPECIES_TRANSFORM_PURIFIER",
+    "recurrence": [ "10 seconds", "10 seconds" ],
+    "condition": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "LIZARDFOLK_BUILD", "RAVENFOLK_BUILD" ] },
+    "deactivate_condition": {
+      "not": { "u_has_any_trait": [ "ELVEN_BUILD", "DWARVEN_BUILD", "GOBLIN_BUILD", "LIZARDFOLK_BUILD", "RAVENFOLK_BUILD" ] }
+    },
+    "effect": [
+      { "math": [ "u_purifying_level", "=", "u_vitamin('mutagen_human')" ] },
+      {
+        "if": { "u_has_trait": "ELVEN_BUILD" },
+        "then": [
+          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_elf')", "+=", "u_purifying_level" ] }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "DWARVEN_BUILD" },
+        "then": [
+          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_dwarf')", "+=", "u_purifying_level" ] }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "GOBLIN_BUILD" },
+        "then": [
+          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_goblin')", "+=", "u_purifying_level" ] }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "LIZARDFOLK_BUILD" },
+        "then": [
+          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_lizardfolk')", "+=", "u_purifying_level" ] }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "RAVENFOLK_BUILD" },
+        "then": [
+          { "math": [ "u_vitamin('mutagen_human')", "-=", "u_purifying_level" ] },
+          { "math": [ "u_vitamin('mutagen_species_ravenfolk')", "+=", "u_purifying_level" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IRON_ALLERGY_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
