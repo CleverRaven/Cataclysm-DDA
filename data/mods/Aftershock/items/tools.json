@@ -35,7 +35,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ]
   },
@@ -216,7 +216,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ]
   },
@@ -769,5 +769,23 @@
       }
     ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "afs_battery_charger",
+    "name": { "str": "portable battery charger" },
+    "looks_like": "box_battery_charger",
+    "description": "This small device easily deploys anywhere you need it and will slowly charge all rechargable batteries placed within it's storage space.",
+    "weight": "3050 g",
+    "color": "cyan",
+    "symbol": "]",
+    "material": [ "plastic", "steel" ],
+    "volume": "10 L",
+    "price": "20 USD",
+    "price_postapoc": "20 USD",
+    "use_action": { "type": "deploy_appliance", "base": "afs_battery_charger" },
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
   }
 ]

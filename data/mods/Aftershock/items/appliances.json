@@ -44,5 +44,29 @@
     ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_ap_battery_charger",
+    "name": { "str": "portable battery charger" },
+    "categories": [ "cargo" ],
+    "color": "light_green",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 40,
+    "description": "A",
+    "bonus": 15,
+    "size": "10 L",
+    "remove_as": "afs_battery_charger",
+    "item": "afs_battery_charger",
+    "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "plastic_chunk", "count": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ],
+    "damage_reduction": { "all": 5 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   }
 ]
