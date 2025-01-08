@@ -1238,7 +1238,7 @@ T read_from_json_string_common( const std::string_view s,
                 return pair.second;
             }
         }
-        std::string error_msg = "Invalid quantity string: unknown unit. Valid units are:";
+        std::string error_msg = "Invalid quantity string: unknown unit.  Valid units are:";
         for( const std::pair<std::string, T> &pair : units ) {
             error_msg += "\n";
             error_msg += pair.first;
