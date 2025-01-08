@@ -1848,21 +1848,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    bool can_cast_spells = false;
     std::set<std::string> failure_messages = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
         if( temp_spell.can_cast( player_character, failure_messages ) ) {
-            can_cast_spells = true;
             break;
         }
     }
 
-    if( !can_cast_spells ) {
-        for( std::string failure_message: failure_messages ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     failure_message );
-        }
+    for( std::string failure_message: failure_messages ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                failure_message );
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {
