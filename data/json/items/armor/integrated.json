@@ -621,7 +621,7 @@
     "color": "dark_gray",
     "warmth": 2,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
-    "techniques": ["MANDIBLES_BITE", "MANDIBLES_BITE_NATURAL", "MANDIBLES_BITE_CRIT"],
+    "techniques": [ "MANDIBLES_BITE", "MANDIBLES_BITE_NATURAL", "MANDIBLES_BITE_CRIT" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
