@@ -801,7 +801,7 @@ def check_identifiers(all_guns):
             good_tokens = [[]]
             idx = 0
             len_so_far = 0
-            for token in good_token_list:
+            for token in sorted(good_token_list):
                 guns_str = string_listify(good_token_list[token], " ")
                 good_tokens[idx].append(f"{token} ({guns_str})")
                 len_so_far += len(good_tokens[idx][-1])
