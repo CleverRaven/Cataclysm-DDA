@@ -1214,6 +1214,19 @@ bool spell::can_cast( const Character &guy ) const
     return guy.magic->has_enough_energy( guy, *this );
 }
 
+bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
+{
+    bool castable = can_cast( guy );
+    if( castable ) {
+        return true;
+    } else if ( type->magic_type.has_value() && type->magic_type.value()->cannot_cast_message.has_value() ) {
+        failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
+        return false;
+    } else {
+        return false;
+    }
+}
+
 void spell::use_components( Character &guy ) const
 {
     if( type->spell_components.is_empty() ) {

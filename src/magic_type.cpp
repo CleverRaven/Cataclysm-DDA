@@ -51,6 +51,7 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
         const std::string cannot_cast_flag = jo.get_string( "cannot_cast_flags" );
         cannot_cast_flags.insert( cannot_cast_flag );
     }
+    optional( jo, was_loaded, "cannot_cast_message", cannot_cast_message );
 }
 
 void magic_type::serialize( JsonOut &json ) const
@@ -63,6 +64,7 @@ void magic_type::serialize( JsonOut &json ) const
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
     json.member( "energy_source", energy_source );
     json.member( "cannot_cast_flags", cannot_cast_flags, std::set<std::string> {} );
+    json.member( "cannot_cast_message", cannot_cast_message );
 
     json.end_object();
 }
