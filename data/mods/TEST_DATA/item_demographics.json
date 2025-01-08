@@ -567,18 +567,6 @@
             "reloaded_4570_sp": 1
           }
         },
-        {
-          "type": "460",
-          "weight": 1,
-          "items": {
-            "460_fmj": 1,
-            "460_rowland": 1,
-            "bp_460_fmj": 1,
-            "bp_460_rowland": 1,
-            "reloaded_460_fmj": 1,
-            "reloaded_460_rowland": 1
-          }
-        },
         { "type": "46", "weight": 1, "items": { "46mm": 1, "bp_46mm": 1, "reloaded_46mm": 1 } },
         { "type": "500", "weight": 1, "items": { "500_Magnum": 1, "bp_500_Magnum": 1, "reloaded_500_Magnum": 1 } },
         {
@@ -901,7 +889,6 @@
             "bfr": 1,
             "sharps": 1,
             "hk_mp7": 1,
-            "m1911-460": 1,
             "m107a1": 1,
             "m2browning": 1,
             "as50": 1,
@@ -978,7 +965,6 @@
             "m18": 1,
             "m1911": 1,
             "m1911_10": 1,
-            "m1911-460": 1,
             "m1911a1_38super": 1,
             "m9": 1,
             "makarov": 1,

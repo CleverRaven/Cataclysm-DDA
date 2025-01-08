@@ -246,8 +246,8 @@
         "   -........................................-   ",
         "   -........................................-   ",
         "   -........#########......#########........-   ",
-        "   -........#'R>#XXX#......#XXX#'R>#........-   ",
-        "   -........#'R'#XXX#......#XXX#'R'#........-   ",
+        "   -........#'R>#X''#......#X''#'R>#........-   ",
+        "   -........#'R'#'''#......#'''#'R'#........-   ",
         "   -........#'''#N''#......#''N#'''#........-   ",
         "   -........#'''#N'x#......#x'N#'''#........-   ",
         "   -........##+###+##......##+###+##........-   ",
@@ -275,7 +275,11 @@
       ],
       "palettes": [ "roof_palette", "parametrized_highrise_walls_palette" ],
       "terrain": { "+": "t_door_locked", "'": "t_thconc_floor", "R": "t_railing" },
-      "furniture": { "x": "f_console_broken", "X": "f_generator_broken", "N": "f_machinery_heavy" },
+      "furniture": {
+        "x": "f_console_broken",
+        "X": [ [ "f_generator_broken", 25 ], [ "f_diesel_generator", 5 ], [ "f_12000_gasoline_generator", 5 ] ],
+        "N": "f_machinery_heavy"
+      },
       "place_nested": [
         { "chunks": [ [ "roof_16x16_help", 3 ], [ "null", 10 ] ], "x": [ 4, 8 ], "y": [ 30, 38 ] },
         {

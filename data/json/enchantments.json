@@ -301,7 +301,7 @@
     "condition": {
       "and": [
         { "u_has_flag": "QUADRUPED_CROUCH" },
-        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_CHIMERA" ] },
         { "u_has_flag": "QUADRUPED_RUN" },
         { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] },
         { "not": "u_can_drop_weapon" }
@@ -317,7 +317,7 @@
     "condition": {
       "and": [
         { "u_has_flag": "QUADRUPED_CROUCH" },
-        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_CHIMERA" ] },
         { "not": { "u_has_flag": "QUADRUPED_RUN" } },
         { "u_has_move_mode": "crouch" },
         { "not": "u_can_drop_weapon" }

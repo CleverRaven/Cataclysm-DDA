@@ -5415,7 +5415,7 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint_omt_
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
 
-    inv_s.add_remote_map_items( target_bay, target.raw() );
+    inv_s.add_remote_map_items( target_bay, target );
     inv_s.set_title( title );
     inv_s.set_hint( _( "To select items, type a number before selecting." ) );
 

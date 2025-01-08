@@ -599,6 +599,9 @@ class const_talker
         virtual int get_npc_anger() const {
             return 0;
         }
+        virtual int get_ugliness() const {
+            return 0;
+        }
         virtual int get_bmi_permil() const {
             return 0;
         }

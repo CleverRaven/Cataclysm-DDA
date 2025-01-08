@@ -178,7 +178,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
       "update_mapgen": {
         "set": [
           { "point": "trap", "id": "tr_beartrap_buried", "x": 7, "y": 6 },
@@ -246,7 +246,7 @@
     "difficulty": 2,
     "value": 10000,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 800 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5 },
       "effect": [ { "math": [ "old_guard_rep_scouting = 1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -303,13 +303,7 @@
     "difficulty": 10,
     "value": 300000,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "bandit_camp_1",
-        "om_special": "bandit_camp",
-        "reveal_radius": 1,
-        "min_distance": 10,
-        "search_range": 120
-      },
+      "assign_mission_target": { "om_terrain": "bandit_camp_1", "om_special": "bandit_camp", "reveal_radius": 1, "min_distance": 10 },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
         { "u_spawn_item": "sw629" },

@@ -1214,7 +1214,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    get_map().furn_set( suitable.value(), furn_type );
+    get_map().furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -4660,7 +4660,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint_bu
         link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
                                         string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
-            link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
+            link_menu.addentry( 0, has_loose_end, -1,
+                                _( "Attach to dashboard, electronics control unit or appliance" ) );
         }
         if( targets.count( link_state::vehicle_battery ) > 0 ) {
             link_menu.addentry( 1, has_loose_end, -1, _( "Attach to vehicle battery or appliance" ) );

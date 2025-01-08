@@ -358,7 +358,7 @@ class monster : public Creature
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill() const;
 
@@ -623,6 +623,7 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

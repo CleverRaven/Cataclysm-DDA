@@ -420,6 +420,42 @@
     "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
   {
+    "id": "mon_zenit",
+    "type": "MONSTER",
+    "name": { "str_sp": "TsKBEM Zenit", "//~": "Its in Russian.  Not a typo." },
+    "looks_like": "mon_hazmatbot",
+    "description": "An ancient security drone intended to safeguard extractive outposts in hostile environments.  Its construction vaguely recalls an alien crustacean, with a single sensory oculus and four spade-like legs mounted underneath a disk of space-ship grade armor.  Zenit units can mount a wide variety of \"deterrent\" weapon modules, and its difficult to tell what this rogue unit is capable of.",
+    "default_faction": "rampant_machine",
+    "species": [ "ROBOT" ],
+    "volume": "62 L",
+    "weight": "81500 g",
+    "hp": 1200,
+    "speed": 70,
+    "material": [ "steel" ],
+    "symbol": "M",
+    "color": "yellow",
+    "morale": 80,
+    "aggression": 50,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "vision_day": 50,
+    "bleed_rate": 0,
+    "death_function": { "corpse_type": "BROKEN" },
+    "special_attacks": [ { "id": "zenit_control", "cooldown": 5 } ],
+    "weakpoint_sets": [ "afs_wps_robot", "afs_wps_robot_explode", "afs_wps_zenit" ],
+    "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "BIOLOGICALPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER",
+      "STUN_IMMUNE"
+    ],
+    "armor": { "bash": 15, "cut": 30, "acid": 100, "bullet": 25, "heat": 20, "afs_plasma": 1 }
+  },
+  {
     "id": "mon_utilibot_fire",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
@@ -826,6 +862,49 @@
         "targeting_volume": 10
       }
     ]
+  },
+  {
+    "id": "mon_shock_mine",
+    "type": "MONSTER",
+    "name": { "str": "shock-mine" },
+    "//": "A monster so that the player and other monsters can shoot at it without the need of custom AI.",
+    "description": "A bulky device that will constantly discharge electricity in a small radius around it.",
+    "default_faction": "rampant_machine",
+    "species": [ "ROBOT" ],
+    "diff": 12,
+    "volume": "1 L",
+    "weight": "1200 g",
+    "hp": 5,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "i",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "bleed_rate": 0,
+    "vision_night": 4,
+    "luminance": 10,
+    "emit_fields": [ { "emit_id": "emit_spark", "delay": "1 s" } ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "afs_mine_shocker",
+        "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
+        "ranges": [ [ 0, 5, "DEFAULT" ] ]
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "shock_mine_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      }
+    ],
+    "death_function": { "corpse_type": "BROKEN" },
+    "//2": "Deliberatedly electric and not electronic, so it can be immune to electric damageand EMP.",
+    "flags": [ "SEES", "NOHEAD", "ELECTRIC", "BIOLOGICALPROOF", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 5, "cut": 2, "bullet": 3, "stab": 0, "electric": 100 }
   },
   {
     "id": "mon_afs_eyebot",

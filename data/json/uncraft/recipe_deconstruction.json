@@ -2079,7 +2079,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap_aluminum", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]
@@ -3073,15 +3073,6 @@
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
-  },
-  {
-    "result": "kiln_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 m",
-    "components": [ [ [ "charcoal", 5000 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",

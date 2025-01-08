@@ -149,6 +149,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const fault_id fault_emp_reboot( "fault_emp_reboot" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
@@ -712,7 +713,7 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint_bub_ms &pos )
 {
-    return type->invoke( nullptr, *this, pos.raw() ).value_or( 0 );
+    return type->invoke( nullptr, *this, pos ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -1294,6 +1295,7 @@ void item::add_automatic_whitelist()
     if( pkts.size() == 1 && contents_only_one_type() ) {
         pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
         pkts.front()->settings.set_priority( 100 );
+        pkts.front()->settings.set_collapse( true );
     }
 }
 
@@ -5854,6 +5856,24 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 
 }
 
+// Cache for can_craft in final_info.
+static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
+static time_point cache_valid_turn;
+
+static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        can_craft_recipe_cache.clear();
+    }
+    if( can_craft_recipe_cache.count( r ) > 0 ) {
+        return can_craft_recipe_cache.at( r );
+    }
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
+                                r->get_component_filter() );
+    return can_craft_recipe_cache.at( r );
+}
+
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool /* debug */ ) const
 {
@@ -6085,7 +6105,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
-        const recipe_subset available_recipe_subset = player_character.get_group_available_recipes();
+        const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         insert_separation_line( info );
@@ -6093,11 +6113,10 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
             std::vector<std::string> crafts;
+            crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {
-                const bool can_make = r->deduped_requirements()
-                                      .can_make_with_inventory( crafting_inv, r->get_component_filter() );
-
-                // Endarken recipes that can't be constructed with the survivor's inventory
+                const bool can_make = can_craft_recipe( r, crafting_inv );
+                // Endarken recipes that can't be crafted with the survivor's inventory
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
@@ -10529,7 +10548,7 @@ bool item::spill_contents( const tripoint_bub_ms &pos )
         is_container_empty() ) {
         return true;
     }
-    return contents.spill_contents( pos.raw() );
+    return contents.spill_contents( pos );
 }
 
 bool item::spill_open_pockets( Character &guy, const item *avoid )
@@ -10539,7 +10558,7 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
 
 void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos.raw(), loc );
+    contents.overflow( pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11251,7 +11270,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, pos.raw() );
+        qty -= contents.ammo_consume( qty, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -13057,7 +13076,8 @@ int item::processing_speed() const
 
     if( active || ethereal || wetness || has_link_data() ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ||
-        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ) {
+        has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) || get_var( "gun_heat", 0 ) > 0 ||
+        has_fault( fault_emp_reboot ) ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -13580,7 +13600,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         if( type->revert_to ) {
             convert( *type->revert_to, carrier );
         } else {
-            type->invoke( carrier, *this, pos.raw(), "transform" );
+            type->invoke( carrier, *this, pos, "transform" );
         }
         if( typeId() == itype_joint_lit && carrier != nullptr ) {
             carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
@@ -13600,7 +13620,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
                                             type_name() );
                 convert( *type->revert_to, carrier );
             } else {
-                type->invoke( carrier, *this, pos.raw(), "transform" );
+                type->invoke( carrier, *this, pos, "transform" );
             }
             active = false;
             return false;
@@ -13725,7 +13745,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
     if( type->revert_to ) {
         convert( *type->revert_to, carrier );
     } else {
-        type->invoke( carrier, *this, pos.raw(), "transform" );
+        type->invoke( carrier, *this, pos, "transform" );
     }
     active = false;
     // Item remains
@@ -14409,7 +14429,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         }
     }
 
-    type->tick( carrier, *this, pos.raw() );
+    type->tick( carrier, *this, pos );
     return false;
 }
 
@@ -14473,7 +14493,7 @@ bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, f
 {
     process_relic( carrier, pos );
     if( recursive ) {
-        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
+        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
     return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
@@ -14483,7 +14503,7 @@ bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, f
 bool item::leak( map &here, Character *carrier, const tripoint_bub_ms &pos, item_pocket *pocke )
 {
     if( is_container() ) {
-        contents.leak( here, carrier, pos.raw(), pocke );
+        contents.leak( here, carrier, pos, pocke );
         return false;
     } else if( this->made_of( phase_id::LIQUID ) && !this->is_frozen_liquid() ) {
         if( pocke ) {
@@ -14641,8 +14661,24 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( get_var( "gun_heat", 0 ) > 0 ) {
             return process_gun_cooling( carrier );
         }
+        if( faults.count( fault_emp_reboot ) ) {
+            if( one_in( 60 ) ) {
+                if( !one_in( 20 ) ) {
+                    faults.erase( fault_emp_reboot );
+                    if( carrier ) {
+                        carrier->add_msg_if_player( m_good, _( "Your %s reboots successfully." ), tname() );
+                    }
+                } else {
+                    faults.erase( fault_emp_reboot );
+                    set_fault( faults::random_of_type( "shorted" ) );
+                    if( carrier ) {
+                        carrier->add_msg_if_player( m_bad, _( "Your %s fails to reboot properly." ), tname() );
+                    }
+                }
+            }
+            return false;
+        }
     }
-
     return false;
 }
 

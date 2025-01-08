@@ -20,16 +20,14 @@
     "name": { "str_sp": "Gracken Shade Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms back to a base state.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back to a base model.",
-      "effect_on_conditions": [
-        {
-          "id": "shade_arms",
-          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_ARMS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "shade_arms" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shade_arms",
+    "condition": { "not": { "u_has_trait": "SHADE_ARMS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have Gracken arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_strong_arms",
@@ -38,16 +36,14 @@
     "name": { "str_sp": "Gracken Strong Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back for a stronger form factor.",
-      "effect_on_conditions": [
-        {
-          "id": "strong_arms",
-          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "strong_arms" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "strong_arms",
+    "condition": { "not": { "u_has_trait": "SHADE_STRONG_ARMS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have strong arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_long_arms",
@@ -56,16 +52,14 @@
     "name": { "str_sp": "Gracken Long Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a longer form.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back for a longer form factor.",
-      "effect_on_conditions": [
-        {
-          "id": "long_arms",
-          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_LONG_ARMS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "long_arms" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "long_arms",
+    "condition": { "not": { "u_has_trait": "SHADE_LONG_ARMS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_LONG_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have long arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_shade_hands",
@@ -74,16 +68,14 @@
     "name": { "str_sp": "Gracken Shade Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands back to a base state.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back to a base model.",
-      "effect_on_conditions": [
-        {
-          "id": "shade_hands",
-          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_ARMS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "shade_hands" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "gracken_shade_hands",
+    "condition": { "not": { "u_has_trait": "SHADE_HANDS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_HANDS" } ],
+    "false_effect": [ { "u_message": "You are already have normal Gracken hands.", "type": "neutral" } ]
   },
   {
     "id": "gracken_sharp_nails",
@@ -92,16 +84,14 @@
     "name": { "str_sp": "Gracken Sharp Nails" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a sharper form.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back for a sharper form factor.",
-      "effect_on_conditions": [
-        {
-          "id": "sharp_nails",
-          "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_SHARP_NAILS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "sharp_nails" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sharp_nails",
+    "condition": { "not": { "u_has_trait": "SHADE_SHARP_NAILS" } },
+    "effect": [ { "u_message": "You exchanged your previous hands for this." }, { "u_add_trait": "SHADE_SHARP_NAILS" } ],
+    "false_effect": [ { "u_message": "You are already have sharpened nails.", "type": "neutral" } ]
   },
   {
     "id": "gracken_dextrous_hands",
@@ -110,16 +100,14 @@
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a more agile form.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Exchanged the limb back for a longer form factor.",
-      "effect_on_conditions": [
-        {
-          "id": "dextrous_hands",
-          "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "dextrous_hands" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dextrous_hands",
+    "condition": { "not": { "u_has_trait": "SHADE_DEXTROUS_HANDS" } },
+    "effect": [ { "u_message": "You exchanged your previous hands for this." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ],
+    "false_effect": [ { "u_message": "You are already have dextrous hands.", "type": "neutral" } ]
   },
   {
     "id": "gracken_herbivorous_stomach",
@@ -128,16 +116,14 @@
     "name": { "str_sp": "Gracken Herbivorous Stomach" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an herbivorous one.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Changed your diet to eating only plants.",
-      "effect_on_conditions": [
-        {
-          "id": "herbivorous_stomach",
-          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_HERBIVORE" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "herbivorous_stomach" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "herbivorous_stomach",
+    "condition": { "not": { "u_has_trait": "SHADE_HERBIVORE" } },
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_HERBIVORE" } ],
+    "false_effect": [ { "u_message": "You are already an herbivore.", "type": "neutral" } ]
   },
   {
     "id": "gracken_omnivorous_stomach",
@@ -146,16 +132,14 @@
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an omnivorous one.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Changed your diet to eating most things.",
-      "effect_on_conditions": [
-        {
-          "id": "omnivorous_stomach",
-          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_OMNIVORE" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "omnivorous_stomach" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "omnivorous_stomach",
+    "condition": { "not": { "u_has_trait": "SHADE_OMNIVORE" } },
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_OMNIVORE" } ],
+    "false_effect": [ { "u_message": "You are already an omnivore.", "type": "neutral" } ]
   },
   {
     "id": "gracken_carnivorous_stomach",
@@ -164,15 +148,13 @@
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an carnivorous one.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Changed your diet to meat eating.",
-      "effect_on_conditions": [
-        {
-          "id": "carnivorous_stomach",
-          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "carnivorous_stomach" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "carnivorous_stomach",
+    "condition": { "not": { "u_has_trait": "SHADE_CARNIVORE" } },
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ],
+    "false_effect": [ { "u_message": "You are already a carnivore.", "type": "neutral" } ]
   }
 ]

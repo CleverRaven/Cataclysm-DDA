@@ -6385,6 +6385,23 @@ std::string Character::age_string( time_point when ) const
     return string_format( unformatted, age( when ) );
 }
 
+int Character::ugliness() const
+{
+    int ugliness = 0;
+    for( trait_id &mut : get_functioning_mutations() ) {
+        ugliness += mut.obj().ugliness;
+    }
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        ugliness += bp->ugliness_mandatory;
+        ugliness += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+    }
+    ugliness = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, ugliness );
+    return ugliness;
+}
+
 struct HeightLimits {
     int min_height = 0;
     int base_height = 0;
@@ -7132,7 +7149,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
-                                      pt.raw(), method );
+                                      pt, method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
         return false;
@@ -8269,7 +8286,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d, const weakpoint_attack &attack )
+        const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
     if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();

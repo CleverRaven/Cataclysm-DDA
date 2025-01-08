@@ -323,7 +323,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 }
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -345,9 +345,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "chemical_lab_ocu", "om_special": "Occupied Chem Lab", "reveal_radius": 5, "search_range": 400 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "chemical_lab_ocu", "om_special": "Occupied Chem Lab", "reveal_radius": 5 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",
@@ -368,9 +366,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5, "search_range": 400 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",

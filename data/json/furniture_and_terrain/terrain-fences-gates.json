@@ -1338,6 +1338,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_boom_barrier_lowered",
+    "name": "lowered boom barrier",
+    "description": "A lowered boom barrier.",
+    "symbol": "-",
+    "color": "light_red",
+    "looks_like": "t_guardrail",
+    "move_cost": 0,
+    "coverage": 55,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
+    "bash": {
+      "ter_set": "t_pavement",
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_cattle_feeder",
     "name": "cattle feeder",
     "description": "A section of tall steel with a solid base and feed spaces above to allow livestock to reach the contained food.",

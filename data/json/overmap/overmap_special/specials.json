@@ -825,7 +825,7 @@
     "id": "Lab",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
@@ -839,7 +839,7 @@
     "id": "Lab with Anthill",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
       { "point": [ 3, 1, 0 ], "overmap": "anthill_north" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
@@ -906,7 +906,7 @@
     "id": "Ice Lab",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ice_lab_stairs" },
-      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "full_basic_lab_roof" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],

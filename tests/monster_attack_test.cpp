@@ -201,7 +201,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     clear_avatar();
     you.set_dodges_left( 1 ) ;
     REQUIRE( Approx( you.get_dodge() ) == 4.0 );
-    you.setpos( target_location.raw() );
+    you.setpos( target_location );
     const tripoint_abs_ms abs_target_location = you.get_location();
     reset_caches( target_location.z(), target_location.z() );
     REQUIRE( g->natural_light_level( 0 ) > 50.0 );

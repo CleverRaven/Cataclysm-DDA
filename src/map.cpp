@@ -159,11 +159,6 @@ static const material_id material_glass( "glass" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-static const oter_str_id oter_deep_rock( "deep_rock" );
-static const oter_str_id oter_empty_rock( "empty_rock" );
-static const oter_str_id oter_open_air( "open_air" );
-static const oter_str_id oter_solid_earth( "solid_earth" );
-
 static const species_id species_FERAL( "FERAL" );
 
 static const ter_str_id ter_t_bars( "t_bars" );
@@ -189,10 +184,8 @@ static const ter_str_id ter_t_gas_pump_smashed( "t_gas_pump_smashed" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
-static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
-static const ter_str_id ter_t_soil( "t_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
@@ -1603,7 +1596,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
                 z_change = psgp.z() - part_pos.z();
             }
 
-            psg->setpos( psgp.raw() );
+            psg->setpos( psgp );
             r.moved = true;
         }
     }
@@ -1779,13 +1772,14 @@ furn_id map::furn( const tripoint_bub_ms p ) const
 }
 
 bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
-                    bool avoid_creatures )
+                    bool avoid_creatures, bool allow_on_open_air )
 {
-    return furn_set( tripoint_bub_ms( p ), new_furniture, furn_reset, avoid_creatures );
+    return furn_set( tripoint_bub_ms( p ), new_furniture, furn_reset, avoid_creatures,
+                     allow_on_open_air );
 }
 
 bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
-                    bool avoid_creatures )
+                    bool avoid_creatures, bool allow_on_open_air )
 {
     if( !inbounds( p ) ) {
         debugmsg( "map::furn_set %s out of bounds", p.to_string() );
@@ -1820,7 +1814,7 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
 
     bool result = true;
 
-    if( current_submap->is_open_air( l ) &&
+    if( !allow_on_open_air && current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
         new_target_furniture != furn_str_id::NULL_ID() ) {
@@ -2094,19 +2088,6 @@ uint8_t map::get_known_rotates_to( const tripoint_bub_ms &p,
     }
 
     return val;
-}
-
-uint8_t map::get_known_connections_f( const tripoint &p,
-                                      const std::bitset<NUM_TERCONN> &connect_group,
-                                      const std::map<tripoint, furn_id> &override ) const
-{
-    std::map<tripoint_bub_ms, furn_id> tmp_override;
-
-    for( const auto &element : override ) {
-        tmp_override.insert( {tripoint_bub_ms( element.first ), element.second} );
-    }
-
-    return map::get_known_connections_f( tripoint_bub_ms( p ), connect_group, tmp_override );
 }
 
 uint8_t map::get_known_connections_f( const tripoint_bub_ms &p,
@@ -4646,6 +4627,24 @@ void map::destroy_furn( const tripoint_bub_ms &p, const bool silent )
     }
 }
 
+void map::destroy_vehicle( const tripoint_bub_ms &p, const bool silent )
+{
+    if( !veh_at( p ) ) {
+        return;
+    }
+
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    bash_params bsh{
+        999, silent, true, false, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
+    };
+    while( count <= 25 && veh_at( p ) ) {
+        bash_vehicle( p, bsh );
+        count++;
+    }
+}
+
 void map::batter( const tripoint_bub_ms &p, int power, int tries, const bool silent )
 {
     int count = 0;
@@ -6252,20 +6251,6 @@ std::list<item_location> map::items_with( const tripoint_bub_ms &p,
     return ret;
 }
 
-std::list<item> map::use_amount( const std::vector<tripoint> &reachable_pts, const itype_id &type,
-                                 int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( const tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::use_amount( temp, type, quantity, filter, select_ind );
-}
-
 std::list<item> map::use_amount( const std::vector<tripoint_bub_ms> &reachable_pts,
                                  const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
@@ -6308,8 +6293,7 @@ std::list<item> map::use_amount( const tripoint_bub_ms &origin, const int range,
                                  const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    std::vector<tripoint_bub_ms> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
     return use_amount( reachable_pts, type, quantity, filter, select_ind );
 }
 
@@ -6375,22 +6359,6 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 }
 
-std::list<item> map::use_charges( const std::vector<tripoint> &reachable_pts,
-                                  const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter,
-                                  basecamp *bcp, bool in_tools )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::use_charges( temp, type, quantity, filter, bcp, in_tools );
-}
-
 std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_pts,
                                   const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter,
@@ -6447,36 +6415,14 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
     return ret;
 }
 
-std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter,
-                                  basecamp *bcp, bool in_tools )
-{
-    return map::use_charges( tripoint_bub_ms( origin ), range, type, quantity, filter, bcp, in_tools );
-}
-
 std::list<item> map::use_charges( const tripoint_bub_ms &origin, const int range,
                                   const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter,
                                   basecamp *bcp, bool in_tools )
 {
     // populate a grid of spots that can be reached
-    std::vector<tripoint_bub_ms> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
     return use_charges( reachable_pts, type, quantity, filter, bcp, in_tools );
-}
-
-units::energy map::consume_ups( const std::vector<tripoint> &reachable_pts, units::energy qty )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( const tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::consume_ups( temp, qty );
 }
 
 units::energy map::consume_ups( const std::vector<tripoint_bub_ms> &reachable_pts,
@@ -6507,8 +6453,7 @@ units::energy map::consume_ups( const std::vector<tripoint_bub_ms> &reachable_pt
 units::energy map::consume_ups( const tripoint_bub_ms &origin, const int range, units::energy qty )
 {
     // populate a grid of spots that can be reached
-    std::vector<tripoint_bub_ms> reachable_pts;
-    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
     return consume_ups( reachable_pts, qty );
 }
 
@@ -8035,20 +7980,8 @@ std::vector<tripoint_bub_ms> map::find_clear_path( const tripoint_bub_ms &source
     return line_to( source, destination, ideal_start_offset, 0 );
 }
 
-void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
-                                 int range, const int cost_min, const int cost_max ) const
-{
-    std::vector<tripoint_bub_ms> temp_points;
-    map::reachable_flood_steps( temp_points, tripoint_bub_ms( f ), range, cost_min, cost_max );
-
-    for( const tripoint_bub_ms pt : temp_points ) {
-        reachable_pts.push_back( pt.raw() );
-    }
-}
-
-void map::reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts,
-                                 const tripoint_bub_ms &f,
-                                 int range, const int cost_min, const int cost_max ) const
+std::vector<tripoint_bub_ms> map::reachable_flood_steps( const tripoint_bub_ms &f, int range,
+        const int cost_min, const int cost_max ) const
 {
     struct pq_item {
         int dist;
@@ -8063,8 +7996,9 @@ void map::reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts,
 
     // temp buffer for grid
     const int grid_dim = range * 2 + 1;
+    const size_t grid_area = static_cast<size_t>( grid_dim ) * grid_dim;
     // init to -1 as "not visited yet"
-    std::vector< int > t_grid( static_cast<size_t>( grid_dim * grid_dim ), -1 );
+    std::vector<int> t_grid( grid_area, -1 );
     const tripoint_rel_ms origin_offset = { range, range, 0 };
     const int initial_visit_distance = range * range; // Large unreachable value
 
@@ -8087,12 +8021,12 @@ void map::reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts,
         // Up to 8 neighbors
         int new_cost = elem.dist + 1;
         // *INDENT-OFF*
-        std::array<int, 8> ox = {
+        const std::array<int, 8> ox = {
             -1, 0, 1,
             -1,    1,
             -1, 0, 1
         };
-        std::array<int, 8> oy = {
+        const std::array<int, 8> oy = {
             -1, -1, -1,
             0,      0,
             1,  1,  1
@@ -8127,17 +8061,20 @@ void map::reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts,
             }
         }
     }
-    std::vector<char> o_grid( static_cast<size_t>( grid_dim * grid_dim ), 0 );
+    std::vector<bool> o_grid( grid_area );
+    int count = 0;
     for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
         for( int x = 0; x < grid_dim; ++x, ++ndx ) {
             if( t_grid[ndx] != -1 && t_grid[ndx] < initial_visit_distance ) {
                 // set self and neighbors to 1
-                for( int dy = -1; dy <= 1; ++dy ) {
-                    for( int dx = -1; dx <= 1; ++dx ) {
-                        point t2( dx + x, dy + y );
-
-                        if( t2.x >= 0 && t2.x < grid_dim && t2.y >= 0 && t2.y < grid_dim ) {
-                            o_grid[t2.x + t2.y * grid_dim] = 1;
+                for( int y2 = y - 1; y2 <= y + 1; ++y2 ) {
+                    for( int x2 = x - 1; x2 <= x + 1; ++x2 ) {
+                        if( x2 >= 0 && x2 < grid_dim && y2 >= 0 && y2 < grid_dim ) {
+                            const int index = x2 + ( y2 * grid_dim );
+                            if( !o_grid[ index ] ) {
+                                count++;
+                                o_grid[ index ] = true;
+                            }
                         }
                     }
                 }
@@ -8145,15 +8082,21 @@ void map::reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts,
         }
     }
 
-    // Now go over again to pull out all of the reachable points
-    for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
-        for( int x = 0; x < grid_dim; ++x, ++ndx ) {
-            if( o_grid[ndx] ) {
-                tripoint_bub_ms t = f - origin_offset + tripoint{ x, y, 0 };
-                reachable_pts.push_back( t );
+
+    std::vector<tripoint_bub_ms> reachable_pts;
+    if( count != 0 ) {
+        reachable_pts.reserve( count );
+        // Now go over again to pull out all of the reachable points
+        for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
+            for( int x = 0; x < grid_dim; ++x, ++ndx ) {
+                if( o_grid[ndx] ) {
+                    tripoint_bub_ms t = f - origin_offset + tripoint{ x, y, 0 };
+                    reachable_pts.push_back( t );
+                }
             }
         }
     }
+    return reachable_pts;
 }
 
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
@@ -8579,19 +8522,6 @@ void map::saven( const tripoint_bub_sm &grid )
     MAPBUFFER.add_submap( abs, submap_to_save );
 }
 
-ter_str_id uniform_terrain( const oter_id &oter )
-{
-    if( oter == oter_open_air ) {
-        return ter_t_open_air;
-    } else if( oter == oter_empty_rock || oter == oter_deep_rock ) {
-        return ter_t_rock;
-    } else if( oter == oter_solid_earth ) {
-        return ter_t_soil;
-    } else {
-        return t_null.id();
-    }
-}
-
 // Optimized mapgen function that only works properly for very simple overmap types
 // Does not create or require a temporary map and does its own saving
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
@@ -8611,16 +8541,16 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
-    const ter_str_id ter = uniform_terrain( terrain_type );
+    const std::optional<ter_str_id> ter = terrain_type->get_uniform_terrain();
 
-    if( ter == t_null.id() ) {
+    if( !ter ) {
         return false;
     }
 
     bool ret = true;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
-            ret &= generate_uniform( p + point( xd, yd ), ter );
+            ret &= generate_uniform( p + point_rel_sm( xd, yd ), *ter );
         }
     }
     return ret;
@@ -10503,7 +10433,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
         }
 
         if( valid.empty() ) {
-            critter->setpos( c->pos() );
+            critter->setpos( c->pos_bub() );
             add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name() );
         } else {
             critter->setpos( random_entry( valid ) );

@@ -54,7 +54,7 @@
     "effect": [
       {
         "u_location_variable": { "u_val": "mansion_centre" },
-        "target_params": { "om_terrain": "mansion_+4d", "search_range": 2, "z": -1 },
+        "target_params": { "om_terrain": "mansion_+4d", "z": -1 },
         "min_radius": 0,
         "max_radius": 0
       },

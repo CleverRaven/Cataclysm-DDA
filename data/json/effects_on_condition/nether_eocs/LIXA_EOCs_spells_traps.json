@@ -223,79 +223,79 @@
       { "math": [ "u_LIXA_hallway_direction = 2" ] },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_A" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_A", "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_unfold_B" },
-        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_unfolded_B", "min_distance": 0, "z": 0 },
         "z_adjust": -8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_1" },
-        "target_params": { "om_terrain": "LIXA_device_1", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_1", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_2" },
-        "target_params": { "om_terrain": "LIXA_device_2", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_2", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_chamber_3" },
-        "target_params": { "om_terrain": "LIXA_device_3", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_device_3", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1a", "min_distance": 0, "z": 0 },
         "z_adjust": -4,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_NE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2a", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SW" },
-        "target_params": { "om_terrain": "LIXA_workfloor_1b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_1b", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_workfloor_SE" },
-        "target_params": { "om_terrain": "LIXA_workfloor_2b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_workfloor_2b", "min_distance": 0, "z": 0 },
         "z_adjust": -3,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NW" },
-        "target_params": { "om_terrain": "LIXA_surface_1a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1a", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_NE" },
-        "target_params": { "om_terrain": "LIXA_surface_1b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_1b", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SW" },
-        "target_params": { "om_terrain": "LIXA_surface_2a", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2a", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "LIXA_surface_SE" },
-        "target_params": { "om_terrain": "LIXA_surface_2b", "search_range": 400, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "LIXA_surface_2b", "min_distance": 0, "z": 0 },
         "z_adjust": 0,
         "z_override": true
       }

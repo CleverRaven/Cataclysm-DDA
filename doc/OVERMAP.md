@@ -254,6 +254,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
 | `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](JSON_FLAGS.md).                                        |
+| `uniform_terrain` | Specifies the terrain that should fill this overmap terrain in place of a JSON mapgen with fill ter for very common maps to save on load time. |
 | `mapgen`          | Specify a C++ mapgen function. Don't do this--use JSON.                                          |
 | `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
@@ -290,23 +291,28 @@ an exhaustive example...
     "sym": ".",
     "color": "brown",
     "looks_like": "forest",
+    "vision_levels": "open_land",
+    "connect_group": "forest",
     "see_cost": "spaced_high",
+    "travel_cost_type": "field",
     "extras": "field",
     "mondensity": 2,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "NO_ROTATE" ],
+    "uniform_terrain": "t_grass",
     "mapgen": [ { "method": "builtin", "name": "bridge" } ],
     "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "travel_cost_type": "field",
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
       "condition": { "math": [ "refugee_centers < 1" ] }, 
       "effect": [ { "math": [ "refugee_centers", "++" ] } ]
-    }
+    },
+    "entry_eoc": "EOC_ENTERED_SECRET_FIELD",
+    "exity_eoc": "EOC_LEFT_SECRET_FIELD"
 }
 ```
 

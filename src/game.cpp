@@ -322,6 +322,7 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_sees_player_hitbutton( "sees_player_hitbutton" );
+static const mod_id MOD_INFORMATION_sees_player_retro( "sees_player_retro" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
@@ -2658,6 +2659,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "throw_wielded" );
     ctxt.register_action( "fire" );
     ctxt.register_action( "cast_spell" );
+    ctxt.register_action( "recast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "select_default_ammo" );
@@ -3377,6 +3379,7 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
     // Missing mods removed within the last version cycle trigger a different message to make it clear they have been intentionally removed
     const std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap, // Removed in 0.I
+        MOD_INFORMATION_sees_player_retro, // Removed in 0.I
         MOD_INFORMATION_sees_player_hitbutton // Removed in 0.I
     };
     std::unordered_set<mod_id> mods_to_remove;
@@ -11262,7 +11265,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
           !u.get_mon_visible().has_dangerous_creature_in_proximity ) &&
         ( m.has_items( u.pos_bub() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::autopickup( u.pos() );
+        Pickup::autopickup( u.pos_bub() );
     }
 
     // If the new tile is a boardable part, board it
@@ -11759,7 +11762,7 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
                    _( "a scraping noise." ), true, "misc", "scraping" );
 
     // Actually move the furniture.
-    m.furn_set( fdest, m.furn( fpos ) );
+    m.furn_set( fdest, m.furn( fpos ), false, false, true );
     m.furn_set( fpos, furn_str_id::NULL_ID(), true );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
@@ -12899,7 +12902,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
 
     if( shift == point_rel_sm::zero ) {
         // adjust player position
-        u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
+        u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
         if( z_level_changed ) {
             // Update what parts of the world map we can see
             // We may be able to see farther now that the z-level has changed.
@@ -12937,12 +12940,12 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
         }
     }
 
-    scent.shift( shift_ms.raw() );
+    scent.shift( shift_ms );
 
     // Also ensure the player is on current z-level
     // m.get_abs_sub().z should later be removed, when there is no longer such a thing
     // as "current z-level"
-    u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
+    u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
 
     // Only do the loading after all coordinates have been shifted.
 
@@ -13189,7 +13192,7 @@ void game::display_scent()
             return;
         }
         shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-            scent.draw( w_terrain, div * 2, u.pos_bub().raw() + u.view_offset.raw() );
+            scent.draw( w_terrain, div * 2, u.pos_bub() + u.view_offset );
         } );
         g->add_draw_callback( scent_cb );
 

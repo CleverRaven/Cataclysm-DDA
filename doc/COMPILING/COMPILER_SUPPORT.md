@@ -6,18 +6,20 @@
 | [clang](https://clang.llvm.org)                      | [10.0](https://releases.llvm.org/10.0.0/docs/index.html) |
 | [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
 | [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
-| [XCode](https://developer.apple.com/xcode)           | 10.1 <br/> [macOS 10.13](https://en.wikipedia.org/wiki/MacOS_High_Sierra) |
+| [XCode](https://developer.apple.com/xcode)           | [10.1](https://developer.apple.com/documentation/xcode-release-notes/xcode-10_1-release-notes) <br/> [macOS 10.13](https://en.wikipedia.org/wiki/MacOS_High_Sierra) |
 
 Our goal with compiler support is to make it as easy as possible for new
 contributors to get started with development of the game, while also using the
 newest compilers (and thus language standards) that we can.
 
-To that end, we aim to support gcc and clang up to the newest stable versions
+To that end, we aim to support GCC and clang up to the newest stable versions
 and back to those shipping in any supported version of a popular distribution
 or relevant development environment, including Ubuntu, Debian, MSYS, and XCode.
 
 In practice, compiler support is often determined by what is covered in our
-automated testing.
+automated testing[^1].
+
+[^1]: [GitHub Actions Runner Images](https://github.com/actions/runner-images?tab=readme-ov-file#available-images)
 
 At the time of writing:
 * Bionic is about to end general support, so we aim to support the next oldest
@@ -26,17 +28,17 @@ At the time of writing:
   10](https://packages.ubuntu.com/focal/clang).
 * Debian stable is Bullseye, and [defaults to g++
   10.2](https://packages.debian.org/bullseye/g++).
-* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 36,
+* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 40,
   which uses [gcc
-  12.0](https://fedora.pkgs.org/36/fedora-x86_64/gcc-12.0.1-0.16.fc36.x86_64.rpm.html).
+  14.0](https://fedoraproject.org/wiki/Changes/GNUToolchainF40).
 * MSYS [offers gcc 12.2](https://packages.msys2.org/base).
 * macOS 10.13+ has 96.0% [market
-  share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)[^1]
+  share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)[^2]
   and that corresponds to [XCode 10.1](https://xcodereleases.com/).
 
-[^1]: [Limit reported macOS release to 10.15 series](https://bugs.webkit.org/show_bug.cgi?id=216593)
+[^2]: [Limit reported macOS release to 10.15 series](https://bugs.webkit.org/show_bug.cgi?id=216593)
 
-With gcc 9.3, clang 10, and XCode 10.1 we can get all the C++17 language
+With the supported compilers we can get all the C++17 language
 features and [most but not all of the C++17 library
 features](https://en.cppreference.com/w/cpp/compiler_support/17).  The
 following C++17 features are not supported widely enough for us to use:
@@ -63,11 +65,11 @@ It is currently used both in the tests and for the Windows release binaries.
 
 ## MSYS2
 
-MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows. It
-currently (2024) offers gcc at versions 7 or higher.
+MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows.
+At the time of writing it offers gcc 13.3 or [higher](https://packages.msys2.org/search?q=gcc).
 
-MSYS also provides clang.  We don't currently support using clang here, but
-work to that end is welcome.
+MSYS also [provides](https://packages.msys2.org/search?&q=clang) clang.
+We don't currently support using clang here, but work to that end is welcome.
 
 ## XCode
 

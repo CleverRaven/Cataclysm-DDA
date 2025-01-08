@@ -301,11 +301,6 @@
   },
   {
     "type": "recipe",
-    "result": "460_casing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "380_casing",
     "obsolete": true
   },
@@ -347,16 +342,6 @@
   {
     "type": "recipe",
     "result": "bp_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_rowland",
     "obsolete": true
   },
   {
@@ -587,16 +572,6 @@
   {
     "type": "recipe",
     "result": "reloaded_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_rowland",
     "obsolete": true
   },
   {

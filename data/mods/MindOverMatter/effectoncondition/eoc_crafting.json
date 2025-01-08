@@ -25,5 +25,88 @@
     "id": "EOC_PSI_PRACTICE_FOCUS_MOD_4",
     "condition": { "math": [ "u_val('focus') >= 30" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GRANT_GROUNDING_MEDITATION_TO_PSIONS",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_skill('metaphysics') >= 4" ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "u_know_recipe": "psi_centering_meditation_drain_reduce" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "BIOKINETIC",
+              "CLAIRSENTIENT",
+              "ELECTROKINETIC",
+              "PHOTOKINETIC",
+              "PYROKINETIC",
+              "TELEKINETIC",
+              "TELEPATH",
+              "TELEPORTER",
+              "VITAKINETIC"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "psi_centering_meditation_drain_reduce" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_CRAFTING_PROFICIENICES",
+    "recurrence": 1,
+    "condition": {
+      "u_has_any_trait": [
+        "BIOKINETIC",
+        "CLAIRSENTIENT",
+        "ELECTROKINETIC",
+        "PHOTOKINETIC",
+        "PYROKINETIC",
+        "TELEKINETIC",
+        "TELEPATH",
+        "TELEPORTER",
+        "VITAKINETIC"
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements" },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "BIOKINETIC",
+              "CLAIRSENTIENT",
+              "ELECTROKINETIC",
+              "PHOTOKINETIC",
+              "PYROKINETIC",
+              "TELEKINETIC",
+              "TELEPATH",
+              "TELEPORTER",
+              "VITAKINETIC"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'percent', 'direct': true) += 100" ] } ]
   }
 ]
