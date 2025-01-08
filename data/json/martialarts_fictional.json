@@ -715,10 +715,7 @@
         "buff_duration": 3,
         "max_stacks": 3,
         "persists": true,
-        "flat_bonuses": [
-          { "stat": "hit", "scale": 1.0 },
-          { "stat": "damage", "type": "bash", "scale": 0.1 }
-        ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "damage", "type": "bash", "scale": 0.1 } ]
       }
     ],
     "techniques": [
