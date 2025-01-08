@@ -1072,8 +1072,8 @@
     ],
     "flags": [ "EATEN_HOT" ],
     "relative": { "calories": 200, "fun": 2 },
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "spoils_in": "7 days"
   },
   {
@@ -1670,8 +1670,8 @@
     "symbol": "%",
     "calories": 17,
     "description": "An essential component of Japanese cuisine, this dried sheet of seaweed has hardened to the point of inedibility.  Boiled in water, it should make an excellent broth.",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "25 ml",
     "flags": [ "INEDIBLE" ],

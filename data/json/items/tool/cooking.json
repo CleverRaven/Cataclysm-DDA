@@ -1045,8 +1045,8 @@
     "//1": "Weight = 8 kg gravel + 20 kg sand + 815 g bucket + a bit extra for mesh and any residual water",
     "weight": "29800 g",
     "volume": "21000 ml",
-    "price": 1000,
-    "price_postapoc": 150,
+    "price": "10 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ { "type": "sand", "portion": 29 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
     "color": "light_blue"
