@@ -33,7 +33,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         REQUIRE( veh_ptr != nullptr );
         std::set<tripoint_bub_ms> original_points = veh_ptr->get_points( true );
 
-        here.destroy( vehicle_origin );
+        here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup();
         REQUIRE( veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
@@ -73,7 +73,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         vehicle_origin = { 20, 20, 0 };
         veh_ptr = here.add_vehicle( vehicle_prototype_circle_split_test, vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        here.destroy( vehicle_origin );
+        here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup();
         REQUIRE( veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();

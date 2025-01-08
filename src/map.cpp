@@ -4627,6 +4627,24 @@ void map::destroy_furn( const tripoint_bub_ms &p, const bool silent )
     }
 }
 
+void map::destroy_vehicle( const tripoint_bub_ms &p, const bool silent )
+{
+    if( !veh_at( p ) ) {
+        return;
+    }
+
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    bash_params bsh{
+        999, silent, true, false, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
+    };
+    while( count <= 25 && veh_at( p ) ) {
+        bash_vehicle( p, bsh );
+        count++;
+    }
+}
+
 void map::batter( const tripoint_bub_ms &p, int power, int tries, const bool silent )
 {
     int count = 0;
