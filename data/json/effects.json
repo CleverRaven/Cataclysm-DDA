@@ -570,13 +570,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": -0.5 },
-          { "value": "ARMOR_BASH", "add": 15 },
-          { "value": "ARMOR_STAB", "add": 15 },
-          { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 50 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 15 },
+          { "type": "cut", "add": 15 },
+          { "type": "bullet", "add": 50 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": -0.5 } ]
       }
     ]
   },
@@ -591,12 +591,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ],
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } } ]
       }
     ]
   },
@@ -984,6 +985,28 @@
       "hurt_min": [ 1 ],
       "hurt_chance": [ 450, 2700 ]
     },
+    "max_intensity": 10,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "lift", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "grip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "block", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      {
+        "limb_score": "reaction",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      },
+      {
+        "limb_score": "balance",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Poison"
   },
@@ -3245,6 +3268,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -3266,6 +3290,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -4307,7 +4332,7 @@
   {
     "type": "effect_type",
     "id": "sad",
-    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed" ],
+    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed", "Depressed" ],
     "desc": [
       "You are not content with your life.",
       "You are not content with your life.",
@@ -4319,12 +4344,13 @@
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
+      "You wonder what's the point of fighting?",
       "When will all your suffering end?"
     ],
     "max_intensity": 1000,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
-    "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
+    "miss_messages": [ [ "You dejectedly consider the pointlessness of it all.", 1 ] ]
   },
   {
     "type": "effect_type",
@@ -4976,40 +5002,6 @@
     "show_in_info": true
   },
   {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Exsanguination" ],
-    "desc": [ "The monster is greedily drinking your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Hemorrhage" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
     "id": "star_vampire_blood_drink_feral",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
@@ -5038,10 +5030,10 @@
     "type": "effect_type",
     "id": "cramped_space",
     "name": [ "Cramped Space" ],
-    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "desc": [ "Your movements are restricted by the surroundings." ],
     "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
-    "apply_message": "You are squeezed uncomfortably into the cramped space.",
-    "remove_message": "It feels good having room to move again.",
+    "apply_message": "Your movements are restricted by the surroundings.",
+    "remove_message": "You are able to move freely again.",
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],

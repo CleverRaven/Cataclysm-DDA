@@ -248,7 +248,9 @@
       { "item": "moons_tears_estoc", "prob": 20 },
       { "item": "moons_tears_spear", "prob": 30 },
       { "item": "moons_tears_battleaxe", "prob": 20 },
-      { "item": "moons_tears_katana", "prob": 20 }
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_spear", "prob": 3 },
+      { "item": "treesung_pike", "prob": 3 }
     ]
   },
   {
@@ -288,7 +290,9 @@
       { "item": "moons_tears_mace", "prob": 20 },
       { "item": "moons_tears_scimitar", "prob": 20 },
       { "item": "moons_tears_spear", "prob": 20 },
-      { "item": "moons_tears_battleaxe", "prob": 20 }
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 },
+      { "item": "treesung_warhammer", "prob": 3 }
     ]
   },
   {
@@ -354,7 +358,8 @@
       { "item": "moons_tears_broadsword", "prob": 20 },
       { "item": "moons_tears_arming_sword", "prob": 20 },
       { "item": "moons_tears_estoc", "prob": 20 },
-      { "item": "moons_tears_katana", "prob": 20 }
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 }
     ]
   },
   {

@@ -365,27 +365,31 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
     b->AddRanges( &superscripts[0] );
 }
 
-static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces,
+
+// Load the first font that exists in typefaces, falling back to unifont
+// if none of them exist.
+// - typefaces is a list of paths.
+static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
                        const ImWchar *ranges )
 {
-    std::vector<std::string> io_typefaces{ typefaces };
+    std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
 
-    auto it = std::find_if( io_typefaces.begin(),
-                            io_typefaces.end(),
-    []( const std::string & io_typeface ) {
-        return file_exist( io_typeface );
-    } );
-    std::string existing_typeface = *it;
-    ImFontConfig config = ImFontConfig();
-#ifdef IMGUI_ENABLE_FREETYPE
-    if( existing_typeface.find( "Terminus.ttf" ) != std::string::npos ||
-        existing_typeface.find( "unifont.ttf" ) != std::string::npos ) {
-        config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint;
+    auto it = std::begin( io_typefaces );
+    for( ; it != std::end( io_typefaces ); ++it ) {
+        if( !file_exist( it->path ) ) {
+            debugmsg( "Font file '%s' does not exist.", it->path );
+        }
+        break;
     }
-#endif
+    if( it == std::end( io_typefaces ) ) {
+        debugmsg( "No fonts were found in the fontdata file." );
+    }
 
-    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config, ranges );
+    ImFontConfig config = ImFontConfig();
+    config.FontBuilderFlags = it->imgui_config();
+
+    io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
 }
 
 static void check_font( const ImFont *font )
@@ -405,7 +409,7 @@ static void check_font( const ImFont *font )
 void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
                                     const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                                    const std::vector<std::string> &gui_typefaces, const std::vector<std::string> &mono_typefaces )
+                                    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
@@ -565,7 +569,7 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -684,12 +688,19 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
  */
 void cataimgui::set_scroll( scroll &s )
 {
+    int scroll_px_begin = ImGui::GetScrollY();
     int scroll_px = 0;
     int line_height = ImGui::GetTextLineHeightWithSpacing();
-    int page_height = ImGui::GetContentRegionAvail().y;
+    int page_height = ImGui::GetWindowSize().y;
 
     switch( s ) {
         case scroll::none:
+            break;
+        case scroll::begin:
+            scroll_px_begin = 0;
+            break;
+        case scroll::end:
+            scroll_px_begin = ImGui::GetScrollMaxY();
             break;
         case scroll::line_up:
             scroll_px = -line_height;
@@ -705,35 +716,36 @@ void cataimgui::set_scroll( scroll &s )
             break;
     }
 
-    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+    ImGui::SetScrollY( scroll_px_begin + scroll_px );
 
     s = scroll::none;
 }
 
-void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, const nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text,
+void cataimgui::draw_colored_text( const std::string &original_text,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
-    if( text.empty() ) {
+    if( original_text.empty() ) {
         ImGui::NewLine();
         return;
     }
+    const std::string &text = replace_colors( original_text );
 
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
@@ -1025,6 +1037,14 @@ void cataimgui::window::clear_filter()
             filter_impl->text.clear();
         }
     }
+}
+
+bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
+                            const char *format, ImGuiInputTextFlags flags )
+{
+    return ImGui::InputScalar( label, ImGuiDataType_Float, static_cast<void *>( v ),
+                               static_cast<void *>( step > 0.0f ? &step : nullptr ),
+                               static_cast<void *>( step_fast > 0.0f ? &step_fast : nullptr ), format, flags );
 }
 
 void cataimgui::PushGuiFont()

@@ -242,7 +242,7 @@
       "effect": [
         { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
         { "npc_location_variable": { "context_val": "refcenter_nunez_departure" } },
-        { "math": [ "_travel_time", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
+        { "math": [ "_travel_time = time_since('cataclysm', 'unit': 'days') + 2" ] },
         {
           "run_eocs": [ "EOC_Nunez_Travel_To_Tacoma" ],
           "time_in_future": { "context_val": "travel_time" },

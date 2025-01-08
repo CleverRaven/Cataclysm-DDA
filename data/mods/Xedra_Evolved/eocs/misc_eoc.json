@@ -142,7 +142,7 @@
       }
     },
     "effect": [
-      { "math": [ "u_stormwrought_blood_charge", "++" ] },
+      { "math": [ "u_stormwrought_blood_charge++" ] },
       {
         "run_eocs": [
           {
@@ -152,7 +152,7 @@
               { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
               { "u_remove_item_with": "stormwrought_blood_itert" },
               { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
-              { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
+              { "math": [ "u_stormwrought_blood_charge = 0" ] }
             ],
             "false_effect": [
               {
@@ -290,7 +290,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MINIMUM_TIME_ASLEEP",
     "condition": { "math": [ "u_val('sleepiness') <= 100" ] },
-    "effect": [ { "math": [ "u_val('sleepiness')", "=", "100" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') = 100" ] } ]
   },
   {
     "type": "effect_on_condition",

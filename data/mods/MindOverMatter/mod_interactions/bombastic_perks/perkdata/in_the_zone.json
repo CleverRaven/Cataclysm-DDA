@@ -24,21 +24,7 @@
     "required_event": "spellcasting_finish",
     "condition": {
       "and": [
-        {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "not": { "u_has_effect": "effect_perk_in_the_zone" } },
         { "u_has_trait": "perk_in_the_zone" }
       ]
@@ -55,21 +41,7 @@
     "required_event": "spellcasting_finish",
     "condition": {
       "and": [
-        {
-          "u_has_any_trait": [ "BIOKINETIC", "CLAIRSENTIENT", "PHOTOKINETIC", "PYROKINETIC", "TELEKINETIC", "TELEPATH", "TELEPORTER", "VITAKINETIC" ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "u_has_trait": "perk_in_the_zone" },
         { "not": { "u_has_effect": "effect_perk_in_the_zone_rate_limiter" } },
         { "u_has_effect": "effect_perk_in_the_zone" }
@@ -83,6 +55,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_perk_in_the_zone" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'PSIONIC')", "=", "-0.25" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'PSIONIC') = -0.25" ] } ]
   }
 ]

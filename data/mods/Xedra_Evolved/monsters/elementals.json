@@ -43,7 +43,7 @@
     "type": "MONSTER",
     "name": { "str": "monstrous badger" },
     "description": "A fairly large badger burrowed up through the ground near you.  It is both larger than garden variety badgers and strangely seems to have more intelligence in it.",
-    "default_faction": "worm",
+    "default_faction": "ierde",
     "bodytype": "snake",
     "species": [ "IERDE" ],
     "volume": "30500 ml",
@@ -541,6 +541,7 @@
         "monster_message": "%1$s gestures and you hear the creak of growing wood!"
       }
     ],
+    "death_drops": { "subtype": "collection", "items": [ { "item": "treesung_pike", "prob": 30, "damage": [ 1, 5 ] } ] },
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "dissect": "dissect_arvore_huge",
     "flags": [

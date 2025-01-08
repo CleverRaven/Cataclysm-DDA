@@ -137,7 +137,19 @@
       "need_worn": true
     },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+              "distance": 20,
+              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -157,7 +169,19 @@
     "revert_to": "item_hedge_see_fae_necklace_done",
     "revert_msg": "Your otherworldly senses fade.",
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+              "distance": 20,
+              "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -213,11 +237,7 @@
     "color": "blue",
     "flags": [ "EATEN_COLD", "HEDGE_ENCHANTED" ],
     "phase": "solid",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Rub the paste on your eyes.",
-      "effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
   },
   {
     "type": "COMESTIBLE",

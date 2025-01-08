@@ -138,7 +138,7 @@
       {
         "text": "What about you, what's your story?",
         "topic": "TALK_REFUGEE_Draco_3",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "No more indeed.", "topic": "TALK_DONE" }
     ]
@@ -255,7 +255,7 @@
       },
       "no": "Man, just imagine what I could do with a new guitar."
     },
-    "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "7" ] } },
+    "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 7" ] } },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
@@ -297,7 +297,7 @@
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
     ]
@@ -314,7 +314,7 @@
       {
         "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
       { "text": "I'm not doing this.", "topic": "TALK_DONE" }
@@ -328,7 +328,7 @@
       {
         "text": "I can help.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "3" ] }
+        "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth = 3" ] }
       },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]

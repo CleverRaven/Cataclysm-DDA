@@ -66,7 +66,7 @@
         "duration": 259200
       },
       { "u_message": "snippet_drained_by_lilit", "snippet": true, "type": "bad" },
-      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] }
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] }
     ]
   }
 ]

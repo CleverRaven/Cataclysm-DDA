@@ -9,7 +9,11 @@
     "description": { "str": "To cast bug killing spells.", "//~": "NO_I18N" },
     "debug": false,
     "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "ARMOR_BULLET", "add": -100 }, { "value": "PERCEPTION", "add": 15 } ] }
+      {
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [ { "type": "bullet", "add": -100 } ],
+        "values": [ { "value": "PERCEPTION", "add": 15 } ]
+      }
     ]
   },
   {

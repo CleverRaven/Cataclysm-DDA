@@ -33,8 +33,12 @@
         "..####################..",
         "....................4..."
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "clothes_store_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } },
       "place_loot": [ { "group": "cash_register_random", "x": 16, "y": [ 5, 7 ] } ]
@@ -125,8 +129,12 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "tailor_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ]
     }
   },
@@ -213,8 +221,12 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "furs_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "furs_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }
   },
@@ -302,15 +314,15 @@
         "**********~~~***********",
         "**********~~~***********"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "*": "t_region_groundcover_urban",
         "+": "t_door_c",
         ".": "t_floor",
-        "u": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "_": "t_linoleum_white",
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         "O": "t_window",
@@ -440,8 +452,12 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "tailor_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ]
     }
   },
@@ -573,16 +589,16 @@
         "*******^****************",
         "************************"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "*": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
         "+": "t_door_c",
         ".": "t_floor",
-        "_": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "0": "t_window_alarm",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
@@ -725,8 +741,13 @@
         "...........-............",
         "...........-............"
       ],
-      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
-      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white", "D": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_building_general_and_variant_palette", "clothes_store_palette" ],
+      "terrain": {
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "D": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
+      },
       "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ]
     }
   },

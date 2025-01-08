@@ -63,7 +63,7 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
     REQUIRE_FALSE( they.is_npc() );
     // You put your left foot in, you put your right foot in
     const tripoint_bub_ms left = they.pos_bub();
-    const tripoint_bub_ms right = left + tripoint_east;
+    const tripoint_bub_ms right = left + tripoint::east;
     // You ensure two tiles of terrain to hokey-pokey in
     here.ter_set( left, terrain );
     here.ter_set( right, terrain );

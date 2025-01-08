@@ -115,16 +115,13 @@
     "description": "A baseball bat made of foam rubber with a plastic handle.  Light and easy to wield, but almost completely ineffective if your goal is to hurt someone.",
     "weight": "225 g",
     "longest_side": "60 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "color": "yellow",
     "symbol": "/",
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
-    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "BELT_CLIP" ],
     "volume": "2250 ml",
-    "price": "25 USD",
-    "melee_damage": { "bash": 1 },
-    "weapon_category": [ "MACES" ]
+    "price": "25 USD"
   },
   {
     "type": "GENERIC",
@@ -139,7 +136,7 @@
     "price_postapoc": "7 USD 50 cent",
     "symbol": "/",
     "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price": "229 USD",
@@ -160,7 +157,7 @@
     "symbol": "/",
     "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "techniques": [ "WBLOCK_1", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "price": "229 USD",
@@ -899,7 +896,7 @@
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 16, "cut": 30 }
+    "melee_damage": { "bash": 16, "cut": 12 }
   },
   {
     "type": "GENERIC",
@@ -1643,7 +1640,7 @@
     "symbol": "/",
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
@@ -1664,7 +1661,7 @@
     "symbol": "/",
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "use_action": { "menu_text": "Extend", "type": "transform", "target": "PR24-extended", "msg": "You snap open your PR-24 baton." },
     "volume": "1 L",
     "longest_side": "20 cm",

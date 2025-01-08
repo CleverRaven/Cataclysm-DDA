@@ -176,8 +176,9 @@ void push( monster &z )
         return;
     }
 
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    // Attempt to double the vector between the player and monster
+    const tripoint_rel_ms delta = z.pos_bub() - player_character.pos_bub();
+    if( z.move_to( z.pos_bub() + delta.xy() ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
@@ -309,7 +310,7 @@ bool give_items_to( monster &z )
         return true;
     }
     z.add_effect( effect_controlled, 5_turns );
-    player_character.drop( to_move, z.pos(), true );
+    player_character.drop( to_move, z.pos_bub(), true );
     // Print an appropriate message for the inserted item or items
     if( to_move.size() > 1 ) {
         add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
@@ -512,10 +513,10 @@ void milk_source( monster &source_mon )
 
     else if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords{};
+        std::vector<tripoint_abs_ms> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getglobal( source_mon.pos_bub() ).raw() );
+        coords.push_back( get_map().getglobal( source_mon.pos_bub() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
@@ -548,7 +549,7 @@ void shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns, true );
     }
 
-    guy.assign_activity( shearing_activity_actor( z.pos(), !monster_tied ) );
+    guy.assign_activity( shearing_activity_actor( z.pos_bub(), !monster_tied ) );
 }
 
 void remove_battery( monster &z )

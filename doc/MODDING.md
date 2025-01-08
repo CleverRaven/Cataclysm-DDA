@@ -329,6 +329,16 @@ Using this syntax allows modification of the following things:
 
 Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
 
+## External options
+
+External options control a variety of global settings not appropriate for region settings, from `SHOW_MUTATION_SELECTOR` that lets the
+player choose mutations you get on mutation, to `ETERNAL_WEATHER` which let's you pick a type of weather to always be active.
+All the external options available are located in `/core/external_options.json` along with comments explaining their purpose and their DDA values.
+To change the values in a mod you just define an identical object to the dda one with the value changed.
+
+You can also override any source defined option with an external option of the same name in the same way (Eg if the player has `AUTO_FEATURES` set to false
+but you make an external option `AUTO_FEATURES` set to true when the player loads the mod their value will be changed to true).
+**However currently on save this overrides the user's config so shouldn't be used unless necessary to make the mod work.**
 
 ## Important note on json files
 

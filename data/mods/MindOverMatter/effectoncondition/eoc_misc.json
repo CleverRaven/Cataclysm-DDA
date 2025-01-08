@@ -4,7 +4,8 @@
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently >= 1" ] },
-    "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
+    "deactivate_condition": { "not": { "u_has_trait": "TELEPATH" } },
+    "effect": [ { "math": [ "telepathically_stole_recently = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -182,7 +183,19 @@
             { "compare_string": [ "dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
-            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+            { "compare_string": [ "downed", { "context_val": "effect" } ] },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 5" ] }
+              ]
+            },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 11" ] }
+              ]
+            }
           ]
         },
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }

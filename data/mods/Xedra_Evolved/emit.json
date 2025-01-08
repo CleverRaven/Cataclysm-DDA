@@ -1,0 +1,34 @@
+[
+  {
+    "id": "xedra_dreamer_emit_accelerated_time",
+    "type": "emit",
+    "field": "fd_xedra_dreamer_accelerated_time",
+    "intensity": 1,
+    "qty": 20,
+    "chance": 100
+  },
+  {
+    "id": "emit_changeling_mist",
+    "type": "emit",
+    "//": "Slow infrequent leak of changeling mist.  This should summon various changeling monsters similar to Angle Dog Fog.",
+    "field": "fd_mirrored",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  },
+  {
+    "id": "emit_blood_karma",
+    "type": "emit",
+    "field": "fd_blood_karma",
+    "intensity": 1,
+    "chance": 100,
+    "qty": 1
+  },
+  {
+    "id": "emit_obscuring_fog",
+    "type": "emit",
+    "field": "fd_obscuring_fog",
+    "intensity": 3,
+    "qty": 80
+  }
+]

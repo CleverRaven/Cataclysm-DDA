@@ -32,13 +32,13 @@
         "......~~~~~UU~UU~~......",
         "......~~~~~~~~~~~~......"
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_floor",
         "'": "t_thconc_floor",
         "G": "t_thconc_floor",
-        "-": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "U": "t_concrete",
         "~": "t_concrete",
         "+": "t_door_c",
@@ -139,7 +139,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "place_item": [
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
         { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
@@ -147,7 +147,7 @@
         { "item": "bathroom_scale", "x": 21, "y": 19 }
       ],
       "furniture": {
-        "#": "f_counter",
+        "B": "f_counter",
         "&": "f_sink",
         "^": "f_indoor_plant",
         "{": "f_rack",
@@ -179,10 +179,10 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "_####www##ss##wwww#####_",
-        "_#CCW...^#ss#^.....|ff#_",
-        "_#CC+....#++#......|..#_",
-        "_#|||..............|A.#_",
-        "_#CCW..............|..#_",
+        "_#CCW...^#ss#^.....Bff#_",
+        "_#CC+....#++#......B..#_",
+        "_#|||..............BA.#_",
+        "_#CCW..............B..#_",
         "_#CC+...{.{........|D|#_",
         "_#|||...{.{...........#_",
         "_#CCW...{.{...{{..{{..#_",
@@ -201,10 +201,10 @@
         "___ccccccccccccc#######_",
         "________________________"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "C": "t_thconc_floor",
         "D": "t_door_c",
         "W": "t_wall_glass",

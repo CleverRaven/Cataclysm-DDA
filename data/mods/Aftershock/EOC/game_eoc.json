@@ -19,7 +19,7 @@
       {
         "run_eocs": {
           "id": "_EOC_return_to_partyleader_do",
-          "effect": [ "follow", { "math": [ "afs_leadership_act", "=", "0" ] }, "take_control" ]
+          "effect": [ "follow", { "math": [ "afs_leadership_act = 0" ] }, "take_control" ]
         },
         "alpha_talker": "avatar",
         "beta_talker": { "global_val": "party_leader_id" },

@@ -9,14 +9,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "open_air",
-    "copy-from": "open_air",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "crater",
     "copy-from": "crater",
     "name": "crater",
@@ -98,9 +90,8 @@
     "type": "overmap_terrain",
     "id": "river_center",
     "copy-from": "river_center",
-    "name": "river",
     "sym": "~",
-    "color": "blue"
+    "uniform_terrain": "t_water_moving_dp"
   },
   {
     "type": "overmap_terrain",
@@ -2053,18 +2044,26 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "slimepit",
-    "copy-from": "slimepit",
+    "id": "slimepit_z0",
+    "copy-from": "slimepit_z0",
     "name": "slime pit",
     "sym": "S",
     "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
-    "id": "slimepit_down",
-    "copy-from": "slimepit_down",
+    "id": "slimepit_z-1",
+    "copy-from": "slimepit_z-1",
     "name": "slime pit",
-    "sym": "s",
+    "sym": "S",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_z-2",
+    "copy-from": "slimepit_z-2",
+    "name": "slime pit",
+    "sym": "S",
     "color": "i_pink"
   },
   {
@@ -2096,22 +2095,6 @@
     "id": "basement",
     "copy-from": "basement",
     "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rock",
-    "copy-from": "rock",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "empty_rock",
-    "copy-from": "empty_rock",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",

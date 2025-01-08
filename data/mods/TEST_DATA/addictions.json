@@ -12,7 +12,7 @@
             { "math": [ "rand(10) < u_addiction_intensity('test_caffeine') * -10" ] }
           ]
         },
-        "then": { "math": [ "u_val('stim')", "--" ] }
+        "then": { "math": [ "u_val('stim')--" ] }
       },
       {
         "if": {

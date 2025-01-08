@@ -335,7 +335,16 @@
         "#": "t_wall_wood",
         "0": "t_laminated_glass"
       },
-      "furniture": { "M": [ "f_crate_c", "f_cardboard_box" ], "x": "f_generator_broken", "y": "f_machinery_old" },
+      "furniture": {
+        "M": [ "f_crate_c", "f_cardboard_box" ],
+        "x": [
+          [ "f_generator_broken", 25 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "y": "f_machinery_old"
+      },
       "items": {
         "M": [
           { "item": "fishing_items", "chance": 30, "repeat": [ 1, 2 ] },

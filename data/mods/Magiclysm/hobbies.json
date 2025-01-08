@@ -112,6 +112,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_animist_detect_wizards",
+    "name": "Dabbler (Witchsight)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Witchsight.  People asked you why you would bother learning a spell that only let you know if other people were mages, but every bit of information helped.  A gun you can see, an expensive suit, the size and strength of a person or the way they carry themselves, but a mage's talent is all hidden until they a cast spell.  Unless, of course, you knew how to look, and you did.",
+    "points": 4,
+    "spells": [ { "id": "animist_detect_wizards", "level": 5 } ],
+    "traits": [ "ANIMIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_light_healing",
     "name": "Dabbler (Cure Light Wounds)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Cure Light Wounds.  Certainly no one ever asked your reasons for studying biomancy, especially after you saw that guy get hit by a truck running a red light and managed to stop him from bleeding out before the paramedics arrived.  As long as you're light on your feet, you won't have to worry about dying of your injuries now.",

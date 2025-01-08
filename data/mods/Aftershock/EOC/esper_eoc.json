@@ -86,7 +86,7 @@
     "run_for_npcs": true,
     "condition": { "math": [ "u_esper_repeated_channeling_value > 0" ] },
     "effect": [ { "math": [ "u_esper_repeated_channeling_value", "-=", "1" ] } ],
-    "false_effect": [ { "math": [ "u_esper_repeated_channeling_value", "=", "0" ] } ]
+    "false_effect": [ { "math": [ "u_esper_repeated_channeling_value = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -112,7 +112,7 @@
           "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SUGGESTION"
         ]
       },
-      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "=", "0" ] }
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers') = 0" ] }
     ]
   },
   {
@@ -162,7 +162,7 @@
     "required_event": "spellcasting_finish",
     "condition": { "and": [ { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" } ] },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] },
       {
         "weighted_list_eocs": [
           [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED", 1 ],
@@ -234,7 +234,7 @@
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] },
       { "run_eocs": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE" }
     ]
   },

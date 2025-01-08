@@ -75,7 +75,7 @@
 
 class ui_adaptor;
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
 #   else
@@ -738,7 +738,7 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
     SDL_version compiled;
     SDL_VERSION( &compiled );
     DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
@@ -850,8 +850,6 @@ int main( int argc, const char *argv[] )
     replay_buffered_debugmsg_prompts();
 
     main_menu::queued_world_to_load = std::move( cli.world );
-
-    get_help().load();
 
     while( true ) {
         main_menu menu;

@@ -996,19 +996,6 @@
     ]
   },
   {
-    "id": "nested_m1911-460",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "m1911-460", "charges": [ 0, 7 ] },
-      { "item": "m1911mag" },
-      { "item": "m1911mag", "prob": 50 },
-      { "group": "on_hand_460" }
-    ]
-  },
-  {
     "id": "nested_makarov",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

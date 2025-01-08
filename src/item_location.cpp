@@ -144,7 +144,7 @@ class item_location::impl::nowhere : public item_location::impl
 
         tripoint position() const override {
             debugmsg( "invalid use of nowhere item_location" );
-            return tripoint_min;
+            return tripoint::min;
         }
 
         Character *carrier() const override {
@@ -233,7 +233,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
+                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos() );
             }
             return res;
         }
@@ -350,9 +350,9 @@ class item_location::impl::item_on_person : public item_location::impl
 
         tripoint position() const override {
             if( !ensure_who_unpacked() ) {
-                return tripoint_zero;
+                return tripoint::zero;
             }
-            return who->pos();
+            return who->pos_bub().raw();
         }
 
         Character *carrier() const override {
@@ -508,7 +508,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
+                res += " " + direction_suffix( ch->pos_bub(), part_pos.pos_bub() );
             }
             return res;
         }
@@ -819,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint_bub_ms pos = tripoint_bub_ms_min;
+    tripoint_bub_ms pos = tripoint_bub_ms::invalid;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );
@@ -1007,7 +1007,7 @@ bool item_location::eventually_contains( item_location loc ) const
 
 void item_location::overflow()
 {
-    get_item()->overflow( position(), *this );
+    get_item()->overflow( pos_bub(), *this );
 }
 
 item_location::type item_location::where() const

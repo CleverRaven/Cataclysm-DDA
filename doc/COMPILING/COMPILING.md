@@ -79,7 +79,7 @@ Given you're building from source you have a number of choices to make:
   * `RELEASE=1` - without this you'll get a debug build (see note below)
   * `LTO=1` - enables link-time optimization with GCC/Clang
   * `TILES=1` - with this you'll get the tiles version, without it the curses version
-  * `SOUND=1` - if you want sound; this requires `TILES=1`
+  * `SOUND=1` - if you want sound
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
@@ -167,11 +167,9 @@ The -j2 flag means it will compile with two parallel processes. It can be omitte
 If you want sound and graphics, make sure to emerge with the following:
 
 ```bash
-USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" \
+USE="vorbis png" \
  emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
 ```
-
-It may also be possible to get away with fewer dependencies, but this set has been tested.
 
 Once the above libraries are installed, compile with:
 

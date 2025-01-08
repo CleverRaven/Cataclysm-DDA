@@ -33,7 +33,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cauterize') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
       {
         "u_message": "Use of your powers has led to an insight.  You could focus your heat and sear bleeding wounds shut, stopping bleeding instantly at the cost of a small amount of further damage, if you can figure out the proper technique.",
@@ -67,7 +67,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
       {
         "u_message": "Use of your powers has led to an insight.  With a bit of concentration you could keep a fire going through your powers alone, burning on air and providing a source of heat and light without needing fuel, if you can figure out the proper technique.",
@@ -101,7 +101,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_quell_flames') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
       {
         "u_message": "Use of your powers has led to an insight.  Just as you can start fires, you could also stop them, harmlessly dispersing the heat and dissipating existing flames, if you can figure out the proper technique.",
@@ -138,7 +138,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_cloak') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_cloak" },
       {
         "u_message": "Use of your powers has led to an insight.  You could heat the air around yourself to an even greater degree, maintaining comfort and a pleasant temperature in the depths of winter, if you can figure out the proper technique.",
@@ -177,7 +177,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_flamethrower') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than focusing on a point, you could spew a swath of flames, damaging a whole group of enemies, if you can figure out the proper technique.",
@@ -219,7 +219,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_lance') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_lance" },
       {
         "u_message": "Use of your powers has led to an insight.  You could focus your heat into a searing line, capable of welding or cutting through metal, if you can figure out the proper technique.",
@@ -263,7 +263,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_thermogenesis') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" },
       {
         "u_message": "Use of your powers has led to an insight.  You could heat the air itself, making an entire room warm, if you can figure out the proper technique.",
@@ -306,7 +306,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aura') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_aura" },
       {
         "u_message": "Use of your powers has led to an insight.  You could heat the air around yourself burning hot, injuring anyone engaged in melee combat with you, if you can figure out the proper technique.",
@@ -347,7 +347,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_flame_immunity') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_flame_immunity" },
       {
         "u_message": "Use of your powers has led to an insight.  Your control over temperature is strong enough that you could keep yourself completely shielded from it, becoming totally immune to flame and heat, if you can figure out the proper technique.",
@@ -394,7 +394,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_blast') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_blast" },
       {
         "u_message": "Use of your powers has led to an insight.  With enough focused heat you could unleash an explosion, catching multiple enemies in its wake, if you can figure out the proper technique.",
@@ -441,7 +441,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_aoe_blast') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_aoe_blast" },
       {
         "u_message": "Use of your powers has led to an insight.  You could build the heat up around yourself quickly enough to cause an expanding explosion and protect yourself from its effects, if you can figure out the proper technique.",
@@ -486,7 +486,7 @@
       "or": [ { "not": { "u_has_trait": "PYROKINETIC" } }, { "math": [ "u_spell_level('pyrokinetic_incineration') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_pyrokinetic_incineration" },
       {
         "u_message": "Use of your powers has led to an insight.  By focusing all of your power on a single point, you could raise the temperature there thousands of degrees, incinerating whatever you're focused on, if you can figure out the proper technique.",

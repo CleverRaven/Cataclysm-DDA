@@ -156,7 +156,6 @@ Use the `Home` key to return to the top.
     - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
-      - [`move_cost_mod`](#move_cost_mod)
       - [`keg_capacity`](#keg_capacity)
       - [`deployed_item`](#deployed_item)
       - [`lockpick_result`](#lockpick_result)
@@ -173,7 +172,6 @@ Use the `Home` key to return to the top.
       - [`surgery_skill_multiplier`](#surgery_skill_multiplier)
     - [Terrain](#terrain)
       - [`type`](#type-2)
-      - [`move_cost`](#move_cost)
       - [`heat_radiation`](#heat_radiation)
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
@@ -199,6 +197,7 @@ Use the `Home` key to return to the top.
       - [`connects_to`](#connects_to)
       - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
+      - [`move_cost_mod`](#move_cost_mod)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
       - [`fall_damage_reduction`](#fall_damage_reduction)
@@ -3060,7 +3059,8 @@ See [MUTATIONS.md](MUTATIONS.md)
     "funnel_radius": 200, // millimeters. The higher the more rain it will capture.
     "comfort": 0, // Same property affecting furniture and terrain
     "floor_bedding_warmth": -500, // Same property affecting furniture and terrain. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
-    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell()
+    "eocs": [ "EOC_COOL_EOC_TRAP" ], // array of eocs to trigger, only usable with "action": "eocs". The alpha talker is the creature that triggered the trap and the trap's location is passed as a context variable trap_location for use with ranged traps. Items can't currently trigger eoc traps.
+    "spell_data": { "id": "bear_trap" }, // data required for trapfunc::spell(), only usable with "action": "spell"
     "trigger_weight": "200 g", // If an item with this weight or more is thrown onto the trap, it triggers. Defaults to 500 grams.
     "drops": [ "beartrap" ], // ID of item spawned when disassembled
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ], // UNDODGEABLE means that it can not be dodged, no roll required. AVATAR_ONLY means only the player can trigger this trap.
@@ -4518,8 +4518,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_charges": 1,                        // Number of charges the item needs to transform
   "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges
   "need_empty": true,                       // Whether the item must be empty to be transformed; false by default
-  "need_worn": true,                        // Whether the item must be worn to be transformed; false by default
-  "need_wielding": true,                    // Whether the item must be wielded to be transformed; false by default
+  "need_worn": true,                        // Whether the item must be worn to be transformed, cast spells, or use EOCs; false by default
+  "need_wielding": true,                    // Whether the item must be wielded to be transformed, cast spells, or use EOCs; false by default
   "qualities_needed": { "WRENCH_FINE": 1 }, // Tool qualities needed, e.g. "fine bolt turning 1"
   "target_charges": 3,                      // Number of charges the transformed item has
   "rand_target_charges": [ 10, 15, 25 ],    // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
@@ -5112,17 +5112,13 @@ Fixed string, must be `furniture` to identify the JSON object as such.
 
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost_mod`
-
-Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
-
 #### `keg_capacity`
 
-Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
 
 #### `deployed_item`
 
-Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
+(Optional) Item id string used to create furniture. Allows player to interact with the furniture to 'take it down' (transform it to item form).
 
 #### `lockpick_result`
 
@@ -5134,7 +5130,7 @@ Item id string used to create furniture. Allows player to interact with the furn
 
 #### `light_emitted`
 
-How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `boltcut`
@@ -5322,17 +5318,13 @@ Fixed string, must be "terrain" to identify the JSON object as such.
 
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
-#### `move_cost`
-
-Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
-
 #### `heat_radiation`
 
-Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
+(Optional) Heat emitted for a terrain. A value of 0 means no fire (i.e, same as not having it). A value of 1 equals a fire of intensity of 1.
 
 #### `light_emitted`
 
-How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
+(Optional) How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `lockpick_result`
@@ -5585,9 +5577,13 @@ Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
 
+#### `move_cost_mod`
+
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+
 #### `comfort`
 
-How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
+(Optional) How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
     uncomfortable = -999,
     neutral = 0,
     slightly_comfortable = 3,
@@ -5596,15 +5592,15 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
+(Optional) Bonus warmth offered by this terrain/furniture when used to sleep. Also affects how comfortable a resting place this is(affects healing). Vanilla values should not exceed 1000.
 
 #### `fall_damage_reduction`
 
-Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
+(Optional) Flat damage reduction or increase if negative number. Like falling on a bush or soft chair or mattress or sofa.
 
 #### `bonus_fire_warmth_feet`
 
-Increase warmth received on feet from nearby fire  (default = 300)
+(Optional) Increase warmth received on feet from nearby fire  (default = 300)
 
 #### `looks_like`
 
@@ -5618,7 +5614,7 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `coverage`
 
-The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
+(Optional) The coverage percentage of a furniture piece of terrain. <30 won't cover from sight. (Does not interact with projectiles, gunfire, or other attacks. Only line of sight.)
 
 #### `max_volume`
 
@@ -6234,6 +6230,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
@@ -6268,7 +6265,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         { "item": "sheet_cotton", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
-    }
+    },
+    "indestructible": true // Field cannot be bashed or destroyed, but may still expire over time.  Useful when combined with the bash field because it can allow fields to prevent bashing terrain but not be destructible.
   }
 ```
 

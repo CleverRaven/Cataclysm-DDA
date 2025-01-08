@@ -134,5 +134,9 @@
   {
     "type": "connect_group",
     "id": "INDOORFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "BEACH_FORMATIONS"
   }
 ]

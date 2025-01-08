@@ -138,7 +138,7 @@
           "topic": "BGSS_HOSPITAL_2_CABINFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
-            { "math": [ "u_timer_timers_hospital_2_asked_about_quest", "=", "time('now')" ] },
+            { "math": [ "u_timer_timers_hospital_2_asked_about_quest = time('now')" ] },
             { "u_add_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" }
           ]
         }
@@ -187,7 +187,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3 },
       "effect": { "u_add_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

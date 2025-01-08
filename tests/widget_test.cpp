@@ -1942,7 +1942,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint_below );
+            ava.setpos( tripoint_bub_ms::zero + tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
@@ -2046,13 +2046,13 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Single-line layout" ) {
             std::string layout1 = "abcd efgh ijkl mnop qrst";
             CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2064,7 +2064,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         SECTION( "Single-line layout" ) {
             std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
             CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd                           " );
             CHECK( lines[1] == " efgh                           " );
             CHECK( lines[2] == " ijkl                           " );
@@ -2625,14 +2625,14 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         const int cols = 32;
         const int rows = 5;
 
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Not empty" ) {
             // Show widget text when character is not blind
             REQUIRE( !ava.is_blind() );
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " NOT EMPTY: Text exists         " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2647,7 +2647,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
             REQUIRE( ava.is_blind() );
             // Shouldn't be called (height should be decremented), but check it just in case
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == "                                " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );

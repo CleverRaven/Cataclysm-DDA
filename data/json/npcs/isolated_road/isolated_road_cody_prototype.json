@@ -173,7 +173,7 @@
           { "u_consume_item": "mosin44", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "obrez" }
         ],
@@ -188,7 +188,7 @@
           { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "obrez" }
         ],
@@ -236,7 +236,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "pressin" }
         ],
@@ -256,7 +256,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "pressin" }
         ],
@@ -299,7 +299,7 @@
           { "u_consume_item": "flamethrower", "count": 1, "popup": true },
           { "u_consume_item": "mace", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "LOUVERTURE" }
         ],
@@ -347,7 +347,7 @@
           { "u_consume_item": "FMCNote", "count": 80, "popup": true },
           { "u_consume_item": "22_lr", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "math": [ "u_timer_artisans_u_waiting_on_prototype = time('now')" ] },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "DISORDER" }
         ],

@@ -1,0 +1,178 @@
+[
+  {
+    "copy-from": "legacy_classic_sidebar",
+    "type": "widget",
+    "id": "legacy_classic_sidebar",
+    "extend": { "widgets": [ "sidebar_nether_attunement_block" ] }
+  },
+  {
+    "copy-from": "legacy_compact_sidebar",
+    "type": "widget",
+    "id": "legacy_compact_sidebar",
+    "extend": { "widgets": [ "sidebar_nether_attunement_block_narrow" ] }
+  },
+  {
+    "copy-from": "legacy_labels_narrow_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_narrow_sidebar",
+    "extend": { "widgets": [ "sidebar_nether_attunement_block_narrow" ] }
+  },
+  {
+    "copy-from": "legacy_labels_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_sidebar",
+    "extend": { "widgets": [ "sidebar_nether_attunement_block" ] }
+  },
+  {
+    "copy-from": "structured_sidebar",
+    "type": "widget",
+    "id": "structured_sidebar",
+    "extend": { "widgets": [ "sidebar_nether_attunement_block" ] }
+  },
+  {
+    "id": "sidebar_nether_attunement_block_narrow",
+    "type": "widget",
+    "style": "layout",
+    "label": "Nether Attunement",
+    "arrange": "minimum_columns",
+    "widgets": [ "sidebar_nether_attunement_meter" ]
+  },
+  {
+    "id": "sidebar_nether_attunement_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Nether Attunement",
+    "arrange": "minimum_columns",
+    "widgets": [ "spacebar_nether_attunement_meter" ]
+  },
+  {
+    "id": "sidebar_nether_attunement_meter",
+    "type": "widget",
+    "style": "text",
+    "label": "Attune",
+    "clauses": [
+      {
+        "id": "invisible",
+        "text": "",
+        "color": "c_black",
+        "condition": { "not": { "u_has_effect": "effect_disease_psionic_drain" } }
+      },
+      {
+        "id": "visible_1",
+        "text": { "str": "<color_green>Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 35" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_2",
+        "text": { "str": "<color_green>Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 55" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_3",
+        "text": { "str": "<color_light_green>Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 75" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_4",
+        "text": { "str": "<color_light_green>Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 95" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_5",
+        "text": { "str": "<color_yellow>Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 115" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_6",
+        "text": { "str": "<color_yellow>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 135" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_7",
+        "text": { "str": "<color_light_red>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 155" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_8",
+        "text": { "str": "<color_light_red>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 175" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_9",
+        "text": { "str": "<color_red>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 175" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 195" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_10",
+        "text": { "str": "<color_red>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 195" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 215" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_11",
+        "text": { "str": "<color_pink>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain') >= 215" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain') < 235" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_12",
+        "text": { "str": "<color_pink>Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ=Ψ</color>", "//~": "NO_I18N" },
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 235" ] }
+      }
+    ],
+    "padding": 0
+  }
+]

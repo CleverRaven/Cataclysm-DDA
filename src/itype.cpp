@@ -182,7 +182,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( Character *p, item &it, const tripoint &pos ) const
+int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
     int charges_to_use = 0;
     for( const auto &method : tick_action ) {
@@ -192,7 +192,7 @@ int itype::tick( Character *p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos ) const
+std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -204,7 +204,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos ) 
     }
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, const tripoint &pos,
+std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );

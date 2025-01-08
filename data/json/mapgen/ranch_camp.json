@@ -544,6 +544,11 @@
   {
     "method": "json",
     "object": {
+      "faction_owner": [
+        { "id": "tacoma_commune", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "tacoma_commune", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "tacoma_commune", "x": [ 48, 71 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_dirt",
       "rows": [
         "..%.....................................................................",
@@ -635,6 +640,10 @@
   {
     "method": "json",
     "object": {
+      "faction_owner": [
+        { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "tacoma_commune", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "................................................x.............x.........",
@@ -1051,6 +1060,7 @@
     "method": "json",
     "om_terrain": "ranch_camp_68_basement",
     "object": {
+      "faction_owner": [ { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",

@@ -21,6 +21,7 @@
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -35,7 +36,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -104,7 +104,7 @@ static rule_state get_autopickup_rule( const item *pickup_item )
  * @param from container to drop items from.
  * @param where location on the map to drop items to.
  */
-static void empty_autopickup_target( item *what, tripoint where )
+static void empty_autopickup_target( item *what, tripoint_bub_ms where )
 {
     bool is_rigid = what->all_pockets_rigid();
     for( item *entry : what->all_items_top() ) {
@@ -177,7 +177,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
             if( !force_pick_container ) {
                 if( item_entry->is_container() ) {
                     // whitelisted containers should exclude contained blacklisted items
-                    empty_autopickup_target( item_entry, from.position() );
+                    empty_autopickup_target( item_entry, from.pos_bub() );
                 } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                     // liquid items should never be picked up without container
                     force_pick_container = true;
@@ -246,10 +246,10 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
  * @return sequence of selected items on the map.
  */
 drop_locations auto_pickup::select_items(
-    const std::vector<item_stack::iterator> &from, const tripoint &location )
+    const std::vector<item_stack::iterator> &from, const tripoint_bub_ms &location )
 {
     drop_locations result;
-    const map_cursor map_location = map_cursor( tripoint_bub_ms( location ) );
+    const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {
@@ -312,7 +312,7 @@ void user_interface::show()
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                        iOffset );
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
 
@@ -393,7 +393,7 @@ void user_interface::show()
         wnoutrefresh( w_header );
 
         // Clear the lines
-        mvwrectf( w, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
         for( int x : {
                  4, 50, 60
              } ) {
@@ -517,45 +517,24 @@ void user_interface::show()
             ui_manager::redraw();
 
             if( bLeftColumn || action == "ADD_RULE" ) {
-                ui_adaptor help_ui;
-                catacurses::window w_help;
-                const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
-                                                 FULL_SCREEN_WIDTH * 3 / 4,
-                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
-                    help_ui.position_from_window( w_help );
-                };
-                init_help_window( help_ui );
-                help_ui.on_screen_resize( init_help_window );
-
-                help_ui.on_redraw( [&]( const ui_adaptor & ) {
-                    // NOLINTNEXTLINE(cata-use-named-point-constants)
-                    fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                    _(
-                                        "* is used as a Wildcard.  A few Examples:\n"
-                                        "\n"
-                                        "wooden arrow    matches the itemname exactly\n"
-                                        "wooden ar*      matches items beginning with wood ar\n"
-                                        "*rrow           matches items ending with rrow\n"
-                                        "*avy fle*fi*arrow     multiple * are allowed\n"
-                                        "heAVY*woOD*arrOW      case insensitive search\n"
-                                        "\n"
-                                        "Pickup based on item materials:\n"
-                                        "m:kevlar        matches items made of Kevlar\n"
-                                        "M:copper        matches items made purely of copper\n"
-                                        "M:steel,iron    multiple materials allowed (OR search)" )
-                                  );
-
-                    draw_border( w_help );
-                    wnoutrefresh( w_help );
-                } );
-                const std::string r = string_input_popup()
-                                      .title( _( "Pickup Rule:" ) )
-                                      .width( 30 )
-                                      .text( cur_rules[iLine].sRule )
-                                      .query_string();
+                string_input_popup_imgui popup( 60, cur_rules[iLine].sRule );
+                popup.set_label( _( "Pickup Rule:" ) );
+                std::string description = _(
+                                              "* is used as a Wildcard.  A few Examples:\n"
+                                              "\n"
+                                              "wooden arrow    matches the itemname exactly\n"
+                                              "wooden ar*      matches items beginning with wood ar\n"
+                                              "*rrow           matches items ending with rrow\n"
+                                              "*avy fle*fi*arrow     multiple * are allowed\n"
+                                              "heAVY*woOD*arrOW      case insensitive search\n"
+                                              "\n"
+                                              "Pickup based on item materials:\n"
+                                              "m:kevlar        matches items made of Kevlar\n"
+                                              "M:copper        matches items made purely of copper\n"
+                                              "M:steel,iron    multiple materials allowed (OR search)"
+                                          );
+                popup.set_description( description, c_white, true );
+                const std::string r = popup.query();
                 // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
                 // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
                 // to include/exclude everything
@@ -674,7 +653,7 @@ void rule::test_pattern() const
                              iOffset );
         w_test_rule_content = catacurses::newwin( iContentHeight,
                               iContentWidth - 2,
-                              iOffset + point_south_east );
+                              iOffset + point::south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -700,7 +679,7 @@ void rule::test_pattern() const
         wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
-        mvwrectf( w_test_rule_content, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w_test_rule_content, point::zero, c_black, ' ', 79, iContentHeight );
 
         calcStartPos( iStartPos, iLine, iContentHeight, vMatchingItems.size() );
 
@@ -933,9 +912,9 @@ bool player_settings::save( const bool bCharacter )
     cata_path savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -962,7 +941,7 @@ void player_settings::load( const bool bCharacter )
 {
     cata_path sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {

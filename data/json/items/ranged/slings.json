@@ -81,7 +81,7 @@
     "volume": "1375 ml",
     "longest_side": "150 cm",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "range": 10,
     "dispersion": 200,
@@ -90,7 +90,7 @@
     "valid_mod_locations": [ [ "bore", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "wristrocket",

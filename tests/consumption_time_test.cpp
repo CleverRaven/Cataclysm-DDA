@@ -7,7 +7,7 @@ TEST_CASE( "characters_with_no_mutations_take_at_least_1_second_to_consume_comes
 {
     GIVEN( "a character with no mutations and a comestible" ) {
         avatar character;
-        REQUIRE( character.my_mutations.empty() );
+        REQUIRE( character.cached_mutations.empty() );
 
         item mustard( "mustard" );
         REQUIRE( mustard.is_comestible() );

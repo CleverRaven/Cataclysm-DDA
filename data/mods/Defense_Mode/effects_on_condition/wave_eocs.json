@@ -6,7 +6,7 @@
     "global": true,
     "effect": [
       { "u_teleport": { "global_val": "your_spawnpoint" } },
-      { "math": [ "wave_number", "++" ] },
+      { "math": [ "wave_number++" ] },
       { "u_message": "Welcome to wave <global_val:wave_number>!", "type": "bad", "popup": false },
       { "run_eocs": "DEFENSE_MODE_WAVE_SPECIAL_DECIDER" }
     ]

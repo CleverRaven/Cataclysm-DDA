@@ -10,10 +10,10 @@
           {
             "id": "EOC_GAVE_BEGGAR_CANNIBAL_PROOF",
             "effect": [
-              { "math": [ "faction_like('free_merchants')", "=", "-100" ] },
-              { "math": [ "faction_like('lobby_beggars')", "=", "-100" ] },
-              { "math": [ "u_npc_anger()", "=", "100" ] },
-              { "math": [ "u_npc_trust()", "=", "-100" ] },
+              { "math": [ "faction_like('free_merchants') = -100" ] },
+              { "math": [ "faction_like('lobby_beggars') = -100" ] },
+              { "math": [ "u_npc_anger() = 100" ] },
+              { "math": [ "u_npc_trust() = -100" ] },
               { "message": "They know what you've done.", "type": "bad", "popup": true }
             ]
           }

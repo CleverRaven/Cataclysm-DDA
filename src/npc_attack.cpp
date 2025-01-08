@@ -107,7 +107,7 @@ void npc_attack_spell::use( npc &source, const tripoint_bub_ms &location ) const
         source.unwield();
     }
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is casting %s", source.disp_name(), sp.name() );
-    source.cast_spell( sp, false, location.raw() );
+    source.cast_spell( sp, false, location );
 }
 
 npc_attack_rating npc_attack_spell::evaluate( const npc &source,
@@ -400,7 +400,8 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     double damage{ weapon.base_damage_melee().total_damage() };
     damage *= 100.0 / weapon.attack_time( source );
     const int reach_range{ weapon.reach_range( source ) };
-    const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
+    const int distance_to_me = clamp( rl_dist( source.pos_bub(), critter->pos_bub() ) - reach_range, 0,
+                                      10 );
     // Multiplier of 0.5f to 1.5f based on distance
     const float distance_multiplier = 1.5f - distance_to_me * 0.1f;
     double potential = damage * distance_multiplier;
@@ -408,7 +409,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     if( damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( target && target->pos() == critter->pos() ) {
+    if( target && target->pos_bub() == critter->pos_bub() ) {
         potential *= npc_attack_constants::target_modifier;
     }
 
@@ -576,7 +577,7 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     if( damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( target && target->pos() == critter->pos() ) {
+    if( target && target->pos_bub() == critter->pos_bub() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( static_cast<int>( std::round( potential ) ), location );
@@ -731,7 +732,7 @@ npc_attack_rating npc_attack_throw::evaluate(
         // please don't throw your pants...
         return effectiveness;
     }
-    const inventory &available_weapons = source.crafting_inventory( tripoint_zero, -1 );
+    const inventory &available_weapons = source.crafting_inventory( tripoint_bub_ms::zero, -1 );
     if( &thrown_item == source.evaluate_best_weapon() &&
         available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
         available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
@@ -844,7 +845,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     if( potential > 0.0f && critter && damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
     }
-    if( potential > 0.0f && target && critter && target->pos() == critter->pos() ) {
+    if( potential > 0.0f && target && critter && target->pos_bub() == critter->pos_bub() ) {
         potential *= npc_attack_constants::target_modifier;
     }
     return npc_attack_rating( static_cast<int>( std::round( potential ) ), location );

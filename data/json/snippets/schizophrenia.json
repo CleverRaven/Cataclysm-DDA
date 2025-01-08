@@ -67,7 +67,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_monster",
+    "category": "<schizo_weapon_talk_monster>",
     "text": [
       "Hey, let's go kill that %1$s!",
       "Did you see that %1$s!?  Be careful.",
@@ -113,7 +113,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_bleeding",
+    "category": "<schizo_weapon_talk_bleeding>",
     "text": [
       "Hey, you're hurt.",
       "Your wound looks pretty bad.",
@@ -158,7 +158,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_damaged",
+    "category": "<schizo_weapon_talk_damaged>",
     "text": [
       "Hey, fix me up will ya?",
       "I need healing!",
@@ -202,7 +202,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_misc",
+    "category": "<schizo_weapon_talk_misc>",
     "text": [
       "Let me kill something already!",
       "I'm bored.",

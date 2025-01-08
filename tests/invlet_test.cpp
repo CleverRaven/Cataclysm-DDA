@@ -242,7 +242,7 @@ static void drop_at_feet( Character &you, const std::string &id )
     REQUIRE( found );
     item_location loc( you, found );
     you.set_moves( 100 );
-    you.drop( loc, you.pos() );
+    you.drop( loc, you.pos_bub() );
     you.activity.do_turn( you );
 
     REQUIRE( get_map().i_at( you.pos_bub() ).size() == size_before + 1 );

@@ -232,8 +232,8 @@
     "looks_like": "t_swater_sh",
     "move_cost": 4,
     "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
-    "connect_groups": [ "SAND", "WATER" ],
-    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "WATER" ],
+    "connect_groups": [ "WATER" ],
+    "connects_to": [ "WATER" ],
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DIGGABLE", "FLAT" ],
     "examine_action": "water_source"
   },

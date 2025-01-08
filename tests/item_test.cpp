@@ -323,8 +323,8 @@ TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
     CHECK( i.get_var( "B", 0.0 ) == 0.125 );
-    i.set_var( "C", tripoint( 2, 3, 4 ) );
-    CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
+    i.set_var( "C", tripoint_abs_omt( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint_abs_omt::zero ) == tripoint_abs_omt( 2, 3, 4 ) );
 }
 
 TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )

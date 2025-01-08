@@ -1664,7 +1664,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        std::optional<int> use( Character *p, item &it, const tripoint &pos ) const override {
+        std::optional<int> use( Character *p, item &it, const tripoint_bub_ms &pos ) const override {
             return cpp_function( p, &it, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -1710,22 +1710,6 @@ void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 {
     std::string type = ptr->type;
     iuse_function_list[ type ] = use_function( std::move( ptr ) );
-}
-
-void Item_factory::add_item_type( const itype &def )
-{
-    if( m_runtimes.count( def.id ) > 0 ) {
-        // Do NOT allow overwriting it, it's undefined behavior
-        debugmsg( "Tried to add runtime type %s, but it exists already", def.id.c_str() );
-        return;
-    }
-
-    auto &new_item_ptr = m_runtimes[ def.id ];
-    new_item_ptr = std::make_unique<itype>( def );
-    if( frozen ) {
-        finalize_pre( *new_item_ptr );
-        finalize_post( *new_item_ptr );
-    }
 }
 
 void Item_factory::init()
@@ -3574,6 +3558,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    assign( jo, "min_str_required_mod_if_prone", slot.min_str_required_mod_if_prone );
     if( jo.has_array( "add_mod" ) ) {
         slot.add_mod.clear();
         for( JsonArray curr : jo.get_array( "add_mod" ) ) {
@@ -4192,7 +4177,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 {
     bool strict = src == "dda";
 
-    restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+    restore_on_out_of_scope restore_check_plural( check_plural );
     if( jo.has_string( "abstract" ) ) {
         check_plural = check_plural_t::none;
     }

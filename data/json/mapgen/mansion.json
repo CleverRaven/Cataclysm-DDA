@@ -27,15 +27,23 @@
         "...!!.############......",
         "...!!.#]]]]...#..#......",
         "......#]......+..+......",
-        ".....!#)..??..#..#......",
-        ".!!...#]..??..#..#......",
+        ".....!#)..?...#..#......",
+        ".!!...#]......#..#......",
         ".!!..!#]......#..#......",
         "......#].qq.q.#<<#......",
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -168,14 +176,14 @@
         "...........<<........+.U",
         "###++##############++###"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "0": "t_thconc_floor",
-        "-": "t_carpet_concrete_red",
-        "h": "t_carpet_concrete_red",
-        "=": "t_carpet_concrete_red"
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "=": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" }
       },
       "furniture": { "=": "f_table", "?": "f_glass_fridge", "!": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 23, "y": 16, "chance": 100 }, { "item": "television", "x": 4, "y": 11, "chance": 100 } ],
@@ -455,24 +463,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "N": "t_carpet_concrete_green",
-        "-": "t_carpet_concrete_green",
-        "r": "t_carpet_concrete_green",
-        "I": "t_carpet_concrete_green",
-        "T": "t_carpet_concrete_green",
-        "h": "t_carpet_concrete_green",
-        "&": "t_carpet_concrete_green",
-        "?": "t_carpet_concrete_green",
-        "A": "t_carpet_concrete_green",
-        "@": "t_carpet_concrete_green",
+        "N": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "I": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "?": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "A": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "@": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
         "/": "t_door_locked_interior",
-        "%": "t_carpet_concrete_green"
+        "%": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" }
       },
       "furniture": {
         "%": "f_rack_wood",
@@ -727,8 +735,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -745,7 +753,17 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -999,14 +1017,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_door_glass_c",
-        "-": "t_carpet_concrete_purple",
-        "}": "t_carpet_concrete_purple",
-        "b": "t_carpet_concrete_purple",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "}": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "b": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "$": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "i": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "%": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
@@ -1159,8 +1177,8 @@
         "J~~~~~#~~~~~UUUY~#......",
         "##++################++##",
         ".......!!!..............",
-        "........!!.??.........!!",
-        ".!!........??.........!!",
+        "........!!.?..........!!",
+        ".!!...................!!",
         ".!!!!...#......#...!!...",
         "###!!.]]]].........!!.##",
         "  #...])#].....#..##### ",
@@ -1174,17 +1192,17 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "-": "t_carpet_concrete_purple",
-        "E": "t_carpet_concrete_purple",
-        "r": "t_carpet_concrete_purple",
-        "T": "t_carpet_concrete_purple",
-        "P": "t_carpet_concrete_purple",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "E": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
+        "P": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_purple" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "A": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
@@ -1196,7 +1214,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -1276,7 +1304,7 @@
     "om_terrain": [ "mansion_t6u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "|8S|T≠ dd |  |UU|8,,|BB|",
         "9,,|E     +  | w|S,,+,,,",
@@ -1303,11 +1331,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "&": "t_floor",
         "s": "t_floor",
         "d": "t_floor",
@@ -1369,16 +1397,16 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
-        "x": "t_carpet_concrete_yellow",
-        "-": "t_carpet_concrete_yellow",
-        "H": "t_carpet_concrete_yellow",
-        "s": "t_carpet_concrete_yellow",
-        "J": "t_carpet_concrete_yellow",
-        "m": "t_carpet_concrete_yellow"
+        "x": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "H": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "s": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "J": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "m": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" }
       },
       "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "?": "f_sofa" },
       "items": {
@@ -1464,7 +1492,7 @@
     "om_terrain": [ "mansion_t7u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "#--h----F|    |t,S|UUww|",
         "-hffh---J|    ||+|||++||",
@@ -1491,14 +1519,14 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
         "U": "t_floor",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "w": "t_floor",
-        "-": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "%": "t_railing"
       },
       "place_loot": [ { "item": "microwave", "x": 8, "y": 2, "chance": 100 }, { "item": "television", "x": 4, "y": 12, "chance": 100 } ],
@@ -1645,8 +1673,8 @@
         "#zz....].)]]]..#......!#",
         "#zz....]]]].]..#!....!!#",
         "#...........)..#...!!H!#",
-        "#!!...??.......+...!hH.#",
-        "#!!...??..=....#...iiHd#",
+        "#!!............+...!hH.#",
+        "#!!...?...=....#...iiHd#",
         "#............R.#....v!d#",
         "####+###########....hhc#",
         "#.....WO#--$rrr#&&...gh#",
@@ -1665,16 +1693,16 @@
         "#eehh!!.#zz.......JJJJJ#",
         "###########++###########"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "-": "t_carpet_concrete_red",
-        "$": "t_carpet_concrete_red",
-        "r": "t_carpet_concrete_red",
-        "/": "t_carpet_concrete_red",
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "$": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
+        "/": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "%": "t_door_metal_locked"
       },
       "furniture": {
@@ -1682,7 +1710,12 @@
         "/": "f_chair",
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "$": "f_gunsafe_ml"
       },
       "items": {
@@ -1819,8 +1852,8 @@
         "#......!!.#..#....]).).#",
         "#!!....!!.#..+....]]]]]#",
         "#!!.......#..#......]..#",
-        "#.....!!!.#..#.??......#",
-        "#.....!!!.#..#.??.....q#",
+        "#.....!!!.#..#.........#",
+        "#.....!!!.#..#.?......q#",
         "#.UUU.....#..#......UU.#",
         "###########++###########"
       ],
@@ -1829,7 +1862,12 @@
       "furniture": {
         "&": "f_table",
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "$": "f_gunsafe_ml"
       },
@@ -1980,17 +2018,17 @@
         "#         #..#         #",
         "###########++###########"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
-        "-": "t_carpet_concrete_yellow",
-        "h": "t_carpet_concrete_yellow",
-        "&": "t_carpet_concrete_yellow",
-        "r": "t_carpet_concrete_yellow",
-        "J": "t_carpet_concrete_yellow",
-        "F": "t_carpet_concrete_yellow",
-        "Y": "t_carpet_concrete_yellow"
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "J": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "F": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" },
+        "Y": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_yellow" }
       },
       "furniture": { "!": [ "f_cardboard_box", "f_crate_c" ], "&": "f_console_broken", "?": "f_glass_fridge" },
       "items": {
@@ -2184,7 +2222,7 @@
     "om_terrain": [ "mansion_c1" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "........................",
@@ -2211,7 +2249,12 @@
         ".......#S===+=9|      T|",
         ".......########||++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "=": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_water_pool",
@@ -2313,8 +2356,8 @@
         "     #&&&.....#.].....!#",
         "     ####....####....###",
         "       #......#........#",
-        "       #...!!.#.??.....#",
-        "       #r..!!...??..!..+",
+        "       #...!!.#.?......#",
+        "       #r..!!.......!..+",
         "       #r..........!!..+",
         "       #...........!!..#",
         "       #6....6.........#",
@@ -2324,7 +2367,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "=": "f_machinery_old",
+        "&": "f_table",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": { ".": { "item": "clutter_basement", "chance": 1 }, "!": { "item": "crate_stack", "chance": 100 } },
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
@@ -2638,8 +2691,8 @@
         "      #######~~&&~~W~~Z#",
         "      #...!!#~~&&~~~~~~#",
         "      #.....#~~~~~~~~~~#",
-        "      #.??..######++####",
-        "      #.??.....#~~~~iii#",
+        "      #.?...######++####",
+        "      #........#~~~~iii#",
         "      #......=.#~~~~~~~+",
         "      #........+~~~~~~~+",
         "      #]]]]....+~~~~~~~#",
@@ -2668,7 +2721,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -2824,14 +2887,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
-      "furniture": {
-        "%": "f_rack_wood",
-        "!": "f_wood_keg",
-        "&": "f_table",
-        "?": "f_glass_fridge",
-        "=": "f_machinery_old",
-        "}": "f_generator_broken"
-      },
+      "furniture": { "%": "f_rack_wood", "!": "f_wood_keg", "&": "f_table", "?": "f_glass_fridge", "=": "f_machinery_old" },
       "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {

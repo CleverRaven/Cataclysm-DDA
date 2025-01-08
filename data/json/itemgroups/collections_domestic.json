@@ -1163,8 +1163,7 @@
       { "prob": 65, "group": "chips_bag_plastic_3" },
       { "group": "softdrinks_canned", "prob": 380 },
       { "item": "picklocks", "prob": 10 },
-      { "item": "wolfsuit", "prob": 4 },
-      { "item": "dinosuit", "prob": 4 },
+      { "item": "fursuit", "prob": 6 },
       { "item": "zentai", "prob": 4 },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
@@ -1334,6 +1333,7 @@
       [ "pearl_collar", 10 ],
       [ "pocketwatch", 50 ],
       [ "candlestick", 50 ],
+      { "item": "menorah", "prob": 3 },
       [ "ring_signet", 40 ],
       [ "cufflinks_intricate", 50 ],
       [ "boxing_gloves", 25 ],
@@ -1352,7 +1352,6 @@
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
       [ "bondage_mask", 20 ],
-      [ "dragonskin", 2 ],
       [ "knife_hunting", 25 ],
       [ "throwing_knife", 25 ],
       { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
@@ -2456,5 +2455,20 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "insecticide", "container-item": "null", "count": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_candles_in_box",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "candle_small", "charges": [ 0, 100 ], "container-item": "null", "count": [ 20, 45 ] },
+          { "item": "candle_small", "charges": [ 50, 100 ], "container-item": "null", "count": [ 20, 45 ] },
+          { "item": "candle_small", "charges": 100, "container-item": "null", "count": [ 20, 45 ] }
+        ]
+      }
+    ]
   }
 ]

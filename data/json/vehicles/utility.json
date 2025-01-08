@@ -110,19 +110,6 @@
     ]
   },
   {
-    "id": "makeshift_solar_farm",
-    "type": "vehicle",
-    "name": "Makeshift Solar Farm",
-    "blueprint": [ [ "o" ] ],
-    "parts": [
-      {
-        "x": 0,
-        "y": 0,
-        "parts": [ "frame_wood#cross", "wood box", "battery_charger", "dashboard", "battery_car", "solar_panel" ]
-      }
-    ]
-  },
-  {
     "id": "road_roller",
     "type": "vehicle",
     "name": "Road Roller",

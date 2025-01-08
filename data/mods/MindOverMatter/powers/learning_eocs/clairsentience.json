@@ -18,7 +18,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_danger_sense" },
       {
         "u_message": "Use of your powers has led to an insight.  You could expand your senses for what is out of place, looking for anything that means harm to you, if you can figure out the proper technique.",
@@ -55,7 +55,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_spot_weakness') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_spot_weakness" },
       {
         "u_message": "Use of your powers has led to an insight.  The same way your eyes can pick out details in pure dark and you can sense hidden dangers, you could find the weaknesses of your enemies, knowing exactly where to strike them, if you can figure out the proper technique.",
@@ -92,7 +92,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_see_auras') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_aura_sight" },
       {
         "u_message": "Use of your powers has led to an insight.  You could turn your insight on people, looking beyond the surface toward their essential elements, if you can figure out the proper technique.",
@@ -126,7 +126,7 @@
       "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_ranged_enhance') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_ranged_enhance" },
       {
         "u_message": "Use of your powers has led to an insight.  You could greatly enhance your vision, making ranged combat much easier as you're able to pinpoint exactly where to shoot, if you can figure out the technique.",
@@ -168,7 +168,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_voyance') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_voyance" },
       {
         "u_message": "Use of your powers has led to an insight.  You perform the classic feat of clairvoyance, throwing your senses to a spot nearby, if you can figure out the technique.",
@@ -211,7 +211,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_dodge_power') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_dodge_power" },
       {
         "u_message": "Use of your powers has led to an insight.  You could predict your enemies' movements and attacks, smoothly avoiding danger by not being where they are about to strike, if you can figure out the technique.",
@@ -249,7 +249,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_craft_bonus') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_craft_bonus" },
       {
         "u_message": "Use of your powers has led to an insight.  You could use your insight into the near future to speed any manual tasks you do, working smoothly and efficiently to construct or assemble something, if you can figure out the technique.",
@@ -281,7 +281,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_perfect_shot') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_perfect_shot" },
       {
         "u_message": "Use of your powers has led to an insight.  You could predict the exact trajectory of a bullet, aiming for the perfect spot to do the most damage, if you can figure out the technique.",
@@ -320,7 +320,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_see_map') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_see_map" },
       {
         "u_message": "Use of your powers has led to an insight.  You expand your vision to the surrounding terrain, revealing nearby points of interest and where you should go, if you can figure out the technique.",
@@ -363,7 +363,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_clear_sight') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_clear_sight" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enhance your senses so much that nothing could cloud them for as long as you maintain your concentration, if you can figure out the technique.",
@@ -406,7 +406,7 @@
       "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_astral_projection') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_astral_projection" },
       {
         "u_message": "Use of your powers has led to an insight.  You could cast your spirit free from your body, wandering as a ghost and spying out your surroundings, if you can figure out the technique.",
@@ -444,7 +444,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_group_tactics') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_group_tactics" },
       {
         "u_message": "Use of your powers has led to an insight.  You could use your prescience to help direct the flow of battle, calling out orders so your allies can react to dangers before they happen, if you can figure out the technique.",
@@ -483,7 +483,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_omniscience') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_clair_omniscience" },
       {
         "u_message": "Use of your powers has led to an insight.  You could expand your senses to a huge area, seeing every most of dust, every blade of grass, every speck or spot, all simultaneously, if you can figure out the technique.",

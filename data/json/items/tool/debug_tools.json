@@ -35,9 +35,9 @@
             "true_eocs": {
               "id": "EOC_DAMAGE_ITEM_simple",
               "effect": [
-                { "math": [ "_hp_before", "=", "n_hp('ALL')" ] },
+                { "math": [ "_hp_before = n_hp('ALL')" ] },
                 { "math": [ "n_hp('ALL')", "-=", "1000" ] },
-                { "math": [ "_hp_after", "=", "n_hp('ALL')" ] },
+                { "math": [ "_hp_after = n_hp('ALL')" ] },
                 { "u_message": "<npc_name> have had <context_val:hp_before> hp, now has <context_val:hp_after> hp." }
               ]
             }

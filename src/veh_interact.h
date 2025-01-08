@@ -12,12 +12,12 @@
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "item_location.h"
 #include "mapdata.h"
 #include "player_activity.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -51,7 +51,7 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, const point &p );
+        static player_activity run( vehicle &veh, const point_rel_ms &p );
 
         /** Prompt for a part matching the selector function */
         static std::optional<vpart_reference> select_part( const vehicle &veh, const part_selector &sel,
@@ -60,10 +60,10 @@ class veh_interact
         static void complete_vehicle( Character &you );
 
     private:
-        explicit veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
 
-        point dd = point_zero;
+        point_rel_ms dd = point_rel_ms::zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
@@ -139,8 +139,8 @@ class veh_interact
         bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, time_duration time ) const;
 
-        int part_at( const point &d );
-        void move_cursor( const point &d, int dstart_at = 0 );
+        int part_at( const point_rel_ms &d );
+        void move_cursor( const point_rel_ms &d, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
@@ -284,7 +284,7 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
 
-        void cache_tool_availability_update_lifting( const tripoint &world_cursor_pos );
+        void cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos );
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
@@ -293,6 +293,6 @@ class veh_interact
 void act_vehicle_siphon( vehicle *veh );
 
 void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
-                  const std::optional<point> &part_placement = std::nullopt );
+                  const std::optional<point_rel_ms> &part_placement = std::nullopt );
 
 #endif // CATA_SRC_VEH_INTERACT_H

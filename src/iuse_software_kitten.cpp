@@ -161,11 +161,11 @@ void robot_finds_kitten::show() const
             break;
         }
         case ui_state::main:
-            mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::invalid_input:
-            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::bogus_message: {
@@ -197,7 +197,7 @@ void robot_finds_kitten::show() const
                 mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
             }
             if( end_animation_frame >= 5 ) {
-                mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
+                mvwprintz( w, point::zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
             }
             break;
         }

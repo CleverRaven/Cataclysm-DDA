@@ -188,8 +188,8 @@
         "om_terrain": "standing_stones",
         "om_terrain_match_type": "PREFIX",
         "om_special": "Standing stones",
-        "search_range": 80,
         "min_distance": 5,
+        "search_range": 80,
         "random": true,
         "z": 0
       }
@@ -218,7 +218,7 @@
     "item": "etched_skull",
     "start": {
       "update_mapgen": { "place_item": [ { "item": "etched_skull", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
-      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3, "search_range": 120 }
+      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
@@ -243,7 +243,7 @@
     "value": 150000,
     "item": "visions_solitude",
     "start": {
-      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3, "search_range": 180 },
+      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3 },
       "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -289,7 +289,7 @@
     "value": 250000,
     "item": "veggy_tainted",
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "search_range": 120 },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
       "update_mapgen": { "place_item": [ { "item": "veggy_tainted", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ] } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

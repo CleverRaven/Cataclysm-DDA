@@ -62,7 +62,6 @@
       "modular_deagle_357",
       "modular_deagle_44",
       "modular_deagle_50",
-      "m1911-460",
       "draco",
       "draco_mini",
       "draco_micro"
@@ -124,6 +123,8 @@
       "m1911a1_38super",
       "glock_22",
       "civilian_cop_glock22",
+      "civilian_glock19",
+      "civilian_AR-15",
       "hi_power_40",
       "tommygun",
       "usp_45",
@@ -397,6 +398,11 @@
     "replace": "rifle_assault_foreign"
   },
   {
+    "id": [ "ree_33" ],
+    "type": "MIGRATION",
+    "replace": "rifle_cannon_foreign"
+  },
+  {
     "id": [ "combination_gun", "pipe_combination_gun" ],
     "type": "MIGRATION",
     "replace": "rifle_shotgun_combination"
@@ -467,6 +473,16 @@
     "id": [ "remington_870_breacher" ],
     "type": "MIGRATION",
     "replace": "shot_short_pump"
+  },
+  {
+    "id": [ "exodii_plasma_projectile" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_projectile"
+  },
+  {
+    "id": [ "exodii_plasma_fan" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_fan"
   },
   {
     "id": [ "varmint_airgun" ],

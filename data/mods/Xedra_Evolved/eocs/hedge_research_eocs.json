@@ -78,9 +78,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_FARM_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -110,7 +110,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_farm", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_farm = 1" ] }
                             ]
                           }
                         ]
@@ -126,9 +126,7 @@
               {
                 "u_run_inv_eocs": "random",
                 "search_data": [ { "id": "spellbook_hedge_farm" } ],
-                "true_eocs": [
-                  { "id": "EOC_HEDGE_RESEARCH_WARD_FARM_VALUES_2", "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ] }
-                ]
+                "true_eocs": [ { "id": "EOC_HEDGE_RESEARCH_WARD_FARM_VALUES_2", "effect": [ { "math": [ "n_already_failed_research = 1" ] } ] } ]
               }
             ]
           }
@@ -166,9 +164,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -198,7 +196,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_ward_demons", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_ward_demons = 1" ] }
                             ]
                           }
                         ]
@@ -215,10 +213,7 @@
                 "u_run_inv_eocs": "random",
                 "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
                 "true_eocs": [
-                  {
-                    "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
-                  }
+                  { "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_WRITE_VALUES_2", "effect": [ { "math": [ "n_already_failed_research = 1" ] } ] }
                 ]
               }
             ]
@@ -257,9 +252,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -289,7 +284,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_doctor_book", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_doctor_book = 1" ] }
                             ]
                           }
                         ]
@@ -306,10 +301,7 @@
                 "u_run_inv_eocs": "random",
                 "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
                 "true_eocs": [
-                  {
-                    "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
-                  }
+                  { "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_WRITE_VALUES_2", "effect": [ { "math": [ "n_already_failed_research = 1" ] } ] }
                 ]
               }
             ]
@@ -348,9 +340,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -380,7 +372,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_blood_book", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_blood_book = 1" ] }
                             ]
                           }
                         ]
@@ -397,10 +389,7 @@
                 "u_run_inv_eocs": "random",
                 "search_data": [ { "id": "spellbook_hedge_blood_book" } ],
                 "true_eocs": [
-                  {
-                    "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
-                  }
+                  { "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_WRITE_VALUES_2", "effect": [ { "math": [ "n_already_failed_research = 1" ] } ] }
                 ]
               }
             ]
@@ -439,9 +428,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -471,7 +460,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_ward_dreams", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_ward_dreams = 1" ] }
                             ]
                           }
                         ]
@@ -488,10 +477,7 @@
                 "u_run_inv_eocs": "random",
                 "search_data": [ { "id": "spellbook_hedge_ward_dreams" } ],
                 "true_eocs": [
-                  {
-                    "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
-                  }
+                  { "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_WRITE_VALUES_2", "effect": [ { "math": [ "n_already_failed_research = 1" ] } ] }
                 ]
               }
             ]
@@ -530,9 +516,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -562,7 +548,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_snare_changelings", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_snare_changelings = 1" ] }
                             ]
                           }
                         ]
@@ -581,7 +567,7 @@
                 "true_eocs": [
                   {
                     "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                    "effect": [ { "math": [ "n_already_failed_research = 1" ] } ]
                   }
                 ]
               }
@@ -621,9 +607,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -653,7 +639,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_bathhouse_at_midnight", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_bathhouse_at_midnight = 1" ] }
                             ]
                           }
                         ]
@@ -672,7 +658,7 @@
                 "true_eocs": [
                   {
                     "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                    "effect": [ { "math": [ "n_already_failed_research = 1" ] } ]
                   }
                 ]
               }
@@ -712,9 +698,9 @@
                           {
                             "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES",
                             "effect": [
-                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              { "math": [ "n_most_recent_hedge_research_time = u_most_recent_hedge_research_time" ] },
                               {
-                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                                "math": [ "n_most_recent_hedge_research_progress = u_most_recent_hedge_research_progress" ]
                               }
                             ]
                           }
@@ -744,7 +730,7 @@
                                 "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
                                 "popup": true
                               },
-                              { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "=", "1" ] }
+                              { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage = 1" ] }
                             ]
                           }
                         ]
@@ -763,7 +749,7 @@
                 "true_eocs": [
                   {
                     "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_WRITE_VALUES_2",
-                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                    "effect": [ { "math": [ "n_already_failed_research = 1" ] } ]
                   }
                 ]
               }

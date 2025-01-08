@@ -1539,7 +1539,7 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    if( !warm_enough_to_plant( player_character.pos() ) ) {
+    if( !warm_enough_to_plant( player_character.pos_bub() ) ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -1979,7 +1979,7 @@ bool talk_function::hospital_raid_return( npc &p )
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         tripoint_abs_omt site = overmap_buffer.find_closest(
                                     loot_location, "hospital", 0, false, ot_match_type::prefix );
-        if( site == overmap::invalid_tripoint ) {
+        if( site.is_invalid() ) {
             debugmsg( "No hospitals found." );
         } else {
             // Search the entire height of the hospital, including the roof
@@ -2915,7 +2915,7 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
+    const point_rel_omt direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
     entries[tab_order + 1].emplace_back( miss );
 }

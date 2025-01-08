@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_camping" ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "..............`````.....",
         ".##ccc##ccc##.`````.....",
@@ -31,7 +31,7 @@
         ".############ggggggggg..",
         "........................"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "b": "t_door_c",
         "c": "t_wall_glass",
@@ -50,8 +50,8 @@
         "q": "t_thconc_floor",
         "r": "t_thconc_floor",
         "k": "t_thconc_floor",
-        "s": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "v": "t_concrete",
         "w": "t_concrete",
         "x": "t_concrete",

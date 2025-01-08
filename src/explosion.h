@@ -75,7 +75,7 @@ inline std::vector<queued_explosion> _explosions;
     If factor <= 0, no blast is produced
     The explosion won't actually occur until process_explosions() */
 void explosion(
-    const Creature *source, const tripoint &p, float power, float factor = 0.8f,
+    const Creature *source, const tripoint_bub_ms &p, float power, float factor = 0.8f,
     bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
@@ -83,30 +83,25 @@ void explosion(
 // would potentially set off additional explosions should not be performed. They should wait
 // until triggered normally.
 bool explosion_processing_active();
-void explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
+void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex );
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
-void flashbang( const tripoint &p, bool player_immune = false );
+void flashbang( const tripoint_bub_ms &p, bool player_immune = false );
 /** Triggers a resonance cascade at p. */
-void resonance_cascade( const tripoint &p );
+void resonance_cascade( const tripoint_bub_ms &p );
 /** Triggers a scrambler blast at p. */
-void scrambler_blast( const tripoint &p );
+void scrambler_blast( const tripoint_bub_ms &p );
 /** Triggers an EMP blast at p. */
-void emp_blast( const tripoint &p );
+void emp_blast( const tripoint_bub_ms &p );
 // shockwave applies knockback to all targets within radius of p
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
+void shockwave( const tripoint_bub_ms &p, int radius, int force, int stun, int dam_mult,
                 bool ignore_player );
 
-// TODO: Get rid of untyped overload
-void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_explosion( const tripoint_bub_ms &p, int radius, const nc_color &col );
-// TODO: Get rid of untyped overload
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
-                            const std::optional<std::string> &tile_id = std::nullopt );
 void draw_custom_explosion( const std::map<tripoint_bub_ms, nc_color> &area,
                             const std::optional<std::string> &tile_id = std::nullopt );
 
