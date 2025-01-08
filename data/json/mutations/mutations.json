@@ -4781,7 +4781,7 @@
     "restricts_gear": [ "mouth" ],
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
-    "integrated_armor": ["integrated_saberteeth"]
+    "integrated_armor": [ "integrated_saberteeth" ]
   },
   {
     "type": "mutation",
@@ -9137,7 +9137,7 @@
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "social_modifiers": { "intimidate": 5 },
-    "integrated_armor": ["integrated_sharkteeth"],
+    "integrated_armor": [ "integrated_sharkteeth" ],
     "purifiable": false
   },
   {

@@ -435,11 +435,7 @@
     "crit_ok": true,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
-      "and": [
-        {
-          "or": [ "u_is_underwater", { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
+      "and": [ { "or": [ "u_is_underwater", { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] } ]
     },
     "tech_effects": [
       {
@@ -536,10 +532,7 @@
     "reach_ok": false,
     "crit_ok": true,
     "attack_vectors": [ "vector_bite" ],
-    "condition": {
-      "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } }
-      ]
-    },
+    "condition": { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 10 },
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
@@ -584,15 +577,11 @@
     "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "unarmed_allowed": true,
     "weighting": -2,
-    "reach_ok": false,  
+    "reach_ok": false,
     "crit_ok": true,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
-      "and": [
-        {
-          "or": [ "u_is_underwater", { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
+      "and": [ { "or": [ "u_is_underwater", { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ] } ]
     },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 10 },
@@ -601,33 +590,34 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scale": 75 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }],
-      "tech_effects": [
-        {
-          "id": "anticoagulant_draculin",
-          "chance": 90,
-          "duration": 3000,
-          "on_damage": true,
-          "message": "Saliva glistens across the wound!",
-          "req_flag": "DRACULIN_VENOM"
-        },
-        {
-          "id": "venom_player1",
-          "chance": 90,
-          "duration": 3000,
-          "on_damage": true,
-          "message": "Venom gets into the wound!",
-          "req_flag": "VENOM1"
-        },
-        {
-          "id": "venom_player2",
-          "chance": 70,
-          "duration": 3000,
-          "on_damage": true,
-          "message": "Venom gets into the wound!",
-          "req_flag": "VENOM2"
-        }
-      ]
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across the wound!",
+        "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Venom gets into the wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Venom gets into the wound!",
+        "req_flag": "VENOM2"
+      }
+    ]
   },
   {
     "type": "technique",
@@ -688,10 +678,7 @@
     "reach_ok": false,
     "crit_ok": true,
     "attack_vectors": [ "vector_bite" ],
-    "condition": {
-      "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } }
-      ]
-    },
+    "condition": { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 10 },
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
@@ -738,7 +725,7 @@
     "weighting": -2,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
-   "tech_effects": [
+    "tech_effects": [
       {
         "id": "anticoagulant_draculin",
         "chance": 90,
@@ -785,7 +772,7 @@
     "weighting": -4,
     "reach_ok": false,
     "crit_tec": true,
-"tech_effects": [
+    "tech_effects": [
       {
         "id": "anticoagulant_draculin",
         "chance": 90,
@@ -833,7 +820,7 @@
     "reach_ok": false,
     "crit_ok": true,
     "attack_vectors": [ "vector_bite" ],
-    "condition":  {"npc_has_effect": "webbed"},
+    "condition": { "npc_has_effect": "webbed" },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 10 },
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
@@ -880,7 +867,7 @@
     "weighting": -2,
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
-   "tech_effects": [
+    "tech_effects": [
       {
         "id": "anticoagulant_draculin",
         "chance": 90,
@@ -906,9 +893,7 @@
         "req_flag": "VENOM2"
       }
     ],
-    "condition": {
-      "and": [ { "u_has_effect": "natural_stance" }, {"npc_has_effect": "webbed"} ]
-    },
+    "condition": { "and": [ { "u_has_effect": "natural_stance" }, { "npc_has_effect": "webbed" } ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
