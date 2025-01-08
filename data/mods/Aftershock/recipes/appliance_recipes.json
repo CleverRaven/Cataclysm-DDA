@@ -76,7 +76,12 @@
     "autolearn": [ [ "electronics", 3 ] ],
     "time": "4 h",
     "using": [ [ "soldering_standard", 40 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
       [ [ "afs_energy_storage_2", 3 ] ],
       [ [ "afs_energy_storage_1", 10 ] ],

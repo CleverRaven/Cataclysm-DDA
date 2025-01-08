@@ -776,7 +776,7 @@
     "id": "afs_battery_charger",
     "name": { "str": "portable battery charger" },
     "looks_like": "box_battery_charger",
-    "description": "This small device easily deploys anywhere you need it and will slowly charge all rechargable batteries placed within it's storage space.",
+    "description": "This small device easily deploys anywhere you need it and will slowly charge all rechargeable batteries placed within it's storage space.",
     "weight": "3050 g",
     "color": "cyan",
     "symbol": "]",
