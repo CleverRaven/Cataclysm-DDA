@@ -708,7 +708,7 @@
   {
     "type": "profession",
     "id": "afs_esper_telekinetic",
-    "name": { "str": "Geist", "//~": "Name is slang taken from the word poltergeist." },
+    "name": "Geist",
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "traits": [ "AFS_TELEKINETIC" ],
