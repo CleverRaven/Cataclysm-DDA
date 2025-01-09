@@ -163,6 +163,7 @@ BAD_IDENTIFIERS = [
 TYPE_DESCRIPTORS = [
     "automagnum",
     "blunderbuss",
+    "cannon",
     "carbine",
     "coilgun",
     # Not great, but weird can get a pass
