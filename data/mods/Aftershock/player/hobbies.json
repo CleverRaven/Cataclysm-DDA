@@ -68,7 +68,7 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "afs_telepath_hobby",
+    "id": "afs_telekinetic_hobby",
     "name": "Esper Inheritance (Geist)",
     "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you.  You have no training and little idea what you're doing, but you've developed a trick or two.",
     "points": 5,

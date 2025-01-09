@@ -41,7 +41,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "id": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
     "effect": [
       { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
       { "math": [ "u_telekinesis_power_level = n_spell_level('afs_telekinetic_move_creature')" ] },
@@ -56,7 +56,7 @@
       { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "u_afs_telekinesis_shove_spell_level < 1" ] },
-        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "then": { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
             "npc_cast_spell": { "id": "afs_telekinetic_force_shove_away", "min_level": { "math": [ "u_afs_telekinesis_shove_spell_level" ] } },
@@ -95,14 +95,14 @@
       { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
-        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "then": { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
             "npc_cast_spell": { "id": "afs_telekinetic_force_shove_toward", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
             "loc": { "context_val": "loc" }
           },
           { "npc_message": "You pull your target towards you.", "type": "good" },
-          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+          { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" }
         ]
       }
     ]

@@ -122,11 +122,11 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( (u_spell_level('afs_telekinetic_move_creature') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
       ]
     },
     "max_range": 40
