@@ -164,20 +164,6 @@ static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     return true;
 }
 
-std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t ) const
-{
-    const std::vector<tripoint_bub_ms> temp = map::straight_route( tripoint_bub_ms( f ),
-            tripoint_bub_ms( t ) );
-    std::vector<tripoint> result;
-    result.reserve( temp.size() );
-
-    for( const tripoint_bub_ms pt : temp ) {
-        result.push_back( pt.raw() );
-    }
-
-    return result;
-}
-
 std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &f,
         const tripoint_bub_ms &t ) const
 {
