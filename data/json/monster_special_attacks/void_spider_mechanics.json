@@ -20,7 +20,7 @@
             { "u_message": "The world warps." },
             {
               "u_location_variable": { "global_val": "spider_map" },
-              "target_params": { "om_terrain": "void_spider_lair_entrance", "z": -5, "search_range": 400, "min_distance": 1 }
+              "target_params": { "om_terrain": "void_spider_lair_entrance", "z": -5, "min_distance": 1 }
             },
             { "u_teleport": { "global_val": "spider_map" }, "force": true }
           ]
@@ -359,7 +359,7 @@
       { "u_message": "The cavern folds itself beyond perception.", "popup": true },
       {
         "u_location_variable": { "global_val": "nether_glass" },
-        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "search_range": 400, "min_distance": 1 }
+        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "min_distance": 1 }
       },
       { "u_teleport": { "global_val": "nether_glass" }, "force": true },
       {

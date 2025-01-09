@@ -1,0 +1,104 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Salamander eruption",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty", "land", "open_air" ],
+    "city_distance": [ 1, 40 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_SALAMANDER_ERUPTION_SURFACE", "population": [ 100, 300 ], "radius": [ 10, 30 ] },
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, 1 ], [ "open_air" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [ "eruption_ground_to_eruption_entrance", "tunnel_to_tunnel", "tunnel_ramp" ],
+    "overmaps": {
+      "eruption_ground": { "overmap": "salamander_eruption_ground", "below": "eruption_ground_to_eruption_entrance" },
+      "eruption_entrance": {
+        "overmap": "salamander_eruption_entrance",
+        "above": "eruption_ground_to_eruption_entrance",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "eruption_roof": { "overmap": "salamander_eruption_roof" },
+      "tee": {
+        "overmap": "salamander_tunnel_nes",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
+      "cross": {
+        "overmap": "salamander_tunnel_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "straight_tunnel": { "overmap": "salamander_tunnel_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "salamander_tunnel_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "salamander_tunnel_end_south", "north": "tunnel_to_tunnel" },
+      "ramp_down": { "overmap": "salamander_tunnel_end_south", "north": "tunnel_to_tunnel", "below": "tunnel_ramp" },
+      "ramp_up": { "overmap": "salamander_tunnel_end_south", "north": "tunnel_to_tunnel", "above": "tunnel_ramp" },
+      "finale": { "overmap": "salamander_finale_north", "south": "tunnel_to_tunnel" }
+    },
+    "root": "eruption_ground",
+    "phases": [
+      [
+        {
+          "name": "entrance",
+          "chunk": [ { "overmap": "eruption_roof", "pos": [ 0, 0, 1 ] }, { "overmap": "eruption_entrance", "pos": [ 0, 0, -1 ] } ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } }
+      ],
+      [ { "overmap": "ramp_down", "max": 1 } ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "cross", "weight": 1 }
+      ],
+      [ { "overmap": "ramp_up", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } }
+      ],
+      [ { "overmap": "ramp_down", "max": 1 } ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "cross", "weight": 1 }
+      ],
+      [ { "overmap": "ramp_up", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } }
+      ],
+      [ { "overmap": "finale", "max": 1 } ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "cross", "weight": 1 }
+      ]
+    ]
+  }
+]

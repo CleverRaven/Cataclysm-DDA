@@ -1739,6 +1739,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish

@@ -6118,7 +6118,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.clear_items();
             for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos.raw() );
+                    inv_s.add_map_items( pos );
                 }
             }
             if( inv_s.empty() ) {
@@ -6136,7 +6136,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.clear_items();
             for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos.raw() );
+                    inv_s.add_map_items( pos );
                 }
             }
             if( inv_s.empty() ) {

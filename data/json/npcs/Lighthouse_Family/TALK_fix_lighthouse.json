@@ -39,7 +39,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_2",
-    "dynamic_line": "Hmm, looks <shitty>.  I'll do my best.",
+    "dynamic_line": "Hmm, looks shitty.  I'll do my best.",
     "responses": [
       {
         "text": "Start working.",

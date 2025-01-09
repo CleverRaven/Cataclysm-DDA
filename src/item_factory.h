@@ -242,13 +242,6 @@ class Item_factory
         const itype *find_template( const itype_id &id ) const;
 
         /**
-         * Add a passed in itype to the collection of item types.
-         * If the item type overrides an existing type, the existing type is deleted first.
-         * @param def The new item type, must not be null.
-         */
-        void add_item_type( const itype &def );
-
-        /**
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */

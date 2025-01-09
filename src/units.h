@@ -1152,8 +1152,14 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "kg", 1_kilogram },
     }
 };
+// NOTE: Due to string matching, any string that is a subset of another must come after the one it partially matches.
+// Because e.g. 'cent' will be read as a valid unit before 'cents', our order-of-iteration must check if the string is actually
+// 'cents' first, otherwise it will assume it is 'cent' and fail when parsing the 's' in 'cents'.
 const std::vector<std::pair<std::string, money>> money_units = { {
+        { "cents", 1_cent },
         { "cent", 1_cent },
+        { "dollars", 1_USD },
+        { "dollar", 1_USD },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
@@ -1232,7 +1238,12 @@ T read_from_json_string_common( const std::string_view s,
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit", i );
+        std::string error_msg = "Invalid quantity string: unknown unit.  Valid units are:";
+        for( const std::pair<std::string, T> &pair : units ) {
+            error_msg += "\n";
+            error_msg += pair.first;
+        }
+        error( error_msg.c_str(), i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };

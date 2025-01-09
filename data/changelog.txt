@@ -421,6 +421,8 @@ Basic beach decorations
 Changed lore primer to accommodate eyebot removal.
 Add an new plasma gun for sale by the Exodii
 Added a small kindergarten
+Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
+Add the menorah and small candles to put in it
 
 
 ## Interface:
@@ -564,6 +566,7 @@ Make font-hinting user-configurable
 Set minimum sizes for missions menu UI
 Fix compact aim window
 Fix NPC rules window scaling for small terminal sizes
+Add history to Construction Search
 
 
 ## Mods:
@@ -943,6 +946,8 @@ Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
 [innawood] Add Makeshift hand-crank charger and magnetite ore.
 [Magiclysm] Demon spider rework
 [MoM] Melded Teleporter Force
+[MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
+[Magiclysm] Goblins and wargs are best friends
 
 
 ## Balance:
@@ -1460,6 +1465,10 @@ Fix vehicle not moving when being remotely controlled
 Fix crash when zone-harvesting crops with bad data
 kickboxing and boxing technique conditions
 Innawoods - Fixes trails spawning manmade stuff
+Correct recipe for water purifying to use correct quantity of water
+Items in transparent pockets on the map illuminate surroundings
+Mark some specific furnitures/terrains examine as always allowed in faction territory
+NPC should not wield integrated armor
 
 
 ## Performance:
@@ -1622,6 +1631,7 @@ Streamline Vertical Movement While Levitating and Flying
 Make enchantment mutations work again
 Added Imgui demo screen (and style editor) to the debug menu
 clang-tidy output is a bit more readable on windows
+migrate map-size related constants to new file, unmagic related constants
 
 ## Build:
 Support Mac arm64 build
@@ -1652,6 +1662,7 @@ Fix mac builds post freetype dependency addition
 Add imgui_stdlib to CMake
 Fixes potential artifact poisoning route in CI
 Update vcpkg commit to new mainline, remove portfile override
+Improve ccache performance with age based eviction instead of coarse size limits.
 
 
 ## I18N and A11Y:

@@ -153,6 +153,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_psionic_minimum_requirements",
+    "category": "prof_psionic",
+    "name": { "str": "Noetic Crafting" },
+    "description": "You are capable of using psi and can undertake crafts that require active psionic channeling.",
+    "can_learn": false,
+    "teachable": false,
+    "default_time_multiplier": 1,
+    "time_to_learn": "1 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_psionic_basic",
     "category": "prof_psionic",
     "name": { "str": "Psionic Channeling" },
@@ -160,7 +171,8 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_skill_penalty": 0.3,
-    "time_to_learn": "12 h"
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_psionic_minimum_requirements" ]
   },
   {
     "type": "proficiency",
@@ -171,7 +183,8 @@
     "can_learn": true,
     "default_time_multiplier": 1.2,
     "default_skill_penalty": 0.4,
-    "time_to_learn": "20 h"
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_psionic_minimum_requirements" ]
   },
   {
     "type": "proficiency",
@@ -208,5 +221,23 @@
     "default_skill_penalty": 0.4,
     "time_to_learn": "18 h",
     "required_proficiencies": [ "prof_psionic_basic", "prof_psionic_containment" ]
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_matrix_technology",
+    "name": "Matrix Technology",
+    "description": "Proficiencies that help with making materials whose capabilities or functions are possible due to the existence of psionics, but which do not require its use in their creation."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_matrix_technology_beginner",
+    "category": "prof_matrix_technology",
+    "name": { "str": "Principles of Matrix Technology" },
+    "//": "This should not be used in any recipe that requires actual psionics to create",
+    "description": "You know the basics of creating items using matrix crystals that don't require you to personally to use psi in the crafting process.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.3,
+    "time_to_learn": "8 h"
   }
 ]

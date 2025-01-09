@@ -586,14 +586,14 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
-    const tripoint dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
     const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
