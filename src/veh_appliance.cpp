@@ -345,7 +345,7 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
             std::string vname = vpr->name();
             if( !vpr->ammo_current().is_null() && vpr->ammo_current() != fuel_type_battery &&
                 !vpr->get_base().empty() ) {
-                units::volume mult = units::legacy_volume_factor / item::find_type(
+                units::volume mult = 250_ml / item::find_type(
                                          vpr->ammo_current() )->stack_size;
                 double vcur = to_liter( vpr->ammo_remaining() * mult );
                 double vmax = to_liter( vpr->ammo_capacity( vpr->get_base().only_item().ammo_type() ) * mult );
