@@ -276,7 +276,7 @@
     "followup": "MISSION_GODCO_DARRYL_COOP1",
     "dialogue": {
       "describe": "I need a mechanical pump to finish construction.",
-      "offer": "It's less like a well, and more like a covered pit currently.  I'll need you to find a mechanical pump, one that will make this <swear> thing work.",
+      "offer": "It's less like a well, and more like a covered pit currently.  I'll need you to find a mechanical pump, one that will make this <freaking> thing work.",
       "accepted": "Take care of yourself out there.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Try disassembling another well.",
@@ -476,7 +476,7 @@
       "inquire": "Any luck with that horror?",
       "success": "Oh thank you!  Now I can finally get a nights sleep.  Here, I've got some icons saved up, I want you to have them.",
       "success_lie": "I can still hear it, crying out in the night.",
-      "failure": "I'm not gonna go and fix this <swear> mess."
+      "failure": "I'm not gonna go and fix this <freaking> mess."
     }
   },
   {
@@ -1326,7 +1326,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Purge the heretics.",
-      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
+      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <freaking> <name_b>s from the Earth.",
       "accepted": "Righteous judgment shall come!",
       "rejected": "Are you standing with them?",
       "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",
