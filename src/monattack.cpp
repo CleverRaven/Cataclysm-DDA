@@ -155,7 +155,9 @@ static const itype_id itype_bot_gasbomb_hack( "bot_gasbomb_hack" );
 static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
+static const itype_id itype_processor( "processor" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_sporeos( "sporeos" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
@@ -1684,7 +1686,7 @@ bool mattack::fungus_corporate( monster *z )
         sounds::sound( z->pos_bub(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
-            get_map().add_item( z->pos_bub(), item( "sporeos" ) );
+            get_map().add_item( z->pos_bub(), item( itype_sporeos ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
         return true;
     } else {
@@ -2854,7 +2856,7 @@ bool mattack::searchlight( monster *z )
         creature_tracker &creatures = get_creature_tracker();
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", calendar::turn_zero );
+            item settings( itype_processor, calendar::turn_zero );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -3676,7 +3678,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", calendar::turn_zero );
+            item handcuffs( itype_e_handcuffs, calendar::turn_zero );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );

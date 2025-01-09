@@ -3627,7 +3627,8 @@ void receive_item( itype_id &item_name, int count, std::string_view container_na
                 }
             }
         } else {
-            item container( std::string( container_name ), calendar::turn );
+            //BEFOREMERGE: See if this can be changed to pass an itype_id
+            item container( itype_id( container_name ), calendar::turn );
             new_item.charges = count;
             container.put_in( new_item,
                               pocket_type::CONTAINER );

@@ -297,6 +297,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
@@ -11855,7 +11856,7 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
-        const item muscle( "muscle" );
+        const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );

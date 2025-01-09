@@ -137,6 +137,7 @@ static const efftype_id effect_under_operation( "under_operation" );
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const itype_id itype_anesthetic( "anesthetic" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -1095,9 +1096,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( choice >= 0 && choice <= 1 ) {
             item ctr;
             if( choice == 0 ) {
-                ctr = item( "remotevehcontrol", calendar::turn_zero );
+                ctr = item( itype_remotevehcontrol, calendar::turn_zero );
             } else {
-                ctr = item( "radiocontrol", calendar::turn_zero );
+                ctr = item( itype_radiocontrol, calendar::turn_zero );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
@@ -2198,9 +2199,9 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
             }
         }
 
-        item cbm( "burnt_out_bionic" );
+        item cbm( itype_burnt_out_bionic );
         if( item::type_is_defined( bio_id->itype() ) ) {
-            cbm = item( bio_id.c_str() );
+            cbm = item( bio_id->itype() );
         }
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
@@ -2228,7 +2229,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         return false;
     }
 
-    item bionic_to_uninstall = item( bio.id.str(), calendar::turn_zero );
+    item bionic_to_uninstall = item( bio.info().itype(), calendar::turn_zero );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
@@ -2272,7 +2273,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
         }
 
-        item cbm( "burnt_out_bionic" );
+        item cbm( itype_burnt_out_bionic );
         if( item::type_is_defined( bio.info().itype() ) ) {
             cbm = bionic_to_uninstall;
         }
@@ -2620,7 +2621,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         }
     }
     if( drop_cbm ) {
-        item cbm( bid.c_str() );
+        item cbm( bid->itype() );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );

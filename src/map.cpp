@@ -151,7 +151,14 @@ static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zomb
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_pipe( "pipe" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_scrap( "scrap" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_steel_chunk( "steel_chunk" );
+static const itype_id itype_wire( "wire" );
 
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
@@ -2368,8 +2375,8 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
     }
 
     if( !new_t.liquid_source_item_id.empty() && new_t.liquid_source_count != std::make_pair( 0, 0 ) ) {
-
-        item water( new_t.liquid_source_item_id, calendar::start_of_cataclysm );
+        //BEFOREMERGE: Typify raw string ter_t::liquid_source_item_id
+        item water( itype_id( new_t.liquid_source_item_id ), calendar::start_of_cataclysm );
         water.charges = rng( new_t.liquid_source_count.first, new_t.liquid_source_count.second );
         add_item( p, water );
     }
@@ -3534,24 +3541,24 @@ void map::make_rubble( const tripoint_bub_ms &p, const furn_id &rubble_type, con
 
     //Still hardcoded, but a step up from the old stuff due to being in only one place
     if( rubble_type == furn_f_wreckage ) {
-        item chunk( "steel_chunk", calendar::turn );
-        item scrap( "scrap", calendar::turn );
+        item chunk( itype_steel_chunk, calendar::turn );
+        item scrap( itype_scrap, calendar::turn );
         add_item_or_charges( p, chunk );
         add_item_or_charges( p, scrap );
         if( one_in( 5 ) ) {
-            item pipe( "pipe", calendar::turn );
-            item wire( "wire", calendar::turn );
+            item pipe( itype_pipe, calendar::turn );
+            item wire( itype_wire, calendar::turn );
             add_item_or_charges( p, pipe );
             add_item_or_charges( p, wire );
         }
     } else if( rubble_type == furn_f_rubble_rock ) {
-        item rock( "rock", calendar::turn );
+        item rock( itype_rock, calendar::turn );
         int rock_count = rng( 1, 3 );
         for( int i = 0; i < rock_count; i++ ) {
             add_item_or_charges( p, rock );
         }
     } else if( rubble_type == furn_f_rubble ) {
-        item splinter( "splinter", calendar::turn );
+        item splinter( itype_splinter, calendar::turn );
         int splinter_count = rng( 2, 8 );
         for( int i = 0; i < splinter_count; i++ ) {
             add_item_or_charges( p, splinter );
@@ -5664,7 +5671,9 @@ item map::liquid_from( const tripoint_bub_ms &p ) const
     if( !source_terrain.liquid_source_item_id.empty() &&
         source_terrain.liquid_source_count == std::make_pair( 0, 0 ) ) {
 
-        item ret( source_terrain.liquid_source_item_id, calendar::turn, item::INFINITE_CHARGES );
+        //BEFOREMERGE: Typify raw string ter_t::liquid_source_item_id
+        item ret( itype_id( source_terrain.liquid_source_item_id ), calendar::turn,
+                  item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             units::from_celsius( source_terrain.liquid_source_min_temp ) ) );
         return ret;
@@ -8739,7 +8748,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
 
     bool anything_left = false;
     for( const harvest_entry &entry : *dead_monster->decay ) {
-        item harvest = item( entry.drop );
+        //BEFOREMERGE: Typify raw string harvest_entry::drop
+        item harvest = item( itype_id( entry.drop ) );
         const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
         const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
         const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
@@ -8974,7 +8984,7 @@ void map::produce_sap( const tripoint_bub_ms &p, const time_duration &time_since
         return;
     }
 
-    item sap( "maple_sap", calendar::turn );
+    item sap( itype_maple_sap, calendar::turn );
 
     sap.set_item_temperature( get_weather().get_temperature( p ) );
     sap.charges = new_charges;

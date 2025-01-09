@@ -64,6 +64,8 @@ static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const itype_id itype_backpack( "backpack" );
+
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const skill_id skill_gun( "gun" );
@@ -1268,7 +1270,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
     z.mod_moves( -move_cost );
     standard_npc tmp( _( "The " ) + z.name(), z.pos_bub(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
+    tmp.worn.wear_item( tmp, item( itype_backpack ), false, false, true, true );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 

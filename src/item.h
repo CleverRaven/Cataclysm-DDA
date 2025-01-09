@@ -1927,6 +1927,7 @@ class item : public visitable
          * </code>
          */
         /*@{*/
+        //TODO: Add a set_var( const std::string &name, const cata_variant &id ) overload rather than using raw strings where appropriate
         void set_var( const std::string &name, int value );
         void set_var( const std::string &name, long long value );
         // Acceptable to use long as part of overload set

@@ -77,7 +77,10 @@ static const efftype_id effect_winded( "winded" );
 
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_small_plant( "small_plant" );
 static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -879,7 +882,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.ter_set( you.pos_bub(), ter_t_grass );
-            item food( "underbrush", calendar::turn, 1 );
+            item food( itype_underbrush, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -892,7 +895,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.furn_set( you.pos_bub(), furn_str_id::NULL_ID() );
-            item food( "small_plant", calendar::turn, 1 );
+            item food( itype_small_plant, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -904,7 +907,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            item food( item( "grass", calendar::turn, 1 ) );
+            item food( item( itype_grass, calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
             here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;

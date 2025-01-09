@@ -173,10 +173,12 @@ static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_corpse_generic_human( "corpse_generic_human" );
+static const itype_id itype_craft( "craft" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_lit( "joint_lit" );
-static const itype_id itype_null( "null" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
@@ -539,7 +541,7 @@ static void inherit_rot_from_components( item &it )
 }
 
 item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
-    : item( "craft", calendar::turn )
+    : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
@@ -573,7 +575,7 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
 }
 
 item::item( const recipe *rec, int qty, item &component )
-    : item( "disassembly", calendar::turn )
+    : item( itype_disassembly, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
@@ -620,7 +622,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
+    itype_id corpse_type = mt == mtype_id::NULL_ID() ? itype_corpse_generic_human : itype_corpse;
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -1248,7 +1250,7 @@ bool item::is_worn_by_player() const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( itype_null ), qty,
+    return in_container( type->default_container.value_or( itype_id::NULL_ID() ), qty,
                          type->default_container_sealed, type->default_container_variant.value_or( "" ) );
 }
 

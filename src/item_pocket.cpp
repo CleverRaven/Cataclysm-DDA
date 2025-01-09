@@ -35,6 +35,8 @@
 #include "units.h"
 #include "units_utility.h"
 
+static const itype_id itype_water( "water" );
+
 namespace io
 {
 // *INDENT-OFF*
@@ -452,7 +454,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // should not be static, since after reloading some members of the item objects,
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
-        item( "water", calendar::turn_zero, 1 ),
+        item( itype_water, calendar::turn_zero, 1 ),
     };
     if( !data->watertight ) {
         return false;

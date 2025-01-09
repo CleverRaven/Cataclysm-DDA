@@ -581,11 +581,11 @@ static void bionic_remove_common( npc &p, Character &patient )
     std::vector<std::string> bionic_names;
     std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(),
-                       bio.info().itype() ) == bionic_types.end() ) {
-            bionic_types.push_back( bio.info().itype() );
-            if( item::type_is_defined( bio.info().itype() ) ) {
-                item tmp = item( bio.id.str(), calendar::turn_zero );
+        const itype_id &bio_itype = bio.info().itype();
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio_itype ) == bionic_types.end() ) {
+            bionic_types.push_back( bio_itype );
+            if( item::type_is_defined( bio_itype ) ) {
+                item tmp = item( bio_itype, calendar::turn_zero );
                 bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );

@@ -114,6 +114,8 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const itype_id itype_molotov( "molotov" );
+
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
@@ -293,8 +295,9 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
+    //BEFOREMERGE: Change to std::vector<itype_id>
     for( const std::string &e : clothing ) {
-        wear_item( item( e ), false );
+        wear_item( item( itype_id( e ) ), false );
     }
 
     worn.set_fitted();
@@ -575,7 +578,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
-    set_wielded_item( item( "null", calendar::turn_zero ) );
+    set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
     moves = 100;
@@ -930,7 +933,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     starting_inv_ammo( who, res, multiplier );
 
     if( type == NC_ARSONIST ) {
-        res.emplace_back( "molotov" );
+        res.emplace_back( itype_molotov );
     }
 
     int qty = ( type == NC_EVAC_SHOPKEEP ) ? 5 : 2;

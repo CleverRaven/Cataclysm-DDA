@@ -222,13 +222,15 @@ void mdeath::broken( monster &z )
     if( z.no_corpse_quiet ) {
         return;
     }
+
+    //FIXME Remove hardcoded id manipulation
     std::string item_id = z.type->id.str();
     if( item_id.compare( 0, 4, "mon_" ) == 0 ) {
         item_id.erase( 0, 4 );
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-    item broken_mon( item_id, calendar::turn );
+    item broken_mon( itype_id( item_id ), calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
