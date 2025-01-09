@@ -28,6 +28,7 @@
       { "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_forehead" ] },
       { "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_ear_l", "head_ear_r" ] }
     ],
+    "flags": [ "RAINPROOF", "PADDED" ],
     "melee_damage": { "bash": 2 }
   },
   {
