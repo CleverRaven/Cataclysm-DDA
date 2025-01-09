@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_STUDYING_POWER",
-    "condition": { "u_has_effect": "effect_psi_studying_power" },
+    "condition": { "u_has_effect": "effect_afs_esper_studying_power" },
     "effect": [
       { "math": [ "u_afs_esper_studying_tick_experience_counter", "+=", "contemplation_factor(1)" ] },
       {
