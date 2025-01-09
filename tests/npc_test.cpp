@@ -203,16 +203,13 @@ TEST_CASE( "snippet-tag-test" )
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
-            "<name_b>", "<thirsty>", "<swear!>",
-            "<sad>", "<greet>", "<no>",
-            "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
-            "<wait>", "<no_faction>", "<name_g>",
-            "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<really>",
-            "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_it>", "<swear>", "<lets_talk>",
-            "<hands_up>", "<move>", "<hungry>",
-            "<fuck_you>",
+            "<name_b>", "<name_g>", "<hungry>", "<thirsty>",
+            "<general_danger>", "<kill_npc>", "<combat_noise_warning>",
+            "<fire_in_the_hole>", "<hello>", "<swear!>",
+            "<lets_talk>", "<freaking>", "<acknowledged>",
+            "<wait>", "<keep_up>", "<im_leaving_you>",
+            "<done_conversation_section>", "<end_talking_bye>",
+            "<end_talking_later>", "<end_talking_leave>",
         }
     };
 

@@ -4377,7 +4377,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     }
     //regenerates roofs for tiles that should be walkable from above
     if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
-        ter( below )->has_flag( "WALL" ) ) {
+        ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
