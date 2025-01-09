@@ -24,7 +24,11 @@
       "s_reststop_1_roof",
       "s_reststop_2_roof",
       "s_restparking_1",
-      "s_restparking_2"
+      "s_restparking_2",
+      "roadstop",
+      "roadstop_roof",
+      "roadstop_a",
+      "roadstop_a_roof"
     ]
   }
 ]
