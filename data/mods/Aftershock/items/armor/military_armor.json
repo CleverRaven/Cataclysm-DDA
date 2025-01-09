@@ -4,6 +4,8 @@
     "type": "ARMOR",
     "name": { "str": "IPAV armor" },
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.",
+    "category": "armor",
+    "price": "5 kUSD 500 USD",
     "weight": "7 kg",
     "volume": "8 L",
     "symbol": "[",
