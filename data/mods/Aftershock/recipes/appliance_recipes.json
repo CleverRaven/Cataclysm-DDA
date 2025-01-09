@@ -17,7 +17,7 @@
       [ [ "afs_energy_storage_2", 1 ] ],
       [ [ "afs_energy_storage_1", 2 ] ],
       [ [ "afs_circuitry_2", 1 ] ],
-      [ [ "afs_material_1", 5 ] ],
+      [ [ "scrap", 5 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -41,10 +41,10 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "afs_heat_2", 2 ] ],
       [ [ "afs_heat_1", 3 ] ],
       [ [ "afs_circuitry_2", 1 ] ],
-      [ [ "afs_material_2", 5 ] ],
+      [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
+      [ [ "sheet_metal", 2 ] ],
       [ [ "cable", 15 ] ]
     ]
   },
@@ -62,7 +62,7 @@
     "skills_required": [ [ "fabrication", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "afs_circuitry_1", 2 ] ], [ [ "afs_material_1", 5 ] ] ]
+    "components": [ [ [ "cable", 2 ] ], [ [ "afs_circuitry_1", 2 ] ], [ [ "lightstrip_inactive", 3 ] ], [ [ "pipe", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -86,7 +86,7 @@
       [ [ "afs_energy_storage_2", 3 ] ],
       [ [ "afs_energy_storage_1", 10 ] ],
       [ [ "afs_circuitry_1", 1 ] ],
-      [ [ "afs_material_1", 10 ] ],
+      [ [ "sheet_metal", 2 ] ],
       [ [ "cable", 20 ] ]
     ]
   }
