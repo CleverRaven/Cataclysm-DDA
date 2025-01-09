@@ -55,9 +55,9 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     if( part_num != -1 ) {
-        act.coords.push_back( veh.bub_part_pos( part_num ).raw() );
+        act.coords.push_back( get_map().getglobal( veh.bub_part_pos( part_num ) ) );
     } else {
-        act.coords.push_back( veh.pos_bub().raw() );
+        act.coords.push_back( veh.global_square_location() );
     }
     act.str_values.push_back( serialize( liquid ) );
 }
@@ -78,7 +78,7 @@ static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms
         act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
-    act.coords.push_back( pos.raw() );
+    act.coords.push_back( get_map().getglobal( pos ) );
     act.str_values.push_back( serialize( liquid ) );
 }
 
@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, const vpart_reference
 {
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( vp.vehicle().bub_part_pos( 0 ).raw() );
+    act.coords.push_back( get_map().getglobal( vp.vehicle().bub_part_pos( 0 ) ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 
@@ -98,11 +98,11 @@ static void serialize_liquid_target( player_activity &act, const item_location &
     act.coords.emplace_back( ); // dummy
 }
 
-static void serialize_liquid_target( player_activity &act, const tripoint &pos )
+static void serialize_liquid_target( player_activity &act, const tripoint_bub_ms &pos )
 {
     act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( pos );
+    act.coords.push_back( get_map().getglobal( pos ) );
 }
 
 namespace liquid_handler
@@ -156,7 +156,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     if( test_mode ) {
         switch( test_mode_spilling_action ) {
             case test_mode_spilling_action_t::spill_all:
-                target.pos = player_character.pos_bub().raw();
+                target.pos = player_character.pos_bub();
                 target.dest_opt = LD_GROUND;
                 return true;
             case test_mode_spilling_action_t::cancel_spill:
@@ -266,7 +266,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         const std::string dir = direction_name( direction_from( player_character.pos_bub(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir );
         actions.emplace_back( [ &, target_pos]() {
-            target.pos = target_pos.raw();
+            target.pos = target_pos;
             target.dest_opt = LD_KEG;
         } );
     }
@@ -282,13 +282,13 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        const std::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
+        const std::optional<tripoint_bub_ms> target_pos_ = choose_adjacent_bub( liqstr );
         if( !target_pos_ ) {
             return;
         }
         target.pos = *target_pos_;
 
-        if( source_pos != nullptr && source_pos->raw() == target.pos ) {
+        if( source_pos != nullptr && *source_pos == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
@@ -356,7 +356,7 @@ static bool handle_keg_or_ground_target( Character &player_character, item &liqu
         serialize_liquid_target( player_character.activity, target.pos );
     } else {
         if( target.dest_opt == LD_KEG ) {
-            iexamine::pour_into_keg( tripoint_bub_ms( target.pos ), liquid );
+            iexamine::pour_into_keg( target.pos, liquid );
         } else {
             get_map().add_item_or_charges( target.pos, liquid );
             liquid.charges = 0;

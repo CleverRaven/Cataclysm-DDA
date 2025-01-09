@@ -7803,7 +7803,7 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
-        h.vpt = get_map().getglobal( act.coords[0] );
+        h.vpt = act.coords[0];
     }
     std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
     if( h.pseudo_flag ) {
