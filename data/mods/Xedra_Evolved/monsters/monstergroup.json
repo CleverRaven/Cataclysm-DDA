@@ -350,6 +350,36 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_SALAMANDER_ERUPTION_SURFACE",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 300, "cost_multiplier": 0 },
+      { "monster": "mon_elemental_saraph", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_small", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_large", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SALAMANDER_ERUPTION",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_small", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_large", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SALAMANDER_FINALE",
+    "monsters": [
+      { "monster": "mon_salamagman_warlord_butterfly", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_salamagman_small", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_salamagman_large", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
     "monsters": [
       { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },
