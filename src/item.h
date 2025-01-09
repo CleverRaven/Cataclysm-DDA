@@ -226,13 +226,6 @@ class item : public visitable
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
 
-        // Legacy constructor for constructing from string rather than itype_id
-        // TODO: remove this and migrate code using it.
-        template<typename... Args>
-        explicit item( const std::string &itype, Args &&... args ) :
-            item( itype_id( itype ), std::forward<Args>( args )... )
-        {}
-
         ~item() override;
 
         /** Return a pointer-like type that's automatically invalidated if this
