@@ -1059,21 +1059,14 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         bool first = true;
         bool headshot = false;
         bool multishot = proj.count > 1;
-        std::map< Creature *, std::pair < int, int >> targets_hit;
+        dealt_projectile_attack shot;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
             if( !first && !proj.multi_projectile_effects ) {
                 proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
             }
-            dealt_projectile_attack shot = projectile_attack( proj, pos_bub(), aim,
-                                           dispersion, this, in_veh, wp_attack, first );
+            projectile_attack( shot, proj, pos_bub(), aim,
+                               dispersion, this, in_veh, wp_attack, first );
             first = false;
-            if( shot.hit_critter ) {
-                int damage = shot.dealt_dam.total_damage();
-                if( damage > 0 ) {
-                    targets_hit[ shot.hit_critter ].second += damage;
-                }
-                targets_hit[ shot.hit_critter ].first++;
-            }
             if( shot.headshot ) {
                 headshot = true;
             }
@@ -1083,10 +1076,10 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                 break;
             }
         }
-        if( !targets_hit.empty() ) {
+        if( !shot.targets_hit.empty() ) {
             hits++;
         }
-        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
+        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 m->type->id );
@@ -1557,8 +1550,9 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
     wp_attack.is_thrown = true;
-    dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this, nullptr, wp_attack );
+    dealt_projectile_attack dealt_attack;
+    projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
+                       this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
 

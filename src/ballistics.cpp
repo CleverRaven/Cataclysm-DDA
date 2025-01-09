@@ -220,7 +220,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     return aim;
 }
 
-dealt_projectile_attack projectile_attack( const projectile &proj_arg,
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
         const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
         const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
         const weakpoint_attack &wp_attack, bool first )
@@ -258,14 +258,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack attack {
-        proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
-    };
+    attack.proj = proj_arg;
+    attack.hit_critter = nullptr;
+    attack.dealt_dam = dealt_damage_instance();
+    attack.end_point = source;
+    attack.missed_by = aim.missed_by;
 
     // No suicidal shots
     if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
-        return attack;
+        return;
     }
 
     projectile &proj = attack.proj;
@@ -561,12 +563,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
-            z.add_effect( effect_bounced, 1_turns );
-            projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
+            projectile_attack( attack, proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
         }
     }
-
-    return attack;
 }

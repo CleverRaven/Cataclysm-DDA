@@ -1376,14 +1376,20 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
+    int total_dam = dealt_dam.total_damage();
+
     if( print_messages ) {
-        messaging_projectile_attack( source, hit_selection, dealt_dam.total_damage() );
+        messaging_projectile_attack( source, hit_selection, total_dam );
     }
 
     check_dead_state();
     attack.hit_critter = this;
     attack.missed_by = goodhit;
     attack.headshot = hit_selection.is_headshot;
+    attack.targets_hit[this].first++;
+    if( total_dam > 0 ) {
+        attack.targets_hit[this].second += total_dam;
+    }
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
