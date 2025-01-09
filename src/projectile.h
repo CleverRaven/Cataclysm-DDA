@@ -72,7 +72,8 @@ struct dealt_projectile_attack {
     double missed_by; // Accuracy of dealt attack
     bool headshot = false; // Headshot or not;
     bool shrapnel = false; // True if the projectile is generated from an explosive
-    std::map<Creature *, std::pair<int, int>> targets_hit; // Critters that hit by the projectile or null
+    // Critters that hit by the projectile or null
+    std::map<Creature *, std::pair<int, int>> targets_hit;
 };
 
 void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,

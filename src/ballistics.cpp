@@ -219,9 +219,9 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 }
 
 void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
-        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
-        const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
-        const weakpoint_attack &wp_attack, bool first )
+                        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
+                        const weakpoint_attack &wp_attack, bool first )
 {
     const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
 
