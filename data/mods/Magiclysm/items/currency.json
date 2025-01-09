@@ -25,12 +25,12 @@
           "effect": [
             {
               "u_location_variable": { "context_val": "forge_location" },
-              "target_params": { "om_terrain": "forge_x2y2z1", "search_range": 2000, "z": 0 }
+              "target_params": { "om_terrain": "forge_x2y2z1", "z": 0 }
             },
             { "reveal_map": { "context_val": "forge_location" }, "radius": 4 },
             {
               "u_location_variable": { "context_val": "current_location_nearest_road" },
-              "target_params": { "om_terrain": "road", "search_range": 3, "z": 0 }
+              "target_params": { "om_terrain": "road", "search_range": 3, "random": true, "z": 0 }
             },
             {
               "u_message": "You scratch your nails against the coin like so many before you, and feel Valzain's tears.  He longingly cries for somewhere that is not here, and now you know where.",

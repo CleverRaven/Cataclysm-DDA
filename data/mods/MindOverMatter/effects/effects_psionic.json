@@ -1753,6 +1753,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_telekinetic_water_walking",
+    "name": [ "Water-Walking" ],
+    "desc": [ "You can walk over liquids without sinking into them." ],
+    "apply_message": "",
+    "remove_message": "You feel are firm on the ground.",
+    "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telekinetic_slowfall",
     "name": [ "Slowfall" ],
     "desc": [ "The ground isn't as eager to receive you." ],
@@ -2388,9 +2397,10 @@
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
-    "max_duration": "1 minutes",
+    "max_duration": "300 minutes",
+    "show_in_info": true,
     "base_mods": { "hit_mod": [ -1 ] },
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.05 }, { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
   },
   {
     "type": "effect_type",

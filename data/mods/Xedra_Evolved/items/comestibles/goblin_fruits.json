@@ -36,12 +36,8 @@
     "price": "40 cent",
     "price_postapoc": "1 USD",
     "material": [ "fruit" ],
-    "flags": [ "INEDIBLE", "NO_AUTO_CONSUME", "SINGLE_USE" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Peel open the mysterious fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ]
-    },
+    "flags": [ "NO_AUTO_CONSUME", "SINGLE_USE" ],
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ],
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {

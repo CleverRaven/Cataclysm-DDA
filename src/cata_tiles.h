@@ -617,6 +617,9 @@ class cata_tiles
             draw_entity_with_overlays( ch, tripoint_bub_ms( p.raw() ), ll, height_3d );
         }
 
+        void draw_entity_with_overlays( const monster &mon, const tripoint_bub_ms &p, lit_level ll,
+                                        int &height_3d );
+
         bool draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d );
 
     public:

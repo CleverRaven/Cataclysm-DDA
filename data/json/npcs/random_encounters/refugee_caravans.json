@@ -167,9 +167,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": {
-      "assign_mission_target": { "om_terrain": "fema", "reveal_radius": 5, "om_special": "FEMA Camp", "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "fema", "reveal_radius": 5, "om_special": "FEMA Camp" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "fema",
     "dialogue": {

@@ -31,7 +31,7 @@ static void clear_game_drag( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     CHECK( !player_character.in_vehicle );
-    player_character.setpos( tripoint::zero );
+    player_character.setpos( tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent

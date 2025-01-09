@@ -22,7 +22,7 @@
           "effect": [
             {
               "u_location_variable": { "global_val": "glass_place" },
-              "target_params": { "om_terrain": "nether_glass_deep", "search_range": 20, "min_distance": 3, "z": -10 }
+              "target_params": { "om_terrain": "nether_glass_deep", "min_distance": 3, "z": -10 }
             },
             {
               "u_teleport": { "global_val": "glass_place" },

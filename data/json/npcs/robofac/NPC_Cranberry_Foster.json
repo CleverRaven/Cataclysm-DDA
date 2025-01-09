@@ -732,7 +732,7 @@
     "value": 0,
     "start": {
       "effect": [ "follow_only", { "npc_add_var": "general_robofac_merc_1_temporal_follower", "value": "yes" } ],
-      "assign_mission_target": { "om_terrain": "radio_tower_1", "om_special": "hub_01", "reveal_radius": 1, "random": true, "search_range": 10 },
+      "assign_mission_target": { "om_terrain": "radio_tower_1", "om_special": "hub_01", "reveal_radius": 1 },
       "update_mapgen": [
         { "place_monster": [ { "monster": "mon_leech_radio", "x": 12, "y": 10, "target": true } ] },
         { "place_nested": [ { "chunks": [ "robofac_radio_leech" ], "x": 0, "y": 0 } ] }
@@ -763,7 +763,7 @@
     "difficulty": 0,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 360, "z": 0 }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "z": 0 }
     },
     "end": {
       "effect": [
