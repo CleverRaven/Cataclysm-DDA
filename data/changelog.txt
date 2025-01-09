@@ -927,33 +927,21 @@ Aftershock: Shield bionics deploy Riemman shields
 [Magiclysm] Spells cost 1/5 of their normal cost on spell failure
 [Magiclysm] The Great Damage Randomization and Normalization
 [Magiclysm] Add technomantic augmentation clinic
-[DinoMod] shorter names
-energy_increment fix
 [Magiclysm] Add the aenor, a giant heron riding mount
 [Magiclysm] Stop workshop elves and their workshop from spawning
 [Magiclysm] Add zombie dwarves to mines
 Removes superceded sees_player_retro mod
-[DinoMod] more accurate adulthood numbers
-[Magiclysm] Set feral wizards to copy-from
-Adding the "WOODEN_WEAPON" flag to the wooden spear
-[innawood] fix modern dog drops
-[Magiclysm] More Forge price adjustments
 [Magiclysm] Obsolete shambling mound, give shaman the Keeper of the Glades summon
 [Magicylysm] Forge of Wonders Redesigned
-[Magiclysm] Augmentation clinic adjustments
 [Magiclysm] Add Witchsight Animist spell and Witchfinder Eye CBM
 [MoM] Ephemeral riftwalkers can use Breach
 [Magiclysm] Forge values denarii but no one else does
-[Magiclysm] Krabgeks get their union breaks
 [DinoMod] shonisaurus
-Magic Shop can now spawn without the healer NPC
 Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
-[Magiclysm] Change Iron Intolerance trait to use a recurring EoC
 [Magiclysm] Add a couple more CBMs
 [MOM] Add a couple Teleporter Powers
 [innawood] Add Makeshift hand-crank charger and magnetite ore.
 [Magiclysm] Demon spider rework
-Audit Magiclysm Organization Part 1
 [MoM] Melded Teleporter Force
 
 
@@ -1084,11 +1072,10 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
-wp_skill makes you avoid weakpoint not beneficial
+wp_skill makes you avoid strongpoints
 Zombified humans are still humans for butchery purposes
 Zombie Humanity Audit
 Combine crit hit and wp hit and tweak damage calculation for ranged attack
-Prices better reflect rifles' characteristics
 Thermal electric gear power draw reduction + medium battery for TE suit
 
 
@@ -1465,19 +1452,11 @@ Fixes displaying of stats for ablative armor
 Fixes SegFault w/ flashlights & attached power
 Peeking out of elevated windows no longer causes you to fall
 Heat radiance now can spread through gas-permeable tiles like chain link fence
-Fixed atmic smarphone and intergrated AR unable to read stored books.
-Polish up nanofab recipes
-Fix some crafted canned products not being sealed in the container on output
-Prune a few military related itemgroups
-Remove a few nonsense recipes
 Fix title menu tileset layering error
 color tags texts drawn in item info
 make ammo_effect_WIDE actually work
-Fix Ancilla template seller speech training exploit
 Fixes item prefixes (XL/XS) sometimes not being shown in crafting menu
-Update more comestibles to use effect_on_consumption
 Fix vehicle not moving when being remotely controlled
-Update some battery related recipes
 Fix crash when zone-harvesting crops with bad data
 kickboxing and boxing technique conditions
 Innawoods - Fixes trails spawning manmade stuff
