@@ -8,7 +8,7 @@
     "looks_like": "f_active_backup_generator",
     "description": "Small, portable generator, one that people buy for a camp.  It just needs to be plugged in, fueled up, and then turned on.",
     "weight": "21817 g",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "use_action": { "type": "deploy_appliance", "base": "portable_generator" },
     "material": [ "steel" ],
     "volume": "67609 ml",
