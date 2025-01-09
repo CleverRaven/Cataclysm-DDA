@@ -106,7 +106,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEKINETIC_RECIPE_MOVE_CREATURE",
-    "condition": { "and": [ { "u_has_trait": "AFS_TELEKINETIC" }, { "math": [ "u_spell_level('afs_telekinetic_move_creature') >= 0" ] } ] },
+    "condition": {
+      "and": [ { "u_has_trait": "AFS_TELEKINETIC" }, { "math": [ "u_spell_level('afs_telekinetic_move_creature') >= 0" ] } ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_telekinetic_move_creatures" } ]
   },
   {

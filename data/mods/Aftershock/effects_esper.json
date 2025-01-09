@@ -185,7 +185,9 @@
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "max( ( ( ( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) ) ), -0.15)" ]
+              "math": [
+                "max( ( ( ( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) ) ), -0.15)"
+              ]
             }
           },
           {
