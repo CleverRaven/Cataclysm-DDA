@@ -61,10 +61,19 @@
     "id": "exodii_khuunaofaai_mag_firework",
     "looks_like": "metal_tank_little",
     "type": "MAGAZINE",
-    "name": { "str": "Khuunaofaai celebration payload" },
+    "name": { "str": "ordnance cannon celebration payload" },
     "description": "A pressurized tank containing the original firework load of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
     "weight": "1268 g",
     "volume": "1250 ml",
+	"variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_firework",
+        "name": { "str": "Khuunäöfaai celebration payload" },
+        "description": "A pressurized tank containing the original firework load of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+        "weight": 1
+      }
+    ],
     "symbol": "#",
     "color": "light_gray",
     "longest_side": "160 mm",
