@@ -57,8 +57,6 @@ static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
-static const efftype_id effect_bounced( "bounced" );
-
 static const itype_id itype_glass_shard( "glass_shard" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
@@ -545,18 +543,20 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( ammo_effect_BOUNCE ) ) {
-        // Add effect so the shooter is not targeted itself.
-        if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1_turns );
-        }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
+            if( &z == origin ) {
+                return false;
+            }
             // search for creatures in radius 4 around impact site
             if( rl_dist( z.pos_bub(), tp ) <= 4 &&
                 here.sees( z.pos_bub(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
-                if( !z.has_effect( effect_bounced ) ) {
-                    return true;
+                for( auto it : attack.targets_hit ) {
+                    if( &z == it.first ) {
+                        return false;
+                    }
                 }
+                return true;
             }
             return false;
         } );
