@@ -25,7 +25,7 @@
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "motel_entrance_no_sidewalk_north" },
       { "point": [ 0, 0, 0 ], "overmap": "motel_1_no_sidewalk_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "motel_2_no_outsidewalk_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "motel_2_no_sidewalk_north" },
       { "point": [ 1, 1, 0 ], "overmap": "motel_3_no_sidewalk_north" },
       { "point": [ 1, 0, 1 ], "overmap": "motel_entrance_roof_north" },
       { "point": [ 0, 0, 1 ], "overmap": "motel_1_roof_north" },
