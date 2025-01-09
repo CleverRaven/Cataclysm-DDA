@@ -809,7 +809,7 @@
   {
     "type": "GENERIC",
     "id": "afs_tripod_light",
-    "name": { "str": "portable survival lamp (collapsed)" },
+    "name": { "str": "portable survival lamp" },
     "description": "A small folded metal tripod that can be deployed to illuminate an area around itself.",
     "looks_like": "f_floor_lamp",
     "weight": "825 g",
