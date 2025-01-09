@@ -1757,7 +1757,7 @@
     "name": [ "Water-Walking" ],
     "desc": [ "You can walk over liquids without sinking into them." ],
     "apply_message": "",
-    "remove_message": "You feel are firm on the ground.",
+    "remove_message": "Your feet are firm on the ground.",
     "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
   },
   {
