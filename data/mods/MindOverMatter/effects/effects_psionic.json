@@ -436,7 +436,6 @@
               ]
             }
           },
-          { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
@@ -455,6 +454,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_effect": "effect_biokin_perfected_motion" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
   },
@@ -474,12 +477,54 @@
     "removes_effects": [ "slippery_terrain", "effect_biokin_hurricane_blows" ],
     "enchantments": [
       {
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_teleport_stride" } }, { "not": { "u_has_effect": "effect_telekin_momentum" } } ]
+        },
         "values": [
           {
             "value": "MOVE_COST",
             "multiply": {
               "math": [
                 "max((( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_teleport_stride" }, { "not": { "u_has_effect": "effect_telekin_momentum" } } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_telekin_momentum" }, { "not": { "u_has_effect": "effect_teleport_stride" } } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_teleport_stride" }, { "u_has_effect": "effect_telekin_momentum" } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
               ]
             }
           }
@@ -866,6 +911,7 @@
     "remove_message": "",
     "rating": "good",
     "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "removes_effects": [ "effect_biokin_perfected_motion" ],
     "enchantments": [
       {
         "values": [
@@ -1731,18 +1777,28 @@
         ],
         "values": [
           {
-            "value": "MOVE_COST",
-            "multiply": {
-              "math": [
-                "max((( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.15)"
-              ]
-            }
-          },
-          {
             "value": "ATTACK_SPEED",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_clair_astral_projection" } },
+            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } }
+          ]
+        },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max((( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.15)"
               ]
             }
           }
@@ -2189,6 +2245,12 @@
     "max_duration": "7 days",
     "enchantments": [
       {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_clair_astral_projection" } },
+            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } }
+          ]
+        },
         "values": [
           {
             "value": "MOVE_COST",
