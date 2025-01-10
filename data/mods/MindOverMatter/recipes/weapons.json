@@ -12,10 +12,7 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [ [ "schematics_grenade_inferno", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_psionic_basic", "required": false },
-      { "proficiency": "prof_psionic_containment", "required": false }
-    ],
+    "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
     "using": [ [ "volatile_explosive", 20, "LIST" ], [ "explosives_casting_standard", 1 ] ],
     "components": [

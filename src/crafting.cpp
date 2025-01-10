@@ -721,13 +721,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
         return;
     }
 
-    // TODO: Get rid of this when craft_command is typified.
-    std::optional<tripoint> temp;
-    if( loc.has_value() ) {
-        temp = loc.value().raw();
-    }
-
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, temp );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 

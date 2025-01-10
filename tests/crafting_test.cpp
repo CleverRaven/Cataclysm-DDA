@@ -1438,7 +1438,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1465,7 +1465,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1487,7 +1487,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( !m.i_at( c.pos_bub() ).begin()->empty_container() );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( plastic_bottle.typeId() ) == 3 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1517,7 +1517,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             c.i_add( plastic_bottle );
             REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1542,7 +1542,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).size() == 6 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 6 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1572,7 +1572,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( c.worn.front().all_items_top().size() == 6 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 6 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1597,7 +1597,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( m.i_at( c.pos_bub() ).size() == 5 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 5 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1626,7 +1626,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[craft
             REQUIRE( c.worn.front().all_items_top().size() == 5 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 5 );
-                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1653,7 +1653,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).empty() );
             c.i_add_or_drop( plastic_bottle, 10 );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1680,7 +1680,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             THEN( "no prompt" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1702,7 +1702,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( !m.i_at( c.pos_bub() ).begin()->empty_container() );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1732,7 +1732,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             c.i_add( plastic_bottle );
             REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1757,7 +1757,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).size() == 13 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 13 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1794,7 +1794,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( c.worn.front().all_items_top().size() == 13 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 13 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
@@ -1819,7 +1819,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( m.i_at( c.pos_bub() ).size() == 10 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -1853,7 +1853,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
             REQUIRE( c.worn.front().all_items_top().size() == 10 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 10 );
-                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub().raw() );
+                craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos_bub() );
                 cmd.execute( true );
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
@@ -2079,7 +2079,7 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
         c.i_add_or_drop( thread );
         c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
-            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub().raw() );
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub() );
             cmd.execute( true );
             item res = cmd.create_in_progress_craft();
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
@@ -2116,7 +2116,7 @@ TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
         c.i_add_or_drop( thread );
         c.i_add_or_drop( sheet_cotton, cotton_sheets_in_recipe );
         WHEN( "crafting a balaclava" ) {
-            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub().raw() );
+            craft_command cmd( &*recipe_balclava, 1, false, &c, c.pos_bub() );
             cmd.execute( true );
             item res = cmd.create_in_progress_craft();
             THEN( "craft uses the free thread instead of tool ammo as component" ) {

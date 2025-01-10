@@ -336,9 +336,6 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( are_we_quitting() ) {
-                break;
-            }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -1092,7 +1089,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
                     glass_fraction = 0.f;
                 }
-                const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
+                const int vol = weapon->volume() * glass_fraction / 250_ml;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
                     weapon->spill_contents( pos_bub() );
@@ -2846,9 +2843,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SAVE:
-            if( save() ) {
-                player_character.set_moves( 0 );
-                uquit = QUIT_SAVED;
+            if( query_yn( _( "Save and quit?" ) ) ) {
+                if( save() ) {
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_SAVED;
+                }
             }
             break;
 
@@ -3152,10 +3151,6 @@ bool game::handle_action()
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
-
-    if( are_we_quitting() ) {
-        return false;
-    }
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;

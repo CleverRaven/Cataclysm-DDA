@@ -1725,6 +1725,14 @@
   },
   {
     "type": "effect_type",
+    "id": "archerybracers",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": { "math": [ "1+((u_skill('archery'))/3)" ] } } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
     "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],

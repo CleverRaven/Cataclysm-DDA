@@ -359,7 +359,7 @@ void iexamine::cvdmachine( Character &you, const tripoint_bub_ms & )
     }
 
     // Require materials proportional to selected item volume
-    auto qty = loc->volume() / units::legacy_volume_factor;
+    auto qty = loc->volume() / 250_ml;
     qty = std::max( 1, qty );
     requirement_data reqs = *requirement_data_cvd_diamond * qty;
 
@@ -4729,7 +4729,7 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp.raw() );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )

@@ -145,30 +145,32 @@ namespace
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif
-
-#if !defined(_WIN32)
-extern "C" void sigint_handler( int /* s */ )
+void exit_handler( int s )
 {
-    if( g->uquit != QUIT_EXIT_PENDING ) {
-        g->uquit = QUIT_EXIT;
-    }
-}
-#endif
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
+    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+        deinitDebug();
 
-void exit_handler( int /* s */ )
-{
-    deinitDebug();
+        int exit_status = 0;
+        g.reset();
 
-    g.reset();
-
-    catacurses::endwin();
+        catacurses::endwin();
 
 #if defined(__ANDROID__)
-    // Avoid capturing SIGABRT on exit on Android in crash report
-    // Can be removed once the SIGABRT on exit problem is fixed
-    signal( SIGABRT, SIG_DFL );
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
 #endif
 
+#if defined(IMGUI)
+        imclient.reset();
+#endif
+        exit( exit_status );
+    }
+    inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
@@ -831,7 +833,7 @@ int main( int argc, const char *argv[] )
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
-    sigIntHandler.sa_handler = sigint_handler;
+    sigIntHandler.sa_handler = exit_handler;
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
@@ -857,17 +859,13 @@ int main( int argc, const char *argv[] )
 
     while( true ) {
         main_menu menu;
-        try {
-            if( !menu.opening_screen() ) {
-                break;
-            }
-
-            shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-            get_event_bus().send<event_type::game_begin>( getVersionString() );
-            while( !do_turn() ) { }
-        } catch( game::exit_exception const &/* ex */ ) {
+        if( !menu.opening_screen() ) {
             break;
         }
+
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
+        while( !do_turn() ) {}
     }
 
     exit_handler( -999 );

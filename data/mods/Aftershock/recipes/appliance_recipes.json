@@ -1,0 +1,93 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_battery_charger",
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_UTILITY",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "afs_energy_storage_2", 1 ] ],
+      [ [ "afs_energy_storage_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_survival_heater",
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_UTILITY",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "time": "2 h 30 m",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "afs_heat_1", 3 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "cable", 15 ] ]
+    ]
+  },
+  {
+    "result": "afs_tripod_light",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "afs_circuitry_1", 2 ] ], [ [ "lightstrip_inactive", 3 ] ], [ [ "pipe", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_survival_battery",
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_UTILITY",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 3 ],
+    "autolearn": [ [ "electronics", 3 ] ],
+    "time": "4 h",
+    "using": [ [ "soldering_standard", 40 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "afs_energy_storage_2", 3 ] ],
+      [ [ "afs_energy_storage_1", 10 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "cable", 20 ] ]
+    ]
+  }
+]

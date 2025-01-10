@@ -10,7 +10,10 @@
     "time": "55 m",
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "schematics_reactant_liquid_base", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_psionic_basic", "required": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
+    ],
     "using": [ [ "serum_production_standard", 25 ] ],
     "components": [
       [ [ "ether", 100 ] ],
@@ -36,8 +39,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_biokin_dust", 3 ] ] ],
@@ -71,8 +73,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_clair_dust", 3 ] ] ],
@@ -106,8 +107,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 3 ] ] ],
@@ -141,8 +141,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_photokin_dust", 3 ] ] ],
@@ -176,8 +175,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 3 ] ] ],
@@ -211,8 +209,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 3 ] ] ],
@@ -246,8 +243,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 3 ] ] ],
@@ -281,8 +277,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 3 ] ] ],
@@ -316,8 +311,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 3 ] ] ],
@@ -351,8 +345,7 @@
     "tools": [ [ [ "microscope", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
-      { "proficiency": "prof_inorganic_chemistry", "required": false },
-      { "proficiency": "prof_psionic_basic", "required": false }
+      { "proficiency": "prof_inorganic_chemistry", "required": false }
     ],
     "using": [ [ "any_strong_acid", 2, "LIST" ], [ "surface_heat", 30, "LIST" ] ],
     "components": [ [ [ "matrix_crystal_drained_dust", 3 ] ] ],
