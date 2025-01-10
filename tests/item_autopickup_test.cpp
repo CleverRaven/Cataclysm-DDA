@@ -156,7 +156,7 @@ static void add_autopickup_rules( const std::vector<unique_item *> &what, bool i
 // Simulate character moving over a tile that contains items.
 static void simulate_auto_pickup( const tripoint_bub_ms &pos, avatar &they )
 {
-    Pickup::autopickup( pos.raw() );
+    Pickup::autopickup( pos );
     process_activity( they );
 }
 

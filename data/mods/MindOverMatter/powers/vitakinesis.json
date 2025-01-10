@@ -219,23 +219,23 @@
     "damage_type": "biological",
     "min_dot": {
       "math": [
-        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.002) + 0.03) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.1)"
       ]
     },
     "max_dot": {
       "math": [
-        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.002) + 0.03) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.1)"
       ]
     },
     "min_range": 1,
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 2900) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 7800) + 6100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",

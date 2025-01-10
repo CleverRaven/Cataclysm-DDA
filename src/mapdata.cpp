@@ -1236,7 +1236,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
-    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, volume_reader(), 0_ml );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
@@ -1320,6 +1320,13 @@ void furn_t::check() const
             debugmsg( "furn %s has invalid emission %s set", id.c_str(),
                       e.str().c_str() );
         }
+    }
+    if( plant && !plant->transform.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant transform in furn %s", plant->transform.c_str(),
+                  id.c_str() );
+    }
+    if( plant && !plant->base.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant base in furn %s", plant->base.c_str(), id.c_str() );
     }
 }
 

@@ -723,13 +723,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
         return;
     }
 
-    // TODO: Get rid of this when craft_command is typified.
-    std::optional<tripoint> temp;
-    if( loc.has_value() ) {
-        temp = loc.value().raw();
-    }
-
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, temp );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 
@@ -2059,8 +2053,8 @@ std::list<item> Character::consume_items( const comp_selection<item_comp> &is, i
         return ret;
     }
     // populate a grid of spots that can be reached
-    std::vector<tripoint_bub_ms> reachable_pts;
-    m.reachable_flood_steps( reachable_pts, pos_bub(), PICKUP_RANGE, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( pos_bub(),
+            PICKUP_RANGE, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 

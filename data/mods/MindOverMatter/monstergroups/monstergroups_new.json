@@ -253,6 +253,29 @@
     ]
   },
   {
+    "name": "GROUP_NETHER_LAB_DEVOURER_BREACH",
+    "type": "monstergroup",
+    "//": "same as above except in the SCIENCE faction, which sadly requires new monsters",
+    "monsters": [
+      { "monster": "mon_blank_lab_devourer", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp_lab_devourer", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror_lab_devourer", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke_lab_devourer", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter_lab_devourer", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_yugg_lab_devourer", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_nether_leech_lab_devourer", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye_lab_devourer", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_kreck_lab_devourer", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_nether_eater_lab_devourer", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_hanging_roper_lab_devourer", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_lab_devourer", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_coiling_lab_devourer", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_gozu_lab_devourer", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_darkman_lab_devourer", "weight": 15, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth_lab_devourer", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_REPRODUCTION_COW_MUTANT_BABIES",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cow_calf", "weight": 95 }, { "monster": "mon_hodag_calf", "weight": 95 } ]

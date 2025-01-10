@@ -50,8 +50,6 @@ struct projectile {
         void apply_effects_damage( Creature &target, Creature *source,
                                    const dealt_damage_instance &dealt_dam,
                                    bool critical ) const;
-        // pplies proj_effects to a creature that was hit but not damaged
-        void apply_effects_nodamage( Creature &target, Creature *source ) const;
 
         projectile();
         projectile( const projectile & );
@@ -72,6 +70,10 @@ struct dealt_projectile_attack {
     dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
     tripoint_bub_ms end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
+    bool headshot = false; // Headshot or not;
+    bool shrapnel = false; // True if the projectile is generated from an explosive
+    // Critters that hit by the projectile or null
+    std::map<Creature *, std::pair<int, int>> targets_hit;
 };
 
 void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,

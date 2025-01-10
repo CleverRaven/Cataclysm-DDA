@@ -74,12 +74,12 @@ static const itype_id itype_wetsuit_spring( "wetsuit_spring" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
-static monster *find_adjacent_monster( const tripoint &pos )
+static monster *find_adjacent_monster( const tripoint_bub_ms &pos )
 {
-    tripoint target = pos;
+    tripoint_bub_ms target = pos;
     creature_tracker &creatures = get_creature_tracker();
-    for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
-        for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
+    for( target.x() = pos.x() - 1; target.x() <= pos.x() + 1; target.x()++ ) {
+        for( target.y() = pos.y() - 1; target.y() <= pos.y() + 1; target.y()++ ) {
             if( target == pos ) {
                 continue;
             }
@@ -103,7 +103,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
     REQUIRE( player_character.has_item( *test_item ) );
 
-    monster *new_manhack = find_adjacent_monster( player_character.pos() );
+    monster *new_manhack = find_adjacent_monster( player_character.pos_bub() );
     REQUIRE( new_manhack == nullptr );
 
     player_character.invoke_item( &*test_item );
@@ -112,7 +112,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
         return it.typeId() == itype_bot_manhack;
     } ) );
 
-    new_manhack = find_adjacent_monster( player_character.pos() );
+    new_manhack = find_adjacent_monster( player_character.pos_bub() );
     REQUIRE( new_manhack != nullptr );
     REQUIRE( new_manhack->type->id == mon_manhack );
     g->clear_zombies();

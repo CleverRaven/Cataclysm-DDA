@@ -7928,7 +7928,7 @@ item vehicle::get_folded_item() const
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
     folded.set_var( "weight", to_milligram( total_mass() ) );
-    folded.set_var( "volume", folded_volume / units::legacy_volume_factor );
+    folded.set_var( "volume", folded_volume / 250_ml );
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );
     folded.set_var( "unfolding_time", to_moves<int>( unfolding_time() ) );

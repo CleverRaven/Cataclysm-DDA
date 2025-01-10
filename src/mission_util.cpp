@@ -255,7 +255,8 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     // If we got here and this is still invalid, it means that we couldn't find it nor create it
     // on any overmap (new or existing) within the allowed search range.
     if( target_pos.is_invalid() ) {
-        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain.evaluate( d ) );
+        debugmsg( "Unable to find and assign mission target %s within %d tiles.",
+                  params.overmap_terrain.evaluate( d ), find_params.search_range );
         return std::nullopt;
     }
     return target_pos;
@@ -411,7 +412,11 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
     if( jo.has_member( "random" ) ) {
         p.random = jo.get_bool( "random" );
     }
-    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX );
+    if( !p.random && jo.has_member( "search_range" ) ) {
+        jo.throw_error_at( "search_range",
+                           "There's no reason to change max search range if your search isn't random." );
+    }
+    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX * 14 );
     p.min_distance  = get_dbl_or_var( jo, "min_distance", false );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {

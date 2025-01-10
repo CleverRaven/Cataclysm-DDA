@@ -390,6 +390,24 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_salamagman_death_drops",
+    "entries": [ { "item": "salamagman_handaxe", "damage": [ 1, 4 ] }, { "item": "skirt", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_salamagman_champion_death_drops",
+    "entries": [ { "item": "salamagman_battleaxe", "damage": [ 1, 4 ] }, { "item": "skirt", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_salamagman_warlord_death_drops",
+    "entries": [ { "item": "salamagman_macuahuitl", "damage": [ 1, 4 ] }, { "item": "skirt", "damage": [ 2, 3 ] } ]
+  },
+  {
     "id": "feral_agent_death_drops",
     "type": "item_group",
     "subtype": "collection",

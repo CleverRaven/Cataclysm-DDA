@@ -2869,27 +2869,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
     return true;
 }
 
-bool game::query_exit_to_OS()
-{
-    const int old_timeout = inp_mngr.get_timeout();
-    inp_mngr.reset_timeout();
-    uquit = QUIT_EXIT_PENDING; // change it before query so input_context doesn't get confused
-    if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        uquit = QUIT_EXIT;
-        throw exit_exception();
-    }
-    uquit = QUIT_NO;
-    inp_mngr.set_timeout( old_timeout );
-    ui_manager::redraw_invalidated();
-    catacurses::doupdate();
-    return false;
-}
-
 bool game::is_game_over()
 {
-    if( are_we_quitting() ) {
-        return query_exit_to_OS();
-    }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
         Creature *player_killer = u.get_killer();
         if( player_killer && player_killer->as_character() ) {
@@ -8035,9 +8016,9 @@ static void add_item_recursive( std::vector<std::string> &item_order,
 
     if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
         item_order.push_back( name );
-        temp_items[name] = map_item_stack( it, relative_pos.raw() );
+        temp_items[name] = map_item_stack( it, relative_pos );
     } else {
-        temp_items[name].add_at_pos( it, relative_pos.raw() );
+        temp_items[name].add_at_pos( it, relative_pos );
     }
 
     for( const item *content : it->all_known_contents() ) {
@@ -8460,7 +8441,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     max_name_width = max_name_width + padding + 6 + ( highlight_unread_items ? std::max(
                          item_new_str_width, item_maybe_new_str_width ) : 0 );
 
-    tripoint active_pos;
+    tripoint_rel_ms active_pos;
     map_item_stack *activeItem = nullptr;
 
     catacurses::window w_items;
@@ -8485,7 +8466,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                           point( offsetX, TERMY - iInfoHeight ) );
 
         if( activeItem ) {
-            centerlistview( active_pos, width );
+            centerlistview( active_pos.raw(), width );
         }
 
         ui.position( point( offsetX, 0 ), point( width, TERMY ) );
@@ -8631,7 +8612,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
                 trim_and_print( w_items, point( 1, iNum - iStartPos ), width_nob - padding - new_width, col,
                                 sText );
-                const point p( iter->vIG[iThisPage].pos.xy() );
+                const point_rel_ms p( iter->vIG[iThisPage].pos.xy() );
                 if( print_new ) {
                     // +1 move space between item description and "new"
                     mvwprintz( w_items, point( width_nob - right_padding - new_width + 1, iNum - iStartPos ), *new_col,
@@ -8639,8 +8620,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
                 mvwprintz( w_items, point( width_nob - right_padding, iNum - iStartPos ),
                            iNum == iActive ? c_light_green : c_light_gray,
-                           "%2d %s", rl_dist( point::zero, p ),
-                           direction_name_short( direction_from( point::zero, p ) ) );
+                           "%2d %s", rl_dist( point_rel_ms::zero, p ),
+                           direction_name_short( direction_from( point_rel_ms::zero, p ) ) );
                 ++iter;
             }
             // ITEM DESCRIPTION
@@ -8702,7 +8683,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
-            game_menus::inv::compare( active_pos );
+            game_menus::inv::compare( active_pos.raw() );
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
@@ -8911,7 +8892,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             return game::vmenu_ret::CHANGE_TAB;
         }
 
-        active_pos = tripoint::zero;
+        active_pos = tripoint_rel_ms::zero;
         activeItem = nullptr;
 
         if( mSortCategory[iActive].empty() ) {
@@ -8928,7 +8909,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         if( activeItem ) {
-            centerlistview( active_pos, width );
+            centerlistview( active_pos.raw(), width );
             trail_start = u.pos_bub();
             trail_end = u.pos_bub() + active_pos;
             // Actually accessed from the terrain overlay callback `trail_cb` in the
@@ -11266,7 +11247,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
           !u.get_mon_visible().has_dangerous_creature_in_proximity ) &&
         ( m.has_items( u.pos_bub() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::autopickup( u.pos() );
+        Pickup::autopickup( u.pos_bub() );
     }
 
     // If the new tile is a boardable part, board it
@@ -12903,7 +12884,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
 
     if( shift == point_rel_sm::zero ) {
         // adjust player position
-        u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
+        u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
         if( z_level_changed ) {
             // Update what parts of the world map we can see
             // We may be able to see farther now that the z-level has changed.
@@ -12941,12 +12922,12 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
         }
     }
 
-    scent.shift( shift_ms.raw() );
+    scent.shift( shift_ms );
 
     // Also ensure the player is on current z-level
     // m.get_abs_sub().z should later be removed, when there is no longer such a thing
     // as "current z-level"
-    u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
+    u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
 
     // Only do the loading after all coordinates have been shifted.
 
@@ -13193,7 +13174,7 @@ void game::display_scent()
             return;
         }
         shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-            scent.draw( w_terrain, div * 2, u.pos_bub().raw() + u.view_offset.raw() );
+            scent.draw( w_terrain, div * 2, u.pos_bub() + u.view_offset );
         } );
         g->add_draw_callback( scent_cb );
 
@@ -14155,9 +14136,4 @@ weather_manager &get_weather()
 global_variables &get_globals()
 {
     return g->global_variables_instance;
-}
-
-bool are_we_quitting()
-{
-    return g && ( g->uquit == QUIT_EXIT || g->uquit == QUIT_EXIT_PENDING );
 }

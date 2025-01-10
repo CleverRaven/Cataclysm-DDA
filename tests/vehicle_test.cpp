@@ -746,7 +746,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint::zero );
+    player_character.setpos( tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();

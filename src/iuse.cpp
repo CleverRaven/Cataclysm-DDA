@@ -7204,7 +7204,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( &p, *itm, loc.raw() );
+                        itm->type->invoke( &p, *itm, loc );
                         item_location itm_loc = item_location( map_cursor( loc ), itm );
                         here.update_lum( itm_loc, true );
                     }

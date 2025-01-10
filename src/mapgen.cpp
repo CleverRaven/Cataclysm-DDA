@@ -989,12 +989,6 @@ mapgen_function_json_nested::mapgen_function_json_nested(
 {
 }
 
-jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y )
-{
-    cata_assert( p.x <= std::numeric_limits<int16_t>::max() );
-    cata_assert( p.y <= std::numeric_limits<int16_t>::max() );
-}
-
 jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag )
 {
     if( jo.has_array( tag ) ) {
@@ -2584,7 +2578,9 @@ class jmapgen_monster : public jmapgen_piece
                     for( const JsonObject p_pt : patrol_pts ) {
                         jmapgen_int ptx = jmapgen_int( p_pt, "x" );
                         jmapgen_int pty = jmapgen_int( p_pt, "y" );
-                        data.patrol_points_rel_ms.emplace_back( ptx.get(), pty.get() );
+                        //"unnecessary" temporary object created while calling emplace_back [modernize-use-emplace,-warnings-as-errors]
+                        const point_rel_ms work_around = point_rel_ms( ptx.get(), pty.get() );
+                        data.patrol_points_rel_ms.emplace_back( work_around );
                     }
                 }
             }
@@ -6033,7 +6029,7 @@ void map::draw_lab( mapgendata &dat )
                                 make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), ter_t_rock_floor );
                                 if( !one_in( 3 ) ) {
-                                    furn_set( point( i, j ), furn_str_id::NULL_ID() );
+                                    furn_set( point_bub_ms( i, j ), furn_str_id::NULL_ID() );
                                 }
                             }
                             // and then randomly destroy 5% of the remaining nonstairs.
@@ -6104,7 +6100,7 @@ void map::draw_lab( mapgendata &dat )
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), fluid_type );
-                                furn_set( point( i, j ), furn_str_id::NULL_ID() );
+                                furn_set( point_bub_ms( i, j ), furn_str_id::NULL_ID() );
                             }
                         }
                     }
@@ -6130,7 +6126,7 @@ void map::draw_lab( mapgendata &dat )
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { p, abs_sub.z() } );
                                 ter_set( p, fluid_type );
-                                furn_set( p, furn_str_id::NULL_ID() );
+                                furn_set( point_bub_ms( p ), furn_str_id::NULL_ID() );
                             }
                         }, point( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) ), rng( 3, 6 ) );
                     }
@@ -6199,7 +6195,7 @@ void map::draw_lab( mapgendata &dat )
                             if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
                                 ter_set( point( i, j ), ter_t_fungus_floor_in );
                                 if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, tripoint_bub_ms( i, j, abs_sub.z() ) ) ) {
-                                    furn_set( point( i, j ), furn_f_fungal_clump );
+                                    furn_set( point_bub_ms( i, j ), furn_f_fungal_clump );
                                 }
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
                                 ter_set( point( i, j ), ter_t_fungus_floor_in );
@@ -6222,7 +6218,7 @@ void map::draw_lab( mapgendata &dat )
                         } else {
                             ter_set( p, ter_t_fungus_floor_in );
                             if( one_in( 3 ) ) {
-                                furn_set( p, furn_f_flower_fungal );
+                                furn_set( point_bub_ms( p ), furn_f_flower_fungal );
                             } else if( one_in( 10 ) ) {
                                 ter_set( p, ter_t_marloss );
                             }
@@ -6347,18 +6343,21 @@ void map::draw_lab( mapgendata &dat )
                         mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY - 3, dat.zlevel() ), tr_dissector );
                         mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY + 2, dat.zlevel() ), tr_dissector );
                         mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY + 2, dat.zlevel() ), tr_dissector );
-                        line( this, ter_t_reinforced_glass, point( SEEX + 1, SEEY + 1 ), point( SEEX - 2, SEEY + 1 ),
+                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 1, SEEY + 1 ), point_bub_ms( SEEX - 2,
+                                SEEY + 1 ),
                               dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point( SEEX - 2, SEEY ), point( SEEX - 2, SEEY - 2 ),
+                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 2, SEEY ), point_bub_ms( SEEX - 2,
+                                SEEY - 2 ),
                               dat.zlevel() );
-                        line( this, ter_t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ),
+                        line( this, ter_t_reinforced_glass, point_bub_ms( SEEX - 1, SEEY - 2 ), point_bub_ms( SEEX + 1,
+                                SEEY - 2 ),
                               dat.zlevel() );
                         ter_set( point( SEEX + 1, SEEY - 1 ), ter_t_reinforced_glass );
                         ter_set( point( SEEX + 1, SEEY ), ter_t_reinforced_door_glass_c );
-                        furn_set( point( SEEX - 1, SEEY - 1 ), furn_f_table );
-                        furn_set( point( SEEX, SEEY - 1 ), furn_f_table );
-                        furn_set( point( SEEX - 1, SEEY ), furn_f_table );
-                        furn_set( point( SEEX, SEEY ), furn_f_table );
+                        furn_set( point_bub_ms( SEEX - 1, SEEY - 1 ), furn_f_table );
+                        furn_set( point_bub_ms( SEEX, SEEY - 1 ), furn_f_table );
+                        furn_set( point_bub_ms( SEEX - 1, SEEY ), furn_f_table );
+                        furn_set( point_bub_ms( SEEX, SEEY ), furn_f_table );
                         if( loot_variant <= 67 ) {
                             spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "UPS_off" );
                             spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "heavy_battery_cell" );
@@ -6514,10 +6513,14 @@ void map::draw_lab( mapgendata &dat )
                                   point_bub_ms( 6, SEEY * 2 - 7 ), dat.zlevel(), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), dat.zlevel(), 1, true );
-                    line( this, ter_t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ), dat.zlevel() );
-                    line( this, ter_t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ), dat.zlevel() );
-                    line( this, ter_t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ), dat.zlevel() );
-                    line( this, ter_t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ), dat.zlevel() );
+                    line( this, ter_t_cvdbody, point_bub_ms( SEEX - 2, SEEY - 2 ), point_bub_ms( SEEX - 2, SEEY + 1 ),
+                          dat.zlevel() );
+                    line( this, ter_t_cvdbody, point_bub_ms( SEEX - 1, SEEY - 2 ), point_bub_ms( SEEX - 1, SEEY + 1 ),
+                          dat.zlevel() );
+                    line( this, ter_t_cvdbody, point_bub_ms( SEEX, SEEY - 1 ), point_bub_ms( SEEX, SEEY + 1 ),
+                          dat.zlevel() );
+                    line( this, ter_t_cvdbody, point_bub_ms( SEEX + 1, SEEY - 2 ), point_bub_ms( SEEX + 1, SEEY + 1 ),
+                          dat.zlevel() );
                     ter_set( point( SEEX, SEEY - 2 ), ter_t_cvdmachine );
                     spawn_item( point_bub_ms( SEEX, SEEY - 3 ), "id_science" );
                     break;
@@ -7381,7 +7384,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 int desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
-                    m->furn_set( point( x, desk ), furn_f_counter );
+                    m->furn_set( point_bub_ms( x, desk ), furn_f_counter );
                 }
                 computer *tmpcomp = m->add_computer( { p2.x - static_cast<int>( width / 4 ), desk, z },
                                                      _( "Log Console" ), 3 );
@@ -7397,7 +7400,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 int desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
-                    m->furn_set( point( desk, y ), furn_f_counter );
+                    m->furn_set( point_bub_ms( desk, y ), furn_f_counter );
                 }
                 computer *tmpcomp = m->add_computer( { desk, p2.y - static_cast<int>( width / 4 ), z },
                                                      _( "Log Console" ), 3 );
@@ -7848,33 +7851,17 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
 }
 ///////////////////// part of map
 
-void line( map *m, const ter_id &type, const point &p1, const point &p2, int z )
-{
-    line( m, type, point_bub_ms( p1 ), point_bub_ms( p2 ), z );
-}
 void line( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
 {
     m->draw_line_ter( type, p1, p2, z );
-}
-void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 )
-{
-    line( m, type, point_omt_ms( p1 ), point_omt_ms( p2 ) );
 }
 void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, const point &p1, const point &p2, int z )
-{
-    line_furn( m, type, point_bub_ms( p1 ), point_bub_ms( p2 ), z );
-}
 void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
 {
     m->draw_line_furn( type, p1, p2, z );
-}
-void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
-{
-    line_furn( m, type, point_omt_ms( p1 ), point_omt_ms( p2 ) );
 }
 void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
 {

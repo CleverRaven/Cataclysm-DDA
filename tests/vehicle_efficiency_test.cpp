@@ -49,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint::zero );
+    player_character.setpos( tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 
@@ -99,7 +99,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
         } else if( pt.is_tank() && !liquid_fuel.is_null() ) {
             float qty = pt.ammo_capacity( item::find_type( liquid_fuel )->ammo->type ) * veh_fuel_mult;
             qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
-            qty /= to_milliliter( units::legacy_volume_factor );
+            qty /= to_milliliter( 250_ml );
             pt.ammo_set( liquid_fuel, qty );
             ret[ liquid_fuel ] += qty;
         } else {

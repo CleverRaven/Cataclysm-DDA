@@ -87,7 +87,7 @@
     "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
     "looks_like": "novel_pulp",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": -200, "price_postapoc": -1000 }
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": "-200 cent", "price_postapoc": "-10 USD" }
   },
   {
     "abstract": "book_fict_soft_scifi_tpl",
@@ -112,7 +112,7 @@
     "description": "This is a template for books about homemaking, style, home decor, and home economics.",
     "weight": "1100 g",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "intelligence": -1, "price_postapoc": -1600, "chapters": 2 }
+    "relative": { "intelligence": -1, "price_postapoc": "-16 USD", "chapters": 2 }
   },
   {
     "abstract": "book_nonf_hard_cook_tpl",
@@ -154,7 +154,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price": "5 USD", "price_postapoc": -2500, "intelligence": 3 }
+    "relative": { "price": "5 USD", "price_postapoc": "-25 USD", "intelligence": 3 }
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
@@ -164,7 +164,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price": "4 USD", "price_postapoc": -2600, "intelligence": 3 }
+    "relative": { "price": "4 USD", "price_postapoc": "-26 USD", "intelligence": 3 }
   },
   {
     "abstract": "book_pulp_newage_tpl",
@@ -173,7 +173,7 @@
     "description": "This is a template for pulp new-age books.  They're theoretically nonfiction.",
     "copy-from": "book_fict_soft_pulp_tpl",
     "weight": "250 g",
-    "relative": { "chapters": -6, "price": "25 USD", "price_postapoc": -100 }
+    "relative": { "chapters": -6, "price": "25 USD", "price_postapoc": "-1 USD" }
   },
   {
     "abstract": "book_nonf_hard_sports_tpl",
@@ -236,7 +236,7 @@
     "volume": "400 ml",
     "copy-from": "book_fict_soft_tpl",
     "time": "11 m",
-    "relative": { "price": -351, "price_postapoc": -800, "chapters": -8, "intelligence": -1 }
+    "relative": { "price": "-351 cent", "price_postapoc": "-800 cents", "chapters": -8, "intelligence": -1 }
   },
   {
     "abstract": "paperback_romance_lnl",
@@ -244,7 +244,7 @@
     "name": { "str": "Lorn and Loan Romance Novel" },
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -400, "intelligence": 1, "fun": -1 }
+    "relative": { "price_postapoc": "-400 cents", "intelligence": 1, "fun": -1 }
   },
   {
     "abstract": "paperback_romance_vanilla",
@@ -252,7 +252,7 @@
     "name": { "str": "Vanilla Romance Novel" },
     "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -100, "intelligence": -1 }
+    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 }
   },
   {
     "abstract": "paperback_western_em",
@@ -260,7 +260,7 @@
     "name": { "str": "The Everyman Library" },
     "description": "The Everyman Library is an imprint of Vanilla Media that publishes stories about private eyes, cowboys, quarterbacks, and mobsters.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -100, "intelligence": -1 }
+    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_vanilla",
@@ -268,7 +268,7 @@
     "name": { "str": "Tween Topics" },
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -400, "intelligence": -1, "fun": -1 }
+    "relative": { "price_postapoc": "-4 USD", "intelligence": -1, "fun": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_quiddity",
@@ -276,7 +276,7 @@
     "name": { "str": "Quiddity Books" },
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": -400, "chapters": 7 }
+    "relative": { "price_postapoc": "-4 USD", "chapters": 7 }
   },
   {
     "abstract": "book_fict_hard_ya_quiddity",
@@ -287,7 +287,7 @@
     "volume": "1014 ml",
     "longest_side": "22 cm",
     "copy-from": "book_fict_hard_tpl",
-    "relative": { "price_postapoc": -400, "chapters": 10 }
+    "relative": { "price_postapoc": "-4 USD", "chapters": 10 }
   },
   {
     "abstract": "book_fict_soft_satire_tpl",

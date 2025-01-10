@@ -658,7 +658,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "bandit" );
         npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );

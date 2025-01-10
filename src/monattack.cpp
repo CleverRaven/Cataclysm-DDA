@@ -281,8 +281,9 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.impact.add( dam );
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
 
-    dealt_projectile_attack atk = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
-                                  dispersion_sources{ 500 }, z );
+    dealt_projectile_attack atk;
+    projectile_attack( atk, proj, z->pos_bub(), target->pos_bub(),
+                       dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         // whether this function returns true determines whether it applies a status effect like paralysis or mutation
@@ -735,8 +736,9 @@ bool mattack::acid( monster *z )
     proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
-    dealt_projectile_attack dealt = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
-                                    dispersion_sources{ 5400 }, z );
+    dealt_projectile_attack dealt;
+    projectile_attack( dealt, proj, z->pos_bub(), target->pos_bub(),
+                       dispersion_sources{ 5400 }, z );
     const tripoint_bub_ms &hitp = tripoint_bub_ms( dealt.end_point );
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
@@ -960,8 +962,9 @@ bool mattack::pull_metal_weapon( monster *z )
                     proj.range = rl_dist( foe->pos_bub(), z->pos_bub() ) - 1;
                     proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
 
-                    dealt_projectile_attack dealt = projectile_attack( proj, foe->pos_bub(), z->pos_bub(),
-                                                    dispersion_sources{ 0 }, z );
+                    dealt_projectile_attack dealt;
+                    projectile_attack( dealt, proj, foe->pos_bub(), z->pos_bub(),
+                                       dispersion_sources{ 0 }, z );
                     get_map().add_item( dealt.end_point, pulled_weapon );
                     target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
                                                    _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
@@ -1097,13 +1100,13 @@ bool mattack::resurrect( monster *z )
     int lowest_raise_score = INT_MAX;
     map &here = get_map();
     // Cache map stats.
-    std::unordered_map<tripoint, bool> sees_and_is_empty_cache;
-    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint & T ) {
+    std::unordered_map<tripoint_bub_ms, bool> sees_and_is_empty_cache;
+    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint_bub_ms & T ) {
         auto iter = sees_and_is_empty_cache.find( T );
         if( iter != sees_and_is_empty_cache.end() ) {
             return iter->second;
         }
-        sees_and_is_empty_cache[T] = here.sees( z->pos(), T, -1 ) && g->is_empty( T );
+        sees_and_is_empty_cache[T] = here.sees( z->pos_bub(), T, -1 ) && g->is_empty( T );
         return sees_and_is_empty_cache[T];
     };
     for( item_location &location : here.get_active_items_in_radius( z->pos_bub(), range,
@@ -1115,7 +1118,7 @@ bool mattack::resurrect( monster *z )
                mt->in_species( species_ZOMBIE ) && !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
             continue;
         }
-        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p.raw() ) ) {
+        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
             continue;
         }
 
@@ -1288,14 +1291,14 @@ bool mattack::smash( monster *z )
  *                      second = the number of empty spaces found.
  */
 template <size_t N = 1>
-std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const tripoint &origin )
+std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
+find_empty_neighbors( const tripoint_bub_ms &origin )
 {
     constexpr int r = static_cast<int>( N );
 
-    std::pair < std::array < tripoint, ( 2 * N + 1 )*( 2 * N + 1 ) >, size_t > result;
+    std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 )*( 2 * N + 1 ) >, size_t > result;
 
-    for( const tripoint &tmp : get_map().points_in_radius( origin, r ) ) {
+    for( const tripoint_bub_ms &tmp : get_map().points_in_radius( origin, r ) ) {
         if( g->is_empty( tmp ) ) {
             result.first[result.second++] = tmp;
         }
@@ -1311,10 +1314,10 @@ find_empty_neighbors( const tripoint &origin )
  * @see find_empty_neighbors
  */
 template <size_t N = 1>
-std::pair < std::array < tripoint, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
+std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
 find_empty_neighbors( const Creature &c )
 {
-    return find_empty_neighbors<N>( c.pos() );
+    return find_empty_neighbors<N>( c.pos_bub() );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1557,7 +1560,8 @@ bool mattack::spit_sap( monster *z )
     proj.range = 12;
     proj.proj_effects.insert( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
-    projectile_attack( proj, z->pos_bub(), target->pos_bub(), dispersion_sources{ 150 }, z );
+    dealt_projectile_attack atk;
+    projectile_attack( atk, proj, z->pos_bub(), target->pos_bub(), dispersion_sources{ 150 }, z );
 
     return true;
 }

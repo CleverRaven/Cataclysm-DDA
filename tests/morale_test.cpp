@@ -270,7 +270,7 @@ TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_moral
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
     CHECK( badguy.guaranteed_hostile() == true );
-    CHECK( badguy.sees( player.pos() ) == false );
+    CHECK( badguy.sees( player.pos_bub() ) == false );
     for( size_t loop = 0; loop < 1000; loop++ ) {
         player.set_body();
         arm_shooter( player, itype_shotgun_s );

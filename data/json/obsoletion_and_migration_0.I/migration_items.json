@@ -2219,5 +2219,20 @@
     "id": "460_casing",
     "type": "MIGRATION",
     "replace": "45_casing"
+  },
+  {
+    "id": "kiln_full",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_lit",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
+  },
+  {
+    "id": "kiln_done",
+    "type": "MIGRATION",
+    "replace": "char_kiln"
   }
 ]

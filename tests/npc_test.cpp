@@ -206,16 +206,13 @@ TEST_CASE( "snippet-tag-test" )
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
-            "<name_b>", "<thirsty>", "<swear!>",
-            "<sad>", "<greet>", "<no>",
-            "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
-            "<wait>", "<no_faction>", "<name_g>",
-            "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<really>",
-            "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_it>", "<swear>", "<lets_talk>",
-            "<hands_up>", "<move>", "<hungry>",
-            "<fuck_you>",
+            "<name_b>", "<name_g>", "<hungry>", "<thirsty>",
+            "<general_danger>", "<kill_npc>", "<combat_noise_warning>",
+            "<fire_in_the_hole>", "<hello>", "<swear!>",
+            "<lets_talk>", "<freaking>", "<acknowledged>",
+            "<wait>", "<keep_up>", "<im_leaving_you>",
+            "<done_conversation_section>", "<end_talking_bye>",
+            "<end_talking_later>", "<end_talking_leave>",
         }
     };
 
@@ -255,7 +252,7 @@ static constexpr char setup[height][width + 1] = {
     "    #####        ",
 };
 
-static void check_npc_movement( const tripoint &origin )
+static void check_npc_movement( const tripoint_bub_ms &origin )
 {
     INFO( "Should not crash from infinite recursion" );
     creature_tracker &creatures = get_creature_tracker();
@@ -268,7 +265,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'M':
                 case 'B':
                 case 'C':
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     REQUIRE( guy != nullptr );
                     guy->move();
@@ -281,7 +278,7 @@ static void check_npc_movement( const tripoint &origin )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'A' ) {
-                tripoint p = origin + point( x, y );
+                tripoint_bub_ms p = origin + point( x, y );
                 npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( !guy->has_effect( effect_bouldering ) );
@@ -293,7 +290,7 @@ static void check_npc_movement( const tripoint &origin )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'R' ) {
-                tripoint p = origin + point( x, y );
+                tripoint_bub_ms p = origin + point( x, y );
                 npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( guy->has_effect( effect_bouldering ) );
@@ -308,7 +305,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'W':
                 case 'M':
                     CAPTURE( setup[y][x] );
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy != nullptr );
                     break;
@@ -322,7 +319,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'B':
                 case 'C':
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy == nullptr );
                     break;
@@ -536,11 +533,11 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "NPCs escape dangerous terrain by pushing other NPCs" ) {
-        check_npc_movement( player_character.pos() );
+        check_npc_movement( player_character.pos_bub() );
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        const tripoint origin = player_character.pos();
+        const tripoint_bub_ms origin = player_character.pos_bub();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {

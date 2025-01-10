@@ -146,6 +146,8 @@ static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_full( "f_kiln_full" );
 static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
 static const furn_str_id furn_f_kiln_metal_full( "f_kiln_metal_full" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_kiln_portable_full( "f_kiln_portable_full" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
@@ -365,7 +367,7 @@ void iexamine::cvdmachine( Character &you, const tripoint_bub_ms & )
     }
 
     // Require materials proportional to selected item volume
-    auto qty = loc->volume() / units::legacy_volume_factor;
+    auto qty = loc->volume() / 250_ml;
     qty = std::max( 1, qty );
     requirement_data reqs = *requirement_data_cvd_diamond * qty;
 
@@ -2954,6 +2956,8 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
         next_kiln_type = furn_f_kiln_full;
     } else if( cur_kiln_type == furn_f_kiln_metal_empty ) {
         next_kiln_type = furn_f_kiln_metal_full;
+    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
+        next_kiln_type = furn_f_kiln_portable_full;
     } else {
         debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
                   cur_kiln_type.id().c_str() );
@@ -2994,6 +2998,8 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
     if( cur_kiln_type == furn_f_kiln_metal_empty ) {
         loss = 20 - 2 * skill;
+    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
+        loss = 25 - 2 * skill;
     } else {
         loss = 60 - 2 * skill;
     }
@@ -3043,10 +3049,12 @@ void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
     map &here = get_map();
     const furn_id &cur_kiln_type = here.furn( examp );
     furn_id next_kiln_type = furn_str_id::NULL_ID();
-    if( cur_kiln_type == furn_f_kiln_full ) {
-        next_kiln_type = furn_f_kiln_empty;
-    } else if( cur_kiln_type == furn_f_kiln_metal_full ) {
+    if( cur_kiln_type == furn_f_kiln_metal_full ) {
         next_kiln_type = furn_f_kiln_metal_empty;
+    } else if( cur_kiln_type == furn_f_kiln_portable_full ) {
+        next_kiln_type = furn_f_kiln_portable_empty;
+    } else if( cur_kiln_type == furn_f_kiln_full ) {
+        next_kiln_type = furn_f_kiln_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
                   cur_kiln_type.id().c_str() );
@@ -4729,7 +4737,7 @@ void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     item water = here.liquid_from( examp );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp.raw() );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
 void iexamine::finite_water_source( Character &, const tripoint_bub_ms &examp )
