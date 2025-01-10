@@ -3578,7 +3578,8 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
     itype_id fertilizer;
 
     auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && (you->has_charges( fertilizer, 1 ) || you->has_amount(fertilizer, 1));
+        return !fertilizer.is_empty() && ( you->has_charges( fertilizer, 1 ) ||
+                                           you->has_amount( fertilizer, 1 ) );
     };
 
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
@@ -3597,7 +3598,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         }
     };
 
-    
+
     const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();
         // TODO: fix point types
