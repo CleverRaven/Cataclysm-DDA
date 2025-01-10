@@ -1856,7 +1856,7 @@ static void cast_spell( bool recast_spell = false )
         }
     }
 
-    for( std::string failure_message : failure_messages ) {
+    for( const std::string failure_message : failure_messages ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  failure_message );
     }

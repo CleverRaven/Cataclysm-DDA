@@ -33,7 +33,6 @@ void magic_type::load_magic_type( const JsonObject &jo, const std::string &src )
 void magic_type::load( const JsonObject &jo, const std::string_view src )
 {
     src_mod = mod_id( src );
-    mod_id src_mod;
 
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
@@ -60,6 +59,7 @@ void magic_type::serialize( JsonOut &json ) const
 
     json.member( "type", "magic_type" );
     json.member( "id", id );
+    json.member( "src_mod", src_mod );
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
     json.member( "energy_source", energy_source );

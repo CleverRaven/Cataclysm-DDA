@@ -634,6 +634,7 @@ void spell_type::serialize( JsonOut &json ) const
                  static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
+    json.member( "magic_type", magic_type );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
