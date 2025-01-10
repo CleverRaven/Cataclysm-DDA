@@ -83,7 +83,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "khuunaofaai_ammo_firework": 10 },
+        "ammo_restriction": { "khuunaofaai_payload": 10 },
         "watertight": true
       }
     ],
