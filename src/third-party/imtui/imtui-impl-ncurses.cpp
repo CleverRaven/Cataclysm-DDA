@@ -153,114 +153,112 @@ struct ImGuiKeyTranslation {
 // or if it is a character compatible with `ImGuiIO::addInputCharacter()`
 static ImGuiKeyTranslation ncurses_special_key_to_imgui_key( int key )
 {
-#define NK ImGuiKeyTranslation
     switch( key ) {
         case KEY_DOWN:
-            return NK( ImGuiKey_DownArrow );
+            return ImGuiKeyTranslation( ImGuiKey_DownArrow );
         case KEY_UP:
-            return NK( ImGuiKey_UpArrow );
+            return ImGuiKeyTranslation( ImGuiKey_UpArrow );
         case KEY_LEFT:
-            return NK( ImGuiKey_LeftArrow );
+            return ImGuiKeyTranslation( ImGuiKey_LeftArrow );
         case KEY_RIGHT:
-            return NK( ImGuiKey_RightArrow );
+            return ImGuiKeyTranslation( ImGuiKey_RightArrow );
         case KEY_HOME:
-            return NK( ImGuiKey_Home );
+            return ImGuiKeyTranslation( ImGuiKey_Home );
         case KEY_BACKSPACE:
-            return NK( ImGuiKey_Backspace );
+            return ImGuiKeyTranslation( ImGuiKey_Backspace );
         case KEY_F( 1 ):
-            return NK( ImGuiKey_F1 );
+            return ImGuiKeyTranslation( ImGuiKey_F1 );
         case KEY_F( 2 ):
-            return NK( ImGuiKey_F2 );
+            return ImGuiKeyTranslation( ImGuiKey_F2 );
         case KEY_F( 3 ):
-            return NK( ImGuiKey_F3 );
+            return ImGuiKeyTranslation( ImGuiKey_F3 );
         case KEY_F( 4 ):
-            return NK( ImGuiKey_F4 );
+            return ImGuiKeyTranslation( ImGuiKey_F4 );
         case KEY_F( 5 ):
-            return NK( ImGuiKey_F5 );
+            return ImGuiKeyTranslation( ImGuiKey_F5 );
         case KEY_F( 6 ):
-            return NK( ImGuiKey_F6 );
+            return ImGuiKeyTranslation( ImGuiKey_F6 );
         case KEY_F( 7 ):
-            return NK( ImGuiKey_F7 );
+            return ImGuiKeyTranslation( ImGuiKey_F7 );
         case KEY_F( 8 ):
-            return NK( ImGuiKey_F8 );
+            return ImGuiKeyTranslation( ImGuiKey_F8 );
         case KEY_F( 9 ):
-            return NK( ImGuiKey_F9 );
+            return ImGuiKeyTranslation( ImGuiKey_F9 );
         case KEY_F( 10 ):
-            return NK( ImGuiKey_F10 );
+            return ImGuiKeyTranslation( ImGuiKey_F10 );
         case KEY_F( 11 ):
-            return NK( ImGuiKey_F11 );
+            return ImGuiKeyTranslation( ImGuiKey_F11 );
         case KEY_F( 12 ):
-            return NK( ImGuiKey_F12 );
+            return ImGuiKeyTranslation( ImGuiKey_F12 );
         case KEY_F( 13 ):
-            return NK( ImGuiKey_F13 );
+            return ImGuiKeyTranslation( ImGuiKey_F13 );
         case KEY_F( 14 ):
-            return NK( ImGuiKey_F14 );
+            return ImGuiKeyTranslation( ImGuiKey_F14 );
         case KEY_F( 15 ):
-            return NK( ImGuiKey_F15 );
+            return ImGuiKeyTranslation( ImGuiKey_F15 );
         case KEY_F( 16 ):
-            return NK( ImGuiKey_F16 );
+            return ImGuiKeyTranslation( ImGuiKey_F16 );
         case KEY_F( 17 ):
-            return NK( ImGuiKey_F17 );
+            return ImGuiKeyTranslation( ImGuiKey_F17 );
         case KEY_F( 18 ):
-            return NK( ImGuiKey_F18 );
+            return ImGuiKeyTranslation( ImGuiKey_F18 );
         case KEY_F( 19 ):
-            return NK( ImGuiKey_F19 );
+            return ImGuiKeyTranslation( ImGuiKey_F19 );
         case KEY_F( 20 ):
-            return NK( ImGuiKey_F20 );
+            return ImGuiKeyTranslation( ImGuiKey_F20 );
         case KEY_F( 21 ):
-            return NK( ImGuiKey_F21 );
+            return ImGuiKeyTranslation( ImGuiKey_F21 );
         case KEY_F( 22 ):
-            return NK( ImGuiKey_F22 );
+            return ImGuiKeyTranslation( ImGuiKey_F22 );
         case KEY_F( 23 ):
-            return NK( ImGuiKey_F23 );
+            return ImGuiKeyTranslation( ImGuiKey_F23 );
         case KEY_F( 24 ):
-            return NK( ImGuiKey_F24 );
+            return ImGuiKeyTranslation( ImGuiKey_F24 );
         case KEY_DC:
-            return NK( ImGuiKey_Delete );
+            return ImGuiKeyTranslation( ImGuiKey_Delete );
         case KEY_IC:
-            return NK( ImGuiKey_Insert );
+            return ImGuiKeyTranslation( ImGuiKey_Insert );
         case KEY_NPAGE:
-            return NK( ImGuiKey_PageUp );
+            return ImGuiKeyTranslation( ImGuiKey_PageUp );
         case KEY_PPAGE:
-            return NK( ImGuiKey_PageDown );
+            return ImGuiKeyTranslation( ImGuiKey_PageDown );
         case KEY_ENTER:
-            return NK( ImGuiKey_Enter );
+            return ImGuiKeyTranslation( ImGuiKey_Enter );
         case KEY_PRINT:
-            return NK( ImGuiKey_PrintScreen );
+            return ImGuiKeyTranslation( ImGuiKey_PrintScreen );
         case KEY_A1:
-            return NK( ImGuiKey_Keypad7 );
+            return ImGuiKeyTranslation( ImGuiKey_Keypad7 );
         case KEY_A3:
-            return NK( ImGuiKey_Keypad9 );
+            return ImGuiKeyTranslation( ImGuiKey_Keypad9 );
         case KEY_B2:
-            return NK( ImGuiKey_Keypad5 );
+            return ImGuiKeyTranslation( ImGuiKey_Keypad5 );
         case KEY_C1:
-            return NK( ImGuiKey_Keypad1 );
+            return ImGuiKeyTranslation( ImGuiKey_Keypad1 );
         case KEY_C3:
-            return NK( ImGuiKey_Keypad3 );
+            return ImGuiKeyTranslation( ImGuiKey_Keypad3 );
         case KEY_END:
-            return NK( ImGuiKey_End );
+            return ImGuiKeyTranslation( ImGuiKey_End );
         case KEY_SDC:
-            return NK( ImGuiKey_Delete, true );
+            return ImGuiKeyTranslation( ImGuiKey_Delete, true );
         case KEY_SEND:
-            return NK( ImGuiKey_End, true );
+            return ImGuiKeyTranslation( ImGuiKey_End, true );
         case KEY_SHOME:
-            return NK( ImGuiKey_Home, true );
+            return ImGuiKeyTranslation( ImGuiKey_Home, true );
         case KEY_SIC:
-            return NK( ImGuiKey_Insert, true );
+            return ImGuiKeyTranslation( ImGuiKey_Insert, true );
         case KEY_SPRINT:
-            return NK( ImGuiKey_PrintScreen, true );
+            return ImGuiKeyTranslation( ImGuiKey_PrintScreen, true );
         case KEY_SLEFT:
-            return NK( ImGuiKey_LeftArrow, true );
+            return ImGuiKeyTranslation( ImGuiKey_LeftArrow, true );
         case KEY_SRIGHT:
-            return NK( ImGuiKey_RightArrow, true );
+            return ImGuiKeyTranslation( ImGuiKey_RightArrow, true );
         case KEY_SR:
-            return NK( ImGuiKey_UpArrow, true );
+            return ImGuiKeyTranslation( ImGuiKey_UpArrow, true );
         case KEY_SF:
-            return NK( ImGuiKey_DownArrow, true );
+            return ImGuiKeyTranslation( ImGuiKey_DownArrow, true );
         default:
-            return NK( ImGuiKey_None );
+            return ImGuiKeyTranslation( ImGuiKey_None );
     }
-#undef NK
 }
 
 
