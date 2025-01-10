@@ -2528,7 +2528,7 @@ Teleport player to `new_map`
   "effect": [
     {
       "u_location_variable": { "context_val": "escape_pod_crate" },
-      "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+      "target_params": { "om_terrain": "crashing_ship_4", "z": -10 },
       "terrain": "t_escape_pod_floor",
       "target_max_radius": 24
     },
@@ -2590,7 +2590,7 @@ Find overmap tile using `target_params`, store coordinates in `loc`, and reveal 
   "effect": [
     {
       "u_location_variable": { "context_val": "loc" },
-      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+      "target_params": { "om_terrain": "house_02", "z": 0 }
     },
     { "reveal_map": { "context_val": "loc" }, "radius": 20 }
   ]
@@ -2630,7 +2630,7 @@ Reveal the route between you and `house_02`
   "effect": [
     {
       "u_location_variable": { "context_val": "loc" },
-      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+      "target_params": { "om_terrain": "house_02", "z": 0 }
     },
     {
         "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
@@ -3396,7 +3396,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 ```json
 {
   "u_location_variable": { "global_val": "new_map" },
-  "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
+  "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0 },
   "terrain": "t_metal_floor",
   "target_max_radius": 30,
   "min_radius": 0,
@@ -3411,8 +3411,8 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
   "target_params": {
     "om_terrain": "house",
     "om_terrain_match_type": "CONTAINS",
-    "search_range": 1200,
     "min_distance": 200,
+    "search_range": 1200,
     "random": true
   }
 }

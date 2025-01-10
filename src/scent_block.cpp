@@ -1,9 +1,9 @@
 #include "coordinates.h"
 #include "scent_block.h"
 
-scent_block::scent_block( const tripoint &sub, scent_map &scents )
+scent_block::scent_block( const tripoint_bub_sm &sub, scent_map &scents )
 // NOLINTNEXTLINE(cata-use-named-point-constants)
-    : origin( coords::project_to<coords::ms>( tripoint_bub_sm( sub ) ).raw() + point( -1, -1 ) )
+    : origin( coords::project_to<coords::ms>( sub ) + point( -1, -1 ) )
     , scents( scents )
     , modification_count( 0 )
 {
@@ -25,14 +25,14 @@ void scent_block::commit_modifications()
                 case data_mode::NONE:
                     break;
                 case data_mode::SET: {
-                    tripoint p = origin + tripoint( x, y, 0 );
+                    tripoint_bub_ms p{ origin + tripoint( x, y, 0 ) };
                     if( scents.inbounds( p ) ) {
                         scents.set_unsafe( p, assignment[x][y].intensity );
                     }
                     break;
                 }
                 case data_mode::MAX: {
-                    tripoint p = origin + tripoint( x, y, 0 );
+                    tripoint_bub_ms p{ origin + tripoint( x, y, 0 ) };
                     if( scents.inbounds( p ) ) {
                         scents.set_unsafe( p, std::max( assignment[x][y].intensity, scents.get_unsafe( p ) ) );
                     }
@@ -46,16 +46,17 @@ void scent_block::commit_modifications()
 // We should be working entirely within the range, so don't range check here
 void scent_block::apply_gas( const tripoint_bub_ms &p, const int nintensity )
 {
-    const point ndx = index( p.raw() );
-    assignment[ndx.x][ndx.y].mode = data_mode::SET;
-    assignment[ndx.x][ndx.y].intensity = std::max( 0, assignment[ndx.x][ndx.y].intensity - nintensity );
+    const point_rel_ms ndx = index( p );
+    assignment[ndx.x()][ndx.y()].mode = data_mode::SET;
+    assignment[ndx.x()][ndx.y()].intensity = std::max( 0,
+            assignment[ndx.x()][ndx.y()].intensity - nintensity );
     ++modification_count;
 }
 
-void scent_block::apply_slime( const tripoint &p, int intensity )
+void scent_block::apply_slime( const tripoint_bub_ms &p, int intensity )
 {
-    const point ndx = index( p );
-    datum &dat = assignment[ndx.x][ndx.y];
+    const point_rel_ms ndx = index( p );
+    datum &dat = assignment[ndx.x()][ndx.y()];
     switch( dat.mode ) {
         case data_mode::NONE: {
             // we don't know what the current intensity is, so we must do a max operation

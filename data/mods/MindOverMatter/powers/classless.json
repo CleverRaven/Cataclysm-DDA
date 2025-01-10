@@ -22,6 +22,7 @@
     "type": "SPELL",
     "name": "[Ψ]Stop Concentrating (Individual)",
     "description": "End your concentration on a specific power.\n\nChanneling this power <color_green>always succeeds</color>.",
+    "message": "You stop concentrating on one of your powers.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "skill": "metaphysics",

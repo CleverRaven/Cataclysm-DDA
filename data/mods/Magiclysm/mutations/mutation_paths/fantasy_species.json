@@ -168,7 +168,6 @@
     "description": "Dwarves are smaller than humans, the better to deal with confined spaces underground, but as solid as the mountains (+2 STR, -1 DEX).",
     "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ]
@@ -184,7 +183,6 @@
     "starting_trait": false,
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
     "flags": [ "CRAFT_IN_DARKNESS" ]
   },
@@ -197,8 +195,7 @@
     "starting_trait": false,
     "purifiable": false,
     "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
-    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
+    "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ]
   },
   {
     "type": "mutation",
@@ -338,7 +335,6 @@
     "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
     "types": [ "EYES" ],
     "category": [ "SPECIES_ELF" ],
-    "threshreq": [ "THRESH_SPECIES_ELF" ],
     "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
   },
   {
@@ -350,7 +346,6 @@
     "description": "Your delicate pointed ears allow you to hear all the sounds of the world.",
     "types": [ "HEARING" ],
     "category": [ "SPECIES_ELF" ],
-    "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SAFECRACK_NO_TOOL" ],
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 2 } ] } ]
   },
@@ -363,7 +358,6 @@
     "purifiable": false,
     "types": [ "SLEEP" ],
     "category": [ "SPECIES_ELF" ],
-    "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SEESLEEP" ],
     "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 1 }, { "value": "SLEEPINESS", "multiply": -0.166667 } ] } ]
   },
@@ -400,12 +394,6 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "ELFAEYES",
-    "copy-from": "ELFAEYES",
-    "extend": { "category": [ "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -503,7 +491,6 @@
     "ugliness": 5,
     "description": "Goblins are much smaller than humans, often no more than half the height.  You have a harder time carrying things and can't eat as much, but you're better at dodging and make very little noise when you move.",
     "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
     "anger_relations": [ [ "WARG", -90 ] ],
     "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
@@ -533,7 +520,6 @@
     "valid": false,
     "flags": [ "MYOPIC_IN_LIGHT" ],
     "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
       {
         "condition": { "not": "is_day" },
@@ -608,7 +594,6 @@
     "ugliness": 0,
     "description": "Lizardfolk are taller and stronger than humans but not much thicker and are surprisingly fast for their size (+1 STR, +1 DEX).",
     "category": [ "SPECIES_LIZARDFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "flags": [ "LARGE" ],
     "enchantments": [
       {
@@ -648,7 +633,6 @@
     "name": { "str": "Ectothermia" },
     "points": -3,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
-    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "SPECIES_LIZARDFOLK" ],
@@ -669,7 +653,6 @@
     "points": 2,
     "purifiable": false,
     "category": [ "SPECIES_LIZARDFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "types": [ "PREDATION" ],
     "flags": [ "PRED2" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1.5 } ] } ]
@@ -715,7 +698,6 @@
     "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
-    "category": [ "SPECIES_LIZARDFOLK" ],
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
     "integrated_armor": [ "integrated_lizardfolk_teeth" ]
@@ -744,8 +726,7 @@
     "ugliness": 1,
     "description": "Ravenfolk are about the same size as humans, though their feathers and wings obviously set them apart.",
     "//": "Bird mutation path means this mutation is just to prevent multiple species and doesn't need any modifiers.",
-    "category": [ "SPECIES_RAVENFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "category": [ "SPECIES_RAVENFOLK" ]
   },
   {
     "type": "mutation",
@@ -770,7 +751,6 @@
     "mixed_effect": true,
     "description": "You have a pair of large raven wings projecting from your shoulderblades.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "category": [ "SPECIES_RAVENFOLK" ],
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
     "types": [ "WINGS" ],
     "strict_threshreq": true,
     "restricts_gear": [ "torso" ],
@@ -792,7 +772,6 @@
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
     "category": [ "SPECIES_RAVENFOLK" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "restricts_gear": [ "mouth" ],

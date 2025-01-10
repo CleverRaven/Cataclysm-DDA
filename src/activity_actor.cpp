@@ -3827,12 +3827,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
-                // TODO: Remove when craft_command is typed
-                std::optional<tripoint> tmp;
-                if( location.has_value() ) {
-                    tmp = location.value().raw();
-                }
-                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, tmp );
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
         }
         item craft_copy = craft;
@@ -8059,14 +8054,14 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
             }
             while( corpse.damage() < corpse.max_damage() ) {
                 // Increase damage as we keep smashing ensuring we eventually smash the target.
-                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
                     corpse.inc_damage();
                     if( corpse.damage() == corpse.max_damage() ) {
                         num_corpses++;
                     }
                 }
 
-                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
                     // Splatter some blood around
                     // Splatter a bit more randomly, so that it looks cooler
                     const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );

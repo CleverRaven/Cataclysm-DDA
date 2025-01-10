@@ -193,7 +193,7 @@ static int RAS_time( const Character &p, const item_location &loc );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
@@ -1059,21 +1059,14 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         bool first = true;
         bool headshot = false;
         bool multishot = proj.count > 1;
-        std::map< Creature *, std::pair < int, int >> targets_hit;
+        dealt_projectile_attack shot;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
             if( !first && !proj.multi_projectile_effects ) {
                 proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
             }
-            dealt_projectile_attack shot = projectile_attack( proj, pos_bub(), aim,
-                                           dispersion, this, in_veh, wp_attack, first );
+            projectile_attack( shot, proj, pos_bub(), aim,
+                               dispersion, this, in_veh, wp_attack, first );
             first = false;
-            if( shot.hit_critter ) {
-                int damage = shot.dealt_dam.total_damage();
-                if( damage > 0 ) {
-                    targets_hit[ shot.hit_critter ].second += damage;
-                }
-                targets_hit[ shot.hit_critter ].first++;
-            }
             if( shot.headshot ) {
                 headshot = true;
             }
@@ -1083,10 +1076,10 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                 break;
             }
         }
-        if( !targets_hit.empty() ) {
+        if( !shot.targets_hit.empty() ) {
             hits++;
         }
-        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
+        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 m->type->id );
@@ -1154,7 +1147,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         }
 
         if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+            cycle_action( gun, current_ammo, pos_bub() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -1557,8 +1550,9 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
     wp_attack.is_thrown = true;
-    dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this, nullptr, wp_attack );
+    dealt_projectile_attack dealt_attack;
+    projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
+                       this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
 
@@ -2253,13 +2247,13 @@ int RAS_time( const Character &p, const item_location &loc )
     return time;
 }
 
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
+    std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint_bub_ms & e ) {
         return !here.passable( e );
     } ), tiles.end() );
     tripoint_bub_ms eject{ tiles.empty() ? pos : random_entry( tiles ) };

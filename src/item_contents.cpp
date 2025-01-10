@@ -1218,7 +1218,7 @@ void item_contents::on_pickup( Character &guy, item *avoid )
     }
 }
 
-bool item_contents::spill_contents( const tripoint &pos )
+bool item_contents::spill_contents( const tripoint_bub_ms &pos )
 {
     bool spilled = false;
     for( item_pocket &pocket : contents ) {
@@ -1229,7 +1229,7 @@ bool item_contents::spill_contents( const tripoint &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint &pos, const item_location &loc )
+void item_contents::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
         pocket.overflow( pos, loc );
@@ -1244,11 +1244,6 @@ void item_contents::heat_up()
         }
         pocket.heat_up();
     }
-}
-
-int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
-{
-    return item_contents::ammo_consume( qty, tripoint_bub_ms( pos ), fuel_efficiency );
 }
 
 int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency )
@@ -2507,7 +2502,8 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
+void item_contents::process( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                             float insulation,
                              temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
@@ -2518,7 +2514,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint &pos,
     }
 }
 
-void item_contents::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+void item_contents::leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                          item_pocket *pocke )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {

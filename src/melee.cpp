@@ -299,7 +299,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = *shield;
 
-    shield->get_contents().spill_contents( pos() );
+    shield->get_contents().spill_contents( pos_bub() );
 
     shield.remove_item();
 

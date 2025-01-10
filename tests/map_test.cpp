@@ -265,7 +265,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     clear_map();
-    get_avatar().setpos( tripoint::zero );
+    get_avatar().setpos( tripoint_bub_ms::zero );
     tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
     restore_on_out_of_scope restore_temp(

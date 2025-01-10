@@ -433,6 +433,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_char_kiln",
+    "name": "Place Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
   },

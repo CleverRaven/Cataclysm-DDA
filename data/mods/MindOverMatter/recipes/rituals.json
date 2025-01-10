@@ -14,7 +14,8 @@
     "tools": [ [ [ "telepathic_focusing_tool", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": true },
-      { "proficiency": "prof_psionic_ritual", "required": true }
+      { "proficiency": "prof_psionic_ritual", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false }
     ],
     "flags": [ "SECRET", "BLIND_EASY" ],
     "result_eocs": [ "EOC_TELEPATHIC_MENTAL_ENGINEERING_SELECTOR" ]
@@ -33,7 +34,8 @@
     "book_learn": [ [ "phavian_psionic_martial_power_book", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": true },
-      { "proficiency": "prof_psionic_ritual", "required": false }
+      { "proficiency": "prof_psionic_ritual", "required": false },
+      { "proficiency": "prof_psionic_containment", "required": false }
     ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
