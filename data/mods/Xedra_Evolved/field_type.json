@@ -159,6 +159,39 @@
     "phase": "gas"
   },
   {
+    "type": "field_type",
+    "id": "fd_ginseng_scream",
+    "immune_mtypes": [ "mon_ginseng_protector" ],
+    "priority": 2,
+    "intensity_levels": [
+      {
+        "name": "ginseng_scream",
+        "sym": "^",
+        "color": "brown",
+        "dangerous": true,
+        "move_cost": 120,
+        "effects": [
+          {
+            "effect_id": "warbled",
+            "min_duration": "1 minutes",
+            "max_duration": "72 hours",
+            "intensity": 1,
+            "body_part": "head",
+            "immune_inside_vehicle": true,
+            "message": "Your vision shakes as the air warbles!",
+            "message_npc": "<npcname> is sonically battered!",
+            "message_type": "bad",
+            "immunity_data": { "flags": [ "DEAF" ] }
+          }
+        ]
+      }
+    ],
+    "half_life": "3 minutes",
+    "percent_spread": 90,
+    "phase": "gas",
+    "display_items": true
+  },
+  {
     "id": "fd_pollen_arvore_weaken",
     "type": "field_type",
     "intensity_levels": [

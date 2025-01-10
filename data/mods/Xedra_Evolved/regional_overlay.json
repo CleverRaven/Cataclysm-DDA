@@ -26,12 +26,19 @@
           "mx_prison_bus": 150
         }
       },
-      "forest": { "chance": 40, "extras": { "mx_goblin_fruits": 25, "mx_ring_of_mushrooms": 15 } },
-      "forest_thick": { "chance": 30, "extras": { "mx_goblin_fruits": 30, "mx_ring_of_mushrooms": 20 } },
-      "forest_water": { "chance": 20, "extras": { "mx_goblin_fruits": 15 } },
+      "forest": {
+        "chance": 40,
+        "extras": { "mx_goblin_fruits": 25, "mx_ring_of_mushrooms": 15, "mx_elder_ginseng": 1, "mx_goblin_spider": 7 }
+      },
+      "forest_thick": {
+        "chance": 30,
+        "extras": { "mx_goblin_fruits": 30, "mx_ring_of_mushrooms": 20, "mx_elder_ginseng": 5, "mx_goblin_spider": 7 }
+      },
+      "forest_water": { "chance": 20, "extras": { "mx_goblin_fruits": 15, "mx_goblin_spider": 7 } },
       "field": {
         "chance": 75,
         "extras": {
+          "mx_golden_monolith": 5,
           "mx_deathworm_track": 1,
           "mx_sevenoclock_track": 1,
           "mx_dreamwound_shadow": 5,

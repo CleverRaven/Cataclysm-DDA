@@ -44,6 +44,28 @@
   },
   {
     "type": "effect_type",
+    "id": "ginseng_scream",
+    "name": [ "ginseng scream" ],
+    "desc": [ "The sound pushes through you!" ],
+    "apply_message": "The sounds is pummeling your mind and body",
+    "rating": "bad",
+    "max_duration": "30 s",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "base_mods": {
+      "hurt_min": [ 4, 2 ],
+      "hurt_chance": [ 2, 6 ],
+      "hurt_chance_bot": [ 10, 5 ],
+      "pain_min": [ 10, 5 ],
+      "pain_chance": [ 1, 5 ],
+      "pain_chance_bot": [ 10, 5 ]
+    },
+    "resist_traits": [ "PARTIAL_DEAF" ],
+    "scaling_mods": { "hurt_chance": [ 1 ], "pain_chance": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "vamp_blood_weave",
     "removes_effects": [ "infected", "bite", "bleed" ],
     "rating": "good",

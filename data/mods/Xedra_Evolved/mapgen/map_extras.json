@@ -75,6 +75,55 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "elder_ginseng_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_region_groundcover_forest" },
+      "furniture": { "x": "f_elder_ginseng" },
+      "place_monster": [ { "monster": "mon_ginseng_protector", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.3 } ]
+    }
+  },
+  {
+    "id": "mx_elder_ginseng",
+    "type": "map_extra",
+    "name": { "str": "forest" },
+    "description": "This section of forest seems older than the rest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "elder_ginseng_nest" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "F",
+    "color": "green",
+    "autonote": true
+  },
+  {
     "id": "mx_spider_shimmering",
     "type": "map_extra",
     "name": { "str": "Spiders" },
@@ -150,7 +199,7 @@
     "description": "A copse of trees.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_trees_map_sylph" },
     "min_max_zlevel": [ 0, 0 ],
-    "sym": "E",
+    "sym": "F",
     "color": "green",
     "autonote": true
   },

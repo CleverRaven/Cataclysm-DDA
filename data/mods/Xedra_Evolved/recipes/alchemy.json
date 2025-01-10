@@ -428,6 +428,111 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "plant_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "deduction",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 5,
+    "time": "6 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "arvore_sample", 5 ] ], [ [ "xe_elder_ginseng", 1 ] ], [ [ "water", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fire_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "deduction",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 5,
+    "time": "6 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "salamander_sample", 5 ] ], [ [ "xe_elder_ginseng", 1 ] ], [ [ "water", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "water_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "deduction",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 5,
+    "time": "6 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "undine_sample", 5 ] ], [ [ "xe_elder_ginseng", 1 ] ], [ [ "water", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "air_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "deduction",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 5,
+    "time": "6 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "sylph_sample", 5 ] ], [ [ "xe_elder_ginseng", 1 ] ], [ [ "water", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "earth_imbuement",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "deduction",
+    "skills_required": [ "chemistry", 4 ],
+    "difficulty": 5,
+    "time": "6 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "chem_sulphur", 1 ] ], [ [ "ierde_sample", 5 ] ], [ [ "xe_elder_ginseng", 1 ] ], [ [ "water", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "doll_imbuement",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",
