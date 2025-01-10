@@ -30,9 +30,19 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_arrow_metal( "arrow_metal" );
+static const itype_id itype_bolt_steel( "bolt_steel" );
+static const itype_id itype_compbow( "compbow" );
+static const itype_id itype_compositecrossbow( "compositecrossbow" );
+static const itype_id itype_hand_crossbow( "hand_crossbow" );
+static const itype_id itype_recurbow( "recurbow" );
+static const itype_id itype_rep_crossbow( "rep_crossbow" );
+static const itype_id itype_selfbow( "selfbow" );
+static const itype_id itype_shortbow( "shortbow" );
+
 // In short, a bow should never destroy a wall, pretty simple.
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
-        dealt_projectile_attack &attack, const std::string &weapon_type )
+        dealt_projectile_attack &attack, const itype_id &weapon_type )
 {
     static const tripoint_bub_ms target_point{ 5, 5, 0 };
     map &here = get_map();
@@ -42,7 +52,7 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
         CAPTURE( projectile_copy.impact.total_damage() );
         here.shoot( target_point, projectile_copy, false );
         CAPTURE( target_type );
-        CAPTURE( weapon_type );
+        CAPTURE( weapon_type.c_str() );
         CAPTURE( ter_id( target_type ).obj().name() );
         CAPTURE( here.ter( target_point ).obj().name() );
         if( smashable ) {
@@ -54,7 +64,7 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
 }
 
 static void test_projectile_attack( const std::string &target_type, bool killable,
-                                    dealt_projectile_attack &attack, const std::string &weapon_type )
+                                    dealt_projectile_attack &attack, const itype_id &weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
         monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
@@ -65,16 +75,16 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
         CAPTURE( target.get_hp() );
         CAPTURE( target.get_hp_max() );
         CAPTURE( attack.proj.impact.total_damage() );
-        CAPTURE( weapon_type );
+        CAPTURE( weapon_type.c_str() );
         CHECK( target.is_dead() == killable );
     }
 }
 
-static void test_archery_balance( const std::string &weapon_type, const std::string &ammo_type,
+static void test_archery_balance( const itype_id &weapon_type, const itype_id &ammo_type,
                                   const std::string &killable, const std::string &unkillable )
 {
     item weapon( weapon_type );
-    weapon.ammo_set( itype_id( ammo_type ), 1 );
+    weapon.ammo_set( ammo_type, 1 );
 
     projectile test_projectile;
     test_projectile.speed = 1000;
@@ -103,16 +113,16 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     // undodgable bolt fired with a guaranteed crit 10 times
 
     // Selfbow can't kill a turkey
-    test_archery_balance( "selfbow", "arrow_metal", "", "mon_turkey" );
-    test_archery_balance( "rep_crossbow", "bolt_steel", "", "mon_turkey" );
+    test_archery_balance( itype_selfbow, itype_arrow_metal, "", "mon_turkey" );
+    test_archery_balance( itype_rep_crossbow, itype_bolt_steel, "", "mon_turkey" );
     // Shortbow can kill turkeys, but not deer
-    test_archery_balance( "shortbow", "arrow_metal", "mon_turkey", "mon_deer" );
-    test_archery_balance( "hand_crossbow", "bolt_steel", "mon_turkey", "mon_deer" );
+    test_archery_balance( itype_shortbow, itype_arrow_metal, "mon_turkey", "mon_deer" );
+    test_archery_balance( itype_hand_crossbow, itype_bolt_steel, "mon_turkey", "mon_deer" );
     // Fiberglass recurve can kill deer, but not bear
-    test_archery_balance( "recurbow", "arrow_metal", "mon_deer", "mon_bear" );
-    test_archery_balance( "compositecrossbow", "bolt_steel", "mon_deer", "mon_bear" );
+    test_archery_balance( itype_recurbow, itype_arrow_metal, "mon_deer", "mon_bear" );
+    test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "mon_deer", "mon_bear" );
     // Medium setting compound bow can kill Bear
-    test_archery_balance( "compbow", "arrow_metal", "mon_bear", "" );
+    test_archery_balance( itype_compbow, itype_arrow_metal, "mon_bear", "" );
     // High setting modern compund bow can kill Moose
     // Currently disabled as it was not possible to make moose realistically tough while keeping the tests functional. Our bleeding isn't strong enough, and the tests are only hooked up to check instakills. Check the comments under PR #74554 for more detailed explanation.
     // test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );

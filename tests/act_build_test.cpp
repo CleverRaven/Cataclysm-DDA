@@ -18,6 +18,13 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 
 static const faction_id faction_free_merchants( "free_merchants" );
 
+static const itype_id itype_bow_saw( "bow_saw" );
+static const itype_id itype_e_tool( "e_tool" );
+static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_multitool( "test_multitool" );
+static const itype_id itype_wearable_atomic_light( "wearable_atomic_light" );
+
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
@@ -115,12 +122,12 @@ void run_test_case( Character &u )
     map &here = get_map();
     g->reset_light_level();
 
-    u.wear_item( item( "test_backpack" ), false, false );
-    u.wear_item( item( "wearable_atomic_light" ), false, true );
-    u.i_add( item( "test_multitool" ) );
-    u.i_add( item( "hammer" ) );
-    u.i_add( item( "bow_saw" ) );
-    u.i_add( item( "e_tool" ) );
+    u.wear_item( item( itype_test_backpack ), false, false );
+    u.wear_item( item( itype_wearable_atomic_light ), false, true );
+    u.i_add( item( itype_test_multitool ) );
+    u.i_add( item( itype_hammer ) );
+    u.i_add( item( itype_bow_saw ) );
+    u.i_add( item( itype_e_tool ) );
 
     SECTION( "1-step construction activity with pre_terrain" ) {
         u.setpos( tripoint::zero );

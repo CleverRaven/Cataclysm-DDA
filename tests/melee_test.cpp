@@ -20,6 +20,13 @@ static const damage_type_id damage_test_fire( "test_fire" );
 
 static const efftype_id effect_sleep( "sleep" );
 
+static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_katana( "katana" );
+static const itype_id itype_test_fire_sword( "test_fire_sword" );
+static const itype_id itype_test_zentai( "test_zentai" );
+static const itype_id itype_test_zentai_immune_test_fire( "test_zentai_immune_test_fire" );
+static const itype_id itype_test_zentai_resist_test_fire( "test_zentai_resist_test_fire" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -102,7 +109,7 @@ TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 
     SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
-        dude.set_wielded_item( item( "2x4" ) );
+        dude.set_wielded_item( item( itype_2x4 ) );
         const float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.8f, 0.05f );
@@ -110,7 +117,7 @@ TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 
     SECTION( "10/10/10/10, 8 all skills, katana" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        dude.set_wielded_item( item( "katana" ) );
+        dude.set_wielded_item( item( itype_katana ) );
         const float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.975f, 0.025f );
@@ -131,7 +138,7 @@ TEST_CASE( "Character_attacking_a_manhack", "[.melee]" )
 
     SECTION( "8/8/8/8, 3 all skills, plank" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 3, 8, 8, 8, 8 );
-        dude.set_wielded_item( item( "2x4" ) );
+        dude.set_wielded_item( item( itype_2x4 ) );
         const float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.4f, 0.05f );
@@ -139,7 +146,7 @@ TEST_CASE( "Character_attacking_a_manhack", "[.melee]" )
 
     SECTION( "10/10/10/10, 8 all skills, katana" ) {
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        dude.set_wielded_item( item( "katana" ) );
+        dude.set_wielded_item( item( itype_katana ) );
         const float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
         check_near( prob, 0.7f, 0.05f );
@@ -336,7 +343,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         REQUIRE( mon.get_hp() == mon.get_hp_max() );
         REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
         REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
-        dude.set_wielded_item( item( "test_fire_sword" ) );
+        dude.set_wielded_item( item( itype_test_fire_sword ) );
         dude.melee_attack( mon, false );
         if( mon.get_hp() < mon.get_hp_max() ) {
             total_hits++;
@@ -363,7 +370,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     REQUIRE( mon.get_hp() == mon.get_hp_max() );
     REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
     REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
-    item firesword( "test_fire_sword" );
+    item firesword( itype_test_fire_sword );
     dude.set_wielded_item( firesword );
     for( int i = 0; i < 1000; ++i ) {
         if( dude.melee_attack( mon, false ) && !dude.get_value( "test_bp" ).empty() ) {
@@ -382,7 +389,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
 }
 
-static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
+static void check_damage_from_test_fire( const std::vector<itype_id> &armor_items,
         const bodypart_id &checked_bp, int expected_resist, bool is_immune, float expected_avg_dmg )
 {
     int total_dmg = 0;
@@ -392,7 +399,7 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
         standard_npc dude2( "TestCharacter2", dude_pos + tripoint::east, {}, 0, 0, 0, 0, 0 );
-        for( const std::string &itm : armor_items ) {
+        for( const itype_id &itm : armor_items ) {
             REQUIRE( dude2.wear_item( item( itm ), false ).has_value() );
         }
         dude2.set_movement_mode( move_mode_prone ); // no dodging allowed :)
@@ -402,7 +409,7 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
         REQUIRE( dude2.get_hp() == dude2.get_hp_max() );
         REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
         REQUIRE( dude2.get_value( "general_dmg_type_test_test_fire" ).empty() );
-        dude.set_wielded_item( item( "test_fire_sword" ) );
+        dude.set_wielded_item( item( itype_test_fire_sword ) );
         dude.melee_attack( dude2, false );
         if( dude2.get_hp() < dude2.get_hp_max() ) {
             total_hits++;
@@ -441,17 +448,17 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][e
     }
 
     SECTION( "Attacking an NPC with no resistance to test_fire" ) {
-        check_damage_from_test_fire( std::vector<std::string> { "test_zentai" },
+        check_damage_from_test_fire( { itype_test_zentai },
                                      body_part_torso, 0, false, 14.84f );
     }
 
     SECTION( "Attacking an NPC that is resistant to test_fire" ) {
-        check_damage_from_test_fire( std::vector<std::string> { "test_zentai_resist_test_fire" },
+        check_damage_from_test_fire( { itype_test_zentai_resist_test_fire },
                                      body_part_torso, 2, false, 11.5f );
     }
 
     SECTION( "Attacking an NPC that is immune to test_fire" ) {
-        check_damage_from_test_fire( std::vector<std::string> { "test_zentai_immune_test_fire" },
+        check_damage_from_test_fire( { itype_test_zentai_immune_test_fire },
                                      body_part_torso, 0, true, 6.87f );
     }
 }

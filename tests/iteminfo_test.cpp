@@ -24,9 +24,27 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
+static const itype_id itype_bio_ethanol( "bio_ethanol" );
+static const itype_id itype_bio_nostril( "bio_nostril" );
+static const itype_id itype_bio_power_storage( "bio_power_storage" );
+static const itype_id itype_bio_purifier( "bio_purifier" );
+static const itype_id itype_candle( "candle" );
 static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
+static const itype_id itype_face_shield( "face_shield" );
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_icecream( "icecream" );
+static const itype_id itype_iodine( "iodine" );
 static const itype_id itype_match( "match" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_nape_protector( "nape_protector" );
+static const itype_id itype_oxy_torch( "oxy_torch" );
+static const itype_id itype_test_2x4( "test_2x4" );
+static const itype_id itype_test_9mm_ammo( "test_9mm_ammo" );
+static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
 static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
 static const itype_id itype_test_armor_chitin_copy_prop( "test_armor_chitin_copy_prop" );
@@ -36,6 +54,54 @@ static const itype_id
 itype_test_armor_chitin_copy_w_armor_prop( "test_armor_chitin_copy_w_armor_prop" );
 static const itype_id
 itype_test_armor_chitin_copy_w_armor_rel( "test_armor_chitin_copy_w_armor_rel" );
+static const itype_id itype_test_arrow_wood( "test_arrow_wood" );
+static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_balloon( "test_balloon" );
+static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
+static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
+static const itype_id itype_test_brew_wine( "test_brew_wine" );
+static const itype_id itype_test_briefcase( "test_briefcase" );
+static const itype_id itype_test_cmdline_book( "test_cmdline_book" );
+static const itype_id itype_test_compbow( "test_compbow" );
+static const itype_id itype_test_complex_tanktop( "test_complex_tanktop" );
+static const itype_id itype_test_condom( "test_condom" );
+static const itype_id itype_test_cordless_drill( "test_cordless_drill" );
+static const itype_id itype_test_crafted_suppressor( "test_crafted_suppressor" );
+static const itype_id itype_test_dragon_book( "test_dragon_book" );
+static const itype_id itype_test_ear_plugs( "test_ear_plugs" );
+static const itype_id itype_test_fire_ax( "test_fire_ax" );
+static const itype_id itype_test_glock( "test_glock" );
+static const itype_id itype_test_gum( "test_gum" );
+static const itype_id itype_test_halligan( "test_halligan" );
+static const itype_id itype_test_hallu_nutmeg( "test_hallu_nutmeg" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_jack_small( "test_jack_small" );
+static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
+static const itype_id itype_test_longshirt( "test_longshirt" );
+static const itype_id itype_test_matches( "test_matches" );
+static const itype_id itype_test_meower_armor( "test_meower_armor" );
+static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
+static const itype_id itype_test_pants_faux_fur( "test_pants_faux_fur" );
+static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
+static const itype_id itype_test_pipe( "test_pipe" );
+static const itype_id itype_test_plate( "test_plate" );
+static const itype_id itype_test_pointy_stick( "test_pointy_stick" );
+static const itype_id itype_test_portion_faux_fur_pants_suit( "test_portion_faux_fur_pants_suit" );
+static const itype_id itype_test_power_armor( "test_power_armor" );
+static const itype_id itype_test_quiver( "test_quiver" );
+static const itype_id itype_test_rag( "test_rag" );
+static const itype_id itype_test_rock( "test_rock" );
+static const itype_id itype_test_sheet_metal( "test_sheet_metal" );
+static const itype_id itype_test_smart_phone( "test_smart_phone" );
+static const itype_id itype_test_socks( "test_socks" );
+static const itype_id itype_test_soldering_iron( "test_soldering_iron" );
+static const itype_id itype_test_sonic_screwdriver( "test_sonic_screwdriver" );
+static const itype_id itype_test_swat_armor( "test_swat_armor" );
+static const itype_id itype_test_thumb( "test_thumb" );
+static const itype_id itype_test_tool_belt_pocket_mix( "test_tool_belt_pocket_mix" );
+static const itype_id itype_test_waterskin( "test_waterskin" );
+static const itype_id itype_test_wine( "test_wine" );
+static const itype_id itype_test_zentai_resist_stab_cut( "test_zentai_resist_stab_cut" );
 static const itype_id itype_textbook_chemistry( "textbook_chemistry" );
 static const itype_id itype_tshirt( "tshirt" );
 static const itype_id itype_zentai( "zentai" );
@@ -120,7 +186,7 @@ TEST_CASE( "item_volume_and_weight", "[iteminfo][volume][weight]" )
 {
     clear_avatar();
 
-    item plank( "test_2x4" );
+    item plank( itype_test_2x4 );
 
     // Volume and weight are shown together, though the units may differ
     std::vector<iteminfo_parts> vol_weight = { iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT };
@@ -184,7 +250,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
     std::vector<iteminfo_parts> description = { iteminfo_parts::DESCRIPTION };
 
     SECTION( "fire ax" ) {
-        item axe( "test_fire_ax" );
+        item axe( itype_test_fire_ax );
         CHECK( item_info_str( axe, material ) ==
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
@@ -198,7 +264,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
     }
 
     SECTION( "plank" ) {
-        item plank( "test_2x4" );
+        item plank( itype_test_2x4 );
 
         CHECK( item_info_str( plank, material ) ==
                "Material: <color_c_light_blue>Wood</color>\n" );
@@ -223,14 +289,14 @@ TEST_CASE( "item_owner", "[iteminfo][owner]" )
     clear_avatar();
 
     SECTION( "item owned by player" ) {
-        item my_rock( "test_rock" );
+        item my_rock( itype_test_rock );
         my_rock.set_owner( get_player_character() );
         REQUIRE_FALSE( my_rock.get_owner().is_null() );
         CHECK( item_info_str( my_rock, { iteminfo_parts::BASE_OWNER } ) == "Owner: Your Followers\n" );
     }
 
     SECTION( "item with no owner" ) {
-        item nobodys_rock( "test_rock" );
+        item nobodys_rock( itype_test_rock );
         REQUIRE( nobodys_rock.get_owner().is_null() );
         CHECK( item_info_str( nobodys_rock, { iteminfo_parts::BASE_OWNER } ).empty() );
     }
@@ -256,8 +322,8 @@ TEST_CASE( "item_requirements", "[iteminfo][requirements]" )
 
     std::vector<iteminfo_parts> reqs = { iteminfo_parts::BASE_REQUIREMENTS };
 
-    item compbow( "test_compbow" );
-    item sonic( "test_sonic_screwdriver" );
+    item compbow( itype_test_compbow );
+    item sonic( itype_test_sonic_screwdriver );
 
     REQUIRE( compbow.type->min_str == 6 );
     CHECK( item_info_str( compbow, reqs ) ==
@@ -284,7 +350,7 @@ TEST_CASE( "iteminfo_contents", "[iteminfo][contents]" )
 
     // Amount is shown for items having count_by_charges(), and are not food or medication
     // This includes all kinds of ammo and arrows, thread, and some chemicals like sulfur.
-    item ammo( "test_9mm_ammo" );
+    item ammo( itype_test_9mm_ammo );
     std::vector<iteminfo_parts> amount = { iteminfo_parts::BASE_AMOUNT };
     CHECK( item_info_str( ammo, amount ) == "--\nAmount: <color_c_yellow>50</color>\n" );
 }
@@ -313,7 +379,7 @@ TEST_CASE( "med_info", "[iteminfo][med]" )
 
     // Items with comestible_type "MED"
     SECTION( "item that is medication shows medicinal attributes in med_info" ) {
-        item gum( "test_gum" );
+        item gum( itype_test_gum );
         REQUIRE( gum.is_medication() );
 
         CHECK( item_info_str( gum, quench ) ==
@@ -336,7 +402,7 @@ TEST_CASE( "med_info", "[iteminfo][med]" )
     }
 
     SECTION( "item that is not medication does not show med_info" ) {
-        item apple( "test_apple" );
+        item apple( itype_test_apple );
         REQUIRE_FALSE( apple.is_medication() );
 
         CHECK( item_info_str( apple, quench ).empty() );
@@ -362,7 +428,7 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
     std::vector<iteminfo_parts> price_barter = { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER };
 
     SECTION( "item with different price and barter value" ) {
-        item pipe( "test_pipe" );
+        item pipe( itype_test_pipe );
         REQUIRE( pipe.price( false ) == 7500 );
         REQUIRE( pipe.price( true ) == 300 );
 
@@ -372,7 +438,7 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
     }
 
     SECTION( "item with same price and barter value shows only price" ) {
-        item nuts( "test_pine_nuts" );
+        item nuts( itype_test_pine_nuts );
         REQUIRE( nuts.price( false ) == 136 );
         REQUIRE( nuts.price( true ) == 136 );
 
@@ -382,7 +448,7 @@ TEST_CASE( "item_price_and_barter_value", "[iteminfo][price]" )
     }
 
     SECTION( "item with no price or barter value" ) {
-        item rock( "test_rock" );
+        item rock( itype_test_rock );
         REQUIRE( rock.price( false ) == 0 );
         REQUIRE( rock.price( true ) == 0 );
 
@@ -411,7 +477,7 @@ TEST_CASE( "item_rigidity", "[iteminfo][rigidity]" )
     std::vector<iteminfo_parts> encumbrance = { iteminfo_parts::ARMOR_ENCUMBRANCE };
 
     SECTION( "items with rigid pockets have a single encumbrance value" ) {
-        item briefcase( "test_briefcase" );
+        item briefcase( itype_test_briefcase );
         REQUIRE( briefcase.all_pockets_rigid() );
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
@@ -420,10 +486,10 @@ TEST_CASE( "item_rigidity", "[iteminfo][rigidity]" )
     }
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
-        item waterskin( "test_waterskin" );
-        item backpack( "test_backpack" );
-        item quiver( "test_quiver" );
-        item condom( "test_condom" );
+        item waterskin( itype_test_waterskin );
+        item backpack( itype_test_backpack );
+        item quiver( itype_test_quiver );
+        item condom( itype_test_condom );
 
         SECTION( "rigidity indicator" ) {
             REQUIRE_FALSE( waterskin.all_pockets_rigid() );
@@ -492,11 +558,11 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
     REQUIRE( player_character.get_str() == 8 );
     REQUIRE( player_character.get_dex() == 8 );
 
-    item rag( "test_rag" );
-    item rock( "test_rock" );
-    item halligan( "test_halligan" );
-    item mr_pointy( "test_pointy_stick" );
-    item arrow( "test_arrow_wood" );
+    item rag( itype_test_rag );
+    item rock( itype_test_rock );
+    item halligan( itype_test_halligan );
+    item mr_pointy( itype_test_pointy_stick );
+    item arrow( itype_test_arrow_wood );
 
     SECTION( "melee damage" ) {
         // Melee damage comes from the "bashing" and "cutting" attributes in JSON
@@ -706,7 +772,7 @@ TEST_CASE( "techniques_when_wielded", "[iteminfo][weapon][techniques]" )
 {
     clear_avatar();
 
-    item halligan( "test_halligan" );
+    item halligan( itype_test_halligan );
     CHECK( item_info_str( halligan, { iteminfo_parts::DESCRIPTION_TECHNIQUES } ) ==
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
@@ -717,7 +783,7 @@ TEST_CASE( "techniques_when_wielded", "[iteminfo][weapon][techniques]" )
            " <color_c_light_blue>Block</color>:"
            " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 
-    item plank( "test_2x4" );
+    item plank( itype_test_2x4 );
     CHECK( item_info_str( plank, { iteminfo_parts::DESCRIPTION_TECHNIQUES } ) ==
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
@@ -777,7 +843,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
 
     SECTION( "armor with coverage shows covered body parts, warmth, encumbrance, and protection values" ) {
         // Long-sleeved shirt covering torso and arms
-        item longshirt( "test_longshirt" );
+        item longshirt( itype_test_longshirt );
         verify_item_coverage(
         longshirt, {
             { bodypart_id( "torso" ), 90 },
@@ -852,7 +918,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                "<color_c_white>Encumbrance</color>"
                "  <color_c_yellow>3</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
 
-        item swat_armor( "test_swat_armor" );
+        item swat_armor( itype_test_swat_armor );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
 
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
@@ -933,7 +999,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                " The <color_c_cyan>torso</color>.\n" );
 
         // Test copy-from
-        item faux_fur_pants( "test_pants_faux_fur" );
+        item faux_fur_pants( itype_test_pants_faux_fur );
         REQUIRE( faux_fur_pants.get_covered_body_parts().any() );
 
         CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
@@ -1002,7 +1068,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         }
         );
 
-        item faux_fur_suit( "test_portion_faux_fur_pants_suit" );
+        item faux_fur_suit( itype_test_portion_faux_fur_pants_suit );
         REQUIRE( faux_fur_suit.get_covered_body_parts().any() );
 
         CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
@@ -1092,7 +1158,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                " The <color_c_cyan>r. leg</color>."
                " The <color_c_cyan>torso</color>.\n" );
         // test complex materials armors
-        item super_tank_top( "test_complex_tanktop" );
+        item super_tank_top( itype_test_complex_tanktop );
         REQUIRE( super_tank_top.get_covered_body_parts().any() );
 
         CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
@@ -1151,7 +1217,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
 
     SECTION( "armor with no coverage omits irrelevant info" ) {
         // Ear plugs with no coverage, and no other info to display
-        item ear_plugs( "test_ear_plugs" );
+        item ear_plugs( itype_test_ear_plugs );
         REQUIRE_FALSE( ear_plugs.get_covered_body_parts().any() );
 
         CHECK( item_info_str( ear_plugs, { iteminfo_parts::ARMOR_BODYPARTS,
@@ -1171,7 +1237,7 @@ TEST_CASE( "armor_rigidity", "[iteminfo][armor][coverage]" )
     clear_avatar();
 
     // test complex materials armors
-    item super_tank_top( "test_complex_tanktop" );
+    item super_tank_top( itype_test_complex_tanktop );
     REQUIRE( super_tank_top.get_covered_body_parts().any() );
 
     CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_RIGIDITY } ) ==
@@ -1202,18 +1268,18 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
     //std::vector<iteminfo_parts> powerarmor_rad = { iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT };
 
     // Items with VARSIZE flag can be fitted
-    item socks( "test_socks" );
+    item socks( itype_test_socks );
     CHECK( item_info_str( socks, varsize ) ==
            "--\n"
            "* This clothing <color_c_cyan>can be refitted</color>.\n" );
 
     // Sided armor is show as sided
-    item briefcase( "test_briefcase" );
+    item briefcase( itype_test_briefcase );
     CHECK( item_info_str( briefcase, sided ) ==
            "--\n"
            "* This item can be worn on <color_c_cyan>either side</color> of the body.\n" );
 
-    item power_armor( "test_power_armor" );
+    item power_armor( itype_test_power_armor );
     CHECK_THAT( item_info_str( power_armor, powerarmor ),
                 Catch::EndsWith( "* This gear is a part of power armor.\n" ) );
 }
@@ -1247,7 +1313,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
     bodypart_id bp_eyes = body_part_eyes.id();
     sub_bodypart_id eye_r = sub_body_part_eyes_right.id();
 
-    item hh( "hat_hard" );
+    item hh( itype_hat_hard );
     THEN( "base stats" ) {
         //resistance stats
         CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
@@ -1260,7 +1326,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
 
 
     WHEN( "inserting face shield" ) {
-        item face_shield( "face_shield" );
+        item face_shield( itype_face_shield );
         REQUIRE( hh.put_in( face_shield, pocket_type::CONTAINER ).success() );
         THEN( "eyes should be protected" ) {
             CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
@@ -1276,7 +1342,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
         }
     }
     WHEN( "adding nape protector to the helmet" ) {
-        item nape_protector( "nape_protector" );
+        item nape_protector( itype_nape_protector );
         REQUIRE( hh.put_in( nape_protector, pocket_type::CONTAINER ).success() );
         THEN( "head's warmth is increased" ) {
             CHECK( nape_protector.get_warmth( bp_head ) == 2 );
@@ -1284,7 +1350,7 @@ TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
             CHECK( hh.get_warmth( bp_head ) == 4 );
         }
         WHEN( "adding ear muffs to the helmet" ) {
-            item ear_muffs( "attachable_ear_muffs" );
+            item ear_muffs( itype_attachable_ear_muffs );
             REQUIRE( hh.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
             THEN( "head's warmth should be increased even more" ) {
                 CHECK( ear_muffs.get_warmth( bp_head ) == 2 );
@@ -1300,13 +1366,13 @@ TEST_CASE( "vest_with_plate_stats", "[iteminfo][armor][protection]" )
 {
     bodypart_id bp_torso = body_part_torso.id();
 
-    item vest = item( "ballistic_vest_esapi" );
+    item vest = item( itype_ballistic_vest_esapi );
     //nylon: 1 (mat resist) * 1 (thickness)
     //kevlar: 1.5 * 4.4
     CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 7.6f ) );
 
     WHEN( "inserting plate" ) {
-        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+        CHECK( vest.put_in( item( itype_test_plate ), pocket_type::CONTAINER ).success() );
 
         THEN( "resist should be increased" ) {
             //previous + 1 * 25
@@ -1355,7 +1421,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
-        item longshirt( "test_longshirt" );
+        item longshirt( itype_test_longshirt );
         expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
@@ -1374,7 +1440,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // Hazmat suit, material:plastic, thickness:2
         // 2/2/1 bash/cut/bullet x 2 thickness
         // 9/1/20 acid/fire/env
-        item hazmat( "test_hazmat_suit" );
+        item hazmat( itype_test_hazmat_suit );
         REQUIRE( hazmat.get_covered_body_parts().any() );
         expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
 
@@ -1421,7 +1487,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
     SECTION( "check that material resistances are properly overriden" ) {
         // Zentai suit, material:lycra_resist_override_stab, thickness:1
         // 2/2/2/50 bash/cut/bullet/stab x 1 thickness
-        item zentai( "test_zentai_resist_stab_cut" );
+        item zentai( itype_test_zentai_resist_stab_cut );
         REQUIRE( zentai.get_covered_body_parts().any() );
         expected_armor_values( zentai, 2, 2, 50, 2, 9, 2, 10 );
 
@@ -1467,7 +1533,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
     }
 
     SECTION( "complex protection from physical and environmental damage" ) {
-        item super_tanktop( "test_complex_tanktop" );
+        item super_tanktop( itype_test_complex_tanktop );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
         expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
@@ -1507,7 +1573,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // material:layered_kevlar, thickness:2
         // 1.5/2/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
-        item meower_armor( "test_meower_armor" );
+        item meower_armor( itype_test_meower_armor );
         expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
 
         const std::string info = item_info_str( meower_armor, protection );
@@ -1556,8 +1622,8 @@ TEST_CASE( "book_info", "[iteminfo][book]" )
     // std::vector<iteminfo_parts> num_unread = { iteminfo_parts::BOOK_NUMUNREADCHAPTERS };
     // std::vector<iteminfo_parts> included_recipes = { iteminfo_parts::BOOK_INCLUDED_RECIPES };
 
-    item dragon( "test_dragon_book" );
-    item cmdline( "test_cmdline_book" );
+    item dragon( itype_test_dragon_book );
+    item cmdline( itype_test_cmdline_book );
     // TODO: add martial arts book to test data
 
     REQUIRE( dragon.is_book() );
@@ -1665,9 +1731,9 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
 {
     clear_avatar();
 
-    item compbow( "test_compbow" );
-    item glock( "test_glock" );
-    item rag( "test_rag" );
+    item compbow( itype_test_compbow );
+    item glock( itype_test_glock );
+    item rag( itype_test_rag );
 
     SECTION( "weapon damage including floating-point multiplier" ) {
         // Ranged damage info is displayed on a single line, in three parts:
@@ -1878,7 +1944,7 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
     //std::vector<iteminfo_parts> ammo_upscost = { iteminfo_parts::AMMO_UPSCOST };
     //std::vector<iteminfo_parts> gun_casings = { iteminfo_parts::DESCRIPTION_GUN_CASINGS };
 
-    item glock( "test_glock" );
+    item glock( itype_test_glock );
 
     CHECK( item_info_str( glock, dmg_loaded ) ==
            "--\n<color_c_yellow>+26</color>\n" );
@@ -1942,7 +2008,7 @@ TEST_CASE( "gunmod_info", "[iteminfo][gunmod]" )
     //std::vector<iteminfo_parts> add_mod = { iteminfo_parts::GUNMOD_ADD_MOD };
     //std::vector<iteminfo_parts> blacklist_mod = { iteminfo_parts::GUNMOD_BLACKLIST_MOD };
 
-    item supp( "test_crafted_suppressor" );
+    item supp( itype_test_crafted_suppressor );
     REQUIRE( supp.is_gunmod() );
 
     /* FIXME: This only applies if is_gun() ??
@@ -2020,7 +2086,7 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
                                        };
 
     SECTION( "simple item with ammo damage" ) {
-        item rock( "test_rock" );
+        item rock( itype_test_rock );
 
         CHECK( item_info_str( rock, ammo ) ==
                "--\n"
@@ -2031,7 +2097,7 @@ TEST_CASE( "ammunition", "[iteminfo][ammo]" )
     }
 
     SECTION( "batteries" ) {
-        item batt_dispose( "test_battery_disposable" );
+        item batt_dispose( itype_test_battery_disposable );
 
         // FIXME: is_battery is only true if type = "BATTERY"
         // no items in the game have this property anymore
@@ -2051,7 +2117,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
 {
     clear_avatar();
 
-    item ice_cream( "icecream" );
+    item ice_cream( itype_icecream );
 
     SECTION( "fixed nutrient values in regular item" ) {
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_QUENCH } )
@@ -2098,7 +2164,7 @@ TEST_CASE( "food_freshness_and_lifetime", "[iteminfo][food]" )
     player_character.empty_skills();
     REQUIRE_FALSE( player_character.can_estimate_rot() );
 
-    item nuts( "test_pine_nuts" );
+    item nuts( itype_test_pine_nuts );
     REQUIRE( nuts.goes_bad() );
 
     // TODO:
@@ -2144,9 +2210,9 @@ TEST_CASE( "basic_food_info", "[iteminfo][food]" )
     //std::vector<iteminfo_parts> smell = { iteminfo_parts::FOOD_SMELL };
     //std::vector<iteminfo_parts> vit_effects = { iteminfo_parts::FOOD_VIT_EFFECTS };
 
-    item apple( "test_apple" );
-    item nuts( "test_pine_nuts" );
-    item wine( "test_wine" );
+    item apple( itype_test_apple );
+    item nuts( itype_test_pine_nuts );
+    item wine( itype_test_wine );
 
     REQUIRE( apple.is_food() );
     REQUIRE( nuts.is_food() );
@@ -2191,7 +2257,7 @@ TEST_CASE( "food_character_is_allergic_to", "[iteminfo][food][allergy]" )
         REQUIRE( player_character.has_trait( trait_ANTIFRUIT ) );
 
         THEN( "fruit indicates an allergic reaction" ) {
-            item apple( "test_apple" );
+            item apple( itype_test_apple );
             REQUIRE( apple.has_flag( flag_ALLERGEN_FRUIT ) );
             CHECK( item_info_str( apple, allergen ) ==
                    "--\n"
@@ -2199,7 +2265,7 @@ TEST_CASE( "food_character_is_allergic_to", "[iteminfo][food][allergy]" )
         }
 
         THEN( "nuts do not indicate an allergic reaction" ) {
-            item nuts( "test_pine_nuts" );
+            item nuts( itype_test_pine_nuts );
             REQUIRE_FALSE( nuts.has_flag( flag_ALLERGEN_FRUIT ) );
             CHECK( item_info_str( nuts, allergen ).empty() );
         }
@@ -2216,8 +2282,8 @@ TEST_CASE( "food_with_hidden_poison_or_hallucinogen", "[iteminfo][food][poison][
     clear_avatar();
 
     // Test food with hidden effects
-    item almond( "test_bitter_almond" );
-    item nutmeg( "test_hallu_nutmeg" );
+    item almond( itype_test_bitter_almond );
+    item nutmeg( itype_test_hallu_nutmeg );
 
     // Ensure they are food
     REQUIRE( almond.is_food() );
@@ -2298,7 +2364,7 @@ TEST_CASE( "food_that_is_made_of_human_flesh", "[iteminfo][food][cannibal]" )
 
     std::vector<iteminfo_parts> cannibal = { iteminfo_parts::FOOD_CANNIBALISM };
 
-    item thumb( "test_thumb" );
+    item thumb( itype_test_thumb );
     REQUIRE( thumb.has_vitamin( vitamin_human_flesh_vitamin ) );
 
     GIVEN( "character is not a cannibal" ) {
@@ -2337,13 +2403,13 @@ TEST_CASE( "item_conductivity", "[iteminfo][conductivity]" )
     std::vector<iteminfo_parts> conductivity = { iteminfo_parts::DESCRIPTION_CONDUCTIVITY };
 
     SECTION( "non-conductive items" ) {
-        item plank( "test_2x4" );
+        item plank( itype_test_2x4 );
         REQUIRE_FALSE( plank.conductive() );
         CHECK( item_info_str( plank, conductivity ) ==
                "--\n"
                "* This item <color_c_green>does not conduct</color> electricity.\n" );
 
-        item axe( "test_fire_ax" );
+        item axe( itype_test_fire_ax );
         REQUIRE_FALSE( axe.conductive() );
         CHECK( item_info_str( axe, conductivity ) ==
                "--\n"
@@ -2352,21 +2418,21 @@ TEST_CASE( "item_conductivity", "[iteminfo][conductivity]" )
 
     SECTION( "conductive items" ) {
         // Pipe is made of conductive material (steel)
-        item pipe( "test_pipe" );
+        item pipe( itype_test_pipe );
         REQUIRE( pipe.conductive() );
         CHECK( item_info_str( pipe, conductivity ) ==
                "--\n"
                "* This item <color_c_red>conducts</color> electricity.\n" );
 
         // Halligan bar is made of conductive material (steel)
-        item halligan( "test_halligan" );
+        item halligan( itype_test_halligan );
         REQUIRE( halligan.conductive() );
         CHECK( item_info_str( halligan, conductivity ) ==
                "--\n"
                "* This item <color_c_red>conducts</color> electricity.\n" );
 
         // Balloon is made of non-conductive rubber, but has CONDUCTIVE flag
-        item balloon( "test_balloon" );
+        item balloon( itype_test_balloon );
         REQUIRE( balloon.conductive() );
         CHECK( item_info_str( balloon, conductivity ) ==
                "--\n"
@@ -2387,7 +2453,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
     std::vector<iteminfo_parts> qualities = { iteminfo_parts::QUALITIES };
 
     SECTION( "Halligan bar" ) {
-        item halligan( "test_halligan" );
+        item halligan( itype_test_halligan );
         CHECK( item_info_str( halligan, qualities ) ==
                "--\n"
                "<color_c_white>Has qualities</color>:\n"
@@ -2398,7 +2464,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
     }
 
     SECTION( "bottle jack" ) {
-        item jack( "test_jack_small" );
+        item jack( itype_test_jack_small );
 
         SECTION( "metric units" ) {
             override_option opt_kg( "USE_METRIC_WEIGHTS", "kg" );
@@ -2419,7 +2485,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
     }
 
     SECTION( "sonic screwdriver" ) {
-        item sonic( "test_sonic_screwdriver" );
+        item sonic( itype_test_sonic_screwdriver );
 
         CHECK( item_info_str( sonic, qualities ) ==
                "--\n"
@@ -2433,8 +2499,8 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
 
     SECTION( "cordless drill" ) {
         // Cordless drill has both qualities and charged_qualities
-        item drill( "test_cordless_drill" );
-        item battery( "medium_battery_cell" );
+        item drill( itype_test_cordless_drill );
+        item battery( itype_medium_battery_cell );
 
         // Without enough charges
         CHECK( item_info_str( drill, qualities ) ==
@@ -2471,7 +2537,7 @@ TEST_CASE( "list_of_item_actions", "[iteminfo][action]" )
     std::vector<iteminfo_parts> actions = { iteminfo_parts::ACTIONS };
 
     SECTION( "Halligan bar" ) {
-        item halligan( "test_halligan" );
+        item halligan( itype_test_halligan );
         CHECK( item_info_str( halligan, actions ) ==
                "--\n"
                "<color_c_white>Actions</color>: <color_c_cyan>Pry crate, window, door or nails</color>, <color_c_cyan>Dig pit here</color>, <color_c_cyan>Dig water channel here</color>, <color_c_cyan>Fill pit / tamp ground</color>, and <color_c_cyan>Upturn earth</color>\n" );
@@ -2493,7 +2559,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     SECTION( "maximum charges" ) {
         std::vector<iteminfo_parts> capacity = { iteminfo_parts::TOOL_CAPACITY };
 
-        item matches( "test_matches" );
+        item matches( itype_test_matches );
         CHECK( item_info_str( matches, capacity ) ==
                "--\n"
                "Maximum <color_c_yellow>20</color> charges of match.\n" );
@@ -2502,7 +2568,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     SECTION( "tool with charges" ) {
         std::vector<iteminfo_parts> charges = { iteminfo_parts::TOOL_CHARGES };
 
-        item matches( "test_matches" );
+        item matches( itype_test_matches );
         matches.ammo_set( itype_match );
         REQUIRE( matches.ammo_remaining() > 0 );
 
@@ -2514,7 +2580,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     SECTION( "candle with feedback on burnout" ) {
         std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
 
-        item candle( "candle" );
+        item candle( itype_candle );
         candle.ammo_set( itype_candle_wax );
         REQUIRE( candle.ammo_remaining() > 0 );
 
@@ -2531,7 +2597,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     SECTION( "UPS charged tool" ) {
         std::vector<iteminfo_parts> recharge_ups = { iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED };
 
-        item smartphone( "test_smart_phone" );
+        item smartphone( itype_test_smart_phone );
         REQUIRE( smartphone.has_flag( flag_USE_UPS ) );
 
         CHECK( item_info_str( smartphone, recharge_ups ) ==
@@ -2546,7 +2612,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
         std::vector<iteminfo_parts> magazine_compat = { iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE };
 
         // Rag has no magazine capacity
-        item rag( "test_rag" );
+        item rag( itype_test_rag );
         REQUIRE_FALSE( rag.magazine_integral() );
         REQUIRE( rag.magazine_compatible().empty() );
 
@@ -2554,7 +2620,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
 
         // Acetylene torch is a tool with compatible magazines
         // Other tools with "Compatible magazine": electric hair trimmer, circular saw
-        item oxy_torch( "oxy_torch" );
+        item oxy_torch( itype_oxy_torch );
         REQUIRE_FALSE( oxy_torch.magazine_integral() );
         REQUIRE_FALSE( oxy_torch.magazine_compatible().empty() );
 
@@ -2590,10 +2656,10 @@ TEST_CASE( "bionic_info", "[iteminfo][bionic]" )
 
     clear_avatar();
 
-    item burner( "bio_ethanol" );
-    item power( "bio_power_storage" );
-    item nostril( "bio_nostril" );
-    item purifier( "bio_purifier" );
+    item burner( itype_bio_ethanol );
+    item power( itype_bio_power_storage );
+    item nostril( itype_bio_nostril );
+    item purifier( itype_bio_purifier );
 
     REQUIRE( burner.is_bionic() );
     REQUIRE( power.is_bionic() );
@@ -2638,9 +2704,9 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 {
     clear_avatar();
 
-    item halligan( "test_halligan" );
-    item hazmat( "test_hazmat_suit" );
-    item rock( "test_rock" );
+    item halligan( itype_test_halligan );
+    item hazmat( itype_test_hazmat_suit );
+    item rock( itype_test_rock );
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
@@ -2669,8 +2735,8 @@ TEST_CASE( "disassembly_time_and_yield", "[iteminfo][disassembly]" )
 
     std::vector<iteminfo_parts> disassemble = { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE };
 
-    item iron( "test_soldering_iron" );
-    item metal( "test_sheet_metal" );
+    item iron( itype_test_soldering_iron );
+    item metal( itype_test_sheet_metal );
 
     CHECK( item_info_str( iron, disassemble ) ==
            "--\n"
@@ -2701,8 +2767,8 @@ TEST_CASE( "item_description_flags", "[iteminfo][flags]" )
 
     std::vector<iteminfo_parts> flags = { iteminfo_parts::DESCRIPTION_FLAGS };
 
-    item halligan( "test_halligan" );
-    item hazmat( "test_hazmat_suit" );
+    item halligan( itype_test_halligan );
+    item hazmat( itype_test_hazmat_suit );
 
     // Halligan bar has a couple flags
     REQUIRE( halligan.has_flag( flag_BELT_CLIP ) );
@@ -2750,8 +2816,8 @@ TEST_CASE( "show_available_recipes_with_item_as_an_ingredient", "[iteminfo][reci
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
-        player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
-        item_location iodine = player_character.i_add( item( "iodine" ) );
+        player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
+        item_location iodine = player_character.i_add( item( itype_iodine ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );
 
@@ -2783,7 +2849,7 @@ TEST_CASE( "show_available_recipes_with_item_as_an_ingredient", "[iteminfo][reci
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                item_location textbook = player_character.i_add( item( "textbook_chemistry" ) );
+                item_location textbook = player_character.i_add( item( itype_textbook_chemistry ) );
                 player_character.identify( *textbook );
                 REQUIRE( player_character.has_identified( itype_textbook_chemistry ) );
                 player_character.invalidate_crafting_inventory();
@@ -2816,7 +2882,7 @@ TEST_CASE( "pocket_info_for_a_simple_container", "[iteminfo][pocket][container]"
 {
     clear_avatar();
 
-    item test_waterskin( "test_waterskin" );
+    item test_waterskin( itype_test_waterskin );
     std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
     override_option opt_vol( "VOLUME_UNITS", "l" );
@@ -2842,7 +2908,7 @@ TEST_CASE( "pocket_info_units_-_imperial_or_metric", "[iteminfo][pocket][units]"
 {
     clear_avatar();
 
-    item test_jug( "test_jug_plastic" );
+    item test_jug( itype_test_jug_plastic );
     std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
     GIVEN( "metric units" ) {
@@ -2889,7 +2955,7 @@ TEST_CASE( "pocket_info_for_a_multi-pocket_item", "[iteminfo][pocket][multiple]"
 {
     clear_avatar();
 
-    item test_belt( "test_tool_belt_pocket_mix" );
+    item test_belt( itype_test_tool_belt_pocket_mix );
     std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
     override_option opt_vol( "VOLUME_UNITS", "l" );
@@ -2940,7 +3006,7 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
         std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
         // Quiver is a CONTAINER with ammo_restriction "arrow" or "bolt"
-        item quiver( "test_quiver" );
+        item quiver( itype_test_quiver );
         // Not a magazine, but it should have ammo_types
         REQUIRE_FALSE( quiver.is_magazine() );
         REQUIRE_FALSE( quiver.ammo_types().empty() );
@@ -2958,7 +3024,7 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
         std::vector<iteminfo_parts> mag_cap = { iteminfo_parts::MAGAZINE_CAPACITY };
 
         // Matches are TOOL with MAGAZINE pocket, and ammo_restriction "match"
-        item matches( "test_matches" );
+        item matches( itype_test_matches );
         REQUIRE( matches.is_magazine() );
         REQUIRE_FALSE( matches.ammo_types().empty() );
         // But they have the NO_RELOAD flag, so their capacity should not be displayed
@@ -2966,7 +3032,7 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
         CHECK( item_info_str( matches, mag_cap ).empty() );
 
         // Compound bow is a GUN with integral MAGAZINE pocket, ammo_restriction "arrow"
-        item compbow( "test_compbow" );
+        item compbow( itype_test_compbow );
         REQUIRE( compbow.is_magazine() );
         REQUIRE_FALSE( compbow.ammo_types().empty() );
         // It can be reloaded, so its magazine capacity should be displayed
@@ -3034,7 +3100,7 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
     Character &player_character = get_player_character();
 
     SECTION( "material allergy" ) {
-        item socks( "test_socks" );
+        item socks( itype_test_socks );
         REQUIRE( socks.made_of( material_wool ) );
 
         WHEN( "avatar has a wool allergy" ) {
@@ -3051,7 +3117,7 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
         std::vector<iteminfo_parts> brew_duration = { iteminfo_parts::DESCRIPTION_BREWABLE_DURATION };
         std::vector<iteminfo_parts> brew_products = { iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS };
 
-        item wine_must( "test_brew_wine" );
+        item wine_must( itype_test_brew_wine );
         REQUIRE( wine_must.brewing_time() == 12_hours );
 
         // TODO: DESCRIPTION_ACTIVATABLE_TRANSFORMATION (sourdough?)
@@ -3069,7 +3135,7 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
     SECTION( "radioactivity" ) {
         std::vector<iteminfo_parts> radioactive = { iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS };
 
-        item carafe( "test_nuclear_carafe" );
+        item carafe( itype_test_nuclear_carafe );
         REQUIRE( carafe.has_flag( flag_RADIOACTIVE ) );
         REQUIRE( carafe.has_flag( flag_LEAK_ALWAYS ) );
 
@@ -3096,7 +3162,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
 
     SECTION( "debug info displayed when debug_mode is true" ) {
         // Lightly aged pine nuts
-        item nuts( "test_pine_nuts" );
+        item nuts( itype_test_pine_nuts );
         calendar::turn += 8_hours;
         // Quick-check a couple expected values for debug info
         REQUIRE( nuts.age() == 8_hours );

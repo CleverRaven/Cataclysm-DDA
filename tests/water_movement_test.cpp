@@ -14,6 +14,9 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const itype_id itype_flotation_vest( "flotation_vest" );
+static const itype_id itype_swim_fins( "swim_fins" );
+
 static void setup_test_lake()
 {
     const ter_id t_water_dp( "t_water_dp" );
@@ -165,7 +168,7 @@ struct swimmer_skills {
 };
 
 struct swimmer_gear {
-    std::vector<std::string> worn;
+    std::vector<itype_id> worn;
 };
 
 struct swimmer_traits {
@@ -227,8 +230,8 @@ static const std::unordered_map<std::string, swimmer_skills> skills_map = {
 
 static const std::unordered_map<std::string, swimmer_gear> gear_map = {
     {"none", {}},
-    {"fins", {{"swim_fins"}}},
-    {"flotation vest", {{"flotation_vest"}}},
+    {"fins", {{itype_swim_fins}}},
+    {"flotation vest", {{itype_flotation_vest}}},
 };
 
 static const std::unordered_map<std::string, swimmer_traits> traits_map = {
@@ -311,7 +314,7 @@ static void configure_swimmer( avatar &swimmer, const move_mode_id move_mode,
         swimmer.toggle_trait( trait_id( trait ) );
     }
 
-    for( const std::string &worn : config.gear.worn ) {
+    for( const itype_id &worn : config.gear.worn ) {
         swimmer.wear_item( item( worn ), false );
     }
 

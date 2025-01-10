@@ -21,12 +21,17 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const itype_id itype_grenade( "grenade" );
+static const itype_id itype_javelin_iron( "javelin_iron" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_throwing_stick( "throwing_stick" );
+
 static const skill_id skill_throw( "throw" );
 
 TEST_CASE( "throwing_distance_test", "[throwing], [balance]" )
 {
     const standard_npc thrower( "Thrower", { 60, 60, 0 }, {}, 4, 10, 10, 10, 10 );
-    item grenade( "grenade" );
+    item grenade( itype_grenade );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
 }
@@ -78,7 +83,7 @@ static constexpr int max_throw_test_iterations = 10000;
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
 static void test_throwing_player_versus(
-    Character &you, const std::string &mon_id, const std::string &throw_id,
+    Character &you, const std::string &mon_id, const itype_id &throw_id,
     const int range, const throw_test_pstats &pstats,
     const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh,
     const int min_throws = min_throw_test_iterations,
@@ -126,7 +131,7 @@ static void test_throwing_player_versus(
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throws );
 
-    INFO( "Monster: '" << mon_id << "' Item: '" << throw_id );
+    INFO( "Monster: '" << mon_id << "' Item: '" << throw_id.c_str() );
     INFO( "Range: " << range << " Pstats: " << pstats );
     INFO( "Total throws: " << data.hits.n() );
     INFO( "Ratio: " << data.hits.avg() * 100 << "%" );
@@ -149,7 +154,7 @@ static void test_throwing_player_versus(
 // WARNING: these will take a long time likely
 /*
 static void test_throwing_player_versus(
-    player &p, const std::string &mon_id, const std::string &throw_id, const int range,
+    player &p, const std::string &mon_id, const itype_id &throw_id, const int range,
     const throw_test_pstats &pstats )
 {
     test_throwing_player_versus( p, mon_id, throw_id, range, pstats, { 0, 0 }, { 0, 0 }, 5000, 5000 );
@@ -167,42 +172,42 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 1, lo_skill_base_stats, { 0.78, 0.10 }, { 5, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, lo_skill_base_stats, { 0.07, 0.10 }, { 0.7, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, lo_skill_base_stats, { 0.04, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 20, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 30, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 1, lo_skill_base_stats, { 0.78, 0.10 }, { 5, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 5, lo_skill_base_stats, { 0.07, 0.10 }, { 0.7, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 10, lo_skill_base_stats, { 0.04, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 15, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 20, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 25, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 30, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
     }
 
     SECTION( "test_player_vs_zombie_javelin_iron_basestats" ) {
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, lo_skill_base_stats, { 0.64, 0.10 }, { 11, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, lo_skill_base_stats, { 0.05, 0.10 }, { 1.5, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, lo_skill_base_stats, { 0.04, 0.10 }, { 1.50, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, lo_skill_base_stats, { 0.03, 0.10 }, { 1.29, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, lo_skill_base_stats, { 0.03, 0.10 }, { 1.66, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 1.0, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 1, lo_skill_base_stats, { 0.64, 0.10 }, { 11, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 5, lo_skill_base_stats, { 0.05, 0.10 }, { 1.5, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 10, lo_skill_base_stats, { 0.04, 0.10 }, { 1.50, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 15, lo_skill_base_stats, { 0.03, 0.10 }, { 1.29, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 20, lo_skill_base_stats, { 0.03, 0.10 }, { 1.66, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 25, lo_skill_base_stats, { 0.03, 0.10 }, { 1.0, 2 } );
     }
 
     SECTION( "test_player_vs_zombie_rock_athlete" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.27, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 12.83, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 9.10, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 25, hi_skill_athlete_stats, { 0.64, 0.10 }, { 6.54, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 30, hi_skill_athlete_stats, { 0.47, 0.10 }, { 4.90, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 6 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.27, 6 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 12.83, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 9.10, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 25, hi_skill_athlete_stats, { 0.64, 0.10 }, { 6.54, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 30, hi_skill_athlete_stats, { 0.47, 0.10 }, { 4.90, 3 } );
     }
 
     SECTION( "test_player_vs_zombie_javelin_iron_athlete" ) {
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.16, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 25.21, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 18.90, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, hi_skill_athlete_stats, { 0.63, 0.10 }, { 13.59, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 30, hi_skill_athlete_stats, { 0.48, 0.10 }, { 10.00, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.16, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 25.21, 6 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 18.90, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 25, hi_skill_athlete_stats, { 0.63, 0.10 }, { 13.59, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_javelin_iron, 30, hi_skill_athlete_stats, { 0.48, 0.10 }, { 10.00, 4 } );
     }
 }
 
@@ -215,20 +220,20 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     // ranges here because what we're really trying to capture is the effect
     // the throwing skill has while the sanity tests are more explicit.
     SECTION( "mid_skill_basestats_rock" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, mid_skill_base_stats, { 1.00, 0.10 }, { 12, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, mid_skill_base_stats, { 0.86, 0.10 }, { 7.0, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, mid_skill_base_stats, { 0.52, 0.10 }, { 3, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 5, mid_skill_base_stats, { 1.00, 0.10 }, { 12, 6 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 10, mid_skill_base_stats, { 0.86, 0.10 }, { 7.0, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 15, mid_skill_base_stats, { 0.52, 0.10 }, { 3, 2 } );
     }
 
     SECTION( "hi_skill_basestats_rock" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, hi_skill_base_stats, { 1.00, 0.10 }, { 18, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 10, hi_skill_base_stats, { 1.00, 0.10 }, { 14.7, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 15, hi_skill_base_stats, { 0.97, 0.10 }, { 10.5, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 5, hi_skill_base_stats, { 1.00, 0.10 }, { 18, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 10, hi_skill_base_stats, { 1.00, 0.10 }, { 14.7, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", itype_rock, 15, hi_skill_base_stats, { 0.97, 0.10 }, { 10.5, 4 } );
     }
 }
 
 static void test_player_kills_monster(
-    Character &you, const std::string &mon_id, const std::string &item_id, const int range,
+    Character &you, const std::string &mon_id, const itype_id &item_id, const int range,
     const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
     const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
@@ -300,7 +305,7 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
     clear_map();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
-        test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
+        test_player_kills_monster( p, "mon_zombie", itype_rock, 15, 1, lo_skill_base_stats, 500 );
     }
 }
 
@@ -309,7 +314,7 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[ba
     Character &you = get_avatar();
     clear_avatar();
 
-    item thrown( "throwing_stick", calendar::turn, 10 );
+    item thrown( itype_throwing_stick, calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
     you.wield( thrown );
     int initial_moves = -1;

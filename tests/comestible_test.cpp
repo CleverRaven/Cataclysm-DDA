@@ -26,9 +26,14 @@
 
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_mutagen( "mutagen" );
+
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_test_apple( "test_apple" );
+static const itype_id itype_test_egg( "test_egg" );
+static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
+static const itype_id itype_veggy_wild_cooked( "veggy_wild_cooked" );
 
 static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 
@@ -248,7 +253,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 {
     // This test verifies that predicted calorie ranges properly take into
     // account the "RAW"/"COOKED" flags.
-    const item veggy_wild_cooked( "veggy_wild_cooked" );
+    const item veggy_wild_cooked( itype_veggy_wild_cooked );
 
     const Character &u = get_player_character();
 
@@ -281,7 +286,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     double expect_ratio;
 
     // Apple: 95 kcal / 200 g (1 serving)
-    const item apple( "test_apple" );
+    const item apple( itype_test_apple );
     const nutrients apple_nutr = u.compute_effective_nutrients( apple );
     REQUIRE( apple.count() == 1 );
     REQUIRE( apple.weight() == 200_gram );
@@ -294,7 +299,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     CHECK( satiety_bar( 502 ) == "<color_c_yellow>||\\</color>.." );
 
     // Egg: 80 kcal / 40 g (1 serving)
-    const item egg( "test_egg" );
+    const item egg( itype_test_egg );
     const nutrients egg_nutr = u.compute_effective_nutrients( egg );
     REQUIRE( egg.count() == 1 );
     REQUIRE( egg.weight() == 40_gram );
@@ -307,7 +312,7 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     CHECK( satiety_bar( 1777 ) == "<color_c_green>||||\\</color>" );
 
     // Pine nuts: 202 kcal / 30 g (4 servings)
-    const item nuts( "test_pine_nuts" );
+    const item nuts( itype_test_pine_nuts );
     const nutrients nuts_nutr = u.compute_effective_nutrients( nuts );
     // If food count > 1, total weight is divided by count before computing kcal/gram
     REQUIRE( nuts.count() == 4 );
