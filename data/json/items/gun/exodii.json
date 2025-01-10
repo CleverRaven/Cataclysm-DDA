@@ -83,12 +83,12 @@
   },
   {
     "id": "khuunaofaai",
-    "//": "note for translators, its pronounced \"Ka-hu-na-o-fa-i\" and doesn't actually mean anything, you can translate the syllables directly.",
+    "//": "note for translators, its pronounced \"Ka-hu-na-o-fa-aye\" and doesn't actually mean anything, you can translate the syllables directly.",
     "copy-from": "m4_carlgustav",
     "looks_like": "m202_flash",
     "type": "GUN",
     "name": { "str": "Exodii ordnance cannon" },
-    "description": "An oddball in the Exodii’s oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+    "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
     "weight": "8180 g",
     "volume": "10360 ml",
     "material": [ "steel", "gold" ],
@@ -99,7 +99,7 @@
       {
         "id": "Khuunaofaai",
         "name": { "str": "Khuunäöfaai ordnance cannon" },
-        "description": "An oddball in the Exodii’s oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+        "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
         "weight": 1
       }
     ],
