@@ -1939,7 +1939,6 @@ class item : public visitable
          * </code>
          */
         /*@{*/
-        //TODO: Add a set_var( const std::string &name, const cata_variant &id ) overload rather than using raw strings where appropriate
         void set_var( const std::string &name, int value );
         void set_var( const std::string &name, long long value );
         // Acceptable to use long as part of overload set
@@ -1949,6 +1948,7 @@ class item : public visitable
         double get_var( const std::string &name, double default_value ) const;
         void set_var( const std::string &name, const tripoint_abs_omt &value );
         tripoint_abs_omt get_var( const std::string &name, const tripoint_abs_omt &default_value ) const;
+        //TODO: Add cata_variant overload for value here and for get_var rather than using raw strings where appropriate?
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
