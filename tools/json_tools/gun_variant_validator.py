@@ -66,6 +66,7 @@ UNIT_UNITS = {
 GUNS_BLACKLIST = {
     # Well named, faction-specific weapon, with weird ammo
     "brogyeki",
+    "khuunaofaai",
     "exodii_plasma_fan",
     "exodii_plasma_projectile",
 }
