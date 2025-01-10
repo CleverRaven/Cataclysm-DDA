@@ -2374,9 +2374,9 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         set_seen_cache_dirty( p );
     }
 
-    if( !new_t.liquid_source_item_id.empty() && new_t.liquid_source_count != std::make_pair( 0, 0 ) ) {
-        //BEFOREMERGE: Typify raw string ter_t::liquid_source_item_id
-        item water( itype_id( new_t.liquid_source_item_id ), calendar::start_of_cataclysm );
+    if( new_t.liquid_source_item_id.is_valid() &&
+        new_t.liquid_source_count != std::make_pair( 0, 0 ) ) {
+        item water( new_t.liquid_source_item_id, calendar::start_of_cataclysm );
         water.charges = rng( new_t.liquid_source_count.first, new_t.liquid_source_count.second );
         add_item( p, water );
     }
@@ -5668,12 +5668,9 @@ item map::liquid_from( const tripoint_bub_ms &p ) const
     weather_manager &weather = get_weather();
     ter_t source_terrain = ter( p ).obj();
 
-    if( !source_terrain.liquid_source_item_id.empty() &&
+    if( source_terrain.liquid_source_item_id.is_valid() &&
         source_terrain.liquid_source_count == std::make_pair( 0, 0 ) ) {
-
-        //BEFOREMERGE: Typify raw string ter_t::liquid_source_item_id
-        item ret( itype_id( source_terrain.liquid_source_item_id ), calendar::turn,
-                  item::INFINITE_CHARGES );
+        item ret( source_terrain.liquid_source_item_id, calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             units::from_celsius( source_terrain.liquid_source_min_temp ) ) );
         return ret;

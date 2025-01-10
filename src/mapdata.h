@@ -539,7 +539,7 @@ struct map_data_common_t {
         // Maximal volume of items that can be stored in/on this furniture/terrain
         units::volume max_volume = DEFAULT_TILE_VOLUME;
 
-        std::string liquid_source_item_id; // id of a liquid this tile provides
+        itype_id liquid_source_item_id = itype_id::NULL_ID(); // id of a liquid this tile provides
         double liquid_source_min_temp = 4; // in centigrades, cold water as default value
         std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
 
