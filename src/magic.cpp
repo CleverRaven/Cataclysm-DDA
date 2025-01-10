@@ -1193,7 +1193,7 @@ bool spell::can_cast( const Character &guy ) const
     };
 
     if( type->magic_type.has_value() ) {
-        for( std::string cannot_cast_flag_string: type->magic_type.value()->cannot_cast_flags ) {
+        for( std::string cannot_cast_flag_string : type->magic_type.value()->cannot_cast_flags ) {
             json_character_flag cannot_cast_flag( cannot_cast_flag_string );
             if( guy.has_flag( cannot_cast_flag ) ) {
                 return false;
@@ -1218,7 +1218,8 @@ bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messa
 {
     if( can_cast( guy ) ) {
         return true;
-    } else if ( type->magic_type.has_value() && type->magic_type.value()->cannot_cast_message.has_value() ) {
+    } else if( type->magic_type.has_value() &&
+               type->magic_type.value()->cannot_cast_message.has_value() ) {
         failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
         return false;
     } else {
@@ -1712,7 +1713,7 @@ magic_energy_type spell_type::get_energy_source() const
 {
     if( energy_source.has_value() ) {
         return energy_source.value();
-    } else if ( magic_type.has_value() && magic_type.value()->energy_source.has_value() ) {
+    } else if( magic_type.has_value() && magic_type.value()->energy_source.has_value() ) {
         return magic_type.value()->energy_source.value();
     } else {
         return magic_energy_type::none;
@@ -1723,7 +1724,7 @@ std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
 {
     if( get_level_formula_id.has_value() ) {
         return get_level_formula_id;
-    } else if ( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
+    } else if( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
         return magic_type.value()->get_level_formula_id;
     } else {
         std::optional<jmath_func_id> val;
@@ -1735,7 +1736,7 @@ std::optional<jmath_func_id> spell_type::overall_exp_for_level_formula_id() cons
 {
     if( exp_for_level_formula_id.has_value() ) {
         return exp_for_level_formula_id;
-    } else if ( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
+    } else if( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
         return magic_type.value()->exp_for_level_formula_id;
     } else {
         std::optional<jmath_func_id> val;

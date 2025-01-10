@@ -34,7 +34,7 @@ class magic_type
         magic_type_id id;
 
         mod_id src_mod;
-        
+
         static void load_magic_type( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
         void serialize( JsonOut &json ) const;
