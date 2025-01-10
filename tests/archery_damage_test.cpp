@@ -125,12 +125,14 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     test_archery_balance( itype_rep_crossbow, itype_bolt_makeshift, "", "test_mon_turkey", true );
     // Shortbow can kill turkeys, but not deer
     test_archery_balance( itype_shortbow, itype_arrow_metal, "test_mon_turkey", "test_mon_deer", true );
-    test_archery_balance( itype_hand_crossbow, itype_bolt_steel, "test_mon_turkey", "test_mon_deer", true );
+    test_archery_balance( itype_hand_crossbow, itype_bolt_steel, "test_mon_turkey", "test_mon_deer",
+                          true );
     // Fiberglass recurve can kill deer with an accurate hit, but not bear
     test_archery_balance( itype_recurbow, itype_arrow_metal, "", "test_mon_deer", false );
     test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "", "test_mon_deer", false );
     test_archery_balance( itype_recurbow, itype_arrow_metal, "test_mon_deer", "test_mon_bear", true );
-    test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "test_mon_deer", "test_mon_bear", true );
+    test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "test_mon_deer", "test_mon_bear",
+                          true );
     // Medium setting compound bow can kill Bear
     test_archery_balance( itype_compbow, itype_arrow_metal, "", "test_mon_bear", false );
     test_archery_balance( itype_compbow, itype_arrow_metal, "test_mon_bear", "", true );
