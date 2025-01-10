@@ -302,12 +302,6 @@
   },
   {
     "type": "effect_type",
-    "id": "bounced",
-    "name": [ { "str": "Bounced", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "AI tag used for bouncing ammo targeting.  This is a bug if you have it.", "//~": "NO_I18N" } ]
-  },
-  {
-    "type": "effect_type",
     "id": "npc_value_interaction_timer_short",
     "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
   },
