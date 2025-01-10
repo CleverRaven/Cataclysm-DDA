@@ -16,7 +16,7 @@
     "min_range": 8,
     "max_range": 8,
     "field_id": "fd_laser",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 25,
     "base_energy_cost": 75,
     "min_field_intensity": 2,

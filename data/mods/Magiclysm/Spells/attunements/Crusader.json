@@ -69,7 +69,7 @@
     "max_level": 35,
     "base_casting_time": 1500,
     "base_energy_cost": 500,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "judgement_sword",
@@ -92,7 +92,7 @@
     "difficulty": 4,
     "max_level": 35,
     "spell_class": "CRUSADER",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "type": "technique",

@@ -22,7 +22,7 @@
     "difficulty": 6,
     "max_level": 35,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "demon_possession_aura",
@@ -75,6 +75,7 @@
     "max_level": 35,
     "base_casting_time": 800,
     "base_energy_cost": 5,
+    "magic_type": "magiclysm_generic_magic",
     "energy_source": "HP"
   },
   {
