@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 2,
@@ -35,7 +36,6 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 2,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1950,
     "final_energy_cost": 700,
     "energy_increment": -75,
@@ -56,6 +56,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 1,
@@ -86,7 +87,6 @@
         "( (u_spell_level('pyrokinetic_flash') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 1750,
     "final_energy_cost": 550,
     "energy_increment": -80,
@@ -104,6 +104,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 2,
@@ -111,7 +112,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_CAUTERIZE_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 2200,
     "final_energy_cost": 750,
     "energy_increment": -95,
@@ -126,6 +126,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
@@ -143,7 +144,6 @@
         "( (u_spell_level('pyrokinetic_call_flames') * 16000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 0 : max((2500 - (u_spell_level('pyrokinetic_call_flames') * 150)), 800)"
@@ -164,6 +164,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -184,7 +185,6 @@
       ]
     },
     "max_aoe": 50,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1000,
     "energy_increment": -120,
@@ -228,6 +228,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
@@ -245,7 +246,6 @@
         "( (u_spell_level('pyrokinetic_cloak') * 19200) + 144000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max((4500 - (u_spell_level('pyrokinetic_cloak') * 160)), 2000)"
@@ -266,6 +266,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
@@ -299,7 +300,6 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 5,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 1600,
     "energy_increment": -150,
@@ -320,6 +320,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -337,7 +338,6 @@
         "( (u_spell_level('pyrokinetic_lance') * 49200) + 246000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_torch_weld') > -1 ? 0 : max((5000 - (u_spell_level('pyrokinetic_lance') * 125)), 2000)"
@@ -358,6 +358,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -376,7 +377,6 @@
         "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "final_energy_cost": 4000,
     "energy_increment": -200,
@@ -510,6 +510,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
@@ -527,7 +528,6 @@
         "( (u_spell_level('pyrokinetic_aura') * 1900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_aura') > -1 ? 0 : max((6500 - (u_spell_level('pyrokinetic_aura') * 175)), 3500)"
@@ -549,6 +549,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
@@ -566,7 +567,6 @@
         "( (u_spell_level('pyrokinetic_flame_immunity') * 4700) + 57000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_spell_level('pyrokinetic_flame_immunity') * 165)), 4000)"
@@ -587,6 +587,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 7,
@@ -620,7 +621,6 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 4,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 3500,
     "energy_increment": -125,
@@ -641,6 +641,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 9,
@@ -671,7 +672,6 @@
     "field_intensity_increment": 1,
     "field_intensity_variance": 1,
     "field_chance": 2,
-    "energy_source": "STAMINA",
     "base_energy_cost": 9000,
     "final_energy_cost": 6000,
     "energy_increment": -220,
@@ -712,6 +712,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "PYROKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
@@ -739,7 +740,6 @@
     "min_field_intensity": 3,
     "max_field_intensity": 3,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 12000,
     "final_energy_cost": 8000,
     "energy_increment": -150,
