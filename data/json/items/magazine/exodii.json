@@ -76,6 +76,7 @@
     ],
     "symbol": "#",
     "color": "light_gray",
+    "ammo_type": [ "khuunaofaai_payload" ],
     "longest_side": "160 mm",
     "price_postapoc": "24 USD 80 cent",
     "pocket_data": [
