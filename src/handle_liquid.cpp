@@ -390,7 +390,7 @@ static bool handle_vehicle_target( Character &player_character, item &liquid,
         return pt.is_tank() && pt.can_reload( liquid );
     };
 
-    const units::volume stack = units::legacy_volume_factor / liquid.type->stack_size;
+    const units::volume stack = 250_ml / liquid.type->stack_size;
     const std::string title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
                               get_all_colors().get_name( liquid.color() ),
                               round_up( to_liter( liquid.charges * stack ), 1 ),

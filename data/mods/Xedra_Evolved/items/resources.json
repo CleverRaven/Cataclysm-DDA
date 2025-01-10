@@ -254,8 +254,8 @@
     "description": "A 12-inch by 24-inch sheet of elemental gossamer fabric, like a swatch plucked from a rainbow.",
     "weight": "50 g",
     "volume": "47 ml",
-    "price": 2000,
-    "price_postapoc": 20,
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
     "material": [ "elemental_fae_cotton" ],
     "symbol": "=",
     "color": "white"
@@ -266,8 +266,8 @@
     "type": "GENERIC",
     "name": { "str": "patchwork elemental gossamer sheet" },
     "description": "A 12-inch by 24-inch sheet of elemental gossamer sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
-    "price": 200,
-    "price_postapoc": 20
+    "price": "2 USD",
+    "price_postapoc": "20 cent"
   },
   {
     "id": "elemental_gossamer_patchwork",
@@ -277,8 +277,8 @@
     "description": "A 6-inch square elemental gossamer patch, suitable for repairing and tailoring clothing.",
     "weight": "6 g",
     "volume": "6 ml",
-    "price": 200,
-    "price_postapoc": 2,
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
     "material": [ "elemental_fae_cotton" ],
     "symbol": ",",
     "color": "white",

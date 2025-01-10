@@ -1026,8 +1026,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.range = rl_dist( pr.second, pos_bub() ) - 1;
             proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
 
-            dealt_projectile_attack dealt = projectile_attack(
-                                                proj, pr.second, pos_bub(), dispersion_sources{ 0 }, this );
+            dealt_projectile_attack dealt;
+            projectile_attack( dealt, proj, pr.second, pos_bub(), dispersion_sources{ 0 }, this );
             here.add_item_or_charges( dealt.end_point, pr.first );
         }
 

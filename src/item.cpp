@@ -6659,7 +6659,7 @@ int item::on_wield_cost( const Character &you ) const
             d /= std::max( you.get_skill_level( melee_skill() ), 1.0f );
         }
 
-        int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
+        int penalty = get_var( "volume", volume() / 250_ml ) * d;
         // arbitrary no more than 7 second of penalty
         mv += std::min( penalty, 700 );
     }
@@ -7408,7 +7408,7 @@ units::volume item::collapsed_volume_delta() const
                       has_flag( flag_REMOVED_STOCK ) ) ) {
         // consider only the base size of the gun (without mods)
         int tmpvol = get_var( "volume",
-                              ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
+                              ( type->volume - type->gun->barrel_volume ) / 250_ml );
         if( tmpvol <= 3 ) {
             // intentional NOP
         } else if( tmpvol <= 5 ) {
@@ -7513,7 +7513,7 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
     const int local_volume = get_var( "volume", -1 );
     units::volume ret;
     if( local_volume >= 0 ) {
-        ret = local_volume * units::legacy_volume_factor;
+        ret = local_volume * 250_ml;
     } else if( integral ) {
         ret = type->integral_volume;
     } else {
@@ -12228,7 +12228,7 @@ bool item::burn( fire_data &frd )
         if( type->volume == 0_ml ) {
             charges = 0;
         } else {
-            charges -= roll_remainder( burn_added * units::legacy_volume_factor * type->stack_size /
+            charges -= roll_remainder( burn_added * 250_ml * type->stack_size /
                                        ( 3.0 * type->volume ) );
         }
 
@@ -12253,7 +12253,7 @@ bool item::burn( fire_data &frd )
 
     burnt += roll_remainder( burn_added );
 
-    const int vol = base_volume() / units::legacy_volume_factor;
+    const int vol = base_volume() / 250_ml;
     return burnt >= vol * 3;
 }
 
@@ -12290,7 +12290,7 @@ bool item::flammable( int threshold ) const
         flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
-        flammability = flammability * vol / units::legacy_volume_factor;
+        flammability = flammability * vol / 250_ml;
     }
 
     return flammability > threshold;
@@ -13533,7 +13533,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
     if( !ready_to_revive( here, pos ) ) {
         return false;
     }
-    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt &&
+    if( rng( 0, volume() / 250_ml ) > burnt &&
         g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( corpse->in_species( species_ROBOT ) ) {

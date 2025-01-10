@@ -323,10 +323,6 @@ inline constexpr double to_liter( const volume &v )
     return v.value() / 1000.0;
 }
 
-// Legacy conversions factor for old volume values.
-// Don't use in new code! Use one of the from_* functions instead.
-constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
 

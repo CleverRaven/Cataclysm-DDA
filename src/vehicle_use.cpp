@@ -1149,7 +1149,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() * 2 / units::legacy_volume_factor + 10 ),
+                                              that_item_there->volume() * 2 / 250_ml + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
