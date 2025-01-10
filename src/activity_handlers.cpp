@@ -3576,6 +3576,11 @@ static void perform_zone_activity_turn(
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )
 {
     itype_id fertilizer;
+
+    auto have_fertilizer = [&]() {
+        return !fertilizer.is_empty() && you->has_amount( fertilizer, 1 );
+    };
+
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
@@ -3584,7 +3589,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         fertilizer = itype_id( act->str_values[0] );
 
         /* If unspecified, or if we're out of what we used before, ask */
-        if( ask_user && ( fertilizer.is_empty() || !you->has_charges( fertilizer, 1 ) ) )
+        if( ask_user && !have_fertilizer() )
         {
             fertilizer = iexamine::choose_fertilizer( *you, "plant",
                     false /* Don't confirm action with player */ );
@@ -3592,9 +3597,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         }
     };
 
-    auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && you->has_charges( fertilizer, 1 );
-    };
 
     const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();
