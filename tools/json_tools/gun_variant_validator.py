@@ -73,6 +73,7 @@ GUNS_BLACKLIST = {
 AMMO_BLACKLIST = {
     "arrow",
     "bolt",
+    "payload",
     "chemical_spray",
     "fishspear",
     "nail",
