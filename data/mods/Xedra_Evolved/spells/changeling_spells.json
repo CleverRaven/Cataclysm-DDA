@@ -16,7 +16,7 @@
     "shape": "blast",
     "min_duration": { "math": [ "(changeling_common_traits() * 2250) + (u_skill('deduction') * 23400) + 35100" ] },
     "max_duration": { "math": [ "(changeling_common_traits() * 5750) + (u_skill('deduction') * 56300) + 78900" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": { "math": [ "max(( 150 - (changeling_common_traits() * 2) - (u_skill('deduction') * 3)), 50)" ] },
     "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 30)" ] }
   },
@@ -37,7 +37,7 @@
     "shape": "blast",
     "min_duration": { "math": [ "(changeling_common_traits() * 50) + (u_skill('deduction') * 500) + 2600" ] },
     "max_duration": { "math": [ "(changeling_common_traits() * 163) + (u_skill('deduction') * 1200) + 13900" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": { "math": [ "max(( 750 - (changeling_common_traits() * 5) - (u_skill('deduction') * 20)), 350)" ] },
     "base_casting_time": { "math": [ "max(( 250 - (changeling_common_traits() * 3) - (u_skill('deduction') * 8)), 50)" ] }
   },
@@ -64,7 +64,7 @@
     "max_range": 25,
     "min_aoe": 3,
     "max_aoe": 3,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('deduction') * 10)), 100)" ] },
     "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 50)" ] }
   },
@@ -85,7 +85,7 @@
     "shape": "blast",
     "min_range": 1,
     "max_range": 1,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [ "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5) - (u_skill('deduction') * 35)), 200)" ]
     },
@@ -110,7 +110,7 @@
     "shape": "blast",
     "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 240) + (u_skill('deduction') * 2600) + 27800" ] },
     "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 880) + (u_skill('deduction') * 17500) + 91500" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)" ]
     },
@@ -165,7 +165,7 @@
     "max_range": 1,
     "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 550) + (u_skill('deduction') * 3900) + 22500" ] },
     "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 1230) + (u_skill('deduction') * 8900) + 69100" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [ "max(( 300 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2) - (u_skill('deduction') * 25)), 100)" ]
     },
@@ -196,7 +196,7 @@
     "max_aoe": 3,
     "min_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 340) + (u_skill('deduction') * 2700) + 14200" ] },
     "max_duration": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 620) + (u_skill('deduction') * 11300) + 52300" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [ "max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 15) - (u_skill('deduction') * 40)), 550)" ]
     },
@@ -219,7 +219,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BROWNIE_INDOOR_BLINK",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "max(( 500 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 15)), 250)"
@@ -245,7 +245,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "max(( 800 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 10) - (u_skill('deduction') * 25)), 400)"
@@ -280,7 +280,7 @@
     },
     "min_range": 10,
     "max_range": 10,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 8) - (u_skill('deduction') * 25)), 250)"
@@ -315,7 +315,7 @@
         "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1380) + (u_skill('deduction') * 12305) + 49850) * selkie_has_weather_mastery()"
       ]
     },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5) - (u_skill('deduction') * 15)), 100)"
@@ -349,7 +349,7 @@
         "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('deduction') * 10275) + 74775) * selkie_has_weather_mastery()"
       ]
     },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
@@ -385,7 +385,7 @@
         "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
       ]
     },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
@@ -421,7 +421,7 @@
         "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
       ]
     },
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 25)), 600)"
@@ -447,7 +447,7 @@
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 9,
     "max_level": 1,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 15)), 200)"
