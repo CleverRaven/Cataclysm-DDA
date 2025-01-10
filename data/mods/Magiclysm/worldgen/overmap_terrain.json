@@ -21,6 +21,7 @@
     "looks_like": "s_shoppingplaza_b2",
     "see_cost": "high",
     "extras": "build",
+    "vision_levels": "city_building",
     "mondensity": 2
   },
   {
@@ -32,6 +33,7 @@
     "looks_like": "s_shoppingplaza_b6",
     "see_cost": "none",
     "extras": "build",
+    "vision_levels": "roof_or_air",
     "mondensity": 2
   },
   {
