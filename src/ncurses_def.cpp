@@ -422,7 +422,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         catacurses::doupdate();
         // could also just do this each time a window is created to ensure every ncurses window has this property,
         // but this function is virtually free anyway
-        nodelay(stdscr, true);
+        nodelay( stdscr, true );
         key = getch();
         if( key != ERR ) {
             int newch;

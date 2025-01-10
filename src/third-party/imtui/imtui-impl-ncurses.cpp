@@ -40,16 +40,16 @@
 #include <thread>
 
 // SDL_Renderer data
-struct ImTui_ImplNCurses_Data
-{
-    std::vector<WINDOW*> imtui_wins;
+struct ImTui_ImplNCurses_Data {
+    std::vector<WINDOW *> imtui_wins;
 };
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
-static ImTui_ImplNCurses_Data* ImTui_ImplNCurses_GetBackendData()
+static ImTui_ImplNCurses_Data *ImTui_ImplNCurses_GetBackendData()
 {
-    return ImGui::GetCurrentContext() ? (ImTui_ImplNCurses_Data*)ImGui::GetIO().BackendRendererUserData : nullptr;
+    return ImGui::GetCurrentContext() ? ( ImTui_ImplNCurses_Data * )
+           ImGui::GetIO().BackendRendererUserData : nullptr;
 }
 
 namespace
@@ -104,7 +104,7 @@ void ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
     if( ImGui::GetCurrentContext()->IO.BackendPlatformUserData == nullptr ) {
         ImGui::GetCurrentContext()->IO.BackendPlatformUserData = new ImTui::ImplImtui_Data();
     }
-    if(ImGui::GetIO().BackendRendererUserData == nullptr) {
+    if( ImGui::GetIO().BackendRendererUserData == nullptr ) {
         ImGui::GetIO().BackendRendererUserData = new ImTui_ImplNCurses_Data();
     }
 
@@ -131,7 +131,7 @@ void ImTui_ImplNcurses_Shutdown()
     // ref #11 : https://github.com/ggerganov/imtui/issues/11
     printf( "\033[?1003l\n" ); // Disable mouse movement events, as l = low
 
-    ImTui_ImplNCurses_Data* data = ImTui_ImplNCurses_GetBackendData();
+    ImTui_ImplNCurses_Data *data = ImTui_ImplNCurses_GetBackendData();
     if( data ) {
         delete data;
         ImGui::GetIO().BackendRendererUserData = nullptr;
@@ -142,70 +142,123 @@ void ImTui_ImplNcurses_Shutdown()
 struct ImGuiKeyTranslation {
     ImGuiKey key;
     bool shift;
-    ImGuiKeyTranslation(ImGuiKey k, bool s = false) :
-        key(k),
-        shift(s)
+    ImGuiKeyTranslation( ImGuiKey k, bool s = false ) :
+        key( k ),
+        shift( s )
     {}
 };
 
 
 // returns ImGuiKey_None if it doesn't have an ImGui_Key counterpart
 // or if it is a character compatible with `ImGuiIO::addInputCharacter()`
-static ImGuiKeyTranslation ncurses_special_key_to_imgui_key(int key) {
+static ImGuiKeyTranslation ncurses_special_key_to_imgui_key( int key )
+{
 #define NK ImGuiKeyTranslation
-    switch (key) {
-        case KEY_DOWN:      return NK(ImGuiKey_DownArrow);
-        case KEY_UP:        return NK(ImGuiKey_UpArrow);
-        case KEY_LEFT:      return NK(ImGuiKey_LeftArrow);
-        case KEY_RIGHT:     return NK(ImGuiKey_RightArrow);
-        case KEY_HOME:      return NK(ImGuiKey_Home);
-        case KEY_BACKSPACE: return NK(ImGuiKey_Backspace);
-        case KEY_F(1):      return NK(ImGuiKey_F1);
-        case KEY_F(2):      return NK(ImGuiKey_F2);
-        case KEY_F(3):      return NK(ImGuiKey_F3);
-        case KEY_F(4):      return NK(ImGuiKey_F4);
-        case KEY_F(5):      return NK(ImGuiKey_F5);
-        case KEY_F(6):      return NK(ImGuiKey_F6);
-        case KEY_F(7):      return NK(ImGuiKey_F7);
-        case KEY_F(8):      return NK(ImGuiKey_F8);
-        case KEY_F(9):      return NK(ImGuiKey_F9);
-        case KEY_F(10):     return NK(ImGuiKey_F10);
-        case KEY_F(11):     return NK(ImGuiKey_F11);
-        case KEY_F(12):     return NK(ImGuiKey_F12);
-        case KEY_F(13):     return NK(ImGuiKey_F13);
-        case KEY_F(14):     return NK(ImGuiKey_F14);
-        case KEY_F(15):     return NK(ImGuiKey_F15);
-        case KEY_F(16):     return NK(ImGuiKey_F16);
-        case KEY_F(17):     return NK(ImGuiKey_F17);
-        case KEY_F(18):     return NK(ImGuiKey_F18);
-        case KEY_F(19):     return NK(ImGuiKey_F19);
-        case KEY_F(20):     return NK(ImGuiKey_F20);
-        case KEY_F(21):     return NK(ImGuiKey_F21);
-        case KEY_F(22):     return NK(ImGuiKey_F22);
-        case KEY_F(23):     return NK(ImGuiKey_F23);
-        case KEY_F(24):     return NK(ImGuiKey_F24);
-        case KEY_DC:        return NK(ImGuiKey_Delete);
-        case KEY_IC:        return NK(ImGuiKey_Insert);
-        case KEY_NPAGE:     return NK(ImGuiKey_PageUp);
-        case KEY_PPAGE:     return NK(ImGuiKey_PageDown);
-        case KEY_ENTER:     return NK(ImGuiKey_Enter);
-        case KEY_PRINT:     return NK(ImGuiKey_PrintScreen);
-        case KEY_A1:        return NK(ImGuiKey_Keypad7);
-        case KEY_A3:        return NK(ImGuiKey_Keypad9);
-        case KEY_B2:        return NK(ImGuiKey_Keypad5);
-        case KEY_C1:        return NK(ImGuiKey_Keypad1);
-        case KEY_C3:        return NK(ImGuiKey_Keypad3);
-        case KEY_END:       return NK(ImGuiKey_End);
-        case KEY_SDC:       return NK(ImGuiKey_Delete, true);
-        case KEY_SEND:      return NK(ImGuiKey_End, true);
-        case KEY_SHOME:     return NK(ImGuiKey_Home, true);
-        case KEY_SIC:       return NK(ImGuiKey_Insert, true);
-        case KEY_SPRINT:    return NK(ImGuiKey_PrintScreen, true);
-        case KEY_SLEFT:     return NK(ImGuiKey_LeftArrow, true);
-        case KEY_SRIGHT:    return NK(ImGuiKey_RightArrow, true);
-        case KEY_SR:        return NK(ImGuiKey_UpArrow, true);
-        case KEY_SF:        return NK(ImGuiKey_DownArrow, true);
-        default:            return NK(ImGuiKey_None);
+    switch( key ) {
+        case KEY_DOWN:
+            return NK( ImGuiKey_DownArrow );
+        case KEY_UP:
+            return NK( ImGuiKey_UpArrow );
+        case KEY_LEFT:
+            return NK( ImGuiKey_LeftArrow );
+        case KEY_RIGHT:
+            return NK( ImGuiKey_RightArrow );
+        case KEY_HOME:
+            return NK( ImGuiKey_Home );
+        case KEY_BACKSPACE:
+            return NK( ImGuiKey_Backspace );
+        case KEY_F( 1 ):
+            return NK( ImGuiKey_F1 );
+        case KEY_F( 2 ):
+            return NK( ImGuiKey_F2 );
+        case KEY_F( 3 ):
+            return NK( ImGuiKey_F3 );
+        case KEY_F( 4 ):
+            return NK( ImGuiKey_F4 );
+        case KEY_F( 5 ):
+            return NK( ImGuiKey_F5 );
+        case KEY_F( 6 ):
+            return NK( ImGuiKey_F6 );
+        case KEY_F( 7 ):
+            return NK( ImGuiKey_F7 );
+        case KEY_F( 8 ):
+            return NK( ImGuiKey_F8 );
+        case KEY_F( 9 ):
+            return NK( ImGuiKey_F9 );
+        case KEY_F( 10 ):
+            return NK( ImGuiKey_F10 );
+        case KEY_F( 11 ):
+            return NK( ImGuiKey_F11 );
+        case KEY_F( 12 ):
+            return NK( ImGuiKey_F12 );
+        case KEY_F( 13 ):
+            return NK( ImGuiKey_F13 );
+        case KEY_F( 14 ):
+            return NK( ImGuiKey_F14 );
+        case KEY_F( 15 ):
+            return NK( ImGuiKey_F15 );
+        case KEY_F( 16 ):
+            return NK( ImGuiKey_F16 );
+        case KEY_F( 17 ):
+            return NK( ImGuiKey_F17 );
+        case KEY_F( 18 ):
+            return NK( ImGuiKey_F18 );
+        case KEY_F( 19 ):
+            return NK( ImGuiKey_F19 );
+        case KEY_F( 20 ):
+            return NK( ImGuiKey_F20 );
+        case KEY_F( 21 ):
+            return NK( ImGuiKey_F21 );
+        case KEY_F( 22 ):
+            return NK( ImGuiKey_F22 );
+        case KEY_F( 23 ):
+            return NK( ImGuiKey_F23 );
+        case KEY_F( 24 ):
+            return NK( ImGuiKey_F24 );
+        case KEY_DC:
+            return NK( ImGuiKey_Delete );
+        case KEY_IC:
+            return NK( ImGuiKey_Insert );
+        case KEY_NPAGE:
+            return NK( ImGuiKey_PageUp );
+        case KEY_PPAGE:
+            return NK( ImGuiKey_PageDown );
+        case KEY_ENTER:
+            return NK( ImGuiKey_Enter );
+        case KEY_PRINT:
+            return NK( ImGuiKey_PrintScreen );
+        case KEY_A1:
+            return NK( ImGuiKey_Keypad7 );
+        case KEY_A3:
+            return NK( ImGuiKey_Keypad9 );
+        case KEY_B2:
+            return NK( ImGuiKey_Keypad5 );
+        case KEY_C1:
+            return NK( ImGuiKey_Keypad1 );
+        case KEY_C3:
+            return NK( ImGuiKey_Keypad3 );
+        case KEY_END:
+            return NK( ImGuiKey_End );
+        case KEY_SDC:
+            return NK( ImGuiKey_Delete, true );
+        case KEY_SEND:
+            return NK( ImGuiKey_End, true );
+        case KEY_SHOME:
+            return NK( ImGuiKey_Home, true );
+        case KEY_SIC:
+            return NK( ImGuiKey_Insert, true );
+        case KEY_SPRINT:
+            return NK( ImGuiKey_PrintScreen, true );
+        case KEY_SLEFT:
+            return NK( ImGuiKey_LeftArrow, true );
+        case KEY_SRIGHT:
+            return NK( ImGuiKey_RightArrow, true );
+        case KEY_SR:
+            return NK( ImGuiKey_UpArrow, true );
+        case KEY_SF:
+            return NK( ImGuiKey_DownArrow, true );
+        default:
+            return NK( ImGuiKey_None );
     }
 #undef NK
 }
@@ -238,10 +291,10 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
     io.KeyCtrl = false;
     io.KeyShift = false;
 
-    for (int k = (int)ImGuiKey_NamedKey_BEGIN; k < (int)ImGuiKey_NamedKey_END; k++) {
-        ImGuiKey key = (ImGuiKey)k;
+    for( int k = ( int )ImGuiKey_NamedKey_BEGIN; k < ( int )ImGuiKey_NamedKey_END; k++ ) {
+        ImGuiKey key = ( ImGuiKey )k;
         // AddKeyEvent doesn't allow alias keys
-        if (!ImGui::IsAliasKey(key) && ImGui::IsKeyDown(key)){
+        if( !ImGui::IsAliasKey( key ) && ImGui::IsKeyDown( key ) ) {
             io.AddKeyEvent( key, false );
         }
     }
@@ -276,9 +329,9 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
                     io.AddInputCharactersUTF8( input );
                 }
             } else {
-                ImGuiKeyTranslation trans = ncurses_special_key_to_imgui_key(c);
-                if (trans.key == ImGuiKey_None) {
-                    io.AddInputCharacter(c);
+                ImGuiKeyTranslation trans = ncurses_special_key_to_imgui_key( c );
+                if( trans.key == ImGuiKey_None ) {
+                    io.AddInputCharacter( c );
                 } else {
                     io.AddKeyEvent( trans.key, true );
                     io.KeyShift = trans.shift;
@@ -337,60 +390,63 @@ void ImTui_ImplNcurses_UploadColorPair( short p, short f, short b )
 
 void ImTui_ImplNcurses_SetAllocedPairCount( short p )
 {
-    nColPairs = std::max(nColPairs, p) + 1;
+    nColPairs = std::max( nColPairs, p ) + 1;
 }
 
-void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
+void create_destroy_curses_windows( std::vector<WINDOW *> &windows )
 {
     size_t cursesWinIdx = 0;
     int imguiWinIdx = 0;
-    for(; imguiWinIdx < GImGui->Windows.Size; imguiWinIdx++) {
-        ImGuiWindow* imwin = GImGui->Windows[imguiWinIdx];
-        if(imwin->Collapsed || !imwin->Active) {
+    for( ; imguiWinIdx < GImGui->Windows.Size; imguiWinIdx++ ) {
+        ImGuiWindow *imwin = GImGui->Windows[imguiWinIdx];
+        if( imwin->Collapsed || !imwin->Active ) {
             continue;
         }
-        if(windows.size() <= cursesWinIdx) {
-            windows.push_back(newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x)));
+        if( windows.size() <= cursesWinIdx ) {
+            windows.push_back( newwin( short( imwin->Size.y ), short( imwin->Size.x ), short( imwin->Pos.y ),
+                                       short( imwin->Pos.x ) ) );
         } else {
-            WINDOW* win = windows[cursesWinIdx];
-            if(getbegx( win ) != short(imwin->Pos.x) || getbegy( win ) != short(imwin->Pos.y) || getmaxx(win) != short(imwin->Size.x) || getmaxy(win) != imwin->Size.y) {
-                delwin(win);
-                windows[cursesWinIdx] = newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x));
+            WINDOW *win = windows[cursesWinIdx];
+            if( getbegx( win ) != short( imwin->Pos.x ) || getbegy( win ) != short( imwin->Pos.y ) ||
+                getmaxx( win ) != short( imwin->Size.x ) || getmaxy( win ) != imwin->Size.y ) {
+                delwin( win );
+                windows[cursesWinIdx] = newwin( short( imwin->Size.y ), short( imwin->Size.x ),
+                                                short( imwin->Pos.y ), short( imwin->Pos.x ) );
             }
         }
         cursesWinIdx++;
     }
-    if(cursesWinIdx < int(windows.size())) {
+    if( cursesWinIdx < int( windows.size() ) ) {
         size_t lastIndex = cursesWinIdx;
-        for(; cursesWinIdx < windows.size(); cursesWinIdx++) {
-            if(windows[cursesWinIdx] != nullptr) {
+        for( ; cursesWinIdx < windows.size(); cursesWinIdx++ ) {
+            if( windows[cursesWinIdx] != nullptr ) {
                 delwin( windows[cursesWinIdx] );
             }
         }
-        windows.erase(windows.begin() + lastIndex, windows.end());
+        windows.erase( windows.begin() + lastIndex, windows.end() );
     }
 }
 wchar_t strTmp[] = {0, 0};
 void ImTui_ImplNcurses_DrawScreen( bool active )
 {
-    ImTui::ImplImtui_Data* bd = ImTui::ImTui_Impl_GetBackendData();
-    ImTui_ImplNCurses_Data* rd = ImTui_ImplNCurses_GetBackendData();
+    ImTui::ImplImtui_Data *bd = ImTui::ImTui_Impl_GetBackendData();
+    ImTui_ImplNCurses_Data *rd = ImTui_ImplNCurses_GetBackendData();
     if( active ) {
         nActiveFrames = 10;
     }
 
-    ImTui::TScreen& g_screen = bd->Screen;
-    create_destroy_curses_windows(rd->imtui_wins);
-    ImFont* font = nullptr;
-    for(WINDOW *cursesWin : rd->imtui_wins) {
+    ImTui::TScreen &g_screen = bd->Screen;
+    create_destroy_curses_windows( rd->imtui_wins );
+    ImFont *font = nullptr;
+    for( WINDOW *cursesWin : rd->imtui_wins ) {
         int nx = g_screen.nx;
         int ny = g_screen.ny;
 
-        for( int y = getbegy(cursesWin); y <= (getbegy(cursesWin) + getmaxy(cursesWin)); ++y ) {
+        for( int y = getbegy( cursesWin ); y <= ( getbegy( cursesWin ) + getmaxy( cursesWin ) ); ++y ) {
             constexpr int no_lastp = 0x7FFFFFFF;
             int lastp = no_lastp;
-            wmove(cursesWin, y - getbegy(cursesWin), 0);
-            for( int x = getbegx(cursesWin); x <= (getbegx(cursesWin) +  getmaxx(cursesWin)); ++x ) {
+            wmove( cursesWin, y - getbegy( cursesWin ), 0 );
+            for( int x = getbegx( cursesWin ); x <= ( getbegx( cursesWin ) +  getmaxx( cursesWin ) ); ++x ) {
                 const auto cell = g_screen.data[y * nx + x];
                 const uint16_t f = cell.fg;
                 const uint16_t b = cell.bg;
@@ -408,20 +464,19 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
                 }
                 strTmp[0] = cell.ch;
                 waddwstr( cursesWin, strTmp );
-                
-                if(cell.chwidth > 1)
-                {
-                    x += (cell.chwidth - 1);
+
+                if( cell.chwidth > 1 ) {
+                    x += ( cell.chwidth - 1 );
                 }
             }
             if( lastp != no_lastp ) {
                 wattroff( cursesWin, COLOR_PAIR( colPairs[lastp].second ) );
             }
         }
-        
-        wnoutrefresh(cursesWin);
+
+        wnoutrefresh( cursesWin );
     }
-    
+
 }
 
 bool ImTui_ImplNcurses_ProcessEvent()
