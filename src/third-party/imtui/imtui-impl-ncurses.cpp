@@ -115,28 +115,6 @@ void ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
     g_vsync = VSync( fps_active, fps_idle );
 
     //imtui_win = newwin(LINES, COLS, 0, 0);
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Tab, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_LeftArrow, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_RightArrow, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_UpArrow, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_DownArrow, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_PageUp, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_PageDown, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Home, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_End, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Insert, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Delete, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Backspace, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Space, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Enter, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Escape, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_KeypadEnter, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_A, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_C, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_V, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_X, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Y, true );
-    ImGui::GetIO().AddKeyEvent( ImGuiKey_Z, true );
 
     ImGui::GetIO().KeyRepeatDelay = 0.050;
     ImGui::GetIO().KeyRepeatRate = 0.050;
@@ -160,6 +138,79 @@ void ImTui_ImplNcurses_Shutdown()
     }
 }
 
+
+struct ImGuiKeyTranslation {
+    ImGuiKey key;
+    bool shift;
+    ImGuiKeyTranslation(ImGuiKey k, bool s = false) :
+        key(k),
+        shift(s)
+    {}
+};
+
+
+// returns ImGuiKey_None if it doesn't have an ImGui_Key counterpart
+// or if it is a character compatible with `ImGuiIO::addInputCharacter()`
+static ImGuiKeyTranslation ncurses_special_key_to_imgui_key(int key) {
+#define NK ImGuiKeyTranslation
+    switch (key) {
+        case KEY_DOWN:      return NK(ImGuiKey_DownArrow);
+        case KEY_UP:        return NK(ImGuiKey_UpArrow);
+        case KEY_LEFT:      return NK(ImGuiKey_LeftArrow);
+        case KEY_RIGHT:     return NK(ImGuiKey_RightArrow);
+        case KEY_HOME:      return NK(ImGuiKey_Home);
+        case KEY_BACKSPACE: return NK(ImGuiKey_Backspace);
+        case KEY_F(1):      return NK(ImGuiKey_F1);
+        case KEY_F(2):      return NK(ImGuiKey_F2);
+        case KEY_F(3):      return NK(ImGuiKey_F3);
+        case KEY_F(4):      return NK(ImGuiKey_F4);
+        case KEY_F(5):      return NK(ImGuiKey_F5);
+        case KEY_F(6):      return NK(ImGuiKey_F6);
+        case KEY_F(7):      return NK(ImGuiKey_F7);
+        case KEY_F(8):      return NK(ImGuiKey_F8);
+        case KEY_F(9):      return NK(ImGuiKey_F9);
+        case KEY_F(10):     return NK(ImGuiKey_F10);
+        case KEY_F(11):     return NK(ImGuiKey_F11);
+        case KEY_F(12):     return NK(ImGuiKey_F12);
+        case KEY_F(13):     return NK(ImGuiKey_F13);
+        case KEY_F(14):     return NK(ImGuiKey_F14);
+        case KEY_F(15):     return NK(ImGuiKey_F15);
+        case KEY_F(16):     return NK(ImGuiKey_F16);
+        case KEY_F(17):     return NK(ImGuiKey_F17);
+        case KEY_F(18):     return NK(ImGuiKey_F18);
+        case KEY_F(19):     return NK(ImGuiKey_F19);
+        case KEY_F(20):     return NK(ImGuiKey_F20);
+        case KEY_F(21):     return NK(ImGuiKey_F21);
+        case KEY_F(22):     return NK(ImGuiKey_F22);
+        case KEY_F(23):     return NK(ImGuiKey_F23);
+        case KEY_F(24):     return NK(ImGuiKey_F24);
+        case KEY_DC:        return NK(ImGuiKey_Delete);
+        case KEY_IC:        return NK(ImGuiKey_Insert);
+        case KEY_NPAGE:     return NK(ImGuiKey_PageUp);
+        case KEY_PPAGE:     return NK(ImGuiKey_PageDown);
+        case KEY_ENTER:     return NK(ImGuiKey_Enter);
+        case KEY_PRINT:     return NK(ImGuiKey_PrintScreen);
+        case KEY_A1:        return NK(ImGuiKey_Keypad7);
+        case KEY_A3:        return NK(ImGuiKey_Keypad9);
+        case KEY_B2:        return NK(ImGuiKey_Keypad5);
+        case KEY_C1:        return NK(ImGuiKey_Keypad1);
+        case KEY_C3:        return NK(ImGuiKey_Keypad3);
+        case KEY_END:       return NK(ImGuiKey_End);
+        case KEY_SDC:       return NK(ImGuiKey_Delete, true);
+        case KEY_SEND:      return NK(ImGuiKey_End, true);
+        case KEY_SHOME:     return NK(ImGuiKey_Home, true);
+        case KEY_SIC:       return NK(ImGuiKey_Insert, true);
+        case KEY_SPRINT:    return NK(ImGuiKey_PrintScreen, true);
+        case KEY_SLEFT:     return NK(ImGuiKey_LeftArrow, true);
+        case KEY_SRIGHT:    return NK(ImGuiKey_RightArrow, true);
+        case KEY_SR:        return NK(ImGuiKey_UpArrow, true);
+        case KEY_SF:        return NK(ImGuiKey_DownArrow, true);
+        default:            return NK(ImGuiKey_None);
+    }
+#undef NK
+}
+
+
 bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>> key_events )
 {
     bool hasInput = false;
@@ -168,7 +219,10 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
     int screenSizeY = 0;
 
     getmaxyx( stdscr, screenSizeY, screenSizeX );
-    ImGui::GetIO().DisplaySize = ImVec2( screenSizeX, screenSizeY );
+
+    ImGuiIO &io = ImGui::GetIO();
+
+    io.DisplaySize = ImVec2( screenSizeX, screenSizeY );
 
     static int mx = 0;
     static int my = 0;
@@ -179,10 +233,20 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
 
     input[2] = 0;
 
-    ImGui::GetIO().KeyCtrl = false;
-    ImGui::GetIO().KeyShift = false;
 
-    for( auto key_event_pair : key_events ) {
+
+    io.KeyCtrl = false;
+    io.KeyShift = false;
+
+    for (int k = (int)ImGuiKey_NamedKey_BEGIN; k < (int)ImGuiKey_NamedKey_END; k++) {
+        ImGuiKey key = (ImGuiKey)k;
+        // AddKeyEvent doesn't allow alias keys
+        if (!ImGui::IsAliasKey(key) && ImGui::IsKeyDown(key)){
+            io.AddKeyEvent( key, false );
+        }
+    }
+
+    for( std::pair<int, ImTui::mouse_event> key_event_pair : key_events ) {
         int c = key_event_pair.first;
 
         if( c == KEY_MOUSE ) {
@@ -202,45 +266,23 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
                 rbut = 0;
             }
             //printf("mstate = 0x%016lx\n", mstate);
-            ImGui::GetIO().KeyCtrl |= ( ( mstate & 0x0F000000 ) == 0x01000000 );
+            io.KeyCtrl |= ( ( mstate & 0x0F000000 ) == 0x01000000 );
         } else if( c != ERR ) {
             input[0] = ( c & 0x000000FF );
             input[1] = ( c & 0x0000FF00 ) >> 8;
             //printf("c = %d, c0 = %d, c1 = %d xxx\n", c, input[0], input[1]);
             if( c < 127 ) {
                 if( !ImGui::IsKeyDown( ImGuiKey_Enter ) ) {
-                    ImGui::GetIO().AddInputCharactersUTF8( input );
+                    io.AddInputCharactersUTF8( input );
                 }
-            }
-        if( c == 330 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_Delete );
-            } else if( c == KEY_BACKSPACE || c == KEY_DC || c == 127 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_Backspace );
-                // Shift + arrows (probably not portable :()
-            } else if( c == 393 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_LeftArrow );
-                ImGui::GetIO().KeyShift = true;
-            } else if( c == 402 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_RightArrow );
-                ImGui::GetIO().KeyShift = true;
-            } else if( c == 337 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_UpArrow );
-                ImGui::GetIO().KeyShift = true;
-            } else if( c == 336 ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_DownArrow );
-                ImGui::GetIO().KeyShift = true;
-            } else if( c == KEY_BACKSPACE ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_Backspace );
-            } else if( c == KEY_LEFT ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_LeftArrow );
-            } else if( c == KEY_RIGHT ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_RightArrow );
-            } else if( c == KEY_UP ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_UpArrow );
-            } else if( c == KEY_DOWN ) {
-                ImGui::GetIO().AddInputCharacter( ImGuiKey_DownArrow );
             } else {
-                ImGui::GetIO().AddInputCharacter( c );
+                ImGuiKeyTranslation trans = ncurses_special_key_to_imgui_key(c);
+                if (trans.key == ImGuiKey_None) {
+                    io.AddInputCharacter(c);
+                } else {
+                    io.AddKeyEvent( trans.key, true );
+                    io.KeyShift = trans.shift;
+                }
             }
         }
 
@@ -252,30 +294,30 @@ bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>>
     }
 
     if( ImGui::IsKeyDown( ImGuiKey_A ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
     if( ImGui::IsKeyDown( ImGuiKey_C ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
     if( ImGui::IsKeyDown( ImGuiKey_V ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
     if( ImGui::IsKeyDown( ImGuiKey_X ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
     if( ImGui::IsKeyDown( ImGuiKey_Y ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
     if( ImGui::IsKeyDown( ImGuiKey_Z ) ) {
-        ImGui::GetIO().KeyCtrl = true;
+        io.KeyCtrl = true;
     }
 
-    ImGui::GetIO().MousePos.x = mx;
-    ImGui::GetIO().MousePos.y = my;
-    ImGui::GetIO().MouseDown[0] = lbut;
-    ImGui::GetIO().MouseDown[1] = rbut;
+    io.MousePos.x = mx;
+    io.MousePos.y = my;
+    io.MouseDown[0] = lbut;
+    io.MouseDown[1] = rbut;
 
-    ImGui::GetIO().DeltaTime = g_vsync.delta_s();
+    io.DeltaTime = g_vsync.delta_s();
 
     return hasInput;
 }
