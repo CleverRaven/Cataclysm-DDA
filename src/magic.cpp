@@ -1216,8 +1216,7 @@ bool spell::can_cast( const Character &guy ) const
 
 bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
 {
-    bool castable = can_cast( guy );
-    if( castable ) {
+    if( can_cast( guy ) ) {
         return true;
     } else if ( type->magic_type.has_value() && type->magic_type.value()->cannot_cast_message.has_value() ) {
         failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
