@@ -139,9 +139,9 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
 {
     clear_map();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
-                                           badguy_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                           badguy_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",
-                                         dude_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                         dude_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;

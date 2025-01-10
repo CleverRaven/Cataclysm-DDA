@@ -270,7 +270,7 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
-                            const std::vector<std::string> &clothing,
+                            const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
@@ -295,9 +295,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    //BEFOREMERGE: Change to std::vector<itype_id>
-    for( const std::string &e : clothing ) {
-        wear_item( item( itype_id( e ) ), false );
+    for( const itype_id &e : clothing ) {
+        wear_item( item( e ), false );
     }
 
     worn.set_fitted();

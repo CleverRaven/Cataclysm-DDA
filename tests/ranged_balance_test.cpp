@@ -499,7 +499,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
     const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
     std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter",
                                             shooter_pos,
-                                            std::vector<std::string>(), 5, 10, 10, 10, 10 );
+                                            std::vector<itype_id>(), 5, 10, 10, 10, 10 );
     int other_check_success = 0;
     do {
         shooter->set_body();

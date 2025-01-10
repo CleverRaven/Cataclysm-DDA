@@ -21,7 +21,13 @@ static const damage_type_id damage_test_fire( "test_fire" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_hoodie( "hoodie" );
+static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_katana( "katana" );
+static const itype_id itype_long_underpants( "long_underpants" );
+static const itype_id itype_long_undertop( "long_undertop" );
+static const itype_id itype_longshirt( "longshirt" );
+static const itype_id itype_survivor_suit( "survivor_suit" );
 static const itype_id itype_test_fire_sword( "test_fire_sword" );
 static const itype_id itype_test_zentai( "test_zentai" );
 static const itype_id itype_test_zentai_immune_test_fire( "test_zentai_immune_test_fire" );
@@ -177,7 +183,7 @@ TEST_CASE( "Zombie_attacking_a_character", "[.melee]" )
 
     SECTION( "10/10/10/10, 3 all skills, good cotton armor" ) {
         standard_npc dude( "TestCharacter", dude_pos,
-        { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" },
+        { itype_hoodie, itype_jeans, itype_long_underpants, itype_long_undertop, itype_longshirt },
         3, 10, 10, 10, 10 );
         const float prob = brute_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
@@ -185,7 +191,7 @@ TEST_CASE( "Zombie_attacking_a_character", "[.melee]" )
     }
 
     SECTION( "10/10/10/10, 8 all skills, survivor suit" ) {
-        standard_npc dude( "TestCharacter", dude_pos, { "survivor_suit" }, 8, 10, 10, 10, 10 );
+        standard_npc dude( "TestCharacter", dude_pos, { itype_survivor_suit }, 8, 10, 10, 10, 10 );
         const float prob = brute_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
         check_near( prob, 0.025f, 0.0125f );
@@ -211,7 +217,7 @@ TEST_CASE( "Manhack_attacking_a_character", "[.melee]" )
 
     SECTION( "10/10/10/10, 3 all skills, good cotton armor" ) {
         standard_npc dude( "TestCharacter", dude_pos,
-        { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" },
+        { itype_hoodie, itype_jeans, itype_long_underpants, itype_long_undertop, itype_longshirt },
         3, 10, 10, 10, 10 );
         const float prob = brute_probability( manhack, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
@@ -219,7 +225,7 @@ TEST_CASE( "Manhack_attacking_a_character", "[.melee]" )
     }
 
     SECTION( "10/10/10/10, 8 all skills, survivor suit" ) {
-        standard_npc dude( "TestCharacter", dude_pos, { "survivor_suit" }, 8, 10, 10, 10, 10 );
+        standard_npc dude( "TestCharacter", dude_pos, { itype_survivor_suit }, 8, 10, 10, 10, 10 );
         const float prob = brute_probability( manhack, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
         check_near( prob, 0.25f, 0.05f );
@@ -245,7 +251,7 @@ TEST_CASE( "Hulk_smashing_a_character", "[.], [melee], [monattack]" )
 
     SECTION( "10/10/10/10, 3 all skills, good cotton armor" ) {
         standard_npc dude( "TestCharacter", dude_pos,
-        { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" },
+        { itype_hoodie, itype_jeans, itype_long_underpants, itype_long_undertop, itype_longshirt },
         3, 10, 10, 10, 10 );
         const float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
@@ -253,7 +259,7 @@ TEST_CASE( "Hulk_smashing_a_character", "[.], [melee], [monattack]" )
     }
 
     SECTION( "10/10/10/10, 8 all skills, survivor suit" ) {
-        standard_npc dude( "TestCharacter", dude_pos, { "survivor_suit" }, 8, 10, 10, 10, 10 );
+        standard_npc dude( "TestCharacter", dude_pos, { itype_survivor_suit }, 8, 10, 10, 10, 10 );
         const float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
         check_near( prob, 0.2f, 0.05f );
