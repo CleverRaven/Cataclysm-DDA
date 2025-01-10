@@ -8748,7 +8748,6 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
 
     bool anything_left = false;
     for( const harvest_entry &entry : *dead_monster->decay ) {
-        //BEFOREMERGE: Typify raw string harvest_entry::drop
         item harvest = item( itype_id( entry.drop ) );
         const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
         const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;

@@ -774,15 +774,13 @@ void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
+    obj.read( "used_up_item", used_up_item );
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         int lo = vit.get_int( 1 );
         int hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
-
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
-
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -882,9 +880,8 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, const tripoin
         }
     }
 
-    //BEFOREMERGE: Typify raw string consume_drug_iuse::used_up_item
-    if( !used_up_item.empty() ) {
-        item used_up( itype_id( used_up_item ), it.birthday() );
+    if( !used_up_item.is_null() ) {
+        item used_up( used_up_item, it.birthday() );
         p->i_add_or_drop( used_up );
     }
 

@@ -162,10 +162,12 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
+static const itype_id itype_cactus_pad( "cactus_pad" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_dahlia_root( "dahlia_root" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
@@ -185,12 +187,16 @@ static const itype_id itype_nail( "nail" );
 static const itype_id itype_nanomaterial( "nanomaterial" );
 static const itype_id itype_nectar( "nectar" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
+static const itype_id itype_poppy_bud( "poppy_bud" );
 static const itype_id itype_poppy_nectar( "poppy_nectar" );
+static const itype_id itype_seed_cactus( "seed_cactus" );
+static const itype_id itype_seed_dahlia( "seed_dahlia" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
+static const itype_id itype_withered( "withered" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
@@ -2263,11 +2269,9 @@ bool iexamine_helper::drink_nectar( Character &you )
 /**
  * Spawn an item after harvesting the plant
  */
-//BEFOREMERGE: Change to itype_id &itemid
-void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
-                                      bool force_drop )
+void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bool force_drop )
 {
-    item harvest = item( itype_id( itemid ) );
+    item harvest( itemid );
     if( harvest.has_temperature() ) {
         harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
@@ -2339,8 +2343,8 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
 
     here.furn_set( examp, furn_str_id::NULL_ID() );
 
-    iexamine_helper::handle_harvest( you, "poppy_bud", false );
-    iexamine_helper::handle_harvest( you, "withered", false );
+    iexamine_helper::handle_harvest( you, itype_poppy_bud, false );
+    iexamine_helper::handle_harvest( you, itype_withered, false );
 }
 
 /**
@@ -2366,8 +2370,8 @@ void iexamine::flower_cactus( Character &you, const tripoint_bub_ms &examp )
 
     here.furn_set( examp, furn_str_id::NULL_ID() );
 
-    iexamine_helper::handle_harvest( you, "cactus_pad", false );
-    iexamine_helper::handle_harvest( you, "seed_cactus", false );
+    iexamine_helper::handle_harvest( you, itype_cactus_pad, false );
+    iexamine_helper::handle_harvest( you, itype_seed_cactus, false );
 }
 
 /**
@@ -2402,10 +2406,10 @@ void iexamine::flower_dahlia( Character &you, const tripoint_bub_ms &examp )
     here.furn_set( examp, furn_str_id::NULL_ID() );
 
     if( can_get_root ) {
-        iexamine_helper::handle_harvest( you, "dahlia_root", false );
+        iexamine_helper::handle_harvest( you, itype_dahlia_root, false );
     }
-    iexamine_helper::handle_harvest( you, "seed_dahlia", false );
-    iexamine_helper::handle_harvest( you, "withered", false );
+    iexamine_helper::handle_harvest( you, itype_seed_dahlia, false );
+    iexamine_helper::handle_harvest( you, itype_withered, false );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -2515,7 +2519,7 @@ void iexamine::flower_marloss( Character &you, const tripoint_bub_ms &examp )
     }
     here.furn_set( examp, furn_str_id::NULL_ID() );
     here.spawn_item( you.pos_bub(), itype_marloss_seed, 1, 3, calendar::turn );
-    iexamine_helper::handle_harvest( you, "withered", false );
+    iexamine_helper::handle_harvest( you, itype_withered, false );
 }
 
 /**
