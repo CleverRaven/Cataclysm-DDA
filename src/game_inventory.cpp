@@ -2620,8 +2620,8 @@ void game_menus::inv::compare( const std::optional<tripoint> &offset )
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset ) {
-        inv_s.add_map_items( you.pos() + *offset );
-        inv_s.add_vehicle_items( you.pos() + *offset );
+        inv_s.add_map_items( you.pos_bub() + *offset );
+        inv_s.add_vehicle_items( you.pos_bub() + *offset );
     } else {
         inv_s.add_nearby_items();
     }
