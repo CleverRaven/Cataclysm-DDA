@@ -6,7 +6,7 @@
 
 static const itype_id itype_test_fire_ax( "test_fire_ax" );
 static const itype_id itype_test_gum( "test_gum" );
-static const itype_id itype_test_halligan( "itype_test_halligan" );
+static const itype_id itype_test_halligan( "test_halligan" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
