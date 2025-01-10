@@ -2299,7 +2299,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         set_seen_cache_dirty( p );
     }
 
-    if( new_t.liquid_source_item_id.is_valid() &&
+    if( !new_t.liquid_source_item_id.is_null() &&
         new_t.liquid_source_count != std::make_pair( 0, 0 ) ) {
         item water( new_t.liquid_source_item_id, calendar::start_of_cataclysm );
         water.charges = rng( new_t.liquid_source_count.first, new_t.liquid_source_count.second );
@@ -5580,7 +5580,7 @@ item map::liquid_from( const tripoint_bub_ms &p ) const
     weather_manager &weather = get_weather();
     ter_t source_terrain = ter( p ).obj();
 
-    if( source_terrain.liquid_source_item_id.is_valid() &&
+    if( !source_terrain.liquid_source_item_id.is_null() &&
         source_terrain.liquid_source_count == std::make_pair( 0, 0 ) ) {
         item ret( source_terrain.liquid_source_item_id, calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
