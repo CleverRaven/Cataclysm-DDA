@@ -74,5 +74,10 @@
         { "case": 20, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_06" } }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
+    "effect": [  ]
   }
 ]

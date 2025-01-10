@@ -83,9 +83,11 @@ static void test_archery_balance( const std::string &weapon_type, const std::str
     test_projectile.impact = weapon.gun_damage();
     test_projectile.proj_effects = weapon.ammo_effects();
     test_projectile.critical_multiplier = weapon.ammo_data()->ammo->critical_multiplier;
+    std::map<Creature *, std::pair<int, int>> targets_hit;
 
     dealt_projectile_attack attack {
-        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms::zero, accuracy_critical * 0.75
+        test_projectile, nullptr, dealt_damage_instance(), tripoint_bub_ms::zero, accuracy_critical * 0.75,
+        false, false, targets_hit
     };
     if( !killable.empty() ) {
         test_projectile_attack( killable, true, attack, weapon_type, headshot );
