@@ -13,12 +13,12 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_M24( "M24" );
 static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_cz75( "cz75" );
 static const itype_id itype_cz75mag_16rd( "cz75mag_16rd" );
 static const itype_id itype_cz75mag_20rd( "cz75mag_20rd" );
 static const itype_id itype_cz75mag_26rd( "cz75mag_26rd" );
-static const itype_id itype_M24( "M24" );
 
 TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" )
 {

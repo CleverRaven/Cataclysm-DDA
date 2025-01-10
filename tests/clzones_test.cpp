@@ -15,13 +15,14 @@
 #include "type_id.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
 static const itype_id itype_ammolink223( "ammolink223" );
 static const itype_id itype_belt223( "belt223" );
-static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_apple( "test_apple" );
+static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_milk( "test_milk" );
 static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );

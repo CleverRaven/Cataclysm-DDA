@@ -52,6 +52,8 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_UPS_ON( "UPS_ON" );
+static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_amplifier( "amplifier" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_backpack( "backpack" );
@@ -108,8 +110,6 @@ static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_storage_battery( "test_storage_battery" );
 static const itype_id itype_test_ups( "test_ups" );
 static const itype_id itype_thread( "thread" );
-static const itype_id itype_UPS_ON( "UPS_ON" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_vac_mold( "vac_mold" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );

@@ -12,9 +12,9 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static const itype_id itype_butter( "butter" );
 static const itype_id itype_bookplate( "bookplate" );
 static const itype_id itype_bootsheath( "bootsheath" );
+static const itype_id itype_butter( "butter" );
 static const itype_id itype_test_arrow_wood( "test_arrow_wood" );
 static const itype_id itype_test_quiver( "test_quiver" );
 static const itype_id itype_tunic( "tunic" );

@@ -13,10 +13,10 @@
 
 static const flag_id json_flag_UNDERSIZE( "UNDERSIZE" );
 
+static const itype_id itype_holster( "holster" );
 static const itype_id itype_test_ballistic_vest( "test_ballistic_vest" );
 static const itype_id itype_test_complex_phase( "test_complex_phase" );
 static const itype_id itype_test_ghost_vest( "test_ghost_vest" );
-static const itype_id itype_holster( "holster" );
 static const itype_id itype_test_jacket_jean( "test_jacket_jean" );
 static const itype_id itype_test_load_bearing_vest( "test_load_bearing_vest" );
 static const itype_id itype_test_longshirt( "test_longshirt" );

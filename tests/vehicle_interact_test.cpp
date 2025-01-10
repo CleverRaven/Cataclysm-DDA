@@ -21,13 +21,13 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
+static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_goggles_welding( "goggles_welding" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_lc_steel_chunk( "lc_steel_chunk" );
 static const itype_id itype_test_storage_battery( "test_storage_battery" );
-static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welding_wire_steel( "welding_wire_steel" );
 

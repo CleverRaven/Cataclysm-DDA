@@ -14,8 +14,19 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const efftype_id effect_winded( "winded" );
+
 static const itype_id itype_flotation_vest( "flotation_vest" );
 static const itype_id itype_swim_fins( "swim_fins" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const skill_id skill_swimming( "swimming" );
+
+static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 
 static void setup_test_lake()
 {
@@ -149,14 +160,6 @@ TEST_CASE( "avatar_diving", "[diving]" )
     // making assumptions about what z-level they're on.
     g->vertical_shift( 0 );
 }
-
-static const efftype_id effect_winded( "winded" );
-static const move_mode_id move_mode_crouch( "crouch" );
-static const move_mode_id move_mode_prone( "prone" );
-static const move_mode_id move_mode_run( "run" );
-static const move_mode_id move_mode_walk( "walk" );
-static const skill_id skill_swimming( "swimming" );
-static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 
 struct swimmer_stats {
     int strength = 0;

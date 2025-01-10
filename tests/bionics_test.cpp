@@ -36,14 +36,14 @@ static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
 
 static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_jumper_cable( "jumper_cable" );
+static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_pants_cargo( "pants_cargo" );
 static const itype_id itype_solarpack_on( "solarpack_on" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_test_backpack( "test_backpack" );
-static const itype_id itype_UPS_ON( "UPS_ON" );
 
 TEST_CASE( "Bionic_power_capacity", "[bionics] [power]" )
 {

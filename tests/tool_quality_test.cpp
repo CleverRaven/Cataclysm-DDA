@@ -4,6 +4,7 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
@@ -12,7 +13,6 @@ static const itype_id itype_test_can_food( "test_can_food" );
 static const itype_id itype_test_cordless_drill( "test_cordless_drill" );
 static const itype_id itype_test_liquid( "test_liquid" );
 static const itype_id itype_test_sonic_screwdriver( "test_sonic_screwdriver" );
-static const itype_id itype_UPS_ON( "UPS_ON" );
 
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_DRILL( "DRILL" );

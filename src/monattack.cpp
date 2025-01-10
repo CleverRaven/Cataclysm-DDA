@@ -155,8 +155,8 @@ static const itype_id itype_bot_gasbomb_hack( "bot_gasbomb_hack" );
 static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
-static const itype_id itype_processor( "processor" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_processor( "processor" );
 static const itype_id itype_sporeos( "sporeos" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
