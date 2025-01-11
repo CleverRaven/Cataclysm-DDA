@@ -242,6 +242,16 @@
     "flags": [ "NO_DROP" ]
   },
   {
+    "id": "khuunaofaai_ammo_incendiary",
+    "range": 88,
+    "name": { "str": "Khuunäöfaai incendiary payload" },
+    "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly flammable and reactive to oxygen, removing it from the tank would be a bad idea.",
+    "ammo_type": "khuunaofaai_payload",
+    "copy-from": "khuunaofaai_ammo_firework",
+    "weight": "12 g",
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "PYROPHORIC" ]
+  },
+  {
     "id": "33naval_ball",
     "type": "AMMO",
     "name": { "str_sp": "3.3 naval, FMJ" },

@@ -62,7 +62,7 @@
     "looks_like": "metal_tank_little",
     "type": "MAGAZINE",
     "name": { "str": "ordnance cannon celebration canister" },
-    "description": "A pressurized tank containing the original firework load of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+    "description": "A pressurized tank containing the original firework payload of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
     "weight": "1268 g",
     "volume": "1250 ml",
     "variant_type": "gun",
@@ -70,7 +70,7 @@
       {
         "id": "exodii_khuunaofaai_mag_firework",
         "name": { "str": "Khuunäöfaai celebration canister" },
-        "description": "A pressurized tank containing the original firework load of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+        "description": "A pressurized tank containing the original firework payload of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
         "weight": 1
       }
     ],
@@ -90,6 +90,31 @@
     ],
     "flags": [ "MAG_BULKY", "NO_UNLOAD", "NO_RELOAD" ],
     "material": "steel"
+  },
+  {
+    "id": "exodii_khuunaofaai_mag_incendiary",
+    "copy-from": "exodii_khuunaofaai_mag_firework",
+    "name": { "str": "ordnance cannon incendiary canister" },
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_incendiary",
+        "name": { "str": "Khuunäöfaai incendiary canister" },
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
+        "weight": 1
+      }
+    ],
+    "price_postapoc": "38 USD 50 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_ammo_incendiary": 4 },
+        "watertight": true
+      }
+    ]
   },
   {
     "id": "ree_33_4_mag",
