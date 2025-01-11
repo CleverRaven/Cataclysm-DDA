@@ -1200,7 +1200,6 @@ void debug_menu::wishitemgroup( bool test )
 {
     std::vector<item_group_id> groups = item_controller->get_all_group_names();
     uilist menu;
-    menu.text = test ? _( "Test which group?" ) : _( "Spawn which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
@@ -1211,8 +1210,7 @@ void debug_menu::wishitemgroup( bool test )
             break;
         }
         size_t amount = 0;
-        number_input_popup<int> popup( 0, test ? 100 : 1,
-                                       string_format( _( "Spawn group %s how many times?" ), groups[index].c_str() ) ) ;
+        number_input_popup<int> popup( 0, test ? 100 : 1, _( "Spawn group how many times?" ) );
         const int &ret = popup.query();
         if( popup.cancelled() || ret < 1 ) {
             return;
@@ -1241,8 +1239,8 @@ void debug_menu::wishitemgroup( bool test )
                 itemnames_by_popularity.insert( std::pair<int, std::string>( e.second, e.first ) );
             }
             uilist results_menu;
-            results_menu.text = string_format( _( "Result of spawning %s %d times:" ), groups[index].c_str(),
-                                               amount );
+            results_menu.text = string_format( _( "Potential result of spawning %s %d %s:" ),
+                                               groups[index].c_str(), amount, amount == 1 ? _( "time" ) : _( "times" ) );
             for( const auto &e : itemnames_by_popularity ) {
                 results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
                                                    string_format( _( "%d x %s" ), e.first, e.second ) );
