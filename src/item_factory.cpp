@@ -29,10 +29,12 @@
 #include "explosion.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "input.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
@@ -5368,11 +5370,11 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
     return rval;
 }
 
-void item_group::debug_spawn()
+void item_group::debug_spawn( bool test )
 {
     std::vector<item_group_id> groups = item_controller->get_all_group_names();
     uilist menu;
-    menu.text = _( "Test which group?" );
+    menu.text = test ? _( "Test which group?" ) : _( "Spawn which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
@@ -5382,26 +5384,46 @@ void item_group::debug_spawn()
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
-        // Spawn items from the group 100 times
-        std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
-            const ItemList items = items_from( groups[index], calendar::turn );
-            for( const item &it : items ) {
-                itemnames[it.display_name()]++;
+        size_t amount = 0;
+        number_input_popup<int> popup( 0, 100, string_format( _( "Spawn group %s how many times?" ),
+                                       groups[index].c_str() ) ) ;
+        const int &ret = popup.query();
+        if( popup.cancelled() || ret < 1 ) {
+            return;
+        }
+        amount = static_cast<size_t>( ret );
+        if( !test ) {
+            const std::optional<tripoint_bub_ms> p = g->look_around();
+            if( !p ) {
+                return;
             }
+            for( size_t a = 0; a < amount; a++ ) {
+                const ItemList items = items_from( groups[index], calendar::turn );
+                for( const item &it : items ) {
+                    get_map().add_item_or_charges( *p, it );
+                }
+            }
+        } else {
+            std::map<std::string, int> itemnames;
+            for( size_t a = 0; a < amount; a++ ) {
+                const ItemList items = items_from( groups[index], calendar::turn );
+                for( const item &it : items ) {
+                    itemnames[it.display_name()]++;
+                }
+            }
+            // Invert the map to get sorting!
+            std::multimap<int, std::string> itemnames2;
+            for( const auto &e : itemnames ) {
+                itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
+            }
+            uilist menu2;
+            menu2.text = string_format( _( "Result of spawning %s %d times:" ), groups[index].c_str(), amount );
+            for( const auto &e : itemnames2 ) {
+                menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
+                                            string_format( _( "%d x %s" ), e.first, e.second ) );
+            }
+            menu2.query();
         }
-        // Invert the map to get sorting!
-        std::multimap<int, std::string> itemnames2;
-        for( const auto &e : itemnames ) {
-            itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
-        }
-        uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
-        for( const auto &e : itemnames2 ) {
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
-                                        string_format( _( "%d x %s" ), e.first, e.second ) );
-        }
-        menu2.query();
     }
 }
 

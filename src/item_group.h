@@ -88,9 +88,9 @@ bool group_is_defined( const item_group_id &group_id );
  */
 Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
 /**
- * Shows an menu to debug the item groups.
+ * Shows an menu to debug the item groups. Spawns items if test is false, otherwise displays would be spawned items.
  */
-void debug_spawn();
+void debug_spawn( bool test );
 /**
  * See @ref Item_factory::load_item_group
  */

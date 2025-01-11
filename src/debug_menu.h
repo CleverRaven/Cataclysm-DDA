@@ -21,6 +21,7 @@ namespace debug_menu
 
 enum class debug_menu_index : int {
     WISH,
+    SPAWN_ITEM_GROUP,
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
