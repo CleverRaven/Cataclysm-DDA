@@ -5385,8 +5385,8 @@ void item_group::debug_spawn( bool test )
             break;
         }
         size_t amount = 0;
-        number_input_popup<int> popup( 0, 100, string_format( _( "Spawn group %s how many times?" ),
-                                       groups[index].c_str() ) ) ;
+        number_input_popup<int> popup( 0, test ? 100 : 1,
+                                       string_format( _( "Spawn group %s how many times?" ), groups[index].c_str() ) ) ;
         const int &ret = popup.query();
         if( popup.cancelled() || ret < 1 ) {
             return;
