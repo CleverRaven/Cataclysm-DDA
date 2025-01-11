@@ -34,7 +34,11 @@ static const damage_type_id damage_cut( "cut" );
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 static const enchantment_id enchantment_ENCH_TEST_TAIL( "ENCH_TEST_TAIL" );
 
+static const itype_id itype_test_boxing_gloves( "test_boxing_gloves" );
+static const itype_id itype_test_goggles_welding( "test_goggles_welding" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
 static const itype_id itype_test_tail_encumber( "test_tail_encumber" );
+static const itype_id itype_test_winglets( "test_winglets" );
 
 static const limb_score_id limb_score_test( "test" );
 
@@ -363,7 +367,7 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
     }
 
     WHEN( "Character has high eye encumbrance" ) {
-        item eyecover( "test_goggles_welding" );
+        item eyecover( itype_test_goggles_welding );
         dude.wear_item( eyecover );
         REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor,
                               get_body_part_flags::primary_type ).front() ) == 60 );
@@ -386,7 +390,7 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
     }
 
     WHEN( "Character has high eye encumbrance and broken arms" ) {
-        item eyecover( "test_goggles_welding" );
+        item eyecover( itype_test_goggles_welding );
         dude.wear_item( eyecover );
         for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
                 get_body_part_flags::primary_type ) ) {
@@ -423,7 +427,7 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     }
 
     WHEN( "Character is heavily encumbered" ) {
-        item hazmat_suit( "test_hazmat_suit" );
+        item hazmat_suit( itype_test_hazmat_suit );
         dude.wear_item( hazmat_suit );
         REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot,
                               get_body_part_flags::primary_type ).front() ) == 37 );
@@ -434,7 +438,7 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     }
 
     WHEN( "Character has broken arms and is heavily encumbered" ) {
-        item hazmat_suit( "test_hazmat_suit" );
+        item hazmat_suit( itype_test_hazmat_suit );
         dude.wear_item( hazmat_suit );
         for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
                 get_body_part_flags::primary_type ) ) {
@@ -452,8 +456,8 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
 
 TEST_CASE( "Weighted_limb_types", "[character][limb]" )
 {
-    item boxing_gloves( "test_boxing_gloves" );
-    item wing_covers( "test_winglets" );
+    item boxing_gloves( itype_test_boxing_gloves );
+    item wing_covers( itype_test_winglets );
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
 

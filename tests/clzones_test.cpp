@@ -15,11 +15,18 @@
 #include "type_id.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
 static const itype_id itype_ammolink223( "ammolink223" );
 static const itype_id itype_belt223( "belt223" );
+static const itype_id itype_test_apple( "test_apple" );
+static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
+static const itype_id itype_test_milk( "test_milk" );
+static const itype_id
+itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
+static const itype_id itype_test_wine( "test_wine" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
@@ -131,7 +138,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
     SECTION( "without perishable zones" ) {
         GIVEN( "a non-perishable food" ) {
-            item nonperishable_food( "test_bitter_almond" );
+            item nonperishable_food( itype_test_bitter_almond );
             REQUIRE_FALSE( nonperishable_food.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -142,7 +149,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a non-perishable drink" ) {
-            item nonperishable_drink( "test_wine" );
+            item nonperishable_drink( itype_test_wine );
             REQUIRE_FALSE( nonperishable_drink.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -153,7 +160,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a perishable food" ) {
-            item perishable_food( "test_apple" );
+            item perishable_food( itype_test_apple );
             REQUIRE( perishable_food.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -164,7 +171,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a perishable drink" ) {
-            item perishable_drink( "test_milk" );
+            item perishable_drink( itype_test_milk );
             REQUIRE( perishable_drink.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -180,7 +187,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         create_tile_zone( "PDrink", zone_type_LOOT_PDRINK, tripoint_abs_ms::zero + tripoint::south );
 
         GIVEN( "a non-perishable food" ) {
-            item nonperishable_food( "test_bitter_almond" );
+            item nonperishable_food( itype_test_bitter_almond );
             REQUIRE_FALSE( nonperishable_food.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -190,7 +197,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within an unsealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
@@ -200,7 +207,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within a sealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
@@ -214,7 +221,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a non-perishable drink" ) {
-            item nonperishable_drink( "test_wine" );
+            item nonperishable_drink( itype_test_wine );
             REQUIRE_FALSE( nonperishable_drink.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -224,7 +231,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within an unsealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
@@ -234,7 +241,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within a sealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
@@ -248,7 +255,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a perishable food" ) {
-            item perishable_food( "test_apple" );
+            item perishable_food( itype_test_apple );
             REQUIRE( perishable_food.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -258,7 +265,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within an unsealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
@@ -268,7 +275,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within a sealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
@@ -282,7 +289,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
         }
 
         GIVEN( "a perishable drink" ) {
-            item perishable_drink( "test_milk" );
+            item perishable_drink( itype_test_milk );
             REQUIRE( perishable_drink.goes_bad() );
 
             WHEN( "sorting without a container" ) {
@@ -292,7 +299,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within an unsealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
@@ -302,7 +309,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
             }
 
             WHEN( "sorting within a sealed container" ) {
-                item container( "test_watertight_open_sealed_container_250ml" );
+                item container( itype_test_watertight_open_sealed_container_250ml );
                 REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==

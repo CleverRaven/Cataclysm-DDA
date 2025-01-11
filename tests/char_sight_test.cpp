@@ -18,6 +18,10 @@
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 
+static const itype_id itype_atomic_lamp( "atomic_lamp" );
+static const itype_id itype_blindfold( "blindfold" );
+static const itype_id itype_glasses_eye( "glasses_eye" );
+
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 
@@ -73,7 +77,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     }
 
     SECTION( "wielding a bright lamp" ) {
-        item lamp( "atomic_lamp" );
+        item lamp( itype_atomic_lamp );
         dummy.wield( lamp );
         REQUIRE( dummy.active_light() == Approx( 15.0f ) );
 
@@ -102,7 +106,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     }
 
     SECTION( "blindfolded" ) {
-        dummy.wear_item( item( "blindfold" ) );
+        dummy.wear_item( item( itype_blindfold ) );
         REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         // 11.0 is zero light or blindness
@@ -186,7 +190,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
     }
 
     WHEN( "blindfolded" ) {
-        dummy.wear_item( item( "blindfold" ) );
+        dummy.wear_item( item( itype_blindfold ) );
         REQUIRE( dummy.worn_with_flag( flag_BLIND ) );
 
         THEN( "impaired sight, with 0 tiles of range" ) {
@@ -223,7 +227,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         }
 
         WHEN( "wearing glasses" ) {
-            dummy.wear_item( item( "glasses_eye" ) );
+            dummy.wear_item( item( itype_glasses_eye ) );
             REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
             THEN( "unimpaired sight, with " << MAX_VIEW_DISTANCE << " tiles of range" ) {
@@ -337,7 +341,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
 
             // Glasses can correct Ursine Vision in bright light
             AND_WHEN( "wearing glasses" ) {
-                dummy.wear_item( item( "glasses_eye" ) );
+                dummy.wear_item( item( itype_glasses_eye ) );
                 REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
                 THEN( "unimpaired sight, with 87 tiles of range" ) {

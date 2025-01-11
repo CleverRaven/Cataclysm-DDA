@@ -143,6 +143,9 @@ static const efftype_id effect_bleed( "bleed" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const itype_id itype_architect_cube( "architect_cube" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
 static const matype_id style_none( "style_none" );
 
 static const mongroup_id GROUP_DEBUG_EXACTLY_ONE( "GROUP_DEBUG_EXACTLY_ONE" );
@@ -3833,7 +3836,7 @@ void do_debug_quick_setup()
     u.set_mutations( setup_traits );
     u.remove_weapon();
     u.clear_worn();
-    item backpack( "debug_backpack" );
+    item backpack( itype_debug_backpack );
     u.wear_item( backpack );
     for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         u.set_skill_level( pair.first, 10 );
@@ -4013,7 +4016,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
-            player_character.i_add( item( "architect_cube", calendar::turn ) );
+            player_character.i_add( item( itype_architect_cube, calendar::turn ) );
             break;
 
         case debug_menu_index::MAP_EDITOR:

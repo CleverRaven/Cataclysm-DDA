@@ -4375,7 +4375,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         got_anything = roll > 0;
         for( int i = 0; i < roll; i++ ) {
-            iexamine_helper::handle_harvest( who, entry.drop, false );
+            iexamine_helper::handle_harvest( who, itype_id( entry.drop ), false );
         }
     }
 

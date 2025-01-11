@@ -774,15 +774,13 @@ void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
+    obj.read( "used_up_item", used_up_item );
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         int lo = vit.get_int( 1 );
         int hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
-
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
-
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -882,7 +880,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, const tripoin
         }
     }
 
-    if( !used_up_item.empty() ) {
+    if( !used_up_item.is_null() ) {
         item used_up( used_up_item, it.birthday() );
         p->i_add_or_drop( used_up );
     }
@@ -4121,7 +4119,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.put_in( item( "barrel_small", calendar::turn ), pocket_type::MOD );
+    obj.put_in( item( itype_barrel_small, calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4182,7 +4180,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint_
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
-    obj.put_in( item( "stock_none", calendar::turn ), pocket_type::MOD );
+    obj.put_in( item( itype_stock_none, calendar::turn ), pocket_type::MOD );
 
     return 0;
 }

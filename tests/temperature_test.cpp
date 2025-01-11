@@ -9,6 +9,9 @@
 #include "point.h"
 #include "weather.h"
 
+static const itype_id itype_meat_cooked( "meat_cooked" );
+static const itype_id itype_water( "water" );
+
 static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
@@ -17,7 +20,7 @@ static void set_map_temperature( units::temperature new_temperature )
 
 TEST_CASE( "Item_spawns_with_right_thermal_attributes", "[temperature]" )
 {
-    item D( "meat_cooked" );
+    item D( itype_meat_cooked );
 
     CHECK( D.get_specific_heat_liquid() == 3.7f );
     CHECK( D.get_specific_heat_solid() == 2.15f );
@@ -59,8 +62,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // https://www.researchgate.net/publication/282841499_Study_on_heat_transfer_coefficients_during_cooling_of_PET_bottles_for_food_beverages
         // Checked with incremental updates and whole time at once
 
-        item water1( "water" );
-        item water2( "water" );
+        item water1( itype_water );
+        item water2( itype_water );
 
         set_map_temperature( units::from_fahrenheit( 131 ) ); // 55 C
 
@@ -99,8 +102,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // 4) Wait two hours then Meat 1 and 2 at 0 C frozen
         // 5) Wait a bit over hour then Meat 1 and 2 at about -5.2 C
 
-        item meat1( "meat_cooked" );
-        item meat2( "meat_cooked" );
+        item meat1( itype_meat_cooked );
+        item meat2( itype_meat_cooked );
 
         set_map_temperature( units::from_fahrenheit( 122 ) ); //50 C
 
@@ -187,8 +190,8 @@ TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
         // Process 100 min in different steps
         // Both meats at about 2.2 C
 
-        item meat1( "meat_cooked" );
-        item meat2( "meat_cooked" );
+        item meat1( itype_meat_cooked );
+        item meat2( itype_meat_cooked );
 
         set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
@@ -264,7 +267,7 @@ TEST_CASE( "Temperature_controlled_location", "[temperature]" )
         // Process immediately in heater. Sets temperature to temperatures::normal.
         // Process water 15 min later. Should still be temperatures::normal.
         // Process water 2h 3m later. Should still be temperatures::normal.
-        item water1( "water" );
+        item water1( itype_water );
 
         set_map_temperature( units::from_fahrenheit( 0 ) ); // -17 C
 

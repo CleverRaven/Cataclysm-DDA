@@ -2661,7 +2661,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( string_starts_with( found_id, "corpse_" ) ) {
                 tmp = item( itype_corpse, calendar::turn_zero );
             } else {
-                tmp = item( found_id, calendar::turn_zero );
+                tmp = item( itype_id( found_id ), calendar::turn_zero );
             }
             if( !variant.empty() ) {
                 tmp.set_itype_variant( variant );
