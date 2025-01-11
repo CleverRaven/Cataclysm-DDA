@@ -174,10 +174,12 @@ static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_corpse_generic_human( "corpse_generic_human" );
+static const itype_id itype_craft( "craft" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_lit( "joint_lit" );
-static const itype_id itype_null( "null" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
@@ -540,7 +542,7 @@ static void inherit_rot_from_components( item &it )
 }
 
 item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
-    : item( "craft", calendar::turn )
+    : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
@@ -574,7 +576,7 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
 }
 
 item::item( const recipe *rec, int qty, item &component )
-    : item( "disassembly", calendar::turn )
+    : item( itype_disassembly, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
@@ -621,7 +623,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
+    itype_id corpse_type = mt == mtype_id::NULL_ID() ? itype_corpse_generic_human : itype_corpse;
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -1249,7 +1251,7 @@ bool item::is_worn_by_player() const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( itype_null ), qty,
+    return in_container( type->default_container.value_or( itype_id::NULL_ID() ), qty,
                          type->default_container_sealed, type->default_container_variant.value_or( "" ) );
 }
 
@@ -6659,7 +6661,7 @@ int item::on_wield_cost( const Character &you ) const
             d /= std::max( you.get_skill_level( melee_skill() ), 1.0f );
         }
 
-        int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
+        int penalty = get_var( "volume", volume() / 250_ml ) * d;
         // arbitrary no more than 7 second of penalty
         mv += std::min( penalty, 700 );
     }
@@ -7408,7 +7410,7 @@ units::volume item::collapsed_volume_delta() const
                       has_flag( flag_REMOVED_STOCK ) ) ) {
         // consider only the base size of the gun (without mods)
         int tmpvol = get_var( "volume",
-                              ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
+                              ( type->volume - type->gun->barrel_volume ) / 250_ml );
         if( tmpvol <= 3 ) {
             // intentional NOP
         } else if( tmpvol <= 5 ) {
@@ -7513,7 +7515,7 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
     const int local_volume = get_var( "volume", -1 );
     units::volume ret;
     if( local_volume >= 0 ) {
-        ret = local_volume * units::legacy_volume_factor;
+        ret = local_volume * 250_ml;
     } else if( integral ) {
         ret = type->integral_volume;
     } else {
@@ -12228,7 +12230,7 @@ bool item::burn( fire_data &frd )
         if( type->volume == 0_ml ) {
             charges = 0;
         } else {
-            charges -= roll_remainder( burn_added * units::legacy_volume_factor * type->stack_size /
+            charges -= roll_remainder( burn_added * 250_ml * type->stack_size /
                                        ( 3.0 * type->volume ) );
         }
 
@@ -12253,7 +12255,7 @@ bool item::burn( fire_data &frd )
 
     burnt += roll_remainder( burn_added );
 
-    const int vol = base_volume() / units::legacy_volume_factor;
+    const int vol = base_volume() / 250_ml;
     return burnt >= vol * 3;
 }
 
@@ -12290,7 +12292,7 @@ bool item::flammable( int threshold ) const
         flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
-        flammability = flammability * vol / units::legacy_volume_factor;
+        flammability = flammability * vol / 250_ml;
     }
 
     return flammability > threshold;
@@ -13533,7 +13535,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
     if( !ready_to_revive( here, pos ) ) {
         return false;
     }
-    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt &&
+    if( rng( 0, volume() / 250_ml ) > burnt &&
         g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( corpse->in_species( species_ROBOT ) ) {

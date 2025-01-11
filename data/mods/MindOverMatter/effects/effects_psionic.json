@@ -314,7 +314,334 @@
     "apply_message": "",
     "remove_message": "Your gear suddenly seems to weigh you down.",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "0"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "2"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_01" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "2"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "4"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_02" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "4"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "6"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_03" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "6"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "8"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_04" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "8"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "10"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_05" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "10"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "12"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_06" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "12"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "14"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_07" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "14"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "16"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_08" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "16"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "18"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_09" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "18"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "20"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_10" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "20"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "22"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_11" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "22"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "24"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_12" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "24"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "26"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_13" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "26"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "28"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_14" ]
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">=",
+                "28"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<",
+                "30"
+              ]
+            }
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_15" ]
+      },
+      {
+        "condition": {
+          "math": [
+            "u_spell_level('biokin_enhance_mobility') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+            ">=",
+            "30"
+          ]
+        },
+        "mutations": [ "BIOKIN_ENHANCE_MOBILITY_16" ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -436,7 +763,6 @@
               ]
             }
           },
-          { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
@@ -455,6 +781,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_effect": "effect_biokin_perfected_motion" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
       }
     ]
   },
@@ -474,12 +804,54 @@
     "removes_effects": [ "slippery_terrain", "effect_biokin_hurricane_blows" ],
     "enchantments": [
       {
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_teleport_stride" } }, { "not": { "u_has_effect": "effect_telekin_momentum" } } ]
+        },
         "values": [
           {
             "value": "MOVE_COST",
             "multiply": {
               "math": [
                 "max((( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_teleport_stride" }, { "not": { "u_has_effect": "effect_telekin_momentum" } } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_telekin_momentum" }, { "not": { "u_has_effect": "effect_teleport_stride" } } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_teleport_stride" }, { "u_has_effect": "effect_telekin_momentum" } ] },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), -0.96)"
               ]
             }
           }
@@ -866,6 +1238,7 @@
     "remove_message": "",
     "rating": "good",
     "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "removes_effects": [ "effect_biokin_perfected_motion" ],
     "enchantments": [
       {
         "values": [
@@ -1731,18 +2104,28 @@
         ],
         "values": [
           {
-            "value": "MOVE_COST",
-            "multiply": {
-              "math": [
-                "max((( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.15)"
-              ]
-            }
-          },
-          {
             "value": "ATTACK_SPEED",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_clair_astral_projection" } },
+            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } }
+          ]
+        },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max((( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.15)"
               ]
             }
           }
@@ -1757,7 +2140,7 @@
     "name": [ "Water-Walking" ],
     "desc": [ "You can walk over liquids without sinking into them." ],
     "apply_message": "",
-    "remove_message": "You feel are firm on the ground.",
+    "remove_message": "Your feet are firm on the ground.",
     "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
   },
   {
@@ -2189,6 +2572,12 @@
     "max_duration": "7 days",
     "enchantments": [
       {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_clair_astral_projection" } },
+            { "not": { "u_has_effect": "effect_biokin_perfected_motion" } }
+          ]
+        },
         "values": [
           {
             "value": "MOVE_COST",

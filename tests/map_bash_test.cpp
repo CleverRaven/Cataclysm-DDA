@@ -9,6 +9,10 @@
 static const furn_str_id furn_test_f_bash_persist( "test_f_bash_persist" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_remington_870( "remington_870" );
+static const itype_id itype_shot_bird( "shot_bird" );
+
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_test_t_bash_persist( "test_t_bash_persist" );
 static const ter_str_id ter_test_t_pit_shallow( "test_t_pit_shallow" );
@@ -207,37 +211,37 @@ TEST_CASE( "shooting_at_terrain", "[map][bash][ranged]" )
     // Make a shooter
     standard_npc shooter( "Shooter", { 10, 10, 0 } );
     shooter.set_body();
-    shooter.worn.wear_item( shooter, item( "backpack" ), false, false );
+    shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
     SECTION( "birdshot vs adobe wall point blank" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_adobe_brick_wall", shooter.pos_bub() + point::east, false );
     }
     SECTION( "birdshot vs adobe wall near" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_adobe_brick_wall", shooter.pos_bub() + point::east * 2, false );
     }
     SECTION( "birdshot vs opaque glass door point blank" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "test_t_door_glass_opaque_c", shooter.pos_bub() + point::east, true );
     }
     SECTION( "birdshot vs opaque glass door near" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "test_t_door_glass_opaque_c", shooter.pos_bub() + point::east * 2,
                           false );
     }
     SECTION( "birdshot vs door near" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_c", shooter.pos_bub() + point::east * 2, false );
     }
     // I thought I saw some failures based on whether an unseen monster was present,
     // But I think it was just shooting at door wthout a 100% chance to break it and getting unlucky.
     SECTION( "birdshot through door at nothing" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_c", shooter.pos_bub() + point::east, true,
                           shooter.pos_bub() + point::east * 2 );
     }
     SECTION( "birdshot through door at monster" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         spawn_test_monster( "mon_zombie", shooter.pos_bub() + point::east * 2 );
         shoot_at_terrain( shooter, "t_door_c", shooter.pos_bub() + point::east, true,
                           shooter.pos_bub() + point::east * 2 );
@@ -246,19 +250,19 @@ TEST_CASE( "shooting_at_terrain", "[map][bash][ranged]" )
     // These are failing because you can't shoot transparent terrain.
     /*
     SECTION( "birdshot vs glass door point blank" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_glass_c", shooter.pos_bub() + point::east, true );
     }
     SECTION( "birdshot vs glass door near" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_glass_c", shooter.pos_bub() + point::east * 2, false );
     }
     SECTION( "birdshot vs screen door point blank" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_screen_c", shooter.pos_bub() + point::east, true );
     }
     SECTION( "birdshot vs screen door near" ) {
-        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        arm_shooter( shooter, itype_remington_870, {}, itype_shot_bird );
         shoot_at_terrain( shooter, "t_door_screen_c", shooter.pos_bub() + point::east * 2, true );
     }
     */

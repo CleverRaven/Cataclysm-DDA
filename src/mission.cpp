@@ -42,7 +42,6 @@
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_run( "run" );
-static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
 
@@ -408,7 +407,7 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_null, specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
@@ -509,7 +508,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_null, specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {

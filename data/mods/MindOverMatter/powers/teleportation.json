@@ -712,12 +712,12 @@
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1000 )"
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_loci_establishment') * 100 ) ), 1000 )"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_loci_establishment') * 5 ) ), 25 )"
       ]
     }
   },

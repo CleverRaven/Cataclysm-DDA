@@ -579,8 +579,8 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_LASHING_TENTACLES_MUTATION",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_lashing_tentacles",
     "shape": "blast",
     "difficulty": 6,
     "max_level": 15,
@@ -591,30 +591,6 @@
     "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 400,
     "base_casting_time": 500
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LASHING_TENTACLES_MUTATION",
-    "condition": { "not": { "u_has_trait": "BIO_LASHING_TENTACLES" } },
-    "effect": [
-      { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
-      { "u_add_trait": "BIO_LASHING_TENTACLES" },
-      {
-        "run_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": {
-          "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
-        }
-      }
-    ],
-    "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-    "effect": [
-      { "u_message": "The tentacles recede back into your body.", "type": "bad" },
-      { "u_lose_trait": "BIO_LASHING_TENTACLES" }
-    ]
   },
   {
     "id": "biomancer_cure_disease_minor",
@@ -741,8 +717,8 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_caustic_blood",
     "shape": "blast",
     "difficulty": 7,
     "max_level": 20,
@@ -753,30 +729,6 @@
     "base_energy_cost": 450,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 600
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
-    "condition": { "and": [ { "not": { "u_has_trait": "ACIDBLOOD" } }, { "not": { "u_has_trait": "ACIDPROOF" } } ] },
-    "effect": [
-      { "u_message": "Your entire body burns for a moment", "type": "mixed" },
-      { "u_add_trait": "ACIDBLOOD" },
-      { "u_add_trait": "ACIDPROOF" },
-      {
-        "run_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 ) * ( enhancement_proficiency_modifier() )" ] }
-      }
-    ],
-    "false_effect": [ { "u_message": "Your body is already inured to acid!" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
-    "effect": [
-      { "u_message": "The faint burning sensation fades.", "type": "bad" },
-      { "u_lose_trait": "ACIDBLOOD" },
-      { "u_lose_trait": "ACIDPROOF" }
-    ]
   },
   {
     "id": "biomancer_eat_tons_of_food",

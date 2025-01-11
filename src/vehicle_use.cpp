@@ -85,8 +85,9 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
-static const itype_id itype_null( "null" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
+static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -567,7 +568,7 @@ void vehicle::connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms 
         return ;
     }
 
-    item cord( "power_cord" );
+    item cord( itype_power_cord );
     if( !cord.link_to( prev_vp, sel_vp, link_state::vehicle_port ).success() ) {
         debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cord.tname() );
     }
@@ -880,7 +881,7 @@ void vehicle::reload_seeds( const tripoint_bub_ms &pos )
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
+    seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -1149,7 +1150,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() * 2 / units::legacy_volume_factor + 10 ),
+                                              that_item_there->volume() * 2 / 250_ml + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
@@ -1746,7 +1747,7 @@ int vehicle::prepare_tool( item &tool ) const
     if( ammo_itype_id.is_null() ) {
         return 0; // likely tool needs no ammo
     }
-    item mag_mod( "pseudo_magazine_mod" );
+    item mag_mod( itype_pseudo_magazine_mod );
     mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
     if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",

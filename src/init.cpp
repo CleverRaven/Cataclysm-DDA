@@ -44,7 +44,6 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "game.h"
 #include "gates.h"
 #include "harvest.h"
 #include "help.h"
@@ -104,7 +103,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui_manager.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -125,18 +123,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     static DynamicDataLoader theDynamicDataLoader;
     return theDynamicDataLoader;
 }
-
-namespace
-{
-
-void check_sigint()
-{
-    if( g && g->uquit == quit_status::QUIT_EXIT ) {
-        g->query_exit_to_OS();
-    }
-}
-
-} // namespace
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const cata_path &base_path,
@@ -187,7 +173,6 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             }
             ++it;
             inp_mngr.pump_events();
-            check_sigint();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -632,7 +617,6 @@ void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::st
         // find type and dispatch each object until array close
         for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
-            check_sigint();
         }
     } else {
         // not an object or an array?
@@ -865,7 +849,6 @@ void DynamicDataLoader::finalize_loaded_data()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Finalizing" ), e.first );
         e.second();
-        check_sigint();
     }
 
     if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
@@ -971,6 +954,5 @@ void DynamicDataLoader::check_consistency()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Verifying" ), e.first );
         e.second();
-        check_sigint();
     }
 }

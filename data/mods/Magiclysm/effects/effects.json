@@ -1328,6 +1328,26 @@
     "base_mods": { "stamina_min": [ 10 ] }
   },
   {
+    "type": "effect_type",
+    "id": "effect_biomancer_lashing_tentacles",
+    "name": [ "Lashing Tentacles" ],
+    "desc": [ "Two tentacles sprout from your shoulders, ready to attack your enemies." ],
+    "apply_message": "Your shoulders itch before two barbed tentacles erupt from them!",
+    "remove_message": "The tentacles recede back into your body.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "BIO_LASHING_TENTACLES" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_caustic_blood",
+    "name": [ "Caustic Blood" ],
+    "desc": [ "You have transformed your blood into acid." ],
+    "apply_message": "Your entire body burns for a moment.",
+    "remove_message": "The faint burning sensation fades.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "ACIDPROOF", "ACIDBLOOD" ] } ]
+  },
+  {
     "id": "effect_biomancer_remove_instability",
     "type": "effect_type",
     "name": [ "Increased Stability" ],
@@ -1722,6 +1742,14 @@
     "desc": [ "" ],
     "rating": "good",
     "base_mods": { "hit_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "archerybracers",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": { "math": [ "1+((u_skill('archery'))/3)" ] } } ] } ]
   },
   {
     "type": "effect_type",

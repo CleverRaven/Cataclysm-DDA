@@ -14,7 +14,21 @@
       "ravine_floor",
       "ravine_floor_edge",
       "rock_border",
-      "s_restaurant_deserted_test"
+      "s_restaurant_deserted_test",
+      "gunshow_0",
+      "gunshow_1",
+      "gunshow_0_roof",
+      "gunshow_1_roof",
+      "s_reststop_1",
+      "s_reststop_2",
+      "s_reststop_1_roof",
+      "s_reststop_2_roof",
+      "s_restparking_1",
+      "s_restparking_2",
+      "roadstop",
+      "roadstop_roof",
+      "roadstop_a",
+      "roadstop_a_roof"
     ]
   }
 ]
