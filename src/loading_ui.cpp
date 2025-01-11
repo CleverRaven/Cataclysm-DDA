@@ -7,9 +7,11 @@
 #include "ui_manager.h"
 
 #if defined(TILES)
+#if defined(IMGUI)
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #undef IMGUI_DEFINE_MATH_OPERATORS
+#endif
 #include "mod_manager.h"
 #include "path_info.h"
 #include "sdltiles.h"
@@ -23,8 +25,10 @@ struct ui_state {
     ui_adaptor *ui;
     background_pane *bg;
 #ifdef TILES
+#if defined(IMGUI)
     ImVec2 window_size;
     ImVec2 splash_size;
+#endif
     SDL_Texture_Ptr splash;
     cata_path chosen_load_img;
 #else

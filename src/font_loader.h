@@ -24,19 +24,23 @@ struct font_config {
     // Path to the font file.
     std::string path;
     // The type of hinting to apply.
+#if defined(IMGUI)
     std::optional<ImGuiFreeTypeBuilderFlags> hinting = std::nullopt;
+#endif
     // In practice, antialiasing will be ignored when hinting is set to FontHint::Bitmap.
     bool antialiasing = true;
 
     font_config() = default;
 
     explicit font_config( std::string path ) : path( std::move( path ) ) {}
+#if defined(IMGUI)
     font_config( std::string path,
                  const std::optional<ImGuiFreeTypeBuilderFlags> hinting ) : path( std::move( path ) ),
         hinting( hinting ) {}
     font_config( std::string path, const std::optional<ImGuiFreeTypeBuilderFlags> hinting,
                  const bool antialiasing ) : path( std::move( path ) ), hinting( hinting ),
         antialiasing( antialiasing ) {}
+#endif
 
     // Returns the font flags that should be passed to an ImFontConfig.
     unsigned int imgui_config() const;

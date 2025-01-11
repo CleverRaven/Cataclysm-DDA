@@ -26,6 +26,7 @@ void ensure_unifont_loaded( std::vector<std::string> &font_list )
 unsigned int font_config::imgui_config() const
 {
     unsigned int ret = 0;
+#if defined(IMGUI)
     if( !antialiasing ) {
         ret |= ImGuiFreeTypeBuilderFlags_Monochrome;
         ret |= ImGuiFreeTypeBuilderFlags_MonoHinting;
@@ -33,9 +34,11 @@ unsigned int font_config::imgui_config() const
     if( hinting != std::nullopt ) {
         ret |= *hinting;
     }
+#endif
     return ret;
 }
 
+#if defined(IMGUI)
 static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_view hinting )
 {
     if( hinting == "Auto" ) {
@@ -59,6 +62,7 @@ static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::str
     debugmsg( "'%s' is an invalid font hinting value.", hinting );
     return std::nullopt;
 }
+#endif
 
 void font_config::deserialize( const JsonObject &jo )
 {
@@ -69,9 +73,11 @@ void font_config::deserialize( const JsonObject &jo )
     // Manually read hinting.
     // Specifying enum traits for would allow all options, and we want only
     // some to be available to the user.
+#if defined(IMGUI)
     if( jo.has_string( "hinting" ) ) {
         hinting = hint_to_fonthint( jo.get_string( "hinting" ) );
     }
+#endif
     jo.read( "antialiasing", antialiasing, false );
 }
 
@@ -83,9 +89,13 @@ static void load_font_from_config( const JsonObject &config, const std::string &
         std::string path = config.get_string( key );
         // Migrate old font config files. Remove after 0.I
         if( path.find( "Terminus.ttf" ) != std::string::npos ) {
+#if defined(IMGUI)
             typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_Bitmap );
+#endif
         }  else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
+#if defined(IMGUI)
             typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_LightHinting );
+#endif
         } else {
             typefaces.emplace_back( path );
         }
@@ -103,9 +113,13 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                 std::string path = value.get_string();
                 // Migrate old font config files. Remove after 0.I
                 if( path.find( "Terminus.ttf" ) != std::string::npos ) {
+#if defined(IMGUI)
                     typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_Bitmap );
+#endif
                 } else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
+#if defined(IMGUI)
                     typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_LightHinting );
+#endif
                 } else {
                     typefaces.emplace_back( path );
                 }
@@ -156,6 +170,7 @@ static void write_font_config( JsonOut &json, const std::vector<font_config> &ty
         json.start_object();
         json.member( "path", config.path );
 
+#if defined(IMGUI)
         if( config.hinting == std::nullopt ) {
             json.member( "hinting", "Default" );
         } else {
@@ -182,6 +197,7 @@ static void write_font_config( JsonOut &json, const std::vector<font_config> &ty
         if( !config.antialiasing ) {
             json.member( "antialiasing", false );
         }
+#endif
 
         json.end_object();
     }
