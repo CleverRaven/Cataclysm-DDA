@@ -229,7 +229,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h ..\src\cata_imgui.h" />
+    <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h;..\src\cata_imgui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\*.cpp" Exclude="..\src\descriptions.cpp;..\src\imgui_facade.cpp;..\src\main.cpp;..\src\messages.cpp;..\src\cata_imgui.cpp;..\src\input_popup.cpp;..\src\ui_iteminfo.cpp;..\src\text.cpp;..\src\imgui_demo.cpp;..\src\ui_extended_description.cpp" />
