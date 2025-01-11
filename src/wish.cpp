@@ -1234,7 +1234,7 @@ void debug_menu::wishitemgroup( bool test )
                 }
             }
             // Flip the map keys/values and use reverse sorting so common items are first
-            std::multimap <int, std::string, std::greater<int>> itemnames_by_popularity;
+            std::multimap <int, std::string, std::greater<>> itemnames_by_popularity;
             for( const auto &e : itemnames ) {
                 itemnames_by_popularity.insert( std::pair<int, std::string>( e.second, e.first ) );
             }
