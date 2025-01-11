@@ -9263,6 +9263,9 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
 
             const auto place_it = [&]( const tripoint_bub_ms & p ) {
                 monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
+                if( placed == nullptr ) {
+                    return;
+                }
                 if( !i.data.patrol_points_rel_ms.empty() ) {
                     placed->set_patrol_route( i.data.patrol_points_rel_ms );
                 }
@@ -9275,8 +9278,11 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
             // then fall back to picking a random point that is a valid location.
             if( valid_location( center ) ) {
                 place_it( center );
-            } else if( const std::optional<tripoint_bub_ms> pos = random_point( points, valid_location ) ) {
-                place_it( *pos );
+            } else {
+                const std::optional<tripoint_bub_ms> pos = random_point( points, valid_location );
+                if( pos.has_value() ) {
+                    place_it( *pos );
+                }
             }
         }
     }
