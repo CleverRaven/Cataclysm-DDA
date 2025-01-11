@@ -229,7 +229,7 @@
     "range": 100,
     "name": { "str": "Khuunäöfaai firework payload" },
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly reactive to oxygen, removing it from the tank would be a bad idea.",
-    "ammo_type": "khuunaofaai_payload",
+    "ammo_type": "khuunaofaai_payload"
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "FLASHBANG", "SMOKE_BIG", "EXPLOSIVE_EXODII_FIREWORK" ],
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
     "recoil": 10,
@@ -247,11 +247,17 @@
     "range": 88,
     "name": { "str": "Khuunäöfaai incendiary payload" },
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly flammable and reactive to oxygen, removing it from the tank would be a bad idea.",
-    "ammo_type": "khuunaofaai_payload",
-    "copy-from": "khuunaofaai_ammo_firework",
-    "weight": "12 g",
+    "ammo_type": "khuunaofaai_payload"
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "PYROPHORIC" ],
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
+    "recoil": 10,
+    "dispersion": 20,
     "price_postapoc": "8 USD",
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "PYROPHORIC" ]
+    "color": "green",
+    "symbol": "=",
+    "weight": "12 g",
+    "volume": "125 ml",
+    "flags": [ "NO_DROP" ]
   },
   {
     "id": "33naval_ball",
