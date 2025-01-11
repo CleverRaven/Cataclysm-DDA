@@ -96,7 +96,9 @@ static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
 static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_pickaxe( "pickaxe" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_shovel( "shovel" );
 
 static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -682,8 +684,8 @@ const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, 
     }
 
     if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
-        *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
-        *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
+        *crafting_cache.crafting_inventory += item( itype_pickaxe, calendar::turn );
+        *crafting_cache.crafting_inventory += item( itype_shovel, calendar::turn );
     }
 
     crafting_cache.valid = true;
@@ -721,13 +723,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
         return;
     }
 
-    // TODO: Get rid of this when craft_command is typified.
-    std::optional<tripoint> temp;
-    if( loc.has_value() ) {
-        temp = loc.value().raw();
-    }
-
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, temp );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 

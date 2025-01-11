@@ -204,6 +204,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
+static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
@@ -2412,7 +2413,7 @@ struct weldrig_hack {
             return null_item_reference();
         }
         pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
-        item mag_mod( "pseudo_magazine_mod" );
+        item mag_mod( itype_pseudo_magazine_mod );
         mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
@@ -3576,6 +3577,11 @@ static void perform_zone_activity_turn(
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )
 {
     itype_id fertilizer;
+
+    auto have_fertilizer = [&]() {
+        return !fertilizer.is_empty() && you->has_amount( fertilizer, 1 );
+    };
+
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
@@ -3584,7 +3590,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         fertilizer = itype_id( act->str_values[0] );
 
         /* If unspecified, or if we're out of what we used before, ask */
-        if( ask_user && ( fertilizer.is_empty() || !you->has_charges( fertilizer, 1 ) ) )
+        if( ask_user && !have_fertilizer() )
         {
             fertilizer = iexamine::choose_fertilizer( *you, "plant",
                     false /* Don't confirm action with player */ );
@@ -3592,9 +3598,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         }
     };
 
-    auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && you->has_charges( fertilizer, 1 );
-    };
 
     const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();

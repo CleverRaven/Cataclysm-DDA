@@ -331,7 +331,7 @@
     "condition": { "not": { "u_has_effect": "effect_biokin_enhance_mobility" } },
     "effect": [
       { "u_message": "Your gear doesn't seem to encumber you as much.", "type": "good" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER" ] },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_biokin_enhance_mobility", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
@@ -350,21 +350,6 @@
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('biokin_enhance_mobility')" ] },
-      "cases": [
-        { "case": 0, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_01" } ] },
-        { "case": 4, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_02" } ] },
-        { "case": 8, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_03" } ] },
-        { "case": 12, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_04" } ] },
-        { "case": 16, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_05" } ] },
-        { "case": 20, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_06" } ] }
-      ]
-    }
   },
   {
     "type": "effect_on_condition",

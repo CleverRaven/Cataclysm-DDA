@@ -21,13 +21,16 @@
 
 static const damage_type_id damage_pure( "pure" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
 static const itype_id itype_hand_pump( "hand_pump" );
+static const itype_id itype_jeans( "jeans" );
 
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
+static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
@@ -97,7 +100,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Now it must be broken
     REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
-    const item itm2 = item( "jeans" );
+    const item itm2 = item( itype_jeans );
     REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
 }
 
@@ -179,7 +182,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_map();
     clear_vehicles( &m );
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( veh_preset.vehicle_itype_id );
 
@@ -321,7 +324,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     map &m = get_map();
     Character &u = get_player_character();
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( preset.folded_vehicle_item );
 
@@ -444,8 +447,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     map &m = get_map();
     Character &player_character = get_player_character();
     const int max_displacement = 50;
-    const std::optional<item> stand_lamp1( "test_standing_lamp" );
-    const std::optional<item> stand_lamp2( "test_standing_lamp" );
+    const std::optional<item> stand_lamp1( itype_test_standing_lamp );
+    const std::optional<item> stand_lamp2( itype_test_standing_lamp );
 
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );

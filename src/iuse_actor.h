@@ -273,7 +273,7 @@ class consume_drug_iuse : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 
         /** Item produced after using drugs. */
-        std::string used_up_item;
+        itype_id used_up_item = itype_id::NULL_ID();
 };
 
 /**

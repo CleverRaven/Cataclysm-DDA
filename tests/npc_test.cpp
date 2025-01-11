@@ -43,6 +43,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
+static const itype_id itype_M24( "M24" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -203,16 +206,13 @@ TEST_CASE( "snippet-tag-test" )
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
-            "<name_b>", "<thirsty>", "<swear!>",
-            "<sad>", "<greet>", "<no>",
-            "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
-            "<wait>", "<no_faction>", "<name_g>",
-            "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<really>",
-            "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_it>", "<swear>", "<lets_talk>",
-            "<hands_up>", "<move>", "<hungry>",
-            "<fuck_you>",
+            "<name_b>", "<name_g>", "<hungry>", "<thirsty>",
+            "<general_danger>", "<kill_npc>", "<combat_noise_warning>",
+            "<fire_in_the_hole>", "<hello>", "<swear!>",
+            "<lets_talk>", "<freaking>", "<acknowledged>",
+            "<wait>", "<keep_up>", "<im_leaving_you>",
+            "<done_conversation_section>", "<end_talking_bye>",
+            "<end_talking_later>", "<end_talking_leave>",
         }
     };
 
@@ -594,9 +594,9 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
-    arm_shooter( hostile, "M24" );
+    arm_shooter( hostile, itype_M24 );
     // Give them an excuse to use it by making them aware the player (an enemy) exists
-    arm_shooter( player_character, "M24" );
+    arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
@@ -627,7 +627,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
-    item backpack( "debug_backpack" );
+    item backpack( itype_debug_backpack );
     hostile.wear_item( backpack );
     // Give them a TON of junk
     for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
@@ -638,7 +638,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
         hostile.i_add( some_gun_item );
     }
     // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
-    arm_shooter( player_character, "M24" );
+    arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );

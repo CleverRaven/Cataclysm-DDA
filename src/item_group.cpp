@@ -30,8 +30,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const std::string null_item_id( "null" );
-
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
 {
@@ -190,20 +188,20 @@ item Single_item_creator::create_single_without_container( const time_point &bir
 {
     // Check direct return conditions first.
     if( type == S_NONE ) {
-        return item( null_item_id, birthday );
+        return item( itype_id::NULL_ID(), birthday );
     }
     Item_spawn_data *isd = nullptr;
     if( type == S_ITEM_GROUP ) {
         item_group_id group_id( id );
         if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
         rec.push_back( group_id );
         isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
     }
 
@@ -221,7 +219,7 @@ item Single_item_creator::create_single_without_container( const time_point &bir
             if( id == "corpse" ) {
                 return item::make_corpse( mtype_id::NULL_ID(), birthday );
             } else {
-                return item( id, birthday );
+                return item( itype_id( id ), birthday );
             }
         }
     } )();
@@ -863,7 +861,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
             return elem->create_single( birthday, rec );
         }
     }
-    return item( null_item_id, birthday );
+    return item( itype_id::NULL_ID(), birthday );
 }
 
 void Item_group::check_consistency( bool actually_spawn ) const

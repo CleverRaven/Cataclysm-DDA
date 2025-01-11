@@ -3,6 +3,13 @@
 #include "map.h"
 #include "map_helpers.h"
 
+static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_bow_saw( "bow_saw" );
+static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
+static const itype_id itype_test_glaive( "test_glaive" );
+static const itype_id itype_test_pants_fur( "test_pants_fur" );
+
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
 
@@ -19,12 +26,12 @@ TEST_CASE( "zones_custom", "[zones]" )
         tripoint_abs_ms const zone_testgroup_end = zone_loc + tripoint::east;
         tripoint_abs_ms const zone_groupbatt_end = zone_loc + tripoint::west;
         tripoint_abs_ms const where = m.getglobal( tripoint_bub_ms::zero );
-        item hammer( "hammer" );
-        item bow_saw( "bow_saw" );
-        item pants_fur( "test_pants_fur" );
-        item batt( "test_battery_disposable" );
-        item bag_plastic( "bag_plastic" );
-        item nested_batt( "test_battery_disposable" );
+        item hammer( itype_hammer );
+        item bow_saw( itype_bow_saw );
+        item pants_fur( itype_test_pants_fur );
+        item batt( itype_test_battery_disposable );
+        item bag_plastic( itype_bag_plastic );
+        item nested_batt( itype_test_battery_disposable );
         int const num = GENERATE( 1, 2 );
         for( int i = 0; i < num; i++ ) {
             bag_plastic.put_in( nested_batt, pocket_type::CONTAINER );
@@ -48,7 +55,7 @@ TEST_CASE( "zones_custom", "[zones]" )
         zone_manager &zmgr = zone_manager::get_manager();
         REQUIRE( zmgr.get_near_zone_type_for_item( hammer, where ) == zone_type_LOOT_CUSTOM );
         REQUIRE( zmgr.get_near_zone_type_for_item( bow_saw, where ) == zone_type_LOOT_CUSTOM );
-        REQUIRE( !zmgr.get_near_zone_type_for_item( item( "test_glaive" ), where ).is_valid() );
+        REQUIRE( !zmgr.get_near_zone_type_for_item( item( itype_test_glaive ), where ).is_valid() );
         REQUIRE( zmgr.get_near_zone_type_for_item( pants_fur, where ) ==
                  zone_type_LOOT_ITEM_GROUP );
         REQUIRE( zmgr.get_near_zone_type_for_item( batt, where ) == zone_type_LOOT_ITEM_GROUP );
