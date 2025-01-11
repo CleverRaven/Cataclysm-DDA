@@ -250,6 +250,7 @@
     "ammo_type": "khuunaofaai_payload",
     "copy-from": "khuunaofaai_ammo_firework",
     "weight": "12 g",
+    "price_postapoc": "8 USD",
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "PYROPHORIC" ]
   },
   {
