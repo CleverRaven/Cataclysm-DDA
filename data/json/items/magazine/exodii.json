@@ -94,6 +94,7 @@
   {
     "id": "exodii_khuunaofaai_mag_incendiary",
     "copy-from": "exodii_khuunaofaai_mag_firework",
+    "ammo_type": [ "khuunaofaai_payload" ],
     "name": { "str": "ordnance cannon incendiary canister" },
     "type": "MAGAZINE",
     "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
