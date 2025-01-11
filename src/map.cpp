@@ -9212,8 +9212,6 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
     }
     const tripoint_bub_ms gp_ms = rebase_bub( coords::project_to<coords::ms>( gp ) );
 
-    creature_tracker &creatures = get_creature_tracker();
-
     // The list of spawns on the submap might be updated while we are iterating it.
     // For example, `monster::on_load` -> `monster::try_reproduce` calls `map::add_spawn`.
     // Therefore, this intentionally uses old-school indexed for-loop with re-check against `.size()` each step.
