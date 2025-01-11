@@ -25,7 +25,9 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "localized_comparator.h"
@@ -1192,6 +1194,62 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
 void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
 {
     debug_menu::wishitem( you, pos.raw() );
+}
+
+void debug_menu::wishitemgroup( bool test )
+{
+    std::vector<item_group_id> groups = item_controller->get_all_group_names();
+    uilist menu;
+    menu.text = test ? _( "Test which group?" ) : _( "Spawn which group?" );
+    for( size_t i = 0; i < groups.size(); i++ ) {
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
+    }
+    while( true ) {
+        menu.query();
+        const int index = menu.ret;
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
+            break;
+        }
+        size_t amount = 0;
+        number_input_popup<int> popup( 0, test ? 100 : 1,
+                                       string_format( _( "Spawn group %s how many times?" ), groups[index].c_str() ) ) ;
+        const int &ret = popup.query();
+        if( popup.cancelled() || ret < 1 ) {
+            return;
+        }
+        amount = static_cast<size_t>( ret );
+        if( !test ) {
+            const std::optional<tripoint_bub_ms> p = g->look_around();
+            if( !p ) {
+                return;
+            }
+            for( size_t a = 0; a < amount; a++ ) {
+                for( const item &it : item_group::items_from( groups[index], calendar::turn ) ) {
+                    get_map().add_item_or_charges( *p, it );
+                }
+            }
+        } else {
+            std::map<std::string, int> itemnames;
+            for( size_t a = 0; a < amount; a++ ) {
+                for( const item &it : item_group::items_from( groups[index], calendar::turn ) ) {
+                    itemnames[it.display_name()]++;
+                }
+            }
+            // Flip the map keys/values and use reverse sorting so common items are first
+            std::multimap <int, std::string, std::greater<int>> itemnames_by_popularity;
+            for( const auto &e : itemnames ) {
+                itemnames_by_popularity.insert( std::pair<int, std::string>( e.second, e.first ) );
+            }
+            uilist results_menu;
+            results_menu.text = string_format( _( "Result of spawning %s %d times:" ), groups[index].c_str(),
+                                               amount );
+            for( const auto &e : itemnames_by_popularity ) {
+                results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
+                                                   string_format( _( "%d x %s" ), e.first, e.second ) );
+            }
+            results_menu.query();
+        }
+    }
 }
 
 void debug_menu::wishskill( Character *you, bool change_theory )

@@ -3892,7 +3892,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_ITEM_GROUP:
-            item_group::debug_spawn( false );
+            debug_menu::wishitemgroup( false );
             break;
 
         case debug_menu_index::SHORT_TELEPORT:
@@ -4057,7 +4057,7 @@ void debug()
             ui::omap::display_hordes();
             break;
         case debug_menu_index::TEST_IT_GROUP: {
-            item_group::debug_spawn( true );
+            debug_menu::wishitemgroup( true );
         }
         break;
 

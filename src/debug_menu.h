@@ -123,6 +123,8 @@ void wishitem( Character *you = nullptr );
 // TODO: Get rid of untyped overload
 void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
+// Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
+void wishitemgroup( bool test );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmonstergroup( tripoint_abs_omt &loc );
 void wishmonstergroup_mon_selection( mongroup &group );
