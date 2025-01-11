@@ -1847,11 +1847,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_active_backup_generator",
-    "name": "Place backup generator"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },

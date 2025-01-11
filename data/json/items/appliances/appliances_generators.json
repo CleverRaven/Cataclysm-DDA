@@ -2,40 +2,8 @@
   {
     "type": "GENERIC",
     "category": "other",
-    "id": "active_backup_generator",
-    "name": { "str_sp": "makeshift generator" },
-    "looks_like": "f_active_backup_generator",
-    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  It just needs to be plugged in, fueled up, and then turned on.",
-    "weight": "200 kg",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "volume": "200 L",
-    "longest_side": "80 cm",
-    "price": "350 USD",
-    "price_postapoc": "25 USD",
-    "//1": "Steel jerrycan (jerrycan_big) values. Must have this pocket, otherwise will not have any fuel capacity as an appliance.",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "20 L",
-        "max_item_volume": "32 ml",
-        "max_contains_weight": "25 kg",
-        "item_restriction": [ "diesel", "biodiesel", "jp8", "lamp_oil", "motor_oil" ]
-      }
-    ],
-    "symbol": "O",
-    "color": "green_white",
-    "//2": "Prevent loading items into the generator while it's not in appliance form.",
-    "flags": [ "NO_RELOAD" ],
-    "melee_damage": { "bash": 5 }
-  },
-  {
-    "type": "GENERIC",
     "id": "portable_generator",
     "//": "https://www.amazon.com/dp/B0D6PM5XN1",
-    "copy-from": "active_backup_generator",
     "name": { "str_sp": "portable gasoline generator" },
     "looks_like": "f_active_backup_generator",
     "description": "Small, portable generator, one that people buy for a camp.  It just needs to be plugged in, fueled up, and then turned on.",
@@ -45,7 +13,7 @@
     "material": [ "steel" ],
     "volume": "67609 ml",
     "longest_side": "454 mm",
-    "//2": "17.9'' x 11.7'' x 19.7''",
+    "//1": "17.9'' x 11.7'' x 19.7''",
     "price": "599 USD",
     "price_postapoc": "25 USD",
     "pocket_data": [
@@ -58,12 +26,17 @@
         "max_contains_weight": "25 kg",
         "item_restriction": [ "gasoline" ]
       }
-    ]
+    ],
+    "symbol": "O",
+    "color": "green_white",
+    "//2": "Prevent loading items into the generator while it's not in appliance form.",
+    "flags": [ "NO_RELOAD" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
     "id": "diesel_generator",
-    "copy-from": "active_backup_generator",
+    "copy-from": "portable_generator",
     "name": { "str_sp": "diesel generator" },
     "//": "'Könner & Söhnen' KS 9300DE-1/3 ATSR",
     "looks_like": "f_active_backup_generator",
@@ -92,7 +65,7 @@
   {
     "type": "GENERIC",
     "id": "military_generator",
-    "copy-from": "active_backup_generator",
+    "copy-from": "portable_generator",
     "name": { "str_sp": "military diesel generator" },
     "//": "MEP803A",
     "looks_like": "f_active_backup_generator",
@@ -121,7 +94,7 @@
   {
     "type": "GENERIC",
     "id": "12000_gasoline_generator",
-    "copy-from": "active_backup_generator",
+    "copy-from": "portable_generator",
     "name": { "str_sp": "powerful gasoline generator" },
     "//": "Champion 201160",
     "looks_like": "f_active_backup_generator",
