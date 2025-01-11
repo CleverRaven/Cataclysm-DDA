@@ -5411,18 +5411,19 @@ void item_group::debug_spawn( bool test )
                     itemnames[it.display_name()]++;
                 }
             }
-            // Invert the map to get sorting!
-            std::multimap<int, std::string> itemnames2;
+            // Flip the map keys/values and use reverse sorting so common items are first
+            std::multimap <int, std::string, std::greater<int>> itemnames_by_popularity;
             for( const auto &e : itemnames ) {
-                itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
+                itemnames_by_popularity.insert( std::pair<int, std::string>( e.second, e.first ) );
             }
-            uilist menu2;
-            menu2.text = string_format( _( "Result of spawning %s %d times:" ), groups[index].c_str(), amount );
-            for( const auto &e : itemnames2 ) {
-                menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
-                                            string_format( _( "%d x %s" ), e.first, e.second ) );
+            uilist results_menu;
+            results_menu.text = string_format( _( "Result of spawning %s %d times:" ), groups[index].c_str(),
+                                               amount );
+            for( const auto &e : itemnames_by_popularity ) {
+                results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
+                                                   string_format( _( "%d x %s" ), e.first, e.second ) );
             }
-            menu2.query();
+            results_menu.query();
         }
     }
 }
