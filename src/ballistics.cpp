@@ -562,6 +562,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
+            attack.targets_hit[&z].first += 0;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             projectile_attack( attack, proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
