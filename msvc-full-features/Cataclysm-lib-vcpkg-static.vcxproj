@@ -25,6 +25,18 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-NoImGui|ARM64EC">
+      <Configuration>Debug-NoImGui</Configuration>
+      <Platform>ARM64EC</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-NoImGui|x64">
+      <Configuration>Debug-NoImGui</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-NoImGui|Win32">
+      <Configuration>Debug-NoImGui</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-NoTiles|ARM64EC">
       <Configuration>Release-NoTiles</Configuration>
       <Platform>ARM64EC</Platform>
@@ -49,6 +61,19 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+	<ProjectConfiguration Include="Release-NoImGui|ARM64EC">
+      <Configuration>Release-NoImGui</Configuration>
+      <Platform>ARM64EC</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-NoImGui|x64">
+      <Configuration>Release-NoImGui</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-NoImGui|Win32">
+      <Configuration>Release-NoImGui</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -81,7 +106,14 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug-NoTiles'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug-NoImGui'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release-NoImGui'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -111,7 +143,13 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug-NoTiles'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug-NoImGui'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release-NoImGui'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release-NoTiles'">
@@ -139,7 +177,27 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug-NoImGui'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release-NoImGui'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -171,10 +229,20 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h" />
+    <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h ..\src\cata_imgui.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
+    <ClCompile Include="..\src\*.cpp" Exclude="..\src\descriptions.cpp;..\src\imgui_facade.cpp;..\src\main.cpp;..\src\messages.cpp;..\src\cata_imgui.cpp;..\src\input_popup.cpp;..\src\ui_iteminfo.cpp;..\src\text.cpp;..\src\imgui_demo.cpp;..\src\ui_extended_description.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cata_imgui.cpp;..\src\cata_imgui.h;..\src\input_popup.cpp;..\src\ui_iteminfo.cpp;..\src\text.cpp;..\src\imgui_demo.cpp;..\src\ui_extended_description.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration.Contains(NoImGui))'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\descriptions.cpp;..\src\imgui_facade.cpp">
+      <ExcludeFromBuild Condition="'!$(Configuration.Contains(NoImGui))'">true</ExcludeFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="flatbuffers.vcxproj">

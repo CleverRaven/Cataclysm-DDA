@@ -65,6 +65,12 @@
     <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+	<ClCompile Condition="!$(Configuration.Contains(NoImGui))">
+      <PreprocessorDefinitions>IMGUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	</ClCompile>
+	<ClCompile Condition="$(Configuration.Contains(NoImGui))">
+      <PreprocessorDefinitions>IMGUI_DISABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	</ClCompile>
     <ClCompile Condition="$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>USE_PDCURSES;PDC_NCMOUSE;PDC_WIDE;IMTUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
