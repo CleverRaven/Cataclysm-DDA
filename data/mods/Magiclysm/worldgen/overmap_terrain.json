@@ -9,6 +9,7 @@
     "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
+    "vision_levels": "city_building",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -20,6 +21,7 @@
     "looks_like": "s_shoppingplaza_b2",
     "see_cost": "high",
     "extras": "build",
+    "vision_levels": "city_building",
     "mondensity": 2
   },
   {
@@ -31,6 +33,7 @@
     "looks_like": "s_shoppingplaza_b6",
     "see_cost": "none",
     "extras": "build",
+    "vision_levels": "roof_or_air",
     "mondensity": 2
   },
   {
@@ -41,6 +44,7 @@
     "color": "green",
     "see_cost": "high",
     "extras": "build",
+    "vision_levels": "blends_till_details",
     "mondensity": 2
   },
   {
@@ -51,15 +55,17 @@
     "color": "green",
     "see_cost": "none",
     "extras": "build",
+    "vision_levels": "blends_till_outlines",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "demon_spider_lair",
-    "name": "Forest",
+    "name": "demon spider lair",
     "sym": "F",
     "color": "light_gray",
     "looks_like": "spider_pit",
+    "vision_levels": "unusual_structure",
     "see_cost": "spaced_high"
   },
   {
@@ -72,6 +78,7 @@
     "see_cost": "high",
     "extras": "build",
     "mondensity": 1,
+    "vision_levels": "city_building",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -83,6 +90,7 @@
     "looks_like": "s_bookstore_roof",
     "see_cost": "none",
     "extras": "build",
+    "vision_levels": "city_building",
     "mondensity": 1
   },
   {
@@ -110,11 +118,11 @@
   {
     "type": "overmap_terrain",
     "id": "black_dragon_lair_z-0_NW",
-    "name": "swamp?",
-    "sym": "F",
-    "color": "c_light_cyan",
-    "looks_like": "forest_water",
+    "name": "black dragon lair",
+    "sym": "D",
+    "color": "dark_gray",
     "see_cost": "spaced_high",
+    "vision_levels": "forested_swampy",
     "flags": [ "SOURCE_FORAGE", "RISK_EXTREME" ]
   },
   {
@@ -139,6 +147,7 @@
     "sym": "#",
     "color": "brown",
     "looks_like": "solid_earth",
+    "vision_levels": "underground_dirt",
     "see_cost": "full_high"
   },
   {
@@ -163,6 +172,7 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "empty_rock",
+    "vision_levels": "underground_stone",
     "see_cost": "full_high"
   },
   {
@@ -187,7 +197,8 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "deep_rock",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone"
   },
   {
     "type": "overmap_terrain",
@@ -211,7 +222,8 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "deep_rock",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone"
   },
   {
     "type": "overmap_terrain",
@@ -230,21 +242,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lake_retreat_ground",
-    "name": "forest?",
-    "sym": "F",
-    "color": "c_light_green",
-    "looks_like": "forest",
-    "see_cost": "high"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ogre_mound",
     "name": "ogre lair",
     "sym": "O",
     "color": "dark_gray",
     "looks_like": "forest_water",
-    "see_cost": "high"
+    "see_cost": "high",
+    "vision_levels": "forested_swampy"
   },
   {
     "type": "overmap_terrain",
@@ -252,61 +256,78 @@
     "name": "ogre lair roof",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": "none"
+    "see_cost": "none",
+    "vision_levels": "forested_swampy"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_ground",
+    "name": "lake tower",
+    "sym": "F",
+    "color": "c_light_green",
+    "looks_like": "forest",
+    "see_cost": "high",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z1",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": "all_clear"
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z2",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": "all_clear"
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z3",
-    "name": "forest",
+    "name": "lake tower",
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": "all_clear"
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_z4",
-    "name": "forest",
+    "name": "lake tower roof",
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": "all_clear"
+    "see_cost": "all_clear",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_boathouse",
-    "name": "lake shore",
+    "name": "boathouse",
     "sym": "#",
     "color": "light_blue",
     "looks_like": "lake_shore",
-    "see_cost": "none"
+    "see_cost": "none",
+    "vision_levels": "isolated_building"
   },
   {
     "type": "overmap_terrain",
     "id": "lake_retreat_boathouse_roof",
-    "name": "forest",
+    "name": "boathouse roof",
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": "none"
+    "see_cost": "none",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -315,52 +336,62 @@
     "sym": "W",
     "color": "light_blue",
     "name": "wizard tower",
+    "vision_levels": "isolated_tower",
     "flags": [ "SOURCE_LUXURY", "RISK_HIGH", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_living",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_golems",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_study",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower1_roof",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_ground",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_stairs1",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_stairs2",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_study",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
     "id": "wizardtower2_roof",
-    "copy-from": "wizardtower1_ground"
+    "copy-from": "wizardtower1_ground",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -390,7 +421,8 @@
     "looks_like": "campus_lecture_0_0_0",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
@@ -400,7 +432,8 @@
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_1",
     "mondensity": 2,
-    "see_cost": "high"
+    "see_cost": "high",
+    "vision_levels": "isolated_tower"
   },
   {
     "type": "overmap_terrain",
@@ -435,7 +468,8 @@
   {
     "type": "overmap_terrain",
     "id": "magic_academy_basement",
-    "copy-from": "magic_academy_2nd"
+    "copy-from": "magic_academy_2nd",
+    "vision_levels": "underground_dirt"
   },
   {
     "type": "overmap_terrain",
@@ -444,7 +478,8 @@
     "sym": "#",
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_3",
-    "see_cost": "none"
+    "see_cost": "none",
+    "vision_levels": "roof_or_air"
   },
   {
     "type": "overmap_terrain",
@@ -463,7 +498,8 @@
     "color": "light_green",
     "looks_like": "standing_stones",
     "see_cost": "high",
-    "mondensity": 2
+    "mondensity": 2,
+    "vision_levels": "unusual_structure"
   },
   {
     "type": "overmap_terrain",
@@ -496,6 +532,7 @@
     "sym": "*",
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
+    "vision_levels": "blends_till_outlines",
     "see_cost": "low"
   },
   {
@@ -505,6 +542,7 @@
     "sym": "*",
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
+    "vision_levels": "blends_till_details",
     "see_cost": "low"
   },
   {
@@ -514,6 +552,7 @@
     "sym": "O",
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
+    "vision_levels": "blends_till_outlines",
     "see_cost": "medium"
   },
   {
@@ -522,7 +561,8 @@
     "name": "druid tower",
     "sym": "F",
     "color": "green",
-    "see_cost": "high"
+    "see_cost": "high",
+    "vision_levels": "unusual_structure"
   },
   {
     "type": "overmap_terrain",
@@ -540,7 +580,8 @@
     "name": "druid tower crown",
     "sym": "F",
     "color": "green",
-    "see_cost": "high"
+    "see_cost": "high",
+    "vision_levels": "unusual_structure"
   },
   {
     "type": "overmap_terrain",
