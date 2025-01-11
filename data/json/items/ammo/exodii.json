@@ -243,6 +243,7 @@
   },
   {
     "id": "khuunaofaai_ammo_incendiary",
+    "type": "AMMO",
     "range": 88,
     "name": { "str": "Khuunäöfaai incendiary payload" },
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly flammable and reactive to oxygen, removing it from the tank would be a bad idea.",
