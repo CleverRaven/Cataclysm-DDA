@@ -103,6 +103,7 @@ struct map_common_deconstruct_info {
         virtual void check( const std::string &id ) const;
     public:
         virtual ~map_common_deconstruct_info() = default;
+        std::string potential_deconstruct_items( const std::string &ter_furn_name ) const;
 };
 struct map_ter_deconstruct_info : map_common_deconstruct_info {
     ter_str_id ter_set = ter_str_id::NULL_ID();

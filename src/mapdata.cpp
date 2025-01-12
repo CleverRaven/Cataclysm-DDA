@@ -14,6 +14,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -24,6 +25,7 @@
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
@@ -411,6 +413,22 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
+std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
+        &ter_furn_name ) const
+{
+    Character &who = get_avatar();
+    bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
+                               who.get_skill_level( skill->id ) < skill->max;
+    if( will_practice_skill ) {
+        return string_format(
+                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about %s." ),
+                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+    } else {
+        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn_name, item_group::potential_items( drop_group ) );
+    }
+}
+
 bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
@@ -630,13 +648,7 @@ std::vector<std::string> ter_t::extended_description() const
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
     if( deconstruct ) {
-        const std::string &deconlist = item_group::potential_items( deconstruct->drop_group );
-        if( !deconlist.empty() ) {
-            ret.emplace_back( _( "You could deconstruct it to get some of the following items:" ) );
-            ret.emplace_back( deconlist );
-        } else {
-            ret.emplace_back( _( "It can be deconstructed, but won't yield any resources." ) );
-        }
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
     }
 
     return ret;
@@ -670,13 +682,7 @@ std::vector<std::string> furn_t::extended_description() const
     }
 
     if( deconstruct ) {
-        const std::string &deconlist = item_group::potential_items( deconstruct->drop_group );
-        if( !deconlist.empty() ) {
-            ret.emplace_back( _( "You could deconstruct it to get some of the following items:" ) );
-            ret.emplace_back( deconlist );
-        } else {
-            ret.emplace_back( _( "It can be deconstructed, but won't yield any resources." ) );
-        }
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
     }
 
     return ret;
