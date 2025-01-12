@@ -2,7 +2,7 @@
   {
     "id": "xedra_magic_generic",
     "type": "magic_type",
-    "magic_type": "xedra_magic_generic"
+    "energy_source": "MANA"
   },
   {
     "id": "night_sight",
