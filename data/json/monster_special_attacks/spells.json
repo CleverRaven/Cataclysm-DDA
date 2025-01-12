@@ -1302,5 +1302,23 @@
       { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
       { "math": [ "u_val('rad')", "+=", "20" ] }
     ]
+  },
+  {
+    "id": "exodii_self_detonate",
+    "type": "SPELL",
+    "name": { "str": "Exodii Self Detonate", "//~": "NO_I18N" },
+    "description": { "str": "Nothing to see here.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "SPLIT_DAMAGE" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_damage": 300,
+    "max_damage": 300,
+    "damage_type": "cut",
+    "min_range": 60,
+    "max_range": 60,
+    "min_aoe": 1200,
+    "max_aoe": 1200,
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
   }
 ]
