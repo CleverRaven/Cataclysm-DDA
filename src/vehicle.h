@@ -2160,8 +2160,7 @@ class vehicle
 
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
-        // TODO: Make it typed. One call uses bubble coordinates, the other untyped veh_app_interact::a_point
-        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup );
         void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;

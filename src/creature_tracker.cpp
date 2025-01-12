@@ -297,7 +297,7 @@ void creature_tracker::remove_dead()
 template<typename T>
 T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
 {
-    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+    return creature_at<T>( get_map().getglobal( tripoint_bub_ms( p ) ), allow_hallucination );
 }
 
 template<typename T>
@@ -423,7 +423,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
 template<typename T>
 const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination ) const
 {
-    return creature_at<T>( get_map().getglobal( p ), allow_hallucination );
+    return creature_at<T>( get_map().getglobal( tripoint_bub_ms( p ) ), allow_hallucination );
 }
 
 template<typename T>

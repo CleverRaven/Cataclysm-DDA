@@ -1521,7 +1521,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                             invisible[0] = true;
                         } else {
                             if( would_apply_vision_effects( offscreen_type ) ) {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                                         tile_render_info::vision_effect{ offscreen_type } );
                             }
                             break;
@@ -1690,7 +1690,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                                         tile_render_info::vision_effect{ vis_type } );
                                 break;
                             }
@@ -1701,7 +1701,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                         invisible[1 + i] = apply_visible( np, ch2, here );
                     }
 
-                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                             tile_render_info::sprite{ ll, invisible } );
                     // Stop building draw points below when floor reached
                     if( here.dont_draw_lower_floor( pos ) ) {

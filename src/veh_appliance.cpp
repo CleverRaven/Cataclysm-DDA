@@ -617,7 +617,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ).raw(), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

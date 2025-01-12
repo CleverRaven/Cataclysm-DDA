@@ -29,8 +29,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
         here.vertical_shift( 0 );
     } );
 
-    tripoint test_point =
-        GENERATE( tripoint::zero, tripoint::south, tripoint::east, tripoint::above, tripoint::below );
+    tripoint_bub_ms test_point =
+        GENERATE( tripoint_bub_ms::zero, tripoint_bub_ms::zero + tripoint::south,
+                  tripoint_bub_ms::zero + tripoint::east, tripoint_bub_ms::zero + tripoint::above,
+                  tripoint_bub_ms::zero + tripoint::below );
     tripoint_bub_ms test_bub( test_point );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
@@ -51,7 +53,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     point_abs_ms map_origin_ms = project_to<coords::ms>( here.get_abs_sub().xy() );
 
-    tripoint_abs_ms test_abs = map_origin_ms + test_point;
+    tripoint_abs_ms test_abs = map_origin_ms + rebase_rel( test_point );
 
     if( test_abs.z() > OVERMAP_HEIGHT || test_abs.z() < -OVERMAP_DEPTH ) {
         return;
@@ -62,7 +64,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
-    CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
+    CHECK( here.bub_from_abs( here.getglobal( test_point ) ) == test_point );
 }
 
 TEST_CASE( "destroy_grabbed_furniture" )
