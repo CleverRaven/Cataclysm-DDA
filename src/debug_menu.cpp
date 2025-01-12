@@ -184,6 +184,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
     switch( v ) {
         // *INDENT-OFF*
         case debug_menu::debug_menu_index::WISH: return "WISH";
+        case debug_menu::debug_menu_index::SPAWN_ITEM_GROUP: return "SPAWN_ITEM_GROUP";
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
@@ -961,8 +962,9 @@ static int spawning_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_ITEM_GROUP, true, 'W', _( "Spawn an item group" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
-        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn Named NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
@@ -3892,6 +3894,10 @@ void debug()
             debug_menu::wishitem( &player_character );
             break;
 
+        case debug_menu_index::SPAWN_ITEM_GROUP:
+            debug_menu::wishitemgroup( false );
+            break;
+
         case debug_menu_index::SHORT_TELEPORT:
             debug_menu::teleport_short();
             break;
@@ -4054,7 +4060,7 @@ void debug()
             ui::omap::display_hordes();
             break;
         case debug_menu_index::TEST_IT_GROUP: {
-            item_group::debug_spawn();
+            debug_menu::wishitemgroup( true );
         }
         break;
 

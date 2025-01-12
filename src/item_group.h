@@ -88,10 +88,6 @@ bool group_is_defined( const item_group_id &group_id );
  */
 Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
 /**
- * Shows an menu to debug the item groups.
- */
-void debug_spawn();
-/**
  * See @ref Item_factory::load_item_group
  */
 void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
