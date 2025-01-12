@@ -383,6 +383,13 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
+std::string map_common_bash_info::potential_bash_items( const std::string
+        &ter_furn_name ) const
+{
+    //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
+    return string_format( _( "Bashing the %s would yield:\n%s" ),
+                          ter_furn_name, item_group::potential_items( drop_group ) );
+}
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
                                         const std::string &context )
@@ -651,6 +658,10 @@ std::vector<std::string> ter_t::extended_description() const
         ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
     }
 
+    if( is_smashable() ) {
+        ret.emplace_back( bash->potential_bash_items( name() ) );
+    }
+
     return ret;
 }
 
@@ -683,6 +694,10 @@ std::vector<std::string> furn_t::extended_description() const
 
     if( deconstruct ) {
         ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+    }
+
+    if( is_smashable() ) {
+        ret.emplace_back( bash->potential_bash_items( name() ) );
     }
 
     return ret;
@@ -761,7 +776,6 @@ std::vector<std::string> map_data_common_t::extended_description() const
             add( text );
         }
     };
-    add_if( is_smashable(), _( "Smashable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
