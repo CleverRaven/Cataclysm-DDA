@@ -345,7 +345,8 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::filesystem::path &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const std::filesystem::path &path,
+                                    const std::ios::openmode mode )
     : path( path )
 
 {
@@ -449,7 +450,8 @@ bool read_from_file( const cata_path &path, const std::function<void( std::istre
     return read_from_file( path.get_unrelative_path(), reader );
 }
 
-bool read_from_file( const std::filesystem::path &path, const std::function<void( std::istream & )> &reader )
+bool read_from_file( const std::filesystem::path &path,
+                     const std::function<void( std::istream & )> &reader )
 {
     std::unique_ptr<std::istream> finp = read_maybe_compressed_file( path );
     if( !finp ) {

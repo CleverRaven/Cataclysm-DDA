@@ -19,7 +19,8 @@ tgz_archiver::~tgz_archiver()
     finalize();
 }
 
-std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_name, std::filesystem::path const &prefix,
+std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_name,
+        std::filesystem::path const &prefix,
         std::filesystem::path const &real_path, std::streamsize size )
 {
     unsigned const type = std::filesystem::is_directory( real_path ) ? 5 : 0;
@@ -54,7 +55,8 @@ std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_nam
     return ss.str();
 }
 
-bool tgz_archiver::add_file( std::filesystem::path const &real_path, std::filesystem::path const &archived_path )
+bool tgz_archiver::add_file( std::filesystem::path const &real_path,
+                             std::filesystem::path const &archived_path )
 {
     if( fd == nullptr && ( fd = gzopen( output.c_str(), "wb" ), fd == nullptr ) ) {
         return false;

@@ -52,11 +52,13 @@ class flexbuffer_cache
         using shared_flexbuffer = std::shared_ptr<parsed_flexbuffer>;
 
     public:
-        explicit flexbuffer_cache( const std::filesystem::path &cache_directory, const std::filesystem::path &root_directory );
+        explicit flexbuffer_cache( const std::filesystem::path &cache_directory,
+                                   const std::filesystem::path &root_directory );
         ~flexbuffer_cache();
 
         // Throw exceptions on IO and parse errors.
-        static shared_flexbuffer parse( std::filesystem::path json_source_path, size_t offset = 0 ) noexcept( false );
+        static shared_flexbuffer parse( std::filesystem::path json_source_path,
+                                        size_t offset = 0 ) noexcept( false );
         shared_flexbuffer parse_and_cache( std::filesystem::path lexically_normal_json_source_path,
                                            size_t offset = 0 ) noexcept( false ) ;
 

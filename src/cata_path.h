@@ -154,7 +154,8 @@ class cata_path
         }
 
         template<typename T>
-        static std::enable_if_t < !std::is_same_v<std::decay_t<T>, std::filesystem::path>, std::filesystem::path >
+        static std::enable_if_t < !std::is_same_v<std::decay_t<T>, std::filesystem::path>,
+               std::filesystem::path >
         as_fs_path( T &&path ) {
             return std::filesystem::u8path( std::forward<T>( path ) );
         }

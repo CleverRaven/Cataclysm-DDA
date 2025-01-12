@@ -5,7 +5,8 @@
 void write_to_file( const std::filesystem::path &p );
 std::filesystem::path get_root_dir();
 
-static void call_fs_path_method( std::filesystem::path & ( std::filesystem::path::* method )( const char *const & ) )
+static void call_fs_path_method( std::filesystem::path & ( std::filesystem::path::* method )(
+                                     const char *const & ) )
 {
     std::filesystem::path p;
     ( p.*method )( "foo" );
@@ -115,14 +116,17 @@ void test_cases()
     path_concat_pchar.concat( foo, foo + 3 );
     // CHECK-MESSAGES: [[@LINE-1]]:5: warning: Modify `std::filesystem::path` using `=`, `/=`, and `+=` and parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
 
-    std::filesystem::path &( std::filesystem::path::* fn_op_assign_path )( const std::filesystem::path & ) = &std::filesystem::path::operator=;
+    std::filesystem::path &( std::filesystem::path::* fn_op_assign_path )(
+        const std::filesystem::path & ) = &std::filesystem::path::operator=;
 
-    std::filesystem::path &( std::filesystem::path::* fn_op_assign_cstr )( const char *const & ) = &std::filesystem::path::operator=;
+    std::filesystem::path &( std::filesystem::path::* fn_op_assign_cstr )(
+        const char *const & ) = &std::filesystem::path::operator=;
     // CHECK-MESSAGES: [[@LINE-1]]:75: warning: Use the operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
     static_cast<void>( static_cast<fs_path &( fs_path::* )( const char *const & )>
                        ( &fs_path::operator= ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
-    std::filesystem::path &( std::filesystem::path::* fn_assign_cstr )( const char *const & ) = &std::filesystem::path::assign;
+    std::filesystem::path &( std::filesystem::path::* fn_assign_cstr )( const char *const & ) =
+        &std::filesystem::path::assign;
     // CHECK-MESSAGES: [[@LINE-1]]:72: warning: Use the `=`, `/=`, or `+=` operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
     static_cast<void>( static_cast<fs_path &( fs_path::* )( const char *const & )>
                        ( &fs_path::assign ) );
@@ -152,8 +156,9 @@ void test_cases()
     static_cast<void>( static_cast<std::filesystem::path &( path_inherit::* )( const char *const & )>
                        ( &path_inherit::assign ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the `=`, `/=`, or `+=` operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
-    static_cast<void>( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
-                       ( &path_inherit::assign ) );
+    static_cast<void>
+    ( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
+      ( &path_inherit::assign ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the `=`, `/=`, or `+=` operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
     // FIXME: Ideally this should also be detected, but I'm not sure if it is worth the effort.
     path_using{ foo };
@@ -170,10 +175,12 @@ void test_cases()
     static_cast<void>( static_cast<std::filesystem::path &( path_using::* )( const char *const & )>
                        ( &path_using::assign ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the `=`, `/=`, or `+=` operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
-    static_cast<void>( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
-                       ( &path_using::operator= ) );
+    static_cast<void>
+    ( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
+      ( &path_using::operator= ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
-    static_cast<void>( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
-                       ( &path_using::assign ) );
+    static_cast<void>
+    ( static_cast<std::filesystem::path &( std::filesystem::path::* )( const char *const & )>
+      ( &path_using::assign ) );
     // CHECK-MESSAGES: [[@LINE-1]]:27: warning: Use the `=`, `/=`, or `+=` operator overload with `std::filesystem::path` parameter and call it using parameter constructed with `std::filesystem::u8path` and UTF-8 string to ensure the correct path encoding.
 }

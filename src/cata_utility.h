@@ -345,7 +345,8 @@ void write_to_file( const cata_path &path, const std::function<void( std::ostrea
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const std::filesystem::path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const std::filesystem::path &path,
+                     const std::function<void( std::istream & )> &reader );
 bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader );
