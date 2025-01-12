@@ -1,3 +1,4 @@
+from .enchant import parse_enchant
 from ..helper import get_singular_name
 from ..write_text import write_text
 
