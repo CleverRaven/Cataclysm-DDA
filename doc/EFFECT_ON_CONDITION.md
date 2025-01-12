@@ -4047,6 +4047,108 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 }
 ```
 
+#### `u_explosion`, `npc_explosion`
+Creates an explosion at talker position or at passed coordinate
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring |
+| "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+You pick a tile using u_query_omt, then the explosion is caused at this position
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      { "u_query_omt": { "context_val": "pos" }, "message": "Select point to detonate." },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_explosion": { "power": 50000, "max_noise": 35, "distance_factor": 0.5 }, "target_var": { "context_val": "pos" } },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+#### `u_query_omt`, `npc_query_omt`
+Opens a map, and allow you to pick an overmap tile to store in variable 
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_query_omt", / "npc_query_omt" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled or player picks the tile farther than `distance_limit`, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
+| "message" | **mandatory** | string or [variable object](#variable-object) | message, that is printed on upper left corner of overmap UI | 
+| "target_var" | optional | [variable object](#variable-object) | if set, the center is not where the avatar is, but this coordinate | 
+| "distance_limit" | optional | int or [variable object](#variable-object) | default infinite; radius, which player is able to pick, otherwise no variable is stored. The border is highlighted for user | 
+| "spread" | optional | int or [variable object](#variable-object) | default 1; since map allows only precision of OMT level, the player choice is then converted to absolute coordinates, and adjusted to point to the center of overmap; spread respond for additional precision loss, "how far the tile gonna be picked from the center of OMT"; default value would result in you picking roughly the center of the OM |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, print a message with `pos`
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, open another map, centered around the point you just picked
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST_2",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": {
+          "u_query_omt": { "context_val": "pos2" },
+          "target_var": { "context_val": "pos" },
+          "message": "Select point.",
+          "distance_limit": 10
+        },
+        "else": { "u_message": "Canceled" }
+      },
+      {
+        "if": { "math": [ "has_var(_pos2)" ] },
+        "then": { "u_message": "pos2: <context_val:pos2>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+
 #### `u_die`, `npc_die`
 You or an NPC will instantly die.
 If the target is an item, it will be deleted.

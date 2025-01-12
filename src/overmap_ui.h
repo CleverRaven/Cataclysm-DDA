@@ -75,7 +75,8 @@ void display_editor();
  * @returns The absolute coordinates of the chosen point or
  * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
@@ -84,7 +85,8 @@ tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_
  * @returns The absolute coordinates of the chosen point or
  * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
@@ -93,7 +95,7 @@ tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debu
  * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message, const tripoint_abs_omt &origin,
-                               bool show_debug_info = false );
+                               bool show_debug_info = false, const int distance = INT_MAX );
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
@@ -121,6 +123,8 @@ struct overmap_draw_data_t {
     bool fast_traveling = false;
     // message to display while using the map
     std::string message;
+    // if there is a distance limit to pick the OMT
+    int distance = INT_MAX;
 
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
