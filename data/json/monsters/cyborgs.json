@@ -121,6 +121,7 @@
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
+    "upgrades": { "age_grow": 1440, "into": "mon_exodii_phasing" },
     "flags": [
       "SEES",
       "HEARS",
@@ -186,6 +187,7 @@
         "no_ammo_sound": "a chk!"
       }
     ],
+    "upgrades": { "age_grow": 1440, "into": "mon_exodii_phasing" },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
@@ -200,6 +202,23 @@
       "HIT_AND_RUN"
     ],
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
+  },
+  {
+    "id": "mon_exodii_phasing",
+    "type": "MONSTER",
+    "name": { "str": "phasing quadruped" },
+    "description": "This enormous quadrupedal robot seems to be cobbled together from parts, most of them unfamiliar to you.  It is rattling and beeping.",
+    "copy-from": "mon_exodii_quad",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "exodii_self_detonate", "hit_self": true },
+        "cooldown": 2,
+        "monster_message": "The Exodii quadruped is rattling and blaring some kind of alarm."
+      }
+    ],
+    "death_drops": {  },
+    "death_function": { "corpse_type": "NO_CORPSE" }
   },
   {
     "id": "mon_zomborg",
