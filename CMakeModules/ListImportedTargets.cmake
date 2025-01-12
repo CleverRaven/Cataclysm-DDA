@@ -1,3 +1,5 @@
+# A simple debug script showing the locations of imported target.
+# There is no load-bearing functionality.
 function(ListImportedTargets dir)
     message(DEBUG "List of imported targets in ${dir}:")
     get_property(tgts DIRECTORY ${dir} PROPERTY IMPORTED_TARGETS)
