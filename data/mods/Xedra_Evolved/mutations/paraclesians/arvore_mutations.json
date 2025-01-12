@@ -461,6 +461,7 @@
     "ugliness": 0,
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients and heal slightly faster.",
     "category": [ "ARVORE" ],
+    "types": [ "METABOLISM" ],
     "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "enchantments": [
       {
@@ -484,6 +485,7 @@
     "ugliness": 0,
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, and your mana regenerates much quicker.",
     "category": [ "ARVORE" ],
+    "types": [ "METABOLISM" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
     "enchantments": [
@@ -541,6 +543,7 @@
     "description": "Like a tree, you draw nourishment from the sun and the soil.  When standing in the sunlight and on natural terrain, you absorb its energy as food.  You still need to drink water and you will still get hungry.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "DIET" ],
     "enchantments": [ "ench_arvore_sun_foods_on" ]
   },
   {
@@ -594,7 +597,6 @@
     "visibility": 3,
     "ugliness": 2,
     "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
-    "types": [ "CLAWS" ],
     "category": [ "ARVORE" ],
     "cost": 0,
     "player_display": false,
@@ -612,6 +614,7 @@
     "changes_to": [ "ARVORE_IGNORE_WINTER_CHILL" ],
     "description": "Plants lose their leaves in winter, but that does not kill them, they simply sleep until the spring comes.  The cold bothers you less now.",
     "category": [ "ARVORE" ],
+    "types": [ "ACCLIMATIZATION" ],
     "enchantments": [ "arvore_resist_chill" ]
   },
   {
@@ -625,6 +628,7 @@
     "description": "Pine trees keep their leaves even in the coldest winter.  The cold bothers you now not at all.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "ACCLIMATIZATION" ],
     "enchantments": [ "arvore_ignore_chill" ]
   },
   {
@@ -662,6 +666,7 @@
     "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
     "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
     "category": [ "ARVORE" ],
+    "types": [ "DEX" ],
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
   },
   {
@@ -674,6 +679,7 @@
     "changes_to": [ "ARVORE_STR_BONUS_2" ],
     "description": "Like the seedling poking through the soil, you have great strength hidden within you.  +1 Strength.",
     "category": [ "ARVORE" ],
+    "types": [ "STR" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
@@ -688,6 +694,7 @@
     "changes_to": [ "ARVORE_STR_BONUS_3" ],
     "description": "Like the young tree reaching for the sun, your limbs are filled with power.  +3 Strength.",
     "category": [ "ARVORE" ],
+    "types": [ "STR" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
@@ -701,6 +708,7 @@
     "prereqs2": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "description": "Like forest giants that have stood for a hundred years, you are unshakeable.  +5 Strength.",
     "category": [ "ARVORE" ],
+    "types": [ "STR" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
   },
   {
@@ -714,6 +722,7 @@
     "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
     "prereqs2": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "category": [ "ARVORE" ],
+    "types": [ "PER" ],
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
   },
   {
@@ -737,6 +746,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Arvore's eyes begin reflecting the seasons: a bright yellow-green in spring; verdant green in summer; red, yellow, or orange in autumn, and dark brown in winter.  Glare no longer impacts them.",
     "category": [ "ARVORE" ],
+    "types": [ "EYES" ],
     "integrated_armor": [ "integrated_arvore_eyes" ]
   },
   {
@@ -748,6 +758,7 @@
     "ugliness": 0,
     "description": "The Arvore's ears are longer and pointed, more \"leaf-shaped.\"  While they cannot hear any better, like the trees in the deep forest, they are unphased by loud sounds.",
     "category": [ "ARVORE" ],
+    "types": [ "EARS" ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
@@ -774,6 +785,7 @@
     "changes_to": "ARVORE_BLOOD_3",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "BLOOD" ],
     "flags": [ "BLEEDSLOW" ]
   },
   {
@@ -788,6 +800,7 @@
     "changes_to": "ARVORE_BLOOD_4",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "BLOOD" ],
     "flags": [ "BLEEDSLOW", "PARAIMMUNE", "INFECTION_IMMUNE" ]
   },
   {
@@ -802,6 +815,7 @@
     "prereqs2": [ "ARVORE_ANTI_PLANT_SPELL" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "BLOOD" ],
     "flags": [ "BLEEDSLOW2", "PARAIMMUNE", "INFECTION_IMMUNE", "MYCUS_IMMUNE" ]
   },
   {
@@ -885,6 +899,7 @@
     "ugliness": 0,
     "description": "Every rose has its thorn and so do you.  With a moment's concentration, you can exude thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
+    "types": [ "ARMOR" ],
     "active": true,
     "activated_is_setup": true,
     "activation_msg": "Stiff wooden thorns push out from your skin.",
@@ -960,6 +975,7 @@
     "prereqs2": [ "ARVORE_VERDANT_INFUSION" ],
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "HEALING" ],
     "flags": [ "MEND_ALL" ],
     "enchantments": [ "ench_arvore_wilds_super_mending" ]
   },
@@ -1059,6 +1075,7 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, and you gain a bonus to your maximum mana.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "METABOLISM" ],
     "prereqs": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
     "enchantments": [
@@ -1086,6 +1103,7 @@
     "description": "Like a tree, you are fueled by the sun.  When standing in the sunlight, you will absorb its energy as nutrients, heal slightly faster, your mana regenerates much quicker, you gain a bonus to your maximum mana, and you gain a +2 bonus to all stats.",
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
+    "types": [ "METABOLISM" ],
     "prereqs": [ "ARVORE_SUN_MANA_BONUS" ],
     "enchantments": [
       {
