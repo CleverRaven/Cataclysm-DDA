@@ -1,103 +1,34 @@
-# Cataclysm: Dark Days Ahead
+# Cataclysm: Restored
 
-Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
+Cataclysm: Restored is a fan fork of Cataclysm Dark Days Ahead, a turn-based survival game set in a post-apocalyptic world.  The purpose of this fork is to remove more recent changes to the game a portion of the fanbase does not like, and restore old features that were removed.  This build will not be for everyone, nor is it intended to.  It is likely to have bugs and half-implemented changes, as I (Command Line Vulpine) am only an amatuer at modding.  I'm also tackling this as a solo dev, for now.
 
-<p align="center">
-    <img src="./data/screenshots/ultica-showcase-sep-2021.png" alt="Tileset: Ultica">
-</p>
-
-## Downloads
-
-**Releases** - [Stable](https://cataclysmdda.org/releases/) | [Experimental](https://cataclysmdda.org/experimental/)
-
-**Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
-
-[![General build matrix](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml/badge.svg)](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml)
-[![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
-[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
-[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
-[![TODOs](https://badgen.net/https/api.tickgit.com/badgen/github.com/CleverRaven/Cataclysm-DDA)](https://www.tickgit.com/browse?repo=github.com/CleverRaven/Cataclysm-DDA)
-
-### Packaging status
-
-#### Arch Linux
-
-Ncurses and tiles versions are available in the [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
-
-`sudo pacman -S cataclysm-dda`
-
-#### Fedora
-
-Ncurses and tiles versions are available in the [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
-
-`sudo dnf install cataclysm-dda`
-
-#### Debian / Ubuntu
-
-Ncurses and tiles versions are available in the [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
-
-`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
-
-#### Flathub
-
-[Download from Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA)
-
-## Compile
-
-Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
-
-We also have the following build guides:
-* Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
-* Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
-* Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md)  (*unofficial guide*)
-
-## Contribute
-
-Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
-Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
-
-Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
-
-Special thanks to the contributors, including but not limited to, people below:
-<a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cleverraven/cataclysm-dda" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
-
-## Community
-
-Forums:
-https://discourse.cataclysmdda.org
-
-GitHub repo:
-https://github.com/CleverRaven/Cataclysm-DDA
-
-IRC:
-`#CataclysmDDA` on [Libera Chat](https://libera.chat), https://web.libera.chat/#CataclysmDDA
-
-Official Discord:
-https://discord.gg/jFEc7Yp
 
 ## Frequently Asked Questions
 
-#### Is there a tutorial?
+#### Why is this nessacary?
 
-Yes, you can find the tutorial in the **Special** menu at the main menu (be aware that due to many code changes the tutorial may not function). You can also access documentation in-game via the `?` key.
+A growing set of the fanbase has been dissatisfied with the direction the devs have been taking the base game; starting from around 0.E Stable onward.  Most recently, with 0.H Stable and experimentals beyond that are starting to aggravate a much larger portion of the fanbase.  The direction of the game has become very confused, with an over-focus on "realism" at the sacrafice of fun.
 
-#### How can I change the key bindings?
+#### Why this instead of Bright Nights?
 
-Press the `?` key, followed by the `1` key to see the full list of key commands. Press the `+` key to add a key binding, select which action with the corresponding letter key `a-w`, and then the key you wish to assign to that action.
+I've heard and found Bright Nights adjustments to be somewhat inconsistant, as well as being outdated.  For instance, I've heard it doesn't have the new inventory system added in 0.F - we're to 0.H now.  There are some features that have been added I think should stay, such as that inventory system.
 
-#### How can I start a new world?
+#### Why you?
 
-**World** on the main menu will generate a fresh world for you. Select **Create World**.
+I'm no professional developer, but I'm not new to making mods.  Back in the 0.C era I made the Five Nights at Freddy's mod that added the animatronics and pizzeria to the game.  I also made the Lightfire Union mod for Stellaris which added a full fox furry race to the game using (with permission) artwork by real artists.  I've also done minor modifications for myself to CDDA when I play it.  Lastly, I've been playing CDDA since pre-0.A, all on camera for YouTube - I'll be blunt, and just say I think I have a better understanding of how the game was really meant to feel than the modern dev team.
 
-#### I've found a bug. What should I do?
+#### What do you plan to change?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.md). If you're not able to, send an email to `kevin.granade@gmail.com`.
+1. I'm removing portal storms.  In my opinion Cataclysm IS a zombie game, not an eldrich horror game.  I'm not removing eldrich creatures from their normal ways of spawning, because demons have been around from the start - and I feel another major aspect was an idea that many apocalypses are happening all at once; whereas now they want it to be just one.
 
-#### I would like to make a suggestion. What should I do?
+2. No max item length for backpacks.  This was one of the big mistakes with the new inventory system.  Not being able to pick up a plank without weilding or dragging it is extremely frustrating.  Or being able to carry a crowbar or gun in it.  It only adds tedium, and the realism is questionable anyway; you could always leave a bag partially unzipped irl.
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
+3. Removing breathability.  Its hard to remove core features, so my method of fixing this for now will be to make everything 100% breathable.  Sweating nearly killed a character of mine just boiling water.  Its completely unrealistic a person wouldn't realize they're too hot and back away from a fire automatically.  Additionally, it's redundant with Warmth anyway.  Just make armor hotter.
+
+4. Acid rain.  The man, the myth, the legend.  Part of my feeling of "every apocalypse is happening at once" acid rain was core to the experience of Early CDDA.  I heard a rumor it was supposed to be put back in, but that was years ago now so it's clear it's not.  I'll do it myself.
+
+5. Bringing back rags.  The tailoring system has been vastly overcomplicated.  I would like to bring back rags being the only nessacary cloth resource.
+
+6. Item re-rebalancing.  The all time classic starting weapon in CDDA was the makeshift crowbar.  Its time it made a comeback - a long with a lot of other fan favorite weapons.  (I'll try to keep it reasonable)
+
+7. You tell me.  I haven't been completely tuned in to every single thing that's changed, some of it might be far beyond my power to fix.   But if it's a number in a json, I can do it.  Until I think of something better, just leave a comment on this youtube video of mine https://youtu.be/_lVssFyB0F4 and I'll look into it.
