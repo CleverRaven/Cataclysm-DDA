@@ -4,7 +4,7 @@
     "//": "Audited with ImageJ.  Weight from 15rd mag ratio.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock .40 S&W/.357 SIG 22-round magazine" },
+    "name": { "str": "Glock .40/.357 22-round magazine" },
     "description": "An extended 22-round magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "97 g",
     "volume": "113 ml",
@@ -24,7 +24,7 @@
     "//": "Audited with ImageJ.  Weight from manufacturer.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Glock .40 S&W/.357 SIG 15-round magazine" },
+    "name": { "str": "Glock .40/.357 15-round magazine" },
     "description": "A compact, light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "78 g",
     "volume": "91 ml",
@@ -43,8 +43,16 @@
     "//": "Audited with ImageJ.  Weight from Beretta 12rd ratio.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Px4 .40 S&W 14-round magazine" },
+    "name": { "str": "Beretta .40 14-round magazine" },
     "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 14 rounds.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "px4_40mag",
+        "name": { "str": "Beretta Px4 Storm 14-round magazine" },
+        "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 14 rounds."
+      }
+    ],
     "weight": "100 g",
     "volume": "81 ml",
     "longest_side": "12 cm",
@@ -85,13 +93,6 @@
     "variant_type": "gun",
     "name": { "str": "Luty .40 20-round magazine" },
     "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W.",
-    "variants": [
-      {
-        "id": "smg_40_mag",
-        "name": { "str": "makeshift .40 20-round magazine" },
-        "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachine gun, with a simplified feed system.  It looks like it might feed 20 rounds of .40S&W."
-      }
-    ],
     "weight": "207 g",
     "volume": "172 ml",
     "longest_side": "24 cm",
@@ -110,7 +111,7 @@
     "//": "Copied from .45 magazine.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "UMP-40 30-round magazine" },
+    "name": { "str": "UMP .40 30-round magazine" },
     "description": "A straight, double-stack plastic box magazine for the UMP sub-machine gun in .40 S&W.  Holds 30 rounds.",
     "weight": "150 g",
     "volume": "206 ml",
@@ -129,7 +130,7 @@
     "//": "Audited with ImageJ.  Weight estimated.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Hi-Power .40 S&W 10-round magazine" },
+    "name": { "str": "Browning .40 10-round magazine" },
     "description": "A 10-round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": "100 g",
     "volume": "74 ml",
@@ -148,8 +149,16 @@
     "//": "Copied from .45 High-Point JHP magazine.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Model JCP 10-round magazine" },
+    "name": { "str": "Hi-Point .40 10-round magazine" },
     "description": "A 10-round steel box magazine for use with the Hi-Point Model JCP.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptjcpmag",
+        "name": { "str": "Model JCP 10-round magazine" },
+        "description": "A 10-round steel box magazine for use with the Hi-Point Model JCP."
+      }
+    ],
     "weight": "110 g",
     "volume": "92 ml",
     "longest_side": "132 mm",

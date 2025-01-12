@@ -3,16 +3,8 @@
     "id": "fn57mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "5.7mm 20-round pistol magazine" },
-    "description": "A 20-round box magazine, for use with handguns chambering the proprietary 5.7x28mm cartridge.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "fn57mag",
-        "name": { "str": "Five-seveN 20-round magazine" },
-        "description": "A standard-capacity magazine for use with the FN Five-seveN."
-      }
-    ],
+    "name": { "str": "Five-seveN 20-round magazine" },
+    "description": "A standard-capacity magazine for use with the FN Five-seveN.",
     "weight": "45 g",
     "volume": "119 ml",
     "//": "length 5 in, width 0.832 in, height 1.75 in, raw 119.3 ml, trim: 0%",
@@ -51,8 +43,16 @@
     "//": "Audited with ImageJ, weight is comparative with Fn57.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger-57 20-round magazine" },
-    "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57.",
+    "name": { "str": "5.7mm handgun 20-round magazine" },
+    "description": "A standard capacity 20-round 5.7x28mm magazine for use with the 5.7mm handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_57mag",
+        "name": { "str": "Ruger-57 20-round magazine" },
+        "description": "A standard capacity 20-round 5.7x28mm magazine for use with the Ruger-57."
+      }
+    ],
     "weight": "30 g",
     "volume": "84 ml",
     "longest_side": "123 mm",
@@ -70,8 +70,16 @@
     "//": "Magazine is almost identical to 20 round.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger-57 10-round magazine" },
-    "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which standard capacity magazines are prohibited.",
+    "name": { "str": "5.7mm handgun 10-round magazine" },
+    "description": "A small capacity 10-round magazine for use with the 5.7mm handgun, developed for use in states in which standard capacity magazines are prohibited.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_57_10_round_mag",
+        "name": { "str": "Ruger-57 10-round magazine" },
+        "description": "A small capacity 10-round magazine for use with the Ruger-57, developed for use in states in which standard capacity magazines are prohibited."
+      }
+    ],
     "weight": "24 g",
     "volume": "84 ml",
     "longest_side": "123 mm",

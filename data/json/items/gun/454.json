@@ -4,8 +4,16 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Taurus Raging Bull" },
-    "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull.  It has impressive stopping power.",
+    "name": { "str": "Raging Bull revolver" },
+    "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull/.410 shot/.45 Colt.  It has impressive stopping power.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "raging_bull",
+        "name": { "str": "Taurus Raging Bull" },
+        "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull/.410 shot/.45 Colt.  It has impressive stopping power."
+      }
+    ],
     "weight": "1502 g",
     "volume": "565 ml",
     "longest_side": "332 mm",

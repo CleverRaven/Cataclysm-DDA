@@ -4,8 +4,16 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Glock 22" },
+    "name": { "str": "Glock .40 pistol" },
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI from 1997-2016, and of countless other law enforcement agencies worldwide.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_22",
+        "name": { "str": "Glock 22" },
+        "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI from 1997-2016, and of countless other law enforcement agencies worldwide."
+      }
+    ],
     "ascii_picture": "glock_17",
     "weight": "645 g",
     "volume": "433 ml",
@@ -51,8 +59,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Beretta Px4 Storm .40 S&W" },
+    "name": { "str": "Beretta .40 pistol" },
     "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry.  This one is chambered in .40 S&W.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "px4_40",
+        "name": { "str": "Beretta Px4 Storm .40 S&W" },
+        "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry.  This one is chambered in .40 S&W."
+      }
+    ],
     "weight": "785 g",
     "volume": "520 ml",
     "longest_side": "231 mm",
@@ -75,8 +91,16 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "SIG Pro .40" },
+    "name": { "str": "SIG Pro .40 pistol" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sig_40",
+        "name": { "str": "SIG Pro .40" },
+        "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces."
+      }
+    ],
     "ascii_picture": "sig_pro_40",
     "weight": "822 g",
     "volume": "509 ml",
@@ -121,7 +145,7 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "Luty SMG: .40 S&W", "str_pl": "Luty SMGs: .40 S&W" },
+    "name": { "str": "Luty .40 submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .40 S&W cartridges and accepts custom-made makeshift magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game. No factory mags until UMP40, mp5/40, or other straight .40 mags are implemented.",
     "weight": "3520 g",
@@ -161,8 +185,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Browning Hi-Power .40 S&W" },
+    "name": { "str": "Browning .40 pistol" },
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in .40 S&W.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hi_power_40",
+        "name": { "str": "Browning Hi-Power .40 S&W" },
+        "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in .40 S&W."
+      }
+    ],
     "weight": "907 g",
     "volume": "274 ml",
     "longest_side": "228 mm",
@@ -185,8 +217,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str_sp": "Hi-Point Model JCP" },
+    "name": { "str": "Hi-Point .40 pistol" },
     "description": "The Hi-Point Model JCP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptjcp",
+        "name": { "str": "Hi-Point Model JCP" },
+        "description": "The Hi-Point Model JCP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides."
+      }
+    ],
     "weight": "990 g",
     "volume": "546 ml",
     "longest_side": "234 mm",

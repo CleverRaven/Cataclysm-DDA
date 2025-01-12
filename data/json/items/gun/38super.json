@@ -4,8 +4,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "M1911A1" },
+    "name": { "str": ".38 Super handgun" },
     "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1911a1_38super",
+        "name": { "str": "M1911A1" },
+        "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super."
+      }
+    ],
     "weight": "1157 g",
     "volume": "462 ml",
     "longest_side": "247 mm",

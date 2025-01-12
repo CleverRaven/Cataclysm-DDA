@@ -4,8 +4,16 @@
     "//": "Audited with ImageJ, weight estimated.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "LCP 6-round magazine" },
-    "description": "A standard 6-round capacity magazine for the Ruger LCP pistol.",
+    "name": { "str": ".380 compact pistol 6-round magazine" },
+    "description": "A standard 6-round capacity magazine for the .380 compact pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rugerlcpmag",
+        "name": { "str": "Ruger LCP 6-round magazine" },
+        "description": "A standard 6-round capacity magazine for the Ruger LCP pistol."
+      }
+    ],
     "weight": "35 g",
     "volume": "29 ml",
     "longest_side": "86 mm",
@@ -23,8 +31,16 @@
     "//": "Values copied from Mac10 magazine.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "MAC-11 32-round magazine" },
-    "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG.",
+    "name": { "str": ".380 machine pistol 32-round magazine" },
+    "description": "A cheap 32-round steel box magazine for use with the .380 machine pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mac11mag",
+        "name": { "str": "MAC-11 32-round magazine" },
+        "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG."
+      }
+    ],
     "weight": "221 g",
     "volume": "184 ml",
     "longest_side": "21 cm",
@@ -42,8 +58,16 @@
     "//": "Audited with ImageJ, weight estimated.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "CF-380 8-round magazine" },
-    "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine.",
+    "name": { "str": ".380 handgun 8-round magazine" },
+    "description": "An 8-round steel box magazine for use with the .380 handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptcf380mag_8rd",
+        "name": { "str": "Hi-Point CF-380 8-round magazine" },
+        "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine."
+      }
+    ],
     "weight": "40 g",
     "volume": "33 ml",
     "longest_side": "9 cm",
@@ -61,8 +85,16 @@
     "//": "Audited with ImageJ, weight estimated.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "CF-380 10-round magazine" },
-    "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine.",
+    "name": { "str": ".380 handgun 10-round magazine" },
+    "description": "An 10-round steel box magazine for use with the .380 handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptcf380mag_10rd",
+        "name": { "str": "Hi-Point CF-380 10-round magazine" },
+        "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.  Does not fit the Hi-Point 3895 carbine."
+      }
+    ],
     "weight": "77 g",
     "volume": "64 ml",
     "longest_side": "12 cm",
@@ -79,8 +111,16 @@
     "id": "hpt3895mag_10rd",
     "looks_like": "hptcf380mag_10rd",
     "type": "MAGAZINE",
-    "name": { "str": "Hi-Point 3895 10-round magazine" },
-    "description": "A 10-round steel box magazine for use with the Hi-Point 3895 pistol-caliber carbine.  Does not fit the Hi-Point CF-380 pistol.",
+    "name": { "str": ".380 carbine 10-round magazine" },
+    "description": "A 10-round steel box magazine for use with the .380 carbine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hpt3895mag_10rd",
+        "name": { "str": "Hi-Point 3895 10-round magazine" },
+        "description": "A 10-round steel box magazine for use with the Hi-Point 3895 pistol-caliber carbine.  Does not fit the Hi-Point CF-380 pistol."
+      }
+    ],
     "copy-from": "hptcf380mag_10rd"
   }
 ]

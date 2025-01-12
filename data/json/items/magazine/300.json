@@ -4,8 +4,16 @@
     "//": "Dimensions and weight from manufacturer of a .300WM Long Action Magazine.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "M2010 5-round magazine" },
-    "description": "A 5-round box magazine used with the M2010 ESR sniper rifle.",
+    "name": { "str": ".300 sniper rifle 5-round magazine" },
+    "description": "A 5-round box magazine used with the .300 sniper rifle.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m2010mag",
+        "name": { "str": "M2010 ESR 5-round magazine" },
+        "description": "A 5-round box magazine used with the M2010 ESR sniper rifle."
+      }
+    ],
     "weight": "207 g",
     "volume": "186 ml",
     "longest_side": "102 mm",
@@ -23,8 +31,16 @@
     "//": "Dimension from ImageJ, weight is ratio of M2010 magazine: 1.11 g/ml.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger Precision Rifle 5-round magazine" },
+    "name": { "str": ".300 precision rifle 5-round magazine" },
     "description": "A single-stack, 5-round, detachable magazine compatible with the Ruger Precision Rifle.  Holding five rounds of.300 Winchester Magnum, the magazine is styled along the lines of Accuracy International's magnum magazines, the latter of which has become the gold standard for precision weapon magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_pr_mag",
+        "name": { "str": "Ruger Precision Rifle 5-round magazine" },
+        "description": "A single-stack, 5-round, detachable magazine compatible with the Ruger Precision Rifle.  Holding five rounds of.300 Winchester Magnum, the magazine is styled along the lines of Accuracy International's magnum magazines, the latter of which has become the gold standard for precision weapon magazines."
+      }
+    ],
     "weight": "188 g",
     "volume": "169 ml",
     "longest_side": "101 mm",

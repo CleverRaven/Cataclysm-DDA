@@ -85,102 +85,81 @@ VARIANT_CHECK_BLACKLIST = {
 }
 VARIANT_CHECK_PAIR_BLACKLIST = {
     # FIXME: fix and remove these
-    ("m17", "m18"),
     ("pamd68", "pamd68mountable"),
     ("type99", "type99_sniper"),
-    ("glock_20", "glock_40"),
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
     "bigun",
-    "american_180",
-    "fn_fal_semi",
-    "m1a",
-    "rfb_308",
-    "steyr_scout",
+    "kord",
     "mdrx",
-    "STI_DS_10",
-    "hpt3895",
+    "hk_mp5_10_semi",
+    "m1carbine",
     "m2carbine",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "fn_p90",
-    "hk_mp7",
+    "pseudo_m203",
     "obrez",
     "pressin",
-    "m2010",
-    "weatherby_5",
-    "win70",
-    "mr73",
-    "iwi_tavor_x95_300blk",
-    "sig_mcx_rattler_sbr",
-    "p226_357sig",
-    "glock_31",
-    "p320_357sig",
-    "scar_l",
-    "brogyaga",
-    "raging_bull",
-    "raging_judge",
-    "saiga_410",
-    "shotgun_410",
-    "mgl",
-    "pseudo_m203",
-    "atgm_launcher",
     "xedra_gun",
-    "90two40",
-    "glock_22",
-    "px4_40",
-    "sig_40",
-    "hi_power_40",
-    "walther_ppq_40",
-    "hptjcp",
-    "AT4",
-    "af2011a1_38super",
-    "m1911a1_38super",
-    "plasma_gun",
-    "bbgun",
 }
 BAD_IDENTIFIERS = [
     "10mm",
     ".22",
+    ".30-06",
+    ".300",
     ".338",
+    ".357",
+    ".338",
+    ".380",
+    ".38 Super",
     ".38",
+    ".32",
     ".40",
     ".44",
+    ".450",
+    "5.45",
     ".45",
     ".500",
+    ".50",
     "5x50mm",
+    "5.56",
     "5.7mm",
+    "7.62",
     "7.7mm",
     "8x40mm",
     "9x19mm",
+    "9mm",
     "-round",
+    "-fed",
+    "clip"
     "magazine",
     "stripper",
     "speedloader",
 ]
 TYPE_DESCRIPTORS = [
     "automagnum",
+    "BB gun",
     "blunderbuss",
     "carbine",
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",
     "derringer",
+    "express gun",
     "flamethrower",
     "flintlock",
     # Special faction-specific invented weapons get a pass
     "FSP",
     "gatling gun",
     "hand cannon",
+    "hand mortar",
     "handgun",
-    "HMG",
     # Special faction-specific invented weapons get a pass
     "HWP",
     "launcher",
     "lever gun",
-    "LMG",
     "machine gun",
     "minigun",
     # This is as close as you can get without a giant name
@@ -191,7 +170,7 @@ TYPE_DESCRIPTORS = [
     "rifle",
     "shotgun",
     "six-shooter",
-    "SMG",
+    "seven-shooter",
     "submachine gun",
     "trenchgun",
 ]
@@ -451,6 +430,9 @@ def load_all_json(directory):
         for filename in filenames:
             if not filename.endswith(".json"):
                 continue
+            if "obsolet" in root + filename:
+                # skip obsoleted json
+                continue
             path = os.path.join(root, filename)
             extract_jos(path)
 
@@ -593,9 +575,6 @@ def common_token(names):
     common_token = longest_common_substring(names).strip()
     # It can't be a meaningful identifier if it's 1 character long
     if len(common_token) < 2:
-        return None
-    # Some common identifiers that don't work
-    if common_token in {"11", "to", "if", "ip", "rifle", "carbine"}:
         return None
     return common_token
 

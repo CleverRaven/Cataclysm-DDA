@@ -618,7 +618,7 @@ TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );
-            CHECK( gun.tname() == "H&K MP5A2 submachine gun" );
+            CHECK( gun.tname() == "MP5 submachine gun" );
         }
 
         WHEN( "it is fouled" ) {
@@ -629,37 +629,37 @@ TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 
             THEN( "minimal fouling is not indicated" ) {
                 gun.set_var( "dirt", 1000 );
-                CHECK( gun.tname() == "H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "MP5 submachine gun" );
             }
 
             // U+2581 'Lower one eighth block'
             THEN( "20%% fouling is indicated with a thin white bar" ) {
                 gun.set_var( "dirt", 2000 );
-                CHECK( gun.tname() == "<color_white>\u2581</color>H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "<color_white>\u2581</color>MP5 submachine gun" );
             }
 
             // U+2583 'Lower three eighths block'
             THEN( "40%% fouling is indicated with a slight gray bar" ) {
                 gun.set_var( "dirt", 4000 );
-                CHECK( gun.tname() == "<color_light_gray>\u2583</color>H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "<color_light_gray>\u2583</color>MP5 submachine gun" );
             }
 
             // U+2585 'Lower five eighths block'
             THEN( "60%% fouling is indicated with a medium gray bar" ) {
                 gun.set_var( "dirt", 6000 );
-                CHECK( gun.tname() == "<color_light_gray>\u2585</color>H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "<color_light_gray>\u2585</color>MP5 submachine gun" );
             }
 
             // U+2585 'Lower seven eighths block'
             THEN( "80%% fouling is indicated with a tall dark gray bar" ) {
                 gun.set_var( "dirt", 8000 );
-                CHECK( gun.tname() == "<color_dark_gray>\u2587</color>H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "<color_dark_gray>\u2587</color>MP5 submachine gun" );
             }
 
             // U+2588 'Full block'
             THEN( "100%% fouling is indicated with a full brown bar" ) {
                 gun.set_var( "dirt", 10000 );
-                CHECK( gun.tname() == "<color_brown>\u2588</color>H&K MP5A2 submachine gun" );
+                CHECK( gun.tname() == "<color_brown>\u2588</color>MP5 submachine gun" );
             }
         }
     }

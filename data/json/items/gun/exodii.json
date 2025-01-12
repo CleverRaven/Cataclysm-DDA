@@ -17,7 +17,7 @@
     "variants": [
       {
         "id": "Brogyeki",
-        "name": { "str": "Brogyeki '23 hand mortar" },
+        "name": { "str": "Brogyeki '23", "str_pl": "Brogyekis '23" },
         "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3x110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3x44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3x110 Diyua shells will be *stout*.",
         "weight": 1
       }
@@ -60,7 +60,7 @@
     "variants": [
       {
         "id": "Brogyaga",
-        "name": { "str": "Brogyaga express gun" },
+        "name": { "str": "Brogyaga" },
         "description": "An over/under fowling piece with a long barrel, Brogyaga were favored for their versatility in taking large game and fowl with their 27.3x110 Diyua shells.  They would be pressed into combat during two global conflicts, initially as 'light' wall guns, and later as the downsized and down-loaded Brogyeki '23, before being brought along by the Exodii to dimensions unknown.  Though unwieldy in combat as either a primary or secondary, Brogyaga serve as useful parts donors for Brogyeki counterparts, fantastic pieces for the occasional hunting party, and popular trade goods for the locals.",
         "weight": 1
       }
@@ -85,7 +85,7 @@
     "id": "sapra",
     "looks_like": "smle_mk3",
     "type": "GUN",
-    "name": { "str": "Exodii Sapra grenade launcher" },
+    "name": { "str": "Exodii grenade launcher" },
     "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3 x 110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
     "//": "Based on the Truvelo CMS.  No rifle grenades since it has a magazine.",
     "weight": "5900 g",
@@ -97,7 +97,7 @@
     "variants": [
       {
         "id": "sapra",
-        "name": { "str": "Sapra '36 grenade launcher" },
+        "name": { "str": "Sapra '36", "str_pl": "Sapras '36" },
         "description": "The Sapra '36 is a short smoothbore bolt-action grenade launcher, fitted with a 5-round box magazine and a large, efficient muzzle brake.  Designed in the interwar period following the proliferation of Brogyeki '23, the Sapra was intended to assist in riots, ambushes and assaulting in urban operations, where explosives applied in quick succession could make short work of targets.  To further assist in riot operations, the Sapra can be fitted with a bayonet, a frivolity that the Exodii almost immediately discarded.  Unlike the Brogyeki, the Sapra is incapable of chambering the longer 27.3x110 Diyua shells.  The Exodii have replaced the stock with an aluminum alloy chassis, leaving behind the original wood ones as they became damaged.",
         "weight": 1
       }
@@ -131,7 +131,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Exodii battle rifle" },
+    "name": { "str": "Exodii heavy rifle" },
     "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.",
     "weight": "9480 g",
     "volume": "2800 ml",
@@ -144,7 +144,7 @@
     "variants": [
       {
         "id": "pamd68",
-        "name": { "str": "PA md. 68 rifle" },
+        "name": { "str": "PA md. 68", "str_pl": "PAs md. 68" },
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness."
       }
     ],
@@ -180,7 +180,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Exodii zombie hunting rifle" },
+    "name": { "str": "Exodii light rifle" },
     "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit.",
     "weight": "3910 g",
     "volume": "3 L",
@@ -193,7 +193,7 @@
     "variants": [
       {
         "id": "pamd71z",
-        "name": { "str": "PS md. 71z rifle" },
+        "name": { "str": "PA md. 71z", "str_pl": "PAs md. 71z" },
         "description": "This extremely popular Romanian rifle, made famous in the third Carpathian War, has been redesigned slightly by the Exodii for precision shots against high-priority targets.  In a pinch this modified design can fire a 2-shot burst, with the goal of shredding the target and preventing revivification.  However, the recoil is much greater for a human than it would be for a cyborg or giant quadruped, causing the burst to more often miss than hit."
       }
     ],
@@ -213,7 +213,7 @@
     "id": "pamd68mountable",
     "copy-from": "pamd68",
     "type": "GUN",
-    "name": { "str": "mountable Exodii battle rifle" },
+    "name": { "str": "mountable Exodii heavy rifle" },
     "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth.",
     "weight": "9630 g",
     "volume": "2865 ml",
@@ -221,7 +221,7 @@
     "variants": [
       {
         "id": "pamd68mountable",
-        "name": { "str": "mountable PA md. 68 rifle" },
+        "name": { "str": "mountable PA md. 68", "str_pl": "mountable PAs md. 68" },
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth."
       }
     ]
@@ -229,9 +229,17 @@
   {
     "id": "exodii_plasma_projectile",
     "type": "GUN",
-    "name": { "str_sp": "Caotel Sr2.2 (Projectile)" },
+    "name": { "str": "Exodii plasma gun (Projectile)", "str_pl": "Exodii plasma guns (Projectile)" },
     "looks_like": "plasma_gun",
     "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever pragmatic, choose not to explore beyond what was necessary to perform a second, emergency escape.  A single discharge from the Caotel easily melts through conventional armor and flash-incinerates anything behind it, but its state of disrepair limits the number of shots it can fire in quick succession.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_plasma_projectile",
+        "name": { "str": "Caotel Sr3.3 (Projectile)", "str_pl": "Caotels Sr3.3 (Projectile)" },
+        "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever pragmatic, choose not to explore beyond what was necessary to perform a second, emergency escape.  A single discharge from the Caotel easily melts through conventional armor and flash-incinerates anything behind it, but its state of disrepair limits the number of shots it can fire in quick succession."
+      }
+    ],
     "symbol": "(",
     "color": "cyan",
     "weight": "8500 g",
@@ -277,10 +285,18 @@
   {
     "id": "exodii_plasma_fan",
     "type": "GUN",
-    "name": { "str_sp": "Caotel Sr3.3 (FAN)" },
+    "name": { "str": "Exodii plasma gun (Fan)", "str_pl": "Exodii plasma guns (Fan)" },
     "copy-from": "exodii_plasma_projectile",
     "looks_like": "plasma_gun",
     "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever  pragmatic choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_plasma_fan",
+        "name": { "str": "Caotel Sr3.3 (Fan)", "str_pl": "Caotels Sr3.3 (Fan)" },
+        "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever  pragmatic choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained."
+      }
+    ],
     "skill": "launcher",
     "range": 12,
     "ranged_damage": [ { "damage_type": "heat", "amount": 50, "armor_penetration": 60 } ],
@@ -323,7 +339,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "m2browning",
     "type": "GUN",
-    "name": { "str": "exodii naval rifle" },
+    "name": { "str": "Exodii naval rifle" },
     "description": "Originally designed for naval defense of a small island country, this gun served Exodii as long as they existed, being one of its reliable tools in later stages of world decay.  Cheap ammunition, a simple mechanism, and immense power output would make it a great weapon for any survivor who is able to carry nearly a hundred kilo of its weight and is in need to penetrate a small bunker.  Unless your body is compatible with Exodii Standard Combat Bodyframe, you can only use it with a heavy-duty tripod, and only while prone.  Due to the size of a top-mounted magazine, the user needs to use a scope mounted on the side of a gun.",
     "//": "effectively a weird single-shot self-loading Oerlikon KBA (but longer, and of course not an autocannon) with a 23x152mm round",
     "variant_type": "gun",
@@ -331,8 +347,9 @@
       {
         "id": "ree_33",
         "name": {
-          "str_sp": "Ree 3.3 exodii rifle",
-          "ctxt": "`Ree` in this case is butchered `Roe`, to carry some sort of nautical vibe"
+          "str": "Ree 3.3",
+          "str_pl": "Rees 3.3",
+          "//~": "`Ree` in this case is butchered `Roe`, to carry some sort of nautical vibe"
         },
         "description": "Originally designed for naval defense of a small island country, this gun served Exodii as long as they existed, being one of its reliable tools in later stages of world decay.  Cheap ammunition, a simple mechanism, and immense power output would make it a great weapon for any survivor who is able to carry nearly a hundred kilo of its weight and is in need to penetrate a small bunker.  Unless your body is compatible with Exodii Standard Combat Bodyframe, you can only use it with a heavy-duty tripod, and only while prone.  Due to the size of a top-mounted magazine, the user needs to use a scope mounted on the side of a gun."
       }

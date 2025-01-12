@@ -4,8 +4,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "SIG P226" },
+    "name": { "str": ".357 pistol" },
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p226_357sig",
+        "name": { "str": "SIG P226" },
+        "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol."
+      }
+    ],
     "weight": "964 g",
     "volume": "549 ml",
     "longest_side": "232 mm",
@@ -29,8 +37,16 @@
     "id": "glock_31",
     "copy-from": "glock_22",
     "type": "GUN",
-    "name": { "str": "Glock 31" },
+    "name": { "str": "Glock .357 pistol" },
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_31",
+        "name": { "str": "Glock 31" },
+        "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel."
+      }
+    ],
     "ascii_picture": "glock_20",
     "weight": "660 g",
     "volume": "443 ml",
@@ -46,8 +62,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "SIG P320 Compact" },
+    "name": { "str": ".357 compact pistol" },
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p320_357sig",
+        "name": { "str": "SIG P320 Compact" },
+        "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG."
+      }
+    ],
     "ascii_picture": "sig_p320",
     "weight": "731 g",
     "volume": "462 ml",

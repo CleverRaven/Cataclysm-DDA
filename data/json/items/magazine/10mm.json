@@ -4,7 +4,7 @@
     "//": "Values copied from .44 Speedloader.",
     "looks_like": "38_speedloader",
     "type": "MAGAZINE",
-    "name": { "str": "10mm 6-round speedloader" },
+    "name": { "str": ".40/10mm 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
     "weight": "28 g",
     "volume": "25 ml",
@@ -41,14 +41,6 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock 10mm 10-round magazine" },
     "description": "A stubby steel and polymer magazine for use with the compact Glock pistol.  It is too short to insert into most other 10mm Glock pattern magwells.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "glock_29mag",
-        "name": { "str": "Glock 10mm 10-round magazine" },
-        "description": "A stubby steel and polymer magazine for use with the Glock 29.  It is too short to insert into most other 10mm Glock pattern magwells."
-      }
-    ],
     "weight": "90 g",
     "volume": "99 ml",
     "longest_side": "112 mm",
@@ -66,16 +58,8 @@
     "looks_like": "m1911mag",
     "copy-from": "m1911mag",
     "type": "MAGAZINE",
-    "name": { "str": "Colt Delta Elite 8-round magazine" },
-    "description": "An 8-round single stack steel box magazine for use in the Colt Delta Elite pistol.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "m1911_10mag",
-        "name": { "str": "Colt Delta Elite 8-round magazine" },
-        "description": "An 8-round single stack steel box magazine for use with 1911 pattern guns chambered in 10mm Auto."
-      }
-    ],
+    "name": { "str": "Delta Elite 8-round magazine" },
+    "description": "An 8-round single stack steel box magazine for use in the Delta Elite pistol.",
     "price": "35 USD",
     "price_postapoc": "1 USD",
     "material": "steel",
@@ -86,13 +70,13 @@
     "id": "mp5_10_mag",
     "looks_like": "ump45mag",
     "type": "MAGAZINE",
-    "name": { "str": "BA10 30-round magazine" },
-    "description": "A straight 30-round box magazine for the BA10 rifle.",
+    "name": { "str": "10mm rifle 30-round magazine" },
+    "description": "A straight 30-round box magazine for the 10mm semi-auto rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mp5_10_mag",
-        "name": { "str": "MP5/10 30-round magazine" },
+        "name": { "str": "BA10 30-round magazine" },
         "description": "A straight 30-round box magazine for use with MP5/10s and similar 10mm MP5 clones such as the Brethren Arms BA10."
       }
     ],
@@ -112,13 +96,13 @@
     "id": "p220_10_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG pistol 10mm 8-round magazine" },
-    "description": "An 8-round steel box magazine for the SIG pistol",
+    "name": { "str": "SIG 10mm 8-round magazine" },
+    "description": "An 8-round steel box magazine for the 10mm pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "p220_10_mag",
-        "name": { "str": "P220 8-round magazine" },
+        "name": { "str": "SIG P220 8-round magazine" },
         "description": "An 8-round steel box magazine for the SIG Sauer P220 in 10mm Auto."
       }
     ],
@@ -140,14 +124,6 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock 10mm 30-round magazine" },
     "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pistols and submachine guns chambered in 10mm.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "tdi_10mm_mag",
-        "name": { "str": "Glock 10mm 30-round magazine" },
-        "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pattern magazine wells, namely the Vector SDP."
-      }
-    ],
     "weight": "210 g",
     "volume": "194 ml",
     "longest_side": "256 mm",
@@ -184,6 +160,14 @@
     "type": "MAGAZINE",
     "name": { "str": "XD-M 15-round magazine" },
     "description": "A 15-round steel box magazine for 10mm Auto XD-M pistols.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "xd_10_mag",
+        "name": { "str": "XD-M Competition 15-round magazine" },
+        "description": "A 15-round steel box magazine for 10mm Auto XD-M pistols."
+      }
+    ],
     "weight": "80 g",
     "volume": "81 ml",
     "longest_side": "124 mm",

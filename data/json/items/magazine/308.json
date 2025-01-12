@@ -3,7 +3,7 @@
     "id": "belt308",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": { "str": "7.62x51mm ammo belt" },
+    "name": { "str": "7.62 NATO ammo belt" },
     "ammo_type": [ "308" ],
     "capacity": 500,
     "default_ammo": "762_51",
@@ -15,16 +15,8 @@
     "//": "Audited",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "heavy automatic rifle 30-round magazine" },
-    "description": "An extended 30-round steel box magazine for the heavy automatic rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "falbigmag",
-        "name": { "str": "FAL 30-round magazine" },
-        "description": "An extended 30-round steel box magazine for the FN FAL rifle."
-      }
-    ],
+    "name": { "str": "FAL 30-round magazine" },
+    "description": "An extended 30-round steel box magazine for the FN FAL rifle.",
     "weight": "340 g",
     "volume": "412 ml",
     "longest_side": "21 cm",
@@ -42,16 +34,8 @@
     "//": "Audited",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "heavy automatic rifle 20-round magazine" },
-    "description": "A military issue 20-round steel box magazine for the heavy automatic rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "falmag",
-        "name": { "str": "FAL 20-round magazine" },
-        "description": "A military issue 20-round steel box magazine for the FN FAL rifle."
-      }
-    ],
+    "name": { "str": "FAL 20-round magazine" },
+    "description": "A military issue 20-round steel box magazine for the FN FAL rifle.",
     "weight": "240 g",
     "volume": "285 ml",
     "longest_side": "145 mm",
@@ -184,7 +168,7 @@
     "//": "Audited",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "PAP M77 20-round magazine" },
+    "name": { "str": "PAP 20-round magazine" },
     "description": "A 20-round steel box magazine for the PAP M77 rifle.",
     "weight": "229 g",
     "volume": "309 ml",
@@ -203,7 +187,7 @@
     "//": "Audited",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "PAP M77 10-round magazine" },
+    "name": { "str": "PAP 10-round magazine" },
     "description": "A 10-round steel box magazine for the PAP M77 rifle.",
     "weight": "129 g",
     "volume": "174 ml",
@@ -413,7 +397,7 @@
     "//": "Audited",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AI .308 10-round magazine" },
+    "name": { "str": "AXMC 7.62 10-round magazine" },
     "description": "A single-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with the .308 Winchester cartridge.",
     "weight": "125 g",
     "volume": "247 ml",
@@ -458,13 +442,13 @@
     "id": "steyr_scout_mag_makeshift",
     "copy-from": "steyr_scout_mag",
     "type": "MAGAZINE",
-    "name": { "str": "makeshift scout rifle 3-round magazine" },
+    "name": { "str": "scout rifle 3-round makeshift magazine" },
     "description": "A makeshift 3-round steel box magazine for the scouting rifle, held together by duct tape and hope.  You could probably fit this inside its stock!",
     "variant_type": "gun",
     "variants": [
       {
         "id": "steyr_scout_mag_makeshift",
-        "name": { "str": "makeshift Steyr Scout 3-round magazine" },
+        "name": { "str": "Steyr Scout 3-round makeshift magazine" },
         "description": "A makeshift 3-round steel box magazine for the Steyr Scout rifle, held together by duct tape and hope.  You could probably fit this inside its stock!"
       }
     ],

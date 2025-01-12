@@ -42,13 +42,13 @@
     "//": "Dimensions via ImageJ.  Weight from vendor.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Glock SMG 30-round magazine" },
-    "description": "An aftermarket 30-round polymer and steel box magazine designed for use with the Glock pistol.",
+    "name": { "str": "Glock .45 SMG 30-round magazine" },
+    "description": "An aftermarket 30-round polymer and steel box magazine designed for use with the Glock .45 submachine gun.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tdi_mag",
-        "name": { "str": "Vector SMG 30-round magazine" },
+        "name": { "str": "Vector 30-round magazine" },
         "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector."
       }
     ],
@@ -148,8 +148,8 @@
     "//": "Audited with ImageJ. Weight estimated.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "UMP-45 25-round magazine" },
-    "description": "A straight, double-stack plastic box magazine for the UMP sub-machine gun in .45 ACP.  Holds 25 rounds.",
+    "name": { "str": "UMP 25-round magazine" },
+    "description": "A straight, double-stack plastic box magazine for the UMP submachine gun in .45 ACP.  Holds 25 rounds.",
     "weight": "150 g",
     "volume": "206 ml",
     "longest_side": "22 cm",
@@ -167,8 +167,8 @@
     "//": "Not a real magazine. Weight from 1.2g/ml ratio.",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "UMP45 20-round makeshift magazine" },
-    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP45 SMG.",
+    "name": { "str": "UMP 20-round makeshift magazine" },
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP SMG.",
     "weight": "302 g",
     "volume": "252 ml",
     "longest_side": "268 mm",
@@ -185,16 +185,8 @@
     "id": "usp45mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "USP .45 pistol 12-round magazine" },
+    "name": { "str": "USP .45 12-round magazine" },
     "description": "A 12-round magazine for use with the USP pistol.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "usp45mag",
-        "name": { "str": "USP .45 12-round magazine" },
-        "description": "A standard capacity magazine for use with the H&K USP handgun."
-      }
-    ],
     "weight": "99 g",
     "volume": "116 ml",
     "longest_side": "130 mm",
@@ -213,7 +205,7 @@
     "//": "Audited with ImageJ.  Weight from UMP mag ratio.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "H&K USC 45 Carbine 10-round magazine" },
+    "name": { "str": "USC 10-round magazine" },
     "description": "A 10-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "123 g",
     "volume": "169 ml",
@@ -231,7 +223,7 @@
     "id": "usc15mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "H&K USC 45 Carbine 15-round magazine" },
+    "name": { "str": "USC 15-round magazine" },
     "description": "A 15-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "217 g",
     "volume": "240 ml",
@@ -249,7 +241,7 @@
     "id": "usc20mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "H&K USC 45 Carbine 20-round magazine" },
+    "name": { "str": "USC 20-round magazine" },
     "description": "A 20-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "290 g",
     "volume": "320 ml",
@@ -268,13 +260,13 @@
     "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "PPQ .45 12-round magazine" },
+    "name": { "str": "Walther .45 12-round magazine" },
     "description": "A 12-round steel box magazine for the PPQ pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ppq45mag",
-        "name": { "str": "PPQ .45 ACP 12-round magazine" },
+        "name": { "str": "Walther PPQ 45 12-round magazine" },
         "description": "A 12-round steel box magazine for the Walther PPQ .45 ACP."
       }
     ],
@@ -295,8 +287,16 @@
     "//": "Audited with ImageJ.  Weight estimated.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Model JHP 9-round magazine" },
+    "name": { "str": "Hi-Point .45 9-round magazine" },
     "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptjhpmag",
+        "name": { "str": "Hi-Point Model JHP 9-round magazine" },
+        "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP."
+      }
+    ],
     "weight": "110 g",
     "volume": "92 ml",
     "longest_side": "132 mm",
@@ -367,13 +367,13 @@
     "id": "greasegun30mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": ".45 WWII SMG 30-round magazine" },
-    "description": "A standard 30-round magazine for the .45 WWII submachine gun.",
+    "name": { "str": ".45 submachine gun 30-round magazine" },
+    "description": "A standard 30-round magazine for the .45 submachine gun.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "greasegun30mag",
-        "name": { "str": "M3 SMG 30-round magazine" },
+        "name": { "str": "M3 30-round magazine" },
         "description": "A standard 30-round magazine for the M3 submachine gun."
       }
     ],
@@ -393,8 +393,16 @@
     "id": "m1911bigmag",
     "//": "Audited from IRL measurements.",
     "type": "MAGAZINE",
-    "name": { "str": "M1911 10-round magazine" },
+    "name": { "str": ".45 handgun 10-round magazine" },
     "description": "An extended 10-round magazine for use with the M1911 handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1911bigmag",
+        "name": { "str": "M1911 10-round magazine" },
+        "description": "An extended 10-round magazine for use with the M1911 handgun."
+      }
+    ],
     "weight": "79 g",
     "volume": "74 ml",
     "longest_side": "155 mm",
@@ -411,8 +419,16 @@
     "id": "m1911mag",
     "//": "Previous PR, looks good.",
     "type": "MAGAZINE",
-    "name": { "str": "M1911 7-round magazine" },
-    "description": "A military issue 7-round magazine for use with the M1911 handgun.",
+    "name": { "str": ".45 handgun 7-round magazine" },
+    "description": "A military issue 7-round magazine for use with the .45 handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1911mag",
+        "name": { "str": "M1911 7-round magazine" },
+        "description": "A military issue 7-round magazine for use with the M1911 handgun."
+      }
+    ],
     "weight": "70 g",
     "volume": "61 ml",
     "longest_side": "132 mm",

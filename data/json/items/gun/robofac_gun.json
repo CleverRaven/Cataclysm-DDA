@@ -4,7 +4,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "fn_p90",
     "type": "GUN",
-    "name": { "str": "Hub 01 HWP" },
+    "name": { "str": "Hub 01 HWP", "//~": "Hub 01 Hybrid Weapons Platform" },
     "description": "The Hub 01 Hybrid Weapons Platform, or just the HWP.  With its combination of black-finished steel, blue polymer furniture, and a number of proprietary bolts and fasteners to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has \"MULTI CALIBER\" inlaid in the steel, near a quick release used both to exchange the installed barrel and to change the magazine well's adapter.",
     "weight": "2500 g",
     "volume": "4000 ml",
@@ -93,6 +93,8 @@
   {
     "id": "robofac_gun_ar",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (5.56 NATO)", "str_pl": "HWP conversion kits (5.56 NATO)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake.",
     "//": "based off attributes of an m4 with integrated muzzle break",
     "weight": "750 g",
     "volume": "500 ml",
@@ -109,7 +111,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP assault configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "223" ],
@@ -117,8 +118,7 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "overwrite_min_cycle_recoil": 1350,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake."
+    "overwrite_min_cycle_recoil": 1350
   },
   {
     "id": "xedra_gun_ar",
@@ -132,6 +132,8 @@
   {
     "id": "robofac_gun_smg",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (9mm)", "str_pl": "HWP conversion kits (9mm)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"9mm Parabellum PDW\" stamped into the metal and an integrated silencer.",
     "//": "based off attributes of an smg with integrated silencer",
     "weight": "500 g",
     "volume": "500 ml",
@@ -148,7 +150,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP personal defense configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 4 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "9mm" ],
@@ -158,12 +159,13 @@
     "//2": "this gives similar attributes to other 9mm pdws",
     "damage_modifier": { "damage_type": "bullet", "amount": 4 },
     "range_modifier": 20,
-    "overwrite_min_cycle_recoil": 450,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"9mm Parabellum PDW\" stamped into the metal and an integrated silencer."
+    "overwrite_min_cycle_recoil": 450
   },
   {
     "id": "robofac_gun_57",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (5.7mm)", "str_pl": "HWP conversion kits (5.7mm)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"5.7mm NATO PDW\" stamped into the metal and an integrated silencer.",
     "//": "based off attributes of an smg with integrated silencer",
     "weight": "500 g",
     "volume": "500 ml",
@@ -180,7 +182,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP personal 5.7x28mm configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "57" ],
@@ -190,12 +191,13 @@
     "//2": "this gives similar attributes to other pdws",
     "damage_modifier": { "damage_type": "bullet", "amount": 4 },
     "range_modifier": 20,
-    "overwrite_min_cycle_recoil": 81,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"5.7mm NATO PDW\" stamped into the metal and an integrated silencer."
+    "overwrite_min_cycle_recoil": 81
   },
   {
     "id": "robofac_gun_46",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (4.6mm)", "str_pl": "HWP conversion kits (4.6mm)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"4.6x30mm PDW\" stamped into the metal and an integrated silencer.",
     "//": "based off attributes of an smg with integrated silencer",
     "weight": "500 g",
     "volume": "500 ml",
@@ -212,7 +214,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP personal 4.6x30mm configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "46" ],
@@ -222,12 +223,13 @@
     "//2": "this gives similar attributes to other pdws",
     "damage_modifier": { "damage_type": "bullet", "amount": 4 },
     "range_modifier": 20,
-    "overwrite_min_cycle_recoil": 81,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"4.6x30mm PDW\" stamped into the metal and an integrated silencer."
+    "overwrite_min_cycle_recoil": 81
   },
   {
     "id": "robofac_gun_dmr",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (7.62 NATO)", "str_pl": "HWP conversion kits (7.62 NATO)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"7.62 NATO DMR\" stamped into the metal and an integrated flash hider.",
     "//": "based off attributes of a dmr with integrated flash hider",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -244,7 +246,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP designated marksman configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "308" ],
@@ -253,12 +254,13 @@
     "handling_modifier": 2,
     "loudness_modifier": -10,
     "damage_modifier": { "damage_type": "bullet", "amount": -1 },
-    "overwrite_min_cycle_recoil": 2700,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"7.62 NATO DMR\" stamped into the metal and an integrated flash hider."
+    "overwrite_min_cycle_recoil": 2700
   },
   {
     "id": "robofac_gun_shotgun",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (shotgun, choke)", "str_pl": "HWP conversion kits (shotgun, choke)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke.",
     "//": "based off attributes of a shotgun barrel with integrated choke",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -275,7 +277,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP close quarters configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "shot" ],
@@ -283,13 +284,14 @@
     "damage_modifier": { "damage_type": "bullet", "amount": 2 },
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
-    "overwrite_min_cycle_recoil": 1250,
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke."
+    "overwrite_min_cycle_recoil": 1250
   },
   {
     "id": "robofac_gun_shotgun_breach",
     "copy-from": "robofac_gun_shotgun",
     "type": "GUNMOD",
+    "name": { "str": "HWP conversion kit (shotgun, CQB)", "str_pl": "HWP conversion kits (shotgun, CQB)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version looks like the close quarters configuration, but has a shortened barrel with \"00 BREACH\" stamped into the metal.",
     "mod_targets": [ "robofac_gun" ],
     "integral_volume": "175 ml",
     "integral_weight": "650 g",
@@ -297,9 +299,7 @@
     "longest_side": "42 cm",
     "barrel_length": "197 mm",
     "flags": [  ],
-    "//": "based on M26-MASS; shot_spread_multiplier_modifier is increased due the short barrel",
-    "name": { "str_sp": "HWP breacher configuration" },
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version looks like the close quarters configuration, but has a shortened barrel with \"00 BREACH\" stamped into the metal."
+    "//": "based on M26-MASS; shot_spread_multiplier_modifier is increased due the short barrel"
   },
   {
     "id": "xedra_gun_shotgun",
@@ -314,7 +314,7 @@
     "id": "robofac_gun_40mm",
     "copy-from": "launcher_base",
     "looks_like": "mark19",
-    "name": { "str_sp": "Hub 01 FSP" },
+    "name": { "str": "Hub 01 FSP", "//~": "Hub 01 Fire Support Platform" },
     "description": "The Hub 01 Fire Support Platform, or just the FSP.  Like the Hybrid Weapons Platform, it combines black-finished aluminum, blue polymer furniture, and a number of proprietary bolts and fasteners for a sci-fi aesthetic.  The barrel is stamped with \"40x46mm LV\", and the magwell looks like it accepts some truly MASSIVE magazines, which the gun appears to be capable of emptying in semi-automatic or fully-automatic fashion.",
     "//": "This is just a Rheinmetall Hydra.",
     "weight": "4082 g",
@@ -356,6 +356,8 @@
   {
     "id": "robofac_gun_exodii",
     "looks_like": "retool_ar15_300blk",
+    "name": { "str": "HWP conversion kit (Exodii)", "str_pl": "HWP conversion kits (Exodii)" },
+    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a heavy barrel with an integrated bipod, threaded muzzle and \"EXODIC\" stamped into the metal.  The typo appears to be intentional.",
     "//0": "based off attributes of the EXODII BR",
     "weight": "2400 g",
     "volume": "1200 ml",
@@ -372,7 +374,6 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
-    "name": { "str_sp": "HWP EXOTIC configuration" },
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "123ln" ],
@@ -382,8 +383,7 @@
     "//1": "this makes damage the same as pamd68",
     "damage_modifier": { "damage_type": "bullet", "amount": 2 },
     "overwrite_min_cycle_recoil": 3500,
-    "flags": [ "BIPOD", "SLOW_WIELD" ],
-    "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a heavy barrel with an integrated bipod, threaded muzzle and \"EXODIC\" stamped into the metal.  The typo appears to be intentional."
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
     "id": "robofac_laser_sight",
@@ -410,7 +410,7 @@
   {
     "id": "robofac40",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 40-round 5.56 magazine" },
+    "name": { "str": "HWP 5.56 NATO 40-round magazine" },
     "description": "A high-capacity 40-round box magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "265 g",
     "volume": "390 ml",
@@ -427,7 +427,7 @@
   {
     "id": "xedra40",
     "type": "MAGAZINE",
-    "name": { "str": "prototype 40-round 5.56 magazine" },
+    "name": { "str": "prototype 5.56 NATO 40-round magazine" },
     "description": "A high-capacity 40-round box magazine.",
     "copy-from": "robofac40",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
@@ -435,8 +435,8 @@
   {
     "id": "robofacmultimag",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 40/50-round 4.6/5.7 magazine" },
-    "description": "A high-capacity box magazine for use with the Hub 01 Hybrid Weapons Platform.  This magazine has plates on the back that can be shifted inwards to accommodate either 4.6x30mm or 5.7x28mm.",
+    "name": { "str": "HWP 4.6/5.7 40/50-round magazine" },
+    "description": "A high-capacity box magazine for use with the Hub 01 Hybrid Weapons Platform.  This magazine has plates on the back that can be shifted inwards to accommodate either 4.6mm or 5.7mm.",
     "weight": "250 g",
     "volume": "330 ml",
     "longest_side": "220 mm",
@@ -453,7 +453,7 @@
     "id": "robofac60",
     "looks_like": "calicomag",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 60-round 9mm helical magazine" },
+    "name": { "str": "HWP 9mm 60-round helical magazine" },
     "description": "A surprisingly compact 60-round helical magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "360 g",
     "volume": "360 ml",
@@ -473,7 +473,7 @@
     "id": "robofac10",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 10-round shotgun magazine" },
+    "name": { "str": "HWP shotgun 10-round magazine" },
     "description": "A 10-round shotgun magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "400 g",
     "volume": "700 ml",
@@ -491,7 +491,7 @@
     "id": "xedra10",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "prototype 10-round shotgun magazine" },
+    "name": { "str": "prototype shotgun 10-round magazine" },
     "description": "A 10-round shotgun magazine.",
     "copy-from": "robofac10",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
@@ -500,7 +500,7 @@
     "id": "robofac30",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 30-round shotgun drum magazine" },
+    "name": { "str": "HWP shotgun 30-round drum magazine" },
     "description": "A plastic 30-round drum magazine, for use with the Hub 01 Hybrid Weapons Platform.",
     "variant_type": "gun",
     "weight": "460 g",
@@ -520,7 +520,7 @@
     "id": "robofac20",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 20-round 7.62 magazine" },
+    "name": { "str": "HWP 7.62 NATO 20-round magazine" },
     "description": "A 20-round stick magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "180 g",
     "volume": "320 ml",
@@ -538,7 +538,7 @@
     "id": "robofac50",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 50-round 7.62 drum magazine" },
+    "name": { "str": "HWP 7.62 NAME 50-round drum magazine" },
     "description": "A 50-round drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "400 g",
     "volume": "1 L",
@@ -557,7 +557,7 @@
     "id": "robofac100",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 100-round 5.56 double drum magazine" },
+    "name": { "str": "HWP 5.56 NATO 100-round drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Hub 01 Hybrid Weapons Platform.",
     "weight": "1700 g",
     "volume": "1200 ml",
@@ -576,7 +576,7 @@
     "id": "robofac60_123ln",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "HWP 60-round 12.3 magazine" },
+    "name": { "str": "HWP Exodii rifle 60-round magazine" },
     "description": "A box magazine for use with the Hub 01 Hybrid Weapons Platform, developed for the 12.3 ln round.  Physically speaking, this diverges from its Exodii counterpart with a more ergonomic design afforded by the Hub's use of modern materials.  It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 2.",
     "weight": "500 g",
     "volume": "1000 ml",
@@ -593,7 +593,7 @@
   {
     "id": "robofac_gun_40mm_3rd",
     "type": "MAGAZINE",
-    "name": { "str": "FSP 3-round 40x46 magazine" },
+    "name": { "str": "FSP 40x46mm 3-round magazine" },
     "description": "A large three round box magazine for use with the Hub 01 Fire Support Platform.",
     "weight": "565 g",
     "volume": "935 ml",
@@ -610,7 +610,7 @@
   {
     "id": "robofac_gun_40mm_5rd",
     "type": "MAGAZINE",
-    "name": { "str": "FSP 5-round 40x46 magazine" },
+    "name": { "str": "FSP 40x46mm 5-round magazine" },
     "description": "A large five round box magazine for use with the Hub 01 Fire Support Platform.  There's no way you're going to find a mag pouch for this.",
     "weight": "744 g",
     "volume": "1559 ml",
@@ -627,7 +627,7 @@
   {
     "id": "robofac_gun_40mm_10rd",
     "type": "MAGAZINE",
-    "name": { "str": "FSP 10-round 40x46 magazine" },
+    "name": { "str": "FSP 40x46mm 10-round magazine" },
     "description": "A huge 10 round box magazine for use with the Hub 01 Fire Support Platform.  It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 1.  There's no way you're going to find a mag pouch for this.",
     "weight": "1302 g",
     "volume": "3118 ml",

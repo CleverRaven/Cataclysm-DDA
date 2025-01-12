@@ -4,8 +4,16 @@
     "//": "Audited with ImageJ.  Used the weight of a .32 Beretta M1935 magazine.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "PPK 8-round magazine" },
+    "name": { "str": "Walther .32 8-round magazine" },
     "description": "A standard 8-round steel box magazine for the Walther PPK.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ppkmag",
+        "name": { "str": "Walther PPK 8-round magazine" },
+        "description": "A standard 8-round steel box magazine for the Walther PPK."
+      }
+    ],
     "weight": "43 g",
     "volume": "22 ml",
     "longest_side": "88 mm",
@@ -23,8 +31,16 @@
     "//": "Audited with ImageJ.  Weight using ratio method.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "P-32 7-round magazine" },
+    "name": { "str": "Kel-Tec 7-round magazine" },
     "description": "A standard 7-round steel box magazine for the Kel-Tec P-32.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "kp32mag",
+        "name": { "str": "Kel-Tec P-32 7-round magazine" },
+        "description": "A standard 7-round steel box magazine for the Kel-Tec P-32."
+      }
+    ],
     "weight": "35 g",
     "volume": "20 ml",
     "longest_side": "81 mm",

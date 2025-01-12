@@ -4,8 +4,16 @@
     "//": "Audited with ImageJ.  Weight from comparison.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "M1911 .38 Super 9-round magazine" },
+    "name": { "str": ".38 Super handgun 9-round magazine" },
     "description": "A compact, single stack box magazine for an M1911 chambered in .38 Super.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1911mag_10rd_38super",
+        "name": { "str": "M1911A1 9-round magazine" },
+        "description": "A compact, single stack box magazine for an M1911 chambered in .38 Super."
+      }
+    ],
     "weight": "62 g",
     "volume": "33 ml",
     "longest_side": "11 cm",

@@ -4,8 +4,16 @@
     "copy-from": "flamethrower_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "M9-7 flamethrower" },
+    "name": { "str": "flamethrower" },
     "description": "A large flamethrower with substantial gas reserves.  The steel frame, with canvas accoutrements and aluminum cylinders, are all colored olive drab, like so many other pieces of equipment from the Vietnam War era.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "flamethrower",
+        "name": { "str": "M9-7" },
+        "description": "A large flamethrower with substantial gas reserves.  The steel frame, with canvas accoutrements and aluminum cylinders, are all colored olive drab, like so many other pieces of equipment from the Vietnam War era."
+      }
+    ],
     "//": "This thing, like so many others, needs multimag, for the pyrotechnic igniter cartridges AND for the nitrogen propellant gas.  But flamethrowers are fun, so we're glossing over that for now.",
     "weight": "11340 g",
     "volume": "69450 ml",

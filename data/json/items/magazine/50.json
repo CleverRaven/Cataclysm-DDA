@@ -15,13 +15,13 @@
     "//": "Audited with ImageJ.  Weight from previous PR.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".50 semi-automatic rifle 10-round magazine" },
+    "name": { "str": "semi-auto anti-materiel rifle 10-round magazine" },
     "description": "A stout, 10-round box magazine for semi-automatic anti-materiel rifles.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m107a1mag",
-        "name": { "str": "Barrett 10-round magazine" },
+        "name": { "str": "Barrett M107A1 10-round magazine" },
         "//2": "Fully loaded 10 magazine, presumably loaded with the 114.7 gram M33 Ball cartridge, weighs 1868.801 grams. Source inetres.com",
         "description": "A standard 10-round box magazine for the Barrett M107A1 anti-materiel rifle."
       }
@@ -50,7 +50,7 @@
     "variants": [
       {
         "id": "as50mag",
-        "name": { "str": "AS50 5-round magazine" },
+        "name": { "str": "AI AS50 5-round magazine" },
         "description": "A 5-round box magazine for the Accuracy International AS50 anti-materiel rifle."
       }
     ],
@@ -72,13 +72,13 @@
     "//": "No audit, just copied AS-50 magazine.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".50 bolt-action rifle 5-round magazine" },
+    "name": { "str": "bolt-action anti-materiel rifle 5-round magazine" },
     "description": "A 5-round box magazine for .50-caliber bolt-action anti-materiel rifles.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tac50mag",
-        "name": { "str": "TAC-50 5-round magazine" },
+        "name": { "str": "McMillan TAC-50 5-round magazine" },
         "description": "A 5-round box magazine for the McMillan TAC-50 anti-materiel rifle."
       }
     ],

@@ -4,8 +4,16 @@
     "copy-from": "rifle_semi",
     "looks_like": "garand",
     "type": "GUN",
-    "name": { "str": "M1 carbine" },
+    "name": { "str": ".30 semi-auto carbine" },
     "description": "A light rifle developed during the Second World War to provide a less cumbersome weapon for soldiers that didn't need the firepower of the M1 Garand.  Firing the .30 Carbine cartridge, it provides more firepower than a pistol and is easier to carry than most other rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1carbine",
+        "name": { "str": "M1" },
+        "description": "A light rifle developed during the Second World War to provide a less cumbersome weapon for soldiers that didn't need the firepower of the M1 Garand.  Firing the .30 Carbine cartridge, it provides more firepower than a pistol and is easier to carry than most other rifles."
+      }
+    ],
     "weight": "2400 g",
     "volume": "2800 ml",
     "longest_side": "900 mm",
@@ -50,8 +58,16 @@
     "//": "The M2's cyclic rate is 750 rpm, while the M4A1's is listed as 700-950 rpm so eh, close enough.",
     "looks_like": "garand",
     "type": "GUN",
-    "name": { "str": "M2 carbine" },
+    "name": { "str": ".30 automatic carbine" },
     "description": "An improved version of the M1 carbine offering full-auto capability, the M2 carbine was rare and coveted among collectors even before the world ended.  Takes M1 carbine magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m2carbine",
+        "name": { "str": "M2" },
+        "description": "An improved version of the M1 carbine offering full-auto capability, the M2 carbine was rare and coveted among collectors even before the world ended.  Takes M1 carbine magazines."
+      }
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   }
 ]

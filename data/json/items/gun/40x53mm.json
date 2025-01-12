@@ -4,8 +4,16 @@
     "copy-from": "launcher_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": { "str": "Mark 19 grenade launcher" },
+    "name": { "str": "40x53mm grenade launcher" },
     "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the Cold War all the way to the Cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mark19",
+        "name": { "str": "Mark 19" },
+        "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the Cold War all the way to the Cataclysm, and if you can find some 40mm grenades, maybe even beyond."
+      }
+    ],
     "weight": "35200 g",
     "volume": "41930 ml",
     "longest_side": "1093 mm",

@@ -4,8 +4,16 @@
     "//": "Audited with dimensions/weight from vendor.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AI .338 Lapua 5-round magazine" },
+    "name": { "str": ".338 sniper rifle 5-round magazine" },
     "description": "A single-stack, 5-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with both the .338 Lapua and .300 Winchester Magnum cartridges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ai_338mag",
+        "name": { "str": "McMillan Tac-338 5-round magazine" },
+        "description": "A single-stack, 5-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with both the .338 Lapua and .300 Winchester Magnum cartridges."
+      }
+    ],
     "weight": "215 g",
     "volume": "164 ml",
     "longest_side": "94 mm",
@@ -23,8 +31,16 @@
     "//": "Audited with ImageJ.  Weight from ratio method.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AI .338 Lapua 10-round magazine" },
+    "name": { "str": ".338 sniper rifle 10-round magazine" },
     "description": "A double-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with both the .338 Lapua and .300 Winchester Magnum cartridges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ai_338mag_10",
+        "name": { "str": "McMillan Tac-338 10-round magazine" },
+        "description": "A double-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with both the .338 Lapua and .300 Winchester Magnum cartridges."
+      }
+    ],
     "weight": "298 g",
     "volume": "233 ml",
     "longest_side": "95 mm",
@@ -42,8 +58,16 @@
     "//": "Audited with ImageJ.  Weight from vendor.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Barrett .338 Lapua 10-round magazine" },
+    "name": { "str": ".338 precision rifle 10-round magazine" },
     "description": "A standard 10-round box magazine which can hold up to 10 .338 Lapua rounds, and is compatible with appropriately chambered Barrett rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mrad_338lapua_mag",
+        "name": { "str": "Barrett MRAD SMR 10-round magazine" },
+        "description": "A standard 10-round box magazine which can hold up to 10 .338 Lapua rounds, and is compatible with appropriately chambered Barrett rifles."
+      }
+    ],
     "weight": "195 g",
     "volume": "245 ml",
     "longest_side": "10 cm",

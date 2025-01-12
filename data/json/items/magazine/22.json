@@ -20,7 +20,7 @@
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "small game rifle 19-round tube loader" },
+    "name": { "str": "small game rifle 19-round magazine" },
     "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
     "variant_type": "gun",
     "variants": [
@@ -106,7 +106,7 @@
     "id": "ruger1022bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "25-round varmint magazine" },
+    "name": { "str": "varmint 25-round magazine" },
     "description": "An extended capacity 25-round magazine, for use with .22 caliber varmint rifles.",
     "variant_type": "gun",
     "variants": [
@@ -132,13 +132,13 @@
     "id": "ruger1022mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "10-round varmint magazine" },
+    "name": { "str": "varmint 10-round magazine" },
     "description": "A flush fitting 10-round rotary magazine, for use with .22 caliber varmint rifles.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger1022mag",
-        "name": { "str": "Ruger 10/22 10-round rotary magazine" },
+        "name": { "str": "Ruger 10/22 10-round magazine" },
         "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock."
       }
     ],
@@ -159,7 +159,7 @@
     "id": "ruger1022mag_15",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "15-round varmint magazine" },
+    "name": { "str": "varmint 15-round magazine" },
     "description": "An extended capacity 15-round magazine, for use with .22 caliber varmint rifles.",
     "variant_type": "gun",
     "variants": [
@@ -185,7 +185,7 @@
     "id": "ruger1022mag_30",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "30-round varmint drum magazine" },
+    "name": { "str": "varmint 30-round drum magazine" },
     "description": "A 30-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
     "variant_type": "gun",
     "variants": [
@@ -213,8 +213,8 @@
     "id": "ruger1022mag_32",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "32-round varmint magazine" },
-    "description": "An extended capacity 32-round magazine, for use with .22 caliber varmint rifles.",
+    "name": { "str": "varmint 32-round magazine" },
+    "description": "An extended capacity 32-round magazine, for use with .22 caliber varmint rifles.  While more reliable than a drum mag, it's surprisingly not by much.",
     "variant_type": "gun",
     "variants": [
       {
@@ -241,7 +241,7 @@
     "id": "ruger1022mag_55",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "55-round varmint drum magazine" },
+    "name": { "str": "varmint 55-round drum magazine" },
     "description": "A 55-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
     "variant_type": "gun",
     "variants": [
@@ -269,7 +269,7 @@
     "id": "ruger1022mag_70",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "70-round varmint drum magazine" },
+    "name": { "str": "varmint 70-round drum magazine" },
     "description": "A 70-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
     "variant_type": "gun",
     "variants": [
@@ -297,7 +297,7 @@
     "id": "ruger1022mag_110",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "110-round varmint drum magazine" },
+    "name": { "str": "varmint 110-round drum magazine" },
     "description": "An 110-round capacity drum magazine for use in varmint rifles.  While the capacity is nothing to scoff at, it is less reliable than stick magazines.",
     "variant_type": "gun",
     "variants": [
@@ -325,13 +325,13 @@
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": ".22 10-round Walther magazine" },
+    "name": { "str": "Walther .22 10-round magazine" },
     "description": "A 10-round handgun magazine for use with Walther's .22 caliber pocket pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "wp22mag",
-        "name": { "str": "P22 10-round magazine" },
+        "name": { "str": "Walther P22 10-round magazine" },
         "description": "A 10-round box magazine for the Walther P22."
       }
     ],
@@ -351,16 +351,8 @@
     "id": "cp33_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "high capacity 33 round magazine" },
-    "description": "A 33-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33_mag",
-        "name": { "str": "CP33 33-round magazine" },
-        "description": "The CP33's magazine is a polymer body quad stack with 4 rows of .22 rounds, which gives it the ability to cram in 33 rounds into the magazine."
-      }
-    ],
+    "name": { "str": "CP33 33-round magazine" },
+    "description": "A 33-round capacity magazine for .22 ammunition, for use in a Kel-Tec CP33 high-capacity handgun.",
     "weight": "48 g",
     "volume": "123 ml",
     "longest_side": "126 mm",
@@ -377,16 +369,8 @@
     "id": "cp33_mag_50",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "high capacity 50 round magazine" },
-    "description": "A 50-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33_mag_50",
-        "name": { "str": "CP33 50-round magazine" },
-        "description": "CP33 33-round magazine has the ability to accept extensions, and this one has a 17-round extension to bring the total up to a staggering 50 rounds of .22 ammunition."
-      }
-    ],
+    "name": { "str": "CP33 50-round magazine" },
+    "description": "A 50-round capacity magazine for .22 ammunition, for use in a Kel-Tec CP33 high-capacity handgun.",
     "weight": "84 g",
     "volume": "186 ml",
     "longest_side": "211 mm",
@@ -403,13 +387,13 @@
     "id": "ruger_mk4_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger target pistol magazine" },
-    "description": "A 10-round magazine for a Ruger target pistol.",
+    "name": { "str": ".22 target pistol 10-round magazine" },
+    "description": "A 10-round magazine for a .22 target pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_mk4_mag",
-        "name": { "str": "Ruger Mark IV magazine" },
+        "name": { "str": "Ruger Mark IV 10-round magazine" },
         "description": "A Ruger Mark IV magazine, lightweight and with a magazine follower button to allow easier reloading.  Holds 10 rounds of .22, and is interchangeable with Mark II and Mark III varieties as well."
       }
     ],
@@ -430,13 +414,13 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "//": "Based on https://www.browning.com/products/shooting-accessories/magazines/1911-22-magazine.html#Black",
-    "name": { "str": ".22 1911 pistol magazine" },
+    "name": { "str": ".22 pistol 10-round magazine" },
     "description": "A 10-round magazine for a .22 1911 pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "1911_22_mag",
-        "name": { "str": "1911-22 magazine" },
+        "name": { "str": "1911-22 10-round magazine" },
         "description": "A magazine for the 1911-22 pistol, holding 10 rounds of .22 LR.  It features a magazine follower button to allow easier reloading, along with a cut-out in the side to see your round count."
       }
     ],

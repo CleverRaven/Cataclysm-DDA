@@ -4,7 +4,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "lever-action hunting rifle" },
+    "name": { "str": ".45-70 hunting rifle" },
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
     "variant_type": "gun",
     "variants": [
@@ -49,7 +49,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "hunting hand cannon" },
+    "name": { "str": ".45-70 hunting revolver" },
     "//": "This is the 7.5in barrel model",
     "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
     "variant_type": "gun",
@@ -92,14 +92,14 @@
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "breech-loading reproduction rifle" },
+    "name": { "str": ".45-70 single-shot rifle" },
     "//": "Specs from Uberti 32in barrel Special",
     "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the late 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sharps",
-        "name": { "str": "1874 Sharps", "str_pl": "1874 Sharpses" },
+        "name": { "str_sp": "1874 Sharps" },
         "description": "The Sharps rifle series are antique, falling block rifles that saw service far back as the American Civil War.  The 1874 Sharps is one of the first rifles to utilize metallic cartridges, a revolutionary technology back in those days.  While they were chambered in 45-70, modern day smokeless loads would blow up older versions.  Thankfully, this reproduction from Uberti can handle modern day 45-70 loads."
       }
     ],

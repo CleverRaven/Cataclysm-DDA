@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "makarov",
-        "name": { "str": "Makarov PM pistol" },
+        "name": { "str": "Makarov PM" },
         "//": "10 and 12-round magazines exist, but were made for the newer PMM, and are not compatible with the old PM.",
         "description": "A svelte, Cold War era handgun of Russian heritage, this former military pistol fires the Soviet 9x18mm cartridge.  Constructed completely out of steel components and experiencing relative popularity throughout eastern European countries, it was a favored backup weapon among USSR security forces, soldiers, and covert units."
       }

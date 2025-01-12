@@ -4,13 +4,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "bolt-action hunting rifle" },
+    "name": { "str": ".270 bolt-action rifle" },
     "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "remington700_270",
-        "name": { "str": "Remington 700 .270 Win rifle" },
+        "name": { "str": "Remington 700 .270 Win", "str_pl": "Remington 700s .270 Win" },
         "description": "A classic bolt-action rifle chambered for .270 Winchester, very popular among hunters.  This is a CDL SF model with a forged, fluted, 416 stainless steel barrel threaded into the receiver and a recessed bolt face.  It has checkered walnut furniture and a recoil pad to reduce perceived recoil."
       }
     ],

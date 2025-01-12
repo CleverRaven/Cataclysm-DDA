@@ -5,13 +5,13 @@
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
-    "name": { "str_sp": "M74 rocket launcher" },
+    "name": { "str": "FLASH rocket launcher" },
     "description": "An American rocket launcher designed in the 1970s to replace WWII-era flamethrowers still in use in Vietnam.  It has four barrels sharing the 66mm caliber of the M72 LAW.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m202_flash",
-        "name": { "str_sp": "M202A1 FLASH" },
+        "name": { "str": "M202A1 FLASH", "str_pl": "M202A1s FLASH" },
         "description": "An American rocket launcher designed in the 1970s to replace WWII-era flamethrowers still in use in Vietnam.  It has four barrels sharing the 66mm caliber of the M72 LAW."
       }
     ],

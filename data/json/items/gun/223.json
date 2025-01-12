@@ -2,10 +2,18 @@
   {
     "id": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AR-15" },
+    "name": { "str": "AR-15 rifle" },
     "copy-from": "rifle_auto",
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "modular_ar15",
+        "name": { "str": "AR-15" },
+        "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version."
+      }
+    ],
     "weight": "902 g",
     "volume": "1550 ml",
     "longest_side": "520 mm",
@@ -69,18 +77,18 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5 rifle" },
+        "name": { "str": "H&K416 A5" },
         "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
-        "name": { "str": "M27 IAR carbine" },
+        "name": { "str": "M27 IAR" },
         "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
         "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
-        "name": { "str": "M38 DMR rifle" },
+        "name": { "str": "M38 DMR" },
         "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
     ],
@@ -111,8 +119,16 @@
     "id": "scar_l",
     "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": { "str": "FN SCAR-L" },
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+    "name": { "str": "SCAR-L assault rifle" },
+    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight 5.56 round.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "scar_l",
+        "name": { "str": "FN SCAR-L" },
+        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight 5.56 round."
+      }
+    ],
     "ascii_picture": "scar-L",
     "weight": "3490 g",
     "volume": "4957 ml",
@@ -177,7 +193,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SL8 civilian rifle" },
-    "description": "A semi-automatic clone of an older German assault rifle.  Due to importation bans, it is semi-auto and can only feed from 10 round magazines.",
+    "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only, and to only feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics.",
     "weight": "3901 g",
     "volume": "3919 ml",
     "longest_side": "987 mm",
@@ -217,8 +233,16 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M249 machine gun" },
+    "name": { "str": "5.56 machine gun" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m249",
+        "name": { "str": "M249" },
+        "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly."
+      }
+    ],
     "ascii_picture": "m249_saw",
     "weight": "7500 g",
     "volume": "10610 ml",
@@ -282,8 +306,16 @@
     "id": "m249_semi",
     "type": "GUN",
     "copy-from": "m249",
-    "name": { "str": "M249S machine gun" },
+    "name": { "str": "5.56 civilian machine gun" },
     "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m249_semi",
+        "name": { "str": "M249S" },
+        "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms."
+      }
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
@@ -304,13 +336,13 @@
     "variants": [
       {
         "id": "modular_m4a1",
-        "name": { "str": "M4A1 carbine" },
+        "name": { "str": "M4A1" },
         "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
         "ascii_picture": "modular_m4a1"
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "Mk 18 CQBR carbine" },
+        "name": { "str": "Mk 18 CQBR" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
         "weight": 0
       }
@@ -347,7 +379,7 @@
     "variants": [
       {
         "id": "modular_m16a4",
-        "name": { "str": "M16A4 rifle" },
+        "name": { "str": "M16A4" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
       }
     ],
@@ -375,7 +407,7 @@
     "variants": [
       {
         "id": "modular_m16a3",
-        "name": { "str": "M16A3 rifle" },
+        "name": { "str": "M16A3" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
       }
     ],
@@ -388,8 +420,16 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Ruger Mini-14 carbine" },
+    "name": { "str": "Mini-14 carbine" },
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_mini",
+        "name": { "str": "Ruger Mini-14" },
+        "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations."
+      }
+    ],
     "ascii_picture": "mini-14",
     "weight": "3180 g",
     "volume": "2900 ml",
@@ -537,7 +577,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "ZPAP AK-style rifle" },
+    "name": { "str": "ZPAP rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
     "variants": [
@@ -583,13 +623,13 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Desert Tech bullpup carbine" },
-    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for 5.56 Remington, 7.62 Winchester, and .300 AAC Blackout being available.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mdrx",
-        "name": { "str": "Desert Tech MDRX carbine" },
-        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle's most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout."
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle's most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either 5.56 Remington, 7.62 Winchester, or .300 AAC Blackout."
       }
     ],
     "weight": "3080 g",
@@ -655,13 +695,13 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Bren 5.56x45mm carbine" },
+    "name": { "str": "Bren 5.56 carbine" },
     "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "bren2_556",
-        "name": { "str": "CZ Bren 2 carbine" },
+        "name": { "str": "CZ Bren 2 5.56" },
         "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former's features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       }
     ],
@@ -724,14 +764,14 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "bolt-action trail carbine" },
-    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
+    "name": { "str": "TRAIL modular carbine" },
+    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of 5.56 Remington or 7.62 Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "cz600",
-        "name": { "str": "CZ 600 TRAIL rifle" },
-        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
+        "name": { "str": "CZ 600 TRAIL" },
+        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either 5.56 or 7.62 Soviet ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
       }
     ],
     "weight": "1800 g",
@@ -767,13 +807,13 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm bullpup rifle" },
+    "name": { "str": "Kel-Tec bullpup rifle" },
     "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rdb_223",
-        "name": { "str": "Kel-Tec RDB rifle" },
+        "name": { "str": "Kel-Tec RDB" },
         "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
       }
     ],
@@ -837,8 +877,16 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "IWI Tavor X95" },
-    "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56/.223, this rifle feeds from STANAG magazines.",
+    "name": { "str": "Tavor bullpup rifle" },
+    "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56, this rifle feeds from STANAG magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "iwi_tavor_x95_300blk",
+        "name": { "str": "IWI Tavor X95" },
+        "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56, this rifle feeds from STANAG magazines."
+      }
+    ],
     "weight": "3583 g",
     "volume": "2400 ml",
     "longest_side": "665 mm",

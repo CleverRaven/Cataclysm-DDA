@@ -4,13 +4,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AI bolt-action sniper rifle" },
+    "name": { "str": ".338 sniper rifle" },
     "description": "A high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the Cataclysm.  Firing the powerful .338 Lapua cartridge, the weapon feeds from detachable five round Accuracy International magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tac338",
-        "name": { "str": "McMillan Tac-338 rifle" },
+        "name": { "str": "McMillan Tac-338" },
         "description": "Chambering the .338 Lapua cartridge, the Tac-338 is a high-precision, bolt-action sniper rifle that, before the Cataclysm, complemented the arsenal of the US Navy Special Warfare unit.  Providing Navy SEAL marksmen with the capability to land effective shots on targets at a typical range of 1600 meters, a valuable capability for the long-distance engagements prevalent during the US army's war on terror, the rifle comes kitted with an adjustable cheek pad, butt hook, and muzzle break."
       }
     ],
@@ -37,13 +37,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "single-shot target rifle" },
+    "name": { "str": ".338 single-shot precision rifle" },
     "description": "A bolt-action precision rifle with the potential for impressive accuracy, this particular weapon makes use of the powerful .338 Lapua cartridge and is decked in a handsome set of wooden furniture, providing the rifle with a classical mystique.  Unfortunately, the weapon's single-round magazine and a lack of factory iron sights, which makes target acquisition an exercise in futility unless a gunsight is installed, make the rifle limited in its post-Cataclysm utility.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "savage112",
-        "name": { "str": "Savage 112 Magnum Target rifle" },
+        "name": { "str": "Savage 112 Magnum Target", "str_pl": "Savage 112s Magnum Target" },
         "description": "A highly-accurate precision rifle chambered for the powerful .338 Lapua cartridge, the Savage 112 Magnum Target is a classically designed bolt-action rifle in both its fit and finish, with a heavy barrel, a hardwood stock, and an attached muzzle brake.  Unfortunately for the weapon and its users, a traditional veneer, no matter how admittedly swanky, isn't conducive to tactical effectiveness, as demonstrated by the 112 Magnum Target's mighty magazine size of one entire cartridge and lack of any factory-attached sights."
       }
     ],
@@ -84,13 +84,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Barrett precision rifle" },
+    "name": { "str": ".338 precision rifle" },
     "description": "A box magazine-fed bolt-action precision rifle developed by the Barrett Arms Company, firing the .338 Lapua cartridge.  A civilian copy of more versatile military weapons, this rifle is a remarkably well-crafted piece of anti-personnel engineering despite lacking the sheer modularity of its Marshal sister, and is still capable of engaging targets at extreme distances.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mrad_smr",
-        "name": { "str": "Barrett MRAD SMR rifle" },
+        "name": { "str": "Barrett MRAD SMR" },
         "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD's caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-Cataclysmic precision shooter, didn't require a second mortgage to purchase."
       }
     ],
@@ -130,13 +130,13 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "modular sniper rifle" },
+    "name": { "str": "AXMC modular sniper rifle" },
     "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "axmc",
-        "name": { "str": "Accuracy International AXMC rifle" },
+        "name": { "str": "AI AXMC" },
         "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion."
       }
     ],

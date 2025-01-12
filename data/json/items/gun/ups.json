@@ -6,6 +6,14 @@
     "reload_noise_volume": 10,
     "name": { "str": "XM34 EMP projector" },
     "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "emp_gun",
+        "name": { "str": "XM34" },
+        "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets."
+      }
+    ],
     "weight": "2950 g",
     "volume": "3 L",
     "longest_side": "965 mm",
@@ -121,6 +129,14 @@
     "reload_noise_volume": 10,
     "name": { "str": "A7 laser rifle" },
     "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "laser_rifle",
+        "name": { "str": "A7" },
+        "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
+      }
+    ],
     "weight": "2950 g",
     "volume": "3 L",
     "longest_side": "900 mm",
@@ -164,6 +180,14 @@
     "copy-from": "laser_rifle",
     "name": { "str": "hm12 dazzle rifle" },
     "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors with a clean shot.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hm12",
+        "name": { "str": "hm12" },
+        "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors with a clean shot."
+      }
+    ],
     "price_postapoc": "150 USD",
     "ranged_damage": { "damage_type": "pure", "amount": 1 },
     "energy_drain": "20 kJ",
@@ -187,6 +211,14 @@
     "reload_noise_volume": 10,
     "name": { "str": "V29 laser pistol" },
     "description": "The V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but has no recoil whatsoever.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "v29",
+        "name": { "str": "V29" },
+        "description": "The V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but has no recoil whatsoever."
+      }
+    ],
     "weight": "680 g",
     "volume": "1 L",
     "longest_side": "233 mm",

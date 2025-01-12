@@ -4,8 +4,16 @@
     "copy-from": "mac_10",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "MAC-11 machine pistol" },
+    "name": { "str": ".380 machine pistol" },
     "description": "A lesser known variant of the MAC-10, this machine pistol is chambered in .380 ACP for a smaller overall size while remaining inherently subsonic.  Smaller in almost every dimension, this inexpensive automatic weapon was declared 'fit only for combat in a phone booth' due to its low weight and absurd fire rate ranging from 1200 to 1400 rounds per minute.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mac_11",
+        "name": { "str": "MAC-11" },
+        "description": "A lesser known variant of the MAC-10, this machine pistol is chambered in .380 ACP for a smaller overall size while remaining inherently subsonic.  Smaller in almost every dimension, this inexpensive automatic weapon was declared 'fit only for combat in a phone booth' due to its low weight and absurd fire rate ranging from 1200 to 1400 rounds per minute."
+      }
+    ],
     "weight": "1590 g",
     "volume": "754 ml",
     "longest_side": "253 mm",
@@ -23,8 +31,16 @@
     "copy-from": "pistol_backup",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Ruger LCP pistol" },
+    "name": { "str": ".380 compact pistol" },
     "description": "One of the best-selling modern day 'pocket pistols', the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for moderately poor handling.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rugerlcp",
+        "name": { "str": "Ruger LCP" },
+        "description": "One of the best-selling modern day 'pocket pistols', the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for moderately poor handling."
+      }
+    ],
     "ascii_picture": "ruger_LCP",
     "weight": "267 g",
     "volume": "160 ml",
@@ -47,8 +63,16 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Hi-Point CF-380 pistol" },
+    "name": { "str": ".380 handgun" },
     "description": "The Hi-Point CF-380 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hptcf380",
+        "name": { "str": "Hi-Point CF-380" },
+        "description": "The Hi-Point CF-380 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides."
+      }
+    ],
     "weight": "820 g",
     "volume": "478 ml",
     "longest_side": "200 mm",
@@ -74,14 +98,14 @@
     "id": "hpt3895",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".380 ACP pistol-caliber carbine" },
-    "description": "A pistol-caliber carbine chambered in .380 ACP.  It is more powerful and accurate than an equivalent pistol but the .380 ACP round is nonetheless fairly weak.  Accepts 10-round magazines, which are not shared with any .380 ACP pistol unlike many other similar pistol-caliber carbines.",
+    "name": { "str": ".380 carbine" },
+    "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with .380 ACP pistols.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "hpt3895",
-        "name": { "str": "Hi-Point 3895 carbine" },
-        "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with those of CF380 pistols."
+        "name": { "str": "Hi-Point 3895" },
+        "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with .380 ACP pistols."
       }
     ],
     "weight": "2835 g",

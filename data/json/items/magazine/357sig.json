@@ -4,8 +4,16 @@
     "//": "Copied from Beretta 12rd .40S&W magazine.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "P226 .357 SIG 12-round magazine" },
-    "description": "A 12-round double stack box magazine for a SIG P226 chambered for .357 SIG rounds.",
+    "name": { "str": ".357 pistol 12-round magazine" },
+    "description": "A 12-round double stack box magazine for the .357 pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p226mag_12rd_357sig",
+        "name": { "str": "SIG P226 12-round magazine" },
+        "description": "A 12-round double stack box magazine for a SIG P226 chambered for .357 SIG rounds."
+      }
+    ],
     "weight": "95 g",
     "volume": "77 ml",
     "longest_side": "12 cm",
@@ -23,8 +31,16 @@
     "//": "Copied from Beretta 12rd .40S&W magazine.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "P320 .357 SIG 13-round magazine" },
-    "description": "A 13-round double stack box magazine for the SIG Sauer P320.",
+    "name": { "str": ".357 compact pistol 13-round magazine" },
+    "description": "A 13-round double stack box magazine for the .357 compact pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p320mag_13rd_357sig",
+        "name": { "str": "SIG P320 13-round magazine" },
+        "description": "A 13-round double stack box magazine for the SIG Sauer P320."
+      }
+    ],
     "weight": "95 g",
     "volume": "77 ml",
     "longest_side": "12 cm",

@@ -3,8 +3,16 @@
     "id": "exodiiminimag",
     "looks_like": "garandclip",
     "type": "MAGAZINE",
-    "name": { "str": "PA md. 71 Exodii 10-round magazine" },
+    "name": { "str": "Exodii light rifle 10-round magazine" },
     "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiminimag",
+        "name": { "str": "PA md. 71 10-round magazine" },
+        "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload."
+      }
+    ],
     "weight": "30 g",
     "volume": "250 ml",
     "//": "just 10 shots stacked on top of one another as a clip",
@@ -23,8 +31,16 @@
     "id": "exodiiBRmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "PA md. 68 Exodii 60-round magazine" },
+    "name": { "str": "Exodii heavy rifle 60-round magazine" },
     "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag",
+        "name": { "str": "PA md. 68 60-round magazine" },
+        "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine."
+      }
+    ],
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",
@@ -42,8 +58,16 @@
     "id": "exodiisapramag5",
     "looks_like": "exodiiminimag",
     "type": "MAGAZINE",
-    "name": { "str": "Sapra '36 magazine" },
+    "name": { "str": "Exodii grenade launcher 5-round magazine" },
     "description": "A large, five round single stack magazine for the Sapra '36.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiisapramag5",
+        "name": { "str": "Sapra '36 5-round magazine" },
+        "description": "A large, five round single stack magazine for the Sapra '36."
+      }
+    ],
     "weight": "710 g",
     "volume": "449 ml",
     "longest_side": "132 mm",
@@ -61,13 +85,13 @@
     "id": "ree_33_4_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "3.3 naval 4-round magazine" },
+    "name": { "str": "Exodii naval rifle 4-round magazine" },
     "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_4_mag",
-        "name": { "str": "3.3 naval 4-round magazine" },
+        "name": { "str": "Ree 3.3 4-round magazine" },
         "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if the gun itself can be named portable."
       }
     ],
@@ -86,13 +110,13 @@
     "id": "ree_33_53_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "3.3 naval 53-round box magazine" },
+    "name": { "str": "Exodii naval rifle 53-round box magazine" },
     "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_53_mag",
-        "name": { "str": "3.3 naval 53-round box magazine" },
+        "name": { "str": "Ree 3.3 53-round box magazine" },
         "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii Ree 3.3 rifle."
       }
     ],
@@ -111,8 +135,16 @@
     "id": "caotel_plasma_ring",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Caotel plasma condenser" },
+    "name": { "str": "Exodii plasma condenser" },
     "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "caotel_plasma_ring",
+        "name": { "str": "Caotel plasma condenser" },
+        "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not."
+      }
+    ],
     "weight": "1020 g",
     "flags": [ "MAG_BULKY", "MAG_EJECT" ],
     "volume": "1450 ml",

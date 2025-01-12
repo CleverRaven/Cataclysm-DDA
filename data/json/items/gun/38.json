@@ -4,9 +4,9 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "double barrel .38 pistol" },
+    "name": { "str": ".38 double-barrel pipe pistol" },
     "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
-    "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
+    "description": "A crudely made double-barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "ascii_picture": "2_shot_special",
     "weight": "750 g",
     "volume": "414 ml",
@@ -37,7 +37,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "six-shooter" },
+    "name": { "str": ".38 six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
     "variant_type": "gun",
     "variants": [
@@ -76,7 +76,7 @@
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
+    "name": { "str": ".38 pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
@@ -108,7 +108,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "conceal-carry six-shooter" },
+    "name": { "str": ".38 compact six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "variant_type": "gun",
     "variants": [
@@ -157,7 +157,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".357 revolver" },
+    "name": { "str": "Python revolver" },
     "//": "This is the Colt Python 2020 6-inch version.",
     "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
     "//s": "omg twd reference :O",
@@ -198,7 +198,7 @@
     "variants": [
       {
         "id": "colt_python",
-        "name": { "str_sp": "Colt Python" },
+        "name": { "str": "Colt Python" },
         "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
       }
     ],
@@ -208,7 +208,7 @@
     "id": "sw_619",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": "7-shots .357 revolver" },
+    "name": { "str": "S&W seven-shooter" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
     "weight": "1280 g",
@@ -248,7 +248,7 @@
     "variants": [
       {
         "id": "sw_619",
-        "name": { "str_sp": "S&W 686 Plus" },
+        "name": { "str": "S&W 686 Plus", "str_pl": "S&W 686s Plus" },
         "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
       }
     ]
@@ -257,8 +257,8 @@
     "id": "chiappa_rhino",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": ".357 revolver" },
-    "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
+    "name": { "str": "Rhino revolver" },
+    "description": "A revolver chambered in .357 Magnum/.38 Special, with a 6 inch barrel and 6 shots.",
     "symbol": "(",
     "color": "light_gray",
     "looks_like": "sw_619",
@@ -305,13 +305,13 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".357-caliber snub-nosed revolver" },
+    "name": { "str": "Rossi revolver" },
     "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rp63",
-        "name": { "str": "Rossi RP63 revolver" },
+        "name": { "str": "Rossi RP63" },
         "description": "A small frame, stainless-steel Brazilian wheel gun with rubberized grips, a serrated front sight, and a satin finish, boasting a 6-round cylinder of .357-magnum persuasion.  Affordable, before the world collapsed, and confidently asserted by Rossi themselves to be the ideal carry gun for its rounded butt and 3-inch barrel, you aren't wholly sure that such assertions accounted for zombies."
       }
     ],
@@ -357,7 +357,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "reproduction .357 lever-action rifle" },
+    "name": { "str": "Uberti lever-action rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
@@ -401,7 +401,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".357 lever-action rifle" },
+    "name": { "str": "Rossi 20\" rifle" },
     "description": "This lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [
@@ -445,7 +445,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".357 lever-action rifle" },
+    "name": { "str": "Rossi 16\" rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [

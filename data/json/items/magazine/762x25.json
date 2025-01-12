@@ -6,14 +6,6 @@
     "type": "MAGAZINE",
     "name": { "str": "Tokarev 8-round magazine" },
     "description": "A standard 8-round magazine for the Tokarev handgun.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "tokarevmag",
-        "name": { "str": "TT-33 8-round magazine" },
-        "description": "A standard 8-round magazine for the Tokarev TT-33."
-      }
-    ],
     "weight": "56 g",
     "volume": "55 ml",
     "longest_side": "106 mm",

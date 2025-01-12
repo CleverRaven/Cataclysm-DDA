@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "marlin_9a",
-        "name": { "str": "Marlin 39A rifle" },
+        "name": { "str": "Marlin 39A" },
         "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
       }
     ],
@@ -103,7 +103,7 @@
     "variants": [
       {
         "id": "ruger_1022",
-        "name": { "str": "Ruger 10/22 rifle" },
+        "name": { "str": "Ruger 10/22" },
         "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
       }
     ],
@@ -170,13 +170,13 @@
     "id": "ruger_1022_auto",
     "copy-from": "ruger_1022",
     "type": "GUN",
-    "name": "full-auto varmint rifle",
+    "name": { "str": "full-auto varmint rifle" },
     "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_1022_auto",
-        "name": { "str": "full-auto Ruger 10/22 rifle" },
+        "name": { "str": "full-auto Ruger 10/22" },
         "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
       }
     ],
@@ -188,13 +188,13 @@
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
-    "name": { "str": ".22 caliber revolver" },
+    "name": { "str": ".22 revolver" },
     "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_lcr_22",
-        "name": { "str": "Ruger LCR .22 revolver" },
+        "name": { "str": "Ruger LCR .22", "str_pl": "Ruger LCRs .22" },
         "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame."
       }
     ],
@@ -218,7 +218,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "firefly training pistol" },
+    "name": { "str": "Firefly training pistol" },
     "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
@@ -274,13 +274,13 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther training pistol" },
+    "name": { "str": "Walther .22 pistol" },
     "description": "A dainty training pistol offered by the Walther Arms company, making use of the .22 LR cartridge, for training on a pistol very similar to more powerful pistols.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "walther_p22",
-        "name": { "str": "Walther P22 pistol" },
+        "name": { "str": "Walther P22" },
         "description": "The Walther P22 is a blowback operated semi-automatic pistol intended for training with a platform very similar to more defensive handguns.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components (other than the barrel) being made of die-cast zinc alloy."
       }
     ],
@@ -306,14 +306,14 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar_pistol",
     "type": "GUN",
-    "name": { "str": "high capacity handgun" },
+    "name": { "str": "CP33 high-capacity handgun" },
     "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "cp33",
-        "name": { "str": "CP33" },
-        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
+        "name": { "str": "Kel-Tec CP33" },
+        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi-automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
       }
     ],
     "weight": "669 g",
@@ -347,25 +347,25 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Ruger target pistol" },
+    "name": { "str": ".22 target pistol" },
     "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_mk2",
-        "name": { "str": "Ruger Mark II" },
+        "name": { "str": "Ruger Mark II", "str_pl": "Rugers Mark II" },
         "description": "The 2nd version of the Ruger Standard, which replaced production of the Standard in 1982 and continued until 2005 with the main feature of having adjustable sights.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 17
       },
       {
         "id": "ruger_mk3",
-        "name": { "str": "Ruger Mark III" },
+        "name": { "str": "Ruger Mark III", "str_pl": "Rugers Mark III" },
         "description": "The 3rd version of the Ruger Standard, which replaced production of the Mark II in 2005 and continued until 2016.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 19
       },
       {
         "id": "ruger_mk4",
-        "name": { "str": "Ruger Mark IV" },
+        "name": { "str": "Ruger Mark IV", "str_pl": "Rugers Mark IV" },
         "description": "The 4th, and most modern version of the Ruger Standard.  Still in production since 2016, and has a simplified disassembly feature.  Has a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 135
       }
@@ -469,7 +469,7 @@
     "id": "ruger_charger_auto",
     "copy-from": "ruger_charger",
     "type": "GUN",
-    "name": "full-auto varmint pistol",
+    "name": { "str": "full-auto varmint pistol" },
     "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
     "variant_type": "gun",
     "variants": [
@@ -611,7 +611,7 @@
     "type": "GUN",
     "looks_like": "1911",
     "//": "Based on https://www.browning.com/products/firearms/pistols/1911-22/1911-22-a1.html",
-    "name": { "str": ".22 1911 pistol" },
+    "name": { "str": ".22 pistol" },
     "description": "A 1911 in .22 LR, with a 4 1/4\" barrel, and feeding from 10 round magazines.",
     "ascii_picture": "m1911",
     "weight": "425 g",
@@ -656,7 +656,7 @@
     "looks_like": "marlin_9a",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "small game lever-action rifle" },
+    "name": { "str": ".22 15-round rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
@@ -707,7 +707,7 @@
     "looks_like": "marlin_9a",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "small game lever-action rifle" },
+    "name": { "str": ".22 16-round rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
