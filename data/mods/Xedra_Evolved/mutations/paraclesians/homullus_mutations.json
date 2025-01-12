@@ -126,6 +126,53 @@
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
   },
+    {
+    "type": "mutation",
+    "id": "FREE_WILL",
+    "name": { "str": "Free Will" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin has resistance to attacks on it's ability to act on it's choices.",
+    "category": [ "HOMULLUS" ],
+    "flags": [ "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SENSE_THE_TOOLMAKERS",
+    "name": { "str": "Sense the Toolmakers" },
+    "points": 1,
+    "description": "Your powers enhance your mundane senses and allow you to detect human beings.",
+    "hearing_modifier": 1.2,
+    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SIGHT_RANGE_HUMAN", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SENSE_THE_NIGHT_HUNTERS",
+    "name": { "str": "Sense the Night Hunters" },
+    "points": 1,
+    "description": "This and other abilities native to Dollkin suggest that if vampires did create cities to concentrate their prey, something evolved afterwards to complicate the hunting grounds.",
+    "hearing_modifier": 1.2,
+    "flags": [ "ENHANCED_VISION", "WATCH" ],
+    "player_display": true,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SIGHT_RANGE_VAMPIRE", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: HOMULLUS')))" ] } }
+        ]
+      }
+    ]
+  },
   {
     "type": "mutation",
     "id": "HOMULLUS_SELF_DECEPTION",
@@ -880,3 +927,135 @@
     "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
   }
 ]
+
+    "id": "NAMASTE_AWAY",
+    "name": { "str": "Namaste Away" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By crossing a few wires in a feral human's mind the Dollkin is able to change the feral into a less dangerous version.",
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "reduce_feral_threat", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CURE_FERAL",
+    "name": { "str": "Rebuild the Shattered Mind" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Once per season, you may engage in a strenuous ritual to reconstruct the mind of someone whose mind was destroyed in the Cataclysm.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "spells_learned": [ [ "rebuild_mind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRASH_TO_TREASURE",
+    "name": { "str": "Trash to Treasure" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin summons a repair kit that has the ability to repair almost anything.",
+    "category": [ "HOMULLUS" ],
+    "//": "Ideally I can add a mend activity that will remove the fried electronics flag.",
+    "spells_learned": [ [ "dollkin_repair_kit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FOE_HONEY",
+    "name": { "str": "Foe Honey" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Dollkin's enemies within the target area become covered in a sickly sweet goop that summons angry vermin to attack and distract them.",
+    "category": [ "HOMULLUS" ],
+    "//": "Cross between tindalos fog and boomer bile.",
+    "spells_learned": [ [ "foe_honey", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLICHED_CURSE",
+    "name": { "str": "Cliched Curse" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Once per season you may curse an enemy to die in the most cliched way possible.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "Build an EOC finds where you are inside, outside, in city, in wilderness, above ground or below ground and based on where you are something horrificly damaging occurs to your enemy.  In a city maybe a piano falls on them, in the wilderness maybe a meteor crashes onto their head.",
+    "spells_learned": [ [ "cliched_curse", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIND_THE_PRIZE",
+    "name": { "str": "Find the Prize" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Once per week you mentally search for a valuable location.",
+    "category": [ "HOMULLUS" ],
+    "//": "Find valuable locations.",
+    "spells_learned": [ [ "find_the_prize", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEATH_IS_BUT_A_DOOR",
+    "name": { "str": "Death Is But A Door" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Dollkin's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "A once a month ability that allows the Homullus to be reborn instantly upon death in a nearby HUMAN monster.  If one is not nearby the power will fail."
+  },
+  {
+    "type": "mutation",
+    "id": "ACCOUNTING_ERROR",
+    "name": { "str": "Accounting Error" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Homullus is able to make traders make an error and give them extra credit towards goods.",
+    "category": [ "HOMULLUS" ],
+    "//": "Eoc probably?"
+  },
+  {
+    "type": "mutation",
+    "id": "MEND_BROKEN_ELECTRONICS",
+    "name": { "str": "Gadgeteer's Touch" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You can make some simple repairs to items that have been broken by water or EMP.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "TOOLMAKERS_GIFT", "NET_SPIDERS_TOUCH" ],
+    "integrated_armor": [ "integrated_homullus_electrohack" ]
+  },
+  {
+    "type": "mutation",
+    "id": "JAM_SESSION",
+    "name": { "str": "Jam Session" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By playing some jamming tunes on the musical instrument of your choice, you create an area of effect increasing the combat capabilities of your nearby allies.",
+    "category": [ "HOMULLUS" ],
+    "//": "Spell increases dodge and other melee stats for NPCs in range of effect centered on PC, will require a musical instrument component.",
+    "spells_learned": [ [ "jam_session", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BREAK_PARASITIC_BONDS",
+    "name": { "str": "Breaking Bonds of Blood" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By speaking soothing words and touching a living Renfield the Dollkin may attempt to break the vampires mental hold and convert that person into a panicked person.",
+    "category": [ "HOMULLUS" ],
+    "//": "Turns Renfields into panicked people",
+    "spells_learned": [ [ "break_parastic_bonds", 1 ] ]
+  }
+]
+
