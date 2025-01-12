@@ -15,3 +15,9 @@ def parse_enchant(json, origin):
 
     if "hit_me_effect" in json:
         parse_effect(json["hit_me_effect"], origin)
+    if "special_vision" in json and "descriptions" in json["special_vision"]:
+        for description in json["special_vision"]["descriptions"]:
+            if "text" in description:
+                special_vision_id = description["id"]
+                write_text(description["text"], origin,
+                        comment="Description of creature revealed by special vision \"{}\"".format(special_vision_id))
