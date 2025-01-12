@@ -220,7 +220,13 @@
     "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN",
     "eoc_type": "EVENT",
     "required_event": "character_kills_character",
-    "condition": { "u_has_trait": "THRESH_HOMULLUS" },
+    "condition": {
+      "or": [
+        { "u_has_trait": "THRESH_HOMULLUS" },
+        { "u_has_trait": "HOMULLUS_BACKSTAGE" },
+        { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') >= 15" ] }
+      ]
+    },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
@@ -237,10 +243,17 @@
     "required_event": "character_kills_monster",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_HOMULLUS" },
+        {
+          "or": [
+            { "u_has_trait": "THRESH_HOMULLUS" },
+            { "u_has_trait": "HOMULLUS_BACKSTAGE" },
+            { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') >= 15" ] }
+          ]
+        },
         {
           "or": [
             { "and": [ { "npc_has_species": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
+            { "and": [ { "npc_has_flag": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
             { "npc_has_species": "FERAL" }
           ]
         }
