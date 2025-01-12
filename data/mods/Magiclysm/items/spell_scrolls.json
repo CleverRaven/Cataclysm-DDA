@@ -1686,8 +1686,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_cure_disease_minor",
     "//": "Biomancer spell",
-    "name": { "str": "Scroll of Purge Disease", "str_pl": "Scrolls of Purge Disease" },
-    "description": "Snap your fingers and get rid of that nasty cold or flu.",
+    "name": { "str": "Scroll of Purgation of Maladies", "str_pl": "Scrolls of Purgation of Maladies" },
+    "description": "Snap your fingers and get rid of that nasty cold or flu, with the slight disadvantage that you'll have to vomit it out.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
   },
   {

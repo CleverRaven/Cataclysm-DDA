@@ -615,7 +615,6 @@
     "spell_class": "BIOMANCER",
     "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "vomit",
-    "effect_str": "effect_biomancer_cure_disease_minor",
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
@@ -625,10 +624,32 @@
     "max_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "eoc_restoration_setup", "hit_self": true },
+      { "id": "biomantic_pain_caused_light", "hit_self": true },
+      { "id": "biomancer_cure_disease_minor_actual_effect" }
+    ],
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
+  },
+  {
+    "id": "biomancer_cure_disease_minor_actual_effect",
+    "type": "SPELL",
+    "name": { "str": "Purgation of Maladies Cure", "//~": "NO_I18N" },
+    "description": { "str": "This causes the actual cure effect, since a vomit effect spell doesn't apply effect_str", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "SILENT" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_cure_disease_minor",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 60480000,
+    "max_duration": 60480000,
+    "min_range": 1,
+    "max_range": 1
   },
   {
     "id": "biomancer_hyper_regeneration",
