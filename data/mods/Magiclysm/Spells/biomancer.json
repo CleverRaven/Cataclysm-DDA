@@ -2,8 +2,8 @@
   {
     "id": "light_healing",
     "type": "SPELL",
-    "name": "Cure Light Wounds",
-    "description": "Heals a little bit of damage on the target.",
+    "name": "Knit the Rent Flesh",
+    "description": "Cause the target's wounds to writhe, the flesh to crawl back together, and their injuries to heal.  Disturbing but effective.",
     "valid_targets": [ "self", "ally" ],
     "min_damage": { "math": [ "(u_spell_level('light_healing') * -0.5) - 1" ] },
     "max_damage": { "math": [ "(u_spell_level('light_healing') * -1.1) - 4" ] },
@@ -595,8 +595,8 @@
   {
     "id": "biomancer_cure_disease_minor",
     "type": "SPELL",
-    "name": "Cure Disease, Minor",
-    "description": "Cure any minor illnesses you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "name": "Purge Disease",
+    "description": "Cure any minor illnesses you might be suffering from, such as colds or the flu.  This is one of the few biomantic cure spells that is castable on other people.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
@@ -619,7 +619,7 @@
   {
     "id": "biomancer_hyper_regeneration",
     "type": "SPELL",
-    "name": "Rapid Regeneration",
+    "name": "Corporeal Reconstitution",
     "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
