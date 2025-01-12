@@ -3,7 +3,7 @@
     "id": "xe_fey_magick",
     "type": "magic_type",
     "energy_source": "MANA",
-    "cannot_cast_flags": "NO_FEY_MAGIC",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
     "cannot_cast_message": "You can't use your glamours now!"
   },
   {
