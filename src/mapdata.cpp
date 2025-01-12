@@ -428,7 +428,7 @@ std::string map_common_deconstruct_info::potential_deconstruct_items( const std:
                                who.get_skill_level( skill->id ) < skill->max;
     if( will_practice_skill ) {
         return string_format(
-                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about %s." ),
+                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
                    ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
     } else {
         return string_format( _( "Deconstructing the %s would yield:\n%s" ),
@@ -655,10 +655,12 @@ std::vector<std::string> ter_t::extended_description() const
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
     if( deconstruct ) {
+        ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
     }
 
     if( is_smashable() ) {
+        ret.emplace_back( "--" );
         ret.emplace_back( bash->potential_bash_items( name() ) );
     }
 
@@ -693,10 +695,12 @@ std::vector<std::string> furn_t::extended_description() const
     }
 
     if( deconstruct ) {
+        ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
     }
 
     if( is_smashable() ) {
+        ret.emplace_back( "--" );
         ret.emplace_back( bash->potential_bash_items( name() ) );
     }
 
@@ -785,7 +789,9 @@ std::vector<std::string> map_data_common_t::extended_description() const
     add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
     add_if( is_flammable(), _( "Flammable." ) );
-    tmp.emplace_back( result );
+    if( !result.empty() ) {
+        tmp.emplace_back( result );
+    }
 
     std::vector<std::string> ret;
     ret.reserve( tmp.size() );

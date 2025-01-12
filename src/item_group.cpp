@@ -967,9 +967,10 @@ std::string item_group::potential_items( const item_group_id &group_id )
             const int &min = item_min_max.second.first;
             const int &max = item_min_max.second.second;
             if( min != max ) {
-                ret += string_format( "- %d-%d %s\n", min, max, item_min_max.first->nname( max ) );
+                ret += string_format( "- <color_cyan>%d-%d %s</color>\n", min, max,
+                                      item_min_max.first->nname( max ) );
             } else {
-                ret += string_format( "- %d %s\n", max, item_min_max.first->nname( max ) );
+                ret += string_format( "- <color_cyan>%d %s</color>\n", max, item_min_max.first->nname( max ) );
             }
         }
     }
