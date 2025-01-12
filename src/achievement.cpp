@@ -80,7 +80,7 @@ bool string_id<achievement>::is_valid() const
     return achievement_factory.is_valid( *this );
 }
 
-enum class requirement_visibility : int {
+enum class requirement_visibility : std::uint8_t {
     always,
     when_requirement_completed,
     when_achievement_completed,
@@ -550,7 +550,7 @@ class requirement_watcher : stat_watcher
 
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
-        bool is_satisfied( stats_tracker &/*stats*/ ) {
+        bool is_satisfied( stats_tracker &/*stats*/ ) const {
             return requirement_->satisfied_by( current_value_ );
         }
 

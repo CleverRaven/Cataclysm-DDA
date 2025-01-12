@@ -70,13 +70,13 @@ static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
 static const std::string flag_NO_MANIP( "NO_MANIP" );
 
-enum TAB_MODE {
+enum TAB_MODE : std::uint8_t {
     NORMAL,
     FILTERED,
     BATCH
 };
 
-enum CRAFTING_SPEED_STATE {
+enum CRAFTING_SPEED_STATE : std::uint8_t {
     TOO_DARK_TO_CRAFT,
     TOO_SLOW_TO_CRAFT,
     SLOW_BUT_CRAFTABLE,

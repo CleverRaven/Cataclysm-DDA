@@ -756,7 +756,7 @@ class JsonOut
         void set_need_separator() {
             need_separator = true;
         }
-        std::ostream *get_stream() {
+        std::ostream *get_stream() const {
             return stream;
         }
         int tell();
@@ -1263,7 +1263,7 @@ class TextJsonArray
 
         bool has_more() const; // true iff more elements may be retrieved with next_*
         size_t size() const;
-        bool empty();
+        bool empty() const;
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error( int idx, const std::string &err ) const;

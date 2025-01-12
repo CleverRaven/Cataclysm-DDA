@@ -6,7 +6,7 @@
 
 #include <string>
 
-enum class holiday : int;
+enum class holiday : std::uint8_t;
 
 const std::string SAVE_MASTER( "master.gsav" );
 const std::string SAVE_ARTIFACTS( "artifacts.gsav" );

@@ -10,7 +10,7 @@
 namespace calendar_ui
 {
 
-enum class granularity : int {
+enum class granularity : std::uint8_t {
     year,
     season,
     day,

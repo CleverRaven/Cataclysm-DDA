@@ -48,7 +48,7 @@ extern const bodypart_str_id body_part_foot_r;
 extern const sub_bodypart_str_id sub_body_part_sub_limb_debug;
 
 // The order is important ; pldata.h has to be in the same order
-enum body_part : int {
+enum body_part : std::uint8_t {
     bp_torso = 0,
     bp_head,
     bp_eyes,
@@ -69,10 +69,10 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int;
+enum class side : std::uint8_t;
 
 // Drench cache
-enum water_tolerance {
+enum water_tolerance : std::uint8_t {
     WT_IGNORED = 0,
     WT_NEUTRAL,
     WT_GOOD,
@@ -176,7 +176,7 @@ struct body_part_type {
          * the different types of body parts there are.
          * this allows for the ability to group limbs or determine a limb of a certain type
          */
-        enum class type {
+        enum class type : std::uint8_t {
             // this is where helmets go, and is a vital part.
             head,
             // the torso is generally the center of mass of a creature

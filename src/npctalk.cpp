@@ -585,7 +585,7 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     return roll_remainder( scaled_mission_val );
 }
 
-enum npc_chat_menu {
+enum npc_chat_menu : std::uint8_t {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,

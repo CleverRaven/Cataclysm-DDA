@@ -42,7 +42,7 @@ class recipe;
 class time_duration;
 class zone_data;
 struct MonsterGroupResult;
-enum class farm_ops;
+enum class farm_ops : std::uint8_t;
 
 using faction_id = string_id<faction>;
 
@@ -72,7 +72,7 @@ class window;
 namespace base_camps
 {
 
-enum tab_mode : int {
+enum tab_mode : std::uint8_t {
     TAB_MAIN,
     TAB_N,
     TAB_NE,
@@ -472,9 +472,9 @@ class basecamp
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
-        void hide_mission( ui_mission_id id );
-        void reveal_mission( ui_mission_id id );
-        bool is_hidden( ui_mission_id id );
+        void hide_mission( const ui_mission_id &id );
+        void reveal_mission( const ui_mission_id &id );
+        bool is_hidden( const ui_mission_id &id );
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

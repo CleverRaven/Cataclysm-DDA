@@ -22,7 +22,7 @@ class time_point;
 struct itype;
 template <typename E> struct enum_traits;
 
-enum class spawn_flags {
+enum class spawn_flags : std::uint8_t {
     none = 0,
     maximized = 1,
     use_spawn_rate = 2,

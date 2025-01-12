@@ -26,7 +26,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 
-enum class scores_ui_tab : int {
+enum class scores_ui_tab : std::uint8_t {
     achievements = 0,
     conducts,
     scores,

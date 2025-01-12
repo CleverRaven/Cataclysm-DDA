@@ -21,7 +21,7 @@
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
-enum class mission_ui_tab_enum : int {
+enum class mission_ui_tab_enum : std::uint8_t {
     ACTIVE = 0,
     COMPLETED,
     FAILED,
@@ -64,9 +64,9 @@ class mission_ui_impl : public cataimgui::window
         }
 
     private:
-        void draw_mission_names( std::vector<mission *> missions, int &selected_mission,
+        void draw_mission_names( const std::vector<mission *> &missions, int &selected_mission,
                                  bool &need_adjust ) const;
-        void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
+        void draw_selected_description( const std::vector<mission *> &missions, int &selected_mission );
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
@@ -237,8 +237,8 @@ void mission_ui_impl::draw_controls()
     cataimgui::set_scroll( s );
 }
 
-void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,
-        bool &need_adjust ) const
+void mission_ui_impl::draw_mission_names( const std::vector<mission *> &missions,
+        int &selected_mission, bool &need_adjust ) const
 {
     const int num_missions = missions.size();
 
@@ -267,7 +267,7 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
     }
 }
 
-void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
+void mission_ui_impl::draw_selected_description( const std::vector<mission *> &missions,
         int &selected_mission )
 {
     mission *miss = missions[selected_mission];

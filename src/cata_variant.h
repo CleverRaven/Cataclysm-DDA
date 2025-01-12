@@ -23,17 +23,17 @@ class JsonOut;
 class JsonValue;
 template <typename E> struct enum_traits;
 
-enum class mutagen_technique : int;
+enum class mutagen_technique : std::uint8_t;
 
 namespace debug_menu
 {
-enum class debug_menu_index : int;
+enum class debug_menu_index : std::uint8_t;
 } // namespace debug_menu
 
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
 
-enum class cata_variant_type : int {
+enum class cata_variant_type : std::uint8_t {
     void_, // Special type for empty variants
     achievement_id,
     activity_id,

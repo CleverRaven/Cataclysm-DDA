@@ -60,12 +60,12 @@ struct damage_type {
 };
 
 struct damage_info_order {
-    enum class info_disp : int {
+    enum class info_disp : std::uint8_t {
         NONE,
         BASIC,
         DETAILED
     };
-    enum class info_type : int {
+    enum class info_type : std::uint8_t {
         NONE = 0,
         BIO,
         PROT,

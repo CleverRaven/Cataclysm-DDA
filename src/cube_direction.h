@@ -10,13 +10,13 @@ struct tripoint;
 
 namespace om_direction
 {
-enum class type : int;
+enum class type : std::int8_t;
 } // namespace om_direction
 
 // We have other direction enums, but for this purpose we need to have one for
 // the six rectilinear directions.  These correspond to the faces of a cube, so
 // I've called it cube_direction
-enum class cube_direction : int {
+enum class cube_direction : std::uint8_t {
     north,
     east,
     south,
@@ -34,7 +34,7 @@ struct enum_traits<cube_direction> {
 namespace std
 {
 template <> struct hash<cube_direction> {
-    std::size_t operator()( const cube_direction &d ) const {
+    std::size_t operator()( const cube_direction &d ) const noexcept {
         return static_cast<std::size_t>( d );
     }
 };

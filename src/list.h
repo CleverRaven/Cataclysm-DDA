@@ -27,14 +27,9 @@
 #define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
 #define LIST_BLOCK_MAX 2048
 
-#define LIST_CONSTEXPR
-#define LIST_NOEXCEPT_SWAP(the_allocator) noexcept
-#define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
-
-// TODO: Switch to these when we move to C++17
-// #define LIST_CONSTEXPR constexpr
-// #define LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-// #define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
+#define LIST_CONSTEXPR constexpr
+#define LIST_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
+#define LIST_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 
 // Note: GCC creates faster code without forcing inline
 #if defined(_MSC_VER)

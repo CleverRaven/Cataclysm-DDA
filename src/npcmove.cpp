@@ -165,7 +165,7 @@ static constexpr int NPC_THIRST_COMPLAIN = 80;  // "Very thirsty"
 static constexpr int NPC_HUNGER_CONSUME  = 80;  // 50% of what's needed to refuse training.
 static constexpr int NPC_HUNGER_COMPLAIN = 160; // The level at which we refuse to do some tasks.
 
-enum npc_action : int {
+enum npc_action : std::uint8_t {
     npc_undecided = 0,
     npc_pause,
     npc_reload, npc_sleep,

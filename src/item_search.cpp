@@ -19,8 +19,8 @@ static std::pair<std::string, std::string> get_both( std::string_view a );
 
 template<typename Unit>
 static std::function< bool( const item & )> can_contain_filter( std::string_view hint,
-        std::string_view filter, Unit max, std::vector<std::pair<std::string, Unit>> units,
-        std::function<item( itype *, Unit u )> set_function )
+        std::string_view filter, Unit max, const std::vector<std::pair<std::string, Unit>> &units,
+        const std::function<item( itype *, Unit u )> &set_function )
 {
     auto const error = [hint, filter]( char const *, size_t /* offset */ ) {
         throw math::runtime_error( _( string_format( hint, filter ) ) );

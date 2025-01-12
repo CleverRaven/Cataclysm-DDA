@@ -219,7 +219,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
                 jo.throw_error( str_cat( "failed to read optional member \"menu_hotkey\"" ) );
             }
         }
-        if( menu_hotkey_str.length() ) {
+        if( menu_hotkey_str.empty() ) {
             menu_hotkey = std::uint8_t( menu_hotkey_str[ 0 ] );
         }
 

@@ -3,6 +3,7 @@
 #define CATA_SRC_ENUMS_H
 
 #include <type_traits>
+#include <cstdint>
 
 template<typename T> struct enum_traits;
 
@@ -12,7 +13,7 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
-enum class aim_exit : int {
+enum class aim_exit : std::uint8_t {
     none = 0,
     okay,
     re_entry,
@@ -61,7 +62,7 @@ inline constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
-enum class bionic_ui_sort_mode : int {
+enum class bionic_ui_sort_mode : std::uint8_t {
     NONE   = 0,
     POWER  = 1,
     NAME   = 2,
@@ -75,13 +76,13 @@ struct enum_traits<bionic_ui_sort_mode> {
 };
 
 // When bool is not enough. NONE, SOME or ALL
-enum class trinary : int {
+enum class trinary : std::uint8_t {
     NONE = 0,
     SOME = 1,
     ALL  = 2
 };
 
-enum class holiday : int {
+enum class holiday : std::uint8_t {
     none = 0,
     new_year,
     easter,
@@ -97,7 +98,7 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum class temperature_flag : int {
+enum class temperature_flag : std::uint8_t {
     NORMAL = 0,
     HEATER,
     FRIDGE,
@@ -106,13 +107,13 @@ enum class temperature_flag : int {
 };
 
 //Used for autopickup and safemode rules
-enum class rule_state : int {
+enum class rule_state : std::uint8_t {
     NONE,
     WHITELISTED,
     BLACKLISTED
 };
 
-enum class visibility_type : int {
+enum class visibility_type : std::uint8_t {
     HIDDEN,
     CLEAR,
     LIT,
@@ -122,7 +123,7 @@ enum class visibility_type : int {
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum class ot_match_type : int {
+enum class ot_match_type : std::uint8_t {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.
@@ -150,13 +151,13 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
-enum class special_game_type : int {
+enum class special_game_type : std::uint8_t {
     NONE = 0,
     TUTORIAL,
     NUM_SPECIAL_GAME_TYPES
 };
 
-enum art_effect_passive : int {
+enum art_effect_passive : std::uint8_t {
     AEP_NULL = 0,
     // Good
     AEP_STR_UP, // Strength + 4
@@ -209,7 +210,7 @@ struct enum_traits<art_effect_passive> {
     static constexpr art_effect_passive last = art_effect_passive::NUM_AEPS;
 };
 
-enum artifact_natural_property {
+enum artifact_natural_property : std::uint8_t {
     ARTPROP_NULL,
     ARTPROP_WRIGGLING, //
     ARTPROP_GLOWING, //
@@ -231,7 +232,7 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum class phase_id : int {
+enum class phase_id : std::uint8_t {
     PNULL,
     SOLID,
     LIQUID,
@@ -248,7 +249,7 @@ struct enum_traits<phase_id> {
 // Return the class an in-world object uses to interact with the world.
 //   ex; if ( player.grab_type == object_type::VEHICLE ) { ...
 //   or; if ( baseactor_just_shot_at.object_type() == object_type::NPC ) { ...
-enum class object_type : int {
+enum class object_type : std::uint8_t {
     NONE,      // Nothing, invalid.
     ITEM,      // item.h
     ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
@@ -263,14 +264,14 @@ enum class object_type : int {
     NUM_OBJECT_TYPES,
 };
 
-enum class liquid_source_type : int {
+enum class liquid_source_type : std::uint8_t {
     INFINITE_MAP = 1,
     MAP_ITEM = 2,
     VEHICLE = 3,
     MONSTER = 4
 };
 
-enum class liquid_target_type : int {
+enum class liquid_target_type : std::uint8_t {
     CONTAINER = 1,
     VEHICLE = 2,
     MAP = 3,
@@ -286,7 +287,7 @@ enum class liquid_target_type : int {
  *  and by @ref profession to place the characters' clothing in a sane order
  *  when starting the game.
  */
-enum class layer_level : int {
+enum class layer_level : std::uint8_t {
     /* "Personal effects" layer, corresponds to PERSONAL flag */
     PERSONAL = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
@@ -317,7 +318,7 @@ inline layer_level &operator++( layer_level &l )
 }
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type : int {
+enum class distraction_type : std::uint8_t {
     noise,
     pain,
     attacked,
@@ -344,7 +345,7 @@ struct enum_traits<distraction_type> {
     static constexpr distraction_type last = distraction_type::last;
 };
 
-enum game_message_type : int {
+enum game_message_type : std::uint8_t {
     m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
     m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
     m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
@@ -369,7 +370,7 @@ struct enum_traits<game_message_type> {
     static constexpr game_message_type last = game_message_type::num_game_message_type;
 };
 
-enum game_message_flags {
+enum game_message_flags : std::uint8_t {
     /* No specific game message flags */
     gmf_none = 0,
     /* Allow the message to bypass message cooldown. */
@@ -407,7 +408,7 @@ struct social_modifiers {
     }
 };
 
-enum MULTITILE_TYPE {
+enum MULTITILE_TYPE : std::uint8_t {
     center,
     corner,
     edge,
@@ -419,7 +420,7 @@ enum MULTITILE_TYPE {
     num_multitile_types
 };
 
-enum class reachability_cache_quadrant : int {
+enum class reachability_cache_quadrant : std::uint8_t {
     NE, SE, NW, SW
 };
 
@@ -435,7 +436,7 @@ struct enum_traits<reachability_cache_quadrant> {
     }
 };
 
-enum class monotonically : int {
+enum class monotonically : std::uint8_t {
     constant,
     increasing,
     decreasing,
@@ -452,7 +453,7 @@ constexpr bool is_decreasing( monotonically m )
     return m == monotonically::constant || m == monotonically::decreasing;
 }
 
-enum class character_type : int {
+enum class character_type : std::uint8_t {
     CUSTOM,
     RANDOM,
     TEMPLATE,
@@ -460,7 +461,7 @@ enum class character_type : int {
     FULL_RANDOM,
 };
 
-enum class aggregate_type : int {
+enum class aggregate_type : std::uint8_t {
     FIRST,
     LAST,
     MIN,
@@ -475,7 +476,7 @@ struct enum_traits<aggregate_type> {
     static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
 };
 
-enum class link_state : int {
+enum class link_state : std::uint8_t {
     no_link = 0,     // No connection, the default state
     needs_reeling,   // Cable has been disconnected and needs to be manually reeled in before it can be used again
     ups,             // Linked to a UPS the cable holder is holding
@@ -492,7 +493,7 @@ struct enum_traits<link_state> {
     static constexpr link_state last = link_state::last;
 };
 
-enum mut_count_type {
+enum mut_count_type : std::uint8_t {
     POSITIVE,
     NEGATIVE,
     ALL

@@ -562,7 +562,7 @@ size_t TextJsonArray::size() const
 {
     return positions.size();
 }
-bool TextJsonArray::empty()
+bool TextJsonArray::empty() const
 {
     return positions.empty();
 }

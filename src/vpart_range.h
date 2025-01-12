@@ -13,7 +13,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-enum class part_status_flag : int;
+enum class part_status_flag : std::uint8_t;
 
 /**
  * Exposes (multiple) parts of one vehicle as @ref vpart_reference.

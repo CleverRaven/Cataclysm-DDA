@@ -1827,7 +1827,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Total widget width w/o padding
             const int total_widget_width = std::accumulate( wgts.begin(), wgts.end(), 0,
             [child_width]( int sum, const widget_id & wid ) {
-                widget cur_child = wid.obj();
+                const widget &cur_child = wid.obj();
                 return sum + ( cur_child._style == "layout" &&
                                cur_child._width > 0 ? cur_child._width : child_width );
             } );

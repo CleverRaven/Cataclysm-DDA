@@ -39,7 +39,7 @@ extern std::vector<std::string> damage_indicators;
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.
 extern bool test_mode;
-enum class test_mode_spilling_action_t {
+enum class test_mode_spilling_action_t : std::uint8_t {
     spill_all,
     cancel_spill,
 };
@@ -47,7 +47,7 @@ extern test_mode_spilling_action_t test_mode_spilling_action;
 
 extern bool direct3d_mode;
 
-enum class error_log_format_t {
+enum class error_log_format_t : std::uint8_t {
     human_readable,
     // Output error messages in github action command format (currently json only)
     // See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-error-message
@@ -59,7 +59,7 @@ extern error_log_format_t error_log_format;
 constexpr error_log_format_t error_log_format = error_log_format_t::human_readable;
 #endif
 
-enum class check_plural_t {
+enum class check_plural_t : std::uint8_t {
     none,
     certain, // report strings that certainly have a non-regular plural form, such as those ending in "s"
     possible, // report strings that may or may not have a non-regular plural form, such as those containing the word "of"

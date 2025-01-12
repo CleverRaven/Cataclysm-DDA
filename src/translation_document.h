@@ -21,7 +21,7 @@ class InvalidTranslationDocumentException : public std::exception
         const char *what() const noexcept override;
 };
 
-enum class Endianness {
+enum class Endianness : std::uint8_t {
     BigEndian,
     LittleEndian
 };

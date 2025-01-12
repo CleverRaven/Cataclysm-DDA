@@ -62,7 +62,7 @@ class options_manager
         void addOptionToPage( const std::string &name, const std::string &page );
 
     public:
-        enum copt_hide_t {
+        enum copt_hide_t : std::uint8_t {
             /** Don't hide this option */
             COPT_NO_HIDE,
             /** Hide this option in SDL build */
@@ -141,7 +141,7 @@ class options_manager
                 bool hasPrerequisite() const;
                 bool checkPrerequisite() const;
 
-                enum COPT_VALUE_TYPE {
+                enum COPT_VALUE_TYPE : std::uint8_t {
                     CVT_UNKNOWN = 0,
                     CVT_BOOL = 1,
                     CVT_STRING = 2,
@@ -301,7 +301,7 @@ class options_manager
         };
 
         /** Page item type. */
-        enum class ItemType {
+        enum class ItemType : std::uint8_t {
             BlankLine,
             GroupHeader,
             Option,

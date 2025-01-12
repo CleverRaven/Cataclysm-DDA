@@ -23,11 +23,11 @@ class recipe;
 struct tripoint;
 class vehicle;
 struct mutation_variant;
-enum class get_body_part_flags;
+enum class get_body_part_flags : std::uint8_t;
 
 namespace npc_factions
 {
-enum class relationship : int;
+enum class relationship : std::uint8_t;
 } // namespace npc_factions
 
 using bodytype_id = std::string;

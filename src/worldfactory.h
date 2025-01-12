@@ -15,7 +15,7 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-enum class special_game_type;
+enum class special_game_type : std::uint8_t;
 
 class JsonArray;
 class JsonObject;
@@ -104,9 +104,9 @@ class worldfactory
         /// Returns the *existing* world of given name.
         WORLD *get_world( const std::string &name );
         /// Returns the *existing* world's name from its index in the world list.
-        std::string get_world_name( size_t index );
+        std::string get_world_name( size_t index ) const;
         /// Returns the *existing* world's index in the world list from its name.
-        size_t get_world_index( const std::string &name );
+        size_t get_world_index( const std::string &name ) const;
         bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLD *world );
@@ -124,7 +124,7 @@ class worldfactory
 
         void save_last_world_info() const;
 
-        mod_manager &get_mod_manager();
+        mod_manager &get_mod_manager() const;
 
         void remove_world( const std::string &worldname );
         bool valid_worldname( const std::string &name, bool automated = false ) const;

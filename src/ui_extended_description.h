@@ -8,7 +8,7 @@
 #include "imgui/imgui.h"
 #include "output.h"
 
-enum class description_target : int {
+enum class description_target : std::uint8_t {
     creature = 0,
     furniture,
     terrain,

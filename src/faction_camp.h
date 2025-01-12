@@ -20,10 +20,10 @@ struct mission_entry;
 struct point;
 namespace base_camps
 {
-enum tab_mode : int;
+enum tab_mode : std::uint8_t;
 } // namespace base_camps
 
-enum class farm_ops : int {
+enum class farm_ops : std::uint8_t {
     plow = 1,
     plant = 2,
     harvest = 4

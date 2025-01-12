@@ -50,7 +50,7 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum quit_status {
+enum quit_status : std::uint8_t {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
     QUIT_SAVED,     // Saved and quit
@@ -59,7 +59,7 @@ enum quit_status {
     QUIT_WATCH,     // Died, and watching aftermath
 };
 
-enum safe_mode_type {
+enum safe_mode_type : std::uint8_t {
     SAFE_MODE_OFF = 0, // Moving always allowed
     SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
@@ -104,7 +104,7 @@ template <typename Tripoint> class tripoint_range;
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
-enum peek_act : int {
+enum peek_act : std::uint8_t {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
     // obvious future additional value is PA_BLIND_FIRE
@@ -681,7 +681,7 @@ class game
 
         void draw_trail_to_square( const tripoint_rel_ms &t, bool bDrawX );
 
-        enum inventory_item_menu_position {
+        enum inventory_item_menu_position : std::uint8_t {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
@@ -872,7 +872,7 @@ class game
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
-        enum class vmenu_ret : int {
+        enum class vmenu_ret : std::uint8_t {
             CHANGE_TAB,
             QUIT,
             FIRE, // Who knew, apparently you can do that in list_monsters
@@ -1254,7 +1254,7 @@ class game
         /** Passed to climbing-related functions (slip_down) to
         *   indicate the climbing action being attempted.
         */
-        enum class climb_maneuver {
+        enum class climb_maneuver : std::uint8_t {
             down,          // climb up one Z-level
             up,            // climb down one Z-level
             over_obstacle, // climb over an obstacle (horizontal move)

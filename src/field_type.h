@@ -31,7 +31,7 @@ template <typename E> struct enum_traits;
 class field_entry;
 struct field_proc_data;
 
-enum class description_affix : int {
+enum class description_affix : std::uint8_t {
     DESCRIPTION_AFFIX_IN,
     DESCRIPTION_AFFIX_COVERED_IN,
     DESCRIPTION_AFFIX_ON,

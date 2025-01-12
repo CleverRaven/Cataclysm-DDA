@@ -4,7 +4,7 @@
 
 template <typename E> struct enum_traits;
 
-enum class pocket_type : int {
+enum class pocket_type : std::uint8_t {
     CONTAINER,
     MAGAZINE,
     MAGAZINE_WELL, //holds magazines

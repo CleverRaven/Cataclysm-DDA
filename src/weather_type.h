@@ -26,7 +26,7 @@ class generic_factory;
 const weather_type_id WEATHER_NULL( "null" );
 const weather_type_id WEATHER_CLEAR( "clear" );
 
-enum class precip_class : int {
+enum class precip_class : std::uint8_t {
     none,
     very_light,
     light,
@@ -38,7 +38,7 @@ struct enum_traits<precip_class> {
     static constexpr precip_class last = precip_class::last;
 };
 
-enum weather_sound_category : int {
+enum weather_sound_category : std::uint8_t {
     silent,
     drizzle,
     rainy,

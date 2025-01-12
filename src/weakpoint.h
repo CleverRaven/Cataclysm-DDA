@@ -23,7 +23,7 @@ class JsonValue;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {
-    enum class attack_type : int {
+    enum class attack_type : std::uint8_t {
         NONE, // Unusual damage instances, such as falls, spells, and effects.
         MELEE_BASH, // Melee bludgeoning attacks
         MELEE_CUT, // Melee slashing attacks

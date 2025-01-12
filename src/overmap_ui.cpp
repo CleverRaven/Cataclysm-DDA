@@ -361,10 +361,10 @@ class map_notes_callback : public uilist_callback
         std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
         ui_adaptor ui;
 
-        point_abs_omt point_selected() {
+        point_abs_omt point_selected() const {
             return _notes[_selected].first;
         }
-        tripoint_abs_omt note_location() {
+        tripoint_abs_omt note_location() const {
             return tripoint_abs_omt( point_selected(), _z );
         }
     public:

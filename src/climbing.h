@@ -26,7 +26,7 @@ class JsonObject;
 class climbing_aid
 {
     public:
-        enum class category {
+        enum class category : std::uint8_t {
             special = 0,
             ter_furn,
             veh,

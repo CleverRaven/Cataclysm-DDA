@@ -182,7 +182,7 @@ void diary::show_diary_ui( diary *c_diary )
     catacurses::window w_desc;
     catacurses::window w_head;
     catacurses::window w_info;
-    enum class window_mode : int {PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1};
+    enum class window_mode : std::uint8_t {PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1};
     window_mode currwin = window_mode::PAGE_WIN;
 
     const int diary_last_page = c_diary->pages.empty() ? 0 : ( c_diary->pages.size() - 1 );

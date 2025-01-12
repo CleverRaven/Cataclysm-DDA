@@ -25,7 +25,7 @@ const std::unordered_set<std::string> &simple_string_conds();
 const std::unordered_set<std::string> &complex_conds();
 } // namespace dialogue_data
 
-enum class jarg {
+enum class jarg : std::uint8_t {
     member = 1,
     object = 1 << 1,
     string = 1 << 2,

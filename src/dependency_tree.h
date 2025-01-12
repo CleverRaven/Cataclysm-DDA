@@ -9,7 +9,7 @@
 
 #include "type_id.h"
 
-enum NODE_ERROR_TYPE {
+enum NODE_ERROR_TYPE : std::uint8_t {
     DEPENDENCY,
     CYCLIC,
     OTHER

@@ -8,7 +8,7 @@ TranslationManager &TranslationManager::GetInstance()
     return singleton;
 }
 
-std::unordered_set<std::string> TranslationManager::GetAvailableLanguages()
+std::unordered_set<std::string> TranslationManager::GetAvailableLanguages() const
 {
     return impl->GetAvailableLanguages();
 }

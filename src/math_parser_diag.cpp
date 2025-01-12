@@ -561,7 +561,7 @@ diag_assign_dbl_f degradation_ass( char scope, std::vector<diag_value> const & /
 diag_assign_dbl_f spellcasting_adjustment_ass( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
-    enum spell_scope {
+    enum spell_scope : std::uint8_t {
         scope_all,
         scope_mod,
         scope_school,
@@ -729,7 +729,7 @@ diag_eval_dbl_f mod_order_eval( char /* scope */, std::vector<diag_value> const 
     };
 }
 
-enum class character_filter : int {
+enum class character_filter : std::uint8_t {
     allies = 0,
     not_allies,
     hostile,
@@ -847,7 +847,7 @@ bool mon_check_group( Creature const &critter, mongroup_id const &id )
     return MonsterGroupManager::IsMonsterInGroup( id, critter.as_monster()->type->id );
 }
 
-enum class mon_filter : int {
+enum class mon_filter : std::uint8_t {
     enemies = 0,
     friends,
     both,

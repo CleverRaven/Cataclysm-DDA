@@ -818,14 +818,14 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum class hack_result : int {
+enum class hack_result : std::uint8_t {
     UNABLE,
     FAIL,
     NOTHING,
     SUCCESS
 };
 
-enum class hack_type : int {
+enum class hack_type : std::uint8_t {
     SAFE,
     DOOR,
     GAS,
@@ -4161,7 +4161,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 
     std::string res( "Items ordered to drop:\n" );
     for( const drop_or_stash_item_info &it : items ) {
-        item_location loc = it.loc();
+        const item_location &loc = it.loc();
         if( !loc ) {
             // some items could have been destroyed by e.g. monster attack
             continue;
@@ -5725,7 +5725,7 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
     for( item_location &worn_item : who.get_visible_worn_items() ) {
-        item outfit_component( *worn_item );
+        const item &outfit_component( *worn_item );
         if( who.takeoff( worn_item, &it_list ) ) {
             ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
         }
@@ -7215,7 +7215,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
 void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 {
-    enum activity_stage : int {
+    enum activity_stage : std::uint8_t {
         //Initial stage
         INIT = 0,
         //Think about what to do first: choose destination

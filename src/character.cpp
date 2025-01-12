@@ -13369,7 +13369,7 @@ static std::string wrap60( const std::string &text )
 
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu
 {
-    enum style_selection {
+    enum style_selection : std::uint8_t {
         KEEP_HANDS_FREE = 0,
         STYLE_OFFSET
     };

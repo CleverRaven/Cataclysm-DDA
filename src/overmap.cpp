@@ -1688,7 +1688,7 @@ struct mutable_overmap_join {
     }
 };
 
-enum class join_type {
+enum class join_type : std::uint8_t {
     mandatory,
     available,
     last
@@ -2085,7 +2085,7 @@ class joins_tracker
 #endif
         }
 
-        enum class join_status {
+        enum class join_status : std::uint8_t {
             disallowed, // Conflicts with existing join, and at least one was mandatory
             matched_available, // Matches an existing non-mandatory join
             matched_non_available, // Matches an existing mandatory join
@@ -2333,7 +2333,7 @@ class joins_tracker
         }
 
         struct compare_iterators {
-            bool operator()( iterator l, iterator r ) {
+            bool operator()( iterator l, iterator r ) const {
                 return l->where < r->where;
             }
         };

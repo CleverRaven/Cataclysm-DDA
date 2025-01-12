@@ -25,7 +25,7 @@ struct mutation_variant;
 
 namespace npc_factions
 {
-enum class relationship : int;
+enum class relationship : std::uint8_t;
 } // namespace npc_factions
 
 /*

@@ -870,7 +870,7 @@ static item_location place_craft_or_disassembly(
                 put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
             }
         } else {
-            enum option : int {
+            enum option : std::uint8_t {
                 WIELD_CRAFT = 0,
                 DROP_CRAFT,
                 STASH,
@@ -1896,7 +1896,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             is_food = !!rec->result()->comestible;
             remove_raw = rec->hot_result() || rec->removes_raw();
         }
-        enum class inventory_source : int {
+        enum class inventory_source : std::uint8_t {
             SELF = 0,
             MAP,
             BOTH

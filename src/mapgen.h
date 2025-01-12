@@ -104,7 +104,7 @@ struct jmapgen_int {
 
 /** Mapgen pieces will be applied in order of phases.  The phases are as
  * follows: */
-enum class mapgen_phase {
+enum class mapgen_phase : std::uint8_t {
     removal,
     terrain,
     furniture,
@@ -126,7 +126,7 @@ inline bool operator<( const mapgen_phase l, const mapgen_phase r )
     return static_cast<int>( l ) < static_cast<int>( r );
 }
 
-enum jmapgen_setmap_op {
+enum jmapgen_setmap_op : std::uint8_t {
     JMAPGEN_SETMAP_OPTYPE_POINT = 0,
     JMAPGEN_SETMAP_TER,
     JMAPGEN_SETMAP_FURN,
@@ -632,7 +632,7 @@ void calculate_mapgen_weights(); // throws
 void check_mapgen_definitions();
 
 /// move to building_generation
-enum room_type {
+enum room_type : std::uint8_t {
     room_null,
     room_closet,
     room_lobby,

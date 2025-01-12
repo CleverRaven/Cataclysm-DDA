@@ -38,7 +38,7 @@ bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantitie
                 bool autopickup, bool &stash_successful, Pickup::pick_info &info );
 bool query_thief();
 
-enum from_where : int {
+enum from_where : std::uint8_t {
     from_cargo = 0,
     from_ground,
     prompt

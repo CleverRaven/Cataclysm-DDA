@@ -315,8 +315,9 @@ void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
 }
 
 template<typename T>
-void follower_rules_ui_impl::radio_group( const std::string header_id, const char *title, T *rule,
-        std::map<T, std::string> &values, input_event &assigned_hotkey, const input_event &pressed_key )
+void follower_rules_ui_impl::radio_group( const std::string &header_id, const char *title,
+        T *rule, std::map<T, std::string> &values, input_event &assigned_hotkey,
+        const input_event &pressed_key )
 {
     ImGui::Separator();
     ImGui::NewLine();

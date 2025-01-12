@@ -13,7 +13,7 @@ struct scent_block {
     template<typename T>
     using data_block = std::array < std::array < T, SEEY + 2 >, SEEX + 2 >;
 
-    enum class data_mode : int {
+    enum class data_mode : std::uint8_t {
         NONE = 0,
         SET = 1,
         MAX = 2

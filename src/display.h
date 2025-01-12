@@ -23,7 +23,7 @@ class translation;
 class vehicle;
 
 // These are the supported data variables for coloring bodygraphs.
-enum class bodygraph_var : int {
+enum class bodygraph_var : std::uint8_t {
     hp = 0,      // hitpoints
     temp,        // temperature
     encumb,      // encumbrance

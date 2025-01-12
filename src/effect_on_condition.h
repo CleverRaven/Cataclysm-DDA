@@ -26,7 +26,7 @@ struct effect_on_condition;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
-enum eoc_type {
+enum eoc_type : std::uint8_t {
     ACTIVATION,
     RECURRING,
     SCENARIO_SPECIFIC,

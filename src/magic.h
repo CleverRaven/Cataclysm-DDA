@@ -47,7 +47,7 @@ class event;
 }  // namespace cata
 template <typename E> struct enum_traits;
 
-enum class spell_flag : int {
+enum class spell_flag : std::uint8_t {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
@@ -98,7 +98,7 @@ enum class spell_flag : int {
     LAST
 };
 
-enum class magic_energy_type : int {
+enum class magic_energy_type : std::uint8_t {
     hp,
     mana,
     stamina,
@@ -107,7 +107,7 @@ enum class magic_energy_type : int {
     last
 };
 
-enum class spell_target : int {
+enum class spell_target : std::uint8_t {
     ally,
     hostile,
     self,
@@ -118,7 +118,7 @@ enum class spell_target : int {
     num_spell_targets
 };
 
-enum class spell_shape : int {
+enum class spell_shape : std::uint8_t {
     // circular blast area
     blast,
     // hits anything in a line from the caster to the target with a width

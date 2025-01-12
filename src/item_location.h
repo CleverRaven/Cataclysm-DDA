@@ -29,7 +29,7 @@ template<typename T> class ret_val;
 class item_location
 {
     public:
-        enum class type : int {
+        enum class type : std::uint8_t {
             invalid = 0,
             character = 1,
             map = 2,

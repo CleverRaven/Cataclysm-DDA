@@ -7,7 +7,7 @@
 // The point after which stats cost double
 constexpr int HIGH_STAT = 12;
 
-enum class pool_type {
+enum class pool_type : std::uint8_t {
     FREEFORM = 0,
     ONE_POOL,
     MULTI_POOL,

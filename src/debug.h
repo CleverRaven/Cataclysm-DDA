@@ -136,7 +136,7 @@ std::string game_report();
  * If you add an entry, add an entry in that function:
  * std::ostream &operator<<(std::ostream &out, DebugLevel lev)
  */
-enum DebugLevel {
+enum DebugLevel : std::uint8_t {
     D_INFO          = 1,
     D_WARNING       = 1 << 2,
     D_ERROR         = 1 << 3,
@@ -175,7 +175,7 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
-enum class DebugOutput : int {
+enum class DebugOutput : std::uint8_t {
     std_err,
     file,
 };
@@ -234,7 +234,7 @@ extern bool debug_mode;
 namespace debugmode
 {
 // Please try to keep this alphabetically sorted
-enum debug_filter : int {
+enum debug_filter : std::uint8_t {
     DF_ACT_BUTCHER = 0, // butcher activity handler
     DF_ACT_EBOOK, // ebook activity actor
     DF_ACT_HARVEST, // harvest activity actor

@@ -99,7 +99,7 @@ class relic_procgen_data
             void deserialize( const JsonObject &jo );
         };
 
-        enum type {
+        enum type : std::uint8_t {
             passive_enchantment_add,
             passive_enchantment_mult,
             hit_you,
@@ -138,14 +138,14 @@ class relic_procgen_data
         void deserialize( const JsonObject &jobj );
 };
 
-enum class relic_recharge_has : int {
+enum class relic_recharge_has : std::uint8_t {
     WIELD,
     WORN,
     HELD,
     NUM
 };
 
-enum class relic_recharge_type : int {
+enum class relic_recharge_type : std::uint8_t {
     NONE,
     PERIODIC,
     LUNAR,

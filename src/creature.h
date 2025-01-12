@@ -208,13 +208,13 @@ constexpr bool operator==( const I lhs, const creature_size rhs )
     return lhs == static_cast<I>( rhs );
 }
 
-enum class FacingDirection : int {
+enum class FacingDirection : std::uint8_t {
     NONE = 0,
     LEFT = 1,
     RIGHT = 2
 };
 
-enum class get_body_part_flags : int {
+enum class get_body_part_flags : std::uint8_t {
     none = 0,
     only_main = 1 << 0,
     sorted = 1 << 1,
@@ -227,7 +227,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-enum class body_part_filter : int {
+enum class body_part_filter : std::uint8_t {
     strict = 0,
     equivalent = 1,
     next_best = 2
@@ -354,7 +354,7 @@ class Creature : public viewer
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum class Attitude : int {
+        enum class Attitude : std::uint8_t {
             HOSTILE,
             NEUTRAL,
             FRIENDLY,

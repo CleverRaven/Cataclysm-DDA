@@ -312,7 +312,7 @@ int talker_npc_const::value( const item &it ) const
     return me_npc->value( it );
 }
 
-enum consumption_result {
+enum consumption_result : std::uint8_t {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
     CONSUMED_ALL   // Consumption succeeded, delete the item

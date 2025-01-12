@@ -1248,7 +1248,7 @@ void vehicle::lock( int part_index )
     }
 }
 
-bool vehicle::can_close( int part_index, Character &who )
+bool vehicle::can_close( int part_index, Character &who ) const
 {
     creature_tracker &creatures = get_creature_tracker();
     part_index = get_non_fake_part( part_index );

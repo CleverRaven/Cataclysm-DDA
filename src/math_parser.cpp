@@ -109,7 +109,7 @@ constexpr std::optional<pass_op> get_ass_op( std::string_view token )
 }
 
 struct parse_state {
-    enum class expect : int {
+    enum class expect : std::uint8_t {
         oper = 0,
         operand,
         lparen,  // operand alias used for functions
@@ -340,7 +340,7 @@ class math_exp::math_exp_impl
         std::stack<op_ctxt> ops;
         std::stack<thingie> output;
         struct arity_t {
-            enum class type_t {
+            enum class type_t : std::uint8_t {
                 func = 0,
                 parens,
                 array,

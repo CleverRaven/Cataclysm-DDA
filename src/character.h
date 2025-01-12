@@ -112,11 +112,11 @@ struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
 
-enum npc_attitude : int;
+enum npc_attitude : std::uint8_t;
 enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : std::uint8_t;
+enum class steed_type : std::uint8_t;
+enum class proficiency_bonus_type : std::uint8_t;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -129,7 +129,7 @@ constexpr float KCAL_PER_KG = 3500 * 2.20462;
 
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
-enum vision_modes {
+enum vision_modes : std::uint8_t {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
     NIGHTVISION_1,
@@ -234,7 +234,7 @@ constexpr inline int operator-( const T &lhs, const sleepiness_levels &rhs )
     long periods of time
     @see https://github.com/CleverRaven/Cataclysm-DDA/blob/master/src/character.cpp#L5566
 */
-enum sleep_deprivation_levels {
+enum sleep_deprivation_levels : int {
     /// 2 days
     SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
     /// 4 days
@@ -247,7 +247,7 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
-enum class blood_type {
+enum class blood_type : std::uint8_t {
     blood_O,
     blood_A,
     blood_B,
@@ -263,7 +263,7 @@ struct enum_traits<blood_type> {
 /// @brief how digestible or palatable an item is
 /// @details This tries to represent both rating and character's decision to respect said rating
 /// (ie "they can eat it, though they are disgusted by it")
-enum edible_rating {
+enum edible_rating : std::uint8_t {
     /// Edible or we pretend it is
     EDIBLE,
     /// Not food at all
@@ -288,7 +288,7 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum crush_tool_type {
+enum crush_tool_type : std::uint8_t {
     CRUSH_EMPTY_HANDS,
     CRUSH_HAMMER,
     CRUSH_DRILL_OR_HAMMER_AND_SCREW,
@@ -443,21 +443,21 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
-enum class customize_appearance_choice : int {
+enum class customize_appearance_choice : std::uint8_t {
     EYES, // customize eye color
     HAIR, // customize hair
     HAIR_F, // customize facial hair
     SKIN  // customize skin color
 };
 
-enum class book_mastery {
+enum class book_mastery : std::uint8_t {
     CANT_DETERMINE, // book not yet identified, so you don't know yet
     CANT_UNDERSTAND, // does not have enough skill to read
     LEARNING,
     MASTERED // can no longer increase skill by reading
 };
 
-enum class read_condition_result {
+enum class read_condition_result : std::uint16_t {
     SUCCESS = 0,
     NOT_BOOK = 1 << 0,
     CANT_UNDERSTAND = 1 << 1,
@@ -4054,7 +4054,7 @@ class Character : public Creature, public visitable
          * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
          * Used to determine suffering effects of albinism and solar sensitivity.
          */
-        std::map<bodypart_id, float> bodypart_exposure();
+        std::map<bodypart_id, float> bodypart_exposure() const;
     private:
         /**
          * Check whether the other creature is in range and can be seen by this creature.

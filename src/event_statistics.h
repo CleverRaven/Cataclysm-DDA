@@ -15,13 +15,13 @@
 
 class cata_variant;
 
-enum class cata_variant_type : int;
+enum class cata_variant_type : std::uint8_t;
 class event_multiset;
 
-enum class event_type : int;
+enum class event_type : std::uint8_t;
 class JsonObject;
 
-enum class monotonically : int;
+enum class monotonically : std::uint8_t;
 class stats_tracker;
 class stats_tracker_state;
 

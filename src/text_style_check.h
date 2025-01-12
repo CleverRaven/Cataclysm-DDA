@@ -7,18 +7,18 @@
 #include <functional>
 #include <string>
 
-enum class text_style_fix : int {
+enum class text_style_fix : std::uint8_t {
     removal,
     insertion,
     replacement
 };
 
-enum class fix_end_of_string_spaces : int {
+enum class fix_end_of_string_spaces : std::uint8_t {
     no,
     yes
 };
 
-enum class escape_unicode : int {
+enum class escape_unicode : std::uint8_t {
     no,
     yes
 };

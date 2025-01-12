@@ -1347,7 +1347,7 @@ void vehicle::selfdrive( const int trn, const int acceleration )
     }
 }
 
-bool vehicle::check_is_heli_landed()
+bool vehicle::check_is_heli_landed() const
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.

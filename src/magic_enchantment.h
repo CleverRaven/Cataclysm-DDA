@@ -28,7 +28,7 @@ namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
 // either the item directly or the Character, whichever is more appropriate
-enum class mod : int {
+enum class mod : std::uint8_t {
     //tracker for artifact carrying penalties
     ARTIFACT_RESONANCE,
     // effects for the Character
@@ -148,14 +148,14 @@ enum class mod : int {
 class enchantment
 {
     public:
-        enum has {
+        enum has : std::uint8_t {
             WIELD,
             WORN,
             HELD,
             NUM_HAS
         };
         // the condition at which the enchantment is giving passive effects
-        enum condition {
+        enum condition : std::uint8_t {
             ALWAYS,
             ACTIVE, // the item, mutation, etc. is active
             INACTIVE, // the item, mutation, etc. is inactive

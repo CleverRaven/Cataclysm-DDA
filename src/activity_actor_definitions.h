@@ -467,7 +467,7 @@ class bikerack_unracking_activity_actor : public activity_actor
 class read_activity_actor : public activity_actor
 {
     public:
-        enum class book_type : int { normal, martial_art };
+        enum class book_type : std::uint8_t { normal, martial_art };
 
         read_activity_actor() = default;
 

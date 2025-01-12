@@ -2791,7 +2791,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
         pending.pop();
         result.push_back( next );
 
-        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        const cata::flat_set<bodypart_id> &children_set = parts_connected_to.at( next );
         std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
         std::sort( children.begin(), children.end(), compare_children );
         for( const bodypart_id &child : children ) {

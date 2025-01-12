@@ -64,7 +64,7 @@ struct om_vehicle {
     std::string name;
 };
 
-enum class radio_type : int {
+enum class radio_type : std::uint8_t {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
@@ -160,7 +160,7 @@ class overmap_special_batch
             std::vector<overmap_special_placement>::iterator pos ) {
             return placements.erase( pos );
         }
-        bool empty() {
+        bool empty() const {
             return placements.empty();
         }
 

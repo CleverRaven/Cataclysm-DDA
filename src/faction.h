@@ -46,7 +46,7 @@ using faction_id = string_id<faction>;
 namespace npc_factions
 {
 void finalize();
-enum class relationship : int {
+enum class relationship : std::uint8_t {
     kill_on_sight,
     watch_your_back,
     share_my_stuff,

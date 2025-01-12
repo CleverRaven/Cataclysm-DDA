@@ -605,7 +605,7 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
     return assigned_npcs;
 }
 
-void basecamp::hide_mission( ui_mission_id id )
+void basecamp::hide_mission( const ui_mission_id &id )
 {
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
@@ -616,7 +616,7 @@ void basecamp::hide_mission( ui_mission_id id )
     hidden_missions[size_t( base_data.tab_order )].push_back( id );
 }
 
-void basecamp::reveal_mission( ui_mission_id id )
+void basecamp::reveal_mission( const ui_mission_id &id )
 {
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
@@ -629,7 +629,7 @@ void basecamp::reveal_mission( ui_mission_id id )
     debugmsg( "Trying to reveal revealed mission.  Has no effect." );
 }
 
-bool basecamp::is_hidden( ui_mission_id id )
+bool basecamp::is_hidden( const ui_mission_id &id )
 {
     if( hidden_missions.empty() ) {
         return false;

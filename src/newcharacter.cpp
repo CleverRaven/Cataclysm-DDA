@@ -3770,7 +3770,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
 namespace char_creation
 {
-enum description_selector {
+enum description_selector : std::uint8_t {
     NAME,
     GENDER,
     OUTFIT,
@@ -4172,7 +4172,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
                 for( size_t i = 0; i < current_traits.size(); i++ ) {
-                    const trait_and_var current_trait = current_traits[i];
+                    const trait_and_var &current_trait = current_traits[i];
                     trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
                                     current_trait.trait->get_display_color(), current_trait.name() );
                 }

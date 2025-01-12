@@ -127,7 +127,7 @@ class plot_options : public zone_options, public mark_option
         itype_id mark;
         itype_id seed;
 
-        enum query_seed_result {
+        enum query_seed_result : std::uint8_t {
             canceled,
             successful,
             changed,
@@ -166,7 +166,7 @@ class blueprint_options : public zone_options, public mark_option
         construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
 
-        enum query_con_result {
+        enum query_con_result : std::uint8_t {
             canceled,
             successful,
             changed,
@@ -213,7 +213,7 @@ class ignorable_options : public zone_options
     private:
         bool ignore_contents;
 
-        enum query_ignorable_result {
+        enum query_ignorable_result : std::uint8_t {
             canceled,
             successful,
             changed,
@@ -245,7 +245,7 @@ class loot_options : public zone_options, public mark_option
         // basic item filter.
         std::string mark;
 
-        enum query_loot_result {
+        enum query_loot_result : std::uint8_t {
             canceled,
             successful,
             changed,
@@ -288,7 +288,7 @@ class unload_options : public zone_options, public mark_option
         int sparse_threshold = 20;
         bool always_unload;
 
-        enum query_unload_result {
+        enum query_unload_result : std::uint8_t {
             canceled,
             successful,
             changed,

@@ -18,7 +18,7 @@ class JsonOut;
 class JsonValue;
 class talker;
 
-enum computer_action {
+enum computer_action : std::uint8_t {
     COMPACT_NULL = 0,
     COMPACT_AMIGARA_LOG,
     COMPACT_AMIGARA_START,
@@ -75,7 +75,7 @@ enum computer_action {
     NUM_COMPUTER_ACTIONS
 };
 
-enum computer_failure_type {
+enum computer_failure_type : std::uint8_t {
     COMPFAIL_NULL = 0,
     COMPFAIL_ALARM,
     COMPFAIL_AMIGARA,

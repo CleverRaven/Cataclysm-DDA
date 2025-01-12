@@ -60,8 +60,8 @@ struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
 
-enum vpart_bitflags : int;
-enum class ter_furn_flag : int;
+enum vpart_bitflags : std::uint8_t;
+enum class ter_furn_flag : std::uint8_t;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -97,7 +97,7 @@ constexpr int SCATTER_DISTANCE = 3;
 //adjust this to balance collision damage
 constexpr int k_mvel = 200;
 
-enum class part_status_flag : int {
+enum class part_status_flag : std::uint8_t {
     any = 0,
     working = 1 << 0,
     available = 1 << 1,
@@ -109,7 +109,7 @@ struct enum_traits<part_status_flag> {
     static constexpr bool is_flag_enum = true;
 };
 
-enum veh_coll_type : int {
+enum veh_coll_type : std::uint8_t {
     veh_coll_nothing,  // 0 - nothing,
     veh_coll_body,     // 1 - monster/player/npc
     veh_coll_veh,      // 2 - vehicle
@@ -184,7 +184,7 @@ class vehicle_stack : public item_stack
         units::volume max_volume() const override;
 };
 
-enum towing_point_side : int {
+enum towing_point_side : std::uint8_t {
     TOW_FRONT,
     TOW_SIDE,
     TOW_BACK,
@@ -669,7 +669,7 @@ class turret_data
         bool can_reload() const;
         bool can_unload() const;
 
-        enum class status : int {
+        enum class status : std::uint8_t {
             invalid,
             no_ammo,
             no_power,
@@ -703,7 +703,7 @@ struct label : public point_rel_ms {
     void serialize( JsonOut &json ) const;
 };
 
-enum class autodrive_result : int {
+enum class autodrive_result : std::uint8_t {
     // the driver successfully performed course correction or simply did nothing
     // in order to keep going forward
     ok,
@@ -1834,7 +1834,7 @@ class vehicle
          */
         bool check_heli_descend( Character &p ) const;
         bool check_heli_ascend( Character &p ) const;
-        bool check_is_heli_landed();
+        bool check_is_heli_landed() const;
         /**
          * Player is driving the vehicle
          * @param trn is turn direction
@@ -2044,7 +2044,7 @@ class vehicle
         void unlock( int part_index );
         // returns whether the door can be locked with an attached DOOR_LOCKING part.
         bool part_has_lock( int part_index ) const;
-        bool can_close( int part_index, Character &who );
+        bool can_close( int part_index, Character &who ) const;
 
         // @returns true if vehicle only has foldable parts
         bool is_foldable() const;

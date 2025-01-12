@@ -1258,7 +1258,7 @@ public:
 class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
 {
     public:
-        enum class allow_object : int {
+        enum class allow_object : std::uint8_t {
             no,
             yes,
         };

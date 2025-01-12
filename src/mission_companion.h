@@ -34,7 +34,7 @@ using comp_list = std::vector<npc_ptr>;
 //  but this selection is done directly as part of the finalization of the mission, rather than provided
 //  as a goal at the outset, and so only counts partially.
 //
-enum mission_kind : int {
+enum mission_kind : std::uint8_t {
     No_Mission,  //  Null value
 
     //  Jobs assigned to companions for external parties

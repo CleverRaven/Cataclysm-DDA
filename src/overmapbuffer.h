@@ -25,7 +25,7 @@
 
 class basecamp;
 class character_id;
-enum class cube_direction : int;
+enum class cube_direction : std::uint8_t;
 enum class om_vision_level : int8_t;
 class map_extra;
 class monster;
@@ -265,7 +265,7 @@ class overmapbuffer
          */
         void add_camp( const basecamp &camp );
 
-        std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p ) const;
         /**
          * Get all npcs in a area with given radius around given central point.
          * All z-levels are considered.
@@ -300,13 +300,13 @@ class overmapbuffer
          * Returns NULL if the npc could not be found.
          * Searches all loaded overmaps.
          */
-        shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc( character_id id ) const;
         void foreach_npc( const std::function<void( npc & )> &callback );
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
          * Get all NPCs active on the overmap
          */
-        std::vector<shared_ptr_fast<npc>> get_overmap_npcs();
+        std::vector<shared_ptr_fast<npc>> get_overmap_npcs() const;
         /**
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).

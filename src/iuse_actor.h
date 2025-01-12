@@ -792,7 +792,7 @@ class repair_item_actor : public iuse_actor
         /** Move cost for every attempt */
         int move_cost = 0;
 
-        enum attempt_hint : int {
+        enum attempt_hint : std::uint8_t {
             AS_SUCCESS = 0,     // Success, but can retry
             AS_RETRY,           // Failed, but can retry
             AS_FAILURE,         // Failed hard, don't retry
@@ -802,7 +802,7 @@ class repair_item_actor : public iuse_actor
             AS_CANT_YET         // Skill too low
         };
 
-        enum repair_type : int {
+        enum repair_type : std::uint8_t {
             RT_NOTHING = 0,
             RT_REPAIR = 1,          // Just repairing damage
             RT_REFIT = 2,           // Refitting

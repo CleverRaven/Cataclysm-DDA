@@ -189,22 +189,35 @@ class flat_set : private Compare, Data
             return 0;
         }
 
-        friend void swap( flat_set &l, flat_set &r ) {
-            using std::swap;
-            swap( static_cast<Compare &>( l ), static_cast<Compare &>( r ) );
-            swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
+        friend void swap( flat_set &l, flat_set &r ) noexcept {
+            std::swap( static_cast<Compare &>( l ), static_cast<Compare &>( r ) );
+            std::swap( static_cast<Data &>( l ), static_cast<Data &>( r ) );
         }
-#define FLAT_SET_OPERATOR( op ) \
-    friend bool operator op( const flat_set &l, const flat_set &r ) { \
-        return l.data() op r.data(); \
-    }
-        FLAT_SET_OPERATOR( == )
-        FLAT_SET_OPERATOR( != )
-        FLAT_SET_OPERATOR( < )
-        FLAT_SET_OPERATOR( <= )
-        FLAT_SET_OPERATOR( > )
-        FLAT_SET_OPERATOR( >= )
-#undef FLAT_SET_OPERATOR
+
+        friend bool operator ==( const flat_set &l, const flat_set &r ) {
+            return l.data() == r.data();
+        }
+
+        friend bool operator !=( const flat_set &l, const flat_set &r ) {
+            return l.data() != r.data();
+        }
+
+        friend bool operator <( const flat_set &l, const flat_set &r ) {
+            return l.data() < r.data();
+        }
+
+        friend bool operator <=( const flat_set &l, const flat_set &r ) {
+            return l.data() <= r.data();
+        }
+
+        friend bool operator >( const flat_set &l, const flat_set &r ) {
+            return l.data() > r.data();
+        }
+
+        friend bool operator >=( const flat_set &l, const flat_set &r ) {
+            return l.data() >= r.data();
+        }
+
     private:
         const Data &data() const {
             return *this;

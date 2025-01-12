@@ -27,7 +27,7 @@ struct body_part_type;
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 
-enum class side : int {
+enum class side : std::uint8_t {
     BOTH,
     LEFT,
     RIGHT,

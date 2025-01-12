@@ -48,7 +48,7 @@ class TranslationPluralRulesEvaluator
                 explicit EvaluationError( const std::string &message ) : Error( message ) {}
         };
 
-        enum class ExprTokenType : int {
+        enum class ExprTokenType : std::uint8_t {
             Variable,
             Constant,
             Plus,

@@ -41,7 +41,7 @@ void formatted_set_simple( map *m, const point &start, const char *cstr,
 
 template<typename ID>
 format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets )
-    : characters( chars ), determiners( dets )
+    : characters( chars ), determiners( std::move( dets ) )
 {
     characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ),
                       characters.end() );

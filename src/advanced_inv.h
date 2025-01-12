@@ -50,7 +50,7 @@ class advanced_inventory
         /**
          * Refers to the two panes, used as index into @ref panes.
          */
-        enum side {
+        enum side : std::uint8_t {
             left  = 0,
             right = 1,
             NUM_PANES = 2

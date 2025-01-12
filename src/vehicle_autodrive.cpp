@@ -360,7 +360,7 @@ struct auto_navigation_data {
     Tripoint adjust_z( const Tripoint &p ) const;
 };
 
-enum class collision_check_result : int {
+enum class collision_check_result : std::uint8_t {
     ok,
     no_visibility,
     close_obstacle,
@@ -371,7 +371,7 @@ class vehicle::autodrive_controller
 {
     public:
         explicit autodrive_controller( const vehicle &driven_veh, const Character &driver );
-        const Character &get_driver() {
+        const Character &get_driver() const {
             return driver;
         }
         const auto_navigation_data &get_data() {

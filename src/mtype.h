@@ -42,7 +42,7 @@ class JsonObject;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum class mon_trigger : int {
+enum class mon_trigger : std::uint8_t {
     STALK,              // Increases when following the player
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
@@ -237,7 +237,7 @@ struct pet_food_data {
     void deserialize( const JsonObject &data );
 };
 
-enum class mdeath_type {
+enum class mdeath_type : std::uint8_t {
     NORMAL,
     SPLATTER,
     BROKEN,

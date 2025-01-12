@@ -17,7 +17,7 @@ struct smart_controller_settings {
     smart_controller_settings( bool &enabled, int &battery_lo, int &battery_hi );
 };
 
-enum smart_controller_ui_selection {
+enum smart_controller_ui_selection : std::uint8_t {
     enabled,
     lo_and_hi_slider,
     manual,

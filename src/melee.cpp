@@ -1807,7 +1807,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             new_.y = b.y();
         }
 
-        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z()};
+        const tripoint_bub_ms dest{ new_.x, new_.y, b.z()};
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }

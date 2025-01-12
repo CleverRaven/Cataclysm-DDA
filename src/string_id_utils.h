@@ -37,7 +37,7 @@ std::vector<std::pair<K, V>> sorted_lex( Col col )
 template<typename Col,
          typename El = std::decay_t<decltype( *std::declval<const Col &>().begin() )>,
          std::enable_if_t<std::is_same_v<El, string_id<typename El::value_type>>, int> = 0>
-std::vector<El> sorted_lex( Col col )
+std::vector<El> sorted_lex( const Col &col )
 {
     std::vector<El> ret;
     ret.insert( ret.begin(), col.begin(), col.end() );

@@ -25,7 +25,7 @@ struct item_reference {
     bool has_watertight_container() const;
 };
 
-enum class special_item_type : int {
+enum class special_item_type : std::uint8_t {
     none,
     corpse,
     explosive

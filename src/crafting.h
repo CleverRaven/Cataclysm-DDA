@@ -8,7 +8,7 @@ class Character;
 class item;
 template <typename E> struct enum_traits;
 
-enum class craft_flags : int {
+enum class craft_flags : std::uint8_t {
     none = 0,
     start_only = 1, // Only require 5% (plus remainder) of tool charges
 };

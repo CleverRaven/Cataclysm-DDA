@@ -35,14 +35,14 @@ class npc;
 class overmapbuffer;
 template<typename T> struct enum_traits;
 
-enum npc_mission : int;
+enum npc_mission : std::uint8_t;
 
 namespace debug_menu
 {
 class mission_debug;
 } // namespace debug_menu
 
-enum mission_origin {
+enum mission_origin : std::uint8_t {
     ORIGIN_NULL = 0,
     ORIGIN_GAME_START, // Given when the game starts
     ORIGIN_OPENER_NPC, // NPC comes up to you when the game starts
@@ -57,7 +57,7 @@ struct enum_traits<mission_origin> {
     static constexpr mission_origin last = mission_origin::NUM_ORIGIN;
 };
 
-enum mission_goal {
+enum mission_goal : std::uint8_t {
     MGOAL_NULL = 0,
     MGOAL_GO_TO,             // Reach a certain overmap tile
     MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
@@ -274,7 +274,7 @@ struct mission_type {
 class mission
 {
     public:
-        enum class mission_status : int {
+        enum class mission_status : std::uint8_t {
             yet_to_start,
             in_progress,
             success,

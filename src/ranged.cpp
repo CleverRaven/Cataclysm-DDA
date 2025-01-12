@@ -201,7 +201,7 @@ class target_ui
     public:
         /* None of the public members (except ammo and range) should be modified during execution */
 
-        enum class TargetMode : int {
+        enum class TargetMode : std::uint8_t {
             Fire,
             Throw,
             ThrowBlind,
@@ -237,7 +237,7 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
 
-        enum class ExitCode : int {
+        enum class ExitCode : std::uint8_t {
             Abort,
             Fire,
             Timeout,
@@ -253,7 +253,7 @@ class target_ui
         int get_sight_dispersion() const;
 
     private:
-        enum class Status : int {
+        enum class Status : std::uint8_t {
             Good, // All UI elements are enabled
             BadTarget, // Bad 'dst' selected; forbid aiming/firing
             OutOfAmmo, // Selected gun mode is out of ammo; forbid moving cursor,aiming and firing

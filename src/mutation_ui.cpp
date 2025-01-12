@@ -19,13 +19,13 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
-enum class mutation_menu_mode {
+enum class mutation_menu_mode : std::uint8_t {
     activating,
     examining,
     reassigning,
     hiding
 };
-enum class mutation_tab_mode {
+enum class mutation_tab_mode : std::uint8_t {
     active,
     passive,
     none

@@ -19,7 +19,7 @@ using ExprNode = TranslationPluralRulesEvaluator::ExprNode;
 namespace std
 {
 template<> struct hash<ExprTokenType> {
-    std::size_t operator()( const ExprTokenType &token ) const {
+    std::size_t operator()( const ExprTokenType &token ) const noexcept {
         return static_cast<std::size_t>( token );
     }
 };

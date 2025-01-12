@@ -36,7 +36,7 @@ class cata_path
         // All of these represent configurable filesystem locations for various pieces
         // of data. The default locations may all be subfolders of `base`, but they can
         // be overridden or default to other filesystem locations.
-        enum class root_path {
+        enum class root_path : std::uint8_t {
             base,
             config,
             data,

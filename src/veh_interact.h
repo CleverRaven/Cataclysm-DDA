@@ -27,7 +27,7 @@ class vpart_info;
 struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
-enum class task_reason : int {
+enum class task_reason : std::int8_t {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
     INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present

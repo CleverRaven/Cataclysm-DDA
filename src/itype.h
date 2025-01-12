@@ -40,7 +40,7 @@ template <typename E> struct enum_traits;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
-enum art_effect_passive : int;
+enum art_effect_passive : std::uint8_t;
 
 class gun_modifier_data
 {
@@ -270,7 +270,7 @@ struct part_material {
 };
 
 // values for attributes related to encumbrance
-enum class encumbrance_modifier : int {
+enum class encumbrance_modifier : std::uint8_t {
     IMBALANCED = 0,
     RESTRICTS_NECK,
     WELL_SUPPORTED,
@@ -284,7 +284,7 @@ struct enum_traits<encumbrance_modifier> {
 };
 
 // if it is a multiplier or flat modifier
-enum class encumbrance_modifier_type : int {
+enum class encumbrance_modifier_type : std::uint8_t {
     MULT = 0,
     FLAT,
     last
@@ -674,7 +674,7 @@ struct islot_wheel {
         void deserialize( const JsonObject &jo );
 };
 
-enum class itype_variant_kind : int {
+enum class itype_variant_kind : std::uint8_t {
     gun,
     generic,
     drug,
@@ -1164,7 +1164,7 @@ struct islot_seed {
     islot_seed() = default;
 };
 
-enum condition_type {
+enum condition_type : std::uint8_t {
     FLAG,
     VITAMIN,
     COMPONENT_ID,

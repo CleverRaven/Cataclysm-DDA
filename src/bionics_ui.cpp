@@ -55,11 +55,11 @@ bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@
 
 namespace
 {
-enum bionic_tab_mode {
+enum bionic_tab_mode : std::uint8_t {
     TAB_ACTIVE,
     TAB_PASSIVE
 };
-enum bionic_menu_mode {
+enum bionic_menu_mode : std::uint8_t {
     ACTIVATING,
     EXAMINING,
     REASSIGNING

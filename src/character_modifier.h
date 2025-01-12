@@ -18,7 +18,7 @@ template <typename T> class generic_factory;
 
 struct character_modifier {
     public:
-        enum mod_type {
+        enum mod_type : std::uint8_t {
             NONE,
             ADD,
             MULT

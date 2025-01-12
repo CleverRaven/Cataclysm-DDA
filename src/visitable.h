@@ -13,7 +13,7 @@
 class item;
 class Character;
 
-enum class VisitResponse : int {
+enum class VisitResponse : std::uint8_t {
     ABORT, // Stop processing after this node
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
     SKIP   // Skip any child nodes and move directly to the next sibling

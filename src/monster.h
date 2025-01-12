@@ -42,7 +42,7 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum class mon_trigger : int;
+enum class mon_trigger : std::uint8_t;
 
 class mon_special_attack
 {
@@ -54,7 +54,7 @@ class mon_special_attack
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
-enum monster_attitude {
+enum monster_attitude : std::uint8_t {
     MATT_NULL = 0,
     MATT_FRIEND,
     MATT_FPASSIVE,
@@ -65,14 +65,14 @@ enum monster_attitude {
     NUM_MONSTER_ATTITUDES
 };
 
-enum monster_effect_cache_fields {
+enum monster_effect_cache_fields : std::uint8_t {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
     VISION_IMPAIRED,
     NUM_MEFF
 };
 
-enum monster_horde_attraction {
+enum monster_horde_attraction : std::uint8_t {
     MHA_NULL = 0,
     MHA_ALWAYS,
     MHA_LARGE,

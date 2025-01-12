@@ -694,7 +694,7 @@ class atm_menu
 {
     public:
         // menu choices
-        enum options : int {
+        enum options : std::uint8_t {
             cancel, purchase_card, deposit_money, withdraw_money, exchange_cash, transfer_all_money
         };
 
@@ -1889,7 +1889,7 @@ void iexamine::locked_object( Character &you, const tripoint_bub_ms &examp )
     const bool can_pick = ( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ||
                             locked_part >= 0 ) &&
                           ( !best_lockpick.is_null() || you.has_bionic( bio_lockpick ) );
-    enum act {
+    enum act : std::uint8_t {
         pick = 0,
         pry = 1,
         none = 2

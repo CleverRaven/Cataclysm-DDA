@@ -3662,7 +3662,7 @@ bool mattack::riotbot( monster *z )
             return true;
         }
 
-        enum {ur_arrest, ur_resist, ur_trick};
+        enum : std::uint8_t {ur_arrest, ur_resist, ur_trick};
 
         // Arrest!
         uilist amenu;

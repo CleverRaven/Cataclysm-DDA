@@ -273,7 +273,7 @@ static bool is_cqb_skill( const skill_id &id )
 
 namespace
 {
-enum class player_display_tab : int {
+enum class player_display_tab : std::uint8_t {
     stats,
     encumbrance,
     speed,

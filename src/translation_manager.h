@@ -20,7 +20,7 @@ class TranslationManager
         TranslationManager( const TranslationManager & ) = delete;
         TranslationManager( TranslationManager && ) = delete;
         static TranslationManager &GetInstance();
-        std::unordered_set<std::string> GetAvailableLanguages();
+        std::unordered_set<std::string> GetAvailableLanguages() const;
         void SetLanguage( const std::string &language_code );
         std::string GetCurrentLanguage() const;
         void LoadDocuments( const std::vector<std::string> &files );
