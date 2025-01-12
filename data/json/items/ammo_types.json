@@ -831,8 +831,14 @@
   {
     "type": "ammunition_type",
     "id": "khuunaofaai_payload",
-    "name": "Khuunäöfaai pressurized payload",
+    "name": "Khuunäöfaai firework payload",
     "default": "khuunaofaai_ammo_firework"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_fire",
+    "name": "Khuunäöfaai incendiary payload",
+    "default": "khuunaofaai_ammo_incendiary"
   },
   {
     "type": "ammunition_type",
