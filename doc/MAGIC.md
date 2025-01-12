@@ -70,6 +70,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "max_level": 10,                                          // maximum level you can achieve in the spell
     "get_level_formula_id": "jmath_get_level_formula",        // The id of a jmath formula that calculates what level the spell is for a given exp value.  Must be the inverse of exp_for_level_formula_id.
     "exp_for_level_formula_id": "jmath_exp_for_level_formula",// The id of a jmath formula that calculates how much exp is required for a given level.  Must be the inverse of get_level_formula_id.
+    "magic_type": "magiclysm_default_magic",                  // the id of the magic_type object that holds some values for this spell and others with the same type defined.
     "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
     "accuracy_increment": 1.5
@@ -251,6 +252,7 @@ Field group | Description | Example
 `targeted_monster_ids` | Limits the spell to target only the specified `monster_id`. | "targeted_monster_ids": [ "mon_hologram" ],
 `targeted_monster_species` | Limits the spell to target only the specified monster `SPECIES` (full list at [species.json](../data/json/species.json)). | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 `ignored_monster_species` | The opposite of `targeted_monster_species`: you can target everything except the specified monster `SPECIES`. | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
+`magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
 
 ### Spell Flags
@@ -653,6 +655,33 @@ Constant Spell Exp Requirement Example:
     "num_args": 1,
     "return": "1000 * _0"
   },
+```
+
+### Magic Type
+
+Spells may have a magic type defined.  The magic type can define the experience requirements to level the spell, any flags which make the spell uncastable, and also the energy source for the spell.  In case the spell has a value defined which conflicts with its magic types value, the spell takes precendence.
+
+Magic Type Example:
+``` json
+  {
+    "id": "magic_type_test",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "get_level_formula_id": "magic_test_func_get_level",
+    "exp_for_level_formula_id": "magic_test_func_exp_for_level",
+    "cannot_cast_flags": "NO_SPELLCASTING",
+  },
+  {
+    "id": "test_spell",
+    "type": "SPELL",
+    "name": "test",
+    "description": "a test spell.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "min_damage": 1,
+    "max_damage": 1,
+    "magic_type": "magic_type_test"
+  }
 ```
 
 
