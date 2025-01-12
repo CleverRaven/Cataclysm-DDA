@@ -265,7 +265,6 @@
       "x": "t_thconc_floor_no_roof",
       "j": "t_carpet_concrete_red",
       ";": "t_gutter_downspout",
-      "W": "t_strconc_wall",
       "Z": "t_bars",
       "(": "t_chaingate_c",
       "%": "t_chainfence",
@@ -292,8 +291,6 @@
       "k": "f_displaycase",
       "L": "f_gunsafe_c",
       "l": "f_rack_coat",
-      "M": "f_locker",
-      "m": "f_rack",
       "N": "f_locker",
       "n": "f_table",
       "O": "f_rack",
@@ -360,8 +357,6 @@
         "chance": 75
       },
       "l": { "item": { "subtype": "collection", "entries": [ { "group": "unisex_coat_rack" } ] }, "repeat": 4, "chance": 75 },
-      "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
       "N": {
         "item": {
           "//": "ear protection kept in the proximity of store gun ranges",
@@ -414,7 +409,6 @@
       "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 12, 15 ] },
       "v": {
         "item": {
-          "//": "gun mods kept on racks in the FoH",
           "subtype": "collection",
           "entries": [ { "group": "gunmod_common", "prob": 70 }, { "group": "gunmod_rare", "prob": 30 } ]
         },
@@ -427,24 +421,6 @@
         "chance": 45
       },
       "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
-      "y": {
-        "item": {
-          "//": "gunsmithing tools kept on racks",
-          "subtype": "collection",
-          "entries": [ { "group": "ammo_parts", "prob": 80 }, { "group": "tools_gunsmith", "prob": 5 } ]
-        },
-        "repeat": 5,
-        "chance": 50
-      },
-      "|": {
-        "item": {
-          "//": "civilian magazines kept on racks behind the counter in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "mags_common", "prob": 70 }, { "group": "mags_common", "prob": 30 } ]
-        },
-        "repeat": 15,
-        "chance": 65
-      },
       "=": {
         "item": {
           "subtype": "collection",
@@ -456,8 +432,8 @@
       },
       "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] }
     }
-  },  
-{
+  },
+  {
     "type": "palette",
     "id": "gun_store_palette_looter",
     "parameters": {
@@ -469,10 +445,9 @@
     "toilets": { "&": {  } },
     "terrain": {
       "#": "t_brick_wall",
-      ":": "t_window_bars_curtains",
-      "+": "t_door_metal_o",
+      ":": "t_window_bars_domestic",
+      "+": [ [ "t_door_metal_o", 60 ], [ "t_door_metal_c", 40 ] ],
       "D": "t_door_c",
-      "P": "t_door_metal_o",
       ",": "t_region_groundcover_urban",
       "'": "t_sidewalk",
       "C": "t_sidewalk",
@@ -498,14 +473,14 @@
       "F": "f_utility_shelf",
       "f": "f_fridge",
       "G": "f_rack",
-      "g": [ [ "f_displaycase_b", 60 ], [ "f_displaycase_o", 30 ], [ "f_displaycase", 10 ] ],
-      "H": [ [ "f_displaycase_b", 60 ], [ "f_displaycase_o", 30 ], [ "f_displaycase", 10 ] ],
-      "h": [ [ "f_displaycase_b", 60 ], [ "f_displaycase_o", 30 ], [ "f_displaycase", 10 ] ],
+      "g": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "H": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "h": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
       "i": "f_rack",
       "J": "f_rack",
       "K": "f_rack",
-      "k": "f_displaycase",
-      "L": [ [ "f_gunsafe_o", 60 ], [ "f_gunsafe_c", 50 ], [ "f_gunsafe_mj", 10 ] ],
+      "k": [ [ "f_displaycase_b", 70 ], [ "f_displaycase_o", 30 ] ],
+      "L": [ [ "f_gunsafe_o", 40 ], [ "f_gunsafe_c", 50 ], [ "f_gunsafe_mj", 10 ] ],
       "l": "f_rack_coat",
       "M": "f_locker",
       "m": "f_rack",
@@ -533,13 +508,13 @@
       "?": "f_console_broken",
       "^": "f_indoor_plant",
       "!": "f_cardboard_box",
-      "/": [ [ "f_locker", 60 ], [ "f_null", 30 ] ],
+      "/": "f_locker",
       "|": "f_locker",
       "`": "f_rack"
     },
     "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] } },
     "items": {
-      "B": { "item": "guns_common_boxed", "repeat": [ 0, 1 ] },
+      "B": { "item": "guns_common_boxed", "chance": 10 },
       "E": {
         "item": { "subtype": "collection", "//": "items on store desks", "entries": [ { "group": "office_mess" } ] },
         "repeat": 3,
@@ -550,9 +525,9 @@
         "repeat": 10,
         "chance": 35
       },
-      "g": { "item": "guns_rifle_common_display", "repeat": [ 0, 2 ], "chance": 30 },
-      "H": { "item": "guns_pistol_common_display", "repeat": [ 0, 2 ], "chance": 30 },
-      "h": { "item": "guns_shotgun_common_display", "repeat": [ 0, 3 ], "chance": 30 },
+      "g": { "item": "guns_rifle_common_display", "repeat": [ 0, 1 ], "chance": 30 },
+      "H": { "item": "guns_pistol_common_display", "repeat": [ 0, 1 ], "chance": 30 },
+      "h": { "item": "guns_shotgun_common_display", "repeat": [ 0, 1 ], "chance": 30 },
       "i": {
         "item": {
           "entries": [
@@ -563,21 +538,19 @@
             { "group": "ammo_shotgun_common", "prob": 10 }
           ]
         },
-        "repeat": [ 1, 4 ],
+        "repeat": [ 0, 3 ],
         "chance": 40
       },
-      "J": { "item": "mags_common_restricted_packaged", "repeat": [ 3, 6 ] },
+      "J": { "item": "mags_common_restricted_packaged", "repeat": [ 3, 6 ], "chance": 50 },
       "K": {
         "item": {
           "subtype": "collection",
           "entries": [ { "group": "book_gunref", "prob": 50 }, { "group": "book_gunmags", "prob": 80 } ]
         },
         "repeat": 4,
-        "chance": 75
+        "chance": 60
       },
       "l": { "item": { "subtype": "collection", "entries": [ { "group": "unisex_coat_rack" } ] }, "repeat": 4, "chance": 75 },
-      "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
-      "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
       "N": {
         "item": {
           "//": "ear protection kept in the proximity of store gun ranges",
@@ -599,8 +572,8 @@
         },
         "chance": 30
       },
-      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 8, 16 ] },
-      "o": { "item": "SUS_gunstore_hearing", "repeat": [ 12, 20 ] },
+      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 3, 5 ], "chance": 60 },
+      "o": { "item": "SUS_gunstore_hearing", "repeat": [ 10, 16 ] },
       "p": { "item": "SUS_gunstore_displaycase", "chance": 55 },
       "Q": {
         "item": {
@@ -627,7 +600,7 @@
       },
       "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
       "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
-      "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 12, 15 ] },
+      "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 5, 7 ], "chance": 60 },
       "v": {
         "item": {
           "//": "gun mods kept on racks in the FoH",
@@ -642,7 +615,7 @@
         "repeat": 30,
         "chance": 45
       },
-      "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_gunstore_gear", "chance": 60, "repeat": [ 1, 4 ] },
       "y": {
         "item": {
           "//": "gunsmithing tools kept on racks",
@@ -651,15 +624,6 @@
         },
         "repeat": 5,
         "chance": 50
-      },
-      "|": {
-        "item": {
-          "//": "civilian magazines kept on racks behind the counter in the FoH",
-          "subtype": "collection",
-          "entries": [ { "group": "mags_common", "prob": 70 }, { "group": "mags_common", "prob": 30 } ]
-        },
-        "repeat": 15,
-        "chance": 65
       },
       "=": {
         "item": {
@@ -670,7 +634,7 @@
         "repeat": 1,
         "chance": 50
       },
-      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 1, 5 ] }
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 1, 3 ], "chance": 60 }
     }
   },
   {
@@ -859,7 +823,6 @@
       "W": "t_strconc_wall",
       "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" }
     },
-    "traps": { "a": [ "tr_cot" ] },
     "furniture": {
       "$": [ [ "f_atm_off", 5 ], [ "f_null", 95 ] ],
       "C": "f_sandbag_half",

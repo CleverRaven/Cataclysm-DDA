@@ -32,7 +32,7 @@
         ",#################%%%%,,",
         ",,#,,,,,,,,,,,,,#,,,,,,,"
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 2 ], "chance": 2, "repeat": [ 2, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 2 ], "chance": 2, "repeat": 2 } ],
       "terrain": {
         "'": "t_sidewalk",
         "/": "t_region_groundcover_urban",
@@ -48,8 +48,8 @@
           "chunks": [
             [ "gunstore_barricaded_a", 0 ],
             [ "gunstore_occupied_a", 0 ],
-            [ "gunstore_looted_a", 1 ],
-            [ "gunstore_ransacked_a", 0 ]
+            [ "gunstore_looted_a", 0 ],
+            [ "gunstore_ransacked_a", 1 ]
           ]
         }
       },
@@ -90,7 +90,6 @@
         " 5----------------      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [
