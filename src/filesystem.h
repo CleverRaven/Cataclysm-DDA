@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_FILESYSTEM_H
 #define CATA_SRC_FILESYSTEM_H
 
+#include <filesystem>
 #include <fstream>
 #include <string> // IWYU pragma: keep
 #include <vector>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "cata_path.h"
 #include "catacharset.h"
@@ -27,29 +26,29 @@ std::string abs_path( const std::string &path );
 
 std::string read_entire_file( const std::string &path );
 
-// Overloads of the above that take fs::path directly.
-bool assure_dir_exist( const fs::path &path );
+// Overloads of the above that take std::filesystem::path directly.
+bool assure_dir_exist( const std::filesystem::path &path );
 bool assure_dir_exist( const cata_path &path );
-bool dir_exist( const fs::path &path );
-bool file_exist( const fs::path &path );
+bool dir_exist( const std::filesystem::path &path );
+bool file_exist( const std::filesystem::path &path );
 bool file_exist( const cata_path &path );
 
 // Force 'path' to be a normalized directory
 std::string as_norm_dir( const std::string &path );
-std::string as_norm_dir( const fs::path &path );
+std::string as_norm_dir( const std::filesystem::path &path );
 
 // Remove a file, does not remove folders,
 // returns true on success
-bool remove_file( const fs::path &path );
+bool remove_file( const std::filesystem::path &path );
 bool remove_file( const cata_path &path );
-bool remove_directory( const fs::path &path );
+bool remove_directory( const std::filesystem::path &path );
 // Rename a file, overriding the target!
-bool rename_file( const fs::path &old_path, const fs::path &new_path );
+bool rename_file( const std::filesystem::path &old_path, const std::filesystem::path &new_path );
 bool rename_file( const cata_path &old_path, const cata_path &new_path );
 
-fs::path abs_path( const fs::path &path );
+std::filesystem::path abs_path( const std::filesystem::path &path );
 
-std::string read_entire_file( const fs::path &path );
+std::string read_entire_file( const std::filesystem::path &path );
 
 namespace cata_files
 {
@@ -135,9 +134,9 @@ std::string ensure_valid_file_name( const std::string &file_name );
 
 #if defined(_WIN32)
 // On Windows, it checks for some validity of the path. See .cpp
-bool is_lexically_valid( const fs::path & );
+bool is_lexically_valid( const std::filesystem::path & );
 #else
-constexpr bool is_lexically_valid( const fs::path & )
+constexpr bool is_lexically_valid( const std::filesystem::path & )
 {
     return true;
 }

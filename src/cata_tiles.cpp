@@ -650,9 +650,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         layering = PATH_INFO::defaultlayeringjson();
     }
 
-    cata_path json_path = tileset_root / fs::u8path( json_conf );
-    cata_path img_path = tileset_root / fs::u8path( tileset_path );
-    cata_path layering_path = tileset_root / fs::u8path( layering );
+    cata_path json_path = tileset_root / std::filesystem::u8path( json_conf );
+    cata_path img_path = tileset_root / std::filesystem::u8path( tileset_path );
+    cata_path layering_path = tileset_root / std::filesystem::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
     std::ifstream layering_file( layering_path.get_unrelative_path(),

@@ -2411,7 +2411,7 @@ void item_pocket::load_presets()
     std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
