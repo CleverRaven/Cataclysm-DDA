@@ -69,4 +69,4 @@ def parse_mutation(json, origin):
 
     if "enchantments" in json:
         for enchantment in json["enchantments"]:
-            parse_enchant(enchantment)
+            parse_enchant(enchantment, origin)

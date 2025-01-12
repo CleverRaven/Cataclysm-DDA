@@ -74,4 +74,4 @@ def parse_generic(json, origin):
         
     if "relic_data" in json and "passive_effects" in json["relic_data"]:
         for enchantment in json["relic_data"]["passive_effects"]:
-            parse_enchant(enchantment)
+            parse_enchant(enchantment, origin)
