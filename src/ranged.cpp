@@ -1080,6 +1080,9 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
             hits++;
         }
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
+            if( hit_entry.second.first == 0 ) {
+                continue;
+            }
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 m->type->id );
