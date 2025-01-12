@@ -40,9 +40,15 @@ static const efftype_id effect_infected( "infected" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_socks( "test_socks" );
+static const itype_id itype_test_zentai( "test_zentai" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 static const morale_type morale_killed_innocent( "morale_killed_innocent" );
@@ -910,14 +916,14 @@ TEST_CASE( "widgets_showing_movement_cost", "[widget][move_cost]" )
     }
     SECTION( "wearing sneakers" ) {
         // Sneakers eliminate the no-shoes penalty
-        ava.wear_item( item( "sneakers" ) );
+        ava.wear_item( item( itype_sneakers ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.run_cost( 100 ) == 100 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 100" );
     }
     SECTION( "wearing swim fins" ) {
         // Swim fins multiply cost by 1.5
-        ava.wear_item( item( "swim_fins" ) );
+        ava.wear_item( item( itype_swim_fins ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.run_cost( 100 ) == 167 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
@@ -1374,7 +1380,7 @@ TEST_CASE( "widget_showing_body_part_status_text", "[widget][bp_status]" )
 
     WHEN( "broken and splinted" ) {
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         REQUIRE( ava.is_limb_broken( arm ) );
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
         check_bp_has_status( arm_status_w.layout( ava ),
@@ -1499,7 +1505,7 @@ TEST_CASE( "compact_bodypart_status_widgets_+_legend", "[widget][bp_status]" )
 
     WHEN( "broken and splinted" ) {
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         REQUIRE( ava.is_limb_broken( arm ) );
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
         check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
@@ -1580,17 +1586,17 @@ TEST_CASE( "outer_armor_widget", "[widget][armor]" )
     CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
 
     // Wearing something covering torso
-    ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_zentai ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
-    ava.worn.wear_item( ava, item( "test_socks" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_socks ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
-    ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_hazmat_suit ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0TEST hazmat suit (poor fit)" );
 }
@@ -2442,7 +2448,7 @@ TEST_CASE( "Widget_alignment", "[widget]" )
         ava.add_effect( effect_bleed, 1_minutes, torso );
         ava.get_effect( effect_bleed, torso ).set_intensity( 5 );
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         ava.add_effect( effect_bandaged, 1_minutes, arm );
 
         bp_legend._label_align = widget_alignment::LEFT;
@@ -2599,7 +2605,7 @@ TEST_CASE( "Clause_conditions_-_pure_JSON_widgets", "[widget][clause][condition]
 
 TEST_CASE( "widget_disabled_when_empty", "[widget]" )
 {
-    item blindfold( "blindfold" );
+    item blindfold( itype_blindfold );
     avatar &ava = get_avatar();
     clear_avatar();
 

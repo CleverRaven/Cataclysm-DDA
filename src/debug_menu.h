@@ -119,8 +119,6 @@ enum class debug_menu_index : int {
 
 void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
-// TODO: Get rid of untyped overload
-void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmonstergroup( tripoint_abs_omt &loc );

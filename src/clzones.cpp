@@ -54,7 +54,6 @@ static const faction_id faction_your_followers( "your_followers" );
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_null( "null" );
 
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
@@ -319,7 +318,7 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
+    seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 

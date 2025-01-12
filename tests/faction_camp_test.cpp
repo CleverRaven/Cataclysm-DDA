@@ -14,6 +14,10 @@
 #include "overmapbuffer.h"
 #include "player_helpers.h"
 
+static const itype_id itype_test_100_kcal( "test_100_kcal" );
+static const itype_id itype_test_200_kcal( "test_200_kcal" );
+static const itype_id itype_test_500_kcal( "test_500_kcal" );
+
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
 
@@ -39,7 +43,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     nutrients &food_supply = camp_faction->food_supply;
     WHEN( "a base item is added to larder" ) {
         food_supply *= 0;
-        item test_100_kcal( "test_100_kcal" );
+        item test_100_kcal( itype_test_100_kcal );
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
         m.i_clear( zone_local );
         m.add_item_or_charges( zone_local, test_100_kcal );
@@ -50,8 +54,8 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
 
     WHEN( "an item with inherited components is added to larder" ) {
         food_supply *= 0;
-        item test_100_kcal( "test_100_kcal" );
-        item test_200_kcal( "test_200_kcal" );
+        item test_100_kcal( itype_test_100_kcal );
+        item test_200_kcal( itype_test_200_kcal );
         item_components made_of;
         made_of.add( test_100_kcal );
         made_of.add( test_100_kcal );
@@ -66,7 +70,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
 
     WHEN( "an item with vitamins is added to larder" ) {
         food_supply *= 0;
-        item test_500_kcal( "test_500_kcal" );
+        item test_500_kcal( itype_test_500_kcal );
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
         m.i_clear( zone_local );
         m.add_item_or_charges( zone_local, test_500_kcal );

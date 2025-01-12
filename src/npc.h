@@ -1472,7 +1472,7 @@ class standard_npc : public npc
     public:
         explicit standard_npc( const std::string &name = "",
                                const tripoint_bub_ms &pos = tripoint_bub_ms( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                               const std::vector<std::string> &clothing = {},
+                               const std::vector<itype_id> &clothing = {},
                                int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 

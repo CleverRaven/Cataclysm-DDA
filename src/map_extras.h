@@ -36,7 +36,7 @@ struct enum_traits<map_extra_method> {
     static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
 };
 
-using map_extra_pointer = bool( * )( map &, const tripoint & );
+using map_extra_pointer = bool( * )( map &, const tripoint_abs_sm & );
 
 class map_extra
 {

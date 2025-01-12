@@ -11,6 +11,34 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const itype_id itype_balclava( "balclava" );
+static const itype_id itype_bandana( "bandana" );
+static const itype_id itype_boots( "boots" );
+static const itype_id itype_boots_winter( "boots_winter" );
+static const itype_id itype_coat_winter( "coat_winter" );
+static const itype_id itype_gloves_fingerless( "gloves_fingerless" );
+static const itype_id itype_gloves_liner( "gloves_liner" );
+static const itype_id itype_gloves_winter( "gloves_winter" );
+static const itype_id itype_gloves_wool( "gloves_wool" );
+static const itype_id itype_goggles_ski( "goggles_ski" );
+static const itype_id itype_hat_ball( "hat_ball" );
+static const itype_id itype_hat_hunting( "hat_hunting" );
+static const itype_id itype_hat_knit( "hat_knit" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_long_underpants( "long_underpants" );
+static const itype_id itype_pants_army( "pants_army" );
+static const itype_id itype_pants_fur( "pants_fur" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_socks( "socks" );
+static const itype_id itype_socks_wool( "socks_wool" );
+static const itype_id itype_test_jumpsuit_cotton( "test_jumpsuit_cotton" );
+static const itype_id itype_test_jumpsuit_fur( "test_jumpsuit_fur" );
+static const itype_id itype_test_jumpsuit_lycra( "test_jumpsuit_lycra" );
+static const itype_id itype_trenchcoat( "trenchcoat" );
+static const itype_id itype_tshirt( "tshirt" );
+static const itype_id itype_under_armor( "under_armor" );
+static const itype_id itype_vest( "vest" );
+
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
 static void temperature_check( Character *p, const int ambient_temp,
@@ -60,7 +88,7 @@ static void temperature_and_sweat_check( Character *p, const int ambient_temp,
     CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
 
-static void equip_clothing( Character *p, const std::string &clothing )
+static void equip_clothing( Character *p, const itype_id &clothing )
 {
     const item article( clothing, calendar::turn_zero );
     p->wear_item( article );
@@ -105,46 +133,46 @@ TEST_CASE( "player_body_temperatures_converge_on_expected_values", "[.bodytemp]"
     }
 
     SECTION( "Lightly clothed target temperatures" ) {
-        equip_clothing( &dummy, "hat_ball" );
-        equip_clothing( &dummy, "bandana" );
-        equip_clothing( &dummy, "tshirt" );
-        equip_clothing( &dummy, "gloves_fingerless" );
-        equip_clothing( &dummy, "jeans" );
-        equip_clothing( &dummy, "socks" );
-        equip_clothing( &dummy, "sneakers" );
+        equip_clothing( &dummy, itype_hat_ball );
+        equip_clothing( &dummy, itype_bandana );
+        equip_clothing( &dummy, itype_tshirt );
+        equip_clothing( &dummy, itype_gloves_fingerless );
+        equip_clothing( &dummy, itype_jeans );
+        equip_clothing( &dummy, itype_socks );
+        equip_clothing( &dummy, itype_sneakers );
 
         //test_temperature_spread( &dummy, { -3, 12, 27, 42, 57, 72, 87 } );
         test_temperature_spread( &dummy, {{ -17, 10, 35, 62, 77, 90, 100 }} );
     }
 
     SECTION( "Heavily clothed target temperatures" ) {
-        equip_clothing( &dummy, "hat_knit" );
-        equip_clothing( &dummy, "tshirt" );
-        equip_clothing( &dummy, "vest" );
-        equip_clothing( &dummy, "trenchcoat" );
-        equip_clothing( &dummy, "gloves_wool" );
-        equip_clothing( &dummy, "long_underpants" );
-        equip_clothing( &dummy, "pants_army" );
-        equip_clothing( &dummy, "socks_wool" );
-        equip_clothing( &dummy, "boots" );
+        equip_clothing( &dummy, itype_hat_knit );
+        equip_clothing( &dummy, itype_tshirt );
+        equip_clothing( &dummy, itype_vest );
+        equip_clothing( &dummy, itype_trenchcoat );
+        equip_clothing( &dummy, itype_gloves_wool );
+        equip_clothing( &dummy, itype_long_underpants );
+        equip_clothing( &dummy, itype_pants_army );
+        equip_clothing( &dummy, itype_socks_wool );
+        equip_clothing( &dummy, itype_boots );
 
         //test_temperature_spread( &dummy, { -25, -10, 5, 20, 35, 50, 65 } );
         test_temperature_spread( &dummy, {{ -39, -14, 17, 46, 70, 84, 96 }} );
     }
 
     SECTION( "Arctic gear target temperatures" ) {
-        equip_clothing( &dummy, "balclava" );
-        equip_clothing( &dummy, "goggles_ski" );
-        equip_clothing( &dummy, "hat_hunting" );
-        equip_clothing( &dummy, "under_armor" );
-        equip_clothing( &dummy, "vest" );
-        equip_clothing( &dummy, "coat_winter" );
-        equip_clothing( &dummy, "gloves_liner" );
-        equip_clothing( &dummy, "gloves_winter" );
-        equip_clothing( &dummy, "long_underpants" );
-        equip_clothing( &dummy, "pants_fur" );
-        equip_clothing( &dummy, "socks_wool" );
-        equip_clothing( &dummy, "boots_winter" );
+        equip_clothing( &dummy, itype_balclava );
+        equip_clothing( &dummy, itype_goggles_ski );
+        equip_clothing( &dummy, itype_hat_hunting );
+        equip_clothing( &dummy, itype_under_armor );
+        equip_clothing( &dummy, itype_vest );
+        equip_clothing( &dummy, itype_coat_winter );
+        equip_clothing( &dummy, itype_gloves_liner );
+        equip_clothing( &dummy, itype_gloves_winter );
+        equip_clothing( &dummy, itype_long_underpants );
+        equip_clothing( &dummy, itype_pants_fur );
+        equip_clothing( &dummy, itype_socks_wool );
+        equip_clothing( &dummy, itype_boots_winter );
 
         //test_temperature_spread( &dummy, { -47, -32, -17, -2, 13, 28, 43 } );
         test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );
@@ -157,9 +185,9 @@ TEST_CASE( "sweating", "[char][suffer][.bodytemp]" )
     clear_character( dummy );
 
     // three different materials of breathability, same warmth
-    item fur_jumper( "test_jumpsuit_fur" );
-    item lycra_jumper( "test_jumpsuit_lycra" );
-    item cotton_jumper( "test_jumpsuit_cotton" );
+    item fur_jumper( itype_test_jumpsuit_fur );
+    item lycra_jumper( itype_test_jumpsuit_lycra );
+    item cotton_jumper( itype_test_jumpsuit_cotton );
 
     GIVEN( "avatar wears outfit and sweats for an hour" ) {
         WHEN( "wearing fur" ) {

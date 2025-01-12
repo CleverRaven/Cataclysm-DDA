@@ -9,6 +9,9 @@
 
 static const flag_id json_flag_FROZEN( "FROZEN" );
 
+static const itype_id itype_meat_cooked( "meat_cooked" );
+static const itype_id itype_offal_canned( "offal_canned" );
+
 static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
@@ -30,11 +33,11 @@ TEST_CASE( "Rate_of_rotting", "[rot]" )
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;
         }
 
-        item normal_item( "meat_cooked" );
+        item normal_item( itype_meat_cooked );
 
-        item freeze_item( "offal_canned" );
+        item freeze_item( itype_offal_canned );
 
-        item sealed_item( "offal_canned" );
+        item sealed_item( itype_offal_canned );
         sealed_item = sealed_item.in_its_container();
 
         set_map_temperature( units::from_fahrenheit( 65 ) ); // 18,3 C
@@ -84,7 +87,7 @@ TEST_CASE( "Items_rot_away", "[rot]" )
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;
         }
 
-        item test_item( "meat_cooked" );
+        item test_item( itype_meat_cooked );
 
         // Process item once to set all of its values.
         test_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::HEATER );
@@ -101,7 +104,7 @@ TEST_CASE( "Items_rot_away", "[rot]" )
 
 TEST_CASE( "Hourly_rotpoints", "[rot]" )
 {
-    item normal_item( "meat_cooked" );
+    item normal_item( itype_meat_cooked );
 
     // No rot below 32F/0C
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 0 ) ) == 0 );

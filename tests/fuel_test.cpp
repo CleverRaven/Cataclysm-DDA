@@ -1,10 +1,13 @@
 #include "cata_catch.h"
 #include "item.h"
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_gasoline( "gasoline" );
+
 TEST_CASE( "Fuel_energy", "[energy]" )
 {
-    item battery( "battery" );
-    item gasoline( "gasoline" );
+    item battery( itype_battery );
+    item gasoline( itype_gasoline );
 
     const int64_t gasoline_per_charge = units::to_millijoule( 34200_J );
     const int64_t battery_per_charge = units::to_millijoule( 1_kJ );

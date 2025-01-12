@@ -98,6 +98,7 @@
         ".": "f_large_groundsheet",
         "L": "f_locker"
       },
+      "place_furniture": [ { "furn": "f_diesel_generator", "x": [ 18, 20 ], "y": 14 } ],
       "items": {
         "n": { "item": "os_items", "chance": 33 },
         "L": { "item": "os_items", "chance": 80, "repeat": [ 2, 5 ] },
@@ -106,8 +107,7 @@
       "place_vehicles": [
         { "vehicle": "wheelbarrow", "chance": 90, "x": [ 8, 22 ], "y": [ 16, 22 ] },
         { "vehicle": "oa_work_light", "chance": 33, "x": [ 4, 6 ], "y": [ 2, 6 ] },
-        { "vehicle": "oa_work_light", "chance": 33, "x": [ 17, 19 ], "y": [ 2, 6 ] },
-        { "vehicle": "portable_generator", "chance": 50, "x": [ 18, 20 ], "y": 14 }
+        { "vehicle": "oa_work_light", "chance": 33, "x": [ 17, 19 ], "y": [ 2, 6 ] }
       ],
       "place_monster": [ { "group": "GROUP_ZOMBIE_SEWER", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ],
       "place_signs": [

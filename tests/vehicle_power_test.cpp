@@ -17,6 +17,7 @@
 static const efftype_id effect_blind( "blind" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_test_power_cord_25_loss( "test_power_cord_25_loss" );
 
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
@@ -49,7 +50,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         const optional_vpart_position target_vp = here.veh_at( target );
         const optional_vpart_position source_vp = here.veh_at( source );
 
-        item cord( "test_power_cord_25_loss" );
+        item cord( itype_test_power_cord_25_loss );
         cord.set_var( "source_x", source.x() );
         cord.set_var( "source_y", source.y() );
         cord.set_var( "source_z", source.z() );

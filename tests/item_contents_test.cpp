@@ -13,15 +13,19 @@
 #include "units.h"
 
 static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
+static const itype_id itype_hammer_pocket_test( "hammer_pocket_test" );
 static const itype_id itype_jar_glass_sealed( "jar_glass_sealed" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_pickle( "pickle" );
 static const itype_id itype_purse( "purse" );
+static const itype_id itype_test_tool_belt( "test_tool_belt" );
+static const itype_id itype_tongs_pocket_test( "tongs_pocket_test" );
+static const itype_id itype_wrench_pocket_test( "wrench_pocket_test" );
 
 TEST_CASE( "item_contents" )
 {
     clear_map();
-    item tool_belt( "test_tool_belt" );
+    item tool_belt( itype_test_tool_belt );
 
     const units::volume tool_belt_vol = tool_belt.volume();
     const units::mass tool_belt_weight = tool_belt.weight();
@@ -30,10 +34,10 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.weight( true ) == tool_belt.type->weight );
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
 
-    item hammer( "hammer_pocket_test" );
-    item tongs( "tongs_pocket_test" );
-    item wrench( "wrench_pocket_test" );
-    item crowbar( "crowbar_pocket_test" );
+    item hammer( itype_hammer_pocket_test );
+    item tongs( itype_tongs_pocket_test );
+    item wrench( itype_wrench_pocket_test );
+    item crowbar( itype_crowbar_pocket_test );
 
     ret_val<void> i1 = tool_belt.put_in( hammer, pocket_type::CONTAINER );
     ret_val<void> i2 = tool_belt.put_in( tongs, pocket_type::CONTAINER );

@@ -1236,7 +1236,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
-    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, volume_reader(), 0_ml );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );

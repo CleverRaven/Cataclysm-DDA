@@ -8,6 +8,7 @@
 
 // Test cases focused on item::type_name
 static const itype_id itype_blood( "blood" );
+static const itype_id itype_shotgun_410( "shotgun_410" );
 static const itype_id itype_test_block_of_cheese( "test_block_of_cheese" );
 static const itype_id itype_test_book( "test_book" );
 static const itype_id itype_test_food( "test_food" );
@@ -86,7 +87,7 @@ TEST_CASE( "item_name_pluralization", "[item][type_name][plural]" )
 TEST_CASE( "custom_named_item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
-    item shotgun( "shotgun_410" );
+    item shotgun( itype_shotgun_410 );
     shotgun.set_var( "name", "Boomstick" );
     REQUIRE( shotgun.get_var( "name" ) == "Boomstick" );
 
@@ -97,7 +98,7 @@ TEST_CASE( "blood_item", "[item][type_name][blood]" )
 {
     SECTION( "blood from a zombie corpse" ) {
         item corpse = item::make_corpse( mon_zombie );
-        item blood( "blood" );
+        item blood( itype_blood );
         blood.set_mtype( corpse.get_mtype() );
         REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
@@ -107,7 +108,7 @@ TEST_CASE( "blood_item", "[item][type_name][blood]" )
 
     SECTION( "blood from a chicken corpse" ) {
         item corpse = item::make_corpse( mon_chicken );
-        item blood( "blood" );
+        item blood( itype_blood );
         blood.set_mtype( corpse.get_mtype() );
         REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
@@ -116,7 +117,7 @@ TEST_CASE( "blood_item", "[item][type_name][blood]" )
     }
 
     SECTION( "blood from an unknown corpse" ) {
-        item blood( "blood" );
+        item blood( itype_blood );
         REQUIRE( blood.typeId() == itype_blood );
         REQUIRE_FALSE( blood.is_corpse() );
 

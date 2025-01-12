@@ -111,5 +111,32 @@
       { "u_teleport": { "context_val": "raven_form_fly_up_location" } }
     ],
     "false_effect": [ { "u_message": "You cannot fly up with a ceiling above you!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LASHING_TENTACLES_MUTATION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The tentacles recede back into your body.", "type": "bad" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+    "effect": [
+      { "u_message": "The faint burning sensation fades.", "type": "bad" },
+      { "u_lose_trait": "ACIDBLOOD" },
+      { "u_lose_trait": "ACIDPROOF" }
+    ]
   }
 ]

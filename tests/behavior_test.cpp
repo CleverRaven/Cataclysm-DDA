@@ -24,7 +24,11 @@
 #include "weather.h"
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_frame( "frame" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_pencil( "pencil" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water( "water" );
@@ -172,7 +176,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.worn.wear_item( test_npc, item( "backpack" ), false, false );
+        test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
         item_location sweater = test_npc.i_add( item( itype_sweater ) );
         CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
@@ -271,7 +275,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.add_item( test_monster.pos_bub(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_frame ) );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
 
         mattack::absorb_items( &test_monster );
@@ -290,7 +294,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
         test_monster.set_special( "ABSORB_ITEMS", 0 );
-        here.add_item( test_monster.pos_bub(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_frame ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
@@ -326,8 +330,8 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
-        item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
+        item corpse( itype_corpse );
+        corpse.force_insert_item( item( itype_pencil ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -346,7 +350,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_hp( new_hp );
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
-        here.add_item( test_monster.pos_bub(), item( "corpse" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_corpse ) );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
@@ -384,8 +388,8 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
-        item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
+        item corpse( itype_corpse );
+        corpse.force_insert_item( item( itype_pencil ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );

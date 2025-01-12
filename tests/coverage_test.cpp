@@ -20,6 +20,23 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
+static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
+static const itype_id itype_face_shield( "face_shield" );
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_test_ghost_vest( "test_ghost_vest" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_hazmat_suit_nomelee( "test_hazmat_suit_nomelee" );
+static const itype_id itype_test_hazmat_suit_noranged( "test_hazmat_suit_noranged" );
+static const itype_id
+itype_test_multi_portion_segmented_armor( "test_multi_portion_segmented_armor" );
+static const itype_id itype_test_plate( "test_plate" );
+static const itype_id itype_test_plate_skirt_super( "test_plate_skirt_super" );
+static const itype_id itype_test_portion_segmented_armor( "test_portion_segmented_armor" );
+static const itype_id itype_test_swat_mostly_cotton( "test_swat_mostly_cotton" );
+static const itype_id itype_test_swat_mostly_steel( "test_swat_mostly_steel" );
+static const itype_id itype_test_zentai( "test_zentai" );
+static const itype_id itype_test_zentai_nomelee( "test_zentai_nomelee" );
+
 static const mtype_id mon_manhack( "mon_manhack" );
 
 static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
@@ -47,7 +64,7 @@ static void check_not_near( const std::string &subject, float actual, const floa
     }
 }
 
-static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk = false )
+static float get_avg_melee_dmg( const itype_id &clothing_id, bool infect_risk = false )
 {
     monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
@@ -118,13 +135,13 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
     return static_cast<float>( dam_acc ) / num_hits;
 }
 
-static float get_avg_bullet_dmg( const std::string &clothing_id )
+static float get_avg_bullet_dmg( const itype_id &clothing_id )
 {
     clear_map();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
-                                           badguy_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                           badguy_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",
-                                         dude_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                         dude_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
@@ -140,8 +157,9 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
         dude->setpos( dude_pos );
         dude->wear_item( cloth, false );
         dude->add_effect( effect_sleep, 1_hours );
-        dealt_projectile_attack atk = projectile_attack( proj, badguy_pos, dude_pos, dispersion_sources(),
-                                      &*badguy );
+        dealt_projectile_attack atk;
+        projectile_attack( atk, proj, badguy_pos, dude_pos, dispersion_sources(),
+                           &*badguy );
         dude->deal_projectile_attack( &*badguy, atk, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
@@ -162,12 +180,12 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
 TEST_CASE( "Infections_from_filthy_clothing", "[coverage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
-        const float chance = get_avg_melee_dmg( "test_zentai", true );
+        const float chance = get_avg_melee_dmg( itype_test_zentai, true );
         check_near( "Infection chance", chance, 0.48f, 0.05f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {
-        const float chance = get_avg_melee_dmg( "test_zentai_nomelee", true );
+        const float chance = get_avg_melee_dmg( itype_test_zentai_nomelee, true );
         check_near( "Infection chance", chance, 0.0f, 0.0001f );
     }
 }
@@ -175,12 +193,12 @@ TEST_CASE( "Infections_from_filthy_clothing", "[coverage]" )
 TEST_CASE( "Melee_coverage_vs_melee_damage", "[coverage] [melee] [damage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
-        const float dmg = get_avg_melee_dmg( "test_hazmat_suit" );
+        const float dmg = get_avg_melee_dmg( itype_test_hazmat_suit );
         check_near( "Average damage", dmg, 9.2f, 0.2f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {
-        const float dmg = get_avg_melee_dmg( "test_hazmat_suit_nomelee" );
+        const float dmg = get_avg_melee_dmg( itype_test_hazmat_suit_nomelee );
         check_near( "Average damage", dmg, 17.0f, 0.2f );
     }
 }
@@ -188,12 +206,12 @@ TEST_CASE( "Melee_coverage_vs_melee_damage", "[coverage] [melee] [damage]" )
 TEST_CASE( "Ranged_coverage_vs_bullet", "[coverage] [ranged]" )
 {
     SECTION( "Full melee and ranged coverage vs. ranged attack" ) {
-        const float dmg = get_avg_bullet_dmg( "test_hazmat_suit" );
+        const float dmg = get_avg_bullet_dmg( itype_test_hazmat_suit );
         check_near( "Average damage", dmg, 16.4f, 0.2f );
     }
 
     SECTION( "No ranged coverage vs. ranged attack" ) {
-        const float dmg = get_avg_bullet_dmg( "test_hazmat_suit_noranged" );
+        const float dmg = get_avg_bullet_dmg( itype_test_hazmat_suit_noranged );
         check_near( "Average damage", dmg, 18.4f, 0.2f );
     }
 }
@@ -201,20 +219,20 @@ TEST_CASE( "Ranged_coverage_vs_bullet", "[coverage] [ranged]" )
 TEST_CASE( "Proportional_armor_material_resistances", "[material]" )
 {
     SECTION( "Mostly steel armor vs. melee" ) {
-        const float dmg = get_avg_melee_dmg( "test_swat_mostly_steel" );
+        const float dmg = get_avg_melee_dmg( itype_test_swat_mostly_steel );
         check_near( "Average damage", dmg, 4.0f, 0.2f );
     }
 
     SECTION( "Mostly cotton armor vs. melee" ) {
-        const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
+        const float dmg = get_avg_melee_dmg( itype_test_swat_mostly_cotton );
         // more variance on this test since it has a 5% chance of blocking with
         // high protection steel
         check_near( "Average damage", dmg, 14.4f, 0.4f );
     }
 
     SECTION( "Multi material segmented armor vs. melee" ) {
-        const float dmg = get_avg_melee_dmg( "test_multi_portion_segmented_armor" );
-        const float base_line = get_avg_melee_dmg( "test_portion_segmented_armor" );
+        const float dmg = get_avg_melee_dmg( itype_test_multi_portion_segmented_armor );
+        const float base_line = get_avg_melee_dmg( itype_test_portion_segmented_armor );
         // our armor should NOT be near 1 mm cloth + 80% of 1mm of steel
         // and should be higher (so lower damage) since they can overlap
         check_not_near( "Average damage", dmg, base_line, 0.05f );
@@ -224,10 +242,10 @@ TEST_CASE( "Proportional_armor_material_resistances", "[material]" )
 TEST_CASE( "Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered same limb" ) {
-        item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
-        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
-        item empty = item( "test_ghost_vest" );
+        item full = item( itype_test_ghost_vest );
+        full.force_insert_item( item( itype_test_plate ), pocket_type::CONTAINER );
+        full.force_insert_item( item( itype_test_plate ), pocket_type::CONTAINER );
+        item empty = item( itype_test_ghost_vest );
 
         // make sure vest only covers torso_upper when it has armor in it
         REQUIRE( full.covers( sub_bodypart_id( "torso_upper" ) ) );
@@ -244,11 +262,11 @@ TEST_CASE( "helmet_with_face_shield_coverage", "[coverage]" )
     Character &dummy = get_player_character();
     clear_avatar();
 
-    item hat_hard( "hat_hard" );
+    item hat_hard( itype_hat_hard );
     CHECK( hat_hard.get_coverage( body_part_eyes ) == 0 );
 
     WHEN( "wearing helmet with face shield should cover eyes and mouth" ) {
-        item face_shield( "face_shield" );
+        item face_shield( itype_face_shield );
         REQUIRE( hat_hard.put_in( face_shield, pocket_type::CONTAINER ).success() );
         dummy.wear_item( hat_hard );
 
@@ -262,14 +280,14 @@ TEST_CASE( "helmet_with_face_shield_coverage", "[coverage]" )
 TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
 {
     //Vest covers torso_upper and torso_lower
-    item vest = item( "ballistic_vest_esapi" );
+    item vest = item( itype_ballistic_vest_esapi );
     //100 (torso_upper coverage) * 0.6 (torso_upper max_coverage) + 80 (torso_lower coverage) * 0.4
     CHECK( vest.get_coverage( body_part_torso ) == 92 );
 
     WHEN( "inserting 2 plates" ) {
         //Each plate covers torso_upper with coverage 45
-        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
-        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+        CHECK( vest.put_in( item( itype_test_plate ), pocket_type::CONTAINER ).success() );
+        CHECK( vest.put_in( item( itype_test_plate ), pocket_type::CONTAINER ).success() );
 
         THEN( "vest with plates should retain the same coverage" ) {
             CHECK( vest.get_coverage( body_part_torso ) == 92 );
@@ -281,8 +299,8 @@ TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
 TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered seperate limb" ) {
-        item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate_skirt_super" ), pocket_type::CONTAINER );
+        item full = item( itype_test_ghost_vest );
+        full.force_insert_item( item( itype_test_plate_skirt_super ), pocket_type::CONTAINER );
 
         standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );

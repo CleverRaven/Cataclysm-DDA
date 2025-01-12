@@ -56,7 +56,7 @@
   {
     "id": "BOUNCE",
     "type": "ammo_effect",
-    "//": "Inflicts target with `bounced` effect and rebounds to a nearby target without this effect. Hardcoded"
+    "//": "Projectile with this effect will rebound to a nearby target after hitting the oringinal target. Will not choose targets already hit by this projectile. Hardcoded"
   },
   {
     "id": "BURST",

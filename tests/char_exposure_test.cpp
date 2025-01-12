@@ -8,6 +8,10 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const itype_id itype_test_croc_socks( "test_croc_socks" );
+static const itype_id itype_test_longshirt( "test_longshirt" );
+static const itype_id itype_test_socks( "test_socks" );
+
 // Tests for Character bodypart exposure
 //
 // Covers functions:
@@ -31,7 +35,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
         }
 
         WHEN( "wearing an item with 100% coverage on some parts" ) {
-            item socks( "test_socks" );
+            item socks( itype_test_socks );
             REQUIRE( socks.get_coverage( body_part_foot_l ) == 100 );
             REQUIRE( socks.get_coverage( body_part_foot_r ) == 100 );
             dummy.wear_item( socks, false );
@@ -50,7 +54,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
         }
 
         WHEN( "wearing an item with 50% coverage on some parts" ) {
-            item croc_socks( "test_croc_socks" );
+            item croc_socks( itype_test_croc_socks );
             REQUIRE( croc_socks.get_coverage( body_part_foot_l ) == 50 );
             REQUIRE( croc_socks.get_coverage( body_part_foot_r ) == 50 );
             dummy.wear_item( croc_socks, false );
@@ -63,7 +67,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
             }
 
             AND_WHEN( "wearing another item with 50% coverage on the same parts" ) {
-                item croc_socks2( "test_croc_socks" );
+                item croc_socks2( itype_test_croc_socks );
                 dummy.wear_item( croc_socks2, false );
 
                 bp_exposure = dummy.bodypart_exposure();
@@ -76,7 +80,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
         }
 
         WHEN( "wearing an item with 90% coverage on some parts" ) {
-            item shirt( "test_longshirt" );
+            item shirt( itype_test_longshirt );
             REQUIRE( shirt.get_coverage( body_part_torso ) == 90 );
             REQUIRE( shirt.get_coverage( body_part_arm_l ) == 90 );
             REQUIRE( shirt.get_coverage( body_part_arm_r ) == 90 );
@@ -100,7 +104,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
             }
 
             AND_WHEN( "wearing another item with 90% coverage on the same parts" ) {
-                item shirt2( "test_longshirt" );
+                item shirt2( itype_test_longshirt );
                 dummy.wear_item( shirt2, false );
 
                 bp_exposure = dummy.bodypart_exposure();

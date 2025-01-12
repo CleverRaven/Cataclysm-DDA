@@ -226,13 +226,6 @@ class item : public visitable
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
 
-        // Legacy constructor for constructing from string rather than itype_id
-        // TODO: remove this and migrate code using it.
-        template<typename... Args>
-        explicit item( const std::string &itype, Args &&... args ) :
-            item( itype_id( itype ), std::forward<Args>( args )... )
-        {}
-
         ~item() override;
 
         /** Return a pointer-like type that's automatically invalidated if this
@@ -1955,6 +1948,7 @@ class item : public visitable
         double get_var( const std::string &name, double default_value ) const;
         void set_var( const std::string &name, const tripoint_abs_omt &value );
         tripoint_abs_omt get_var( const std::string &name, const tripoint_abs_omt &default_value ) const;
+        //TODO: Add cata_variant overload for value here and for get_var rather than using raw strings where appropriate?
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */

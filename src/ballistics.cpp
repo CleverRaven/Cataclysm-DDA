@@ -57,13 +57,11 @@ static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
-static const efftype_id effect_bounced( "bounced" );
-
 static const itype_id itype_glass_shard( "glass_shard" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
-static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
+static void drop_or_embed_projectile( const dealt_projectile_attack &attack, projectile &proj_arg )
 {
     const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
@@ -95,7 +93,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                        drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
 
         for( int i = 0; i < nb_of_dropped_shard; ++i ) {
-            item shard( "glass_shard" );
+            item shard( itype_glass_shard );
             //actual dropping of shards
             get_map().add_item_or_charges( pt, shard );
         }
@@ -141,6 +139,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
+        if( proj_arg.proj_effects.count( ammo_effect_BOUNCE ) ) {
+            proj_arg.proj_effects.erase( ammo_effect_BOUNCE );
+        }
         mon->add_item( dropped_item );
         add_msg_if_player_sees( pt, _( "The %1$s embeds in %2$s!" ),
                                 dropped_item.tname(), mon->disp_name() );
@@ -220,10 +221,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     return aim;
 }
 
-dealt_projectile_attack projectile_attack( const projectile &proj_arg,
-        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
-        const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
-        const weakpoint_attack &wp_attack, bool first )
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
+                        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
+                        const weakpoint_attack &wp_attack, bool first )
 {
     const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
 
@@ -258,14 +259,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack attack {
-        proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
-    };
+    attack.proj = proj_arg;
+    attack.hit_critter = nullptr;
+    attack.dealt_dam = dealt_damage_instance();
+    attack.end_point = source;
+    attack.missed_by = aim.missed_by;
 
     // No suicidal shots
     if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
-        return attack;
+        return;
     }
 
     projectile &proj = attack.proj;
@@ -531,7 +534,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( attack );
+    drop_or_embed_projectile( attack, proj );
 
     int dealt_damage = attack.dealt_dam.total_damage();
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
@@ -543,30 +546,30 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( ammo_effect_BOUNCE ) ) {
-        // Add effect so the shooter is not targeted itself.
-        if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1_turns );
-        }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
+            if( &z == origin ) {
+                return false;
+            }
             // search for creatures in radius 4 around impact site
             if( rl_dist( z.pos_bub(), tp ) <= 4 &&
                 here.sees( z.pos_bub(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
-                if( !z.has_effect( effect_bounced ) ) {
-                    return true;
+                for( auto it : attack.targets_hit ) {
+                    if( &z == it.first ) {
+                        return false;
+                    }
                 }
+                return true;
             }
             return false;
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
+            attack.targets_hit[&z].first += 0;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
-            z.add_effect( effect_bounced, 1_turns );
-            projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
+            projectile_attack( attack, proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
                                      sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
         }
     }
-
-    return attack;
 }

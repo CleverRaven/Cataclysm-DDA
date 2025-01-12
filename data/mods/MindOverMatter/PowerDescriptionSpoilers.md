@@ -88,7 +88,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 5 minutes to 15 minutes, plus 45 seconds to 120 seconds per level<br />
 *Stamina Cost*: 4500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 275 moves, minus 15 moves per level to a minimum of 50.<br />
-*Effects*: Reduces encumbrance on every body part, improving every 4 levels.  Other than -2 at level 0 through 3, encumbrance reduction is equal to power threshold level: -4 from levels 4 to 7, -8 from levels 8 to 11, and so on.<br />
+*Effects*: Reduces encumbrance on every body part, starting at -2 and improving by -2 every 2 levels, to a maximum of -32 at level 30.<br />
 *Prerequisites*: Overcome Pain 4,  Heightened Reflexes 6 *or* Flexibility 9, Burst of Speed 10 *or* Combat Dance 4 *or* Physical Enhancement 10.<br />
 
 ## Hammerhand (C) 

@@ -449,5 +449,100 @@
         { "item": "steel_chunk", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_c",
+    "name": "safe",
+    "looks_like": "f_safe_c",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  This one isn't actually locked, just closed.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "open": "f_e_safe_o",
+    "examine_action": "open_safe",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_l",
+    "name": "safe",
+    "looks_like": "f_e_safe_c",
+    "symbol": "X",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  With a hacking tool and the right skills you might be able to crack it.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_e_safe_o", "duration": "14 seconds" },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_e_safe",
+          "effect": [
+            { "math": [ "_t_delay = time('1 h')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_o",
+    "name": "open safe",
+    "looks_like": "f_safe_o",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock, albeit significantly less secure with the door open.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "close": "f_e_safe_c",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
   }
 ]

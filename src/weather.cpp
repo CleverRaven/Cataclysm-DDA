@@ -241,7 +241,7 @@ void item::add_rain_to_container( int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( "water", calendar::turn );
+    item ret( itype_water, calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -276,7 +276,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", calendar::turn_zero );
+    static const item water( itype_water, calendar::turn_zero );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;

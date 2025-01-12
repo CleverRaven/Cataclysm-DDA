@@ -804,11 +804,6 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     return { obstructed, abs_obstructed, apparent_light };
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
-{
-    return apparent_light_at( tripoint_bub_ms( p ), cache );
-}
-
 lit_level map::apparent_light_at( const tripoint_bub_ms &p,
                                   const visibility_variables &cache ) const
 {

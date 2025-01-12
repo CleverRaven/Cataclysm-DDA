@@ -35,6 +35,8 @@
 #include "units.h"
 #include "units_utility.h"
 
+static const itype_id itype_water( "water" );
+
 namespace io
 {
 // *INDENT-OFF*
@@ -452,7 +454,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // should not be static, since after reloading some members of the item objects,
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
-        item( "water", calendar::turn_zero, 1 ),
+        item( itype_water, calendar::turn_zero, 1 ),
     };
     if( !data->watertight ) {
         return false;
@@ -1748,7 +1750,7 @@ std::optional<item> item_pocket::remove_item( const item_location &it )
     return remove_item( *it );
 }
 
-static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
+static void move_to_parent_pocket_recursive( const tripoint_bub_ms &pos, item &it,
         const item_location &loc, Character *carrier )
 {
     if( loc ) {
@@ -1811,7 +1813,7 @@ void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc
             if( !is_type( pocket_type::MIGRATION ) && can_contain( *iter, true ).success() ) {
                 ++iter;
             } else {
-                move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
+                move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
                 iter = contents.erase( iter );
             }
             continue;
@@ -1826,7 +1828,7 @@ void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc
         if( cont_copy_type.first->second ) {
             ++iter;
         } else {
-            move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
+            move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
             iter = contents.erase( iter );
         }
     }
@@ -1853,7 +1855,7 @@ void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
-                move_to_parent_pocket_recursive( pos.raw(), *iter, loc, carrier );
+                move_to_parent_pocket_recursive( pos, *iter, loc, carrier );
                 total_qty -= overflow_count;
             }
             if( ammo.count() == 0 ) {
@@ -1872,7 +1874,7 @@ void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
-            move_to_parent_pocket_recursive( pos.raw(), contents.front(), loc, carrier );
+            move_to_parent_pocket_recursive( pos, contents.front(), loc, carrier );
             contents.pop_front();
         }
     }
@@ -1881,7 +1883,7 @@ void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
-            move_to_parent_pocket_recursive( pos.raw(), contents.front(), loc, carrier );
+            move_to_parent_pocket_recursive( pos, contents.front(), loc, carrier );
             contents.pop_front();
         }
     }

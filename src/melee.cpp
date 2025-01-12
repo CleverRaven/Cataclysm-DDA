@@ -2221,7 +2221,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     std::string target = t.disp_name();
 
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
-        ( weap.is_null() || weapon.conductive() ) ) {
+        ( weap.is_null() || weap.conductive() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
         d.add_damage( STATIC( damage_type_id( "electric" ) ), rng( 2, 10 ) );
 

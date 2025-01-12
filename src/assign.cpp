@@ -43,7 +43,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::volume &v
 {
     const auto parse = [name]( const JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
-            out = obj.get_int( name ) * units::legacy_volume_factor;
+            out = obj.get_int( name ) * 250_ml;
             return true;
         }
 

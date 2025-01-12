@@ -33,8 +33,44 @@
 
 static const ammotype ammo_battery( "battery" );
 
+static const itype_id itype_acidchitin_harness_dog( "acidchitin_harness_dog" );
+static const itype_id itype_backpack_hiking( "backpack_hiking" );
+static const itype_id itype_blanket( "blanket" );
 static const itype_id itype_bot_manhack( "bot_manhack" );
+static const itype_id itype_boxpack( "boxpack" );
+static const itype_id itype_bunker_coat( "bunker_coat" );
+static const itype_id itype_bunker_pants( "bunker_pants" );
+static const itype_id itype_burette( "burette" );
+static const itype_id itype_camera( "camera" );
+static const itype_id itype_case_violin( "case_violin" );
+static const itype_id itype_cell_phone( "cell_phone" );
+static const itype_id itype_chitin_harness_dog( "chitin_harness_dog" );
+static const itype_id itype_down_mattress( "down_mattress" );
+static const itype_id itype_dress_wedding( "dress_wedding" );
+static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
+static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_kevlar_harness( "kevlar_harness" );
+static const itype_id itype_knife_huge( "knife_huge" );
+static const itype_id itype_laptop( "laptop" );
+static const itype_id itype_leather_harness_dog( "leather_harness_dog" );
+static const itype_id itype_leatherbone_harness_dog( "leatherbone_harness_dog" );
+static const itype_id itype_log( "log" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_peacoat( "peacoat" );
+static const itype_id itype_plastic_boat_hull( "plastic_boat_hull" );
+static const itype_id itype_radio( "radio" );
+static const itype_id itype_rubber_harness_dog( "rubber_harness_dog" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_stick_long( "stick_long" );
+static const itype_id itype_tazer( "tazer" );
+static const itype_id itype_touring_suit( "touring_suit" );
+static const itype_id itype_under_armor( "under_armor" );
+static const itype_id itype_voltmeter( "voltmeter" );
+static const itype_id itype_wetsuit( "wetsuit" );
+static const itype_id itype_wetsuit_booties( "wetsuit_booties" );
+static const itype_id itype_wetsuit_gloves( "wetsuit_gloves" );
+static const itype_id itype_wetsuit_hood( "wetsuit_hood" );
+static const itype_id itype_wetsuit_spring( "wetsuit_spring" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
@@ -62,7 +98,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     clear_map();
 
     g->clear_zombies();
-    item_location test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
+    item_location test_item = player_character.i_add( item( itype_bot_manhack, calendar::turn_zero,
                               item::default_charges_tag{} ) );
 
     REQUIRE( player_character.has_item( *test_item ) );
@@ -88,8 +124,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
-        item flashlight( "flashlight" );
-        item bat_cell( "medium_battery_cell" );
+        item flashlight( itype_flashlight );
+        item bat_cell( itype_medium_battery_cell );
         REQUIRE( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
 
         // Charge the battery
@@ -123,7 +159,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
     }
 }
 
-static void cut_up_yields( const std::string &target )
+static void cut_up_yields( const itype_id &target )
 {
     map &here = get_map();
     Character &guy = get_avatar();
@@ -133,10 +169,10 @@ static void cut_up_yields( const std::string &target )
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
     here.i_at( guy.pos_bub() ).clear();
 
-    CAPTURE( target );
+    CAPTURE( target.c_str() );
     salvage_actor test_actor;
-    item cut_up_target{ target };
-    item tool{ "knife_huge" };
+    item cut_up_target( target );
+    item tool( itype_knife_huge );
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
@@ -167,40 +203,40 @@ static void cut_up_yields( const std::string &target )
 
 TEST_CASE( "cut_up_yields" )
 {
-    cut_up_yields( "blanket" );
-    cut_up_yields( "backpack_hiking" );
-    cut_up_yields( "boxpack" );
-    cut_up_yields( "case_violin" );
-    cut_up_yields( "down_mattress" );
-    cut_up_yields( "plastic_boat_hull" );
-    cut_up_yields( "bunker_coat" );
-    cut_up_yields( "bunker_pants" );
-    cut_up_yields( "kevlar_harness" );
-    cut_up_yields( "touring_suit" );
-    cut_up_yields( "dress_wedding" );
-    cut_up_yields( "wetsuit" );
-    cut_up_yields( "wetsuit_booties" );
-    cut_up_yields( "wetsuit_hood" );
-    cut_up_yields( "wetsuit_spring" );
-    cut_up_yields( "wetsuit_gloves" );
-    cut_up_yields( "peacoat" );
-    cut_up_yields( "log" );
-    cut_up_yields( "stick" );
-    cut_up_yields( "stick_long" );
-    cut_up_yields( "tazer" );
-    cut_up_yields( "laptop" );
-    cut_up_yields( "voltmeter" );
-    cut_up_yields( "burette" );
-    cut_up_yields( "eink_tablet_pc" );
-    cut_up_yields( "camera" );
-    cut_up_yields( "cell_phone" );
-    cut_up_yields( "laptop" );
-    cut_up_yields( "radio" );
-    cut_up_yields( "under_armor" );
-    cut_up_yields( "acidchitin_harness_dog" );
-    cut_up_yields( "chitin_harness_dog" );
-    cut_up_yields( "leather_harness_dog" );
-    cut_up_yields( "leatherbone_harness_dog" );
-    cut_up_yields( "kevlar_harness" );
-    cut_up_yields( "rubber_harness_dog" );
+    cut_up_yields( itype_blanket );
+    cut_up_yields( itype_backpack_hiking );
+    cut_up_yields( itype_boxpack );
+    cut_up_yields( itype_case_violin );
+    cut_up_yields( itype_down_mattress );
+    cut_up_yields( itype_plastic_boat_hull );
+    cut_up_yields( itype_bunker_coat );
+    cut_up_yields( itype_bunker_pants );
+    cut_up_yields( itype_kevlar_harness );
+    cut_up_yields( itype_touring_suit );
+    cut_up_yields( itype_dress_wedding );
+    cut_up_yields( itype_wetsuit );
+    cut_up_yields( itype_wetsuit_booties );
+    cut_up_yields( itype_wetsuit_hood );
+    cut_up_yields( itype_wetsuit_spring );
+    cut_up_yields( itype_wetsuit_gloves );
+    cut_up_yields( itype_peacoat );
+    cut_up_yields( itype_log );
+    cut_up_yields( itype_stick );
+    cut_up_yields( itype_stick_long );
+    cut_up_yields( itype_tazer );
+    cut_up_yields( itype_laptop );
+    cut_up_yields( itype_voltmeter );
+    cut_up_yields( itype_burette );
+    cut_up_yields( itype_eink_tablet_pc );
+    cut_up_yields( itype_camera );
+    cut_up_yields( itype_cell_phone );
+    cut_up_yields( itype_laptop );
+    cut_up_yields( itype_radio );
+    cut_up_yields( itype_under_armor );
+    cut_up_yields( itype_acidchitin_harness_dog );
+    cut_up_yields( itype_chitin_harness_dog );
+    cut_up_yields( itype_leather_harness_dog );
+    cut_up_yields( itype_leatherbone_harness_dog );
+    cut_up_yields( itype_kevlar_harness );
+    cut_up_yields( itype_rubber_harness_dog );
 }

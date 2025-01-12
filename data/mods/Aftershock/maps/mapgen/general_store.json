@@ -44,7 +44,7 @@
         "ë": "f_rack",
         "í": "f_rack",
         "s": "f_stool",
-        "2": "f_safe_l",
+        "2": "f_e_safe_l",
         "3": "f_intermodal_crate_open",
         "4": "f_sealed_intermodal_crate"
       },
@@ -88,8 +88,8 @@
         "  £/..h/.11111.//////   ",
         "  £//kk/..eee..+'.>//   ",
         "  ££//=//!//////////    ",
-        "  £££££/.'❺❶/£          ",
-        "      ££//#///£         ",
+        "  £££££/.'❺❶/££         ",
+        "      ££//#//££         ",
         "                        ",
         "                        ",
         "                        ",
@@ -115,7 +115,7 @@
     "method": "json",
     "om_terrain": "afs_general_store_n3",
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
         "                        ",

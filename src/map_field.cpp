@@ -86,6 +86,7 @@ static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 
+static const itype_id itype_ash( "ash" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
@@ -1086,7 +1087,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                 here.furn_set( p, furn_f_ash );
-                here.add_item_or_charges( p, item( "ash" ) );
+                here.add_item_or_charges( p, item( itype_ash ) );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && p.z() > -OVERMAP_DEPTH ) {

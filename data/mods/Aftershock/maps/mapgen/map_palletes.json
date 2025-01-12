@@ -51,7 +51,7 @@
       "?": "f_sofa",
       "t": "f_table",
       "^": "f_indoor_plant",
-      "x": "f_safe_l"
+      "x": "f_e_safe_l"
     },
     "toilets": { ";": {  } },
     "items": { "d": { "item": "office", "chance": 70 } }

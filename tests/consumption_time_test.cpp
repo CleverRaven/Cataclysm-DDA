@@ -2,6 +2,8 @@
 #include "item.h"
 #include "cata_catch.h"
 
+static const itype_id itype_mustard( "mustard" );
+
 TEST_CASE( "characters_with_no_mutations_take_at_least_1_second_to_consume_comestibles",
            "[character][item][food][time]" )
 {
@@ -9,7 +11,7 @@ TEST_CASE( "characters_with_no_mutations_take_at_least_1_second_to_consume_comes
         avatar character;
         REQUIRE( character.cached_mutations.empty() );
 
-        item mustard( "mustard" );
+        item mustard( itype_mustard );
         REQUIRE( mustard.is_comestible() );
 
         WHEN( "character wants to consume it" ) {

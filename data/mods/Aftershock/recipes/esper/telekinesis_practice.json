@@ -1,0 +1,140 @@
+[
+  {
+    "id": "afs_telekinesis_practice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_PSI",
+    "name": "[Ψ]practice: telekinesis",
+    "description": "Recipes related to practicing telekinesis.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_afs_telekinetic_move_items",
+      "practice_afs_telekinetic_move_creatures",
+      "practice_afs_telekinetic_momentum",
+      "practice_afs_telekinetic_wave",
+      "practice_afs_telekinetic_hammer"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]far hand",
+    "id": "practice_afs_telekinetic_move_items",
+    "description": "Contemplate your powers and improve your ability to pick up and move items.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_ITEMS",
+        "effect": [
+          { "set_string_var": "afs_telekinetic_move_item", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]force shove",
+    "id": "practice_afs_telekinetic_move_creatures",
+    "description": "Contemplate your powers and improve your ability to pick up and move beings.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_CREATURES",
+        "effect": [
+          { "set_string_var": "afs_telekinetic_move_creature", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]momentum alteration",
+    "id": "practice_afs_telekinetic_momentum",
+    "description": "Contemplate your powers and improve your control of momentum.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEKIN_MOMENTUM",
+        "effect": [
+          { "set_string_var": "afs_telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]wave of force",
+    "id": "practice_afs_telekinetic_wave",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEKIN_WAVE",
+        "effect": [
+          { "set_string_var": "afs_telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "[Ψ]mindhammer",
+    "id": "practice_afs_telekinetic_hammer",
+    "description": "Contemplate your powers and improve your ability to smash a small area with telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "0 s",
+    "autolearn": false,
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_AFS_TELEKIN_HAMMER",
+        "effect": [
+          { "set_string_var": "afs_telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  }
+]

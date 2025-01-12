@@ -36,7 +36,7 @@
           "monster_message": "The air around %3$s wavers and shapes appear!"
         }
       ],
-      "flags": [ "MIND_SEEING", "TELEPORT_IMMUNE" ]
+      "flags": [ "TELEPORT_IMMUNE" ]
     }
   }
 ]

@@ -590,7 +590,7 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
     for( const tripoint_bub_ms &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.getglobal( pt ).raw() );
+        you.activity.coord_set.insert( here.getglobal( pt ) );
     }
     // values[0]
     you.activity.values.push_back( here.getglobal( src_loc ).x() );
@@ -1872,8 +1872,8 @@ static bool fetch_activity(
     const int distance = MAX_VIEW_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.bub_from_abs( tripoint_abs_ms(
-                                          you.backlog.front().coords.back() ) ) ) ) {
+    if( !here.can_put_items_ter_furn( here.bub_from_abs(
+                                          you.backlog.front().coords.back() ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1889,7 +1889,7 @@ static bool fetch_activity(
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
                     if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                         move_item( you, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                                   here.bub_from_abs( you.backlog.front().coords.back() ), ovp,
                                    activity_to_restore );
                         return true;
                     }
@@ -1905,7 +1905,7 @@ static bool fetch_activity(
                 if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
                                               you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                               here.bub_from_abs( you.backlog.front().coords.back() ), ovp,
                                activity_to_restore );
 
                     return true;
@@ -2034,12 +2034,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     }
 
     if( stage == INIT ) {
-        // TODO: fix point types
         act.coord_set.clear();
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_LOOT_UNSORTED, abspos, MAX_VIEW_DISTANCE, nullptr,
                            _fac_id( you ) ) ) {
-            act.coord_set.insert( p.raw() );
+            act.coord_set.insert( p );
         }
         stage = THINK;
     }
@@ -2049,7 +2048,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         num_processed = 0;
         std::vector<tripoint_abs_ms> src_set;
         src_set.reserve( act.coord_set.size() );
-        for( const tripoint &p : act.coord_set ) {
+        for( const tripoint_abs_ms &p : act.coord_set ) {
             src_set.emplace_back( p );
         }
         // sort source tiles by distance
@@ -2057,8 +2056,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
         for( const tripoint_abs_ms &src : src_sorted ) {
             act.placement = src;
-            // TODO: fix point types
-            act.coord_set.erase( src.raw() );
+            act.coord_set.erase( src );
 
             const tripoint_bub_ms src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
@@ -2992,7 +2990,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     }
                     act_prev.coords.push_back(
                         here.getglobal(
-                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] ).raw()
+                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
                     );
                 }
                 act_prev.placement = src;
@@ -3113,9 +3111,8 @@ static bool generic_multi_activity_do(
         you.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                              0, best_rod.tname() );
         you.activity.targets.emplace_back( you, &best_rod );
-        // TODO: fix point types
         you.activity.coord_set =
-            g->get_fishable_locations( MAX_VIEW_DISTANCE, src_loc );
+            g->get_fishable_locations_abs( MAX_VIEW_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.

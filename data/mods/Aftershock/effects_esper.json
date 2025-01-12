@@ -1,6 +1,14 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_afs_esper_studying_power",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_afs_esper_headache",
     "name": [
       "Headache",
@@ -93,9 +101,7 @@
           {
             "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
             "distance": {
-              "math": [
-                "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-              ]
+              "math": [ "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) )" ]
             },
             "descriptions": [
               {
@@ -145,6 +151,53 @@
     "remove_message": "You stop the flow of electricity to your devices.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_telekinetic_momentum",
+    "name": [ "Altered Momentum" ],
+    "desc": [ "Your powers are affecting movement around you; dangerous objects are slowed and your own speed is increased." ],
+    "apply_message": "",
+    "remove_message": "Nearby movement returns to normal.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          {
+            "type": "bash",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.01 ) * scaling_factor(u_val('intelligence') )" ] }
+          },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') )" ] }
+          },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) " ] }
+          },
+          {
+            "type": "bullet",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.02 ) * scaling_factor(u_val('intelligence') )" ] }
+          }
+        ],
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( ( u_spell_level('afs_telekinetic_momentum') * -0.005 ) * scaling_factor(u_val('intelligence') ) ) ), -0.15)"
+              ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": { "math": [ "( u_spell_level('afs_telekinetic_momentum') * -0.01 ) * scaling_factor(u_val('intelligence') )" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",

@@ -103,6 +103,7 @@ static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
@@ -1836,7 +1837,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item rope( "rope_30" );
+    item rope( itype_rope_30 );
     map &here = get_map();
     tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );

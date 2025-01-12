@@ -34,6 +34,8 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
+static const itype_id itype_test_vitfood( "test_vitfood" );
+
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
@@ -692,7 +694,7 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
     subject.add_effect( vitamin_effect );
 
     // A food rich in in vitamin x - we need 2 of them, for with/without the effect
-    item food1( "test_vitfood" );
+    item food1( itype_test_vitfood );
     item food2( food1 );
 
     // Make sure they have none of these vitamins at the start

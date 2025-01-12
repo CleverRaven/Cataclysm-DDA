@@ -2156,6 +2156,16 @@
     "replace": "walther_ppk"
   },
   {
+    "id": "generator_7500w",
+    "type": "MIGRATION",
+    "replace": "diesel_generator"
+  },
+  {
+    "id": "active_backup_generator",
+    "type": "MIGRATION",
+    "replace": "diesel_generator"
+  },
+  {
     "id": "sigp230mag",
     "type": "MIGRATION",
     "replace": "ppkmag"

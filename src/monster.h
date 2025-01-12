@@ -200,7 +200,7 @@ class monster : public Creature
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point_rel_sm &sm_shift );
-        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
+        void set_patrol_route( const std::vector<point_rel_ms> &patrol_pts_rel_ms );
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.

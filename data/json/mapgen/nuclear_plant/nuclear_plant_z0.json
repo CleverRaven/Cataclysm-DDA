@@ -347,14 +347,16 @@
       "terrain": {  },
       "furniture": {  },
       "palettes": [ "nuclear_plant_palette" ],
+      "place_furniture": [
+        { "furn": "f_diesel_generator", "x": 233, "y": 60 },
+        { "furn": "f_diesel_generator", "x": 130, "y": 116 },
+        { "furn": "f_diesel_generator", "x": 154, "y": 54 },
+        { "furn": "f_diesel_generator", "x": 242, "y": 111 }
+      ],
       "place_vehicles": [
         { "vehicle": "oa_work_light", "x": 206, "y": 56, "chance": 100, "rotation": 180 },
         { "vehicle": "oa_work_light", "x": 102, "y": 163, "chance": 100, "rotation": 180 },
         { "vehicle": "engine_crane", "x": 355, "y": 173, "chance": 100, "rotation": 180 },
-        { "vehicle": "portable_generator", "x": 233, "y": 60, "chance": 100, "rotation": 0 },
-        { "vehicle": "portable_generator", "x": 130, "y": 116, "chance": 100, "rotation": 0 },
-        { "vehicle": "portable_generator", "x": 154, "y": 54, "chance": 100, "rotation": 0 },
-        { "vehicle": "portable_generator", "x": 242, "y": 111, "chance": 100, "rotation": 0 },
         { "vehicle": "welding_cart", "x": 100, "y": 163, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 188, "y": 56, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 282, "y": 163, "chance": 100, "rotation": 180 },

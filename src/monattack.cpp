@@ -156,6 +156,8 @@ static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_processor( "processor" );
+static const itype_id itype_sporeos( "sporeos" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
@@ -279,8 +281,9 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.impact.add( dam );
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
 
-    dealt_projectile_attack atk = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
-                                  dispersion_sources{ 500 }, z );
+    dealt_projectile_attack atk;
+    projectile_attack( atk, proj, z->pos_bub(), target->pos_bub(),
+                       dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         // whether this function returns true determines whether it applies a status effect like paralysis or mutation
@@ -733,8 +736,9 @@ bool mattack::acid( monster *z )
     proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
-    dealt_projectile_attack dealt = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
-                                    dispersion_sources{ 5400 }, z );
+    dealt_projectile_attack dealt;
+    projectile_attack( dealt, proj, z->pos_bub(), target->pos_bub(),
+                       dispersion_sources{ 5400 }, z );
     const tripoint_bub_ms &hitp = tripoint_bub_ms( dealt.end_point );
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
@@ -958,8 +962,9 @@ bool mattack::pull_metal_weapon( monster *z )
                     proj.range = rl_dist( foe->pos_bub(), z->pos_bub() ) - 1;
                     proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
 
-                    dealt_projectile_attack dealt = projectile_attack( proj, foe->pos_bub(), z->pos_bub(),
-                                                    dispersion_sources{ 0 }, z );
+                    dealt_projectile_attack dealt;
+                    projectile_attack( dealt, proj, foe->pos_bub(), z->pos_bub(),
+                                       dispersion_sources{ 0 }, z );
                     get_map().add_item( dealt.end_point, pulled_weapon );
                     target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
                                                    _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
@@ -1095,13 +1100,13 @@ bool mattack::resurrect( monster *z )
     int lowest_raise_score = INT_MAX;
     map &here = get_map();
     // Cache map stats.
-    std::unordered_map<tripoint, bool> sees_and_is_empty_cache;
-    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint & T ) {
+    std::unordered_map<tripoint_bub_ms, bool> sees_and_is_empty_cache;
+    auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint_bub_ms & T ) {
         auto iter = sees_and_is_empty_cache.find( T );
         if( iter != sees_and_is_empty_cache.end() ) {
             return iter->second;
         }
-        sees_and_is_empty_cache[T] = here.sees( z->pos_bub().raw(), T, -1 ) && g->is_empty( T );
+        sees_and_is_empty_cache[T] = here.sees( z->pos_bub(), T, -1 ) && g->is_empty( T );
         return sees_and_is_empty_cache[T];
     };
     for( item_location &location : here.get_active_items_in_radius( z->pos_bub(), range,
@@ -1113,7 +1118,7 @@ bool mattack::resurrect( monster *z )
                mt->in_species( species_ZOMBIE ) && !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
             continue;
         }
-        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p.raw() ) ) {
+        if( here.get_field_intensity( p, fd_fire ) > 1 || !sees_and_is_empty( p ) ) {
             continue;
         }
 
@@ -1555,7 +1560,8 @@ bool mattack::spit_sap( monster *z )
     proj.range = 12;
     proj.proj_effects.insert( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
-    projectile_attack( proj, z->pos_bub(), target->pos_bub(), dispersion_sources{ 150 }, z );
+    dealt_projectile_attack atk;
+    projectile_attack( atk, proj, z->pos_bub(), target->pos_bub(), dispersion_sources{ 150 }, z );
 
     return true;
 }
@@ -1684,7 +1690,7 @@ bool mattack::fungus_corporate( monster *z )
         sounds::sound( z->pos_bub(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
-            get_map().add_item( z->pos_bub(), item( "sporeos" ) );
+            get_map().add_item( z->pos_bub(), item( itype_sporeos ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
         return true;
     } else {
@@ -2854,7 +2860,7 @@ bool mattack::searchlight( monster *z )
         creature_tracker &creatures = get_creature_tracker();
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", calendar::turn_zero );
+            item settings( itype_processor, calendar::turn_zero );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -3676,7 +3682,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", calendar::turn_zero );
+            item handcuffs( itype_e_handcuffs, calendar::turn_zero );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );

@@ -43,7 +43,6 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
@@ -600,7 +599,7 @@ void recipe::finalize()
     }
 
     if( contained && container.is_null() ) {
-        container = item::find_type( result_ )->default_container.value_or( itype_null );
+        container = item::find_type( result_ )->default_container.value_or( itype_id::NULL_ID() );
         if( item::find_type( result_ )->default_container_variant.has_value() ) {
             container_variant = item::find_type( result_ )->default_container_variant.value();
         }

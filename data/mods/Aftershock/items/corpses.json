@@ -200,7 +200,7 @@
   {
     "type": "GENERIC",
     "id": "broken_eyebot_heater",
-    "copy-from": "afs_broken_eyebot",
+    "copy-from": "broken_afs_eyebot",
     "color": "pink",
     "name": "broken floating heater",
     "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
@@ -327,7 +327,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_eyebot",
+    "id": "broken_afs_eyebot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken eyebot" },
@@ -378,7 +378,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_copbot",
+    "id": "broken_afs_copbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken police bot" },
@@ -395,7 +395,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_riotbot",
+    "id": "broken_afs_riotbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken riot control bot" },

@@ -80,7 +80,6 @@ struct mutation_branch;
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
 static const ammo_effect_str_id ammo_effect_BEANBAG( "BEANBAG" );
 static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
-static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
 static const ammo_effect_str_id ammo_effect_FOAMCRETE( "FOAMCRETE" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
@@ -101,7 +100,6 @@ static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
 static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
@@ -972,13 +970,6 @@ double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) c
     return attack.missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 }
 
-void projectile::apply_effects_nodamage( Creature &target, Creature *source ) const
-{
-    if( proj_effects.count( ammo_effect_BOUNCE ) ) {
-        target.add_effect( effect_source( source ), effect_bounced, 1_turns );
-    }
-}
-
 void projectile::apply_effects_damage( Creature &target, Creature *source,
                                        const dealt_damage_instance &dealt_dam, bool critical ) const
 {
@@ -1339,8 +1330,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         return;
     }
 
-    proj.apply_effects_nodamage( *this, source );
-
     // Create a copy that records whether the attack is a crit.
     weakpoint_attack wp_attack_copy = wp_attack;
     wp_attack_copy.type = weakpoint_attack::attack_type::PROJECTILE;
@@ -1376,14 +1365,20 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
+    int total_dam = dealt_dam.total_damage();
+
     if( print_messages ) {
-        messaging_projectile_attack( source, hit_selection, dealt_dam.total_damage() );
+        messaging_projectile_attack( source, hit_selection, total_dam );
     }
 
     check_dead_state();
     attack.hit_critter = this;
     attack.missed_by = goodhit;
     attack.headshot = hit_selection.is_headshot;
+    attack.targets_hit[this].first++;
+    if( total_dam > 0 ) {
+        attack.targets_hit[this].second += total_dam;
+    }
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,

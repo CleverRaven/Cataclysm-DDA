@@ -247,6 +247,55 @@
     "color": "white"
   },
   {
+    "id": "sheet_elemental_gossamer",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "elemental gossamer sheet" },
+    "description": "A 12-inch by 24-inch sheet of elemental gossamer fabric, like a swatch plucked from a rainbow.",
+    "weight": "50 g",
+    "volume": "47 ml",
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "elemental_fae_cotton" ],
+    "symbol": "=",
+    "color": "white"
+  },
+  {
+    "id": "sheet_elemental_gossamer_patchwork",
+    "copy-from": "sheet_gossamer",
+    "type": "GENERIC",
+    "name": { "str": "patchwork elemental gossamer sheet" },
+    "description": "A 12-inch by 24-inch sheet of elemental gossamer sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
+    "price": "2 USD",
+    "price_postapoc": "20 cent"
+  },
+  {
+    "id": "elemental_gossamer_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "elemental gossamer patch", "str_pl": "elemental gossamer patches" },
+    "description": "A 6-inch square elemental gossamer patch, suitable for repairing and tailoring clothing.",
+    "weight": "6 g",
+    "volume": "6 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "elemental_fae_cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "elemental_scrap_gossamer",
+    "copy-from": "scrap_worthless",
+    "type": "GENERIC",
+    "name": { "str_sp": "elemental gossamer scraps" },
+    "description": "Filmy bits of elemental gossamer, barely there.  Not useful for much.",
+    "volume": "1 ml",
+    "material": [ "elemental_fae_cotton" ],
+    "symbol": "=",
+    "color": "white"
+  },
+  {
     "id": "gambeson_batting_gossamer",
     "type": "TOOL",
     "category": "spare_parts",
@@ -271,12 +320,27 @@
     "description": "A large log of living wood, sung from a tree by elemental magick."
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "obsidian_rock",
     "copy-from": "rock",
     "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
-    "color": "black",
-    "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work."
+    "color": "black_red",
+    "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work.",
+    "symbol": "*",
+    "category": "spare_parts",
+    "material": [ "obsidian" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "damage": { "damage_type": "stab", "amount": 5 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "type": "GENERIC",

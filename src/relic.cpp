@@ -453,7 +453,7 @@ bool relic::has_recharge() const
 
 // checks if the relic is in the appropriate location to be able to recharge from the weather.
 // does not check the weather type, that job is relegated to the switch in relic::try_recharge()
-static bool can_recharge_solar( const item &it, Character *carrier, const tripoint &pos )
+static bool can_recharge_solar( const item &it, Character *carrier, const tripoint_bub_ms &pos )
 {
     return get_map().is_outside( pos ) && is_day( calendar::turn ) &&
            ( carrier == nullptr ||
@@ -462,14 +462,14 @@ static bool can_recharge_solar( const item &it, Character *carrier, const tripoi
 
 // checks if the relic is in the appropriate location to be able to recharge from the weather.
 // does not check the weather type, that job is relegated to the switch in relic::try_recharge()
-static bool can_recharge_lunar( const item &it, Character *carrier, const tripoint &pos )
+static bool can_recharge_lunar( const item &it, Character *carrier, const tripoint_bub_ms &pos )
 {
     return get_map().is_outside( pos ) && is_night( calendar::turn ) &&
            ( carrier == nullptr ||
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
-void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
+void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
         return;

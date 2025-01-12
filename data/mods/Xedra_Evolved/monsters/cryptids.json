@@ -10,6 +10,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 150,
+    "anger_triggers": [ "HURT" ],
     "speed": 40,
     "material": [ "flesh" ],
     "symbol": "@",

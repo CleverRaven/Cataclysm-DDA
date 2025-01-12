@@ -57,8 +57,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_EXIT,      // Skip main menu and quit directly to OS
-    QUIT_EXIT_PENDING, // same as above, used temporarily so input_context doesn't get confused
 };
 
 enum safe_mode_type {
@@ -585,8 +583,7 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        // TODO: Get rid of untyped overload.
-        std::unordered_set<tripoint> get_fishable_locations( int distance,
+        std::unordered_set<tripoint_abs_ms> get_fishable_locations_abs( int distance,
                 const tripoint_bub_ms &fish_pos );
         std::unordered_set<tripoint_bub_ms> get_fishable_locations_bub( int distance,
                 const tripoint_bub_ms &fish_pos );
@@ -597,7 +594,8 @@ class game
          * @return Fishable monsters within the specified fishable terrain.
          */
         // TODO: Get rid of untyped overload.
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
+                &fishable_locations );
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_bub_ms>
                 &fishable_locations );
 
@@ -1010,8 +1008,6 @@ class game
         void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
     public:
-        bool query_exit_to_OS();
-        class exit_exception: public std::exception {};
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.
@@ -1321,7 +1317,5 @@ namespace cata_event_dispatch
 // @param m The map the avatar is moving on
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
-
-bool are_we_quitting();
 
 #endif // CATA_SRC_GAME_H

@@ -110,6 +110,7 @@
     "looks_like": "grenade_emp",
     "name": "electroshock grenade",
     "description": "This is an electronic weapon that will emit a short-ranged electric field.  When activated, you'll have five turns before it starts doing so; throwing it before that would be a good idea.",
+    "price": "350 USD",
     "use_action": {
       "menu_text": "Pull pin",
       "need_wielding": true,
@@ -138,8 +139,7 @@
     "description": "This is a military-grade cryo hand grenade.  Once it explodes it spreads exotic highly-radioactive shrapnel.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",
-    "price": "15 USD",
-    "price_postapoc": "10 USD",
+    "price": "450 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "*",

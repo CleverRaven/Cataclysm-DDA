@@ -65,15 +65,13 @@ class craft_command
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
-                       const std::optional<tripoint> &loc ) :
+                       const std::optional<tripoint_bub_ms> &loc ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /**
          * Selects components to use for the craft, then assigns the crafting activity to 'crafter'.
          * Executes with supplied location, std::nullopt means crafting from inventory.
          */
-        // TODO: Get rid of untyped overload
-        void execute( const std::optional<tripoint> &new_loc );
         void execute( const std::optional<tripoint_bub_ms> &new_loc );
         /** Executes with saved location, NOT the same as execute( std::nullopt )! */
         void execute( bool only_cache_comps = false );

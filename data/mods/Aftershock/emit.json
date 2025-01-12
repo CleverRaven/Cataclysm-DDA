@@ -16,6 +16,14 @@
     "chance": 100
   },
   {
+    "id": "afs_emit_survival_heater",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 2,
+    "qty": 60,
+    "chance": 100
+  },
+  {
     "id": "heavy_rad_glimmer",
     "type": "emit",
     "field": "fd_rad_glimmer",

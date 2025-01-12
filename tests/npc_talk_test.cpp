@@ -42,8 +42,11 @@ static const efftype_id effect_sleep( "sleep" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_manual( "manual" );
 
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_badge_marshal( "badge_marshal" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
 static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
@@ -260,7 +263,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
-    player_character.wear_item( item( "badge_marshal" ) );
+    player_character.wear_item( item( itype_badge_marshal ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -635,20 +638,20 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_item = [&]( Character & p, const std::string & id, int count ) {
+    const auto has_item = [&]( Character & p, const itype_id & id, int count ) {
         item old_item = item( id );
         if( old_item.count_by_charges() ) {
-            return p.has_charges( itype_id( id ), count );
+            return p.has_charges( id, count );
         } else {
-            return p.has_amount( itype_id( id ), count );
+            return p.has_amount( id, count );
         }
     };
     const auto has_beer_bottle = [&]( Character & p, int count ) {
-        return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
+        return has_item( p, itype_bottle_glass, 1 ) && has_item( p, itype_beer, count );
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
+    player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -691,10 +694,10 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     effects.apply( d );
     CHECK( talker_npc.op_of_u.owed == 500 );
     CHECK( has_beer_bottle( player_character, 2 ) );
-    REQUIRE_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
+    REQUIRE_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );
     effects = d.responses[10].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "bottle_plastic", 1 ) );
+    CHECK( has_item( player_character, itype_bottle_plastic, 1 ) );
     CHECK( talker_npc.op_of_u.owed == 500 );
     effects = d.responses[11].success;
     effects.apply( d );
@@ -775,7 +778,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     // test sell and consume
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
-    REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
+    REQUIRE( has_item( player_character, itype_bottle_plastic, 1 ) );
     REQUIRE( has_beer_bottle( player_character, 2 ) );
     const std::vector<item *> glass_bottles = player_character.items_with( []( const item & it ) {
         return it.typeId() == itype_bottle_glass;
@@ -784,21 +787,21 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     REQUIRE( player_character.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
-    CHECK_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
-    CHECK_FALSE( has_item( player_character, "beer", 1 ) );
-    CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
-    CHECK( has_item( talker_npc, "beer", 2 ) );
+    CHECK_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );
+    CHECK_FALSE( has_item( player_character, itype_beer, 1 ) );
+    CHECK( has_item( talker_npc, itype_bottle_plastic, 1 ) );
+    CHECK( has_item( talker_npc, itype_beer, 2 ) );
     effects = d.responses[15].success;
     effects.apply( d );
-    CHECK_FALSE( has_item( talker_npc, "beer", 2 ) );
-    CHECK( has_item( talker_npc, "beer", 1 ) );
+    CHECK_FALSE( has_item( talker_npc, itype_beer, 2 ) );
+    CHECK( has_item( talker_npc, itype_beer, 1 ) );
     effects = d.responses[16].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "beer", 1 ) );
+    CHECK( has_item( player_character, itype_beer, 1 ) );
     effects = d.responses[17].success;
     effects.apply( d );
-    CHECK( has_item( player_character, "beer", 0 ) );
-    CHECK_FALSE( has_item( player_character, "beer", 1 ) );
+    CHECK( has_item( player_character, itype_beer, 0 ) );
+    CHECK_FALSE( has_item( player_character, itype_beer, 1 ) );
 }
 
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )
@@ -1131,7 +1134,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );
-    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
+    player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );

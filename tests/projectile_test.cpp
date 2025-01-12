@@ -36,9 +36,8 @@ static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> 
 
     dealt_projectile_attack attack;
 
-    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(),
-                                &get_player_character(),
-                                nullptr );
+    projectile_attack( attack, test_proj, range[0], range[2], dispersion_sources(),
+                       &get_player_character(), nullptr );
 
     return attack.end_point;
 }

@@ -106,6 +106,7 @@
     "difficulty": 4,
     "time": "45 m",
     "autolearn": true,
+    "flags": [ "FULL_MAGAZINE" ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
