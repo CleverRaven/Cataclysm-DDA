@@ -39,9 +39,9 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ] }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "medium_storage_battery", "battery_car", "battery_motorbike" ] }
     ],
-    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "medium_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   },
   {
     "id": "pseudo_magazine_mod",
