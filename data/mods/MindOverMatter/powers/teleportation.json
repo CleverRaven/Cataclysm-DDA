@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "none" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
     "difficulty": 1,
@@ -20,7 +21,6 @@
     "min_range": 5,
     "max_range": 15,
     "range_increment": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 900,
     "final_energy_cost": 350,
     "energy_increment": -55,
@@ -37,6 +37,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -63,7 +64,6 @@
         "( (u_spell_level('teleport_slow') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 2000,
     "final_energy_cost": 750,
     "energy_increment": -75,
@@ -81,6 +81,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "difficulty": 2,
@@ -93,7 +94,6 @@
       ]
     },
     "max_range": 4,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
     "energy_increment": -65,
@@ -109,6 +109,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -126,7 +127,6 @@
         "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
@@ -147,6 +147,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -164,7 +165,6 @@
         "( (u_spell_level('teleport_stride') * 3700) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((3500 - (u_spell_level('teleport_stride') * 95)), 1750)"
@@ -183,6 +183,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SWAP_POS", "IGNORE_WALLS" ],
     "difficulty": 4,
@@ -195,7 +196,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2750,
     "final_energy_cost": 1500,
     "energy_increment": -85,
@@ -213,6 +213,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -223,7 +224,6 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1750,
     "energy_increment": -65,
@@ -240,6 +240,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -257,7 +258,6 @@
         "( ( u_spell_level('teleport_reactive_displacement') * 4000 ) + 20000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 0 : max( ( 3500 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1500 )"
@@ -299,6 +299,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -306,7 +307,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 3000,
     "energy_increment": -75,
@@ -602,6 +602,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "difficulty": 6,
@@ -617,7 +618,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 6500,
     "final_energy_cost": 2750,
     "energy_increment": -105,
@@ -634,6 +634,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -657,7 +658,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 4600,
     "energy_increment": -170,
@@ -692,6 +692,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -709,7 +710,6 @@
         "( ( u_spell_level('teleport_loci_establishment') * 5000 ) + 25000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_loci_establishment') * 100 ) ), 1000 )"
@@ -730,6 +730,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 6,
@@ -737,7 +738,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_LOCI_TECHNIQUE",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 3000,
     "energy_increment": -200,
@@ -754,6 +754,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
@@ -761,7 +762,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_GATEWAY_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 6000,
     "energy_increment": -200,
@@ -778,6 +778,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 9,
@@ -785,7 +786,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_dilated_gateway_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 12000,
     "final_energy_cost": 8000,
     "energy_increment": -200,
@@ -839,6 +839,7 @@
     "teachable": false,
     "valid_targets": [ "self", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 9,
@@ -853,7 +854,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 9000,
     "final_energy_cost": 4500,
     "energy_increment": -250,
@@ -871,6 +871,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
@@ -883,7 +884,6 @@
     "max_field_intensity": 10,
     "shape": "blast",
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 5000,
     "energy_increment": -250,

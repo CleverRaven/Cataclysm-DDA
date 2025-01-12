@@ -20,7 +20,7 @@
     "difficulty": 5,
     "max_level": 35,
     "base_casting_time": 120,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "extra_effects": [ { "id": "shortwave_2" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
@@ -52,7 +52,7 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "necrotic",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "RADIATION_MAGE",
     "difficulty": 7,
     "max_level": 35,

@@ -142,8 +142,6 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
-static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
-static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
@@ -1847,27 +1845,17 @@ static void cast_spell( bool recast_spell = false )
         return;
     }
 
-    bool can_cast_spells = false;
+    std::set<std::string> failure_messages = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character ) ) {
-            can_cast_spells = true;
+        if( temp_spell.can_cast( player_character, failure_messages ) ) {
+            break;
         }
     }
 
-    if( !can_cast_spells ) {
-        if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
-            !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't cast any of the spells you know!" ) );
-        } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
-                   player_character.has_flag( json_flag_NO_PSIONICS ) ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't channel any of the powers you know!" ) );
-        } else {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't use any of your powers!" ) );
-        }
+    for( const std::string &failure_message : failure_messages ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 failure_message );
     }
 
     if( recast_spell && player_character.magic->last_spell.is_null() ) {

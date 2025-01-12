@@ -21,7 +21,7 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_telepathic_shield') * 3600) + 72000) * (scaling_factor(u_val('intelligence') ) ) " ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 0 : max((2500 - (u_spell_level('afs_telepathic_shield') * 125)), 500)"
@@ -55,7 +55,7 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_telepathic_mind_sense') * 13100) + 60000) * (scaling_factor(u_val('intelligence') ) ) " ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('afs_telepathic_mind_sense') * 115)), 1500)"
@@ -85,7 +85,7 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 89900) + 252000) * (scaling_factor(u_val('intelligence') ) ) " ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepathic_suggestion') > -1 ? 0 : max((5000 - (u_spell_level('afs_telepathic_suggestion') * 125)), 2000)"
@@ -122,7 +122,7 @@
       "math": [ "min( (( (u_spell_level('afs_telepathic_confusion') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 80)" ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 3750,
     "final_energy_cost": 1500,
     "energy_increment": -150,
@@ -185,7 +185,7 @@
       "math": [ "min( (( (u_spell_level('afs_telepathic_blast') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 80)" ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 5500,
     "final_energy_cost": 1250,
     "energy_increment": -125,

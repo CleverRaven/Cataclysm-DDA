@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 1,
@@ -25,7 +26,6 @@
         "( (u_spell_level('photokinetic_light_local') * 87000) + 342000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_light_local') > -1 ? 0 : max((1500 - (u_spell_level('photokinetic_light_local') * 80)), 450)"
@@ -46,6 +46,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -53,7 +54,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKIN_CREATE_LIGHT_SWITCH",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1000,
     "energy_increment": -115,
@@ -69,7 +69,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
-    "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -101,7 +100,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
-    "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -133,7 +131,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
-    "spell_class": "PHOTOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -166,6 +163,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -189,7 +187,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2750,
     "final_energy_cost": 750,
     "energy_increment": -95,
@@ -206,6 +203,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ground" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -228,7 +226,6 @@
     "field_id": "fd_darkness",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1000,
     "energy_increment": -150,
@@ -245,6 +242,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -262,7 +260,6 @@
         "( (u_spell_level('photokinetic_light_dodge') * 2700) + 12500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_dodge') > -1 ? 0 : max((2250 - (u_spell_level('photokinetic_light_dodge') * 135)), 500)"
@@ -283,6 +280,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
@@ -310,7 +308,6 @@
     "min_field_intensity": 2,
     "max_field_intensity": 2,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2750,
     "final_energy_cost": 800,
     "energy_increment": -110,
@@ -327,6 +324,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -344,7 +342,6 @@
         "( (u_spell_level('photokinetic_camouflage') * 11300) + 143000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_camouflage') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_camouflage') * 75)), 1500)"
@@ -365,6 +362,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -382,7 +380,6 @@
         "( (u_spell_level('photokinetic_rad_immunity') * 18200) + 81000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_light_barrier') > -1 ? 0 : max((3000 - (u_spell_level('photokinetic_rad_immunity') * 125)), 800)"
@@ -403,6 +400,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
@@ -420,7 +418,6 @@
         "( (u_spell_level('photokinetic_light_arms') * 4100) + 7100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1500,
     "energy_increment": -125,
@@ -437,6 +434,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
@@ -454,7 +452,6 @@
         "( (u_spell_level('photokinetic_hide_ugly') * 5500) + 89000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_hide_ugly') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_hide_ugly') * 150)), 2000)"
@@ -475,6 +472,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile", "self", "ally" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION", "RANDOM_DAMAGE" ],
     "difficulty": 5,
@@ -498,7 +496,6 @@
     "max_range": 40,
     "min_aoe": 3,
     "max_aoe": 3,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1750,
     "energy_increment": -145,
@@ -515,6 +512,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -532,7 +530,6 @@
         "( (u_spell_level('photokinetic_radio') * 77200) + 522000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokinetic_radio') > -1 ? 0 : max((5000 - (u_spell_level('photokinetic_radio') * 100)), 2250)"
@@ -553,6 +550,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 5,
@@ -560,7 +558,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_PHOTOKINETIC_STERILIZE_FOODS",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 4000,
     "energy_increment": -200,
@@ -575,6 +572,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
@@ -608,7 +606,6 @@
         "min( (( (u_spell_level('photokinetic_stun_robots') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 2200,
     "energy_increment": -150,
@@ -626,6 +623,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 6,
@@ -643,7 +641,6 @@
         "( (u_spell_level('photokinetic_invisibility') * 2300) + 4200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_invisibility') > -1 ? 0 : max((3500 - (u_spell_level('photokinetic_invisibility') * 125)), 1200)"
@@ -664,6 +661,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 6,
@@ -697,7 +695,6 @@
     "min_field_intensity": 2,
     "max_field_intensity": 3,
     "field_chance": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2750,
     "energy_increment": -125,
@@ -714,6 +711,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 7,
@@ -731,7 +729,6 @@
         "( (u_spell_level('photokinetic_blinding_glare') * 4700) + 17800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_photokin_blinding_glare') > -1 ? 0 : max((6500 - (u_spell_level('photokinetic_blinding_glare') * 95)), 3250)"
@@ -752,6 +749,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
     "difficulty": 8,
@@ -775,7 +773,6 @@
       ]
     },
     "max_range": 50,
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "final_energy_cost": 4000,
     "energy_increment": -150,

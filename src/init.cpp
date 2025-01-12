@@ -483,6 +483,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "magic_type", &magic_type::load_magic_type );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
     add( "event_transformation", &event_transformation::load_transformation );
@@ -728,6 +729,7 @@ void DynamicDataLoader::unload_data()
     Skill::reset();
     skill_boost::reset();
     SNIPPET.clear_snippets();
+    magic_type::reset_all();
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_migrations::reset();

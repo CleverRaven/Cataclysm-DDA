@@ -141,7 +141,7 @@ TEST_CASE( "spell_type_handles_all_members", "[json]" )
         CHECK( test_spell.final_energy_cost.min.dbl_val.value() == 2 );
         CHECK( test_spell.energy_increment.min.dbl_val.value() == 1.0f );
         CHECK( test_spell.spell_class == trait_test_trait );
-        CHECK( test_spell.energy_source == magic_energy_type::mana );
+        CHECK( test_spell.get_energy_source() == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_pure );
         CHECK( test_spell.difficulty.min.dbl_val.value() == 1 );
         CHECK( test_spell.max_level.min.dbl_val.value() == 1 );

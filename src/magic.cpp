@@ -60,8 +60,6 @@
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
-static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
-static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
@@ -485,10 +483,11 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
-    optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
+    optional( jo, was_loaded, "energy_source", energy_source );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
+    optional( jo, was_loaded, "magic_type", magic_type );
     if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
         ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
@@ -619,8 +618,9 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "energy_increment", static_cast<float>( energy_increment.min.dbl_val.value() ),
                  energy_increment_default );
     json.member( "spell_class", spell_class, spell_class_default );
-    json.member( "energy_source", io::enum_to_string( energy_source ),
-                 io::enum_to_string( energy_source_default ) );
+    if( energy_source.has_value() ) {
+        json.member( "energy_source", io::enum_to_string( energy_source.value() ) );
+    }
     json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
     json.member( "multiple_projectiles", static_cast<int>( multiple_projectiles.min.dbl_val.value() ),
@@ -634,6 +634,7 @@ void spell_type::serialize( JsonOut &json ) const
                  static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
+    json.member( "magic_type", magic_type );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -1149,7 +1150,7 @@ int spell::energy_cost( const Character &guy ) const
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
-        switch( type->energy_source ) {
+        switch( type->get_energy_source() ) {
             default:
                 cost += 10 * hands_encumb * temp_somatic_difficulty_multiplyer;
                 break;
@@ -1192,12 +1193,13 @@ bool spell::can_cast( const Character &guy ) const
         return true;
     };
 
-    if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
-        return false;
-    }
-
-    if( guy.has_flag( json_flag_NO_PSIONICS ) && has_flag( spell_flag::PSIONIC ) ) {
-        return false;
+    if( type->magic_type.has_value() ) {
+        for( std::string cannot_cast_flag_string : type->magic_type.value()->cannot_cast_flags ) {
+            json_character_flag cannot_cast_flag( cannot_cast_flag_string );
+            if( guy.has_flag( cannot_cast_flag ) ) {
+                return false;
+            }
+        }
     }
 
     if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
@@ -1211,6 +1213,19 @@ bool spell::can_cast( const Character &guy ) const
     }
 
     return guy.magic->has_enough_energy( guy, *this );
+}
+
+bool spell::can_cast( const Character &guy, std::set<std::string> &failure_messages )
+{
+    if( can_cast( guy ) ) {
+        return true;
+    } else if( type->magic_type.has_value() &&
+               type->magic_type.value()->cannot_cast_message.has_value() ) {
+        failure_messages.insert( type->magic_type.value()->cannot_cast_message.value() );
+        return false;
+    } else {
+        return false;
+    }
 }
 
 void spell::use_components( Character &guy ) const
@@ -1462,7 +1477,7 @@ void spell::set_exp( int nxp )
 
 std::string spell::energy_string() const
 {
-    switch( type->energy_source ) {
+    switch( type->get_energy_source() ) {
         case magic_energy_type::hp:
             return _( "health" );
         case magic_energy_type::mana:
@@ -1589,7 +1604,7 @@ std::string spell::effect() const
 
 magic_energy_type spell::energy_source() const
 {
-    return type->energy_source;
+    return type->get_energy_source();
 }
 
 bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
@@ -1695,6 +1710,41 @@ static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
 
+magic_energy_type spell_type::get_energy_source() const
+{
+    if( energy_source.has_value() ) {
+        return energy_source.value();
+    } else if( magic_type.has_value() && magic_type.value()->energy_source.has_value() ) {
+        return magic_type.value()->energy_source.value();
+    } else {
+        return magic_energy_type::none;
+    }
+}
+
+std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
+{
+    if( get_level_formula_id.has_value() ) {
+        return get_level_formula_id;
+    } else if( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
+        return magic_type.value()->get_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
+std::optional<jmath_func_id> spell_type::overall_exp_for_level_formula_id() const
+{
+    if( exp_for_level_formula_id.has_value() ) {
+        return exp_for_level_formula_id;
+    } else if( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
+        return magic_type.value()->exp_for_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
 int spell::get_level() const
 {
     return type->get_level( experience );
@@ -1702,12 +1752,13 @@ int spell::get_level() const
 
 int spell_type::get_level( int experience ) const
 {
+    std::optional<jmath_func_id> level_formula = overall_get_level_formula_id();
+
     // you aren't at the next level unless you have the requisite xp, so floor
-    if( get_level_formula_id.has_value() ) {
-        return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
+    if( level_formula.has_value() ) {
+        return std::max( static_cast<int>( std::floor( level_formula.value()->eval( dialogue(
                                                std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
     }
-
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
@@ -1790,8 +1841,9 @@ int spell_type::exp_for_level( int level ) const
     if( level == 0 ) {
         return 0;
     }
-    if( exp_for_level_formula_id.has_value() ) {
-        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
+    std::optional<jmath_func_id> func_id = overall_exp_for_level_formula_id();
+    if( func_id.has_value() ) {
+        return std::ceil( func_id.value()->eval( dialogue( std::make_unique<talker>(),
                           nullptr ), { static_cast<double>( level ) } ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
