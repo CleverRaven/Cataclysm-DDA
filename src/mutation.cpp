@@ -49,6 +49,8 @@
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
+static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
+
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
@@ -1073,13 +1075,6 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
                 return false;
             }
         }
-
-        if( bid->mutation_conflicts.count( mutation ) != 0 ) {
-            add_msg_debug( debugmode::DF_MUTATION,
-                           "mutation_ok( %s ): failed, bionic conflict (conflicting mutation on %s)", mutation.c_str(),
-                           bid.c_str() );
-            return false;
-        }
     }
 
     const mutation_branch &mdata = mutation.obj();
@@ -1687,17 +1682,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         return false;
     }
 
-    // Just prevent it when it conflicts with a CBM, for now
-    // TODO: Consequences?
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
-            add_msg_debug( debugmode::DF_MUTATION,
-                           "mutate_towards: failed, bionic %s prevents mutation (mutation conflict)", bid.c_str() );
-            add_msg_if_player(
-                _( "Your churning flesh strains painfully against your %1$s for a moment, then the feeling fades." ),
-                bid->name );
-            return false;
+            return handle_bio_mut_conflict( bid, mut );
         }
+        // We shouldn't ever get here, because of mutation_ok
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( mid == mut ) {
                 add_msg_debug( debugmode::DF_MUTATION,
@@ -2343,6 +2332,61 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
             }
         }
     }
+}
+
+static void fail_mutation_wounds( Character &guy, const bionic_id &bio, bool catastrophic )
+{
+    std::map<bodypart_str_id, int> main_bps;
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bio->occupied_bodyparts ) {
+        main_bps.emplace( bp.first->main_part, 1 ).first->second += 1;
+    }
+    for( const std::pair<const bodypart_str_id, int> bp : main_bps ) {
+        int intensity = catastrophic ? 3 : bp.second > 1 ? 2 : 1;
+        guy.add_effect( effect_mutation_internal_damage, intensity * 7 * 1_hours, bp.first.id(), false,
+                        intensity );
+        if( catastrophic ) {
+            guy.apply_damage( nullptr, bp.first.id(), rng( 12, 36 ) );
+        }
+    }
+}
+
+bool Character::handle_bio_mut_conflict( const bionic_id &bio, const trait_id &mut )
+{
+    int bio_slots = 0;
+    std::set<bodypart_str_id> bio_parts;
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bio->occupied_bodyparts ) {
+        bio_slots += bp.second;
+        bio_parts.emplace( bp.first->main_part );
+    }
+    // Occupying more body parts decreases chance of destruction (less invasive overall)
+    // Occupying more slots increases chance of desctruction (more invasive)
+    // More mutation points increase chance of destruction (more invasive mutation)
+    // because there must be more slots than parts, decrease slots with sqrt
+    int deviation = bio_parts.size() + std::abs( mut->points ) - std::sqrt( bio_slots );
+    if( deviation < 2 ) {
+        deviation = 2;
+    }
+    add_msg_debug( debugmode::DF_MUTATION,
+                   "Chance of %s to destroy %s: (dev: %d = %d - %g + %d) %.1f%%",
+                   mut->name(), bio->name, deviation, bio_parts.size(), std::sqrt( bio_slots ),
+                   std::abs( mut->points ), normal_roll_chance( 0, deviation, 2 ) * 100.0 );
+    if( normal_roll( 0, deviation ) > 2 ) {
+        std::optional<bionic *> ret = find_bionic_by_type( bio );
+        if( !ret ) {
+            debugmsg( "Mutation conflicts with bionic (%s) that is not installed?", bio.str() );
+            return false;
+        }
+        remove_bionic( *( *ret ) );
+        // massive wounds
+        fail_mutation_wounds( *this, bio, true );
+        add_msg( m_bad, _( "The changes in your body destroy your %s." ), bio->name );
+        return true;
+    }
+    add_msg( m_bad, _( "Your body strains against your %s and it hurts!" ), bio->name );
+    add_msg_debug( debugmode::DF_MUTATION, "Tried to mutate %s but blocked by %s.",
+                   mut->name(), bio->name );
+    fail_mutation_wounds( *this, bio, false );
+    return false;
 }
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
