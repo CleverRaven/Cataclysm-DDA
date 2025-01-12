@@ -1818,6 +1818,18 @@ bool outfit::can_pickVolume( const item &it, const bool ignore_pkt_settings,
     return false;
 }
 
+static void add_overlay_id_or_override( const item &item,
+                                        std::vector<std::pair<std::string, std::string>> &overlay_ids )
+{
+    if( item.has_var( "sprite_override" ) ) {
+        overlay_ids.emplace_back( "worn_" + item.get_var( "sprite_override" ),
+                                  item.get_var( "sprite_override_variant", "" ) );
+    } else {
+        const std::string variant = item.has_itype_variant() ? item.itype_variant().id : "";
+        overlay_ids.emplace_back( "worn_" + item.typeId().str(), variant );
+    }
+}
+
 void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &overlay_ids ) const
 {
     // TODO: worry about correct order of clothing overlays
@@ -1825,12 +1837,9 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
         if( worn_item.has_flag( json_flag_HIDDEN ) ) {
             continue;
         }
-        if( worn_item.has_var( "sprite_override" ) ) {
-            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ),
-                                      worn_item.get_var( "sprite_override_variant", "" ) );
-        } else {
-            const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
-            overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        add_overlay_id_or_override( worn_item, overlay_ids );
+        for( const item *ablative : worn_item.all_ablative_armor() ) {
+            add_overlay_id_or_override( *ablative, overlay_ids );
         }
     }
 }

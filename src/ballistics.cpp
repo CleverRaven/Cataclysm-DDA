@@ -61,7 +61,7 @@ static const itype_id itype_glass_shard( "glass_shard" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
-static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
+static void drop_or_embed_projectile( const dealt_projectile_attack &attack, projectile &proj_arg )
 {
     const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
@@ -93,7 +93,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                        drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
 
         for( int i = 0; i < nb_of_dropped_shard; ++i ) {
-            item shard( "glass_shard" );
+            item shard( itype_glass_shard );
             //actual dropping of shards
             get_map().add_item_or_charges( pt, shard );
         }
@@ -139,6 +139,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
+        if( proj_arg.proj_effects.count( ammo_effect_BOUNCE ) ) {
+            proj_arg.proj_effects.erase( ammo_effect_BOUNCE );
+        }
         mon->add_item( dropped_item );
         add_msg_if_player_sees( pt, _( "The %1$s embeds in %2$s!" ),
                                 dropped_item.tname(), mon->disp_name() );
@@ -531,7 +534,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( attack );
+    drop_or_embed_projectile( attack, proj );
 
     int dealt_damage = attack.dealt_dam.total_damage();
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
@@ -562,6 +565,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
+            attack.targets_hit[&z].first += 0;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             projectile_attack( attack, proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",

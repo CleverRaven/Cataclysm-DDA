@@ -23,6 +23,10 @@ static const efftype_id effect_test_rash( "test_rash" );
 static const field_type_str_id field_fd_acid( "fd_acid" );
 static const field_type_str_id field_fd_test( "fd_test" );
 
+static const itype_id itype_test_2x4( "test_2x4" );
+static const itype_id itype_test_hazmat_hat( "test_hazmat_hat" );
+static const itype_id itype_test_hazmat_shirt( "test_hazmat_shirt" );
+
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
@@ -240,7 +244,7 @@ TEST_CASE( "fire_spreading", "[field][!mayfail]" )
     }
     SECTION( "fire spreads on flammable items" ) {
         for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint::east; p0 += tripoint::east ) {
-            m.add_item( p0, item( "test_2x4" ) );
+            m.add_item( p0, item( itype_test_2x4 ) );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
@@ -509,7 +513,7 @@ TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
     Character &dummy = get_avatar();
     map &m = get_map();
 
-    item head_armor( "test_hazmat_hat" );
+    item head_armor( itype_test_hazmat_hat );
     dummy.wear_item( head_armor );
 
     dummy.setpos( p );
@@ -533,7 +537,7 @@ TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
     Character &dummy = get_avatar();
     map &m = get_map();
 
-    item torso_armor( "test_hazmat_shirt" );
+    item torso_armor( itype_test_hazmat_shirt );
     dummy.wear_item( torso_armor );
 
     dummy.setpos( p );
@@ -557,9 +561,9 @@ TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
     Character &dummy = get_avatar();
     map &m = get_map();
 
-    item torso_armor( "test_hazmat_shirt" );
+    item torso_armor( itype_test_hazmat_shirt );
     dummy.wear_item( torso_armor );
-    item head_armor( "test_hazmat_hat" );
+    item head_armor( itype_test_hazmat_hat );
     dummy.wear_item( head_armor );
 
     dummy.setpos( p );

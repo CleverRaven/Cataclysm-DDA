@@ -123,9 +123,9 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
     const pathfinding_cache &pf_cache = m.get_pathfinding_cache_ref( t.z );
     for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
         if( pf_cache.special[p.x][p.y] & ( PathfindingFlag::GoesDown | PathfindingFlag::GoesUp ) ) {
-            const tripoint t2( p, t.z );
+            const tripoint_bub_ms t2( p.x, p.y, t.z );
             if( m.has_flag( flag, t2 ) ) {
-                t = t2;
+                t = t2.raw();
                 return true;
             }
         }

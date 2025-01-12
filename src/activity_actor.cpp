@@ -4375,7 +4375,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         got_anything = roll > 0;
         for( int i = 0; i < roll; i++ ) {
-            iexamine_helper::handle_harvest( who, entry.drop, false );
+            iexamine_helper::handle_harvest( who, itype_id( entry.drop ), false );
         }
     }
 
@@ -7803,7 +7803,7 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
-        h.vpt = get_map().getglobal( act.coords[0] );
+        h.vpt = act.coords[0];
     }
     std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
     if( h.pseudo_flag ) {

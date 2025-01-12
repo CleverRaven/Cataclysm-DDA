@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_HANDLE_LIQUID_H
 #define CATA_SRC_HANDLE_LIQUID_H
 
+#include "coordinates.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
@@ -22,7 +23,7 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
-    tripoint pos;
+    tripoint_bub_ms pos;
     item_location item_loc;
     vehicle *veh = nullptr;
 };

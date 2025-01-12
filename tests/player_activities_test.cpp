@@ -49,6 +49,7 @@ static const furn_str_id furn_test_f_prying1( "test_f_prying1" );
 static const itype_id itype_book_binder( "book_binder" );
 static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_oxyacetylene( "oxyacetylene" );
+static const itype_id itype_stethoscope( "stethoscope" );
 static const itype_id itype_tent_kit( "tent_kit" );
 static const itype_id itype_test_2x4( "test_2x4" );
 static const itype_id itype_test_backpack( "test_backpack" );
@@ -200,7 +201,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         }
 
         GIVEN( "player has a stethoscope" ) {
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
@@ -235,7 +236,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_bionics();
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
@@ -288,7 +289,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         dummy.activity.start_or_resume( dummy, false );
 
         GIVEN( "player cracks one safe" ) {
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );

@@ -583,8 +583,7 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        // TODO: Get rid of untyped overload.
-        std::unordered_set<tripoint> get_fishable_locations( int distance,
+        std::unordered_set<tripoint_abs_ms> get_fishable_locations_abs( int distance,
                 const tripoint_bub_ms &fish_pos );
         std::unordered_set<tripoint_bub_ms> get_fishable_locations_bub( int distance,
                 const tripoint_bub_ms &fish_pos );
@@ -595,7 +594,8 @@ class game
          * @return Fishable monsters within the specified fishable terrain.
          */
         // TODO: Get rid of untyped overload.
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
+                &fishable_locations );
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_bub_ms>
                 &fishable_locations );
 
