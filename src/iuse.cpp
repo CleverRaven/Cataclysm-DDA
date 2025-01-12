@@ -901,7 +901,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
         map &here = get_map();
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            point_rel_ms offset( rng( -2, 2 ), rng( -2, 2 ) );
             here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
@@ -8229,7 +8229,7 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
     return {volume, ammo, time};
 }
 
-static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
+static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_selector( Character *p )
 {
     const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
             _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
@@ -8264,7 +8264,7 @@ static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( C
                     p->add_msg_if_player( m_info, _( "You haven't selected any heater." ) );
                     return std::nullopt;
                 } else {
-                    return std::make_pair( pt.value().raw(), pseudo_tools[app_menu.ret] );
+                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
                 }
 
             }
@@ -8322,7 +8322,7 @@ heater find_heater( Character *p, item *it )
                                  1,
                                  _( "You don't have a proper heating tool.  Try selecting an appliance with a heater." ) );
         if( !loc ) {
-            std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
+            std::optional<std::pair<tripoint_bub_ms, itype_id>> app = appliance_heater_selector( p );
             if( !app ) {
                 return {loc, true, -1, 0, vpt, pseudo_flag};
             } else {

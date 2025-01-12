@@ -218,10 +218,11 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //    }
 }
 
-static tripoint read_legacy_creature_pos( const JsonObject &data )
+static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 {
-    tripoint pos;
-    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+    tripoint_bub_ms pos;
+    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
+        !data.read( "posz", pos.z() ) ) {
         debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
     }
     return pos;
@@ -2059,15 +2060,15 @@ void npc::load( const JsonObject &data )
     if( !data.has_member( "location" ) ) {
         point submap_coords;
         data.read( "submap_coords", submap_coords );
-        const tripoint pos = read_legacy_creature_pos( data );
+        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
-        std::optional<tripoint> opt;
+                                       0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
+        std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = get_location() + *opt - pos;
+            last_player_seen_pos = get_location() + ( *opt - pos );
         }
         if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = get_location() + *opt - pos;
+            pulp_location = get_location() + ( *opt - pos );
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
@@ -2434,10 +2435,10 @@ void monster::load( const JsonObject &data )
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-        tripoint wand;
-        data.read( "wandx", wand.x );
-        data.read( "wandy", wand.y );
-        data.read( "wandz", wand.z );
+        tripoint_bub_ms wand;
+        data.read( "wandx", wand.x() );
+        data.read( "wandy", wand.y() );
+        data.read( "wandz", wand.z() );
         wander_pos = get_map().getglobal( wand );
         tripoint destination;
         data.read( "destination", destination );
