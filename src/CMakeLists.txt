@@ -155,6 +155,13 @@ if (TILES)
     if (RELEASE)
         install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
+
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
+
 endif ()
 
 # Build curses version if requested
@@ -196,9 +203,14 @@ if (CURSES)
     endif ()
 
     target_include_directories(cataclysm-common PUBLIC
-        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
+        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS}
     )
-    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
+    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES})
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
