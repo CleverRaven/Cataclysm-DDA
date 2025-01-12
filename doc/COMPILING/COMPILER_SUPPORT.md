@@ -33,8 +33,10 @@ At the time of writing:
   14.0](https://fedoraproject.org/wiki/Changes/GNUToolchainF40).
 * MSYS [offers gcc 12.2](https://packages.msys2.org/base).
 * macOS 10.15+ (macOS Catalina) has 96.0% [market
-  share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)
+  share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)[^2]
   and that corresponds to [XCode 11.4](https://xcodereleases.com/).
+
+[^2]: [macOS releases past 10.15 series can not be estimated faithfully](https://bugs.webkit.org/show_bug.cgi?id=216593)
 
 With the supported compilers we can get all the C++17 language
 features and [most but not all of the C++17 library
