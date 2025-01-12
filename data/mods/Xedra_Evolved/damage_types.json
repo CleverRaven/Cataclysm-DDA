@@ -85,7 +85,10 @@
         { "not": { "npc_has_flag": "SHADOW_MONSTER_IMMUNE" } }
       ]
     },
-    "effect": [ { "npc_add_effect": "blind", "duration": "3 s" } ]
+    "effect": [
+      { "npc_add_effect": "blind", "duration": "3 s" },
+      { "u_message": "A bit of shadowstuff settles over your eyes, blocking your vision!", "type": "bad" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -114,5 +117,96 @@
     "pet_prot_info": { "order": 999903, "show_type": false },
     "melee_combat_info": { "order": 999903, "show_type": false },
     "ablative_info": { "order": 999903, "show_type": false }
+  },
+  {
+    "id": "xe_void_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "dark_gray_cyan",
+    "name": "nihility",
+    "skill": "bashing",
+    "derived_from": [ "bash", 0.7 ],
+    "immune_flags": { "character": [ "VOID_CHAR_IMMUNE" ], "monster": [ "VOID_MONSTER_IMMUNE" ] },
+    "ondamage_eocs": [ "EOC_VOID_DAMAGE_STUN_CHANCE", "EOC_STARING_INTO_THE_VOID" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VOID_DAMAGE_STUN_CHANCE",
+    "condition": {
+      "and": [
+        { "x_in_y_chance": { "x": 1, "y": 8 } },
+        { "math": [ "_damage_taken > 0" ] },
+        { "not": { "npc_has_trait": "VOIDWALKER" } },
+        { "not": { "npc_has_flag": "VOID_CHAR_IMMUNE" } },
+        { "not": { "npc_has_flag": "VOID_MONSTER_IMMUNE" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Visions of the outer darkness lock your muscles in place!", "type": "bad" },
+      { "npc_add_effect": "stun", "duration": "1 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARING_INTO_THE_VOID",
+    "//": "dimensional effects don't take against dimensionally anchored foes.",
+    "condition": {
+      "or": [
+        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" },
+        { "npc_has_flag": "DIMENSIONAL_ANCHOR" },
+        { "npc_has_flag": "VOID_CHAR_IMMUNE" },
+        { "npc_has_flag": "VOIDWALKER" }
+      ]
+    },
+    "effect": { "u_message": "You feel the attention of something malevolent pass you by.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARING_INTO_THE_VOID2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARING_INTO_THE_VOID2",
+    "condition": "player_see_npc",
+    "effect": [
+      {
+        "u_message": "The <npc_name> stares at you, and you feel the attention of something in the deep dark turn towards you.",
+        "type": "bad"
+      },
+      { "run_eocs": [ "EOC_VOID_STARE_EFF" ] }
+    ],
+    "false_effect": [
+      { "u_message": "A thing beyond humanity is watching you across the void of space.", "type": "bad" },
+      { "run_eocs": [ "EOC_VOID_STARE_EFF" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VOID_STARE_EFF",
+    "effect": [
+      {
+        "u_add_effect": "void_stares_back",
+        "intensity": { "math": [ "u_effect_intensity('void_stares_back') + 1" ] },
+        "duration": [ "2 m", "5 m" ]
+      },
+      { "run_eocs": [ "EOC_VOID_STARE_EFF2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VOID_STARE_EFF2",
+    "condition": { "math": [ "u_effect_intensity('void_stares_back') = 5" ] },
+    "effect": [
+      { "u_add_effect": "void_stares_back", "intensity": { "math": [ "u_effect_intensity('void_stares_back') - 5" ] } },
+      { "u_add_effect": "voidmarked", "duration": [ "24 hours", "120 hours" ] }
+    ]
+  },
+  {
+    "id": "xe_void_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "umbrous",
+    "bionic_info": { "order": 996903, "show_type": false },
+    "protection_info": { "order": 996903, "show_type": false },
+    "pet_prot_info": { "order": 996903, "show_type": false },
+    "melee_combat_info": { "order": 996903, "show_type": false },
+    "ablative_info": { "order": 996903, "show_type": false }
   }
 ]

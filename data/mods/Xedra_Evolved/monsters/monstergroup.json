@@ -328,24 +328,38 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_CAMP_OM",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" } ]
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_genetwister", "weight": 20, "cost_multiplier": 3, "starts": "420 hours" },
+      { "monster": "mon_mi_go_void_priest", "weight": 20, "cost_multiplier": 3, "starts": "420 hours" }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_COMMON",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" } ]
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_genetwister", "weight": 20, "cost_multiplier": 3, "starts": "420 hours" },
+      { "monster": "mon_mi_go_void_priest", "weight": 20, "cost_multiplier": 3, "starts": "420 hours" }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_CAPTORS",
-    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" } ]
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
+      { "monster": "mon_mi_go_genetwister", "weight": 50, "cost_multiplier": 3, "starts": "420 hours" },
+      { "monster": "mon_mi_go_void_priest", "weight": 50, "cost_multiplier": 3, "starts": "420 hours" }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_BOSS",
     "monsters": [
       { "monster": "mon_mi_go_stalking_warper", "weight": 200, "cost_multiplier": 2 },
-      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mi_go_genetwister", "weight": 20, "cost_multiplier": 3 },
+      { "monster": "mon_mi_go_void_priest", "weight": 20, "cost_multiplier": 3 }
     ]
   },
   {
