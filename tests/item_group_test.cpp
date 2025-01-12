@@ -14,7 +14,14 @@
 #include "options_helpers.h"
 #include "type_id.h"
 
+static const itype_id itype_40x46mm_m1006( "40x46mm_m1006" );
+static const itype_id itype_glock_19( "glock_19" );
+static const itype_id itype_longbow( "longbow" );
 static const itype_id itype_match( "match" );
+static const itype_id itype_matches( "matches" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_test_balloon( "test_balloon" );
+static const itype_id itype_test_rock( "test_rock" );
 
 TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
 {
@@ -27,7 +34,7 @@ TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
     for( int i = 0; i < 100; ++i ) {
         const item_group::ItemList items = item_group::items_from( truncate_test_id );
         REQUIRE( items.size() == 1 );
-        REQUIRE( items[0].typeId().str() == "test_balloon" );
+        REQUIRE( items[0].typeId() == itype_test_balloon );
         std::list<const item *> contents = items[0].all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs.emplace( contents.front()->typeId(), contents.back()->typeId() );
@@ -52,14 +59,14 @@ TEST_CASE( "spill_when_items_dont_fit", "[item_group]" )
         REQUIRE( items.size() == 2 );
         const item *container;
         const item *other;
-        if( items[0].typeId().str() == "test_balloon" ) {
+        if( items[0].typeId() == itype_test_balloon ) {
             container = &items[0];
             other = &items[1];
         } else {
             container = &items[1];
             other = &items[0];
         }
-        REQUIRE( container->typeId().str() == "test_balloon" );
+        REQUIRE( container->typeId() == itype_test_balloon );
         std::list<const item *> contents = container->all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs_inside.emplace( contents.front()->typeId(), contents.back()->typeId() );
@@ -78,14 +85,14 @@ TEST_CASE( "spawn_with_default_charges_and_with_ammo", "[item_group]" )
     Item_modifier default_charges;
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
-        item matches( "matches" );
+        item matches( itype_matches );
         REQUIRE( matches.ammo_default() == itype_match );
         default_charges.modify( matches, "modifier test (matches ammo)" );
         CHECK( matches.remaining_ammo_capacity() == 0 );
     }
 
     SECTION( "gun with ammo type" ) {
-        item glock( "glock_19" );
+        item glock( itype_glock_19 );
         REQUIRE( !glock.magazine_default().is_null() );
         default_charges.modify( glock, "modifier test (glock ammo)" );
         CHECK( glock.remaining_ammo_capacity() == 0 );
@@ -98,14 +105,14 @@ TEST_CASE( "Item_modifier_damages_item", "[item_group]" )
     damaged.damage.first = 1;
     damaged.damage.second = 1;
     SECTION( "except when it's an ammunition" ) {
-        item rock( "rock" );
+        item rock( itype_rock );
         REQUIRE( rock.damage() == 0 );
         REQUIRE( rock.max_damage() == 0 );
         damaged.modify( rock, "modifier test (rock damage)" );
         CHECK( rock.damage() == 0 );
     }
     SECTION( "when it can be damaged" ) {
-        item glock( "glock_19" );
+        item glock( itype_glock_19 );
         REQUIRE( glock.damage() == 0 );
         REQUIRE( glock.max_damage() > 0 );
         damaged.modify( glock, "modifier test (glock damage)" );
@@ -118,14 +125,14 @@ TEST_CASE( "Item_modifier_gun_fouling", "[item_group]" )
     Item_modifier fouled;
     fouled.dirt.first = 1;
     SECTION( "guns can be fouled" ) {
-        item glock( "glock_19" );
+        item glock( itype_glock_19 );
         REQUIRE( !glock.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         REQUIRE( !glock.has_var( "dirt" ) );
         fouled.modify( glock, "modifier test (glock fouling)" );
         CHECK( glock.get_var( "dirt", 0.0 ) > 0.0 );
     }
     SECTION( "bows can't be fouled" ) {
-        item bow( "longbow" );
+        item bow( itype_longbow );
         REQUIRE( !bow.has_var( "dirt" ) );
         REQUIRE( bow.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         fouled.modify( bow, "modifier test (bow fouling)" );
@@ -136,8 +143,8 @@ TEST_CASE( "Item_modifier_gun_fouling", "[item_group]" )
 TEST_CASE( "item_modifier_modifies_charges_for_item", "[item_group]" )
 {
     GIVEN( "an ammo item that uses charges" ) {
-        const std::string item_id = "40x46mm_m1006";
-        item subject( item_id );
+        const std::string &item_id = itype_40x46mm_m1006.c_str();
+        item subject( itype_40x46mm_m1006 );
 
         const int default_charges = 6;
 
@@ -247,7 +254,7 @@ TEST_CASE( "Event-based_item_spawns_do_not_spawn_outside_event", "[item_group]" 
     REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "items" );
 
     item_group_id event_test_id( "test_event_item_spawn" );
-    itype_id test_rock( "test_rock" );
+    itype_id test_rock( itype_test_rock );
     const item_group::ItemList items = item_group::items_from( event_test_id );
     REQUIRE( item_group::every_possible_item_from( event_test_id ).size() == 6 );
     holiday cur_event = get_holiday_from_time();

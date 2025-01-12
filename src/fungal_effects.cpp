@@ -34,6 +34,8 @@ static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
 static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
 static const furn_str_id furn_f_fungal_mass( "f_fungal_mass" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
@@ -242,7 +244,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint_bub_ms &p, const int
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
                                             p.to_string_writable();
             } else {
-                *seed = item( "fungal_seeds", calendar::turn );
+                *seed = item( itype_fungal_seeds, calendar::turn );
             }
         }
     }

@@ -30,7 +30,7 @@
     "sound_description": "skin crackling",
     "sound_id": "fire_spell",
     "sound_variant": "strong",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "flarewhip",
@@ -52,7 +52,7 @@
     "base_casting_time": 25,
     "sound_description": "whoosh",
     "sound_id": "fire_spell",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "min_duration": 90000,
     "duration_increment": 6000,
     "max_duration": 300000

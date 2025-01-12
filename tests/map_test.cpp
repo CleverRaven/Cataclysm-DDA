@@ -15,6 +15,12 @@
 #include "submap.h"
 #include "type_id.h"
 
+static const itype_id itype_almond_milk( "almond_milk" );
+static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_cookies( "cookies" );
+static const itype_id itype_disinfectant( "disinfectant" );
+
 TEST_CASE( "map_coordinate_conversion_functions" )
 {
     map &here = get_map();
@@ -177,9 +183,9 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
-    item bottle_plastic( "bottle_plastic" );
+    item bottle_plastic( itype_bottle_plastic );
     REQUIRE( !bottle_plastic.needs_processing() );
-    item disinfectant( "disinfectant" );
+    item disinfectant( itype_disinfectant );
     REQUIRE( disinfectant.needs_processing() );
 
     ret_val<void> const ret =
@@ -222,7 +228,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     get_weather().forced_temperature = units::from_celsius( 21 );
     REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
 
-    item almond_milk( "almond_milk" );
+    item almond_milk( itype_almond_milk );
     item *bp = nullptr;
 
     bool const in_container = GENERATE( true, false );
@@ -231,7 +237,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 
     if( in_container ) {
         sealed = GENERATE( true, false );
-        item bottle_plastic( "bottle_plastic" );
+        item bottle_plastic( itype_bottle_plastic );
         ret_val<void> const ret = bottle_plastic.put_in( almond_milk, pocket_type::CONTAINER );
         REQUIRE( ret.success() );
 
@@ -275,8 +281,8 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     bool const cookie_rotten_before_death = GENERATE( true, false );
     CAPTURE( cookie_rotten_before_death );
 
-    item bag_plastic( "bag_plastic" );
-    item cookie( "cookies" );
+    item bag_plastic( itype_bag_plastic );
+    item cookie( itype_cookies );
     REQUIRE( cookie.needs_processing() );
     if( cookie_rotten_before_death ) {
         cookie.set_relative_rot( 10 );

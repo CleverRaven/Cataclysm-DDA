@@ -21,7 +21,7 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_see_electricity') > -1 ? 0 : max((2000 - (u_spell_level('afs_electrokinetic_see_electric') * 75)), 750)"
@@ -64,7 +64,7 @@
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 1,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 1500,
     "final_energy_cost": 450,
     "energy_increment": -65,
@@ -97,7 +97,7 @@
     "max_duration": {
       "math": [ "( (u_spell_level('afs_electrokinetic_zap_enemies') * 22500) + 80000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 3500,
     "final_energy_cost": 1100,
     "energy_increment": -120,
@@ -131,7 +131,7 @@
         "( ( (u_spell_level('afs_electrokinetic_hacking_interface') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) )"
       ]
     },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 0 : max((6500 - (u_spell_level('afs_electrokinetic_hacking_interface') * 150)), 3500)"
@@ -162,7 +162,7 @@
     "min_damage": 1,
     "min_duration": 120000,
     "max_duration": 360000,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_afs_electrokin_personal_battery') > 0 ? 0 : max((6500 - (u_spell_level('afs_electrokinetic_personal_battery') * 150)), 3500)"
@@ -196,7 +196,7 @@
       "math": [ "( (u_spell_level('afs_electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": 1,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 7500,
     "final_energy_cost": 4500,
     "energy_increment": -150,

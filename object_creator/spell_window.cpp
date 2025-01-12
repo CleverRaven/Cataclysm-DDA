@@ -838,7 +838,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &energy_source_box, &QComboBox::currentTextChanged,
     [&]() {
         const magic_energy_type tp = static_cast<magic_energy_type>( energy_source_box.currentIndex() );
-        editable_spell.energy_source = tp;
+        editable_spell.get_energy_source() = tp;
         write_json();
     } );
 
@@ -1271,7 +1271,7 @@ void creator::spell_window::populate_fields()
 
 
             index = energy_source_box.findText( QString( io::enum_to_string<magic_energy_type>
-                                                ( sp_t.energy_source ).c_str() ) );
+                                                ( sp_t.get_energy_source() ).c_str() ) );
             if( index != -1 ) {
                 energy_source_box.setCurrentIndex( index );
             }

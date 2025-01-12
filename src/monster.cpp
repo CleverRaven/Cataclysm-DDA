@@ -144,8 +144,11 @@ static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
+static const itype_id itype_rope_6( "rope_6" );
+static const itype_id itype_snare_trigger( "snare_trigger" );
 
 static const json_character_flag json_flag_ANIMALDISCORD( "ANIMALDISCORD" );
 static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
@@ -3048,11 +3051,11 @@ void monster::die( Creature *nkiller )
         move_special_item_to_inv( tied_item );
 
         if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
+            add_item( item( itype_rope_6, calendar::turn_zero ) );
+            add_item( item( itype_snare_trigger, calendar::turn_zero ) );
         }
         if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
+            add_item( item( itype_beartrap, calendar::turn_zero ) );
         }
     }
 

@@ -33,7 +33,7 @@
     "sound_description": "a deep rumbling",
     "sound_id": "earth_spell",
     "sound_variant": "strong",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "extra_effects": [ { "id": "quake_transform" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
@@ -72,6 +72,7 @@
     "sound_id": "earth_spell",
     "sound_variant": "strong",
     "energy_source": "STAMINA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "EARTH_ELEMENTAL",
     "damage_type": "bash",
     "base_energy_cost": 5000,

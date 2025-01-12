@@ -54,7 +54,7 @@
     "method": "json",
     "om_terrain": [ [ "afs_solar_arrary_a1_roof", "afs_solar_array_a2_roof" ] ],
     "object": {
-      "fill_ter": "t_metal_floor",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                                                ",
         "                                                ",

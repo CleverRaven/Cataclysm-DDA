@@ -25,6 +25,7 @@
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
@@ -407,7 +408,7 @@ void veh_app_interact::refill()
         const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.getglobal( p ) );
         }
         act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
         act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
@@ -496,7 +497,7 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.getglobal( p ) );
         }
         const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
@@ -530,7 +531,7 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
     const tripoint_bub_ms pos = veh->bub_part_pos( part );
-    item cord( "power_cord" );
+    item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
         cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );

@@ -7730,14 +7730,6 @@
     "components": [ [ [ "steel_chunk", 4 ] ] ]
   },
   {
-    "result": "active_backup_generator",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "45 m",
-    "qualities": [ { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "engine_1cyl_diesel_large", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
-  },
-  {
     "result": "apron_cut_resistant",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

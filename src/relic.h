@@ -229,7 +229,7 @@ class relic
         // has a recharge type (which needs to be actively processed)
         bool has_recharge() const;
 
-        void try_recharge( item &parent, Character *carrier, const tripoint &pos );
+        void try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos );
 
         bool can_recharge( item &parent, Character *carrier ) const;
 

@@ -30,9 +30,23 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_arrow_metal( "arrow_metal" );
+static const itype_id itype_arrow_wood_heavy( "arrow_wood_heavy" );
+static const itype_id itype_bolt_makeshift( "bolt_makeshift" );
+static const itype_id itype_bolt_steel( "bolt_steel" );
+static const itype_id itype_compbow( "compbow" );
+static const itype_id itype_compbow_high( "compbow_high" );
+static const itype_id itype_compcrossbow( "compcrossbow" );
+static const itype_id itype_compositecrossbow( "compositecrossbow" );
+static const itype_id itype_hand_crossbow( "hand_crossbow" );
+static const itype_id itype_recurbow( "recurbow" );
+static const itype_id itype_rep_crossbow( "rep_crossbow" );
+static const itype_id itype_selfbow( "selfbow" );
+static const itype_id itype_shortbow( "shortbow" );
+
 // In short, a bow should never destroy a wall, pretty simple.
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
-        dealt_projectile_attack &attack, const std::string &weapon_type )
+        dealt_projectile_attack &attack, const itype_id &weapon_type )
 {
     static const tripoint_bub_ms target_point{ 5, 5, 0 };
     map &here = get_map();
@@ -42,7 +56,7 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
         CAPTURE( projectile_copy.impact.total_damage() );
         here.shoot( target_point, projectile_copy, false );
         CAPTURE( target_type );
-        CAPTURE( weapon_type );
+        CAPTURE( weapon_type.c_str() );
         CAPTURE( ter_id( target_type ).obj().name() );
         CAPTURE( here.ter( target_point ).obj().name() );
         if( smashable ) {
@@ -54,7 +68,7 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
 }
 
 static void test_projectile_attack( const std::string &target_type, bool killable,
-                                    dealt_projectile_attack &attack, const std::string &weapon_type,
+                                    dealt_projectile_attack &attack, const itype_id &weapon_type,
                                     const bool headshot )
 {
     for( int i = 0; i < 10; ++i ) {
@@ -66,17 +80,17 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
         CAPTURE( target.get_hp() );
         CAPTURE( target.get_hp_max() );
         CAPTURE( attack.proj.impact.total_damage() );
-        CAPTURE( weapon_type );
+        CAPTURE( weapon_type.c_str() );
         CHECK( target.is_dead() == killable );
     }
 }
 
-static void test_archery_balance( const std::string &weapon_type, const std::string &ammo_type,
+static void test_archery_balance( const itype_id &weapon_type, const itype_id &ammo_type,
                                   const std::string &killable, const std::string &unkillable,
                                   const bool headshot )
 {
     item weapon( weapon_type );
-    weapon.ammo_set( itype_id( ammo_type ), 1 );
+    weapon.ammo_set( ammo_type, 1 );
 
     projectile test_projectile;
     test_projectile.speed = 1000;
@@ -107,23 +121,25 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     // undodgable bolt fired with a guaranteed crit 10 times
 
     // Selfbow can't kill a turkey
-    test_archery_balance( "selfbow", "arrow_wood_heavy", "", "test_mon_turkey", true );
-    test_archery_balance( "rep_crossbow", "bolt_makeshift", "", "test_mon_turkey", true );
+    test_archery_balance( itype_selfbow, itype_arrow_wood_heavy, "", "test_mon_turkey", true );
+    test_archery_balance( itype_rep_crossbow, itype_bolt_makeshift, "", "test_mon_turkey", true );
     // Shortbow can kill turkeys, but not deer
-    test_archery_balance( "shortbow", "arrow_metal", "test_mon_turkey", "test_mon_deer", true );
-    test_archery_balance( "hand_crossbow", "bolt_steel", "test_mon_turkey", "test_mon_deer", true );
+    test_archery_balance( itype_shortbow, itype_arrow_metal, "test_mon_turkey", "test_mon_deer", true );
+    test_archery_balance( itype_hand_crossbow, itype_bolt_steel, "test_mon_turkey", "test_mon_deer",
+                          true );
     // Fiberglass recurve can kill deer with an accurate hit, but not bear
-    test_archery_balance( "recurbow", "arrow_metal", "", "test_mon_deer", false );
-    test_archery_balance( "compositecrossbow", "bolt_steel", "", "test_mon_deer", false );
-    test_archery_balance( "recurbow", "arrow_metal", "test_mon_deer", "test_mon_bear", true );
-    test_archery_balance( "compositecrossbow", "bolt_steel", "test_mon_deer", "test_mon_bear", true );
+    test_archery_balance( itype_recurbow, itype_arrow_metal, "", "test_mon_deer", false );
+    test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "", "test_mon_deer", false );
+    test_archery_balance( itype_recurbow, itype_arrow_metal, "test_mon_deer", "test_mon_bear", true );
+    test_archery_balance( itype_compositecrossbow, itype_bolt_steel, "test_mon_deer", "test_mon_bear",
+                          true );
     // Medium setting compound bow can kill Bear
-    test_archery_balance( "compbow", "arrow_metal", "", "test_mon_bear", false );
-    test_archery_balance( "compbow", "arrow_metal", "test_mon_bear", "", true );
+    test_archery_balance( itype_compbow, itype_arrow_metal, "", "test_mon_bear", false );
+    test_archery_balance( itype_compbow, itype_arrow_metal, "test_mon_bear", "", true );
     // High setting modern compund bow can kill Moose
     // Use a 3x damage weakpoint to keep the tests functional.
-    test_archery_balance( "compcrossbow", "bolt_steel", "", "test_mon_moose", false );
-    test_archery_balance( "compbow_high", "arrow_metal", "", "test_mon_moose", false );
-    test_archery_balance( "compcrossbow", "bolt_steel", "test_mon_moose", "", true );
-    test_archery_balance( "compbow_high", "arrow_metal", "test_mon_moose", "", true );
+    test_archery_balance( itype_compcrossbow, itype_bolt_steel, "", "test_mon_moose", false );
+    test_archery_balance( itype_compbow_high, itype_arrow_metal, "", "test_mon_moose", false );
+    test_archery_balance( itype_compcrossbow, itype_bolt_steel, "test_mon_moose", "", true );
+    test_archery_balance( itype_compbow_high, itype_arrow_metal, "test_mon_moose", "", true );
 }

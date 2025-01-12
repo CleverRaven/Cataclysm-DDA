@@ -13,7 +13,7 @@
     "components": "spell_components_mana_upgrade_efficiency_01",
     "difficulty": 6,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 800,
     "base_casting_time": 2520000
   },
@@ -71,7 +71,7 @@
     "components": "spell_components_mana_upgrade_efficiency_02",
     "difficulty": 9,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 1400,
     "base_casting_time": 3960000
   },
@@ -136,7 +136,7 @@
     "components": "spell_components_mana_upgrade_regeneration_01",
     "difficulty": 6,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 800,
     "base_casting_time": 2520000
   },
@@ -206,7 +206,7 @@
     "components": "spell_components_mana_upgrade_regeneration_02",
     "difficulty": 9,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 1400,
     "base_casting_time": 3960000
   },
@@ -289,7 +289,7 @@
     "components": "spell_components_mana_upgrade_sensitivity_01",
     "difficulty": 6,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 800,
     "base_casting_time": 2520000
   },
@@ -357,7 +357,7 @@
     "components": "spell_components_mana_upgrade_sensitivity_02",
     "difficulty": 9,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 1400,
     "base_casting_time": 3960000
   },

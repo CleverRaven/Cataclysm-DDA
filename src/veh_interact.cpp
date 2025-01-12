@@ -178,7 +178,7 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getglobal( p ).raw() );
+        res.coord_set.insert( here.getglobal( p ) );
     }
     res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
     res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );   // values[1]
@@ -3053,8 +3053,8 @@ void veh_interact::complete_vehicle( Character &you )
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( pt ) ) );
+        for( const tripoint_abs_ms &pt : you.activity.coord_set ) {
+            ovp = here.veh_at( here.bub_from_abs( pt ) );
             if( ovp ) {
                 break;
             }

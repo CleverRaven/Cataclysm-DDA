@@ -234,7 +234,8 @@
     "name": "goblin encampment",
     "sym": "#",
     "color": "red",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "vision_levels": "large_building"
   },
   {
     "type": "mapgen",

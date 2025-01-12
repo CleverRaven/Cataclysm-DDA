@@ -297,6 +297,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
@@ -4427,15 +4428,15 @@ field_entry *game::is_in_dangerous_field()
     return nullptr;
 }
 
-std::unordered_set<tripoint> game::get_fishable_locations( int distance,
+std::unordered_set<tripoint_abs_ms> game::get_fishable_locations_abs( int distance,
         const tripoint_bub_ms &fish_pos )
 {
     const std::unordered_set<tripoint_bub_ms> temp = game::get_fishable_locations_bub( distance,
             fish_pos );
-    std::unordered_set<tripoint> result;
-
+    std::unordered_set<tripoint_abs_ms> result;
+    map &here = get_map();
     for( const tripoint_bub_ms pos : temp ) {
-        result.insert( pos.raw() );
+        result.insert( here.getglobal( pos ) );
     }
 
     return result;
@@ -4498,13 +4499,14 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     return fishable_points;
 }
 
-std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
+std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
         &fishable_locations )
 {
+    const map &here = get_map();
     std::unordered_set<tripoint_bub_ms> temp;
 
-    for( const tripoint pos : fishable_locations ) {
-        temp.insert( tripoint_bub_ms( pos ) );
+    for( const tripoint_abs_ms pos : fishable_locations ) {
+        temp.insert( here.bub_from_abs( pos ) );
     }
 
     return game::get_fishable_monsters( temp );
@@ -11836,7 +11838,7 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
-        const item muscle( "muscle" );
+        const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );

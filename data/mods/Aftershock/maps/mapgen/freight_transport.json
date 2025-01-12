@@ -110,7 +110,8 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_metal_floor" }
     }
   }
 ]
