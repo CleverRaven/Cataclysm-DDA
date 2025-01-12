@@ -1059,12 +1059,12 @@ class wish_item_callback: public uilist_callback
 
 void debug_menu::wishitem( Character *you )
 {
-    wishitem( you, tripoint( -1, -1, -1 ) );
+    wishitem( you, tripoint_bub_ms( -1, -1, -1 ) );
 }
 
-void debug_menu::wishitem( Character *you, const tripoint &pos )
+void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
 {
-    if( you == nullptr && pos.x <= 0 ) {
+    if( you == nullptr && pos.x() <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -1136,7 +1136,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted = wishitem_produce( *std::get<1>( opts[wmenu.ret] ), cb.flags, cb.incontainer ) ;
+            item granted = wishitem_produce( *std::get<1>( opts[wmenu.ret] ), cb.flags, cb.incontainer );
             const itype_variant_data *variant = std::get<2>( opts[wmenu.ret] );
             if( variant != nullptr && granted.has_itype_variant( false ) ) {
                 std::string variant_id = variant->id;
@@ -1166,7 +1166,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                         you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, true, false );
                     }
                     you->invalidate_crafting_inventory();
-                } else if( pos.x >= 0 && pos.y >= 0 ) {
+                } else if( pos.x() >= 0 && pos.y() >= 0 ) {
                     get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
@@ -1187,11 +1187,6 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
             }
         }
     } while( wmenu.ret >= 0 );
-}
-
-void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
-{
-    debug_menu::wishitem( you, pos.raw() );
 }
 
 void debug_menu::wishskill( Character *you, bool change_theory )

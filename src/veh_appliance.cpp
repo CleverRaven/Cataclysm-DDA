@@ -408,7 +408,7 @@ void veh_app_interact::refill()
         const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.getglobal( p ) );
         }
         act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
         act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
@@ -497,7 +497,7 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.getglobal( p ) );
         }
         const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );

@@ -1620,7 +1620,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
           !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
+                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -11273,7 +11273,7 @@ const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) 
     const comfort_data *worst = nullptr;
     for( const trait_id trait : get_functioning_mutations() ) {
         for( const comfort_data &data : trait->comfort ) {
-            if( data.are_conditions_true( *this, p.raw() ) ) {
+            if( data.are_conditions_true( *this, p ) ) {
                 if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
                     worst = &data;
                 }
@@ -11286,10 +11286,10 @@ const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) 
 
 const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
 {
-    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p.raw() ) {
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
         return comfort_cache;
     }
-    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p.raw() );
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
 }
 
 void Character::shift_destination( const point_rel_ms &shift )

@@ -13502,7 +13502,7 @@ void item::process_relic( Character *carrier, const tripoint_bub_ms &pos )
         return;
     }
 
-    relic_data->try_recharge( *this, carrier, pos.raw() );
+    relic_data->try_recharge( *this, carrier, pos );
 }
 
 bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms &pos )

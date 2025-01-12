@@ -1804,13 +1804,13 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
+        act.coords.push_back( get_map().getglobal( vp_pos ) ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
     //Hack for heat_activity_actor.
     if( act.id() == ACT_HEATING ) {
-        act.coords.push_back( vp_pos.raw() );
+        act.coords.push_back( get_map().getglobal( vp_pos ) );
     }
 
     const int used_charges = ammo_in_tool - tool.ammo_remaining();
