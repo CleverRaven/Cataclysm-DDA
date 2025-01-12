@@ -8857,8 +8857,6 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
     }
     const tripoint_bub_ms gp_ms = rebase_bub( coords::project_to<coords::ms>( gp ) );
 
-    creature_tracker &creatures = get_creature_tracker();
-
     // The list of spawns on the submap might be updated while we are iterating it.
     // For example, `monster::on_load` -> `monster::try_reproduce` calls `map::add_spawn`.
     // Therefore, this intentionally uses old-school indexed for-loop with re-check against `.size()` each step.
@@ -8906,35 +8904,9 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
                 tmp.ammo = tmp.type->starting_ammo;
             }
 
-            const auto valid_location = [&]( const tripoint_bub_ms & p ) {
-                // Checking for creatures via g is only meaningful if this is the main game map.
-                // If it's some local map instance, the coordinates will most likely not even match.
-                return ( !g || &get_map() != this || !creatures.creature_at( p ) ) && tmp.can_move_to( p );
-            };
-
-            const auto place_it = [&]( const tripoint_bub_ms & p ) {
-                monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
-                if( placed == nullptr ) {
-                    return;
-                }
-                if( !i.data.patrol_points_rel_ms.empty() ) {
-                    placed->set_patrol_route( i.data.patrol_points_rel_ms );
-                }
-                if( placed ) {
-                    placed->on_load();
-                }
-            };
-
-            // First check out defined spawn location for a valid placement, and if that doesn't work
-            // then fall back to picking a random point that is a valid location.
-            if( valid_location( center ) ) {
-                place_it( center );
-            } else {
-                const std::optional<tripoint_bub_ms> pos = random_point( points, valid_location );
-                if( pos.has_value() ) {
-                    place_it( *pos );
-                }
-            }
+            // This can fail, but there isn't much we can do about it if it does. We could output some
+            // kind of info message, but, again, it's unlikely to result in anything that can be acted on.
+            g->place_critter_at_or_within( make_shared_fast<monster>( tmp ), this, center, points );
         }
     }
     current_submap->spawns.clear();
