@@ -8,7 +8,7 @@
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "math": [ "u_val('pos_z') >= 0" ] }
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
@@ -22,13 +22,19 @@
     "id": "lightning",
     "recurrence": 1,
     "global": true,
-    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "math": [ "u_val('pos_z') >= 0" ] } ] },
+    "condition": {
+      "and": [
+        { "is_weather": "lightning" },
+        { "one_in_chance": 600 },
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
+      ]
+    },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
     "effect": [
       { "u_message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
-      { "custom_light_level": 100, "length": "1 seconds" }
+      { "custom_light_level": 100, "length": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {
@@ -50,5 +56,35 @@
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
     "deactivate_condition": { "not": { "is_weather": "snowstorm" } },
     "effect": [ { "u_add_wet": 40 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_drizzle",
+    "recurrence": 8,
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
+    "effect": { "u_add_effect": "corroding", "duration": [ 2, 10 ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_rain",
+    "recurrence": 6,
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "and": [ { "is_weather": "acid_rain" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
+    "effect": { "u_add_effect": "corroding", "duration": [ 2, 10 ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_rainstorm",
+    "recurrence": 2,
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "and": [ { "is_weather": "acid_rain" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "acid_rainstorm" } },
+    "effect": { "u_add_effect": "corroding", "duration": [ 2, 10 ] }
   }
 ]
