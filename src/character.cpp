@@ -13110,7 +13110,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( loc );
+            if( item::is_efile( loc ) ) {
+                u->read( loc, loc.parent_item() );
+            } else {
+                u->read( loc );
+            }
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
