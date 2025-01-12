@@ -15,7 +15,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_AFS_TELEKINETIC_FAR_HAND_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 1250,
     "final_energy_cost": 500,
     "energy_increment": -80,
@@ -100,7 +100,7 @@
     "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_SELECTOR",
     "shape": "blast",
     "max_range": 40,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 1750,
     "final_energy_cost": 750,
     "energy_increment": -80,
@@ -212,7 +212,7 @@
     "shape": "blast",
     "min_duration": { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 1000) + 9000) * scaling_factor(u_val('intelligence') )" ] },
     "max_duration": { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 2000) + 60000) * scaling_factor(u_val('intelligence') )" ] },
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_afs_telekinetic_momentum') > -1 ? 0 : max((3500 - (u_spell_level('afs_telekinetic_momentum') * 125)), 1750)"
@@ -242,7 +242,7 @@
     "shape": "blast",
     "min_damage": 12,
     "max_damage": 12,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 5500,
     "final_energy_cost": 2500,
     "energy_increment": -125,
@@ -295,7 +295,7 @@
       "math": [ "min( ( ( (u_spell_level('afs_telekinetic_hammer') * 0.9) + 3) * scaling_factor(u_val('intelligence') ) ), 70)" ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 5750,
     "final_energy_cost": 2750,
     "energy_increment": -135,
