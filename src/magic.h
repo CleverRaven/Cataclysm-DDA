@@ -751,7 +751,7 @@ class known_magic
         void evaluate_opens_spellbook_data();
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
-        void on_mutation_loss( const trait_id &mid );
+        void on_mutation_loss( const trait_id &mid, Character &guy );
 
         // data written by EoC
         double caster_level_adjustment; // NOLINT(cata-serialize)

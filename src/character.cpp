@@ -10035,7 +10035,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic->on_mutation_loss( mid );
+    magic->on_mutation_loss( mid, *this );
     update_type_of_scent( mid, false );
     effect_on_conditions::process_reactivate( *this );
     if( is_avatar() ) {

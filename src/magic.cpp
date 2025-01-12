@@ -3075,16 +3075,16 @@ void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
     }
 }
 
-void known_magic::on_mutation_loss( const trait_id &mid )
+void known_magic::on_mutation_loss( const trait_id &mid, Character &guy )
 {
-    std::vector<spell_id> spells_to_forget;
-    for( const spell *sp : get_spells() ) {
-        if( sp->is_spell_class( mid ) ) {
-            spells_to_forget.emplace_back( sp->id() );
+    for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {
+        spell &temp_sp = get_spell( sp.first );
+        int new_level = temp_sp.get_level() - sp.second;
+        if( new_level > 0 ) {
+            temp_sp.set_level( guy, new_level );
+        } else {
+            forget_spell( sp.first );
         }
-    }
-    for( const spell_id &sp_id : spells_to_forget ) {
-        forget_spell( sp_id );
     }
 }
 
