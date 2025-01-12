@@ -20,9 +20,12 @@ def parse_enchant(json, origin):
         for vision in json["special_vision"]:
             if "descriptions" in vision:
                 for description in vision["descriptions"]:
-                    if "text" in description:
-                        special_vision_id = description["id"]
-                        write_text(description["text"], origin,
-                                comment="Description of creature revealed by "
-                                        "special vision \"{}\""
-                                                    .format(special_vision_id))
+                    parse_description(description, origin)
+
+
+def parse_description(description, origin):
+    if "text" in description:
+        special_vision_id = description["id"]
+        write_text(description["text"], origin,
+                   comment="Description of creature revealed by special "
+                   "vision \"{}\"".format(special_vision_id))
