@@ -6,7 +6,7 @@
 | [clang](https://clang.llvm.org)                      | [10.0](https://releases.llvm.org/10.0.0/docs/index.html) |
 | [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
 | [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
-| [XCode](https://developer.apple.com/xcode)           | [10.1](https://developer.apple.com/documentation/xcode-release-notes/xcode-10_1-release-notes) <br/> [macOS 10.13](https://en.wikipedia.org/wiki/MacOS_High_Sierra) |
+| [XCode](https://developer.apple.com/xcode)           | [11.4](https://developer.apple.com/documentation/xcode-release-notes/xcode-11_4-release-notes) <br/> [macOS 10.15](https://en.wikipedia.org/wiki/MacOS_Catalina) |
 
 Our goal with compiler support is to make it as easy as possible for new
 contributors to get started with development of the game, while also using the
