@@ -2059,41 +2059,21 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
         bool cancel_construction = false;
 
-        auto deconstruct_items = []( const item_group_id & drop_group ) {
-            std::string ret;
-            const Item_spawn_data *spawn_data = item_group::spawn_data_from_group( drop_group );
-            if( spawn_data == nullptr ) {
-                return ret;
-            }
-            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
-                        spawn_data->every_item_min_max();
-            for( const auto &deconstruct_item : deconstruct_items ) {
-                const int &min = deconstruct_item.second.first;
-                const int &max = deconstruct_item.second.second;
-                if( min != max ) {
-                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
-                } else {
-                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
-                }
-            }
-            return ret;
-        };
         auto deconstruction_will_practice_skill = [&who]( auto & skill ) {
             return who.get_skill_level( skill.id ) >= skill.min &&
                    who.get_skill_level( skill.id ) < skill.max;
         };
 
-        auto deconstruct_query = [&who, &cancel_construction, &deconstruction_will_practice_skill,
-              &deconstruct_items]( map_common_deconstruct_info & deconstruct, std::string & name ) {
-            if( !!deconstruct.skill &&
-                deconstruction_will_practice_skill( deconstruct.skill.value() ) ) {
+        auto deconstruct_query = [&who, &cancel_construction, &deconstruction_will_practice_skill]
+        ( map_common_deconstruct_info & deconstruct, std::string & name ) {
+            if( !!deconstruct.skill && deconstruction_will_practice_skill( deconstruct.skill.value() ) ) {
                 cancel_construction = !who.query_yn(
                                           _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ), deconstruct.skill->id.obj().name() );
+                                          name, item_group::potential_items( deconstruct.drop_group ), deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
                                           _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ) );
+                                          name, item_group::potential_items( deconstruct.drop_group ) );
             }
         };
 

@@ -629,6 +629,16 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
+    if( deconstruct ) {
+        const std::string &deconlist = item_group::potential_items( deconstruct->drop_group );
+        if( !deconlist.empty() ) {
+            ret.emplace_back( _( "You could deconstruct it to get some of the following items:" ) );
+            ret.emplace_back( deconlist );
+        } else {
+            ret.emplace_back( _( "It can be deconstructed, but won't yield any resources." ) );
+        }
+    }
+
     return ret;
 }
 
@@ -656,6 +666,16 @@ std::vector<std::string> furn_t::extended_description() const
             // \n character is skipped
             ret.emplace_back( quality_string.substr( 0, strpos ) );
             quality_string.erase( 0, strpos + 1 );
+        }
+    }
+
+    if( deconstruct ) {
+        const std::string &deconlist = item_group::potential_items( deconstruct->drop_group );
+        if( !deconlist.empty() ) {
+            ret.emplace_back( _( "You could deconstruct it to get some of the following items:" ) );
+            ret.emplace_back( deconlist );
+        } else {
+            ret.emplace_back( _( "It can be deconstructed, but won't yield any resources." ) );
         }
     }
 
