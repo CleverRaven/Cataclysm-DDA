@@ -3951,7 +3951,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
     const auto write_seq = [&]() {
         jsout.start_array();
         jsout.write( num_same );
-        jsout.write( last.symbol );
+        jsout.write( static_cast<int>( last.symbol ) );
         jsout.write( last.ter_id );
         jsout.write( static_cast<int>( last.ter_subtile ) );
         jsout.write( static_cast<int>( last.ter_rotation ) );
