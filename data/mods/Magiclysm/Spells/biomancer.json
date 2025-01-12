@@ -10,8 +10,8 @@
     "shape": "blast",
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "spell_class": "BIOMANCER",
-    "min_damage": -2,
-    "max_damage": -6
+    "min_damage": -1,
+    "max_damage": -4
   },
   {
     "id": "light_healing",
