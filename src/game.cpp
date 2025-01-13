@@ -7715,6 +7715,7 @@ look_around_result game::look_around(
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             int panel_width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
+            //FIXME: w_pixel_minimap is only reducing the height by one?
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
             // If particularly small, base height on panel width irrespective of other elements.
@@ -7810,25 +7811,30 @@ look_around_result game::look_around(
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
-                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), c_red, mon_name_text );
+                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 4 ), c_red, mon_name_text );
             }
+
+            std::string extended_description_text = string_format( _( "%s - %s" ),
+                                                    ctxt.get_desc( "EXTENDED_DESCRIPTION" ),
+                                                    ctxt.get_action_name( "EXTENDED_DESCRIPTION" ) );
+            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 3 ), c_light_green, extended_description_text );
 
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
+            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
 
             if( !ctxt.keys_bound_to( "toggle_pixel_minimap" ).empty() ) {
                 std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                                  ctxt.get_desc( "toggle_pixel_minimap" ),
                                                  ctxt.get_action_name( "toggle_pixel_minimap" ) );
-                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
+                right_print( w_info, getmaxy( w_info ) - 2, 1, pixel_minimap_option ? c_light_green : c_green,
                              pixel_minimap_text );
             }
 
             int first_line = 1;
-            const int last_line = getmaxy( w_info ) - 2;
+            const int last_line = getmaxy( w_info ) - 4;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
             wnoutrefresh( w_info );
