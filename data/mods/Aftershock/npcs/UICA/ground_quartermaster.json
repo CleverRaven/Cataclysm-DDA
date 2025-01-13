@@ -65,7 +65,7 @@
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the quartermaster lazily reclined against a stack of intermodal crates.  <mypronoun> eyes never leave <mypronoun> PDA as <mypronoun> addresses you.  Need something salvor?",
+    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.   <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.  Need something salvor?",
     "responses": [
       {
         "text": "Show me what you have.",
@@ -97,7 +97,7 @@
     "dynamic_line": "&This isn't a store.  Go to the Spaceport if you want to buy supplies.",
     "responses": [
       {
-        "text": "I'm sure we can work something out. [Bribe $3000]",
+        "text": "I'm sure we can work something out.  [Bribe $3000]",
         "trial": { "type": "PERSUADE", "difficulty": 50 },
         "success": {
           "topic": "TALK_DONE",
