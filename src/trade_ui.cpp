@@ -121,10 +121,10 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 
         zone_manager &zmgr = zone_manager::get_manager();
 
-        std::unordered_set<tripoint> const src =
+        std::unordered_set<tripoint_bub_ms> const src =
             zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
 
-        for( tripoint const &pt : src ) {
+        for( tripoint_bub_ms const &pt : src ) {
             _panes[_trader]->add_map_items( pt );
             _panes[_trader]->add_vehicle_items( pt );
         }

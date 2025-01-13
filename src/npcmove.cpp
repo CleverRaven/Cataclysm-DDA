@@ -292,8 +292,8 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
-                fac_id );
+        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos,
+                MAX_VIEW_DISTANCE, fac_id );
         // if there is a retreat zone in range, go there
 
 
@@ -374,7 +374,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s thinks </color><color_light_blue>%s</color><color_light_gray> is the best retreat spot they've seen so far</color><color_light_blue> rated %1.2f</color><color_light_gray>after checking %i candidates</color>",
                            name, pt.to_string_writable(), best_rating, num_points_searched );
-            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
+            candidates.emplace_back( pos_bub() + displace_XY( pt_dir ) );
         } else if( cur_rating < best_rating ) {
             if( one_in( 5 ) ) {
                 add_msg_debug( debugmode::DF_NPC_MOVEAI,
@@ -382,7 +382,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
                                name, num_points_searched );
             }
             candidates.clear();
-            candidates.emplace_back( pos() + displace_XY( pt_dir ) );
+            candidates.emplace_back( pos_bub() + displace_XY( pt_dir ) );
             best_rating = cur_rating;
         }
         num_points_searched += 1;
@@ -1146,7 +1146,9 @@ void npc::act_on_danger_assessment()
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
                 mem_combat.repositioning = false; // we're not just moving, we're running.
                 warn_about( "run_away", run_away_for );
-                set_attitude( NPCATT_FLEE_TEMP );
+                if( !is_player_ally() ) {
+                    set_attitude( NPCATT_FLEE_TEMP );
+                }
                 if( mem_combat.panic > 5 && is_player_ally() && sees( player_character.pos_bub() ) ) {
                     // consider warning player about panic
                     int panic_alert = rl_dist( pos_bub(), player_character.pos_bub() ) - player_character.get_per();
@@ -1627,7 +1629,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), ACTIVITY_SEARCH_DISTANCE ) ) {
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1998,24 +2000,26 @@ void npc::evaluate_best_attack( const Creature *target )
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
     visit_items( [&compare, this]( item * it, item * ) {
-        // you can theoretically melee with anything.
-        compare( std::make_shared<npc_attack_melee>( *it ) );
-        if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
-            compare( std::make_shared<npc_attack_throw>( *it ) );
-        }
-        if( !it->type->use_methods.empty() ) {
-            compare( std::make_shared<npc_attack_activate_item>( *it ) );
-        }
-        if( rules.has_flag( ally_rule::use_guns ) ) {
-            for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
-                if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
-                       !can_use( *mode.second.target ) ||
-                       ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
-                         !mode.second->is_silent() ) ) ) {
-                    if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
-                        compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
-                    } else {
-                        compare( std::make_shared<npc_attack_melee>( *it ) );
+        if( can_wield( *it ).success() ) {
+            // you can theoretically melee with anything.
+            compare( std::make_shared<npc_attack_melee>( *it ) );
+            if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
+                compare( std::make_shared<npc_attack_throw>( *it ) );
+            }
+            if( !it->type->use_methods.empty() ) {
+                compare( std::make_shared<npc_attack_activate_item>( *it ) );
+            }
+            if( rules.has_flag( ally_rule::use_guns ) ) {
+                for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
+                    if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
+                           !can_use( *mode.second.target ) ||
+                           ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
+                             !mode.second->is_silent() ) ) ) {
+                        if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
+                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                        } else {
+                            compare( std::make_shared<npc_attack_melee>( *it ) );
+                        }
                     }
                 }
             }
@@ -4081,21 +4085,23 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
-        double weapon_value = 0.0;
-        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                             && node != &weap
-                                             && node->type->get_id() == weap.type->get_id();
+        if( can_wield( *node ).success() ) {
+            double weapon_value = 0.0;
+            bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                                 && node != &weap
+                                                 && node->type->get_id() == weap.type->get_id();
 
-        if( node->is_melee() || node->is_gun() ) {
-            weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
-            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                best = const_cast<item *>( node );
-                best_value = weapon_value;
+            if( node->is_melee() || node->is_gun() ) {
+                weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+                if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                    best = const_cast<item *>( node );
+                    best_value = weapon_value;
+                }
+                return VisitResponse::SKIP;
+            } else if( node->get_use( "holster" ) && !node->empty() ) {
+                // we just recur to the next farther down
+                return VisitResponse::NEXT;
             }
-            return VisitResponse::SKIP;
-        } else if( node->get_use( "holster" ) && !node->empty() ) {
-            // we just recur to the next farther down
-            return VisitResponse::NEXT;
         }
         return VisitResponse::NEXT;
     } );
@@ -4310,7 +4316,7 @@ void npc::activate_item( item &it )
 {
     const int oldmoves = moves;
     if( it.is_tool() || it.is_food() ) {
-        it.type->invoke( this, it, pos() );
+        it.type->invoke( this, it, pos_bub() );
     }
 
     if( moves == oldmoves ) {
@@ -4349,7 +4355,7 @@ void npc::heal_player( Character &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( this, used, patient.pos(), "heal" ).value_or( 0 );
+        int charges_used = used.type->invoke( this, used, patient.pos_bub(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -4420,7 +4426,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( this, used, pos(), "heal" ).value_or( 0 );
+    int charges_used = used.type->invoke( this, used, pos_bub(), "heal" ).value_or( 0 );
     if( used.is_medication() && charges_used > 0 ) {
         consume_charges( used, charges_used );
     }
@@ -4790,7 +4796,7 @@ void npc::reach_omt_destination()
             if( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ) {
                 if( player_character.cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
                     cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
-                    add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
+                    add_msg_if_player_sees( pos_bub(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }
             }
@@ -5367,7 +5373,7 @@ void npc::do_reload( const item_location &it )
     if( get_player_view().sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), get_name(), it->tname() );
         sfx::play_variant_sound( "reload", it->typeId().str(), sfx::get_heard_volume( pos_bub() ),
-                                 sfx::get_heard_angle( pos() ) );
+                                 sfx::get_heard_angle( pos_bub() ) );
     }
 
     // Otherwise the NPC may not equip the weapon until they see danger

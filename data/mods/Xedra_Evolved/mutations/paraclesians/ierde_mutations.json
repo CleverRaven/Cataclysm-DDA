@@ -505,7 +505,7 @@
     "mana": true,
     "cost": 1,
     "time": 10,
-    "activation_msg": "You ",
+    "activation_msg": "You merge with the ground beneath your feet.",
     "activated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_activated" ],
     "deactivated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_deactivated" ]
   },
@@ -672,8 +672,15 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
-    "category": [ "IERDE" ]
+    "description": "The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 5000,
+    "activation_msg": "Your feelings calcify.",
+    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
   },
   {
     "type": "mutation",

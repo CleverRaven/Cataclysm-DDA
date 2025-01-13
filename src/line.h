@@ -8,9 +8,9 @@
 #include <iosfwd>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
-#include "units_fwd.h"
+#include "units.h"
 
 template <typename T> struct enum_traits;
 struct rl_vec2d;
@@ -136,7 +136,7 @@ std::string direction_name_short( direction dir );
 std::string direction_arrow( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
-std::string direction_suffix( const tripoint &p, const tripoint &q );
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q );
 
 /**
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
@@ -163,10 +163,12 @@ inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
                       ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
                       ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 );
 inline float trig_dist( const point &loc1, const point &loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 );
 
 // Roguelike distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
@@ -225,29 +227,19 @@ struct FastDistanceApproximation {
         }
 };
 
-inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
-{
-    return FastDistanceApproximation(
-               ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
-               ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
-               ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
-}
-inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
-{
-    const tripoint d = ( loc1 - loc2 ).abs();
-    return FastDistanceApproximation( std::max( { d.x, d.y, d.z } ) );
-}
-inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 );
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 );
+inline FastDistanceApproximation rl_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
 {
     if( trigdist ) {
         return trig_dist_fast( loc1, loc2 );
     }
     return square_dist_fast( loc1, loc2 );
 }
-inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
-{
-    return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
-}
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b );
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes

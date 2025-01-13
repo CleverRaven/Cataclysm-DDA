@@ -994,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1738,6 +1739,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2074,6 +2076,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -4650,6 +4653,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -5564,6 +5569,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair

@@ -20,6 +20,7 @@
     - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
     - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
     - [Monster spells](#monster-spells)
+    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
   - [Enchantments](#enchantments)
     - [The `relic_data` field](#the-relic_data-field)
     - [Variables](#variables)
@@ -67,6 +68,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
+    "get_level_formula_id": "jmath_get_level_formula",        // The id of a jmath formula that calculates what level the spell is for a given exp value.  Must be the inverse of exp_for_level_formula_id.
+    "exp_for_level_formula_id": "jmath_exp_for_level_formula",// The id of a jmath formula that calculates how much exp is required for a given level.  Must be the inverse of get_level_formula_id.
+    "magic_type": "magiclysm_default_magic",                  // the id of the magic_type object that holds some values for this spell and others with the same type defined.
     "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
     "accuracy_increment": 1.5
@@ -248,6 +252,7 @@ Field group | Description | Example
 `targeted_monster_ids` | Limits the spell to target only the specified `monster_id`. | "targeted_monster_ids": [ "mon_hologram" ],
 `targeted_monster_species` | Limits the spell to target only the specified monster `SPECIES` (full list at [species.json](../data/json/species.json)). | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 `ignored_monster_species` | The opposite of `targeted_monster_species`: you can target everything except the specified monster `SPECIES`. | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
+`magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
 
 ### Spell Flags
@@ -614,6 +619,70 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 ### Monster spells
 
 See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
+
+### Custom Spell Experience Requirements
+
+Spells may have custom formulas for their xp requirements to level by combining the `get_level_formula_id` and `exp_for_level_formula_id` fields.
+These fields both take the id of a jmath_function that they can use to calculate the xp requirement instead of the default formula.
+The given jmath functions must only have 1 argument (for the spell level or experience) and they should not make any calls to the alpha or beta talkers.  Spell calculations are intended to be character agnostic, and while using functions such as u_skill('DEDUCTION') will not error, it will always be calculated from the player characters data, even if for an npc or other uses of spell xp calculations.
+Also, keep in mind that changing the spell experience requirements of an existing spell will likely do strange things to any characters that already knew the spell before the xp requirements were changed.
+
+Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
+
+Constant Spell Exp Requirement Example:
+```json
+  {
+    "id": "test_spell",
+    "type": "SPELL",
+    "name": "test",
+    "description": "constant spell experience formula.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "min_damage": 1,
+    "max_damage": 1,
+    "get_level_formula_id": "magic_test_func_get_level",
+    "exp_for_level_formula_id": "magic_test_func_exp_for_level"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_get_level",
+    "num_args": 1,
+    "return": "_0 / 1000"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_exp_for_level",
+    "num_args": 1,
+    "return": "1000 * _0"
+  },
+```
+
+### Magic Type
+
+Spells may have a magic type defined.  The magic type can define the experience requirements to level the spell, any flags which make the spell uncastable, and also the energy source for the spell.  In case the spell has a value defined which conflicts with its magic types value, the spell takes precendence.
+
+Magic Type Example:
+``` json
+  {
+    "id": "magic_type_test",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "get_level_formula_id": "magic_test_func_get_level",
+    "exp_for_level_formula_id": "magic_test_func_exp_for_level",
+    "cannot_cast_flags": "NO_SPELLCASTING",
+  },
+  {
+    "id": "test_spell",
+    "type": "SPELL",
+    "name": "test",
+    "description": "a test spell.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "min_damage": 1,
+    "max_damage": 1,
+    "magic_type": "magic_type_test"
+  }
+```
 
 
 ## Enchantments

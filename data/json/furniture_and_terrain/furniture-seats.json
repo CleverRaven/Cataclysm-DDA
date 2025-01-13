@@ -533,5 +533,28 @@
       "sound_fail": "whump.",
       "items": [ { "item": "sheet_cotton", "count": 1 }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beanbag",
+    "name": "bean bag",
+    "symbol": "O",
+    "description": "A large cushion filled with beads often used as a seat.",
+    "//": "Size of bean bag used for measurements is approx. 1m x 1m x 0.2m",
+    "bgcolor": "red",
+    "move_cost_mod": 4,
+    "coverage": 30,
+    "comfort": 6,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": { "items": [ { "item": "sheet_nylon", "count": 14 }, { "item": "plastic_chunk", "count": [ 15, 30 ] } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "UNSTABLE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_nylon", "count": 8 }, { "item": "plastic_chunk", "count": [ 10, 20 ] } ]
+    }
   }
 ]

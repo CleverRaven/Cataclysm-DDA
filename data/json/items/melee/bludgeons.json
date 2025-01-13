@@ -115,16 +115,13 @@
     "description": "A baseball bat made of foam rubber with a plastic handle.  Light and easy to wield, but almost completely ineffective if your goal is to hurt someone.",
     "weight": "225 g",
     "longest_side": "60 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "color": "yellow",
     "symbol": "/",
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
-    "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "BELT_CLIP" ],
     "volume": "2250 ml",
-    "price": "25 USD",
-    "melee_damage": { "bash": 1 },
-    "weapon_category": [ "MACES" ]
+    "price": "25 USD"
   },
   {
     "type": "GENERIC",

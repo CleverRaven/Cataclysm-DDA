@@ -342,7 +342,7 @@
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "coverage": 25
       },
-      { "id": "test_head", "name": "inline head", "armor_mult": { "physical": 0 }, "coverage": 25 }
+      { "id": "test_head", "name": "inline head", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 25 }
     ],
     "weakpoint_sets": [ "test_humanoid", "test_special_head" ],
     "vision_day": 30,
@@ -396,7 +396,7 @@
     "id": "mon_test_weakpoint_mon",
     "type": "MONSTER",
     "copy-from": "mon_test_zombie_cop",
-    "weakpoints": [ { "id": "test_eye", "name": "inline eye (zero coverage)", "coverage": 0 } ],
+    "weakpoints": [ { "id": "test_eye", "name": "inline eye (zero coverage)", "is_head": true, "coverage": 0 } ],
     "delete": { "weakpoints": [ { "id": "test_head" } ], "weakpoint_sets": [ "test_special_head" ] }
   },
   {
@@ -473,5 +473,46 @@
     "symbol": "4",
     "reproduction": { "baby_type": { "baby_monster_group": "GROUP_PET_CATS" }, "baby_count": 1, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+  },
+  {
+    "id": "test_mon_turkey",
+    "type": "MONSTER",
+    "name": { "str": "wild turkey" },
+    "copy-from": "mon_turkey",
+    "extend": { "weakpoint_sets": [ "wps_test_headshot1" ] },
+    "delete": { "weakpoint_sets": [ "wps_bird_body" ] }
+  },
+  {
+    "id": "test_mon_deer",
+    "type": "MONSTER",
+    "name": { "str": "deer" },
+    "copy-from": "mon_deer",
+    "extend": { "weakpoint_sets": [ "wps_test_headshot1" ] },
+    "delete": { "weakpoint_sets": [ "wps_animal_quadruped" ] }
+  },
+  {
+    "id": "test_mon_bear",
+    "type": "MONSTER",
+    "name": { "str": "black bear" },
+    "copy-from": "mon_bear",
+    "extend": { "weakpoint_sets": [ "wps_test_headshot1" ] },
+    "delete": { "weakpoint_sets": [ "wps_animal_quadruped" ] }
+  },
+  {
+    "id": "test_mon_moose",
+    "type": "MONSTER",
+    "name": { "str": "moose" },
+    "copy-from": "mon_moose",
+    "weakpoints": [
+      {
+        "id": "test_headshot2",
+        "is_head": true,
+        "name": "test weakpoint headshot",
+        "armor_mult": { "physical": 0 },
+        "damage_mult": { "all": 2.15 },
+        "coverage": 100
+      }
+    ],
+    "delete": { "weakpoint_sets": [ "wps_animal_quadruped" ] }
   }
 ]

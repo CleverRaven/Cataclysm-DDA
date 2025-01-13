@@ -77,7 +77,10 @@ static const efftype_id effect_winded( "winded" );
 
 static const furn_str_id furn_f_safe_c( "f_safe_c" );
 
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_small_plant( "small_plant" );
 static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
 
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -238,7 +241,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) &&
-        !m.impassable_field_at( d.raw() ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
+        !m.impassable_field_at( dest_loc ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
@@ -879,7 +882,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.ter_set( you.pos_bub(), ter_t_grass );
-            item food( "underbrush", calendar::turn, 1 );
+            item food( itype_underbrush, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -892,7 +895,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.furn_set( you.pos_bub(), furn_str_id::NULL_ID() );
-            item food( "small_plant", calendar::turn, 1 );
+            item food( itype_small_plant, calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -904,7 +907,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            item food( item( "grass", calendar::turn, 1 ) );
+            item food( item( itype_grass, calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
             here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;
@@ -1060,7 +1063,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // otherwise see.
     const tripoint_bub_ms original_player_position = you.pos_bub();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos );
+        you.setpos( *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();
@@ -1071,7 +1074,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
-        you.setpos( original_player_position );
+        you.setpos( original_player_position, false );
     }
 
     if( trajectory.empty() ) {

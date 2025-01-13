@@ -18,7 +18,7 @@
   {
     "id": "irradiant_gun",
     "type": "GUN",
-    "copy-from": "plasma_gun",
+    "copy-from": "robogun_base",
     "name": "mounted 1kg plasma railgun",
     "ranged_damage": { "damage_type": "bullet", "amount": 2500, "armor_penetration": 400 },
     "ammo_effects": [ "PLASMA", "EMP", "LOW_RANGE_VAPORIZATION" ],

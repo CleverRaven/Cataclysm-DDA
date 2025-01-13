@@ -4,7 +4,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "magazine-fed lever-action hunting rifle" },
+    "name": { "str": "BLR lever-action hunting rifle" },
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
     "variant_type": "gun",
     "variants": [

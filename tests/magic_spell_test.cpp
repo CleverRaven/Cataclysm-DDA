@@ -586,14 +586,14 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
-    const tripoint dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
     const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
@@ -666,7 +666,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost.min.dbl_val.value() == 800 );
-        REQUIRE( montage_type.energy_source == magic_energy_type::mana );
+        REQUIRE( montage_type.get_energy_source() == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
         REQUIRE( montage_type.min_damage.min.dbl_val.value() == 1000 );

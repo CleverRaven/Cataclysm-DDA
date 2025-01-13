@@ -144,8 +144,11 @@ static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
+static const itype_id itype_rope_6( "rope_6" );
+static const itype_id itype_snare_trigger( "snare_trigger" );
 
 static const json_character_flag json_flag_ANIMALDISCORD( "ANIMALDISCORD" );
 static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
@@ -1483,10 +1486,10 @@ std::vector<material_id> monster::get_no_absorb_material() const
     return type->no_absorb_material;
 }
 
-void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
+void monster::set_patrol_route( const std::vector<point_rel_ms> &patrol_pts_rel_ms )
 {
     const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
-    for( const point &patrol_pt : patrol_pts_rel_ms ) {
+    for( const point_rel_ms &patrol_pt : patrol_pts_rel_ms ) {
         patrol_route.push_back( base_abs_ms + patrol_pt );
     }
     next_patrol_point = 0;
@@ -1726,7 +1729,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
+        for( const trait_id &mut : u->get_functioning_mutations() ) {
             const mutation_branch &branch = *mut;
             if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
                 continue;
@@ -2014,11 +2017,13 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 }
 
 const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
-                                      damage_instance &dam )
+                                      damage_instance &dam, const weakpoint &wp )
 {
     resistances r = resistances( *this );
-    const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
-    wp->apply_to( r );
+    const weakpoint *wkpt = attack.accuracy == -1.0 ?
+                            type->weakpoints.select_weakpoint( attack ) :
+                            &wp;
+    wkpt->apply_to( r );
     for( damage_unit &elem : dam.damage_units ) {
         adjust_taken_damage_by_enchantments( elem );
         add_msg_debug( debugmode::DF_MONSTER,
@@ -2026,16 +2031,16 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
                        elem.type.c_str(), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
-                       wp->id, wp->armor_mult.count( elem.type ) > 0 ? wp->armor_mult.at( elem.type ) : 0.f,
-                       wp->armor_penalty.count( elem.type ) > 0 ? wp->armor_penalty.at( elem.type ) : 0.f,
+                       wkpt->id, wkpt->armor_mult.count( elem.type ) > 0 ? wkpt->armor_mult.at( elem.type ) : 0.f,
+                       wkpt->armor_penalty.count( elem.type ) > 0 ? wkpt->armor_penalty.at( elem.type ) : 0.f,
                        r.get_effective_resist( elem ) );
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
         adjust_taken_damage_by_enchantments_post_absorbed( elem );
     }
 
-    wp->apply_to( dam, attack.is_crit );
-    return wp;
+    wkpt->apply_to( dam, attack.is_crit );
+    return wkpt;
 }
 
 bool monster::melee_attack( Creature &target )
@@ -2258,11 +2263,6 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     if( missed_by > 1.0 ) {
         // Total miss
         return;
-    }
-
-    // if it's a headshot with no head, make it not a headshot
-    if( missed_by < accuracy_headshot && has_flag( mon_flag_NOHEAD ) ) {
-        missed_by = accuracy_headshot;
     }
 
     Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
@@ -2868,10 +2868,10 @@ void monster::process_turn()
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos_bub(), 40, 0.8, true );
-                        add_msg_if_player_sees( zap.raw(), m_warning, _( "The %s explodes in a fiery inferno!" ),
+                        add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {
-                        add_msg_if_player_sees( zap.raw(), m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
+                        add_msg_if_player_sees( zap, m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
                                                 name(), here.tername( zap ) );
                         here.add_field( zap, fd_fire, 1, 2_turns );
                     }
@@ -3051,11 +3051,11 @@ void monster::die( Creature *nkiller )
         move_special_item_to_inv( tied_item );
 
         if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
+            add_item( item( itype_rope_6, calendar::turn_zero ) );
+            add_item( item( itype_snare_trigger, calendar::turn_zero ) );
         }
         if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
+            add_item( item( itype_beartrap, calendar::turn_zero ) );
         }
     }
 
@@ -3531,7 +3531,7 @@ bool monster::make_fungus()
     const std::string old_name = name();
     poly( type->fungalize_into );
 
-    add_msg_if_player_sees( pos(), m_info, _( "The spores transform %1$s into a %2$s!" ),
+    add_msg_if_player_sees( pos_bub(), m_info, _( "The spores transform %1$s into a %2$s!" ),
                             old_name, name() );
 
     return true;
@@ -4098,4 +4098,22 @@ std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
         }
         return false;
     };
+}
+
+std::vector<std::pair<std::string, std::string>> monster::get_overlay_ids() const
+{
+    std::vector<std::pair<std::string, std::string>> rval;
+
+    // get effects
+    // at this moment we share id for effect overlay for character and for monster
+    if( show_creature_overlay_icons ) {
+        // if at one point there would be more overlay types than one
+        // someone would need to tinker pre-allocation
+        rval.reserve( effects->size() );
+        for( const auto &eff_pr : *effects ) {
+            rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
+        }
+    }
+
+    return rval;
 }

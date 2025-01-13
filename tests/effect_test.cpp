@@ -34,6 +34,8 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
+static const itype_id itype_test_vitfood( "test_vitfood" );
+
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
@@ -656,7 +658,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "bandit" );
         npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
@@ -692,7 +694,7 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
     subject.add_effect( vitamin_effect );
 
     // A food rich in in vitamin x - we need 2 of them, for with/without the effect
-    item food1( "test_vitfood" );
+    item food1( itype_test_vitfood );
     item food2( food1 );
 
     // Make sure they have none of these vitamins at the start

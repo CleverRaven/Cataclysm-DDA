@@ -316,47 +316,48 @@ TEST_CASE( "direction_name", "[line]" )
 
 TEST_CASE( "squares_closer_to_test", "[line]" )
 {
-    std::vector<tripoint_bub_ms> actual = squares_closer_to( tripoint_bub_ms::zero,
-                                          tripoint_bub_ms( 10, 0, 0 ) );
-    std::set<tripoint_bub_ms> expected = {tripoint_bub_ms( 1, 0, 0 ), tripoint_bub_ms( 1, 1, 0 ), tripoint_bub_ms( 1, -1, 0 )};
     auto squares_closer_to_correct = [&]() {
         CHECK( actual.size() == expected.size() );
         for( const tripoint_bub_ms &p : actual ) {
             CHECK( expected.find( p ) != expected.end() );
         }
     };
+    std::vector<tripoint_bub_ms> actual = squares_closer_to( tripoint_bub_ms::zero,
+                                                            { 10, 0, 0 } );
+    std::set<tripoint_bub_ms> expected = {{ 1, 0, 0 }, { 1, 1, 0 }, { 1, -1, 0 }};
+    
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms::zero, tripoint_bub_ms( -10, -10, 0 ) );
-    expected = {tripoint_bub_ms( -1, -1, 0 ), tripoint_bub_ms( -1, 0, 0 ), tripoint_bub_ms( 0, -1, 0 )};
+    actual = squares_closer_to( tripoint_bub_ms::zero, { -10, -10, 0 } );
+    expected = {{ -1, -1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms::zero, tripoint_bub_ms( 10, 10, 0 ) );
-    expected = {tripoint_bub_ms( 1, 1, 0 ), tripoint_bub_ms( 1, 0, 0 ), tripoint_bub_ms( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_bub_ms::zero, { 10, 10, 0 } );
+    expected = {{ 1, 1, 0 }, { 1, 0, 0 }, { 0, 1, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms::zero, tripoint_bub_ms( 10, 9, 0 ) );
-    expected = {tripoint_bub_ms( 1, 0, 0 ), tripoint_bub_ms( 1, 1, 0 ), tripoint_bub_ms( 1, -1, 0 ), tripoint_bub_ms( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_bub_ms::zero, { 10, 9, 0 } );
+    expected = {{ 1, 0, 0 }, { 1, 1, 0 }, { 1, -1, 0 }, { 0, 1, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms::zero, tripoint_bub_ms( 10, 1, 0 ) );
-    expected = {tripoint_bub_ms( 1, 0, 0 ), tripoint_bub_ms( 1, 1, 0 ), tripoint_bub_ms( 1, -1, 0 ), tripoint_bub_ms( 0, 1, 0 )};
+    actual = squares_closer_to( tripoint_bub_ms::zero, { 10, 1, 0 } );
+    expected = {{ 1, 0, 0 }, { 1, 1, 0 }, { 1, -1, 0 }, { 0, 1, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms( 10, 9, 0 ), tripoint_bub_ms::zero );
-    expected = {tripoint_bub_ms( 9, 9, 0 ), tripoint_bub_ms( 9, 10, 0 ), tripoint_bub_ms( 9, 8, 0 ), tripoint_bub_ms( 10, 8, 0 )};
+    actual = squares_closer_to( { 10, 9, 0 }, tripoint_bub_ms::zero );
+    expected = {{ 9, 9, 0 }, { 9, 10, 0 }, { 9, 8, 0 }, { 10, 8, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms::zero, tripoint_bub_ms( -10, -9, 0 ) );
-    expected = {tripoint_bub_ms( -1, 0, 0 ), tripoint_bub_ms( -1, 1, 0 ), tripoint_bub_ms( -1, -1, 0 ), tripoint_bub_ms( 0, -1, 0 )};
+    actual = squares_closer_to( tripoint_bub_ms::zero, { -10, -9, 0 } );
+    expected = {{ -1, 0, 0 }, { -1, 1, 0 }, { -1, -1, 0 }, { 0, -1, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms( 10, -10, 0 ), tripoint_bub_ms( 10, 10, 0 ) );
-    expected = {tripoint_bub_ms( 10, -9, 0 ), tripoint_bub_ms( 11, -9, 0 ), tripoint_bub_ms( 9, -9, 0 )};
+    actual = squares_closer_to( { 10, -10, 0 }, { 10, 10, 0 } );
+    expected = {{ 10, -9, 0 }, { 11, -9, 0 }, { 9, -9, 0 }};
     squares_closer_to_correct();
 
-    actual = squares_closer_to( tripoint_bub_ms( 10, -10, 0 ), tripoint_bub_ms( -10, -5, 0 ) );
-    expected = {tripoint_bub_ms( 9, -10, 0 ), tripoint_bub_ms( 9, -9, 0 ), tripoint_bub_ms( 9, -11, 0 ), tripoint_bub_ms( 10, -9, 0 )};
+    actual = squares_closer_to( { 10, -10, 0 }, { -10, -5, 0 ) );
+    expected = {{ 9, -10, 0 }, { 9, -9, 0 }, { 9, -11, 0 }, { 10, -9, 0 }};
     squares_closer_to_correct();
 }
 

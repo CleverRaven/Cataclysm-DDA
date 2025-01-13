@@ -648,7 +648,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
 item_location game_menus::inv::disassemble( Character &you )
 {
     return inv_internal( you, disassemble_inventory_preset( you, you.crafting_inventory() ),
-                         _( "Disassemble item" ), 1,
+                         _( "Disassemble item" ), PICKUP_RANGE,
                          _( "You don't have any items you could disassemble." ) );
 }
 
@@ -1462,7 +1462,8 @@ class read_inventory_preset: public pickup_inventory_preset
 
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
                    ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
-                     p_loc->energy_remaining() >= 1_kJ );
+                     !p_loc->uses_energy() ||
+                     p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2205,16 +2206,31 @@ drop_locations game_menus::inv::multidrop( Character &you )
 drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
                                         const std::vector<drop_location> &selection )
 {
+    std::optional<tripoint_bub_ms> tmp;
+    if( target.has_value() ) {
+        tmp = tripoint_bub_ms( target.value() );
+    }
+    return game_menus::inv::pickup( tmp, selection );
+}
+
+drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+                                        const std::vector<drop_location> &selection )
+{
     avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
-    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
+    std::optional<tripoint> tmp;
+    if( target.has_value() ) {
+        tmp = target.value().raw();
+    }
+
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), tmp );
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
-        pick_s.add_vehicle_items( *target );
-        pick_s.add_map_items( *target );
+        pick_s.add_vehicle_items( tripoint_bub_ms( *target ) );
+        pick_s.add_map_items( tripoint_bub_ms( *target ) );
     } else {
         pick_s.add_nearby_items();
     }
@@ -2234,16 +2250,6 @@ drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
     }
 
     return pick_s.execute();
-}
-
-drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
-                                        const std::vector<drop_location> &selection )
-{
-    std::optional<tripoint> tmp;
-    if( target.has_value() ) {
-        tmp = target.value().raw();
-    }
-    return game_menus::inv::pickup( tmp, selection );
 }
 
 class smokable_selector_preset : public inventory_selector_preset
@@ -2308,10 +2314,7 @@ game_menus::inv::compare_item_menu::compare_item_menu( const item &first, const 
         ctxt.register_action( "CONFIRM" );
     }
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_navigate_ui_list();
     ctxt.set_timeout( 10 );
 
     // todo: regen info when toggling language?
@@ -2388,6 +2391,10 @@ bool game_menus::inv::compare_item_menu::show()
             s = cataimgui::scroll::page_up;
         } else if( action == "PAGE_DOWN" ) {
             s = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            s = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            s = cataimgui::scroll::end;
         } else if( action == "CONFIRM" ) {
             return true;
         } else if( action == "QUIT" ) {
@@ -2410,8 +2417,8 @@ void game_menus::inv::compare( const std::optional<tripoint> &offset )
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset ) {
-        inv_s.add_map_items( you.pos() + *offset );
-        inv_s.add_vehicle_items( you.pos() + *offset );
+        inv_s.add_map_items( you.pos_bub() + *offset );
+        inv_s.add_vehicle_items( you.pos_bub() + *offset );
     } else {
         inv_s.add_nearby_items();
     }

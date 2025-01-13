@@ -30,7 +30,7 @@
     "difficulty": 3,
     "max_level": 35,
     "base_casting_time": 700,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "artificer_toolkit",
@@ -107,6 +107,6 @@
     "final_casting_time": 500,
     "casting_time_increment": -30,
     "base_energy_cost": 100,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   }
 ]

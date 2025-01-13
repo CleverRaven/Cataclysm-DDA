@@ -104,7 +104,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who, false, !who.is_npc() );
+    map_inv.form_from_map( who.pos_bub(), PICKUP_RANGE, &who, false, !who.is_npc() );
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
@@ -401,7 +401,7 @@ class veh_menu_cb : public uilist_callback
                 player_character.view_offset = tripoint_rel_ms::zero;
             } else {
                 const tripoint &center = points[menu->selected];
-                player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );
+                player_character.view_offset = tripoint_rel_ms( center - player_character.pos_bub().raw() );
                 // Remove next line if/when it's wanted/safe to shift view to other zlevels
                 player_character.view_offset.z() = 0;
             }

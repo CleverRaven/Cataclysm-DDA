@@ -48,6 +48,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -142,6 +143,9 @@ static const efftype_id effect_bleed( "bleed" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const itype_id itype_architect_cube( "architect_cube" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
 static const matype_id style_none( "style_none" );
 
 static const mongroup_id GROUP_DEBUG_EXACTLY_ONE( "GROUP_DEBUG_EXACTLY_ONE" );
@@ -180,6 +184,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
     switch( v ) {
         // *INDENT-OFF*
         case debug_menu::debug_menu_index::WISH: return "WISH";
+        case debug_menu::debug_menu_index::SPAWN_ITEM_GROUP: return "SPAWN_ITEM_GROUP";
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
@@ -272,6 +277,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
 		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
         case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
+        case debug_menu::debug_menu_index::IMGUI_DEMO: return "IMGUI_DEMO";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -331,16 +337,16 @@ tripoint _from_OM_string( std::string const &s )
     return { om.x, om.y, 0 };
 }
 
-using rdi_t = fs::recursive_directory_iterator;
-using f_validate_t = std::function<bool( fs::path const &dep, rdi_t &iter )>;
+using rdi_t = std::filesystem::recursive_directory_iterator;
+using f_validate_t = std::function<bool( std::filesystem::path const &dep, rdi_t &iter )>;
 
-bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &validate = {} )
+bool _add_dir( tgz_archiver &tgz, std::filesystem::path const &root, f_validate_t const &validate = {} )
 {
-    fs::path const cnc = root.has_root_path() ?  fs::canonical( root ) : root;
-    fs::path const parent_cnc = cnc.parent_path();
+    std::filesystem::path const cnc = root.has_root_path() ?  std::filesystem::canonical( root ) : root;
+    std::filesystem::path const parent_cnc = cnc.parent_path();
 
     for( auto iter = rdi_t( cnc ); iter != rdi_t(); ++iter ) {
-        fs::path const dep = iter->path().lexically_relative( parent_cnc );
+        std::filesystem::path const dep = iter->path().lexically_relative( parent_cnc );
 
         if( validate && !validate( dep, iter ) ) {
             continue;
@@ -355,16 +361,17 @@ bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &vali
     return true;
 }
 
-bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
+bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
+                      tripoint_range<tripoint> const &segs,
                       tripoint_range<tripoint> const &regs )
 {
     // discard map memory outside of current region and adjacent regions
-    if( dep.parent_path().extension() == fs::u8path( ".mm1" ) &&
+    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) &&
         !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
         return false;
     }
     // discard map buffer outside of current and adjacent segments
-    if( dep.parent_path().filename() == fs::u8path( "maps" ) &&
+    if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) &&
         !segs.is_point_inside(
             tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
         iter.disable_recursion_pending();
@@ -373,7 +380,7 @@ bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint>
     return true;
 }
 
-bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &oms )
+bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
     std::string const fname = dep.filename().generic_u8string();
 
@@ -386,9 +393,9 @@ bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &o
            oms.is_point_inside( _from_OM_string( fname.substr( 2 ) ) );
 }
 
-bool _discard_temporary( fs::path const &dep )
+bool _discard_temporary( std::filesystem::path const &dep )
 {
-    return !dep.has_extension() || dep.extension() != fs::u8path( ".temp" );
+    return !dep.has_extension() || dep.extension() != std::filesystem::u8path( ".temp" );
 }
 
 void write_min_archive()
@@ -401,18 +408,19 @@ void write_min_archive()
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
-    fs::path const save_root( PATH_INFO::world_base_save_path() );
+    std::filesystem::path const save_root( PATH_INFO::world_base_save_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );
 
-    f_validate_t const mb_validate = [&segs, &regs, &oms]( fs::path const & dep, rdi_t & iter ) {
+    f_validate_t const mb_validate = [&segs, &regs, &oms]( std::filesystem::path const & dep,
+    rdi_t & iter ) {
         return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, regs ) &&
                _trim_overmapbuffer( dep, oms );
     };
 
     if( _add_dir( tgz, save_root, mb_validate ) &&
-        _add_dir( tgz, fs::path( PATH_INFO::config_dir_path() ) ) ) {
+        _add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
         tgz.finalize();
         popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
     }
@@ -900,6 +908,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
             { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
+            { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -955,8 +964,9 @@ static int spawning_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_ITEM_GROUP, true, 'W', _( "Spawn an item group" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
-        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn Named NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
@@ -1387,7 +1397,9 @@ static void change_spells( Character &character )
             character.magic->get_spellbook().emplace( splt.id, spl );
         }
 
-        character.magic->get_spell( splt.id ).set_exp( spell::exp_for_level( spell_level ) );
+        // storing the spell to be used instead of getting it twice somehow breaks the debug functionality.
+        int set_to_exp = character.magic->get_spell( splt.id ).exp_for_level( spell_level );
+        character.magic->get_spell( splt.id ).set_exp( set_to_exp );
     };
 
     ui_adaptor spellsui;
@@ -3570,13 +3582,13 @@ static void show_sound()
             player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
         };
         wattron( g->w_terrain, c_yellow );
-        for( const tripoint &sound : sounds_to_draw.first ) {
-            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        for( const tripoint_bub_ms &sound : sounds_to_draw.first ) {
+            mvwaddch( g->w_terrain, sound.xy().raw() + offset, '?' );
         }
         wattroff( g->w_terrain, c_yellow );
         wattron( g->w_terrain, c_red );
-        for( const tripoint &sound : sounds_to_draw.second ) {
-            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        for( const tripoint_bub_ms &sound : sounds_to_draw.second ) {
+            mvwaddch( g->w_terrain, sound.xy().raw() + offset, '?' );
         }
         wattroff( g->w_terrain, c_red );
     } );
@@ -3773,6 +3785,14 @@ static void wind_speed()
     }
 }
 
+
+
+static void run_imgui_demo()
+{
+    imgui_demo_ui demo;
+    demo.run();
+}
+
 static void write_city_list()
 {
     write_to_file( "cities.output", [&]( std::ostream & testfile ) {
@@ -3820,7 +3840,7 @@ void do_debug_quick_setup()
     u.set_mutations( setup_traits );
     u.remove_weapon();
     u.clear_worn();
-    item backpack( "debug_backpack" );
+    item backpack( itype_debug_backpack );
     u.wear_item( backpack );
     for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         u.set_skill_level( pair.first, 10 );
@@ -3874,6 +3894,10 @@ void debug()
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
+            break;
+
+        case debug_menu_index::SPAWN_ITEM_GROUP:
+            debug_menu::wishitemgroup( false );
             break;
 
         case debug_menu_index::SHORT_TELEPORT:
@@ -4000,7 +4024,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
-            player_character.i_add( item( "architect_cube", calendar::turn ) );
+            player_character.i_add( item( itype_architect_cube, calendar::turn ) );
             break;
 
         case debug_menu_index::MAP_EDITOR:
@@ -4038,7 +4062,7 @@ void debug()
             ui::omap::display_hordes();
             break;
         case debug_menu_index::TEST_IT_GROUP: {
-            item_group::debug_spawn();
+            debug_menu::wishitemgroup( true );
         }
         break;
 
@@ -4334,6 +4358,10 @@ void debug()
 
         case debug_menu_index::WRITE_CITY_LIST:
             write_city_list();
+            break;
+
+        case debug_menu_index::IMGUI_DEMO:
+            run_imgui_demo();
             break;
 
         case debug_menu_index::TALK_TOPIC:

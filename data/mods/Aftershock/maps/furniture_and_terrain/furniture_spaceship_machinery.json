@@ -11,7 +11,7 @@
     "coverage": 50,
     "required_str": -1,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
-    "keg_capacity": 20,
+    "keg_capacity": "5 L",
     "bash": {
       "str_min": 60,
       "str_max": 120,

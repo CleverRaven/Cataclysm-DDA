@@ -11,9 +11,8 @@
     "shape": "line",
     "effect_str": "blind",
     "damage_type": "light",
-    "min_damage": 20,
-    "damage_increment": 7.5,
-    "max_damage": 280,
+    "min_damage": { "math": [ "(u_spell_level('solar_beam') * 3.4) + 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('solar_beam') * 5.9) + 14" ] },
     "min_range": 12,
     "max_range": 12,
     "min_aoe": 3,
@@ -29,7 +28,7 @@
     "difficulty": 5,
     "max_level": 35,
     "base_casting_time": 350,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "sunmage_pocket_sun",
@@ -44,7 +43,7 @@
     "effect": "spawn_item",
     "effect_str": "pocket_sun",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "SUN_MAGE",
     "difficulty": 6,
     "max_level": 40,

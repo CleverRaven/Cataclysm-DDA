@@ -64,6 +64,8 @@ static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const itype_id itype_backpack( "backpack" );
+
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const skill_id skill_gun( "gun" );
@@ -302,7 +304,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    add_msg_if_player_sees( target.raw(), spell_instance.message(), mon.disp_name(),
+    add_msg_if_player_sees( target, spell_instance.message(), mon.disp_name(),
                             spell_instance.name(), target_name );
 
     avatar fake_player;
@@ -723,7 +725,7 @@ bool melee_actor::call( monster &z ) const
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                        z.name(), body_part_name_accusative( bp_id ) );
@@ -733,7 +735,7 @@ bool melee_actor::call( monster &z ) const
     if( dodgeable ) {
         if( hitspread < 0 ) {
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                     sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_angle( z.pos_bub() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                            mon_name, body_part_name_accusative( bp_id ) );
@@ -868,7 +870,7 @@ bool melee_actor::call( monster &z ) const
         on_damage( z, *target, dealt_damage );
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
                                        mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
@@ -911,7 +913,7 @@ bool melee_actor::call( monster &z ) const
                         float path_distance = rng_float( 0, 1.0 );
                         tripoint_rel_ms vector = target->pos_bub() - z.pos_bub();
                         vector = { vector.x() *path_distance, vector.y() *path_distance, vector.z() *path_distance };
-                        pd[index]->spill_contents( z.pos() + vector.raw() );
+                        pd[index]->spill_contents( z.pos_bub() + vector );
                         add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                         popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                     }
@@ -934,7 +936,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
 {
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
@@ -1268,7 +1270,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
     z.mod_moves( -move_cost );
     standard_npc tmp( _( "The " ) + z.name(), z.pos_bub(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
+    tmp.worn.wear_item( tmp, item( itype_backpack ), false, false, true, true );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 

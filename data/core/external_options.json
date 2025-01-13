@@ -491,10 +491,10 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "EMP_DISABLE_ELECTRONICS",
-    "//": "Whether EMP effects will permanently disable items.",
+    "name": "GAME_EMP",
+    "//": "EMP will disable electonics for a short period of ~60 seconds, instead of permanently.  Theres a 5% chance of items shorting out permanently.",
     "stype": "bool",
-    "value": true
+    "value": false
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -55,6 +55,7 @@ class query_popup_impl : public cataimgui::window
 
 void query_popup_impl::draw_controls()
 {
+    ImGui::SetNavCursorVisible( true );
     mouse_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {
@@ -74,7 +75,7 @@ void query_popup_impl::draw_controls()
             }
             if( keyboard_selected_option != last_keyboard_selected_option &&
                 keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
-                ImGui::SetKeyboardFocusHere( -1 );
+                ImGui::SetItemDefaultFocus();
             }
             current_line = parent->buttons[ind].pos.y;
         }

@@ -21,6 +21,7 @@ namespace debug_menu
 
 enum class debug_menu_index : int {
     WISH,
+    SPAWN_ITEM_GROUP,
     SHORT_TELEPORT,
     LONG_TELEPORT,
     SPAWN_NPC,
@@ -113,14 +114,15 @@ enum class debug_menu_index : int {
     EDIT_FACTION,
     WRITE_CITY_LIST,
     TALK_TOPIC,
+    IMGUI_DEMO,
     last
 };
 
 void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
-// TODO: Get rid of untyped overload
-void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
+// Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
+void wishitemgroup( bool test );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmonstergroup( tripoint_abs_omt &loc );
 void wishmonstergroup_mon_selection( mongroup &group );

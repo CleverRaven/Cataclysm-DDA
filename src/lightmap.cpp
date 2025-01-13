@@ -68,19 +68,32 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
+void map::add_item_light_recursive( const tripoint_bub_ms &p, const item &it )
+{
+    float ilum = 0.0f; // brightness
+    units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
+    units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
+    if( it.getlight( ilum, iwidth, idir ) ) {
+        if( iwidth > 0_degrees ) {
+            apply_light_arc( p, idir, ilum, iwidth );
+        } else {
+            add_light_source( p, ilum );
+        }
+    }
+
+    for( const item_pocket *pkt : it.get_all_contained_pockets() ) {
+        if( pkt->transparent() ) {
+            for( const item *cont : pkt->all_items_top() ) {
+                add_item_light_recursive( p, *cont );
+            }
+        }
+    }
+}
+
 void map::add_light_from_items( const tripoint_bub_ms &p, const item_stack &items )
 {
     for( const item &it : items ) {
-        float ilum = 0.0f; // brightness
-        units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
-        units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( it.getlight( ilum, iwidth, idir ) ) {
-            if( iwidth > 0_degrees ) {
-                apply_light_arc( p, idir, ilum, iwidth );
-            } else {
-                add_light_source( p, ilum );
-            }
-        }
+        add_item_light_recursive( p, it );
     }
 }
 
@@ -659,11 +672,6 @@ void map::add_light_source( const tripoint_bub_ms &p, float luminance )
 
 // Tile light/transparency: 3D
 
-lit_level map::light_at( const tripoint &p ) const
-{
-    return map::light_at( tripoint_bub_ms( p ) );
-}
-
 lit_level map::light_at( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
@@ -791,11 +799,6 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     return { obstructed, abs_obstructed, apparent_light };
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
-{
-    return apparent_light_at( tripoint_bub_ms( p ), cache );
-}
-
 lit_level map::apparent_light_at( const tripoint_bub_ms &p,
                                   const visibility_variables &cache ) const
 {
@@ -900,7 +903,7 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
     float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    float radius = static_cast<float>( MAX_VIEW_DISTANCE ) - offsetDistance;
     if( start < end ) {
         return;
     }
@@ -1130,7 +1133,7 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
-            offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
+            offsetDistance = MAX_VIEW_DISTANCE - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;
             ( *mocache )[mirror_pos.x()][mirror_pos.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
@@ -1424,21 +1427,21 @@ void map::apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, 
 
 void map::apply_light_ray(
     cata::mdarray<bool, point_bub_ms, LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y> &lit,
-    const tripoint &s, const tripoint &e, float luminance )
+    const tripoint_bub_ms &s, const tripoint_bub_ms &e, float luminance )
 {
-    point a( std::abs( e.x - s.x ) * 2, std::abs( e.y - s.y ) * 2 );
-    point d( ( s.x < e.x ) ? 1 : -1, ( s.y < e.y ) ? 1 : -1 );
+    point a( std::abs( e.x() - s.x() ) * 2, std::abs( e.y() - s.y() ) * 2 );
+    point d( ( s.x() < e.x() ) ? 1 : -1, ( s.y() < e.y() ) ? 1 : -1 );
     point_bub_ms p( s.xy() );
 
     quadrant quad = quadrant_from_x_y( d.x, d.y );
 
     // TODO: Invert that z comparison when it's sane
-    if( s.z != e.z || ( s.x == e.x && s.y == e.y ) ) {
+    if( s.z() != e.z() || ( s.x() == e.x() && s.y() == e.y() ) ) {
         return;
     }
 
-    auto &lm = get_cache( s.z ).lm;
-    auto &transparency_cache = get_cache( s.z ).transparency_cache;
+    auto &lm = get_cache( s.z() ).lm;
+    auto &transparency_cache = get_cache( s.z() ).transparency_cache;
 
     float distance = 1.0f;
     float transparency = LIGHT_TRANSPARENCY_OPEN_AIR;
@@ -1477,7 +1480,7 @@ void map::apply_light_ray(
             }
 
             distance += scaling_factor;
-        } while( !( p.x() == e.x && p.y() == e.y ) );
+        } while( !( p.x() == e.x() && p.y() == e.y() ) );
     } else {
         int t = a.x - ( a.y / 2 );
         do {
@@ -1509,6 +1512,6 @@ void map::apply_light_ray(
             }
 
             distance += scaling_factor;
-        } while( !( p.x() == e.x && p.y() == e.y ) );
+        } while( !( p.x() == e.x() && p.y() == e.y() ) );
     }
 }

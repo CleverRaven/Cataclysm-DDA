@@ -135,13 +135,20 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_chem_ethanol( "chem_ethanol" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_motor_oil( "motor_oil" );
 static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
 static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
 static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
 static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
@@ -211,10 +218,11 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //    }
 }
 
-static tripoint read_legacy_creature_pos( const JsonObject &data )
+static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 {
-    tripoint pos;
-    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+    tripoint_bub_ms pos;
+    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
+        !data.read( "posz", pos.z() ) ) {
         debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
     }
     return pos;
@@ -535,6 +543,7 @@ void effect_source::deserialize( const JsonObject &data )
 void Character::trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "corrupted", corrupted );
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
@@ -549,6 +558,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
 void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    data.read( "corrupted", corrupted );
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
@@ -818,13 +828,40 @@ void Character::load( const JsonObject &data )
     for( const std::pair<const trait_id, trait_data> &add : muts_to_add ) {
         my_mutations.emplace( add.first, add.second );
     }
-    // We need to ensure that my_mutations contains no invalid mutations before we do this
+
+    data.read( "cached_mutations", cached_mutations );
+
+    std::map<trait_id, trait_data> caches_to_add;
+    for( auto it = cached_mutations.begin(); it != cached_mutations.end(); ) {
+        const trait_id &mid = it->first;
+        if( mid.is_valid() ) {
+            ++it;
+            continue;
+        }
+
+        const trait_replacement &rules = mutation_branch::trait_migration( mid );
+        if( rules.prof ) {
+            add_proficiency( *rules.prof );
+        } else if( rules.trait ) {
+            const trait_id &added = rules.trait->trait;
+            const std::string &added_var = rules.trait->variant;
+            auto add_it = caches_to_add.emplace( added, it->second ).first;
+            add_it->second.variant = added->variant( added_var );
+        } else {
+            if( rules.error ) {
+                debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.str() );
+            }
+        }
+        it = cached_mutations.erase( it );
+    }
+    for( const std::pair<const trait_id, trait_data> &add : caches_to_add ) {
+        cached_mutations.emplace( add.first, add.second );
+        on_mutation_gain( add.first );
+    }
+    // We need to ensure that cached_mutations contains no invalid mutations before we do this
     // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
     // we have invalid mutations.
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        on_mutation_gain( mut.first );
-        cached_mutations.push_back( &mut.first.obj() );
-    }
+    recalculate_enchantment_cache();
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
@@ -1177,23 +1214,23 @@ void Character::load( const JsonObject &data )
                     // Migrate old fuels to new system.
                     // Needed to be compatible with 0.F
                     if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
-                        item gasoline( "gasoline" );
+                        item gasoline( fuel_type_gasoline );
                         gasoline.charges = std::stoi( get_value( "gasoline" ) );
                         remove_value( "gasoline" );
                         pseudo.put_in( gasoline, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
-                        item ethanol( "chem_ethanol" );
+                        item ethanol( fuel_type_chem_ethanol );
                         ethanol.charges = std::stoi( get_value( "alcohol" ) );
                         remove_value( "alcohol" );
                         pseudo.put_in( ethanol, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
-                        item oil( "motor_oil" );
+                        item oil( fuel_type_motor_oil );
                         oil.charges = std::stoi( get_value( "motor_oil" ) );
                         remove_value( "motor_oil" );
                         pseudo.put_in( oil, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
-                        item battery( "medium_battery_cell" );
-                        item battery_charge( "battery" );
+                        item battery( itype_medium_battery_cell );
+                        item battery_charge( fuel_type_battery );
                         battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
                         battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
@@ -1275,7 +1312,6 @@ void Character::load( const JsonObject &data )
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
-    update_enchantment_mutations();
 }
 
 /**
@@ -1371,6 +1407,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
+    json.member( "cached_mutations", cached_mutations );
     json.member( "moncams", moncams );
     json.member( "magic", magic );
     json.member( "martial_arts_data", martial_arts_data );
@@ -2023,15 +2060,15 @@ void npc::load( const JsonObject &data )
     if( !data.has_member( "location" ) ) {
         point submap_coords;
         data.read( "submap_coords", submap_coords );
-        const tripoint pos = read_legacy_creature_pos( data );
+        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
-        std::optional<tripoint> opt;
+                                       0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
+        std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = get_location() + *opt - pos;
+            last_player_seen_pos = get_location() + ( *opt - pos );
         }
         if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = get_location() + *opt - pos;
+            pulp_location = get_location() + ( *opt - pos );
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
@@ -2398,10 +2435,10 @@ void monster::load( const JsonObject &data )
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-        tripoint wand;
-        data.read( "wandx", wand.x );
-        data.read( "wandy", wand.y );
-        data.read( "wandz", wand.z );
+        tripoint_bub_ms wand;
+        data.read( "wandx", wand.x() );
+        data.read( "wandy", wand.y() );
+        data.read( "wandz", wand.z() );
         wander_pos = get_map().getglobal( wand );
         tripoint destination;
         data.read( "destination", destination );
@@ -3915,7 +3952,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
     const auto write_seq = [&]() {
         jsout.start_array();
         jsout.write( num_same );
-        jsout.write( last.symbol );
+        jsout.write( static_cast<int>( last.symbol ) );
         jsout.write( last.ter_id );
         jsout.write( static_cast<int>( last.ter_subtile ) );
         jsout.write( static_cast<int>( last.ter_rotation ) );
@@ -4385,7 +4422,7 @@ void basecamp::deserialize( const JsonObject &data )
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;
-        point dir;
+        point_rel_omt dir;
         if( edata.has_string( "dir" ) ) {
             // old save compatibility
             const std::string dir_id = edata.get_string( "dir" );
@@ -4947,8 +4984,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         JsonArray terrain_json = jv;
         // Small duplication here so that the update check is only performed once
         if( rubpow_update ) {
-            item rock = item( "rock", calendar::turn_zero );
-            item chunk = item( "steel_chunk", calendar::turn_zero );
+            item rock = item( itype_rock, calendar::turn_zero );
+            item chunk = item( itype_steel_chunk, calendar::turn_zero );
             for( int j = 0; j < SEEY; j++ ) {
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( terrain_json.next_string() );
@@ -5231,7 +5268,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint::zero ) ).first;
+                                                      tripoint_bub_ms::zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -102,7 +103,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         return true;
     } );
 
-    const tripoint center{ 65, 65, 0 };
+    const tripoint_bub_ms center{ 65, 65, 0 };
     test_player.setpos( center );
     test_player.set_moves( 0 );
     // Give the player a head start.
@@ -125,7 +126,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
                 test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
                 test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
-                tripoint offset = center - test_player.pos();
+                tripoint_rel_ms offset = center - test_player.pos_bub();
                 test_player.setpos( center );
                 test_monster.setpos( test_monster.pos_bub() + offset );
                 // Verify that only the player and one monster are present.
@@ -134,7 +135,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
             const int move_cost = get_map().combined_movecost(
                                       test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
-                                test_player.pos()
+                                test_player.pos_bub().raw()
                                } );
             test_player.mod_moves( -move_cost );
         }
@@ -146,7 +147,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
             test_monster.move();
             tracker.push_back( {'m', moves_before - test_monster.get_moves(),
                                 rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
-                                test_monster.pos()
+                                test_monster.pos_bub().raw()
                                } );
             if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) == 1 ) {
                 INFO( tracker );
@@ -256,8 +257,9 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
 
     if( write_data ) {
         std::ofstream data;
-        data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
-                               monster_type ) );
+        data.open( std::filesystem::u8path( "slope_test_data_" + std::string( (
+                                                trigdist ? "trig_" : "square_" ) ) +
+                                            monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
             data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }

@@ -284,13 +284,16 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
-static const itype_id itype_null( "null" );
+static const itype_id itype_human_sample( "human_sample" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rope_6( "rope_6" );
+static const itype_id itype_snare_trigger( "snare_trigger" );
 
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -611,7 +614,7 @@ Character::Character() :
     grab_point = tripoint_rel_ms::zero;
     hauling = false;
     set_focus( 100 );
-    last_item = itype_null;
+    last_item = itype_id::NULL_ID();
     sight_max = 9999;
     last_batch = 0;
     death_drops = true;
@@ -1304,7 +1307,7 @@ int Character::sight_range( float light_level ) const
 
 int Character::unimpaired_range() const
 {
-    return std::min( sight_max, 60 );
+    return std::min( sight_max, MAX_VIEW_DISTANCE );
 }
 
 bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
@@ -1617,7 +1620,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
           !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
+                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1967,7 +1970,7 @@ bool Character::is_dead_state() const
         }
     }
     if( !has_vitals ) {
-        debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
+        debugmsg( _( "WARNING!  %s has no vital part and is invincible." ), disp_name() );
     }
     return false;
 }
@@ -2388,7 +2391,7 @@ void Character::process_turn()
         }
     }
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
 
@@ -2405,7 +2408,7 @@ void Character::process_turn()
     process_items();
     leak_items();
     // Didn't just pick something up
-    last_item = itype_null;
+    last_item = itype_id::NULL_ID();
 
     cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
         it.process_relic( this, pos_bub() );
@@ -2424,7 +2427,7 @@ void Character::process_turn()
         int norm_scent = 500;
         int temp_norm_scent = INT_MIN;
         bool found_intensity = false;
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             const std::optional<int> &scent_intensity = mut->scent_intensity;
             if( scent_intensity ) {
                 found_intensity = true;
@@ -3434,22 +3437,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    const std::vector<trait_id> &all_mutations = get_mutations();
-    for( const trait_id &mut : all_mutations ) {
-        // get the data if it exists
-        const auto mut_data = my_mutations.find( mut );
-        if( mut_data == my_mutations.end() ) {
-            // this entry is from an enchantment and doesn't have any character dependent info
-            overlay_id = mut.str();
-
-        } else {
-            if( !mut_data->second.show_sprite ) {
-                continue;
-            }
-            overlay_id = ( mut_data->second.powered ? "active_" : "" ) + mut.str();
-            if( mut_data->second.variant != nullptr ) {
-                variant = mut_data->second.variant->id;
-            }
+    for( const auto &mut : cached_mutations ) {
+        if( mut.second.corrupted > 0 || !mut.second.show_sprite ) {
+            continue;
+        }
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        if( mut.second.variant != nullptr ) {
+            variant = mut.second.variant->id;
         }
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
@@ -3661,7 +3655,7 @@ void Character::normalize()
 
     activity_history.weary_clear();
     martial_arts_data->reset_style();
-    weapon = item( "null", calendar::turn_zero );
+    weapon = item( itype_id::NULL_ID(), calendar::turn_zero );
 
     set_body();
     recalc_hp();
@@ -3679,11 +3673,11 @@ void Character::die( Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( "rope_6", calendar::turn_zero ) );
-        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
+        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
+        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( "beartrap", calendar::turn_zero ) );
+        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -3721,7 +3715,7 @@ std::pair<bodypart_id, int> Character::best_part_to_smash() const
     int tmp_bash_armor = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         tmp_bash_armor += worn.damage_resist( damage_bash, bp );
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             const resistances &res = mut->damage_resistance( bp );
             tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
         }
@@ -4169,7 +4163,7 @@ int Character::encumb( const bodypart_id &bp ) const
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
-    const std::vector<trait_id> all_muts = get_mutations();
+    const std::vector<trait_id> all_muts = get_functioning_mutations();
     std::map<bodypart_str_id, float> total_enc;
 
     // Lower penalty for bps covered only by XL or unrestricted armor
@@ -5270,7 +5264,7 @@ needs_rates Character::calc_needs_rates() const
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
         rates.thirst *= ( ( units::to_fahrenheit( get_weather().get_temperature(
-                                pos() ) ) - 32.5f ) / 40.0f );
+                                pos_bub() ) ) - 32.5f ) / 40.0f );
     }
 
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
@@ -5980,7 +5974,7 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         float curr_lum = 0.0f;
         for( const std::pair<const bodypart_str_id, float> &elem : mut->lumination ) {
             const float lum_coverage = worn.coverage_with_flags_exclude( elem.first.id(),
@@ -6206,7 +6200,7 @@ std::vector<std::string> Character::extended_description() const
 social_modifiers Character::get_mutation_bionic_social_mods() const
 {
     social_modifiers mods;
-    for( const mutation_branch *mut : cached_mutations ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         mods += mut->social_mods;
     }
     for( const bionic &bio : *my_bionics ) {
@@ -6392,6 +6386,23 @@ std::string Character::age_string( time_point when ) const
     //~ how old the character is in years. try to limit number of characters to fit on the screen
     std::string unformatted = _( "%d years" );
     return string_format( unformatted, age( when ) );
+}
+
+int Character::ugliness() const
+{
+    int ugliness = 0;
+    for( trait_id &mut : get_functioning_mutations() ) {
+        ugliness += mut.obj().ugliness;
+    }
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        ugliness += bp->ugliness_mandatory;
+        ugliness += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+    }
+    ugliness = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, ugliness );
+    return ugliness;
 }
 
 struct HeightLimits {
@@ -7141,7 +7152,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
-                                      pt.raw(), method );
+                                      pt, method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
         return false;
@@ -7582,7 +7593,7 @@ void Character::calc_mutation_levels()
     // from the same root mutation as having full height
 
     // For each of our mutations...
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations( true, true ) ) {
         const mutation_branch &mdata = mut.obj();
         if( mdata.threshold ) {
             // Thresholds are worth 10, and technically support multiple categories
@@ -7619,7 +7630,7 @@ void Character::drench_mut_calc()
         int neutral = 0;
         int good = 0;
 
-        for( const trait_id &iter : get_mutations() ) {
+        for( const trait_id &iter : get_functioning_mutations() ) {
             const mutation_branch &mdata = iter.obj();
             const auto wp_iter = mdata.protection.find( bp.id() );
             if( wp_iter != mdata.protection.end() ) {
@@ -7689,8 +7700,7 @@ void Character::recalculate_bodyparts()
 
 void Character::recalculate_enchantment_cache()
 {
-    // start by resetting the cache to all inventory items
-    *enchantment_cache = inv->get_active_enchantment_cache( *this );
+    enchantment_cache->clear();
 
     cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
         for( const enchant_cache &ench : it.get_proc_enchantments() ) {
@@ -7705,17 +7715,6 @@ void Character::recalculate_enchantment_cache()
         }
     } );
 
-    // get from traits/ mutations
-    for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
-        const mutation_branch &mut = mut_map.first.obj();
-
-        for( const enchantment_id &ench_id : mut.enchantments ) {
-            const enchantment &ench = ench_id.obj();
-            if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
-                enchantment_cache->force_add( ench, *this );
-            }
-        }
-    }
 
     for( const bionic &bio : *my_bionics ) {
         const bionic_id &bid = bio.id;
@@ -7738,10 +7737,145 @@ void Character::recalculate_enchantment_cache()
         }
     }
 
+    for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
+        if( mut_map.second.corrupted == 0 ) {
+            const mutation_branch &mut = mut_map.first.obj();
+            for( const enchantment_id &ench_id : mut.enchantments ) {
+                const enchantment &ench = ench_id.obj();
+                if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
+                    enchantment_cache->force_add_mutation( ench );
+                }
+            }
+        }
+    }
+    new_mutation_cache->mutations = enchantment_cache->mutations;
+    update_cached_mutations();
+    for( const std::pair<const trait_id, trait_data> &mut_map : cached_mutations ) {
+        if( mut_map.second.corrupted == 0 ) {
+            const mutation_branch &mut = mut_map.first.obj();
+            for( const enchantment_id &ench_id : mut.enchantments ) {
+                const enchantment &ench = ench_id.obj();
+                if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
+                    enchantment_cache->force_add( ench, *this );
+                }
+            }
+        }
+    }
+
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
     recalc_hp();
+}
+
+void Character::update_cached_mutations()
+{
+    const std::vector<trait_id> &new_muts = new_mutation_cache->get_mutations();
+    const std::vector<trait_id> &old_muts = old_mutation_cache->get_mutations();
+    if( my_mutations_dirty.empty() ) {
+        if( cached_mutations.empty() ) {
+            // migration from old save
+            cached_mutations = my_mutations;
+        }
+        if( new_muts.empty() && old_muts.empty() ) {
+            // Quick bail out as no changes happened.
+            return;
+        }
+    }
+
+    if( !old_muts.empty() ) {
+        for( const trait_id &it : old_muts ) {
+            auto remains = find( new_muts.begin(), new_muts.end(), it );
+            if( remains == new_muts.end() ) {
+                mutations_to_remove.insert( it );
+            } else {
+                for( auto &iter : my_mutations_dirty ) {
+                    if( are_opposite_traits( it, iter.first ) || b_is_lower_trait_of_a( it, iter.first )
+                        || are_same_type_traits( it, iter.first ) ) {
+                        ++iter.second.corrupted;
+                        ++my_mutations[it].corrupted;
+                    }
+                }
+            }
+        }
+        for( auto &iter : my_mutations_dirty ) {
+            cached_mutations.emplace( iter );
+            if( iter.second.corrupted == 0 ) {
+                mutation_effect( iter.first, false );
+                do_mutation_updates();
+            }
+        }
+        for( const trait_id &it : new_muts ) {
+            auto exists = find( old_muts.begin(), old_muts.end(), it );
+            if( exists == old_muts.end() ) {
+                mutations_to_add.insert( it );
+            }
+        }
+    } else {
+        for( auto &it : my_mutations_dirty ) {
+            cached_mutations.emplace( it );
+            mutation_effect( it.first, false );
+            do_mutation_updates();
+        }
+        for( const trait_id &it : new_muts ) {
+            if( !cached_mutations.count( it ) ) {
+                mutations_to_add.insert( it );
+            }
+        }
+    }
+    my_mutations_dirty.clear();
+    old_mutation_cache = new_mutation_cache;
+    new_mutation_cache->clear();
+    if( mutations_to_add.empty() && mutations_to_remove.empty() ) {
+        // Quick bail out as no changes happened.
+        return;
+    }
+
+    const std::vector<trait_id> &current_traits = get_mutations();
+    for( const trait_id &mut : mutations_to_remove ) {
+        // check if the player still has a mutation
+        // since a trait from an item might be provided by another item as well
+        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
+        if( it == current_traits.end() ) {
+            for( auto &iter : cached_mutations ) {
+                if( ( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
+                      || are_same_type_traits( iter.first, mut ) ) && iter.second.corrupted > 0 ) {
+                    --iter.second.corrupted;
+                    if( my_mutations.count( iter.first ) ) {
+                        --my_mutations[iter.first].corrupted;
+                    }
+                    if( iter.second.corrupted == 0 ) {
+                        mutation_effect( iter.first, false );
+                        do_mutation_updates();
+                    }
+                }
+            }
+            cached_mutations.erase( mut );
+            mutation_loss_effect( mut );
+            do_mutation_updates();
+        }
+    }
+    for( const trait_id &mut : mutations_to_add ) {
+        for( auto &iter : cached_mutations ) {
+            if( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
+                || are_same_type_traits( iter.first, mut ) ) {
+                ++iter.second.corrupted;
+                if( my_mutations.count( iter.first ) ) {
+                    ++my_mutations[iter.first].corrupted;
+                }
+                if( iter.second.corrupted == 1 ) {
+                    mutation_loss_effect( iter.first );
+                    do_mutation_updates();
+                }
+            }
+        }
+        cached_mutations.emplace( mut, trait_data() );
+        mutation_effect( mut, true );
+        do_mutation_updates();
+    }
+    mutations_to_add.clear();
+    mutations_to_remove.clear();
+    trait_flag_cache.clear();
 }
 
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
@@ -7764,6 +7898,9 @@ void Character::did_hit( Creature &target )
 
 ret_val<void> Character::can_wield( const item &it ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<void>::make_failure( _( "You can't wield a part of your body." ) );
+    }
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<void>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
@@ -8152,7 +8289,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d, const weakpoint_attack &attack )
+        const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
     if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
@@ -8409,7 +8546,7 @@ bool Character::crossed_threshold() const
 
 mutation_category_id Character::get_threshold_category() const
 {
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( mut->threshold && !mut->category.empty() ) {
             return mut->category[0];
         }
@@ -8420,7 +8557,7 @@ mutation_category_id Character::get_threshold_category() const
 void Character::update_type_of_scent( bool init )
 {
     scenttype_id new_scent = scent_sc_human;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( mut.obj().scent_typeid ) {
             new_scent = mut.obj().scent_typeid.value();
         }
@@ -9183,7 +9320,7 @@ units::temperature_delta Character::floor_warmth( const tripoint_bub_ms &pos ) c
 units::temperature_delta Character::bodytemp_modifier_traits( bool overheated ) const
 {
     units::temperature_delta mod = 0_C_delta;
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         mod += overheated ? iter->bodytemp_min : iter->bodytemp_max;
     }
     return mod;
@@ -9840,12 +9977,6 @@ void Character::on_item_wear( const item &it )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
-    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        // flag these mutations to be added at the start of the next turn
-        // without doing this you still count as wearing the item providing
-        // the traits so most the calcs don't work in mutation_loss_effect
-        mutations_to_add.push_back( mut );
-    }
     morale->on_item_wear( it );
 }
 
@@ -9854,23 +9985,7 @@ void Character::on_item_takeoff( const item &it )
     invalidate_inventory_validity_cache();
     invalidate_weight_carried_cache();
     invalidate_leak_level_cache();
-    for( const trait_id &mut : it.mutations_from_wearing( *this, true ) ) {
-        // flag these mutations to be removed at the start of the next turn
-        // without doing this you still count as wearing the item providing
-        // the traitssdd so most the calcs don't work in mutation_loss_effect
-        mutations_to_remove.push_back( mut );
-
-    }
     morale->on_item_takeoff( it );
-}
-
-void Character::enchantment_wear_change()
-{
-    recalc_sight_limits();
-    calc_encumbrance();
-    if( get_stamina() > get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
 }
 
 void Character::on_item_acquire( const item &it )
@@ -9911,7 +10026,6 @@ void Character::on_mutation_gain( const trait_id &mid )
     morale->on_mutation_gain( mid );
     magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
-    recalculate_enchantment_cache(); // mutations can have enchantments
     effect_on_conditions::process_reactivate( *this );
     if( is_avatar() ) {
         as_avatar()->character_mood_face( true );
@@ -9921,9 +10035,8 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic->on_mutation_loss( mid );
+    magic->on_mutation_loss( mid, *this );
     update_type_of_scent( mid, false );
-    recalculate_enchantment_cache(); // mutations can have enchantments
     effect_on_conditions::process_reactivate( *this );
     if( is_avatar() ) {
         as_avatar()->character_mood_face( true );
@@ -9948,7 +10061,7 @@ std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &fla
             traits.insert( i );
         }
     }
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : cached_mutations ) {
         for( const trait_id &canceled_trait : mut.first->cancels ) {
             if( canceled_trait == flag ) {
                 traits.insert( mut.first );
@@ -10331,11 +10444,11 @@ void Character::place_corpse()
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
     // One sample, as you would get from dissecting any other human.
-    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+    body.put_in( item( itype_human_sample ), pocket_type::CORPSE );
 
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
-            item cbm( bio.id.str(), calendar::turn );
+            item cbm( bio.info().itype(), calendar::turn );
             cbm.set_flag( flag_FILTHY );
             cbm.set_flag( flag_NO_STERILE );
             cbm.set_flag( flag_NO_PACKED );
@@ -10373,11 +10486,12 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
     // One sample, as you would get from dissecting any other human.
-    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+    body.put_in( item( itype_human_sample ), pocket_type::CORPSE );
 
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.info().itype() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ), pocket_type::CORPSE );
+        const itype_id &bio_itype = bio.info().itype();
+        if( item::type_is_defined( bio_itype ) ) {
+            body.put_in( item( bio_itype, calendar::turn ), pocket_type::CORPSE );
         }
     }
 
@@ -11157,9 +11271,9 @@ bool Character::can_sleep()
 const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) const
 {
     const comfort_data *worst = nullptr;
-    for( const trait_id trait : get_mutations() ) {
+    for( const trait_id trait : get_functioning_mutations() ) {
         for( const comfort_data &data : trait->comfort ) {
-            if( data.are_conditions_true( *this, p.raw() ) ) {
+            if( data.are_conditions_true( *this, p ) ) {
                 if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
                     worst = &data;
                 }
@@ -11172,10 +11286,10 @@ const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) 
 
 const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
 {
-    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p.raw() ) {
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
         return comfort_cache;
     }
-    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p.raw() );
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
 }
 
 void Character::shift_destination( const point_rel_ms &shift )
@@ -12820,7 +12934,7 @@ void Character::search_surroundings()
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if( tr.detect_trap( tp.raw(), *this ) ) {
+        if( tr.detect_trap( tp, *this ) ) {
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(

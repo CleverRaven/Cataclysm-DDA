@@ -30,8 +30,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const std::string null_item_id( "null" );
-
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
 {
@@ -190,20 +188,20 @@ item Single_item_creator::create_single_without_container( const time_point &bir
 {
     // Check direct return conditions first.
     if( type == S_NONE ) {
-        return item( null_item_id, birthday );
+        return item( itype_id::NULL_ID(), birthday );
     }
     Item_spawn_data *isd = nullptr;
     if( type == S_ITEM_GROUP ) {
         item_group_id group_id( id );
         if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
         rec.push_back( group_id );
         isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
     }
 
@@ -221,7 +219,7 @@ item Single_item_creator::create_single_without_container( const time_point &bir
             if( id == "corpse" ) {
                 return item::make_corpse( mtype_id::NULL_ID(), birthday );
             } else {
-                return item( id, birthday );
+                return item( itype_id( id ), birthday );
             }
         }
     } )();
@@ -863,7 +861,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
             return elem->create_single( birthday, rec );
         }
     }
-    return item( null_item_id, birthday );
+    return item( itype_id::NULL_ID(), birthday );
 }
 
 void Item_group::check_consistency( bool actually_spawn ) const
@@ -956,6 +954,27 @@ std::map<const itype *, std::pair<int, int>> Item_group::every_item_min_max() co
         }
     }
     return result;
+}
+
+std::string item_group::potential_items( const item_group_id &group_id )
+{
+    std::string ret;
+    const Item_spawn_data *spawn_data = spawn_data_from_group( group_id );
+    if( spawn_data ) {
+        const std::map<const itype *, std::pair<int, int>> items_min_max =
+                    spawn_data->every_item_min_max();
+        for( const auto &item_min_max : items_min_max ) {
+            const int &min = item_min_max.second.first;
+            const int &max = item_min_max.second.second;
+            if( min != max ) {
+                ret += string_format( "- <color_cyan>%d-%d %s</color>\n", min, max,
+                                      item_min_max.first->nname( max ) );
+            } else {
+                ret += string_format( "- <color_cyan>%d %s</color>\n", max, item_min_max.first->nname( max ) );
+            }
+        }
+    }
+    return ret;
 }
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id,

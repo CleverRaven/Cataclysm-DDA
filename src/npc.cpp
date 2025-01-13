@@ -114,6 +114,8 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const itype_id itype_molotov( "molotov" );
+
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
@@ -268,7 +270,7 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
-                            const std::vector<std::string> &clothing,
+                            const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
@@ -293,7 +295,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    for( const std::string &e : clothing ) {
+    for( const itype_id &e : clothing ) {
         wear_item( item( e ), false );
     }
 
@@ -575,7 +577,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
-    set_wielded_item( item( "null", calendar::turn_zero ) );
+    set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
     moves = 100;
@@ -737,7 +739,7 @@ void npc::catchup_skills()
 
 void npc::clear_personality_traits()
 {
-    for( const trait_id &trait : get_mutations() ) {
+    for( const trait_id &trait : get_functioning_mutations() ) {
         if( trait.obj().personality_score ) {
             unset_mutation( trait );
         }
@@ -773,7 +775,7 @@ void npc::randomize_personality()
 
 void npc::learn_ma_styles_from_traits()
 {
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         if( !iter->initial_ma_styles.empty() ) {
             std::vector<matype_id> shuffled_trait_styles = iter->initial_ma_styles;
             std::shuffle( shuffled_trait_styles.begin(), shuffled_trait_styles.end(), rng_get_engine() );
@@ -930,7 +932,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     starting_inv_ammo( who, res, multiplier );
 
     if( type == NC_ARSONIST ) {
-        res.emplace_back( "molotov" );
+        res.emplace_back( itype_molotov );
     }
 
     int qty = ( type == NC_EVAC_SHOPKEEP ) ? 5 : 2;
@@ -1396,7 +1398,7 @@ void npc::do_npc_read( bool ebook )
 
     book = book.obtain( *npc_character );
     if( can_read( *book, fail_reasons ) ) {
-        add_msg_if_player_sees( pos(), _( "%s starts reading." ), disp_name() );
+        add_msg_if_player_sees( pos_bub(), _( "%s starts reading." ), disp_name() );
 
         // NPCs can't read to other NPCs yet
         const time_duration time_taken = time_to_read( *book, *this );
@@ -1653,18 +1655,8 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         npc_values.fear += 6;
     }
 
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
-    }
+    int u_ugly = you.ugliness();
+
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
 

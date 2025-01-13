@@ -216,8 +216,12 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        // Note well: This truncates the result!
-        here = static_cast<int>( std::get<int>( here ) * r );
+        cata_assert( std::get<int>( here ) >= 0 );
+        if( std::get<int>( here ) == 0 ) {
+            continue;
+        }
+        // truncates, but always keep at least 1 (for e.g. allergies)
+        here = std::max( static_cast<int>( std::get<int>( here ) * r ), 1 );
     }
     return *this;
 }

@@ -278,6 +278,23 @@
     }
   },
   {
+    "id": "bot_shock_mine",
+    "type": "TOOL",
+    "copy-from": "bot_hack_base",
+    "name": "inactive shock-mine",
+    "description": "A less-than-lethal mine that emits a powerful electrical shock when triggered.  Activate this item to deploy the mine, which will have a lifetime of 10 hours after activation.",
+    "color": "yellow",
+    "volume": "1 L",
+    "weight": "1200 g",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_shock_mine",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "traps", "computer" ]
+    }
+  },
+  {
     "abstract": "bot_medibot_base",
     "type": "TOOL",
     "looks_like": "mon_tripod",
@@ -470,7 +487,7 @@
     "abstract": "bot_eyebot_base",
     "type": "TOOL",
     "name": { "str": "inactive eyebot", "//~": "NO_I18N" },
-    "looks_like": "afs_broken_eyebot",
+    "looks_like": "broken_afs_eyebot",
     "price": "100 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel", "plastic" ],
@@ -548,7 +565,7 @@
   },
   {
     "id": "afs_bot_eyebot",
-    "looks_like": "afs_broken_eyebot",
+    "looks_like": "broken_afs_eyebot",
     "type": "TOOL",
     "name": { "str": "inactive eyebot" },
     "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
@@ -575,7 +592,7 @@
   },
   {
     "id": "afs_bot_copbot",
-    "looks_like": "afs_broken_copbot",
+    "looks_like": "broken_afs_copbot",
     "type": "TOOL",
     "name": { "str": "inactive police bot" },
     "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
@@ -602,7 +619,7 @@
   },
   {
     "id": "afs_bot_riotbot",
-    "looks_like": "afs_broken_riotbot",
+    "looks_like": "broken_afs_riotbot",
     "type": "TOOL",
     "name": { "str": "inactive riot control bot" },
     "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",

@@ -36,6 +36,7 @@ static const furn_str_id furn_f_dresser( "f_dresser" );
 
 static const itype_id itype_software_medical( "software_medical" );
 static const itype_id itype_software_useless( "software_useless" );
+static const itype_id itype_usb_drive( "usb_drive" );
 
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
@@ -148,7 +149,7 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    get_player_character().i_add( item( "usb_drive", calendar::turn_zero ) );
+    get_player_character().i_add( item( itype_usb_drive, calendar::turn_zero ) );
     add_msg( _( "%s gave you a USB drive." ), dev->get_name() );
 
     std::string type = "house";

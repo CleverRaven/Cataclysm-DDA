@@ -581,11 +581,11 @@ static void bionic_remove_common( npc &p, Character &patient )
     std::vector<std::string> bionic_names;
     std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(),
-                       bio.info().itype() ) == bionic_types.end() ) {
-            bionic_types.push_back( bio.info().itype() );
-            if( item::type_is_defined( bio.info().itype() ) ) {
-                item tmp = item( bio.id.str(), calendar::turn_zero );
+        const itype_id &bio_itype = bio.info().itype();
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio_itype ) == bionic_types.end() ) {
+            bionic_types.push_back( bio_itype );
+            if( item::type_is_defined( bio_itype ) ) {
+                item tmp = item( bio_itype, calendar::turn_zero );
                 bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
@@ -1292,9 +1292,9 @@ void talk_function::distribute_food_auto( npc &p )
     const tripoint_abs_ms bottom_right = npc_abs_loc + point::south_east;
     std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
     const faction_id &fac_id = p.get_fac_id();
-    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left.raw(), bottom_right.raw() );
-    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left.raw(),
-             bottom_right.raw() );
+    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );
+    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left,
+             bottom_right );
     npc_camp->distribute_food( false );
     // Now we clean up all camp zones, though there SHOULD only be the two we just made
     auto lambda_remove_zones = [&mgr, &fac_id]( zone_type_id type_to_remove ) {

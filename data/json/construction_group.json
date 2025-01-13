@@ -433,6 +433,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_char_kiln",
+    "name": "Place Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
   },
@@ -1842,11 +1847,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_active_backup_generator",
-    "name": "Place backup generator"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },
@@ -2079,5 +2079,10 @@
     "type": "construction_group",
     "id": "build_vent_pipe",
     "name": "Build Vent Pipe"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_windowframe_with_sheet",
+    "name": "Cover Empty Window With Sheet"
   }
 ]

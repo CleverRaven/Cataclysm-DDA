@@ -96,7 +96,9 @@ static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
 static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_pickaxe( "pickaxe" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_shovel( "shovel" );
 
 static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -133,7 +135,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         if( p.is_avatar() ) {
             add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         } else {
-            add_msg_if_player_sees( p.pos(), m_info,
+            add_msg_if_player_sees( p.pos_bub(), m_info,
                                     _( "%s's morale is too low to craft such a difficult thing…" ),
                                     p.get_name() );
         }
@@ -144,7 +146,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         if( p.is_avatar() ) {
             add_msg( m_info, _( "You can't see to craft!" ) );
         } else {
-            add_msg_if_player_sees( p.pos(), m_info, _( "%s can't see to craft!" ),
+            add_msg_if_player_sees( p.pos_bub(), m_info, _( "%s can't see to craft!" ),
                                     p.get_name() );
         }
         return false;
@@ -653,7 +655,7 @@ const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, 
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( inv_pos.raw(), radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
     std::map<itype_id, int> tmp_liq_list;
@@ -682,8 +684,8 @@ const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, 
     }
 
     if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
-        *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
-        *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
+        *crafting_cache.crafting_inventory += item( itype_pickaxe, calendar::turn );
+        *crafting_cache.crafting_inventory += item( itype_shovel, calendar::turn );
     }
 
     crafting_cache.valid = true;
@@ -721,13 +723,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
         return;
     }
 
-    // TODO: Get rid of this when craft_command is typified.
-    std::optional<tripoint> temp;
-    if( loc.has_value() ) {
-        temp = loc.value().raw();
-    }
-
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, temp );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 
@@ -997,14 +993,14 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
                 if( is_avatar() ) {
                     add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
                 } else {
-                    add_msg_if_player_sees( pos(), m_info, _( "%s assists with crafting…" ), helper->get_name() );
+                    add_msg_if_player_sees( pos_bub(), m_info, _( "%s assists with crafting…" ), helper->get_name() );
                 }
             }
             if( batch_size == 1 && one_in( 300 ) ) {
                 if( is_avatar() ) {
                     add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
                 } else {
-                    add_msg_if_player_sees( pos(), m_info, _( "%1s could assist %2s with a batch…" ),
+                    add_msg_if_player_sees( pos_bub(), m_info, _( "%1s could assist %2s with a batch…" ),
                                             helper->get_name(), get_name() );
                 }
             }
@@ -1015,7 +1011,7 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
                 if( is_avatar() ) {
                     add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
                 } else {
-                    add_msg_if_player_sees( pos(), m_info, _( "%1s watches %2s crafts…" ), helper->get_name(),
+                    add_msg_if_player_sees( pos_bub(), m_info, _( "%1s watches %2s crafts…" ), helper->get_name(),
                                             get_name() );
                 }
             }
@@ -1122,7 +1118,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     }
 
     // Mutations can define specific skill bonuses and penalties.  Gotta include those.
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         for( const std::pair<const skill_id, int> &skill_bonuses : mut->craft_skill_bonus ) {
             if( making.skill_used == skill_bonuses.first ) {
                 total_skill_modifiers += skill_bonuses.second * 1.0f;
@@ -1544,7 +1540,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
                 } else {
-                    add_msg_if_player_sees( pos(), m_good, _( "%1s memorized the recipe for %2s!" ),
+                    add_msg_if_player_sees( pos_bub(), m_good, _( "%1s memorized the recipe for %2s!" ),
                                             get_name(), making.result_name() );
                 }
             }
@@ -1641,7 +1637,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+        map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         auto filter = [&]( const item & it ) {
             return std_filter( it ) &&
@@ -1659,7 +1655,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 if( this->is_avatar() ) {
                     add_msg( _( "You stop crafting." ) );
                 } else {
-                    add_msg_if_player_sees( pos(), _( "%s stops crafting." ), get_name() );
+                    add_msg_if_player_sees( pos_bub(), _( "%s stops crafting." ), get_name() );
                 }
                 return false;
             }
@@ -1709,7 +1705,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+        map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -2057,8 +2053,8 @@ std::list<item> Character::consume_items( const comp_selection<item_comp> &is, i
         return ret;
     }
     // populate a grid of spots that can be reached
-    std::vector<tripoint_bub_ms> reachable_pts;
-    m.reachable_flood_steps( reachable_pts, pos_bub(), PICKUP_RANGE, 1, 100 );
+    const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( pos_bub(),
+            PICKUP_RANGE, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
@@ -2171,7 +2167,7 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
         const std::function<bool( const itype_id & )> &select_ind )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, false, filter );
     return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
 }
@@ -2361,7 +2357,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 craft.get_cached_tool_selections();
 
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
         itype_id type = tool_sel.comp.type;
@@ -2482,7 +2478,7 @@ to consume_tools */
 void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
@@ -2931,7 +2927,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
             if( act_item.has_temperature() ) {
                 // TODO: fix point types
-                act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
+                act_item.set_item_temperature( get_weather().get_temperature( loc ) );
             }
 
             // Refitted clothing disassembles into refitted components (when applicable)

@@ -2,12 +2,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "sandstone",
-    "object": { "fill_ter": "t_sandstone" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": "mesa",
     "object": { "fill_ter": "t_sandstone" }
   },

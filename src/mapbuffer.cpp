@@ -121,10 +121,29 @@ submap *mapbuffer::lookup_submap( const tripoint_abs_sm &p )
 
 bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 {
+    // Could so with a second check against a std::unordered_set<tripoint_abs_sm> of already checked existing but not loaded submaps before resorting to unserializing?
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
+        } catch( const std::exception &err ) {
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
+        }
+        return false;
+    }
+
+    return true;
+}
+
+bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
+{
+    const auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
+        try {
+            const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
+            const cata_path dirname = find_dirname( om_addr );
+            cata_path quad_path = find_quad_path( dirname, om_addr );
+            return file_exist( quad_path );
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
@@ -194,21 +213,21 @@ void mapbuffer::save_quad(
     const cata_path &dirname, const cata_path &filename, const tripoint_abs_omt &om_addr,
     std::list<tripoint_abs_sm> &submaps_to_delete, bool delete_after_save )
 {
-    std::vector<point> offsets;
+    std::vector<point_rel_sm> offsets;
     std::vector<tripoint_abs_sm> submap_addrs;
     offsets.reserve( 4 );
     submap_addrs.reserve( 4 );
-    offsets.push_back( point::zero );
-    offsets.push_back( point::south );
-    offsets.push_back( point::east );
-    offsets.push_back( point::south_east );
+    offsets.push_back( point_rel_sm::zero );
+    offsets.push_back( point_rel_sm::south );
+    offsets.push_back( point_rel_sm::east );
+    offsets.push_back( point_rel_sm::south_east );
 
     bool all_uniform = true;
     bool reverted_to_uniform = false;
-    bool const file_exists = fs::exists( filename.get_unrelative_path() );
-    for( point &offsets_offset : offsets ) {
+    bool const file_exists = std::filesystem::exists( filename.get_unrelative_path() );
+    for( point_rel_sm &offsets_offset : offsets ) {
         tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
-        submap_addr += offsets_offset;
+        submap_addr += offsets_offset.raw(); // TODO: Make += etc. available to relative parameters as well.
         submap_addrs.push_back( submap_addr );
         submap *sm = submaps[submap_addr].get();
         if( sm != nullptr ) {
@@ -277,7 +296,7 @@ void mapbuffer::save_quad(
     } );
 
     if( all_uniform && reverted_to_uniform ) {
-        fs::remove( filename.get_unrelative_path() );
+        std::filesystem::remove( filename.get_unrelative_path() );
     }
 }
 

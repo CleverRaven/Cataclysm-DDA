@@ -16,6 +16,30 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "makeshift_hand_crank_charger",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "makeshift hand-crank charger" },
+    "description": "A makeshift hand-powered battery charger based on homopolar generator.",
+    "weight": "8000 g",
+    "volume": "7 L",
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "wood", "copper", "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "use_action": [ "HAND_CRANK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT", "BATTERY_HEAVY" ],
+        "default_magazine": "battery_car_clay"
+      }
+    ]
+  },
+  {
     "id": "magazine_battery_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",

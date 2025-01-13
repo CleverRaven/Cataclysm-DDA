@@ -643,7 +643,7 @@ std::string direction_arrow( const direction dir )
     return arrow;
 }
 
-std::string direction_suffix( const tripoint &p, const tripoint &q )
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
@@ -741,6 +741,20 @@ std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const po
         adjacent_squares.emplace_back( center_square.x(), p1.y() );
     }
     return adjacent_squares;
+}
+
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
+{
+    const std::vector<point_bub_ms> tmp = squares_in_direction( rebase_bub( p1 ), rebase_bub( p2 ) );
+    std::vector<point_omt_ms> result;
+    result.reserve( tmp.size() );
+
+    for( const point_bub_ms &point : tmp ) {
+        const point_omt_ms work_around = point_omt_ms( point.raw() );
+        result.emplace_back( work_around );
+    }
+
+    return result;
 }
 
 rl_vec2d rl_vec3d::xy() const
@@ -971,4 +985,36 @@ units::angle coord_to_angle( const tripoint &a, const tripoint &b )
         rad += 2_pi_radians;
     }
     return rad;
+}
+
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return FastDistanceApproximation(
+               ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) +
+               ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) +
+               ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) );
+}
+
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
+{
+    const tripoint_rel_ms d = ( loc1 - loc2 ).abs();
+    return FastDistanceApproximation( std::max( { d.x(), d.y(), d.z() } ) );
+}
+
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b )
+{
+    return rl_dist_fast( tripoint_bub_ms( a, 0 ), tripoint_bub_ms( b, 0 ) );
+}
+
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return std::sqrt( static_cast<double>( ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) ) +
+                      ( ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) ) +
+                      ( ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) ) );
+}
+
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 )
+{
+    return trig_dist( tripoint_bub_ms( loc1, 0 ), tripoint_bub_ms( loc2, 0 ) );
 }

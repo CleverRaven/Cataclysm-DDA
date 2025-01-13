@@ -738,7 +738,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "road_four_way",
+    "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
     "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -1052,20 +1052,6 @@
         { "chunks": [ "24x24_marked_crosswalks" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_four_way_crossroad_vehicles" ], "x": 0, "y": 0 },
         { "chunks": [ "24x24_road_zombies" ], "x": 0, "y": 0 }
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "road_nesw_manhole",
-    "//": "Need to fix magical teleportation with actual aligned manhole placement",
-    "object": {
-      "fill_ter": "t_region_grass",
-      "place_nested": [
-        { "chunks": [ "24x24_road_four_way_crossroad" ], "x": 0, "y": 0 },
-        { "chunks": [ "1x1_manhole" ], "x": [ 5, 18 ], "y": [ 5, 18 ] }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

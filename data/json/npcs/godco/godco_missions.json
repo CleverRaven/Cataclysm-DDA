@@ -276,7 +276,7 @@
     "followup": "MISSION_GODCO_DARRYL_COOP1",
     "dialogue": {
       "describe": "I need a mechanical pump to finish construction.",
-      "offer": "It's less like a well, and more like a covered pit currently.  I'll need you to find a mechanical pump, one that will make this <swear> thing work.",
+      "offer": "It's less like a well, and more like a covered pit currently.  I'll need you to find a mechanical pump, one that will make this <freaking> thing work.",
       "accepted": "Take care of yourself out there.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Try disassembling another well.",
@@ -338,9 +338,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "slimepit_z0", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "slimepit_z0", "om_special": "Slime Pit", "reveal_radius": 3 } },
     "item": "slime_scrap",
     "count": 3,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -420,7 +418,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "hive", "om_special": "Bee Hive", "reveal_radius": 3, "search_range": 280 } },
+    "start": { "assign_mission_target": { "om_terrain": "hive", "om_special": "Bee Hive", "reveal_radius": 3 } },
     "item": "bee_sting",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -455,7 +453,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 1, "random": false, "search_range": 20, "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 1, "random": false, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_zombie_screecher", "x": 11, "y": 11, "target": true } ] }
     },
     "end": {
@@ -478,7 +476,7 @@
       "inquire": "Any luck with that horror?",
       "success": "Oh thank you!  Now I can finally get a nights sleep.  Here, I've got some icons saved up, I want you to have them.",
       "success_lie": "I can still hear it, crying out in the night.",
-      "failure": "I'm not gonna go and fix this <swear> mess."
+      "failure": "I'm not gonna go and fix this <freaking> mess."
     }
   },
   {
@@ -490,7 +488,7 @@
     "difficulty": 4,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 60, "min_distance": 20 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 20 },
       "update_mapgen": {
         "rows": [
           "     ..............     ",
@@ -574,7 +572,7 @@
     "value": 0,
     "item": "small_relic",
     "start": {
-      "assign_mission_target": { "om_terrain": "cathedral_1_SE", "om_special": "cathedral", "reveal_radius": 1, "random": false, "search_range": 100 }
+      "assign_mission_target": { "om_terrain": "cathedral_1_SE", "om_special": "cathedral", "reveal_radius": 1, "random": false }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_GREENWOOD_3",
@@ -603,7 +601,7 @@
     "item": "holybook_bible1",
     "count": 20,
     "start": {
-      "assign_mission_target": { "om_terrain": "s_bookstore", "om_special": "s_bookstore", "reveal_radius": 1, "random": false, "search_range": 100 }
+      "assign_mission_target": { "om_terrain": "s_bookstore", "om_special": "s_bookstore", "reveal_radius": 1, "random": false }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -685,14 +683,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "s_pharm",
-        "om_special": "s_pharm",
-        "reveal_radius": 1,
-        "random": false,
-        "search_range": 1000,
-        "min_distance": 3
-      },
+      "assign_mission_target": { "om_terrain": "s_pharm", "om_special": "s_pharm", "reveal_radius": 1, "random": false, "min_distance": 3 },
       "update_mapgen": { "place_items": [ { "item": "fertility_supplements", "x": 15, "y": 15 } ] }
     },
     "end": {
@@ -777,10 +768,17 @@
     "type": "mission_definition",
     "name": { "str": "Renewable Energy" },
     "description": "Find a solar panel for Corrie.",
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "ground_solar_panel", "amount": 1 },
+        { "item": "ground_solar_panel_v2", "amount": 1 },
+        { "item": "solar_panel", "amount": 4 },
+        { "item": "solar_panel_v2", "amount": 4 }
+      ]
+    },
     "difficulty": 1,
     "value": 0,
-    "item": "solar_panel",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -797,6 +795,14 @@
     },
     "end": {
       "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "ground_solar_panel", "amount": 1 },
+            { "item": "ground_solar_panel_v2", "amount": 1 },
+            { "item": "solar_panel", "amount": 4 },
+            { "item": "solar_panel_v2", "amount": 4 }
+          ]
+        },
         { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
       ],
@@ -1302,7 +1308,7 @@
     "difficulty": 13,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "church", "om_special": "church", "reveal_radius": 1, "random": true, "search_range": 50 },
+      "assign_mission_target": { "om_terrain": "church", "om_special": "church", "reveal_radius": 1, "random": true },
       "update_mapgen": {
         "place_npcs": [
           { "class": "bandit", "x": 15, "y": 8, "target": true },
@@ -1320,7 +1326,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Purge the heretics.",
-      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <swear> <name_b>s from the Earth.",
+      "offer": "Blasphemy, heresy, the righteous judgment of God!  I have found the scum of Hell pillaging a church for valuables!  Even in <the_cataclysm>, I shall not stand for this.  I want you to go there and wipe those <freaking> <name_b>s from the Earth.",
       "accepted": "Righteous judgment shall come!",
       "rejected": "Are you standing with them?",
       "advice": "Attack at night to surprise them.  Barring that, go in full force, guns blazing.  I wouldn't try to call a horde in, I don't want to ruin such a holy place.",

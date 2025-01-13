@@ -19,6 +19,7 @@
 #include "dialogue_helpers.h"
 #include "enum_bitset.h"
 #include "event_subscriber.h"
+#include "magic_type.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"
@@ -98,15 +99,6 @@ enum class spell_flag : int {
     LAST
 };
 
-enum class magic_energy_type : int {
-    hp,
-    mana,
-    stamina,
-    bionic,
-    none,
-    last
-};
-
 enum class spell_target : int {
     ally,
     hostile,
@@ -126,11 +118,6 @@ enum class spell_shape : int {
     // aoe is radius of the arc
     cone,
     num_shapes
-};
-
-template<>
-struct enum_traits<magic_energy_type> {
-    static constexpr magic_energy_type last = magic_energy_type::last;
 };
 
 template<>
@@ -225,6 +212,8 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        std::optional<magic_type_id> magic_type;
 
         requirement_id spell_components;
 
@@ -354,7 +343,7 @@ class spell_type
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        magic_energy_type energy_source = magic_energy_type::none;
+        magic_energy_type get_energy_source() const;
 
         damage_type_id dmg_type = damage_type_id::NULL_ID();
 
@@ -385,9 +374,17 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+
+        // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
+        std::optional<jmath_func_id> overall_get_level_formula_id() const;
+        std::optional<jmath_func_id> overall_exp_for_level_formula_id() const;
+
+        // returns the exp required for the given level of the spell.
+        int exp_for_level( int level ) const;
+        // returns the level of this spell type if the spell has the given experience.
+        int get_level( int experience ) const;
     private:
         // default values
-
         static const skill_id skill_default;
         static const requirement_id spell_components_default;
         static const translation message_default;
@@ -437,6 +434,10 @@ class spell_type
         static const int max_level_default;
         static const int base_casting_time_default;
         static const float casting_time_increment_default;
+
+        std::optional<magic_energy_type> energy_source;
+        std::optional<jmath_func_id> get_level_formula_id;
+        std::optional<jmath_func_id> exp_for_level_formula_id;
 };
 
 class spell
@@ -486,7 +487,7 @@ class spell
 
         double bash_scaling( const Creature &caster ) const;
 
-        static int exp_for_level( int level );
+        int exp_for_level( int level ) const;
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
@@ -561,6 +562,7 @@ class spell
         bool has_components() const;
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;
+        bool can_cast( const Character &guy, std::set<std::string> &failure_messages );
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // if spell shoots more than one projectile
@@ -720,6 +722,8 @@ class known_magic
         spell &select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // Last spell casted
+        spell_id last_spell = spell_id::NULL_ID(); // NOLINT(cata-serialize)
         // directly get the character known spells
         std::map<spell_id, spell> &get_spellbook() {
             return spellbook;
@@ -740,7 +744,7 @@ class known_magic
         void evaluate_opens_spellbook_data();
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
-        void on_mutation_loss( const trait_id &mid );
+        void on_mutation_loss( const trait_id &mid, Character &guy );
 
         // data written by EoC
         double caster_level_adjustment; // NOLINT(cata-serialize)

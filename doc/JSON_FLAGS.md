@@ -642,6 +642,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FREE_TO_EXAMINE``` Examining this furniture/terrain won't upset the local faction (if any).
 - ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
@@ -838,6 +839,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```PLANTABLE_SEED``` This item is a seed, and you can plant it.
 - ```POST_UP``` This item can be placed on terrain/furniture with the WALL flag.
 - ```PRESERVE_SPAWN_OMT``` This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
+- ```HINT_THE_LOCATION``` if PRESERVE_SPAWN_OMT is used, shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)
 - ```PROVIDES_TECHNIQUES``` This item will provide martial arts techniques when worn/in the character's inventory, in addition to those provided by the weapon and martial art.
 - ```PSEUDO``` Used internally to mark items that are referred to in the crafting inventory but are not actually items.  They can be used as tools, but not as components.  Implies `TRADER_AVOID`.
 - ```RABBIT``` Food that only player with `RABBIT` threshold mutation can eat.  See also `INEDIBLE`.

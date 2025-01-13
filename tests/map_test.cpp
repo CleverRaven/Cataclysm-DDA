@@ -15,6 +15,12 @@
 #include "submap.h"
 #include "type_id.h"
 
+static const itype_id itype_almond_milk( "almond_milk" );
+static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_cookies( "cookies" );
+static const itype_id itype_disinfectant( "disinfectant" );
+
 TEST_CASE( "map_coordinate_conversion_functions" )
 {
     map &here = get_map();
@@ -23,8 +29,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
         here.vertical_shift( 0 );
     } );
 
-    tripoint test_point =
-        GENERATE( tripoint::zero, tripoint::south, tripoint::east, tripoint::above, tripoint::below );
+    tripoint_bub_ms test_point =
+        GENERATE( tripoint_bub_ms::zero, tripoint_bub_ms::zero + tripoint::south,
+                  tripoint_bub_ms::zero + tripoint::east, tripoint_bub_ms::zero + tripoint::above,
+                  tripoint_bub_ms::zero + tripoint::below );
     tripoint_bub_ms test_bub( test_point );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
@@ -45,7 +53,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     point_abs_ms map_origin_ms = project_to<coords::ms>( here.get_abs_sub().xy() );
 
-    tripoint_abs_ms test_abs = map_origin_ms + test_point;
+    tripoint_abs_ms test_abs = map_origin_ms + rebase_rel( test_point );
 
     if( test_abs.z() > OVERMAP_HEIGHT || test_abs.z() < -OVERMAP_DEPTH ) {
         return;
@@ -56,7 +64,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
-    CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
+    CHECK( here.bub_from_abs( here.getglobal( test_point ) ) == test_point );
 }
 
 TEST_CASE( "destroy_grabbed_furniture" )
@@ -177,9 +185,9 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
-    item bottle_plastic( "bottle_plastic" );
+    item bottle_plastic( itype_bottle_plastic );
     REQUIRE( !bottle_plastic.needs_processing() );
-    item disinfectant( "disinfectant" );
+    item disinfectant( itype_disinfectant );
     REQUIRE( disinfectant.needs_processing() );
 
     ret_val<void> const ret =
@@ -220,9 +228,9 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     restore_on_out_of_scope restore_temp(
         get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
-    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
 
-    item almond_milk( "almond_milk" );
+    item almond_milk( itype_almond_milk );
     item *bp = nullptr;
 
     bool const in_container = GENERATE( true, false );
@@ -231,7 +239,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 
     if( in_container ) {
         sealed = GENERATE( true, false );
-        item bottle_plastic( "bottle_plastic" );
+        item bottle_plastic( itype_bottle_plastic );
         ret_val<void> const ret = bottle_plastic.put_in( almond_milk, pocket_type::CONTAINER );
         REQUIRE( ret.success() );
 
@@ -265,7 +273,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     clear_map();
-    get_avatar().setpos( tripoint::zero );
+    get_avatar().setpos( tripoint_bub_ms::zero );
     tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
     restore_on_out_of_scope restore_temp(
@@ -275,8 +283,8 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     bool const cookie_rotten_before_death = GENERATE( true, false );
     CAPTURE( cookie_rotten_before_death );
 
-    item bag_plastic( "bag_plastic" );
-    item cookie( "cookies" );
+    item bag_plastic( itype_bag_plastic );
+    item cookie( itype_cookies );
     REQUIRE( cookie.needs_processing() );
     if( cookie_rotten_before_death ) {
         cookie.set_relative_rot( 10 );

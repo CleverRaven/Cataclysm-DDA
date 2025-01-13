@@ -3557,90 +3557,94 @@ void map_add_item( item &it, tripoint_abs_ms target_pos )
     }
 }
 
-void receive_item( itype_id &item_name, int count, std::string_view container_name,
-                   const dialogue &d, bool use_item_group, bool suppress_message,
+void receive_item( const itype_id &item_id, int count, const itype_id &container_id,
+                   const dialogue &d, bool suppress_message,
                    const std::vector<std::string> &flags,
                    bool add_talker = true,
                    const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
 {
-    if( use_item_group ) {
-        item_group::ItemList new_items;
-        new_items = item_group::items_from( item_group_id( item_name.c_str() ), calendar::turn );
-        std::string popup_message;
-        for( item &new_item : new_items ) {
-            for( const std::string &flag : flags ) {
-                new_item.set_flag( flag_id( flag ) );
-            }
+    item new_item = item( item_id, calendar::turn );
+    for( const std::string &flag : flags ) {
+        new_item.set_flag( flag_id( flag ) );
+    }
+
+    if( !container_id.is_valid() ) {
+        if( new_item.count_by_charges() ) {
+            new_item.charges = count;
             if( add_talker ) {
                 d.actor( false )->i_add_or_drop( new_item, force_equip );
             } else {
                 map_add_item( new_item, p );
             }
-            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
-                if( new_item.count() == 1 ) {
-                    //~ %1%s is the NPC name, %2$s is an item
-                    popup_message += string_format( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(),
-                                                    new_item.tname() ) + "\n";
-                } else {
-                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                    popup_message += string_format( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(),
-                                                    new_item.count(), new_item.tname() ) + "\n";
+        } else {
+            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                if( !new_item.ammo_default().is_null() ) {
+                    new_item.ammo_set( new_item.ammo_default() );
                 }
-            }
-        }
-        if( !popup_message.empty() ) {
-            popup( popup_message );
-        }
-    } else {
-        item new_item = item( item_name, calendar::turn );
-        for( const std::string &flag : flags ) {
-            new_item.set_flag( flag_id( flag ) );
-        }
-        if( container_name.empty() ) {
-            if( new_item.count_by_charges() ) {
-                new_item.charges = count;
                 if( add_talker ) {
                     d.actor( false )->i_add_or_drop( new_item, force_equip );
                 } else {
                     map_add_item( new_item, p );
                 }
-            } else {
-                for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                    if( !new_item.ammo_default().is_null() ) {
-                        new_item.ammo_set( new_item.ammo_default() );
-                    }
-                    if( add_talker ) {
-                        d.actor( false )->i_add_or_drop( new_item, force_equip );
-                    } else {
-                        map_add_item( new_item, p );
-                    }
-                }
-            }
-            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
-                if( count == 1 ) {
-                    //~ %1%s is the NPC name, %2$s is an item
-                    popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
-                } else {
-                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                    popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
-                           new_item.tname() );
-                }
-            }
-        } else {
-            item container( std::string( container_name ), calendar::turn );
-            new_item.charges = count;
-            container.put_in( new_item,
-                              pocket_type::CONTAINER );
-            if( add_talker ) {
-                d.actor( false )->i_add_or_drop( container, force_equip );
-            } else {
-                map_add_item( container, p );
-            }
-            if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
-                //~ %1%s is the NPC name, %2$s is an item
-                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
             }
         }
+        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+            if( count == 1 ) {
+                //~ %1%s is the NPC name, %2$s is an item
+                popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
+            } else {
+                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                popup( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(), count,
+                       new_item.tname() );
+            }
+        }
+    } else {
+        item container( container_id, calendar::turn );
+        new_item.charges = count;
+        container.put_in( new_item,
+                          pocket_type::CONTAINER );
+        if( add_talker ) {
+            d.actor( false )->i_add_or_drop( container, force_equip );
+        } else {
+            map_add_item( container, p );
+        }
+        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+            //~ %1%s is the NPC name, %2$s is an item
+            popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
+        }
+    }
+}
+
+void receive_item_group( const item_group_id &group_id, const dialogue &d, bool suppress_message,
+                         const std::vector<std::string> &flags, bool add_talker = true,
+                         const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
+{
+    item_group::ItemList new_items;
+    new_items = item_group::items_from( group_id, calendar::turn );
+    std::string popup_message;
+    for( item &new_item : new_items ) {
+        for( const std::string &flag : flags ) {
+            new_item.set_flag( flag_id( flag ) );
+        }
+        if( add_talker ) {
+            d.actor( false )->i_add_or_drop( new_item, force_equip );
+        } else {
+            map_add_item( new_item, p );
+        }
+        if( add_talker && !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
+            if( new_item.count() == 1 ) {
+                //~ %1%s is the NPC name, %2$s is an item
+                popup_message += string_format( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(),
+                                                new_item.tname() ) + "\n";
+            } else {
+                //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                popup_message += string_format( _( "%1$s gives you %2$d %3$s." ), d.actor( true )->disp_name(),
+                                                new_item.count(), new_item.tname() ) + "\n";
+            }
+        }
+    }
+    if( !popup_message.empty() ) {
+        popup( popup_message );
     }
 }
 
@@ -3680,15 +3684,22 @@ talk_effect_fun_t f_spawn_item( const JsonObject &jo, std::string_view member,
     }
     talk_effect_fun_t ret( [item_name, count, container_name, use_item_group, suppress_message,
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
-        itype_id iname = itype_id( item_name.evaluate( d ) );
         const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, false );
         std::vector<std::string> flags_str;
         flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
-        receive_item( iname, count.evaluate( d ), container_name.evaluate( d ), d, use_item_group,
-                      suppress_message, flags_str, add_talker, target_location, force_equip );
+        if( use_item_group ) {
+            const item_group_id group_id = item_group_id( item_name.evaluate( d ) );
+            receive_item_group( group_id, d, suppress_message, flags_str, add_talker, target_location,
+                                force_equip );
+        } else {
+            const itype_id item_id = itype_id( item_name.evaluate( d ) );
+            const itype_id container_id = itype_id( container_name.evaluate( d ) );
+            receive_item( item_id, count.evaluate( d ), container_id, d, suppress_message,
+                          flags_str, add_talker, target_location, force_equip );
+        }
     } );
     ret.get_likely_rewards().emplace_back( count, item_name );
     return ret;
@@ -3727,14 +3738,20 @@ talk_effect_fun_t::func f_u_buy_item( const JsonObject &jo, std::string_view mem
             run_eoc_vector( false_eocs, d );
             return;
         }
-        itype_id iname = itype_id( item_name.evaluate( d ) );
         std::vector<std::string> flags_str;
         flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
             flags_str.emplace_back( flat_sov.evaluate( d ) );
         }
-        receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group, suppress_message, flags_str );
+        if( use_item_group ) {
+            const item_group_id group_id = item_group_id( item_name.evaluate( d ) );
+            receive_item_group( group_id, d, suppress_message, flags_str );
+        } else {
+            const itype_id item_id = itype_id( item_name.evaluate( d ) );
+            const itype_id container_id = itype_id( container_name.evaluate( d ) );
+            receive_item( item_id, count.evaluate( d ), container_id, d, suppress_message,
+                          flags_str );
+        }
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -4457,18 +4474,17 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         // maptile is 4 submaps so queue up 4 submap reverts
         const tripoint_abs_sm revert_sm_base = project_to<coords::sm>( omt_pos );
 
+        if( !MAPBUFFER.submap_exists( revert_sm_base ) ) {
+            tinymap tm;
+            // This creates the submaps if they didn't already exist.
+            // Note that all four submaps are loaded/created by this
+            // call, so the submap lookup can fail at most once.
+            tm.load( omt_pos, true );
+        }
         for( int x = 0; x < 2; x++ ) {
             for( int y = 0; y < 2; y++ ) {
                 const tripoint_abs_sm revert_sm = revert_sm_base + point( x, y );
                 submap *sm = MAPBUFFER.lookup_submap( revert_sm );
-                if( sm == nullptr ) {
-                    tinymap tm;
-                    // This creates the submaps if they didn't already exist.
-                    // Note that all four submaps are loaded/created by this
-                    // call, so the submap lookup can fail at most once.
-                    tm.load( omt_pos, true );
-                    sm = MAPBUFFER.lookup_submap( revert_sm );
-                }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
@@ -5055,18 +5071,6 @@ talk_effect_fun_t::func f_give_achievment( const JsonObject &jo, std::string_vie
                                                        achievement_completion::completed );
             }
         }
-    };
-}
-
-talk_effect_fun_t::func f_mod_healthy( const JsonObject &jo, std::string_view member,
-                                       const std::string_view, bool is_npc )
-{
-    dbl_or_var dov_amount = get_dbl_or_var( jo, member );
-    dbl_or_var dov_cap = get_dbl_or_var( jo, "cap" );
-
-    return [is_npc, dov_amount, dov_cap]( dialogue & d ) {
-        d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
-                                             dov_cap.evaluate( d ) );
     };
 }
 
@@ -6131,7 +6135,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.clear_items();
             for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos.raw() );
+                    inv_s.add_map_items( pos );
                 }
             }
             if( inv_s.empty() ) {
@@ -6149,7 +6153,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.clear_items();
             for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos.raw() );
+                    inv_s.add_map_items( pos );
                 }
             }
             if( inv_s.empty() ) {
@@ -7037,12 +7041,14 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         success_message.str_val = translation();
     }
     bool force = jo.get_bool( "force", false );
-    return [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
+    bool force_safe = jo.get_bool( "force_safe", false );
+    return [is_npc, target_var, fail_message, success_message, force,
+            force_safe]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().bub_from_abs( target_pos ), true, false,
-                                             false, force ) ) {
+                                             false, force, force_safe ) ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
@@ -7225,7 +7231,6 @@ parsers = {
     { "u_run_monster_eocs", "npc_run_monster_eocs", jarg::array, &talk_effect_fun::f_run_monster_eocs },
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
-    { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun::f_mod_healthy },
     { "u_set_fac_relation", "npc_set_fac_relation", jarg::member, &talk_effect_fun::f_set_fac_relation },
     { "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun::f_add_morale },
     { "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun::f_lose_morale },

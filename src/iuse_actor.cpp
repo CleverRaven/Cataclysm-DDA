@@ -386,7 +386,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         item tmp = item( target );
         if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
             !tmp.has_flag( flag_SEMITANGIBLE ) ) {
-            for( const trait_id &mut : p.get_mutations() ) {
+            for( const trait_id &mut : p.get_functioning_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     return ret_val<void>::make_failure( _( "Your %1$s mutation prevents you from doing that." ),
@@ -406,7 +406,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
+    inv.form_from_map( p.pos_bub(), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -774,15 +774,13 @@ void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
+    obj.read( "used_up_item", used_up_item );
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         int lo = vit.get_int( 1 );
         int hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
-
-    used_up_item = obj.get_string( "used_up_item", used_up_item );
-
 }
 
 void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
@@ -882,7 +880,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, const tripoin
         }
     }
 
-    if( !used_up_item.empty() ) {
+    if( !used_up_item.is_null() ) {
         item used_up( used_up_item, it.birthday() );
         p->i_add_or_drop( used_up );
     }
@@ -1214,7 +1212,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    get_map().furn_set( suitable.value(), furn_type );
+    get_map().furn_set( suitable.value(), furn_type, false, false, true );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -3957,7 +3955,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos.raw(), p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -4121,7 +4119,7 @@ std::optional<int> saw_barrel_actor::use( Character *p, item &it, const tripoint
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.put_in( item( "barrel_small", calendar::turn ), pocket_type::MOD );
+    obj.put_in( item( itype_barrel_small, calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4182,7 +4180,7 @@ std::optional<int> saw_stock_actor::use( Character *p, item &it, const tripoint_
 
     item &obj = *loc.obtain( *p );
     p->add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
-    obj.put_in( item( "stock_none", calendar::turn ), pocket_type::MOD );
+    obj.put_in( item( itype_stock_none, calendar::turn ), pocket_type::MOD );
 
     return 0;
 }
@@ -4660,7 +4658,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint_bu
         link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
                                         string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
-            link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
+            link_menu.addentry( 0, has_loose_end, -1,
+                                _( "Attach to dashboard, electronics control unit or appliance" ) );
         }
         if( targets.count( link_state::vehicle_battery ) > 0 ) {
             link_menu.addentry( 1, has_loose_end, -1, _( "Attach to vehicle battery or appliance" ) );
@@ -5700,6 +5699,11 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint_bub_ms &point ) const
 {
+    if( it.type->comestible ) {
+        debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved.  Rather than a use_action, use the consumption_effect_on_conditions JSON parameter on the comestible" );
+        return 0;
+    }
+
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return std::nullopt;
@@ -5731,6 +5735,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
+    // NOTE: Because this section and/or calling stack does not check if the item exists in the surrounding tiles
+    // it will not properly decrement any item of type `comestible` if consumed via the `E` `Consume item` menu.
+    // Therefore, it is not advised to use items of type `comestible` with a `use_action` of type
+    // `effect_on_conditions` until/unless this section is properly updated to actually consume said item.
     if( p && !p->has_item( it ) ) {
         return 0;
     }

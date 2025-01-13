@@ -609,12 +609,12 @@ void finalize_conditions()
         deferred_math &math = dfr.front();
         try {
             math.exp->parse( math.str, false );
+            math._validate_type();
         } catch( math::exception const &ex ) {
             JsonObject jo{ std::move( math.jo ) };
             clear_deferred_math();
             jo.throw_error_at( "math", ex.what() );
         }
-        math._validate_type();
         dfr.pop();
     }
 }
@@ -2148,7 +2148,7 @@ conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view m
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( const_dialogue const & d ) {
         tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ).raw() );
+        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ) );
     };
 }
 
@@ -2301,7 +2301,6 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "focus", &const_talker::focus_cur },
     { "friendly", &const_talker::get_friendly },
     { "grab_strength", &const_talker::get_grab_strength },
-    { "health", &const_talker::get_health },
     { "height", &const_talker::get_height },
     { "hunger", &const_talker::get_hunger },
     { "instant_thirst", &const_talker::get_instant_thirst },
@@ -2483,10 +2482,10 @@ void deferred_math::_validate_type() const
 {
     math_type_t exp_type = exp->get_type();
     if( exp_type == math_type_t::assign && type != math_type_t::assign ) {
-        jo.throw_error_at( "math",
-                           R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
+        throw math::syntax_error(
+            R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
     } else if( exp_type != math_type_t::assign && type == math_type_t::assign ) {
-        jo.throw_error_at( "math", R"(Eval statement in assignment context has no effect)" );
+        throw math::syntax_error( R"(Eval statement in assignment context has no effect)" );
     }
 }
 

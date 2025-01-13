@@ -74,55 +74,55 @@
       { "math": [ "u_glass_sleepiness = u_val('sleepiness')" ] },
       {
         "u_location_variable": { "global_val": "vitrified_farm_ground" },
-        "target_params": { "om_terrain": "unvitrified_farm_0", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_farm_0", "min_distance": 0, "z": 0 },
         "z_adjust": 6,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_farm_upper" },
-        "target_params": { "om_terrain": "unvitrified_farm_1", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_farm_1", "min_distance": 0, "z": 0 },
         "z_adjust": 7,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_farm_basement" },
-        "target_params": { "om_terrain": "unvitrified_farm_neg_1", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_farm_neg_1", "min_distance": 0, "z": 0 },
         "z_adjust": 5,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_farm_roof" },
-        "target_params": { "om_terrain": "unvitrified_farm_2", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_farm_2", "min_distance": 0, "z": 0 },
         "z_adjust": 8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_sky_1" },
-        "target_params": { "om_terrain": "unvitrified_farm_2", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_farm_2", "min_distance": 0, "z": 0 },
         "z_adjust": 9,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_apples" },
-        "target_params": { "om_terrain": "unvitrified_orchard", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_orchard", "min_distance": 0, "z": 0 },
         "z_adjust": 6,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_apples_sky_lower" },
-        "target_params": { "om_terrain": "unvitrified_orchard", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_orchard", "min_distance": 0, "z": 0 },
         "z_adjust": 7,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_apples_sky_upper" },
-        "target_params": { "om_terrain": "unvitrified_orchard", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_orchard", "min_distance": 0, "z": 0 },
         "z_adjust": 8,
         "z_override": true
       },
       {
         "u_location_variable": { "global_val": "vitrified_sky_2" },
-        "target_params": { "om_terrain": "unvitrified_orchard", "search_range": 100, "min_distance": 0, "z": 0 },
+        "target_params": { "om_terrain": "unvitrified_orchard", "min_distance": 0, "z": 0 },
         "z_adjust": 9,
         "z_override": true
       },

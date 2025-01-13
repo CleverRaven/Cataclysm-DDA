@@ -23,5 +23,26 @@
       { "if": { "u_has_trait": "HOMULLUS" }, "then": { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] } },
       { "if": { "u_has_trait": "ARVORE" }, "then": { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
+    "effect": [
+      {
+        "if": { "not": { "u_has_effect": "effect_si_lilin_no_ruach_upgrades" } },
+        "then": [
+          { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "0.75" ] },
+          {
+            "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "+=", "u_lilin_amount_of_ruach_spent_for_powers_increaser" ]
+          }
+        ],
+        "else": [
+          { "u_message": "Your spirit is still fragile after your brush with death.  You have no ruach to spare.", "type": "bad" }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough ruach to dedicate any to increasing your powers!", "type": "bad" } ]
   }
 ]

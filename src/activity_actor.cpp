@@ -902,9 +902,9 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
-            sounds::sound( who.pos_bub(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true,
-                           "environment",
-                           "alarm" );
+            sounds::sound( who.pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::music, _( "an alarm sound!" ),
+                           true,
+                           "environment", "alarm" );
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -3827,12 +3827,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
-                // TODO: Remove when craft_command is typed
-                std::optional<tripoint> tmp;
-                if( location.has_value() ) {
-                    tmp = location.value().raw();
-                }
-                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, tmp );
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
         }
         item craft_copy = craft;
@@ -4380,7 +4375,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         got_anything = roll > 0;
         for( int i = 0; i < roll; i++ ) {
-            iexamine_helper::handle_harvest( who, entry.drop, false );
+            iexamine_helper::handle_harvest( who, itype_id( entry.drop ), false );
         }
     }
 
@@ -6611,7 +6606,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( pos, direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7242,13 +7237,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     if( stage == INIT ) {
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
@@ -7808,7 +7803,7 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
-        h.vpt = get_map().getglobal( act.coords[0] );
+        h.vpt = act.coords[0];
     }
     std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
     if( h.pseudo_flag ) {
@@ -8059,14 +8054,14 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
             }
             while( corpse.damage() < corpse.max_damage() ) {
                 // Increase damage as we keep smashing ensuring we eventually smash the target.
-                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
                     corpse.inc_damage();
                     if( corpse.damage() == corpse.max_damage() ) {
                         num_corpses++;
                     }
                 }
 
-                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
                     // Splatter some blood around
                     // Splatter a bit more randomly, so that it looks cooler
                     const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
@@ -8087,8 +8082,8 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                 }
 
                 float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += 100 / std::max( 0.25f,
-                                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
+                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
+                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
                 if( stamina_ratio < 0.33 || you.is_npc() ) {
                     you.set_moves( std::min( 0, you.get_moves() - moves ) );
                     return;

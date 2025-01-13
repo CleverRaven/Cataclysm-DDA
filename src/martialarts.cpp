@@ -795,6 +795,19 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
+static std::string required_skill_as_string( const skill_id &skill, const int required_skill,
+        const int player_skill )
+{
+    std::string difficulty_tag;
+    if( required_skill <= player_skill ) {
+        difficulty_tag = "good";
+    } else {
+        difficulty_tag = "bad";
+    }
+    return string_format( "<info>%s</info> <%s>(%d/%d)</%s>", skill->name(), difficulty_tag,
+                          player_skill, required_skill, difficulty_tag );
+}
+
 std::string ma_requirements::get_description( bool buff ) const
 {
     std::string dump;
@@ -812,8 +825,7 @@ std::string ma_requirements::get_description( bool buff ) const
             if( u.has_active_bionic( bio_cqb ) ) {
                 player_skill = BIO_CQB_LEVEL;
             }
-            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
-                                  pr.second );
+            return required_skill_as_string( pr.first, pr.second, player_skill );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -2202,7 +2214,7 @@ class ma_details_ui_impl : public cataimgui::window
         void init_data();
 
     private:
-        void draw_ma_details_text() const;
+        void draw_ma_details_text();
 
         size_t window_width = ImGui::GetMainViewport()->Size.x * 8 / 9;
         size_t window_height = ImGui::GetMainViewport()->Size.y * 8 / 9;
@@ -2219,6 +2231,8 @@ class ma_details_ui_impl : public cataimgui::window
         std::map<std::string, std::string> weapons_text;
         int buffs_total = 0;
         int weapons_total = 0;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -2291,8 +2305,8 @@ void ma_details_ui_impl::init_data()
                     _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" ) );
             } else if( ma.arm_block != 99 ) {
                 general_info_text.emplace_back( string_format(
-                                                    _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                    unarmed_skill, ma.arm_block ) );
+                                                    _( "You can <info>arm block</info> at %s" ),
+                                                    required_skill_as_string( skill_unarmed, ma.arm_block, unarmed_skill ) ) );
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
@@ -2300,12 +2314,12 @@ void ma_details_ui_impl::init_data()
                     _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" ) );
             } else if( ma.leg_block != 99 ) {
                 general_info_text.emplace_back( string_format(
-                                                    _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                    unarmed_skill, ma.leg_block ) );
+                                                    _( "You can <info>leg block</info> at %s" ),
+                                                    required_skill_as_string( skill_unarmed, ma.leg_block, unarmed_skill ) ) );
                 if( ma.nonstandard_block != 99 ) {
                     general_info_text.emplace_back( string_format(
-                                                        _( "You can <info>block with mutated limbs</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
-                                                        unarmed_skill, ma.nonstandard_block ) );
+                                                        _( "You can <info>block with mutated limbs</info> at %s" ),
+                                                        required_skill_as_string( skill_unarmed, ma.nonstandard_block, unarmed_skill ) ) );
                 }
             }
         }
@@ -2411,7 +2425,7 @@ void ma_details_ui_impl::init_data()
     }
 }
 
-void ma_details_ui_impl::draw_ma_details_text() const
+void ma_details_ui_impl::draw_ma_details_text()
 {
 
     if( !general_info_text.empty() &&
@@ -2466,6 +2480,8 @@ void ma_details_ui_impl::draw_ma_details_text() const
             ImGui::Separator();
         }
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void ma_details_ui_impl::draw_controls()
@@ -2483,21 +2499,21 @@ void ma_details_ui_impl::draw_controls()
     } else if( last_action == "TOGGLE_WEAPONS_GROUP" ) {
         weapons_group_collapsed = !weapons_group_collapsed;
     } else if( last_action == "UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_up;
     } else if( last_action == "DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_down;
     } else if( last_action == "LEFT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() - ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "RIGHT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() + ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - window_height );
+        s = cataimgui::scroll::page_up;
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + window_height );
+        s = cataimgui::scroll::page_down;
     } else if( last_action == "HOME" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
     } else if( last_action == "END" ) {
-        ImGui::SetScrollY( ImGui::GetScrollMaxY() );
+        s = cataimgui::scroll::end;
     }
 
     draw_ma_details_text();

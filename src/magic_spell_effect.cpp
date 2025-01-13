@@ -617,7 +617,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
-            add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
+            add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s wounds are closing up!" ),
                                     cr->disp_name( true ) );
         }
 
@@ -1179,7 +1179,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                                             calendar::turn );
             granted.insert( granted.end(), group_items.begin(), group_items.end() );
         } else {
-            granted.emplace_back( sp.effect_data(), calendar::turn );
+            granted.emplace_back( itype_id( sp.effect_data() ), calendar::turn );
         }
     }
 
@@ -1707,7 +1707,7 @@ void spell_effect::emit( const spell &sp, Creature &caster, const tripoint_bub_m
 {
     const std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
     for( const tripoint_bub_ms &aoe : area ) {
-        get_map().emit_field( aoe.raw(), emit_id( sp.effect_data() ) );
+        get_map().emit_field( aoe, emit_id( sp.effect_data() ) );
     }
 }
 

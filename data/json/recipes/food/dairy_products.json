@@ -222,7 +222,8 @@
     "time": "30 m",
     "batch_time_factors": [ 70, 2 ],
     "qualities": [ { "id": "CHURN", "level": 1 } ],
-    "components": [ [ [ "milk_cream", 8 ] ], [ [ "lemon", 2 ] ] ],
+    "//": "8 lemons make 18 citric acid, so 2 lemons ~ 4.5 => 5 citric acid",
+    "components": [ [ [ "milk_cream", 8 ] ], [ [ "lemon", 2 ], [ "chem_citric_acid", 5 ] ] ],
     "charges": 6
   }
 ]

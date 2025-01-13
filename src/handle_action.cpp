@@ -141,8 +141,7 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
-static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
-static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
@@ -335,9 +334,6 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( are_we_quitting() ) {
-                break;
-            }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -353,10 +349,10 @@ input_context game::get_player_input( std::string &action )
                     const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
                     const point map( iRand + offset );
 
-                    const tripoint mapp( map, u.posz() );
+                    const tripoint_bub_ms mapp( map.x, map.y, u.posz() );
 
                     if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
-                        m.get_visibility( visibility_cache[mapp.x][mapp.y], cache ) ==
+                        m.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
                         visibility_type::CLEAR &&
                         !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
@@ -579,14 +575,14 @@ static void pldrive( point d )
 static void open()
 {
     avatar &player_character = get_avatar();
-    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                           ACTION_OPEN, false );
+    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+            ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
     }
-    const tripoint_bub_ms openp = tripoint_bub_ms( *openp_ );
+    const tripoint_bub_ms openp = *openp_;
     map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -664,7 +660,7 @@ static void open()
 
 static void close()
 {
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight_bub_ms(
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
                 _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
@@ -869,7 +865,7 @@ static void haul()
             break;
         case 2: {
             inventory_haul_selector selector( player_character );
-            selector.add_map_items( player_character.pos() );
+            selector.add_map_items( player_character.pos_bub() );
             selector.apply_selection( player_character.haul_list );
             selector.set_title( _( "Select items to haul" ) );
             selector.set_hint( _( "To select x items, type a number before selecting." ) );
@@ -1091,7 +1087,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 if( std::isnan( glass_fraction ) || glass_fraction > 1.f ) {
                     glass_fraction = 0.f;
                 }
-                const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
+                const int vol = weapon->volume() * glass_fraction / 250_ml;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
                     weapon->spill_contents( pos_bub() );
@@ -1376,7 +1372,7 @@ static void sleep()
             active.push_back( info.name.translated() );
         }
     }
-    for( auto &mut : player_character.get_mutations() ) {
+    for( auto &mut : player_character.get_functioning_mutations() ) {
         const mutation_branch &mdata = mut.obj();
         if( mdata.cost > 0 && player_character.has_active_mutation( mut ) ) {
             active.push_back( player_character.mutation_name( mut ) );
@@ -1830,7 +1826,7 @@ static void open_movement_mode_menu()
     }
 }
 
-static void cast_spell()
+static void cast_spell( bool recast_spell = false )
 {
     Character &player_character = get_player_character();
     player_character.magic->clear_opens_spellbook_data();
@@ -1849,34 +1845,32 @@ static void cast_spell()
         return;
     }
 
-    bool can_cast_spells = false;
+    std::set<std::string> failure_messages = {};
     for( const spell_id &sp : spells ) {
         spell &temp_spell = player_character.magic->get_spell( sp );
-        if( temp_spell.can_cast( player_character ) ) {
-            can_cast_spells = true;
+        if( temp_spell.can_cast( player_character, failure_messages ) ) {
+            break;
         }
     }
 
-    if( !can_cast_spells ) {
-        if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
-            !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't cast any of the spells you know!" ) );
-        } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
-                   player_character.has_flag( json_flag_NO_PSIONICS ) ) {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't channel any of the powers you know!" ) );
-        } else {
-            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                     _( "You can't use any of your powers!" ) );
-        }
+    for( const std::string &failure_message : failure_messages ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 failure_message );
     }
 
-    spell &sp = player_character.magic->select_spell( player_character );
+    if( recast_spell && player_character.magic->last_spell.is_null() ) {
+        popup( _( "Cast a spell first" ) );
+        return;
+    }
+
+    spell &sp = recast_spell
+                ? player_character.magic->get_spell( player_character.magic->last_spell )
+                : player_character.magic->select_spell( player_character );
     // if no spell was selected
     if( sp.id().is_null() ) {
         return;
     }
+    player_character.magic->last_spell = sp.id();
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
@@ -1941,7 +1935,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         }
     }
     if( target ) {
-        spell_act.coords.emplace_back( get_map().getglobal( *target ).raw() );
+        spell_act.coords.emplace_back( get_map().getglobal( *target ) );
     }
     assign_activity( spell_act );
     return true;
@@ -2402,10 +2396,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
-                    // Check tiles around player character for open air
-                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                        if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                    // If levitating, just move straight down if possible.
+                    if( player_character.has_flag( json_flag_LEVITATION ) &&
+                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        pts.push_back( player_character.pos_bub() );
+                    }
+
+                    if( pts.empty() ) {
+                        // Check tiles around player character for open air
+                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                                pts.push_back( p );
+                            }
                         }
                     }
 
@@ -2629,6 +2631,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             cast_spell();
             break;
 
+        case ACTION_RECAST_SPELL:
+            cast_spell( true );
+            break;
+
         case ACTION_FIRE_BURST: {
             if( weapon ) {
                 if( weapon->gun_set_mode( gun_mode_BURST ) || weapon->gun_set_mode( gun_mode_AUTO ) ) {
@@ -2825,9 +2831,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SAVE:
-            if( save() ) {
-                player_character.set_moves( 0 );
-                uquit = QUIT_SAVED;
+            if( query_yn( _( "Save and quit?" ) ) ) {
+                if( save() ) {
+                    player_character.set_moves( 0 );
+                    uquit = QUIT_SAVED;
+                }
             }
             break;
 
@@ -3131,10 +3139,6 @@ bool game::handle_action()
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
-
-    if( are_we_quitting() ) {
-        return false;
-    }
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
