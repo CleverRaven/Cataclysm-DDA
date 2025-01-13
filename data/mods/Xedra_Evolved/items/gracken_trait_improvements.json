@@ -163,7 +163,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "Gracken Shade Legs" },
     "looks_like": "offal",
-    "description": "An organ that allows a mature Gracken to convert their legss back to a base state.",
+    "description": "An organ that allows a mature Gracken to convert their legs back to a base state.",
     "consumption_effect_on_conditions": [ "shade_legs" ]
   },
   {
