@@ -28,9 +28,9 @@
 #include "vpart_position.h"
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
-static constexpr int flat_index( const point_bub_ms &p )
+static constexpr int flat_index( const point &p )
 {
-    return ( p.x() * MAPSIZE_Y ) + p.y();
+    return ( p.x * MAPSIZE_Y ) + p.y;
 }
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
@@ -40,7 +40,7 @@ struct path_data_layer {
     std::bitset< MAPSIZE_X *MAPSIZE_Y > open;
     std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
     std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
-    std::array< tripoint_bub_ms, MAPSIZE_X *MAPSIZE_Y > parent;
+    std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
     void reset() {
         closed.reset();
@@ -50,7 +50,7 @@ struct path_data_layer {
 
 struct pathfinder {
     using queue_type =
-        std::priority_queue< std::pair<int, tripoint_bub_ms>, std::vector< std::pair<int, tripoint_bub_ms> >, pair_greater_cmp_first >;
+        std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >;
     queue_type open;
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
@@ -77,15 +77,14 @@ struct pathfinder {
         return open.empty();
     }
 
-    tripoint_bub_ms get_next() {
+    tripoint get_next() {
         const auto pt = open.top();
         open.pop();
         return pt.second;
     }
 
-    void add_point( const int gscore, const int score, const tripoint_bub_ms &from,
-                    const tripoint_bub_ms &to ) {
-        path_data_layer &layer = get_layer( to.z() );
+    void add_point( const int gscore, const int score, const tripoint &from, const tripoint &to ) {
+        path_data_layer &layer = get_layer( to.z );
         const int index = flat_index( to.xy() );
         if( layer.closed[index] ) {
             return;
@@ -101,14 +100,14 @@ struct pathfinder {
         open.emplace( score, to );
     }
 
-    void close_point( const tripoint_bub_ms &p ) {
-        path_data_layer &layer = get_layer( p.z() );
+    void close_point( const tripoint &p ) {
+        path_data_layer &layer = get_layer( p.z );
         const int index = flat_index( p.xy() );
         layer.closed[index] = true;
     }
 
-    void unclose_point( const tripoint_bub_ms &p ) {
-        path_data_layer &layer = get_layer( p.z() );
+    void unclose_point( const tripoint &p ) {
+        path_data_layer &layer = get_layer( p.z );
         const int index = flat_index( p.xy() );
         layer.closed[index] = false;
     }
@@ -119,14 +118,14 @@ static pathfinder pf;
 // Modifies `t` to point to a tile with `flag` in a 1-submap radius of `t`'s original value,
 // searching nearest points first (starting with `t` itself).
 // return false if it could not find a suitable point
-static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoint_bub_ms &t )
+static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoint &t )
 {
-    const pathfinding_cache &pf_cache = m.get_pathfinding_cache_ref( t.z() );
-    for( const point_bub_ms &p : closest_points_first( t.xy(), SEEX ) ) {
-        if( pf_cache.special[p.x()][p.y()] & ( PathfindingFlag::GoesDown | PathfindingFlag::GoesUp ) ) {
-            const tripoint_bub_ms t2( p, t.z() );
+    const pathfinding_cache &pf_cache = m.get_pathfinding_cache_ref( t.z );
+    for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
+        if( pf_cache.special[p.x][p.y] & ( PathfindingFlag::GoesDown | PathfindingFlag::GoesUp ) ) {
+            const tripoint_bub_ms t2( p.x, p.y, t.z );
             if( m.has_flag( flag, t2 ) ) {
-                t = t2;
+                t = t2.raw();
                 return true;
             }
         }
@@ -423,14 +422,14 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
 
     pf.reset( min.z(), max.z() );
 
-    pf.add_point( 0, 0, f, f );
+    pf.add_point( 0, 0, f.raw(), f.raw() );
 
     bool done = false;
 
     do {
         tripoint_bub_ms cur( pf.get_next() );
 
-        const int parent_index = flat_index( cur.xy() );
+        const int parent_index = flat_index( cur.xy().raw() );
         path_data_layer &layer = pf.get_layer( cur.z() );
         if( layer.closed[parent_index] ) {
             continue;
@@ -458,7 +457,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
         constexpr std::array<int, 8> y_offset{ {  0,  0, -1,  1, -1,  1, -1, 1 } };
         for( size_t i = 0; i < 8; i++ ) {
             const tripoint_bub_ms p( cur.x() + x_offset[i], cur.y() + y_offset[i], cur.z() );
-            const int index = flat_index( p.xy() );
+            const int index = flat_index( p.xy().raw() );
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x() < min.x() || p.x() >= max.x() || p.y() < min.y() || p.y() >= max.y() ) {
@@ -505,7 +504,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                             // From cur, not p, because we won't be walking on air
                             pf.add_point( layer.gscore[parent_index] + 10,
                                           layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
-                                          cur, below );
+                                          cur.raw(), below.raw() );
                         }
 
                         // Close p, because we won't be walking on it
@@ -515,7 +514,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 }
             }
 
-            pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
+            pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur.raw(), p.raw() );
         }
 
         // TODO: We should be able to go up ramps even if we can't climb stairs.
@@ -536,14 +535,14 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 continue;
             }
             tripoint_bub_ms dest( opt_dest.value() );
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest.raw() ) ) {
                 if( !inbounds( dest ) ) {
                     continue;
                 }
                 path_data_layer &layer = pf.get_layer( dest.z() );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
+                              cur.raw(), dest.raw() );
             }
         }
         if( settings.allow_climb_stairs && cur.z() < max.z() &&
@@ -554,14 +553,14 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 continue;
             }
             tripoint_bub_ms dest( opt_dest.value() );
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
+            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest.raw() ) ) {
                 if( !inbounds( dest ) ) {
                     continue;
                 }
                 path_data_layer &layer = pf.get_layer( dest.z() );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
-                              cur, dest );
+                              cur.raw(), dest.raw() );
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
@@ -574,7 +573,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
                               layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+                              cur.raw(), above.raw() );
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
@@ -587,7 +586,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
                               layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+                              cur.raw(), above.raw() );
             }
         }
         if( cur.z() > min.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
@@ -600,7 +599,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
                               layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
-                              cur, below );
+                              cur.raw(), below.raw() );
             }
         }
 
@@ -611,7 +610,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
         tripoint_bub_ms cur = t;
         // Just to limit max distance, in case something weird happens
         for( int fdist = max_length; fdist != 0; fdist-- ) {
-            const int cur_index = flat_index( cur.xy() );
+            const int cur_index = flat_index( cur.raw().xy() );
             const path_data_layer &layer = pf.get_layer( cur.z() );
             const tripoint_bub_ms &par = tripoint_bub_ms( layer.parent[cur_index] );
             if( cur == f ) {
