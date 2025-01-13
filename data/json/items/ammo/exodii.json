@@ -265,7 +265,7 @@
     "range": 100,
     "name": { "str": "Khuunäöfaai corrosive payload" },
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Essentially a juiced up version of pirahna solution, removing it from the tank would be a bad idea.",
-    "ammo_type": "khuunaofaai_payload_corrosive",
+    "ammo_type": "khuunaofaai_payload_acid",
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "CORROSIVE" ],
     "damage": { "damage_type": "acid", "amount": 30, "armor_penetration": 4 },
     "copy-from": "khuunaofaai_ammo_firework",
