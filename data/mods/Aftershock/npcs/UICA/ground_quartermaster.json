@@ -97,13 +97,13 @@
     "dynamic_line": "&This isn't a store.  Go to the Spaceport if you want to buy supplies.",
     "responses": [
       {
-        "text": "I'm sure we can work something out. [Bribe $500]",
+        "text": "I'm sure we can work something out. [Bribe $3000]",
         "trial": { "type": "PERSUADE", "difficulty": 50 },
         "success": {
           "topic": "TALK_DONE",
           "effect": [
             { "npc_add_var": "player_can_trade", "value": "yes" },
-            { "u_spend_cash": 50000, "false_eocs": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE" }
+            { "u_spend_cash": 300000, "false_eocs": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE" }
           ]
         },
         "failure": {
