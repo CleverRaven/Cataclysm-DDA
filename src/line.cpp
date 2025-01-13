@@ -722,29 +722,6 @@ std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const po
 
 std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
 {
-    int junk = 0;
-    point_omt_ms center_square = line_to( p1, p2, junk )[0];
-    std::vector<point_omt_ms> adjacent_squares;
-    adjacent_squares.reserve( 3 );
-    adjacent_squares.push_back( center_square );
-    if( p1.x() == center_square.x() ) {
-        // Horizontally adjacent.
-        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
-        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
-    } else if( p1.y() == center_square.y() ) {
-        // Vertically adjacent.
-        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
-        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
-    } else {
-        // Diagonally adjacent.
-        adjacent_squares.emplace_back( p1.x(), center_square.y() );
-        adjacent_squares.emplace_back( center_square.x(), p1.y() );
-    }
-    return adjacent_squares;
-}
-
-std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
-{
     const std::vector<point_bub_ms> tmp = squares_in_direction( rebase_bub( p1 ), rebase_bub( p2 ) );
     std::vector<point_omt_ms> result;
     result.reserve( tmp.size() );
