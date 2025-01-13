@@ -70,7 +70,7 @@
     "name": "Genemod: Improved Health",
     "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to health, providing increased healing speed and resistance to disease and infection.",
     "points": 2,
-    "traits": [ "AFS_HEALTH_CAPABILITY_GENEMODS" ]
+    "traits": [ "AFS_HEALTH_CAPABILITY_GENEMOD" ]
   },
   {
     "type": "profession",
@@ -79,7 +79,16 @@
     "name": "Genemod: Efficient System",
     "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to recovery, allowing a quicker sleep cycle and faster return to baseline after exertion.",
     "points": 2,
-    "traits": [ "AFS_RECOVERY_CAPABILITY_GENEMODS" ]
+    "traits": [ "AFS_RECOVERY_CAPABILITY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_beauty_genemod",
+    "name": "Genemod: Beauty",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to physical appearance, offering clearer skin, more striking features, increased facial symmetry, and removing signs of aging.",
+    "points": 2,
+    "traits": [ "AFS_BEAUTY_GENEMOD" ]
   },
   {
     "type": "profession",
