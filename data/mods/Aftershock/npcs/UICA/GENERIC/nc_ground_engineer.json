@@ -17,9 +17,9 @@
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
       { "skill": "fabrication", "bonus": { "rng": [ 4, 6 ] } },
-	  { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
-	  { "skill": "mechanics", "bonus": { "rng": [ 4, 6 ] } },
-	  { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "smg", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
@@ -37,7 +37,7 @@
       { "item": "afs_ammo_satchel" },
       { "item": "afs_jumpsuit_military" },
       { "item": "afs_military_cloak" },
-	  { "item": "afs_herc_rig" },
+      { "item": "afs_herc_rig" },
       { "item": "boots_combat" },
       { "item": "gloves_tactical" },
       { "item": "under_armor" },
@@ -54,7 +54,7 @@
       { "item": "afs_marsec_4", "charges": 14, "ammo-item": "afs_10mm_caseless_JHP" },
       { "item": "afs_10mm_caseless_JHP", "count": [ 1, 2 ] },
       { "item": "afs_sr77_45mag", "charges": 45, "ammo-item": "afs_7.50mm_caseless", "count": 2 },
-	  { "item": "afs_plasma_torch" }
+      { "item": "afs_plasma_torch" }
     ]
   },
   {

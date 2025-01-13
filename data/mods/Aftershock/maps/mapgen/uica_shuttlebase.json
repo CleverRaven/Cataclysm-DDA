@@ -66,7 +66,7 @@
         "7": "t_door_metal_c",
         "8": "t_thconc_floor_no_roof",
         ".": "t_metal_floor_heated",
-		"ø": "t_door_metal_elocked"
+        "ø": "t_door_metal_elocked"
       },
       "furniture": {
         "0": "f_cryofluid_pump",
@@ -84,16 +84,14 @@
         "÷": { "item": "afs_tools_robot_maintenance", "repeat": [ 3, 5 ], "chance": 70 },
         "f": { "item": "afs_tools_robot_maintenance", "repeat": [ 1, 3 ], "chance": 30 },
         "3": { "item": "afs_crate_civ_rand" },
-		"%": { "item": "afs_tools_space_emergency" }
+        "%": { "item": "afs_tools_space_emergency" }
       },
       "npcs": {
         "ÿ": { "class": "uica_ground_soldier" },
         "þ": { "class": "uica_ground_officer" },
         "ý": { "class": "uica_ground_engineer" }
       },
-	  "monster": {
-		  "ö": { "monster": "mon_uica_irradiant" } 
-	  }
+      "monster": { "ö": { "monster": "mon_uica_irradiant" } }
     }
   },
   {
