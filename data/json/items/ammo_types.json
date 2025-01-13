@@ -842,6 +842,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "khuunaofaai_payload_acid",
+    "name": "Khuunäöfaai corrosive payload",
+    "default": "khuunaofaai_ammo_corrosive"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"
