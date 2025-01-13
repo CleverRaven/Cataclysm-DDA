@@ -605,10 +605,12 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
                    "mon_test_shotgun_0_bullet" );
 
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_bird, 1, 74, "mon_test_shotgun_1_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_bird, 1, 74,
+                   "mon_test_shotgun_1_bullet" );
 
     // Armored target (armor_bullet: 5)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_bird, 1, 67, "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_bird, 1, 67,
+                   "mon_test_shotgun_5_bullet" );
 
     // Unarmored target
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 95,
@@ -620,20 +622,32 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 87,
                    "mon_test_shotgun_0_bullet" );
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 89, "mon_test_shotgun_1_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 130, "mon_test_shotgun_1_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 172, "mon_test_shotgun_1_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 87, "mon_test_shotgun_1_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 89,
+                   "mon_test_shotgun_1_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 130,
+                   "mon_test_shotgun_1_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 172,
+                   "mon_test_shotgun_1_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 87,
+                   "mon_test_shotgun_1_bullet" );
     // Armored target (armor_bullet: 5)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 62, "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 90, "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 122, "mon_test_shotgun_5_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 80, "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 62,
+                   "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 90,
+                   "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 122,
+                   "mon_test_shotgun_5_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 80,
+                   "mon_test_shotgun_5_bullet" );
     // Armored target (armor_bullet: 10)
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 30, "mon_test_shotgun_10_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 44, "mon_test_shotgun_10_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 60, "mon_test_shotgun_10_bullet" );
-    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 73, "mon_test_shotgun_10_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 18, 30,
+                   "mon_test_shotgun_10_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 12, 44,
+                   "mon_test_shotgun_10_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 5, 60,
+                   "mon_test_shotgun_10_bullet" );
+    shoot_monster( itype_shotgun_s, { itype_choke }, itype_shot_00, 1, 73,
+                   "mon_test_shotgun_10_bullet" );
 }
 
 TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
