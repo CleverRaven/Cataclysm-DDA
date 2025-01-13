@@ -197,6 +197,7 @@ Prompt before oxytorch activity if you don't have enough gas
 Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
+Render WORN overlays for ablative pockets
 
 
 ## Content:
@@ -555,6 +556,7 @@ Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affec
 Migrate compare item menu to imgui
 Various misc improvements to camp crafting flow and feedback
 Add history to Construction Search
+load all of the user’s chosen font files as fallbacks for ImGui to use
 
 
 ## Mods:
@@ -919,6 +921,14 @@ Aftershock: Shield bionics deploy Riemman shields
 [Magiclysm] The Great Damage Randomization and Normalization
 [MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
 [Magiclysm] Goblins and wargs are best friends
+Aftershock: Create an alternate EMP mechanic that disables items only temporarily.
+[MoM] Add Water-Walking Telekinetic power
+[Magiclysm] Use EoCs to allow Magiclysm fantasy species to gain mutation paths/purify themselves
+Changes a straight damage on archery bracers to weakpoint accuracy.
+Xedra Evolved: Salamander Eruption
+Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
+[Aftershock] Add the Geist (telekinetic) esper profession and powers
+[MoM] Autolearn matrix elixir recipes
 
 
 ## Balance:
@@ -1048,6 +1058,9 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
+make charcoal kiln place-able
+Set disassembly range to crafting range: 6
+Mutating with an installed bionic that conflicts results in damage
 
 
 ## Bugfixes:
@@ -1427,6 +1440,11 @@ Correct recipe for water purifying to use correct quantity of water
 Items in transparent pockets on the map illuminate surroundings
 Mark some specific furnitures/terrains examine as always allowed in faction territory
 NPC should not wield integrated armor
+Allow commercial fertilizer to be used by zone manager
+[innawood] Crafted batteries are fully charged
+Fix infinite bounce
+Prevent segfault when search gives no hits
+Fix mutation spells learned don't lose when mutation lost
 
 
 ## Performance:
@@ -1587,6 +1605,14 @@ Tests now run in a guaranteed order (lexicographic) by default (can be overriden
 Streamline Vertical Movement While Levitating and Flying
 Make enchantment mutations work again
 migrate map-size related constants to new file, unmagic related constants
+Debug recipes for tests: first
+Make clang-tidy feedback on GitHub much more responsive
+Item price and price_postapoc must be denominated (cents/USD/kUSD). Integer values no longer used
+NPC snippets overhaul
+Refactor `ammo_effect_BOUNCE`
+Add magic_type to deduplicate shared spell fields and reduce hardcoding
+Add ability to debug spawn item groups and specify amount of repeats when testing
+Bump minimum supported macOS version to 10.15 (macOS Catalina)
 
 ## Build:
 Support Mac arm64 build
