@@ -52,7 +52,7 @@
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
-    "id": "grenade_null",
+    "id": "grenade_anti_psi",
     "type": "TOOL",
     "category": "weapons",
     "looks_like": "grenade",
@@ -67,7 +67,7 @@
     "color": "dark_gray",
     "use_action": {
       "need_wielding": true,
-      "target": "grenade_null_act",
+      "target": "grenade_anti_psi_act",
       "msg": "You press the buttons on the sides of the null grenade.",
       "target_timer": "5 seconds",
       "menu_text": "Push buttons",
@@ -77,7 +77,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "id": "grenade_null_act",
+    "id": "grenade_anti_psi_act",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active null grenade" },
@@ -91,14 +91,14 @@
     "symbol": "*",
     "color": "dark_gray",
     "use_action": { "type": "message", "message": "The %s is already active, try throwing it instead.", "name": "Push buttons" },
-    "countdown_action": { "type": "cast_spell", "spell_id": "grenade_null_explosion", "no_fail": true, "level": 0 },
+    "countdown_action": { "type": "cast_spell", "spell_id": "grenade_anti_psi_explosion", "no_fail": true, "level": 0 },
     "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
-    "revert_to": "grenade_null_expended",
+    "revert_to": "grenade_anti_psi_expended",
     "melee_damage": { "bash": 6 }
   },
   {
-    "id": "grenade_null_expended",
+    "id": "grenade_anti_psi_expended",
     "type": "TOOL",
     "category": "weapons",
     "looks_like": "grenade",

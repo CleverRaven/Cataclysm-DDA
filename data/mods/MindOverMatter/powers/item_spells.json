@@ -1,6 +1,6 @@
 [
   {
-    "id": "grenade_null_explosion",
+    "id": "grenade_anti_psi_explosion",
     "type": "SPELL",
     "name": { "str": "[Ψ]Null Grenade Explosion", "//~": "NO_I18N" },
     "description": {
