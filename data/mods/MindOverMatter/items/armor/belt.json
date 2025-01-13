@@ -147,7 +147,7 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "name": "Active Suppresion Belt",
+          "name": "Active Suppression Belt",
           "description": "The air around you feels cool.",
           "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
           "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
