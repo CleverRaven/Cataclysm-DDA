@@ -2,7 +2,10 @@
     "name": "cdda-vcpkg-dependencies",
     "version-string": "0.I",
     "dependencies": [
-        "sdl2",
+        {
+          "name": "sdl2",
+          "version>=": "2.26.4#0"
+        },
         {
           "name": "sdl2-image",
           "features": [ "libjpeg-turbo" ]
@@ -12,6 +15,10 @@
           "features": [ "libflac", "mpg123", "libmodplug" ]
         },
         "sdl2-ttf",
-        "pdcurses"
-    ]
+        {
+          "name": "pdcurses",
+          "version>=": "3.9#4"
+        }
+    ],
+    "builtin-baseline": "5b11232d00476c66724c81adfe5e3777a9aec38f"
 }

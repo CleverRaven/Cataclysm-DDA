@@ -387,7 +387,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
         wreckage_pos = { clamp( c.x() + offset.x(), min.x(), x_max ), clamp( c.y() + offset.y(), min.y(), y_max ), abs_sub.z()};
     }
 
-    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos.raw(), dir1, rng( 1, 33 ), 1 );
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint_bub_ms & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||

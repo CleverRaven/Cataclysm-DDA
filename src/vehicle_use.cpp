@@ -1825,7 +1825,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
     return true;
 }
 
-void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup )
+void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup )
 {
     const optional_vpart_position ovp = get_map().veh_at( p );
     if( !ovp ) {
@@ -2448,6 +2448,6 @@ void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p.raw(), with_pickup );
+        build_interact_menu( menu, p, with_pickup );
     } while( menu.query() );
 }

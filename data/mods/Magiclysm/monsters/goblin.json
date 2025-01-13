@@ -48,7 +48,18 @@
     "death_drops": "goblin_warrior_death_drops",
     "armor": { "bash": 12, "cut": 12, "bullet": 4 },
     "zombify_into": "mon_zombie_goblin",
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "REVIVES", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "BASHES",
+      "HUMAN",
+      "PATH_AVOID_DANGER",
+      "REVIVES",
+      "GROUP_MORALE",
+      "WIELDED_WEAPON"
+    ]
   },
   {
     "type": "MONSTER",

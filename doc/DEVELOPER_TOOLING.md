@@ -101,7 +101,8 @@ sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-
 sudo pip install compiledb lit
 test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
 # The following command invokes clang-tidy exactly like CI does
-COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy.sh
+COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
 ```
 
 #### Ubuntu Focal

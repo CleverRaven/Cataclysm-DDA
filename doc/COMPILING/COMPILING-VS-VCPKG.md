@@ -31,7 +31,7 @@ In a `cmd.exe` shell:
 REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 3b57fb2e1ff55613db14d2aaf0a30529289c7050
+git pull
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
@@ -40,10 +40,12 @@ In a Git Bash shell, the commands are almost the same except the filesystem path
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 3b57fb2e1ff55613db14d2aaf0a30529289c7050
+git pull
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
 ```
+
+If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl2 at 2.26.5`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
 
 ## Cloning and compilation:
 

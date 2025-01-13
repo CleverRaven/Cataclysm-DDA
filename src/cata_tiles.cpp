@@ -650,9 +650,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         layering = PATH_INFO::defaultlayeringjson();
     }
 
-    cata_path json_path = tileset_root / fs::u8path( json_conf );
-    cata_path img_path = tileset_root / fs::u8path( tileset_path );
-    cata_path layering_path = tileset_root / fs::u8path( layering );
+    cata_path json_path = tileset_root / std::filesystem::u8path( json_conf );
+    cata_path img_path = tileset_root / std::filesystem::u8path( tileset_path );
+    cata_path layering_path = tileset_root / std::filesystem::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
     std::ifstream layering_file( layering_path.get_unrelative_path(),
@@ -1521,7 +1521,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                             invisible[0] = true;
                         } else {
                             if( would_apply_vision_effects( offscreen_type ) ) {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                                         tile_render_info::vision_effect{ offscreen_type } );
                             }
                             break;
@@ -1690,7 +1690,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                                         tile_render_info::vision_effect{ vis_type } );
                                 break;
                             }
@@ -1701,7 +1701,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                         invisible[1 + i] = apply_visible( np, ch2, here );
                     }
 
-                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
+                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0},
                             tile_render_info::sprite{ ll, invisible } );
                     // Stop building draw points below when floor reached
                     if( here.dont_draw_lower_floor( pos ) ) {

@@ -46,6 +46,8 @@ item item_from( const item_group_id &group_id, const time_point &birthday );
  * Same as above but with implicit birthday at turn 0.
  */
 item item_from( const item_group_id &group_id );
+// Return a formatted list of min-max items an item group can spawn
+std::string potential_items( const item_group_id &group_id );
 
 using ItemList = std::vector<item>;
 /**
@@ -87,10 +89,6 @@ bool group_is_defined( const item_group_id &group_id );
  * Return the corresponding Item_spawn_data for an item_group_id as .obj() is undefined
  */
 Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
-/**
- * Shows an menu to debug the item groups.
- */
-void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */

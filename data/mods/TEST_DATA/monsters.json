@@ -430,6 +430,34 @@
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
+    "id": "mon_test_shotgun_1_bullet",
+    "type": "MONSTER",
+    "name": { "str": "chonky thing with 1 ballistic armor" },
+    "copy-from": "mon_test_shotgun_0_bullet",
+    "armor": { "bash": 8, "cut": 10, "bullet": 1, "electric": 1 }
+  },
+  {
+    "id": "mon_test_shotgun_5_bullet",
+    "type": "MONSTER",
+    "name": { "str": "chonky thing with 5 ballistic armor" },
+    "copy-from": "mon_test_shotgun_0_bullet",
+    "armor": { "bash": 8, "cut": 10, "bullet": 5, "electric": 1 }
+  },
+  {
+    "id": "mon_test_shotgun_10_bullet",
+    "type": "MONSTER",
+    "name": { "str": "chonky thing with 10 ballistic armor" },
+    "copy-from": "mon_test_shotgun_0_bullet",
+    "armor": { "bash": 8, "cut": 10, "bullet": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_test_shotgun_30_bullet",
+    "type": "MONSTER",
+    "name": { "str": "chonky thing with 30 ballistic armor" },
+    "copy-from": "mon_test_shotgun_0_bullet",
+    "armor": { "bash": 8, "cut": 10, "bullet": 30, "electric": 1 }
+  },
+  {
     "id": "mon_dummy_reproducer_eggs",
     "type": "MONSTER",
     "name": { "str": "debug reproducer (eggs)", "str_pl": "debug reproducers (eggs)" },

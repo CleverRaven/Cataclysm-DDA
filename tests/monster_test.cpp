@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -256,8 +257,9 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
 
     if( write_data ) {
         std::ofstream data;
-        data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
-                               monster_type ) );
+        data.open( std::filesystem::u8path( "slope_test_data_" + std::string( (
+                                                trigdist ? "trig_" : "square_" ) ) +
+                                            monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
             data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }

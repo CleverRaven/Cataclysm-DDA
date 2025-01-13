@@ -899,20 +899,20 @@ void reset_mapgens()
 
 size_t mapgen_function_json_base::calc_index( const point &p ) const
 {
-    if( p.x >= mapgensize.x ) {
+    if( p.x >= mapgensize.x() ) {
         debugmsg( "invalid value %zu for x in calc_index", p.x );
     }
-    if( p.y >= mapgensize.y ) {
+    if( p.y >= mapgensize.y() ) {
         debugmsg( "invalid value %zu for y in calc_index", p.y );
     }
-    return p.y * mapgensize.y + p.x;
+    return p.y * mapgensize.y() + p.x;
 }
 
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
-                                 const point &mapgensize, const JsonObject &jso )
+                                 const point_rel_ms &mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle<point> bounds( point::zero, mapgensize );
-    if( !bounds.contains( point( x.val, y.val ) ) ) {
+    half_open_rectangle<point_rel_ms> bounds( point_rel_ms::zero, mapgensize );
+    if( !bounds.contains( point_rel_ms( x.val, y.val ) ) ) {
         return false;
     }
 
@@ -928,11 +928,11 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, con
         jso.throw_error( "z maximum has to be identical to z minimum" );
     }
 
-    if( x.valmax > mapgensize.x - 1 ) {
+    if( x.valmax > mapgensize.x() - 1 ) {
         jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries" );
     }
 
-    if( y.valmax > mapgensize.y - 1 ) {
+    if( y.valmax > mapgensize.y() - 1 ) {
         jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries" );
     }
 
@@ -975,11 +975,11 @@ mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
-    m_offset.x() = grid_offset.x * mapgensize.x;
-    m_offset.y() = grid_offset.y * mapgensize.y;
+    m_offset.x() = grid_offset.x * mapgensize.x();
+    m_offset.y() = grid_offset.y * mapgensize.y();
     m_offset.z() = 0;
-    total_size.x = grid_total.x * mapgensize.x;
-    total_size.y = grid_total.y * mapgensize.y;
+    total_size.x() = grid_total.x * mapgensize.x();
+    total_size.y() = grid_total.y * mapgensize.y();
     objects = jmapgen_objects( m_offset, mapgensize, total_size );
 }
 
@@ -2068,7 +2068,7 @@ class jmapgen_faction : public jmapgen_piece
                 return;
             }
             // TODO: Make apply_faction_ownership 3D aware.
-            dat.m.apply_faction_ownership( point( x.val, y.val ), point( x.valmax, y.valmax ),
+            dat.m.apply_faction_ownership( point_bub_ms( x.val, y.val ), point_bub_ms( x.valmax, y.valmax ),
                                            chosen_id );
         }
 
@@ -3935,14 +3935,14 @@ class jmapgen_nested : public jmapgen_piece
 
             // Check whether any of the nests can attempt to place stuff out of
             // bounds
-            std::unordered_map<point, nested_mapgen_id> nest_placement_coords;
+            std::unordered_map<point_rel_ms, nested_mapgen_id> nest_placement_coords;
             auto add_coords_from = [&]( const mapgen_value<nested_mapgen_id> &nest_id_val ) {
                 for( const nested_mapgen_id &nest_id :
                      nest_id_val.all_possible_results( parameters ) ) {
                     if( nest_id.is_null() ) {
                         continue;
                     }
-                    for( const point &p : nest_id->all_placement_coords() ) {
+                    for( const point_rel_ms &p : nest_id->all_placement_coords() ) {
                         nest_placement_coords.emplace( p, nest_id );
                     }
                 }
@@ -3958,13 +3958,13 @@ class jmapgen_nested : public jmapgen_piece
             nested_mapgen_id offending_nest_x;
             nested_mapgen_id offending_nest_y;
 
-            for( const std::pair<const point, nested_mapgen_id> &p : nest_placement_coords ) {
-                if( p.first.x > max_relative.x ) {
-                    max_relative.x = p.first.x;
+            for( const std::pair<const point_rel_ms, nested_mapgen_id> &p : nest_placement_coords ) {
+                if( p.first.x() > max_relative.x ) {
+                    max_relative.x = p.first.x();
                     offending_nest_x = p.second;
                 }
-                if( p.first.y > max_relative.y ) {
-                    max_relative.y = p.first.y;
+                if( p.first.y() > max_relative.y ) {
+                    max_relative.y = p.first.y();
                     offending_nest_y = p.second;
                 }
             }
@@ -4022,8 +4022,8 @@ class jmapgen_nested : public jmapgen_piece
         }
 };
 
-jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point &mapsize,
-                                  const point &tot_size )
+jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
+                                  const point_rel_ms &tot_size )
     : m_offset( offset )
     , mapgensize( mapsize )
     , total_size( tot_size )
@@ -4543,8 +4543,8 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
     // Mandatory - nested mapgen must be explicitly sized
     if( jo.has_array( "mapgensize" ) ) {
         JsonArray jarr = jo.get_array( "mapgensize" );
-        mapgensize = point( jarr.get_int( 0 ), jarr.get_int( 1 ) );
-        if( mapgensize.x == 0 || mapgensize.x != mapgensize.y ) {
+        mapgensize = point_rel_ms( jarr.get_int( 0 ), jarr.get_int( 1 ) );
+        if( mapgensize.x() == 0 || mapgensize.x() != mapgensize.y() ) {
             // Non-square sizes not implemented yet
             jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
         }
@@ -4645,21 +4645,21 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
     // matching key in "terrain", unless fill_ter is set
     // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
-    point expected_dim = mapgensize + m_offset.xy().raw();
-    cata_assert( expected_dim.x >= 0 );
-    cata_assert( expected_dim.y >= 0 );
-    const std::string default_row( expected_dim.x, ' ' );
+    point_rel_ms expected_dim = mapgensize + m_offset.xy();
+    cata_assert( expected_dim.x() >= 0 );
+    cata_assert( expected_dim.y() >= 0 );
+    const std::string default_row( expected_dim.x(), ' ' );
     const bool default_rows = !jo.has_array( "rows" );
     if( !default_rows ) {
         parray = jo.get_array( "rows" );
-        if( static_cast<int>( parray.size() ) < expected_dim.y ) {
+        if( static_cast<int>( parray.size() ) < expected_dim.y() ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
-                                               expected_dim.y, parray.size() ) );
+                                               expected_dim.y(), parray.size() ) );
         }
-        if( static_cast<int>( parray.size() ) != total_size.y ) {
+        if( static_cast<int>( parray.size() ) != total_size.y() ) {
             parray.throw_error(
                 string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
-                               total_size.y, parray.size() ) );
+                               total_size.y(), parray.size() ) );
         }
     }
 
@@ -4674,25 +4674,25 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 
     parameters = palette.get_parameters();
 
-    for( int c = m_offset.y(); c < expected_dim.y; c++ ) {
+    for( int c = m_offset.y(); c < expected_dim.y(); c++ ) {
         const std::string row = default_rows ? default_row : parray.get_string( c );
         static std::vector<std::string_view> row_keys;
         row_keys.clear();
-        row_keys.reserve( total_size.x );
+        row_keys.reserve( total_size.x() );
         utf8_display_split_into( row, row_keys );
-        if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
+        if( row_keys.size() < static_cast<size_t>( expected_dim.x() ) ) {
             cata_assert( !default_rows );
             parray.throw_error(
                 string_format( "format: row %d must have at least %d columns, not %d",
-                               c + 1, expected_dim.x, row_keys.size() ) );
+                               c + 1, expected_dim.x(), row_keys.size() ) );
         }
-        if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
+        if( row_keys.size() != static_cast<size_t>( total_size.x() ) ) {
             cata_assert( !default_rows );
             parray.throw_error(
                 string_format( "format: row %d must have %d columns, not %d; check mapgensize if applicable",
-                               c + 1, total_size.x, row_keys.size() ) );
+                               c + 1, total_size.x(), row_keys.size() ) );
         }
-        for( int i = m_offset.x(); i < expected_dim.x; i++ ) {
+        for( int i = m_offset.x(); i < expected_dim.x(); i++ ) {
             const tripoint_rel_ms p = tripoint_rel_ms( i, c, 0 ) - m_offset;
             const map_key key{ std::string( row_keys[i] ) };
             const auto iter_ter = keys_with_terrain.find( key );
@@ -4864,14 +4864,15 @@ void mapgen_function_json_base::check_common() const
     objects.check( context_, parameters );
 }
 
-void mapgen_function_json_base::add_placement_coords_to( std::unordered_set<point> &result ) const
+void mapgen_function_json_base::add_placement_coords_to( std::unordered_set<point_rel_ms> &result )
+const
 {
     objects.add_placement_coords_to( result );
 }
 
-std::unordered_set<point> nested_mapgen::all_placement_coords() const
+std::unordered_set<point_rel_ms> nested_mapgen::all_placement_coords() const
 {
-    std::unordered_set<point> result;
+    std::unordered_set<point_rel_ms> result;
     for( const weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &o : funcs_ ) {
         o.obj->add_placement_coords_to( result );
     }
@@ -4911,7 +4912,7 @@ void jmapgen_objects::merge_parameters_into( mapgen_parameters &params,
     }
 }
 
-void jmapgen_objects::add_placement_coords_to( std::unordered_set<point> &result ) const
+void jmapgen_objects::add_placement_coords_to( std::unordered_set<point_rel_ms> &result ) const
 {
     for( const jmapgen_obj &obj : objects ) {
         const jmapgen_place &where = obj.first;
@@ -5187,11 +5188,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TRAP: {
-                const point c( x_get(), y_get() );
+                const point_rel_ms c( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mtrap_set( &m, tripoint_bub_ms( tx, ty, z_level ), trap_id( val.get() ),
                                    dat.has_flag( jmapgen_flags::avoid_creatures ) );
@@ -5200,11 +5201,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE: {
-                const point c( x_get(), y_get() );
+                const point_rel_ms c( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mremove_trap( &m, tripoint_bub_ms( tx, ty, z_level ), trap_id( val.get() ).id() );
                     }
@@ -5212,11 +5213,11 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE: {
-                const point c( x_get(), y_get() );
+                const point_rel_ms c( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
                         Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
@@ -5228,33 +5229,33 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE: {
-                const point c( x_get(), y_get() );
+                const point_rel_ms c( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
                         m.i_clear( tripoint_bub_ms( tx, ty, z_level ) );
                     }
                 }
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE: {
-                const point c( x_get(), y_get() );
+                const point_rel_ms c( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                for( int tx = c.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c.y(); ty <= cy2; ty++ ) {
                         mremove_fields( &m, tripoint_bub_ms( tx, ty, z_level ) );
                     }
                 }
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_RADIATION: {
-                const point c2( x_get(), y_get() );
+                const point_rel_ms c2( x_get(), y_get() );
                 const int cx2 = x2_get();
                 const int cy2 = y2_get();
-                for( int tx = c2.x; tx <= cx2; tx++ ) {
-                    for( int ty = c2.y; ty <= cy2; ty++ ) {
+                for( int tx = c2.x(); tx <= cx2; tx++ ) {
+                    for( int ty = c2.y(); ty <= cy2; ty++ ) {
                         m.set_radiation( tripoint_bub_ms( tx, ty, z_level ), static_cast<int>( val.get() ) );
                     }
                 }
@@ -6687,11 +6688,6 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
     }
 }
 
-character_id map::place_npc( const point &p, const string_id<npc_template> &type )
-{
-    return map::place_npc( point_bub_ms( p ), type );
-}
-
 character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template> &type )
 {
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
@@ -6703,12 +6699,13 @@ character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template
     return temp->getID();
 }
 
-void map::apply_faction_ownership( const point &p1, const point &p2, const faction_id &id )
+void map::apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
+                                   const faction_id &id )
 {
-    for( const tripoint_bub_ms &p : points_in_rectangle( tripoint_bub_ms( p1.x, p1.y, abs_sub.z() ),
-            tripoint_bub_ms( p2.x, p2.y,
+    for( const tripoint_bub_ms &p : points_in_rectangle( tripoint_bub_ms( p1, abs_sub.z() ),
+            tripoint_bub_ms( p2,
                              abs_sub.z() ) ) ) {
-        map_stack items = i_at( point_bub_ms( p.xy() ) );
+        map_stack items = i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( id );
         }
@@ -6868,14 +6865,6 @@ void map::add_spawn(
     }
     place_on_submap->spawns.emplace_back( type, count, offset, faction_id, mission_id, friendly, name,
                                           data );
-}
-
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks,
-                           const bool force_status/* = false*/ )
-{
-    return map::add_vehicle( type, tripoint_bub_ms( p ), dir, veh_fuel, veh_status, merge_wrecks,
-                             force_status );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
@@ -7179,17 +7168,17 @@ void map::rotate( int turns )
             std::swap( *pz, *pse );
             std::swap( *pe, *ps );
         } else {
-            point p;
+            point_rel_sm p;
             submap tmp;
 
             std::swap( *pse, tmp );
 
             for( int k = 0; k < 4; ++k ) {
                 p = p.rotate( turns, { 2, 2 } );
-                point tmpp = point::south_east - p;
-                submap *psep = get_submap_at_grid( tripoint_rel_sm( tmpp.x, tmpp.y, z_level ) );
+                point_rel_sm tmpp = point_rel_sm::south_east - p;
+                submap *psep = get_submap_at_grid( tripoint_rel_sm( tmpp, z_level ) );
                 if( psep == nullptr ) {
-                    debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x, tmpp.y );
+                    debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x(), tmpp.y() );
                     continue;
                 }
                 std::swap( *psep, tmp );
@@ -7199,17 +7188,17 @@ void map::rotate( int turns )
         // Then rotate them and recalculate vehicle positions.
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
-                point p( i, j );
-                submap *sm = get_submap_at_grid( tripoint_rel_sm( p.x, p.y, z_level ) );
+                point_rel_sm p( i, j );
+                submap *sm = get_submap_at_grid( tripoint_rel_sm( p, z_level ) );
                 if( sm == nullptr ) {
-                    debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", p.x, p.y );
+                    debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", p.x(), p.y() );
                     continue;
                 }
 
                 sm->rotate( turns );
 
                 for( auto &veh : sm->vehicles ) {
-                    veh->sm_pos = tripoint( p, z_level );
+                    veh->sm_pos = tripoint( p.raw(), z_level );
                 }
 
                 update_vehicle_list( sm, z_level );

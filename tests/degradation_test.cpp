@@ -268,7 +268,7 @@ TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
     // Setup map
     clear_map();
     set_time_to_day();
-    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 
     GIVEN( "Item with normal degradation" ) {
         Character &u = get_player_character();
@@ -663,7 +663,7 @@ TEST_CASE( "refit_item_inside_spillable_container", "[item][repair][container]" 
     clear_avatar();
     clear_map();
     set_time_to_day();
-    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 
     Character &u = get_player_character();
     u.set_skill_level( skill_tailor, 10 );

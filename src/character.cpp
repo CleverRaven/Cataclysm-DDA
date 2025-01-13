@@ -7841,11 +7841,11 @@ void Character::update_cached_mutations()
                 if( ( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
                       || are_same_type_traits( iter.first, mut ) ) && iter.second.corrupted > 0 ) {
                     --iter.second.corrupted;
-                    if( my_mutations.count( mut ) ) {
-                        --my_mutations[mut].corrupted;
+                    if( my_mutations.count( iter.first ) ) {
+                        --my_mutations[iter.first].corrupted;
                     }
                     if( iter.second.corrupted == 0 ) {
-                        mutation_effect( mut, false );
+                        mutation_effect( iter.first, false );
                         do_mutation_updates();
                     }
                 }
@@ -7860,11 +7860,11 @@ void Character::update_cached_mutations()
             if( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
                 || are_same_type_traits( iter.first, mut ) ) {
                 ++iter.second.corrupted;
-                if( my_mutations.count( mut ) ) {
-                    ++my_mutations[mut].corrupted;
+                if( my_mutations.count( iter.first ) ) {
+                    ++my_mutations[iter.first].corrupted;
                 }
                 if( iter.second.corrupted == 1 ) {
-                    mutation_loss_effect( mut );
+                    mutation_loss_effect( iter.first );
                     do_mutation_updates();
                 }
             }
@@ -10035,7 +10035,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic->on_mutation_loss( mid );
+    magic->on_mutation_loss( mid, *this );
     update_type_of_scent( mid, false );
     effect_on_conditions::process_reactivate( *this );
     if( is_avatar() ) {

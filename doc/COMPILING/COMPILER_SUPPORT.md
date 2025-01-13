@@ -6,7 +6,7 @@
 | [clang](https://clang.llvm.org)                      | [10.0](https://releases.llvm.org/10.0.0/docs/index.html) |
 | [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
 | [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
-| [XCode](https://developer.apple.com/xcode)           | [10.1](https://developer.apple.com/documentation/xcode-release-notes/xcode-10_1-release-notes) <br/> [macOS 10.13](https://en.wikipedia.org/wiki/MacOS_High_Sierra) |
+| [XCode](https://developer.apple.com/xcode)           | [11.4](https://developer.apple.com/documentation/xcode-release-notes/xcode-11_4-release-notes) <br/> [macOS 10.15](https://en.wikipedia.org/wiki/MacOS_Catalina) |
 
 Our goal with compiler support is to make it as easy as possible for new
 contributors to get started with development of the game, while also using the
@@ -32,11 +32,11 @@ At the time of writing:
   which uses [gcc
   14.0](https://fedoraproject.org/wiki/Changes/GNUToolchainF40).
 * MSYS [offers gcc 12.2](https://packages.msys2.org/base).
-* macOS 10.13+ has 96.0% [market
+* macOS 10.15+ (macOS Catalina) has 96.0% [market
   share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)[^2]
-  and that corresponds to [XCode 10.1](https://xcodereleases.com/).
+  and that corresponds to [XCode 11.4](https://xcodereleases.com/).
 
-[^2]: [Limit reported macOS release to 10.15 series](https://bugs.webkit.org/show_bug.cgi?id=216593)
+[^2]: [macOS releases past 10.15 series can not be estimated faithfully](https://bugs.webkit.org/show_bug.cgi?id=216593)
 
 With the supported compilers we can get all the C++17 language
 features and [most but not all of the C++17 library
