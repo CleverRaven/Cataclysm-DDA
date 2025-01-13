@@ -167,6 +167,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
