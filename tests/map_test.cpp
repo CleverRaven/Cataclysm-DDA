@@ -29,11 +29,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
         here.vertical_shift( 0 );
     } );
 
-    tripoint_bub_ms test_point =
-        GENERATE( tripoint_bub_ms::zero, tripoint_bub_ms::zero + tripoint::south,
-                  tripoint_bub_ms::zero + tripoint::east, tripoint_bub_ms::zero + tripoint::above,
-                  tripoint_bub_ms::zero + tripoint::below );
-    tripoint_bub_ms test_bub( test_point );
+    tripoint_bub_ms test_point = tripoint_bub_ms::zero +
+                                 GENERATE( tripoint_rel_ms::zero, tripoint_rel_ms::south,
+                                           tripoint_rel_ms::east, tripoint_rel_ms::above,
+                                           tripoint_rel_ms::below );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
@@ -59,7 +58,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
         return;
     }
 
-    CAPTURE( test_bub );
+    CAPTURE( test_point );
     CAPTURE( test_abs );
 
     // Verify round-tripping
