@@ -16,7 +16,7 @@
   {
     "type": "mutation",
     "id": "AFS_MENTAL_CAPABILITY_GENEMOD",
-    "name": { "str": "Genemod: Improved Mental Flexibilty" },
+    "name": { "str": "Genemod: Improved Mental Flexibility" },
     "points": 3,
     "cancels": [ "FORGETFUL" ],
     "description": "Your concentration and memorization abilities have been increased through genemod treatments.",
