@@ -553,5 +553,28 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "UICA Shuttlebase",
+    "id": [
+      "afs_UICA_shuttlebase_x0y0z0",
+      "afs_UICA_shuttlebase_x1y0z0",
+      "afs_UICA_shuttlebase_x0y1z0",
+      "afs_UICA_shuttlebase_x1y1z0",
+      "afs_UICA_shuttlebase_x0y0z1",
+      "afs_UICA_shuttlebase_x1y0z1",
+      "afs_UICA_shuttlebase_x0y1z1",
+      "afs_UICA_shuttlebase_x1y1z1",
+      "afs_UICA_shuttlebase_x0y0z2",
+      "afs_UICA_shuttlebase_x1y0z2",
+      "afs_UICA_shuttlebase_x0y1z2",
+      "afs_UICA_shuttlebase_x1y1z2"
+    ],
+    "sym": "U",
+    "color": "blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SOURCE_SAFETY" ]
   }
 ]
