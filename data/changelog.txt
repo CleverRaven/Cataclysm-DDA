@@ -197,8 +197,6 @@ Prompt before oxytorch activity if you don't have enough gas
 Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
-Adds Natural Stance enchantment to Chimera
-Allows Man of The Nineteenth Hour to defend himself if harmed outside of his active period.
 Render WORN overlays for ablative pockets
 
 
@@ -422,7 +420,6 @@ fungalize stages for rest of zombies
 Basic beach decorations
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
-outcrop
 
 
 ## Interface:
@@ -924,32 +921,14 @@ Aftershock: Shield bionics deploy Riemman shields
 [Magiclysm] The Great Damage Randomization and Normalization
 [MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
 [Magiclysm] Goblins and wargs are best friends
-[MoM] Genericize Enervating Touch
 Aftershock: Create an alternate EMP mechanic that disables items only temporarily.
-[Aftershock] Changes the Frontier Cryomask to use suit batteries instead of piddly medium batteries.
 [MoM] Add Water-Walking Telekinetic power
 [Magiclysm] Use EoCs to allow Magiclysm fantasy species to gain mutation paths/purify themselves
-[XE] Change a vampire book hunt target to bring all the options into parity
-[MoM] Proficiency reshuffling, some crafts require that you are a psion
-[MoM] Add electronoetic batteries
 Changes a straight damage on archery bracers to weakpoint accuracy.
 Xedra Evolved: Salamander Eruption
 Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
 [Aftershock] Add the Geist (telekinetic) esper profession and powers
-[Aftershock] Fix the three police robots not dropping the correct corpse
-[Magiclysm] Convert Caustic Blood and Lashing Tentacles to effects
-[MoM] Allow Enhance Mobility to scale with Nether Attunement and intelligence
-[MoM] Fix infinite speed
-[MOM] Fix Loci Establishment Formula
-[Aftershock] Standardize Grenade Prices in Port Augustmoon and fix IPAV Armor is free.
-[MoM] Remove Melded Teleporter Force MIND_SEEING
-[Aftershock] Replace combination lock safes with electronically locked ones.
-[Magiclysm] Add vision levels
-[MoM] Remove unused EoC
 [MoM] Autolearn matrix elixir recipes
-[Aftershock] Fixes some minor bugs and consistency issues with Aftershock maps.
-[Xedra Evolved] Add categories to Arvore traits
-[MoM] Remove muscle seizures from electrokinetic overload, make downed and stun random duration
 
 
 ## Balance:
@@ -1461,19 +1440,8 @@ Correct recipe for water purifying to use correct quantity of water
 Items in transparent pockets on the map illuminate surroundings
 Mark some specific furnitures/terrains examine as always allowed in faction territory
 NPC should not wield integrated armor
-[Xedra Evolved] Badgers are not worms, fix faction problems
-NPC flight and hostility
-whitelist test failing terrains
-[MoM] Add Water Walking to Concentration stopping powers
-fix bad roof replacement
-Fix vehicle fridges and freezers sprites
-[MoM] Metabolic Hyperefficiency properly removed by combat
 Allow commercial fertilizer to be used by zone manager
-whitelist roadstop overmap terrain test
 [innawood] Crafted batteries are fully charged
-[MoM] Remove Wave of Force EoC, change to direct
-Fixed several issues with imgui text input on ncurses
-Fix bio shock with knuckle or other unarmed weapon
 Fix infinite bounce
 Prevent segfault when search gives no hits
 Fix mutation spells learned don't lose when mutation lost
@@ -1638,7 +1606,6 @@ Streamline Vertical Movement While Levitating and Flying
 Make enchantment mutations work again
 migrate map-size related constants to new file, unmagic related constants
 Debug recipes for tests: first
-Standardize docs
 Make clang-tidy feedback on GitHub much more responsive
 Item price and price_postapoc must be denominated (cents/USD/kUSD). Integer values no longer used
 NPC snippets overhaul
