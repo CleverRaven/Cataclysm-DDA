@@ -734,7 +734,7 @@
       "passive_effects": [
         {
           "intermittent_activation": {
-            "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
+            "effects": [ { "frequency": "2 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
           }
         },
         {
