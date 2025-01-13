@@ -11,6 +11,16 @@
   },
   {
     "type": "scenario",
+    "id": "refugeecenter",
+    "name": "Refugee Center",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and have made your way to a refugee center.",
+    "allowed_locs": [ "sloc_refugee_center" ],
+    "start_name": "Refugee Center",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
@@ -143,7 +153,6 @@
     "points": 1,
     "description": "You've found a safe place away from the cities and devoid of the living dead.  Looks like you're on your own…",
     "allowed_locs": [
-      "sloc_refugee_center",
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_cabin",
