@@ -60,7 +60,7 @@
     "type": "effect_type",
     "id": "afs_tried_to_bribe",
     "name": [ { "str": "Asked to Bribe", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "You tried and failed to bribe this NPC recently. If you see this it's a bug.", "//~": "NO_I18N" } ]
+    "desc": [ { "str": "You tried and failed to bribe this NPC recently.  If you see this it's a bug.", "//~": "NO_I18N" } ]
   },
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER" ],
