@@ -65,7 +65,7 @@
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.   <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.  Need something salvor?",
+    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.  Need something salvor?",
     "responses": [
       {
         "text": "Show me what you have.",
