@@ -1375,6 +1375,8 @@ class Character : public Creature, public visitable
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
+        /** Returns true if a conflict has destroyed a bionic */
+        bool handle_bio_mut_conflict( const bionic_id &bio, const trait_id &mut );
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait in cached_mutations */

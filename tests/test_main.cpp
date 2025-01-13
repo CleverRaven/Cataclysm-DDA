@@ -224,7 +224,12 @@ struct CataListener : Catch::TestEventListenerBase {
     void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
-        rng_set_engine_seed( m_config->rngSeed() );
+        const unsigned int seed = m_config->rngSeed();
+        if( seed ) {
+            rng_set_engine_seed( seed );
+        } else {
+            rng_set_engine_seed( rng_get_first_seed() );
+        }
         // Clear the message log so on test failures we see only messages from
         // during that test
         Messages::clear_messages();

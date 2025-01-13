@@ -1379,6 +1379,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | npc_fear()    |  ✅   |  ✅   | u, n  | Return NPC fear toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_fear() < 2" ] }`|
 | npc_trust()    |  ✅   |  ✅   | u, n  | Return NPC trust toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_trust() = 2" ] }`|
 | npc_value()    |  ✅   |  ✅   | u, n  | Return NPC value toward opposite talker. <br/><br/>Example:<br/> `{ "math": [ "n_npc_value() += 2" ] }`|
+| ugliness()    |  ✅   |  ❌   | u, n  | Return ugliness of character. <br/><br/>Example:<br/> `{ "math": [ "n_ugliness() > 0" ] }`|
 | weight()    |  ✅   |  ❌   | u, n  | Return creature or item weight, in miligrams. <br/><br/>Example:<br/> `{ "math": [ "u_weight() < 1000000" ] }`|
 | volume()    |  ✅   |  ❌   | u, n  | Return creature or item volume, in mililiters. <br/><br/>Example:<br/> `{ "math": [ "u_volume() < 1000" ] }`|
 | vitamin(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set the characters vitamin level.<br/>Argument is vitamin ID.<br/><br/>Example:<br/>`{ "math": [ "u_vitamin('mutagen') = 0" ] }`|

@@ -1179,7 +1179,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                                             calendar::turn );
             granted.insert( granted.end(), group_items.begin(), group_items.end() );
         } else {
-            granted.emplace_back( sp.effect_data(), calendar::turn );
+            granted.emplace_back( itype_id( sp.effect_data() ), calendar::turn );
         }
     }
 

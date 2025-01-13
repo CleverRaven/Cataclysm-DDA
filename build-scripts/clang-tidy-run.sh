@@ -7,68 +7,33 @@ set -exo pipefail
 
 num_jobs=3
 
-# We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
-export PATH=$HOME/.local/bin:$PATH
-
-if [ "$RELEASE" = "1" ]
-then
-    build_type=MinSizeRel
-else
-    build_type=Debug
-fi
-
-cmake_extra_opts=()
-
-if [ "$CATA_CLANG_TIDY" = "plugin" ]
-then
-    cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
-    # Need to specify the particular LLVM / Clang versions to use, lest it
-    # use the older LLVM that comes by default on Ubuntu.
-    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-17/lib/cmake/llvm")
-    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-17/lib/cmake/clang")
-fi
-
+# create compilation database (compile_commands.json)
 mkdir -p build
 cd build
 cmake \
-    -DBACKTRACE=ON \
-    ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DCMAKE_BUILD_TYPE="$build_type" \
+    ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
+    -DCMAKE_BUILD_TYPE="Release" \
+    -DBACKTRACE=ON \
     -DTILES=${TILES:-0} \
     -DSOUND=${SOUND:-0} \
-    "${cmake_extra_opts[@]}" \
+    -DLOCALIZE=${LOCALIZE:-0} \
     ..
+cd ..
+ln -s build/compile_commands.json .
 
-if [ "$CATA_CLANG_TIDY" = "plugin" ]
+if [ ! -f build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so ]
 then
-    echo "Compiling clang-tidy plugin"
-    make -j$num_jobs CataAnalyzerPlugin
-    export PATH=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin:$PATH
-    if ! which FileCheck
-    then
-        ls -l tools/clang-tidy-plugin/clang-tidy-plugin-support/bin
-        ls -l /usr/bin
-        echo "Missing FileCheck"
-        exit 1
-    fi
-    if ! which python && which python3
-    then
-        ln -s `which python3` $PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin/python
-    fi
-    CATA_CLANG_TIDY=clang-tidy
-    lit -v tools/clang-tidy-plugin/test
+    echo "Cata plugin not found. Assuming we're in CI and bailing out."
+    exit 1
 fi
-
-"$CATA_CLANG_TIDY" --version
 
 # Show compiler C++ header search path
 ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
-"$CATA_CLANG_TIDY" ../src/version.cpp -- -v
-
-cd ..
-ln -s build/compile_commands.json
+./build-scripts/clang-tidy-wrapper.sh --version
+# list of checks
+./build-scripts/clang-tidy-wrapper.sh --list-checks
 
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
@@ -76,7 +41,7 @@ set +x
 
 # Check for changes to any files that would require us to run clang-tidy across everything
 changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
-    egrep -i "clang-tidy.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
+    egrep -i "clang-tidy-build.sh|clang-tidy-run.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
 if [ -n "$changed_global_files" ]
 then
     first_changed_file="$(echo "$changed_global_files" | head -n 1)"
@@ -134,6 +99,8 @@ case "$CATA_CLANG_TIDY_SUBSET" in
         tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' | grep -vf ./files_changed || [[ $? == 1 ]])
         ;;
 esac
+
+printf "full list of files to analyze (they might get shuffled around in practice):\n%s\n" "$tidyable_cpp_files"
 
 function analyze_files_in_random_order
 {

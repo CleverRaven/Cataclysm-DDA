@@ -302,12 +302,6 @@
   },
   {
     "type": "effect_type",
-    "id": "bounced",
-    "name": [ { "str": "Bounced", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "AI tag used for bouncing ammo targeting.  This is a bug if you have it.", "//~": "NO_I18N" } ]
-  },
-  {
-    "type": "effect_type",
     "id": "npc_value_interaction_timer_short",
     "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
   },
@@ -4069,6 +4063,46 @@
       { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mutation_internal_damage",
+    "max_intensity": 3,
+    "name": [ "Botched Mutation", "Botched Mutation", "Destroyed Bionic" ],
+    "desc": [ "Your changing body did not cope well with your bionics." ],
+    "apply_message": [
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ]
+    ],
+    "apply_memorial_log": "Had a mutation botched due to their installed bionics.",
+    "int_decay_tick": 25200,
+    "int_decay_remove": true,
+    "show_intensity": false,
+    "main_parts_only": true,
+    "//": "Internal bleeding",
+    "vitamins": [
+      { "vitamin": "redcells", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] },
+      { "vitamin": "blood", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] }
+    ],
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 24 ],
+      "pain_tick": [ 36 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 24 ],
+      "hurt_tick": [ 40 ]
+    },
+    "scaling_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ -8 ],
+      "pain_tick": [ -15 ],
+      "hurt_max": [ 0 ],
+      "hurt_chance": [ -8 ],
+      "hurt_tick": [ 40 ]
+    }
   },
   {
     "type": "effect_type",

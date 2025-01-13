@@ -6,8 +6,8 @@
     "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 1, 40 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "UNIQUE", "WILDERNESS" ],
-    "spawns": { "group": "GROUP_SALAMANDER_ERUPTION_SURFACE", "population": [ 100, 300 ], "radius": [ 10, 30 ] },
+    "flags": [ "OVERMAP_UNIQUE", "WILDERNESS" ],
+    "spawns": { "group": "GROUP_SALAMANDER_ERUPTION_SURFACE", "population": [ 10, 30 ], "radius": [ 1, 6 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 0, 1 ], [ "open_air" ] ],

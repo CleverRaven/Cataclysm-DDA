@@ -2537,7 +2537,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, profs_length, sorted_profs.size() } );
         std::string cur_prof_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2892,7 +2892,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, hobbies_length, sorted_hobbies.size() } );
         std::string cur_hob_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -3606,7 +3606,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, scens_length, sorted_scens.size() } );
         std::string current_scenario_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;

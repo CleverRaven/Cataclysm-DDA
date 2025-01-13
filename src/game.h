@@ -359,6 +359,10 @@ class game
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint_bub_ms> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint_bub_ms> &range );
+        // Differs from the operations above in that it refers to a map that isn't necessarily the main one.
+        // Also, it places the critter at the center position if possible, and any available location with equal weight if not.
+        monster *place_critter_at_or_within( const shared_ptr_fast<monster> &mon, map *here,
+                                             const tripoint_bub_ms &center, const tripoint_range<tripoint_bub_ms> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -501,8 +505,10 @@ class game
         bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint_bub_ms &p );
+        bool is_in_sunlight( map *here, const tripoint_bub_ms &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint_bub_ms &p );
+        bool is_sheltered( map *here, const tripoint_bub_ms &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
@@ -583,8 +589,7 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        // TODO: Get rid of untyped overload.
-        std::unordered_set<tripoint> get_fishable_locations( int distance,
+        std::unordered_set<tripoint_abs_ms> get_fishable_locations_abs( int distance,
                 const tripoint_bub_ms &fish_pos );
         std::unordered_set<tripoint_bub_ms> get_fishable_locations_bub( int distance,
                 const tripoint_bub_ms &fish_pos );
@@ -595,7 +600,8 @@ class game
          * @return Fishable monsters within the specified fishable terrain.
          */
         // TODO: Get rid of untyped overload.
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
+                &fishable_locations );
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_bub_ms>
                 &fishable_locations );
 

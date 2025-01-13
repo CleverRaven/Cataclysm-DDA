@@ -297,6 +297,7 @@ static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
@@ -4427,15 +4428,15 @@ field_entry *game::is_in_dangerous_field()
     return nullptr;
 }
 
-std::unordered_set<tripoint> game::get_fishable_locations( int distance,
+std::unordered_set<tripoint_abs_ms> game::get_fishable_locations_abs( int distance,
         const tripoint_bub_ms &fish_pos )
 {
     const std::unordered_set<tripoint_bub_ms> temp = game::get_fishable_locations_bub( distance,
             fish_pos );
-    std::unordered_set<tripoint> result;
-
+    std::unordered_set<tripoint_abs_ms> result;
+    map &here = get_map();
     for( const tripoint_bub_ms pos : temp ) {
-        result.insert( pos.raw() );
+        result.insert( here.getglobal( pos ) );
     }
 
     return result;
@@ -4498,13 +4499,14 @@ std::unordered_set<tripoint_bub_ms> game::get_fishable_locations_bub( int distan
     return fishable_points;
 }
 
-std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
+std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
         &fishable_locations )
 {
+    const map &here = get_map();
     std::unordered_set<tripoint_bub_ms> temp;
 
-    for( const tripoint pos : fishable_locations ) {
-        temp.insert( tripoint_bub_ms( pos ) );
+    for( const tripoint_abs_ms pos : fishable_locations ) {
+        temp.insert( here.bub_from_abs( pos ) );
     }
 
     return game::get_fishable_monsters( temp );
@@ -5122,6 +5124,24 @@ static bool can_place_monster( const monster &mon, const tripoint_bub_ms &p )
     return mon.will_move_to( p ) && mon.know_danger_at( p );
 }
 
+static bool can_place_monster( const monster &mon, map *here, const tripoint_bub_ms &p )
+{
+    const tripoint_abs_ms pos = here->getglobal( p );
+    creature_tracker &creatures = get_creature_tracker();
+    if( const monster *const critter = creatures.creature_at<monster>( pos ) ) {
+        // creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
+    // it is usually wrong. So don't allow it.
+    if( creatures.creature_at<Character>( pos ) ) {
+        return false;
+    }
+    return mon.will_move_to( here, p ) && mon.know_danger_at( here, p );
+}
+
 static bool can_place_npc( const tripoint_bub_ms &p )
 {
     creature_tracker &creatures = get_creature_tracker();
@@ -5142,6 +5162,14 @@ static std::optional<tripoint_bub_ms> choose_where_to_place_monster( const monst
 {
     return random_point( range, [&]( const tripoint_bub_ms & p ) {
         return can_place_monster( mon, p );
+    } );
+}
+
+static std::optional<tripoint_bub_ms> choose_where_to_place_monster( const monster &mon, map *here,
+        const tripoint_range<tripoint_bub_ms> &range )
+{
+    return random_point( range, [&]( const tripoint_bub_ms & p ) {
+        return can_place_monster( mon, here, p );
     } );
 }
 
@@ -5214,6 +5242,28 @@ monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
         return nullptr;
     }
     mon->spawn( *where );
+    if( critter_tracker->add( mon ) ) {
+        mon->gravity_check();
+        return mon.get();
+    }
+    return nullptr;
+}
+
+monster *game::place_critter_at_or_within( const shared_ptr_fast<monster> &mon, map *here,
+        const tripoint_bub_ms &center, const tripoint_range<tripoint_bub_ms> &range )
+{
+    tripoint_range<tripoint_bub_ms> center_range = points_in_radius( center, 0 );
+
+    std::optional<tripoint_bub_ms> where = choose_where_to_place_monster( *mon, here, center_range );
+
+    if( !where ) {
+        where = choose_where_to_place_monster( *mon, here, range );
+    }
+
+    if( !where ) {
+        return nullptr;
+    }
+    mon->spawn( here->getglobal( where.value() ) );
     if( critter_tracker->add( mon ) ) {
         mon->gravity_check();
         return mon.get();
@@ -5482,12 +5532,24 @@ bool game::is_in_sunlight( const tripoint_bub_ms &p )
            incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal;
 }
 
+bool game::is_in_sunlight( map *here, const tripoint_bub_ms &p )
+{
+    return !is_sheltered( here, p ) &&
+           incident_sun_irradiance( current_weather( here->getglobal( p ), calendar::turn ),
+                                    calendar::turn ) > irradiance::minimal;
+}
+
 bool game::is_sheltered( const tripoint_bub_ms &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
+    return game::is_sheltered( &m, p );
+}
+
+bool game::is_sheltered( map *here, const tripoint_bub_ms &p )
+{
+    const optional_vpart_position vp = here->veh_at( p );
     bool is_inside = vp && vp->is_inside();
 
-    return !m.is_outside( p ) ||
+    return !here->is_outside( p ) ||
            p.z() < 0 ||
            is_inside;
 }
@@ -7653,6 +7715,7 @@ look_around_result game::look_around(
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
             int panel_width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
+            //FIXME: w_pixel_minimap is only reducing the height by one?
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
             // If particularly small, base height on panel width irrespective of other elements.
@@ -7748,25 +7811,30 @@ look_around_result game::look_around(
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
-                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), c_red, mon_name_text );
+                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 4 ), c_red, mon_name_text );
             }
+
+            std::string extended_description_text = string_format( _( "%s - %s" ),
+                                                    ctxt.get_desc( "EXTENDED_DESCRIPTION" ),
+                                                    ctxt.get_action_name( "EXTENDED_DESCRIPTION" ) );
+            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 3 ), c_light_green, extended_description_text );
 
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
+            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
 
             if( !ctxt.keys_bound_to( "toggle_pixel_minimap" ).empty() ) {
                 std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                                  ctxt.get_desc( "toggle_pixel_minimap" ),
                                                  ctxt.get_action_name( "toggle_pixel_minimap" ) );
-                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
+                right_print( w_info, getmaxy( w_info ) - 2, 1, pixel_minimap_option ? c_light_green : c_green,
                              pixel_minimap_text );
             }
 
             int first_line = 1;
-            const int last_line = getmaxy( w_info ) - 2;
+            const int last_line = getmaxy( w_info ) - 4;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
             wnoutrefresh( w_info );
@@ -11836,7 +11904,7 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
-        const item muscle( "muscle" );
+        const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );

@@ -39,11 +39,54 @@ static const item_category_id item_category_guns( "guns" );
 static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 
+static const itype_id itype_10gal_hat( "10gal_hat" );
+static const itype_id itype_ammonia_hydroxide( "ammonia_hydroxide" );
+static const itype_id itype_arm_splint( "arm_splint" );
+static const itype_id itype_arm_warmers( "arm_warmers" );
+static const itype_id itype_armor_mc_lightplate( "armor_mc_lightplate" );
+static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_bottle_plastic_small( "bottle_plastic_small" );
+static const itype_id itype_butter( "butter" );
+static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_chem_black_powder( "chem_black_powder" );
+static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_duffelbag( "duffelbag" );
+static const itype_id itype_gunpowder( "gunpowder" );
+static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_legrig( "legrig" );
+static const itype_id itype_money( "money" );
+static const itype_id itype_neccowafers( "neccowafers" );
+static const itype_id itype_nitrox( "nitrox" );
+static const itype_id itype_pale_ale( "pale_ale" );
+static const itype_id itype_rocuronium( "rocuronium" );
+static const itype_id itype_shoulder_strap( "shoulder_strap" );
+static const itype_id itype_single_malt_whiskey( "single_malt_whiskey" );
+static const itype_id itype_software_hacking( "software_hacking" );
+static const itype_id itype_software_useless( "software_useless" );
+static const itype_id itype_test_armguard( "test_armguard" );
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_consolidate( "test_consolidate" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
+static const itype_id itype_test_exo_lense_module( "test_exo_lense_module" );
+static const itype_id itype_test_liquid( "test_liquid" );
+static const itype_id itype_test_modular_exosuit( "test_modular_exosuit" );
 static const itype_id itype_test_mp3( "test_mp3" );
+static const itype_id itype_test_rock( "test_rock" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
+static const itype_id itype_towel( "towel" );
+static const itype_id itype_usb_drive( "usb_drive" );
+static const itype_id itype_walnut( "walnut" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_win70( "win70" );
+static const itype_id itype_wrapper( "wrapper" );
 
 static const json_character_flag json_flag_DEAF( "DEAF" );
 
@@ -51,7 +94,7 @@ TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
     // charge is at least 1_ml.  Battery works for now.
-    item i( "battery", calendar::turn_zero, item::default_charges_tag() );
+    item i( itype_battery, calendar::turn_zero, item::default_charges_tag() );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
     const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
@@ -69,17 +112,17 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
-    CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
+    CHECK( item( itype_arm_warmers ).get_layer().front() == layer_level::SKINTIGHT );
+    CHECK( item( itype_10gal_hat ).get_layer().front() == layer_level::NORMAL );
     // intentionally no waist layer check since it is obsoleted
-    CHECK( item( "armor_mc_lightplate" ).get_layer().front() == layer_level::OUTER );
-    CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
+    CHECK( item( itype_armor_mc_lightplate ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( itype_legrig ).get_layer().front() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
 {
-    item gun( "win70" );
-    item mod( "shoulder_strap" );
+    item gun( itype_win70 );
+    item mod( itype_shoulder_strap );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, pocket_type::MOD );
     CHECK( gun.get_layer().front() == layer_level::BELTED );
@@ -89,11 +132,11 @@ TEST_CASE( "gun_layer", "[item]" )
 TEST_CASE( "stacking_cash_cards", "[item]" )
 {
     // Differently-charged cash cards should stack if neither is zero.
-    item cash0( "cash_card", calendar::turn_zero );
-    item cash1( "cash_card", calendar::turn_zero );
-    item cash2( "cash_card", calendar::turn_zero );
-    cash1.put_in( item( "money", calendar::turn_zero, 1 ), pocket_type::MAGAZINE );
-    cash2.put_in( item( "money", calendar::turn_zero, 2 ), pocket_type::MAGAZINE );
+    item cash0( itype_cash_card, calendar::turn_zero );
+    item cash1( itype_cash_card, calendar::turn_zero );
+    item cash2( itype_cash_card, calendar::turn_zero );
+    cash1.put_in( item( itype_money, calendar::turn_zero, 1 ), pocket_type::MAGAZINE );
+    cash2.put_in( item( itype_money, calendar::turn_zero, 2 ), pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );
     //CHECK( cash1.stacks_with( cash2 ) ); Enable this once cash card stacking is brought back.
 }
@@ -102,8 +145,8 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
 
 TEST_CASE( "stacking_over_time", "[item]" )
 {
-    item A( "neccowafers" );
-    item B( "neccowafers" );
+    item A( itype_neccowafers );
+    item B( itype_neccowafers );
 
     GIVEN( "Two items with the same birthday" ) {
         REQUIRE( A.stacks_with( B ) );
@@ -199,9 +242,9 @@ TEST_CASE( "stacking_over_time", "[item]" )
 
 TEST_CASE( "liquids_at_different_temperatures", "[item][temperature][stack][combine]" )
 {
-    item liquid_hot( "test_liquid" );
-    item liquid_cold( "test_liquid" );
-    item liquid_filthy( "test_liquid" );
+    item liquid_hot( itype_test_liquid );
+    item liquid_cold( itype_test_liquid );
+    item liquid_filthy( itype_test_liquid );
 
     // heat_up/cold_up sets temperature of item and corresponding HOT/COLD flags
     liquid_hot.heat_up(); // 60 C (333.15 K)
@@ -279,9 +322,9 @@ TEST_CASE( "corpse_length_sanity_check", "[item]" )
     }
 }
 
-static void check_spawning_in_container( const std::string &item_type )
+static void check_spawning_in_container( const itype_id &item_type )
 {
-    item test_item{ itype_id( item_type ) };
+    item test_item( item_type );
     REQUIRE( test_item.type->default_container );
     item container_item = test_item.in_its_container( 1 );
     CHECK( container_item.typeId() == *test_item.type->default_container );
@@ -303,22 +346,22 @@ static void check_spawning_in_container( const std::string &item_type )
 
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
-    check_spawning_in_container( "water" );
-    check_spawning_in_container( "gunpowder" );
-    check_spawning_in_container( "nitrox" );
-    check_spawning_in_container( "ammonia_hydroxide" );
-    check_spawning_in_container( "detergent" );
-    check_spawning_in_container( "pale_ale" );
-    check_spawning_in_container( "single_malt_whiskey" );
-    check_spawning_in_container( "rocuronium" );
-    check_spawning_in_container( "chem_muriatic_acid" );
-    check_spawning_in_container( "chem_black_powder" );
-    check_spawning_in_container( "software_useless" );
+    check_spawning_in_container( itype_water );
+    check_spawning_in_container( itype_gunpowder );
+    check_spawning_in_container( itype_nitrox );
+    check_spawning_in_container( itype_ammonia_hydroxide );
+    check_spawning_in_container( itype_detergent );
+    check_spawning_in_container( itype_pale_ale );
+    check_spawning_in_container( itype_single_malt_whiskey );
+    check_spawning_in_container( itype_rocuronium );
+    check_spawning_in_container( itype_chem_muriatic_acid );
+    check_spawning_in_container( itype_chem_black_powder );
+    check_spawning_in_container( itype_software_useless );
 }
 
 TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
 {
-    item i( "water" );
+    item i( itype_water );
     i.set_var( "A", 17 );
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
@@ -334,13 +377,13 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
     GIVEN( "an item with flag WATER_DISSOLVE" ) {
 
-        REQUIRE( item( "aspirin" ).has_flag( flag_WATER_DISSOLVE ) );
+        REQUIRE( item( itype_aspirin ).has_flag( flag_WATER_DISSOLVE ) );
 
         WHEN( "item in hand" ) {
             guy.unwield();
             guy.clear_worn();
 
-            item aspirin( "aspirin" );
+            item aspirin( itype_aspirin );
 
             REQUIRE( guy.wield( aspirin ) );
 
@@ -354,8 +397,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item aspirin( "aspirin" );
-            item backpack( "backpack" );
+            item aspirin( itype_aspirin );
+            item backpack( itype_backpack );
 
             backpack.put_in( aspirin, pocket_type::CONTAINER );
 
@@ -371,8 +414,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item aspirin( "aspirin" );
-            item bottle_small( "bottle_plastic_small" );
+            item aspirin( itype_aspirin );
+            item bottle_small( itype_bottle_plastic_small );
 
             bottle_small.put_in( aspirin, pocket_type::CONTAINER );
 
@@ -388,9 +431,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item aspirin( "aspirin" );
-            item backpack( "backpack" );
-            item duffelbag( "duffelbag" );
+            item aspirin( itype_aspirin );
+            item backpack( itype_backpack );
+            item duffelbag( itype_duffelbag );
 
             backpack.put_in( aspirin, pocket_type::CONTAINER );
             duffelbag.put_in( backpack, pocket_type::CONTAINER );
@@ -407,9 +450,9 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item aspirin( "aspirin" );
-            item backpack( "backpack" );
-            item body_bag( "test_waterproof_bag" );
+            item aspirin( itype_aspirin );
+            item backpack( itype_backpack );
+            item body_bag( itype_test_waterproof_bag );
 
             backpack.put_in( aspirin, pocket_type::CONTAINER );
             body_bag.put_in( backpack, pocket_type::CONTAINER );
@@ -468,7 +511,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.clear_worn();
 
             item smart_phone( itype_test_smart_phone );
-            item body_bag( "test_waterproof_bag" );
+            item body_bag( itype_test_waterproof_bag );
 
             body_bag.put_in( smart_phone, pocket_type::CONTAINER );
 
@@ -664,7 +707,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item towel( "towel" );
+            item towel( itype_towel );
 
             REQUIRE( guy.wield( towel ) );
 
@@ -678,7 +721,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item towel( "towel" );
+            item towel( itype_towel );
 
             REQUIRE( guy.wear_item( towel ) );
 
@@ -692,8 +735,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item towel( "towel" );
-            item backpack( "backpack" );
+            item towel( itype_towel );
+            item backpack( itype_backpack );
 
             backpack.put_in( towel, pocket_type::CONTAINER );
 
@@ -709,8 +752,8 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             guy.unwield();
             guy.clear_worn();
 
-            item towel( "towel" );
-            item body_bag( "test_waterproof_bag" );
+            item towel( itype_towel );
+            item body_bag( itype_test_waterproof_bag );
 
             body_bag.put_in( towel, pocket_type::CONTAINER );
 
@@ -834,7 +877,7 @@ TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
 
 TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
 {
-    item test_consolidate( "test_consolidate" );
+    item test_consolidate( itype_test_consolidate );
 
     //check this item has a single armor entry, not 3 like is written in the json explicitly
 
@@ -849,8 +892,8 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     guy.clear_mutations();
     guy.clear_worn();
 
-    item test_exo( "test_modular_exosuit" );
-    item test_module( "test_exo_lense_module" );
+    item test_exo( itype_test_modular_exosuit );
+    item test_module( itype_test_exo_lense_module );
 
     test_exo.force_insert_item( test_module, pocket_type::CONTAINER );
 
@@ -859,8 +902,8 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
 
     clear_avatar();
-    item hat_hard( "hat_hard" );
-    item ear_muffs( "attachable_ear_muffs" );
+    item hat_hard( itype_hat_hard );
+    item ear_muffs( itype_attachable_ear_muffs );
     REQUIRE( hat_hard.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
     REQUIRE( !hat_hard.has_flag( json_flag_DEAF ) );
     guy.wear_item( hat_hard );
@@ -875,7 +918,7 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     avatar &guy = get_avatar();
     clear_avatar();
     // check if you can swap a rigid armor
-    item test_armguard( "test_armguard" );
+    item test_armguard( itype_test_armguard );
     REQUIRE( guy.wield( test_armguard ) );
 
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
@@ -889,15 +932,15 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     // check if you can't wear 3 rigid armors
     clear_avatar();
 
-    item first_test_armguard( "test_armguard" );
+    item first_test_armguard( itype_test_armguard );
     REQUIRE( guy.wield( first_test_armguard ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
-    item second_test_armguard( "test_armguard" );
+    item second_test_armguard( itype_test_armguard );
     REQUIRE( guy.wield( second_test_armguard ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
-    item third_test_armguard( "test_armguard" );
+    item third_test_armguard( itype_test_armguard );
     REQUIRE( guy.wield( third_test_armguard ) );
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
@@ -907,11 +950,11 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     avatar &guy = get_avatar();
     clear_avatar();
 
-    item test_armguard( "test_armguard" );
-    item second_test_armguard( "test_armguard" );
-    item splint( "arm_splint" );
-    item second_splint( "arm_splint" );
-    item third_splint( "arm_splint" );
+    item test_armguard( itype_test_armguard );
+    item second_test_armguard( itype_test_armguard );
+    item splint( itype_arm_splint );
+    item second_splint( itype_arm_splint );
+    item third_splint( itype_arm_splint );
 
     // check if you can wear a splint
     clear_avatar();
@@ -950,10 +993,10 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
 
 TEST_CASE( "item_single_type_contents", "[item]" )
 {
-    item rock( "test_rock" );
+    item rock( itype_test_rock );
     std::array<std::string, 2> const variants = { "test_rock_blue", "test_rock_green" };
-    item walnut( "walnut" );
-    item bag( "bag_plastic" );
+    item walnut( itype_walnut );
+    item bag( itype_bag_plastic );
     REQUIRE( bag.get_category_of_contents().id == item_category_container );
     int const num = GENERATE( 1, 2 );
     bool ret = true;
@@ -973,7 +1016,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
         // 2 rock and 1 walnuts - rocks dominate
         CHECK( bag.get_category_of_contents().id == item_category_spare_parts );
         REQUIRE( bag.put_in( walnut, pocket_type::CONTAINER ).success() );
-        item hammer( "hammer" );
+        item hammer( itype_hammer );
         REQUIRE( hammer.get_category_of_contents().id != rock.get_category_of_contents().id );
         REQUIRE( hammer.get_category_of_contents().id != walnut.get_category_of_contents().id );
         REQUIRE( bag.put_in( hammer, pocket_type::CONTAINER ).success() );
@@ -982,7 +1025,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
     }
 
     SECTION( "clothing" ) {
-        item jeans( "jeans" );
+        item jeans( itype_jeans );
         REQUIRE( jeans.get_category_of_contents().id == item_category_clothing );
         REQUIRE( walnut.get_category_of_contents().id == item_category_food );
         REQUIRE( jeans.put_in( walnut, pocket_type::CONTAINER ).success() );
@@ -990,8 +1033,8 @@ TEST_CASE( "item_single_type_contents", "[item]" )
     }
 
     SECTION( "software" ) {
-        item usb_drive( "usb_drive" );
-        item software_hacking( "software_hacking" );
+        item usb_drive( itype_usb_drive );
+        item software_hacking( itype_software_hacking );
         REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
         REQUIRE( usb_drive.put_in( software_hacking, pocket_type::SOFTWARE ).success() );
         CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
@@ -1000,10 +1043,10 @@ TEST_CASE( "item_single_type_contents", "[item]" )
 
 TEST_CASE( "item_nested_contents", "[item]" )
 {
-    item walnut( "walnut" );
-    item outer_bag( "bag_plastic" );
-    item inner_bag1( "bag_plastic" );
-    item inner_bag2( "bag_plastic" );
+    item walnut( itype_walnut );
+    item outer_bag( itype_bag_plastic );
+    item inner_bag1( itype_bag_plastic );
+    item inner_bag2( itype_bag_plastic );
 
     REQUIRE( inner_bag1.put_in( walnut, pocket_type::CONTAINER ).success() );
     REQUIRE( inner_bag1.put_in( walnut, pocket_type::CONTAINER ).success() );
@@ -1026,17 +1069,17 @@ TEST_CASE( "item_nested_contents", "[item]" )
 
 TEST_CASE( "item_rotten_contents", "[item]" )
 {
-    item wrapper( "wrapper" );
+    item wrapper( itype_wrapper );
     REQUIRE( wrapper.get_category_of_contents().id == item_category_container );
 
-    item butter_rotten( "butter" );
+    item butter_rotten( itype_butter );
     butter_rotten.set_relative_rot( 1.01 );
     REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
     REQUIRE( wrapper.put_in( butter_rotten, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );
     CHECK( wrapper.get_category_of_contents().id == item_category_food );
 
-    item butter( "butter" );
+    item butter( itype_butter );
     butter.set_relative_rot( 0.5 );
     REQUIRE( wrapper.put_in( butter, pocket_type::CONTAINER ).success() );
     CAPTURE( wrapper.display_name() );

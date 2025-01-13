@@ -198,6 +198,7 @@ Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
 audio now works on curses mode, not just tiles mode
+Render WORN overlays for ablative pockets
 
 
 ## Content:
@@ -567,6 +568,7 @@ Set minimum sizes for missions menu UI
 Fix compact aim window
 Fix NPC rules window scaling for small terminal sizes
 Add history to Construction Search
+load all of the user’s chosen font files as fallbacks for ImGui to use
 
 
 ## Mods:
@@ -948,6 +950,14 @@ Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
 [MoM] Melded Teleporter Force
 [MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
 [Magiclysm] Goblins and wargs are best friends
+Aftershock: Create an alternate EMP mechanic that disables items only temporarily.
+[MoM] Add Water-Walking Telekinetic power
+[Magiclysm] Use EoCs to allow Magiclysm fantasy species to gain mutation paths/purify themselves
+Changes a straight damage on archery bracers to weakpoint accuracy.
+Xedra Evolved: Salamander Eruption
+Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
+[Aftershock] Add the Geist (telekinetic) esper profession and powers
+[MoM] Autolearn matrix elixir recipes
 
 
 ## Balance:
@@ -1082,6 +1092,9 @@ Zombified humans are still humans for butchery purposes
 Zombie Humanity Audit
 Combine crit hit and wp hit and tweak damage calculation for ranged attack
 Thermal electric gear power draw reduction + medium battery for TE suit
+make charcoal kiln place-able
+Set disassembly range to crafting range: 6
+Mutating with an installed bionic that conflicts results in damage
 
 
 ## Bugfixes:
@@ -1469,6 +1482,11 @@ Correct recipe for water purifying to use correct quantity of water
 Items in transparent pockets on the map illuminate surroundings
 Mark some specific furnitures/terrains examine as always allowed in faction territory
 NPC should not wield integrated armor
+Allow commercial fertilizer to be used by zone manager
+[innawood] Crafted batteries are fully charged
+Fix infinite bounce
+Prevent segfault when search gives no hits
+Fix mutation spells learned don't lose when mutation lost
 
 
 ## Performance:
@@ -1632,6 +1650,14 @@ Make enchantment mutations work again
 Added Imgui demo screen (and style editor) to the debug menu
 clang-tidy output is a bit more readable on windows
 migrate map-size related constants to new file, unmagic related constants
+Debug recipes for tests: first
+Make clang-tidy feedback on GitHub much more responsive
+Item price and price_postapoc must be denominated (cents/USD/kUSD). Integer values no longer used
+NPC snippets overhaul
+Refactor `ammo_effect_BOUNCE`
+Add magic_type to deduplicate shared spell fields and reduce hardcoding
+Add ability to debug spawn item groups and specify amount of repeats when testing
+Bump minimum supported macOS version to 10.15 (macOS Catalina)
 
 ## Build:
 Support Mac arm64 build

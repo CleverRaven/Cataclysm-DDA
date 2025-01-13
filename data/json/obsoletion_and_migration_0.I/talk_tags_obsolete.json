@@ -72,5 +72,15 @@
     "category": "<ill_die>",
     "//": "A snippet use in the context of another complaint, like I'll die without your help",
     "text": "I won't last much longer"
+  },
+  {
+    "type": "snippet",
+    "category": "<need_junk>",
+    "text": "I need some junk to power my internal furnace."
+  },
+  {
+    "type": "snippet",
+    "category": "<need_radioactives>",
+    "text": "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor."
   }
 ]

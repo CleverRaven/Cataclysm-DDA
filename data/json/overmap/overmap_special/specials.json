@@ -4172,6 +4172,15 @@
   },
   {
     "type": "overmap_special",
+    "id": "outcrop",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outcrop_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 30, -1 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "ws_fire_lookout_tower",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "forest_trail_intersection_north", "locations": [ "forest_trail" ] },

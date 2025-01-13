@@ -273,7 +273,8 @@
           { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
           { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bio_grotesque') / 10) + 1)" ] } },
           { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bio_grotesque') / 5) + 1)" ] } },
-          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bio_grotesque') / 4) + 5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bio_grotesque') / 4) + 5)" ] } },
+          { "value": "UGLINESS", "add": { "math": [ "(u_spell_level('bio_grotesque') / 2) + 2" ] } }
         ]
       }
     ]
@@ -633,7 +634,12 @@
       "health_chance": [ 4 ],
       "stamina_min": [ 40 ],
       "stamina_chance": [ 2 ]
-    }
+    },
+    "enchantments": [
+      {
+        "values": [ { "value": "UGLINESS", "add": { "math": [ "( u_spell_level('biomancer_coagulant_weave') / 4 ) + 1" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1324,8 +1330,28 @@
     "apply_message": "",
     "remove_message": "With an unpleasant twisting sensation your hands and feet return to normal.",
     "rating": "good",
-    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ],
-    "base_mods": { "stamina_min": [ 10 ] }
+    "base_mods": { "stamina_min": [ 10 ] },
+    "enchantments": [ { "mutations": [ "WEBBED", "WEBBED_FEET" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_lashing_tentacles",
+    "name": [ "Lashing Tentacles" ],
+    "desc": [ "Two tentacles sprout from your shoulders, ready to attack your enemies." ],
+    "apply_message": "Your shoulders itch before two barbed tentacles erupt from them!",
+    "remove_message": "The tentacles recede back into your body.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "BIO_LASHING_TENTACLES" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_caustic_blood",
+    "name": [ "Caustic Blood" ],
+    "desc": [ "You have transformed your blood into acid." ],
+    "apply_message": "Your entire body burns for a moment.",
+    "remove_message": "The faint burning sensation fades.",
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "ACIDPROOF", "ACIDBLOOD" ] } ]
   },
   {
     "id": "effect_biomancer_remove_instability",
@@ -1459,7 +1485,7 @@
   {
     "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
-    "name": [ "Rapid Regeneration" ],
+    "name": [ "Corporeal Reconstitution" ],
     "desc": [ "You are healing unbelievably quickly." ],
     "remove_message": "Your rapid regeneration slows and stops.",
     "rating": "good",
@@ -1480,6 +1506,16 @@
       }
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_disturbing",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 100,
+    "enchantments": [
+      { "values": [ { "value": "UGLINESS", "add": { "math": [ "u_effect_intensity('effect_biomancer_disturbing')" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -1515,7 +1551,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } }
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } },
+          { "value": "UGLINESS", "add": 1 }
         ]
       }
     ]

@@ -1,5 +1,12 @@
 [
   {
+    "id": "mom_psionics",
+    "type": "magic_type",
+    "energy_source": "STAMINA",
+    "cannot_cast_flags": "NO_PSIONICS",
+    "cannot_cast_message": "You can't channel any of the powers you know!"
+  },
+  {
     "id": "classless_toggleable_concentration_end",
     "type": "SPELL",
     "name": "[Ψ]Stop Concentrating",

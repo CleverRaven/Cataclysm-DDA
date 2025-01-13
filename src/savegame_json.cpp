@@ -135,13 +135,20 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_chem_ethanol( "chem_ethanol" );
+static const itype_id fuel_type_gasoline( "gasoline" );
+static const itype_id fuel_type_motor_oil( "motor_oil" );
 static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
 static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
 static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
 static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
@@ -211,10 +218,11 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //    }
 }
 
-static tripoint read_legacy_creature_pos( const JsonObject &data )
+static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 {
-    tripoint pos;
-    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+    tripoint_bub_ms pos;
+    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
+        !data.read( "posz", pos.z() ) ) {
         debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
     }
     return pos;
@@ -1206,23 +1214,23 @@ void Character::load( const JsonObject &data )
                     // Migrate old fuels to new system.
                     // Needed to be compatible with 0.F
                     if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
-                        item gasoline( "gasoline" );
+                        item gasoline( fuel_type_gasoline );
                         gasoline.charges = std::stoi( get_value( "gasoline" ) );
                         remove_value( "gasoline" );
                         pseudo.put_in( gasoline, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
-                        item ethanol( "chem_ethanol" );
+                        item ethanol( fuel_type_chem_ethanol );
                         ethanol.charges = std::stoi( get_value( "alcohol" ) );
                         remove_value( "alcohol" );
                         pseudo.put_in( ethanol, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
-                        item oil( "motor_oil" );
+                        item oil( fuel_type_motor_oil );
                         oil.charges = std::stoi( get_value( "motor_oil" ) );
                         remove_value( "motor_oil" );
                         pseudo.put_in( oil, pocket_type::CONTAINER );
                     } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
-                        item battery( "medium_battery_cell" );
-                        item battery_charge( "battery" );
+                        item battery( itype_medium_battery_cell );
+                        item battery_charge( fuel_type_battery );
                         battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
                         battery.put_in( battery_charge, pocket_type::MAGAZINE );
                         remove_value( "battery" );
@@ -2052,15 +2060,15 @@ void npc::load( const JsonObject &data )
     if( !data.has_member( "location" ) ) {
         point submap_coords;
         data.read( "submap_coords", submap_coords );
-        const tripoint pos = read_legacy_creature_pos( data );
+        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
-        std::optional<tripoint> opt;
+                                       0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
+        std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = get_location() + *opt - pos;
+            last_player_seen_pos = get_location() + ( *opt - pos );
         }
         if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = get_location() + *opt - pos;
+            pulp_location = get_location() + ( *opt - pos );
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
@@ -2427,10 +2435,10 @@ void monster::load( const JsonObject &data )
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
         set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-        tripoint wand;
-        data.read( "wandx", wand.x );
-        data.read( "wandy", wand.y );
-        data.read( "wandz", wand.z );
+        tripoint_bub_ms wand;
+        data.read( "wandx", wand.x() );
+        data.read( "wandy", wand.y() );
+        data.read( "wandz", wand.z() );
         wander_pos = get_map().getglobal( wand );
         tripoint destination;
         data.read( "destination", destination );
@@ -3944,7 +3952,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
     const auto write_seq = [&]() {
         jsout.start_array();
         jsout.write( num_same );
-        jsout.write( last.symbol );
+        jsout.write( static_cast<int>( last.symbol ) );
         jsout.write( last.ter_id );
         jsout.write( static_cast<int>( last.ter_subtile ) );
         jsout.write( static_cast<int>( last.ter_rotation ) );
@@ -4976,8 +4984,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         JsonArray terrain_json = jv;
         // Small duplication here so that the update check is only performed once
         if( rubpow_update ) {
-            item rock = item( "rock", calendar::turn_zero );
-            item chunk = item( "steel_chunk", calendar::turn_zero );
+            item rock = item( itype_rock, calendar::turn_zero );
+            item chunk = item( itype_steel_chunk, calendar::turn_zero );
             for( int j = 0; j < SEEY; j++ ) {
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( terrain_json.next_string() );

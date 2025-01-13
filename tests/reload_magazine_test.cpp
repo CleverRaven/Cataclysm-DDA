@@ -25,6 +25,7 @@ static const itype_id itype_357mag_fmj( "357mag_fmj" );
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_stanag30( "stanag30" );
@@ -52,14 +53,14 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     player_character.clear_worn();
     player_character.inv->clear();
     player_character.remove_weapon();
-    player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
+    player_character.wear_item( item( itype_backpack ) ); // so we don't drop anything
 
     item_location mag = player_character.i_add( item( mag_id ) );
-    const item ammo_it( "556" ); // any type of compatible ammo
-    const item alt_ammo_it( "223" ); // any alternative type of compatible ammo
-    const item bad_ammo_it( "9mm" ); // any type of incompatible ammo
-    const item mag_it( "stanag30" ); // must be set to default magazine
-    const item bad_mag_it( "glockmag" ); // any incompatible magazine
+    const item ammo_it( itype_556 ); // any type of compatible ammo
+    const item alt_ammo_it( itype_223 ); // any alternative type of compatible ammo
+    const item bad_ammo_it( itype_9mm ); // any type of incompatible ammo
+    const item mag_it( itype_stanag30 ); // must be set to default magazine
+    const item bad_mag_it( itype_glockmag ); // any incompatible magazine
     CHECK( mag->is_magazine() );
     CHECK( mag->is_reloadable() );
     CHECK( mag->can_reload_with( ammo_it, true ) );
@@ -337,7 +338,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
     const itype_id bad_ammo = itype_9mm; // any type of incompatible ammo
     const int mag_cap = 7; // amount of bullets that fit into cylinder
 
-    const item ammo_it( "38_special" ); // any type of compatible ammo
+    const item ammo_it( itype_38_special ); // any type of compatible ammo
 
     CHECK( ammo_id != alt_ammo );
     CHECK( ammo_id != bad_ammo );
@@ -347,7 +348,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
     player_character.clear_worn();
     player_character.inv->clear();
     player_character.remove_weapon();
-    player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
+    player_character.wear_item( item( itype_backpack ) ); // so we don't drop anything
 
     GIVEN( "an empty gun with an integral magazine" ) {
         item_location gun = player_character.i_add( item( gun_id ) );

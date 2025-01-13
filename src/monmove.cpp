@@ -82,6 +82,8 @@ static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const itype_id itype_gasoline( "gasoline" );
+static const itype_id itype_napalm( "napalm" );
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
@@ -139,56 +141,57 @@ static bool z_is_valid( int z )
     return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
-bool monster::will_move_to( const tripoint_bub_ms &p ) const
+bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
 {
-    map &here = get_map();
-    const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at( p );
-    if( !here.passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
+    const std::vector<field_type_id> impassable_field_ids = here->get_impassable_field_type_ids_at( p );
+    if( !here->passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
             !is_immune_fields( impassable_field_ids ) ) ) {
         if( digging() ) {
-            if( !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
+            if( !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) ) {
+        } else if( !( can_climb() && here->has_flag( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) ) {
             return false;
         }
     }
 
-    if( !here.has_vehicle_floor( p ) ) {
-        if( !can_submerge() && !flies() && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+    if( !here->has_vehicle_floor( p ) ) {
+        if( !can_submerge() && !flies() && here->has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
             return false;
         }
     }
 
-    if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
+    if( digs() && !here->has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
+        !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
     }
 
     if( has_flag( mon_flag_AQUATIC ) && (
-            !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+            !here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
-            ( here.veh_at( p ) && !here.veh_at( pos_bub() ) )
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
         ) ) {
         return false;
     }
 
-    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( p ) ) {
+    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( here, p ) ) {
         return false;
     }
 
     if( get_size() > creature_size::medium &&
-        here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, p ) ) {
+        here->has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, p ) ) {
         return false; // if a large critter, can't move through tight passages
     }
 
     return true;
 }
-
-bool monster::know_danger_at( const tripoint_bub_ms &p ) const
+bool monster::will_move_to( const tripoint_bub_ms &p ) const
 {
     map &here = get_map();
-
+    return monster::will_move_to( &here, p );
+}
+bool monster::know_danger_at( map *here, const tripoint_bub_ms &p ) const
+{
     // Various avoiding behaviors.
 
     bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER );
@@ -204,8 +207,8 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
     // before hitting simple or complex but this is more explicit
     if( avoid_fire || avoid_fall || avoid_simple ||
         avoid_traps || avoid_dangerous_fields || avoid_sharp ) {
-        const ter_id &target = here.ter( p );
-        if( !here.has_vehicle_floor( p ) ) {
+        const ter_id &target = here->ter( p );
+        if( !here->has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
             if( avoid_fire && target == ter_t_lava ) {
                 return false;
@@ -213,7 +216,7 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
 
             if( avoid_fall ) {
                 // Don't throw ourselves off cliffs if we have a concept of falling
-                if( !here.has_floor_or_water( p ) && !flies() ) {
+                if( !here->has_floor_or_water( p ) && !flies() ) {
                     return false;
                 }
 
@@ -228,7 +231,7 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
             if( get_player_character().get_location() != get_dest() ||
                 attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
-                if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
+                if( avoid_sharp && here->has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                     !( type->size == creature_size::tiny || flies() ||
                        get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
                     return false;
@@ -236,14 +239,14 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
             }
 
             // Don't step on any traps (if we can see)
-            const trap &target_trap = here.tr_at( p );
+            const trap &target_trap = here->tr_at( p );
             if( avoid_traps && has_flag( mon_flag_SEES ) &&
-                !target_trap.is_benign() && here.has_floor_or_water( p ) ) {
+                !target_trap.is_benign() && here->has_floor_or_water( p ) ) {
                 return false;
             }
         }
 
-        const field &target_field = here.field_at( p );
+        const field &target_field = here->field_at( p );
         // Higher awareness is needed for identifying these as threats.
         if( avoid_dangerous_fields && is_dangerous_fields( target_field ) ) {
             return false;
@@ -260,6 +263,11 @@ bool monster::know_danger_at( const tripoint_bub_ms &p ) const
     }
 
     return true;
+}
+
+bool monster::know_danger_at( const tripoint_bub_ms &p ) const
+{
+    return monster::know_danger_at( &get_map(), p );
 }
 
 bool monster::can_reach_to( const tripoint_bub_ms &p ) const
@@ -2031,7 +2039,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank
                 if( ammo[itype_pressurized_tank] > 0 ) {
-                    here.add_item_or_charges( pos_bub(), item( "napalm", calendar::turn, 50 ) );
+                    here.add_item_or_charges( pos_bub(), item( itype_napalm, calendar::turn, 50 ) );
                     ammo[itype_pressurized_tank] -= 50;
                 } else {
                     // TODO: remove mon_flag_DRIPS_NAPALM flag since no more napalm in tank
@@ -2042,7 +2050,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
         if( has_flag( mon_flag_DRIPS_GASOLINE ) ) {
             if( one_in( 5 ) ) {
                 // TODO: use same idea that limits napalm dripping
-                here.add_item_or_charges( pos_bub(), item( "gasoline" ) );
+                here.add_item_or_charges( pos_bub(), item( itype_gasoline ) );
             }
         }
     }
