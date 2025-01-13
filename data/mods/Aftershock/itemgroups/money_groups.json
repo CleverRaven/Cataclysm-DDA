@@ -23,9 +23,9 @@
       { "item": "UICA_100d", "count": 15 },
       { "item": "UICA_50d", "count": 20 },
       { "item": "UICA_10d", "count": 20 },
-	  { "item": "UICA_1d", "count": 10 }
+      { "item": "UICA_1d", "count": 10 }
     ]
-  },  
+  },
   {
     "id": "afs_banknotes",
     "type": "item_group",

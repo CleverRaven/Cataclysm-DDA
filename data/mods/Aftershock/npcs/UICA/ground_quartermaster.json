@@ -101,7 +101,10 @@
         "trial": { "type": "PERSUADE", "difficulty": 50 },
         "success": {
           "topic": "TALK_DONE",
-          "effect": [ { "npc_add_var": "player_can_trade", "value": "yes" }, { "u_spend_cash": 50000, "false_eocs": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE" } ]
+          "effect": [
+            { "npc_add_var": "player_can_trade", "value": "yes" },
+            { "u_spend_cash": 50000, "false_eocs": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE" }
+          ]
         },
         "failure": {
           "topic": "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_FAILURE",
@@ -113,19 +116,19 @@
   },
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_FAILURE" ],
-	"type": "talk_topic",
+    "type": "talk_topic",
     "dynamic_line": "&I think you should leave.",
     "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_RECENTLY_FAILED" ],
-	"type": "talk_topic",
+    "type": "talk_topic",
     "dynamic_line": "&I already told you no.",
     "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "EOC_QUARTERMASTER_DID_NOT_PAY_BRIBE",
     "type": "effect_on_condition",
-	"effect": { "npc_add_var": "player_can_trade", "value": "no" }
+    "effect": { "npc_add_var": "player_can_trade", "value": "no" }
   }
 ]
