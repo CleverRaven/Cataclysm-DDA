@@ -7881,8 +7881,9 @@ time_duration vehicle::folding_time() const
 {
     const vehicle_part_range vpr = get_all_parts();
     return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
-    []( time_duration & acc, const vpart_reference & part ) {
-        return acc + ( part.part().removed ? time_duration() : part.info().get_folding_time() );
+    []( time_duration acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() :
+                       part.info().get_folding_time() );
     } );
 }
 
@@ -7890,8 +7891,9 @@ time_duration vehicle::unfolding_time() const
 {
     const vehicle_part_range vpr = get_all_parts();
     return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
-    []( time_duration & acc, const vpart_reference & part ) {
-        return acc + ( part.part().removed ? time_duration() : part.info().get_unfolding_time() );
+    []( time_duration acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() :
+                       part.info().get_unfolding_time() );
     } );
 }
 

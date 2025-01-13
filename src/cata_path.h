@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_PATH_H
 
 #include <iosfwd>
+#include <string>
 
 #include <ghc/fs_std_fwd.hpp>
 
