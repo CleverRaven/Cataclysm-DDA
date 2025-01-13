@@ -103,7 +103,8 @@
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
-      "afs_efficiency_genemod"
+      "afs_efficiency_genemod",
+      "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
