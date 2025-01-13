@@ -64,6 +64,7 @@ void gaspump( Character &you, const tripoint_bub_ms &examp );
 void atm( Character &you, const tripoint_bub_ms &examp );
 void vending( Character &you, const tripoint_bub_ms &examp );
 void elevator( Character &you, const tripoint_bub_ms &examp );
+void genemill( Character &you, const tripoint_bub_ms &examp );
 void nanofab( Character &you, const tripoint_bub_ms &examp );
 void controls_gate( Character &you, const tripoint_bub_ms &examp );
 void cardreader( Character &you, const tripoint_bub_ms &examp );
