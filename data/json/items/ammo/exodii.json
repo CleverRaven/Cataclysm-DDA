@@ -271,6 +271,7 @@
     "copy-from": "khuunaofaai_ammo_firework",
     "weight": "6 g",
     "price_postapoc": "5 USD"
+  },
   {
     "id": "33naval_ball",
     "type": "AMMO",
