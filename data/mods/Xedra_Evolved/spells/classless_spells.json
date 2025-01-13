@@ -9,7 +9,8 @@
     "type": "magic_type",
     "energy_source": "MANA",
     "get_level_formula_id": "xedra_dream_formula_get_level",
-    "exp_for_level_formula_id": "xedra_dream_formula_exp_for_level"
+    "exp_for_level_formula_id": "xedra_dream_formula_exp_for_level",
+    "max_book_level": 0
   },
   {
     "id": "night_sight",

@@ -488,6 +488,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
     optional( jo, was_loaded, "magic_type", magic_type );
+    optional( jo, was_loaded, "max_book_level", max_book_level );
     if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
         ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
@@ -635,6 +636,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
     json.member( "magic_type", magic_type );
+    json.member( "max_book_level", max_book_level );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -1709,6 +1711,20 @@ std::string spell::damage_type_string() const
 static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
+
+std::optional<int> spell_type::get_max_book_level() const
+{
+    if( max_book_level.has_value() ) {
+        return max_book_level;
+    } else if( magic_type.has_value() ) {
+        return magic_type.value()->max_book_level;
+    }
+}
+
+std::optional<int> spell::max_book_level() const
+{
+    return type->get_max_book_level();
+}
 
 magic_energy_type spell_type::get_energy_source() const
 {
