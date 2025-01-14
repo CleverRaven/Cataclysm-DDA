@@ -74,6 +74,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_extra_kcal",
+    "name": [ "Gnawing Hunger" ],
+    "desc": [ "Whenever you use your powers, your stomach rumbles." ],
+    "remove_message": "Your stomach finally calms down."
+  },
+  {
+    "type": "effect_type",
     "id": "effect_nether_attunement_feedback",
     "name": [ "Feedback" ],
     "desc": [ "You feel a persistent itching that will not go away." ],
