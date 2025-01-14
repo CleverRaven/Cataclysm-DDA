@@ -78,7 +78,7 @@
     "color": "light_gray",
     "ammo_type": [ "khuunaofaai_payload" ],
     "longest_side": "160 mm",
-    "price_postapoc": "24 USD 80 cent",
+    "price_postapoc": "10 USD",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -107,7 +107,7 @@
         "weight": 1
       }
     ],
-    "price_postapoc": "38 USD 50 cent",
+    "price_postapoc": "10 USD",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

@@ -252,7 +252,7 @@
     "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 4 },
     "recoil": 10,
     "dispersion": 20,
-    "price_postapoc": "8 USD",
+    "price_postapoc": "10 USD 80 cent",
     "color": "green",
     "symbol": "=",
     "weight": "12 g",
@@ -270,7 +270,7 @@
     "damage": { "damage_type": "acid", "amount": 30, "armor_penetration": 4 },
     "copy-from": "khuunaofaai_ammo_firework",
     "weight": "6 g",
-    "price_postapoc": "5 USD"
+    "price_postapoc": "8 USD 66 cent"
   },
   {
     "id": "33naval_ball",
