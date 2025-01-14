@@ -346,10 +346,12 @@
     "always_cast_spell": true,
     "spell_data": { "id": "spell_corrosive_spray" }
   },
+  {
     "id": "GLUE_FOAM",
     "type": "ammo_effect",
     "always_cast_spell": true,
     "spell_data": { "id": "spell_adhesive_spray" }
+  },
   {
     "id": "EXPLOSIVE_HESHOT",
     "type": "ammo_effect",
