@@ -132,19 +132,20 @@
   },
   {
     "id": "priest_beginner",
+    "//2": "id for legacy reasons",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Introduction to the Divine", "str_pl": "copies of Introduction to the Divine" },
-    "//": "1 technomancer, 1 biomancer, 1 classless spells",
-    "description": "This appears to mostly be a religious text, but it does have some notes on healing.",
-    "weight": "585 g",
-    "volume": "500 ml",
-    "price": "50 USD",
+    "name": { "str": "The Limits of Magical Recovery", "str_pl": "copies of The Limits of Magical Recovery" },
+    "//": "1 technomancer, 2 biomancer, 1 druid spells",
+    "description": "A study of the progress of using magic to cure ailments and heal wounds throughout the ages, from the earliest simple rituals to set bones all the way through modern thaumaturgical research into cancer treatments and curing Orcus's disease.  Some of the descriptions are detailed enough to be used as spell formulae.",
+    "weight": "900 g",
+    "volume": "750 ml",
+    "price": "150 USD",
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "biomancer_cure_disease_minor", "bless", "druid_healing_herb" ] }
   },
   {
     "id": "priest_advanced",
