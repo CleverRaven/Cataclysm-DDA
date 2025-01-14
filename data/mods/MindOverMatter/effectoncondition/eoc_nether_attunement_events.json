@@ -659,11 +659,11 @@
             "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE_2",
             "condition": { "math": [ "rand(2) >= 2" ] },
             "effect": [
-              { "math": [ "u_health() -= (rand(10) + 5)" ] },
+              { "math": [ "u_health() += (rand(25) + 5)" ] },
               { "u_message": "As you unleash your powers, you bloom with vitality.", "type": "good" }
             ],
             "false_effect": [
-              { "math": [ "u_health() += (rand(10) + 5)" ] },
+              { "math": [ "u_health() -= (rand(25) + 5)" ] },
               { "u_message": "As you unleash your powers, you are struck with malaise.", "type": "bad" }
             ]
           }
