@@ -268,7 +268,7 @@
     "description": "The exiled scion of an unfavorable seat within the Wraitheon board of directors, wealthy beyond measure even in their estrangement.  Sent to the frontier in a last-ditch effort to salvage their reputation, or more likely, to find a silent and politically convenient death.",
     "points": 8,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
