@@ -304,25 +304,25 @@
   },
   {
     "type": "overmap_special",
-    "id": "afs_UICA_shuttlebase",
+    "id": "afs_uica_shuttle_base",
     "overmaps": [
       {
         "point": [ 0, 0, 0 ],
-        "overmap": "afs_UICA_shuttlebase_x0y0z0_north",
+        "overmap": "afs_uica_shuttle_base_x0y0z0_north",
         "camp": "UICA",
-        "camp_name": "UICA Shuttlebase"
+        "camp_name": "UICA Shuttle Base"
       },
-      { "point": [ 1, 0, 0 ], "overmap": "afs_UICA_shuttlebase_x1y0z0_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "afs_UICA_shuttlebase_x0y1z0_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "afs_UICA_shuttlebase_x1y1z0_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "afs_UICA_shuttlebase_x0y0z1_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "afs_UICA_shuttlebase_x1y0z1_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "afs_UICA_shuttlebase_x0y1z1_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "afs_UICA_shuttlebase_x1y1z1_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "afs_UICA_shuttlebase_x0y0z2_north" },
-      { "point": [ 1, 0, 2 ], "overmap": "afs_UICA_shuttlebase_x1y0z2_north" },
-      { "point": [ 0, 1, 2 ], "overmap": "afs_UICA_shuttlebase_x0y1z2_north" },
-      { "point": [ 1, 1, 2 ], "overmap": "afs_UICA_shuttlebase_x1y1z2_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "afs_uica_shuttle_base_x1y0z0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "afs_uica_shuttle_base_x0y1z0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "afs_uica_shuttle_base_x1y1z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_uica_shuttle_base_x0y0z1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_uica_shuttle_base_x1y0z1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "afs_uica_shuttle_base_x0y1z1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "afs_uica_shuttle_base_x1y1z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_uica_shuttle_base_x0y0z2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "afs_uica_shuttle_base_x1y0z2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "afs_uica_shuttle_base_x0y1z2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "afs_uica_shuttle_base_x1y1z2_north" }
     ],
     "locations": [ "land" ],
     "city_distance": [ 35, -1 ],

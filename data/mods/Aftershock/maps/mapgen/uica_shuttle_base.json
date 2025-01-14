@@ -3,8 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "afs_UICA_shuttlebase_x0y0z0", "afs_UICA_shuttlebase_x1y0z0" ],
-      [ "afs_UICA_shuttlebase_x0y1z0", "afs_UICA_shuttlebase_x1y1z0" ]
+      [ "afs_uica_shuttle_base_x0y0z0", "afs_uica_shuttle_base_x1y0z0" ],
+      [ "afs_uica_shuttle_base_x0y1z0", "afs_uica_shuttle_base_x1y1z0" ]
     ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -107,8 +107,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "afs_UICA_shuttlebase_x0y0z1", "afs_UICA_shuttlebase_x1y0z1" ],
-      [ "afs_UICA_shuttlebase_x0y1z1", "afs_UICA_shuttlebase_x1y1z1" ]
+      [ "afs_uica_shuttle_base_x0y0z1", "afs_uica_shuttle_base_x1y0z1" ],
+      [ "afs_uica_shuttle_base_x0y1z1", "afs_uica_shuttle_base_x1y1z1" ]
     ],
     "object": {
       "fill_ter": "t_metal_floor",
@@ -183,8 +183,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "afs_UICA_shuttlebase_x0y0z2", "afs_UICA_shuttlebase_x1y0z2" ],
-      [ "afs_UICA_shuttlebase_x0y1z2", "afs_UICA_shuttlebase_x1y1z2" ]
+      [ "afs_uica_shuttle_base_x0y0z2", "afs_uica_shuttle_base_x1y0z2" ],
+      [ "afs_uica_shuttle_base_x0y1z2", "afs_uica_shuttle_base_x1y1z2" ]
     ],
     "object": {
       "fill_ter": "t_metal_floor",
