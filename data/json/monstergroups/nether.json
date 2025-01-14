@@ -31,7 +31,6 @@
       { "monster": "mon_hunting_horror", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 100, "starts": "180 hours" },
       { "monster": "mon_yugg", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "weight": 100, "cost_multiplier": 0 },
@@ -53,7 +52,6 @@
       { "monster": "mon_yugg", "weight": 70, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_star_vampire_coiling", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
@@ -127,7 +125,6 @@
       { "monster": "mon_star_vampire_coiling", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_flying_polyp", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 }
     ]
   },

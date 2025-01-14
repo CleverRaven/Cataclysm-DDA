@@ -1,8 +1,50 @@
 # Linie dłuższe niż 78 znaków zostaną automatycznie zawinięte
 # Poniższa linia jest dla przykładu
 ##############################################################################
+(<color_cyan>0.H</color>):</color>
 <color_white>Oryginalny autor:</color>         <color_white>Menedżer projektu:</color>
-<color_yellow>Whales</color> (<color_dark_gray>na emeryturze</color>)    <color_yellow>KevinGranade</color>
+<color_yellow>Whales</color> (<color_dark_gray>emerytowany</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Obecni główni twórcy:</color>
+<color_yellow>anoobindisguise</color> - nieustanne poprawianie błędów i dopracowywanie większości obszarów gry.
+<color_yellow>GuardianDll</color> - losowe zmiany w grze, losowe zmiany w modach.
+<color_yellow>irwiss</color> - masowe poprawki błędów i ulepszenia kodu.
+<color_yellow>Maleclypse</color> - wiodący merger w tym cyklu wydania i wiele ulepszeń w Xedra Evolved.
+
+<color_white>Specjalne podziękowania dla:</color>
+<color_yellow>anothersimulacrum</color> - za rozwiązywanie trudnych problemów.
+<color_yellow>akrieger</color> - powolny smasher.
+<color_yellow>Fris0uman</color> - za zarządzanie nakładkami graficznymi i nie tylko.
+<color_yellow>John-Candlebury</color> - za walki z bossami i protokoły izolacji.
+<color_yellow>Night-Pryanik</color> - za to, że przeziębienia i grypa wreszcie mają sens.
+<color_yellow>PatrikLundell</color> - ogromne i bardzo potrzebne zmiany w zawartości i infrastrukturze obozów frakcji.
+<color_yellow>Procyonae</color> - za tak wiele ulepszeń generacji map i cały backporting.
+<color_yellow>Qrox</color> - za poprawki błędów, recenzje i infrastrukturę.
+<color_yellow>Ramza13</color> - za spełnienie marzeń tak wielu moderów.
+<color_yellow>RenechCDDA</color> - za cień, ulepszenia obozu i osobowości postaci niezależnych.
+<color_yellow>Rivet-the-Zombie</color> - za osiągnięcie 10 000 merdżów.
+<color_yellow>Standing-Storm</color> - za najszybsze 0 do 100 od kilku lat.
+<color_yellow>Venera3</color> - za postęp limbifikacji.
+<color_yellow>ZhilkinSerg</color> - za merdżowanie wszystkich rzeczy.
+<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color> i <color_yellow>lispcoc</color>.
+
+<color_white>Specjalne podziękowania za kontrybucje grafik:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
+<color_yellow>gettingusedto</color> i wiele innych.
+
+<color_white>Pełna lista kontrybutorów dostępna na:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> jest wydany na licencji <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+(<color_cyan>0.G</color>):</color>
+<color_white>Oryginalny autor:</color>         <color_white>Menedżer projektu:</color>
+<color_yellow>Whales</color> (<color_dark_gray>emerytowany</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Obecni główni twórcy:</color>
 <color_yellow>I-am-Erk</color> - Ultica, historia świata, teksty, gość od pomysłów.

@@ -102,7 +102,8 @@ moon_phase get_moon_phase( const time_point &p )
     const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
     const double phase_change = nearest_midnight / moon_phase_duration;
-    const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
+    const int current_phase = static_cast<int>( std::round( phase_change * static_cast<int>
+                              ( MOON_PHASE_MAX ) ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );
 }
@@ -876,7 +877,7 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE:
             //~ Estimate of how much time has passed since the last entry
@@ -909,7 +910,7 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
-        /* fallthrough */
+            [[fallthrough]];
         case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE: {
             // normalized to 100 day seasons

@@ -62,7 +62,7 @@ That said, XEDRA was not around long enough for word to leak fully.  The world e
 
 ### Pre-Cataclysm Tech Changes
 
-As a general rule, the CDDA world should feel like ours.  We have worked hard to remove pre-Cataclysm bionics and robots that would have had to mean the world was too dramatically different.  The only exception to this is where technology interacts with the benefits of gradual development of portal tech.  For example. radioactive isotopes are far more easily available and have been for decades, with XEDRA taking them from other dimensions and reselling them to fund their projects.  However, any such change that would result in the pre-Cataclysm Earth being unrecognizably different from our own would not mean that we need to add that new tech to the game.  Rather, it means we need to rewrite the lore to keep that change from making it in.  We want it to feel like these changes occured in a recognizable version of our world.
+As a general rule, the CDDA world should feel like ours.  We have worked hard to remove pre-Cataclysm bionics and robots that would have had to mean the world was too dramatically different.  The only exception to this is where technology interacts with the benefits of gradual development of portal tech.  For example. radioactive isotopes are far more easily available and have been for decades, with XEDRA taking them from other dimensions and reselling them to fund their projects.  However, any such change that would result in the pre-Cataclysm Earth being unrecognizably different from our own would not mean that we need to add that new tech to the game.  Rather, it means we need to rewrite the lore to keep that change from making it in.  We want it to feel like these changes occurred in a recognizable version of our world.
 
 See [the Technology document](./technology.md) for deeper details.
 
@@ -105,7 +105,7 @@ A very dangerous tenth or so of ferals maintain most of their human intelligence
 
 ### Human Factions and Organizations
 
-This section should be used to discuss both existing and deceased major factions, but it is primarily for factions forming post-cataclysm.
+This section should be used to discuss both existing and deceased major factions, but it is primarily for factions forming post-Cataclysm.
 
 See [the Faction Lore document](./lore-factions.md) for deeper details and implementation ideas.
 

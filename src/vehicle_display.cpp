@@ -56,16 +56,19 @@ std::string vpart_display::get_tileset_id() const
     return res;
 }
 
-vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool include_fake,
+vpart_display vehicle::get_display_of_tile( const point_rel_ms &dp, bool rotate, bool include_fake,
         bool below_roof, bool roof ) const
 {
     const int part_idx = part_displayed_at( dp, include_fake, below_roof, roof );
     if( part_idx == -1 ) {
-        debugmsg( "no display part at mount (%d, %d)", dp.x, dp.y );
+        debugmsg( "no display part at mount (%d, %d)", dp.x(), dp.y() );
         return {};
     }
 
     const vehicle_part &vp = part( part_idx );
+    if( vp.hidden ) {
+        return {};
+    }
     const vpart_info &vpi = vp.info();
 
     auto variant_it = vpi.variants.find( vp.variant );
@@ -169,7 +172,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                                                vp.ammo_capacity( ammo_battery ) );
                 } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
+                    auto stack = 250_ml / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
                                                round_up( units::to_liter( vp.ammo_remaining() * stack ), 1 ),
                                                item::nname( vp.ammo_current() ) );

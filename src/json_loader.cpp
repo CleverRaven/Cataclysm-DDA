@@ -1,9 +1,8 @@
 #include "json_loader.h"
 
+#include <filesystem>
 #include <memory>
 #include <unordered_map>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "filesystem.h"
 #include "flexbuffer_cache.h"
@@ -14,31 +13,31 @@ namespace
 {
 flexbuffer_cache &base_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::base_path() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::base_path() / "cache" ).get_unrelative_path(), PATH_INFO::base_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &config_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::config_dir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::config_dir_path() / "cache" ).get_unrelative_path(), PATH_INFO::config_dir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &data_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::datadir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::datadir_path() / "cache" ).get_unrelative_path(), PATH_INFO::datadir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &memorial_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::memorialdir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::memorialdir_path() / "cache" ).get_unrelative_path(), PATH_INFO::memorialdir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &user_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::user_dir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::user_dir_path() / "cache" ).get_unrelative_path(), PATH_INFO::user_dir_path().get_unrelative_path() };
     return cache;
 }
 
@@ -51,7 +50,7 @@ flexbuffer_cache &cache_for_save( const cata_path &path )
     // Assume lexically normal path
     auto path_it = path.get_relative_path().begin();
     // First path element is the world name
-    fs::path worldname_path = *path_it;
+    std::filesystem::path worldname_path = *path_it;
     std::string worldname_str = worldname_path.u8string();
     ++path_it;
     // Next element is either a file, a character folder, or the maps folder
@@ -61,8 +60,8 @@ flexbuffer_cache &cache_for_save( const cata_path &path )
     auto it = save_caches.find( worldname_str );
     if( it == save_caches.end() ) {
         it = save_caches.emplace( worldname_str,
-                                  std::make_unique<flexbuffer_cache>( fs::path(),
-                                          fs::u8path( PATH_INFO::savedir() ) / worldname_path ) ).first;
+                                  std::make_unique<flexbuffer_cache>( std::filesystem::path(),
+                                          std::filesystem::u8path( PATH_INFO::savedir() ) / worldname_path ) ).first;
     }
 
     return *it->second;
@@ -133,7 +132,7 @@ std::optional<JsonValue> json_loader::from_path_opt( const cata_path &source_fil
 JsonValue json_loader::from_path_at_offset( const cata_path &source_file,
         size_t offset ) noexcept( false )
 {
-    fs::path unrelative_path = source_file.get_unrelative_path();
+    std::filesystem::path unrelative_path = source_file.get_unrelative_path();
     if( !file_exist( unrelative_path ) ) {
         throw JsonError( unrelative_path.generic_u8string() + " does not exist." );
     }

@@ -8,7 +8,6 @@
     "weight": "1170 g",
     "volume": "482 ml",
     "longest_side": "16 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -46,8 +45,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -69,7 +67,6 @@
     "weight": "2726 g",
     "volume": "4718 ml",
     "longest_side": "896 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -110,8 +107,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -133,7 +129,6 @@
     "weight": "3540 g",
     "volume": "3830 ml",
     "longest_side": "991 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -174,8 +169,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -196,7 +190,6 @@
     "weight": "2792 g",
     "volume": "3965 ml",
     "longest_side": "114 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -263,16 +256,7 @@
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [
-      "TRADER_AVOID",
-      "PADDED",
-      "BELTED",
-      "OVERSIZE",
-      "WATER_FRIENDLY",
-      "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bio_warhead",
@@ -283,7 +267,6 @@
     "volume": "2 L",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -2,
     "melee_damage": { "bash": 8 },
     "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
@@ -305,14 +288,13 @@
     "weight": "2260 g",
     "volume": "3130 ml",
     "longest_side": "780 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -349,12 +331,11 @@
     "looks_like": "m134",
     "type": "GUN",
     "name": { "str": "shredder shotgun" },
-    "description": "An abominably huge, two barrel Gast system shotgun.  Recoil from the first shot powers the piston that loads a shell into the second barrel, and vice versa, making it shoot approximately 1000rpm at max.  The biggest part of a weapon is a giant, multi tube magazine, which can store 240 shells at once.  It makes the weapon extremely bulky, so the only way you can utilize it is by handling it like a chainsaw, or installing it on a turret base.",
+    "description": "An abominably huge, two barrel Gast system shotgun.  Recoil from the first shot powers the piston that loads a shell into the second barrel, and vice versa, making it shoot approximately 1000rpm at max.  The biggest part of this weapon is a giant, multi tube magazine, which can store 240 shells at once.  It makes the weapon extremely bulky, so the only way you can utilize it is by handling it like a chainsaw or installing it on a turret base.",
     "weight": "12970 g",
     "volume": "11920 ml",
     "longest_side": "1266 mm",
     "barrel_length": "908 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 12 },
     "material": [ "qt_steel" ],
     "symbol": "(",
@@ -378,7 +359,6 @@
     "weight": "2880 g",
     "volume": "3930 ml",
     "longest_side": "998 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -391,16 +371,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -433,7 +404,7 @@
     "range": 1,
     "ammo": "battery",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
+    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
@@ -540,7 +511,7 @@
     "range_modifier": 35,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
-    "damage_modifier": { "damage_type": "heat", "amount": 150 },
+    "damage_modifier": { "damage_type": "electric", "amount": 100 },
     "ammo_effects": [ "GRENADE_ELEC_EXPL" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
@@ -570,6 +541,7 @@
     "range_modifier": 35,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
+    "damage_modifier": { "damage_type": "heat", "amount": 150 },
     "min_skills": [ [ "deduction", 4 ], [ "electronics", 4 ], [ "weapon", 4 ] ],
     "dispersion_modifier": 15,
     "handling_modifier": 4,
@@ -704,7 +676,6 @@
     "weight": "890 g",
     "volume": "658 ml",
     "longest_side": "998 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 3 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -725,8 +696,7 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "ELECTRONIC",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -747,14 +717,13 @@
     "weight": "1908 g",
     "volume": "3130 ml",
     "longest_side": "1160 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 3 },
     "material": [ "steel" ],
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 50,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -797,7 +766,6 @@
       "454",
       "45colt",
       "46",
-      "460",
       "57",
       "9mm",
       "9x18",
@@ -837,7 +805,6 @@
           "454": 8,
           "45colt": 10,
           "46": 10,
-          "460": 12,
           "57": 10,
           "9mm": 14,
           "9x18": 16,

@@ -48,16 +48,12 @@
   {
     "name": "GROUP_RATKIN_EVOLVED",
     "type": "monstergroup",
-    "default": "mon_black_ratkin",
     "monsters": [
-      { "monster": "mon_black_ratkin" },
-      { "monster": "mon_lab_ratkin", "weight": 200 },
-      { "monster": "mon_big_rat", "weight": 320 },
-      { "monster": "mon_zap_rat", "weight": 280 },
-      { "monster": "mon_tunnel_rat", "weight": 180 },
-      { "monster": "mon_pack_rat", "weight": 170 },
-      { "monster": "mon_teke_mouse", "weight": 160 },
-      { "monster": "mon_mausketeer", "weight": 90 }
+      { "monster": "mon_zap_rat", "weight": 300 },
+      { "monster": "mon_tunnel_rat", "weight": 250 },
+      { "monster": "mon_pack_rat", "weight": 200 },
+      { "monster": "mon_teke_mouse", "weight": 150 },
+      { "monster": "mon_mausketeer", "weight": 100 }
     ]
   }
 ]

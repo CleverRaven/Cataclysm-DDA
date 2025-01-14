@@ -7,7 +7,6 @@
 #include "game.h"
 #include "game_ui.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "mapsharing.h"
 #include "options.h"
 #include "output.h"
@@ -22,13 +21,6 @@
 #include <QtCore/QSettings>
 #include <QtWidgets/qsplashscreen.h>
 #include <QtGui/qpainter.h>
-
-//Required by the sigaction function in the exit_handler
-#if defined(_WIN32)
-#include "platform_win.h"
-#else
-#include <csignal>
-#endif
 
 #ifdef _WIN32
 #include <QtCore/QtPlugin>
@@ -53,20 +45,7 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
-    // As suggested by https://github.com/CleverRaven/Cataclysm-DDA/pull/67893
-    #if !defined(_WIN32)
-        if( s == 2 ) {
-            struct sigaction sigIntHandler;
-            sigIntHandler.sa_handler = SIG_DFL;
-            sigemptyset( &sigIntHandler.sa_mask );
-            sigIntHandler.sa_flags = 0;
-            sigaction( SIGINT, &sigIntHandler, nullptr );
-            kill( getpid(), s );
-        } else
-    #endif
-        {
-            exit( exit_status );
-        }
+        exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
 }
@@ -163,8 +142,6 @@ int main( int argc, char *argv[] )
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
-
-    loading_ui ui( false );
 
     get_options().init();
     get_options().load();

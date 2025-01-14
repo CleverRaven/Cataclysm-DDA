@@ -74,7 +74,6 @@ enum mission_kind : int {
     Camp_Recruiting,
     Camp_Scouting,
     Camp_Combat_Patrol,
-    Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
     Camp_Harvest,
@@ -104,7 +103,7 @@ struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
     mapgen_arguments mapgen_args;
-    std::optional<point> dir;
+    std::optional<point_rel_omt> dir;
 
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue & );
@@ -185,7 +184,8 @@ npc_ptr individual_mission( npc &p, const std::string &desc, const mission_id &m
 npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const mission_id &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false );
+                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false,
+                            const npc_ptr &preselected_choice = nullptr );
 
 ///All of these missions are associated with the ranch camp and need to be updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const mission_id &miss_id );

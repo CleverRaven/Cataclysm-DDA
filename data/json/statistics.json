@@ -415,7 +415,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_veh_onboard",
-    "description": { "str": "square travelled on board vehicles", "str_pl": "squares travelled on board vehicles" }
+    "description": { "str": "square traveled on board vehicles", "str_pl": "squares traveled on board vehicles" }
   },
   {
     "id": "min_move_veh_onboard_z",
@@ -445,7 +445,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_veh_ctrl_direct",
-    "description": { "str": "square travelled while controlling vehicle", "str_pl": "squares travelled while controlling vehicle" }
+    "description": { "str": "square traveled while controlling vehicle", "str_pl": "squares traveled while controlling vehicle" }
   },
   {
     "id": "moves_veh_ctrl_remote",
@@ -474,8 +474,8 @@
     "stat_type": "count",
     "event_transformation": "moves_veh_onboard_ctrl_remote",
     "description": {
-      "str": "square travelled on board remote controlled vehicle",
-      "str_pl": "squares travelled on board remote controlled vehicle"
+      "str": "square traveled on board remote controlled vehicle",
+      "str_pl": "squares traveled on board remote controlled vehicle"
     }
   },
   {
@@ -490,7 +490,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_veh_onboard_ctrl_none",
-    "description": { "str": "square travelled as vehicle passenger", "str_pl": "squares travelled as vehicle passenger" }
+    "description": { "str": "square traveled as vehicle passenger", "str_pl": "squares traveled as vehicle passenger" }
   },
   {
     "id": "moves_acft_onboard",
@@ -504,7 +504,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_acft_onboard",
-    "description": { "str": "square travelled on board aircraft", "str_pl": "squares travelled on board aircraft" }
+    "description": { "str": "square traveled on board aircraft", "str_pl": "squares traveled on board aircraft" }
   },
   {
     "id": "moves_acft_ctrl_direct",
@@ -518,7 +518,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_acft_ctrl_direct",
-    "description": { "str": "square travelled while piloting aircraft", "str_pl": "squares travelled while piloting aircraft" }
+    "description": { "str": "square traveled while piloting aircraft", "str_pl": "squares traveled while piloting aircraft" }
   },
   {
     "id": "max_velocity_acft",
@@ -548,7 +548,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_boat_onboard",
-    "description": { "str": "square travelled on board watercraft", "str_pl": "squares travelled on board watercraft" }
+    "description": { "str": "square traveled on board watercraft", "str_pl": "squares traveled on board watercraft" }
   },
   {
     "id": "moves_boat_ctrl_direct",
@@ -562,7 +562,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_boat_ctrl_direct",
-    "description": { "str": "square travelled while sailing watercraft", "str_pl": "squares travelled while sailing watercraft" }
+    "description": { "str": "square traveled while sailing watercraft", "str_pl": "squares traveled while sailing watercraft" }
   },
   {
     "id": "max_velocity_boat",
@@ -584,7 +584,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_rail_onboard",
-    "description": { "str": "square travelled on board rail vehicles", "str_pl": "squares travelled on board rail vehicles" }
+    "description": { "str": "square traveled on board rail vehicles", "str_pl": "squares traveled on board rail vehicles" }
   },
   {
     "id": "moves_rail_ctrl_direct",
@@ -598,7 +598,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_rail_ctrl_direct",
-    "description": { "str": "square travelled while driving rail vehicles", "str_pl": "squares travelled while driving rail vehicles" }
+    "description": { "str": "square traveled while driving rail vehicles", "str_pl": "squares traveled while driving rail vehicles" }
   },
   {
     "id": "max_velocity_rail",
@@ -624,7 +624,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_gndv_onboard",
-    "description": { "str": "square travelled on board land vehicles", "str_pl": "squares travelled on board land vehicles" }
+    "description": { "str": "square traveled on board land vehicles", "str_pl": "squares traveled on board land vehicles" }
   },
   {
     "id": "moves_gndv_ctrl_direct",
@@ -642,7 +642,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "moves_gndv_ctrl_direct",
-    "description": { "str": "square travelled while driving land vehicles", "str_pl": "squares travelled while driving land vehicles" }
+    "description": { "str": "square traveled while driving land vehicles", "str_pl": "squares traveled while driving land vehicles" }
   },
   {
     "id": "max_velocity_gndv",

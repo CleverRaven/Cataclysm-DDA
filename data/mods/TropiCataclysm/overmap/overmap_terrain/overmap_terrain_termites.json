@@ -5,7 +5,7 @@
     "name": "termite mound",
     "sym": "%",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "medium",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME", "REQUIRES_PREDECESSOR" ]
   },
   {
@@ -14,7 +14,7 @@
     "name": "termite mound",
     "sym": "%",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
@@ -23,7 +23,7 @@
     "name": "food storage",
     "sym": "O",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_TERMITES", "population": [ 6, 10 ], "chance": 100 }
   },
   {
@@ -59,7 +59,7 @@
     "id": "termites",
     "name": "termite tunnel",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_TERMITES", "population": [ 4, 6 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   }

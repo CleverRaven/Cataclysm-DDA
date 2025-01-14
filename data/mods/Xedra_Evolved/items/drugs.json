@@ -80,11 +80,7 @@
     "stack_size": 4,
     "symbol": "!",
     "color": "magenta",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Inject the treatment.",
-      "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
-    },
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ],
     "flags": [ "NPC_SAFE", "TRADER_AVOID" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -181,7 +177,7 @@
   {
     "id": "elemental_mana_draught",
     "name": { "str": "elemental mana draught" },
-    "description": "Converting",
+    "description": { "str": "Converting", "//~": "NO_I18N" },
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",

@@ -526,7 +526,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -537,7 +537,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "13 h 20 m",
+    "time": "9 h",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -545,11 +545,11 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "//": "basically 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1160,7 +1160,11 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ] ],
+    "tools": [
+      [ [ "hotcut_any", 1, "LIST" ], [ "drift", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -2308,16 +2312,10 @@
     "skills_required": [ "melee", 5 ],
     "time": "25 m",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "glue_strong", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [
-      [ [ "machete", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "filament_durable", 20, "LIST" ] ],
-      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
-      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
-    ]
+    "components": [ [ [ "machete", 1 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ] ]
   },
   {
     "result": "survivor_machete_qt",
@@ -2330,17 +2328,11 @@
     "skills_required": [ "melee", 5 ],
     "time": "4 h 48 m",
     "book_learn": [ [ "textbook_weapwest", 5 ], [ "welding_book", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ], [ "glue_strong", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -80 ], [ "water_clean", -80 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_quenching", "skill_penalty": 1 } ],
-    "components": [
-      [ [ "machete", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "filament_durable", 20, "LIST" ] ],
-      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
-      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
-    ]
+    "components": [ [ [ "machete", 1 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ] ]
   },
   {
     "type": "recipe",

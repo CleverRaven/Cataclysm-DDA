@@ -24,7 +24,7 @@ static const itype_id itype_candycigarette( "candycigarette" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_corpse( "corpse" );
-static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_diving_flashlight_small_hipower( "diving_flashlight_small_hipower" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_marble( "marble" );
 static const itype_id itype_meat_canned( "meat_canned" );
@@ -94,13 +94,13 @@ class unique_item
         }
         // Spawns this item in the given location on the map.
         // Returns true if item was spawned and false otherwise.
-        bool spawn_item( const tripoint &where ) {
+        bool spawn_item( const tripoint_bub_ms &where ) {
             instance = get_map().add_item( where, instance );
             CHECK_FALSE( get_uid().empty() );
             return !instance.is_null();
         }
         // Returns item instance of this unique item in the given location
-        item *find_on_ground( const tripoint &where ) const {
+        item *find_on_ground( const tripoint_bub_ms &where ) const {
             map_stack stack = get_map().i_at( where );
             item_stack::iterator found = std::find_if( stack.begin(), stack.end(), [this]( item & it ) {
                 return is_same_item( &it );
@@ -108,7 +108,7 @@ class unique_item
             return found != stack.end() ? &*found : &null_item_reference();
         }
         // Returns true if this item if found in the given map stack
-        bool is_on_ground( const tripoint &where ) const {
+        bool is_on_ground( const tripoint_bub_ms &where ) const {
             item *found = find_on_ground( where );
             return !found->is_null();
         }
@@ -154,7 +154,7 @@ static void add_autopickup_rules( const std::vector<unique_item *> &what, bool i
 }
 
 // Simulate character moving over a tile that contains items.
-static void simulate_auto_pickup( const tripoint &pos, avatar &they )
+static void simulate_auto_pickup( const tripoint_bub_ms &pos, avatar &they )
 {
     Pickup::autopickup( pos );
     process_activity( they );
@@ -199,8 +199,8 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -277,8 +277,8 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -287,7 +287,7 @@ TEST_CASE( "auto_pickup_should_improve_your_life", "[autopickup][item]" )
 
     // flashlight > light battery (WL)
     WHEN( "there is a powered tool on the ground loaded with a light battery whitelisted in auto-pickup rules" ) {
-        item item_flashlight = item( itype_flashlight );
+        item item_flashlight = item( itype_diving_flashlight_small_hipower );
         item *item_light_battery = &here.add_item( ground, item( itype_light_battery_cell ) );
         REQUIRE_FALSE( item_light_battery->is_null() );
 
@@ -318,8 +318,8 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -439,8 +439,8 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -505,7 +505,8 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
             expect_to_find( backpack, {} );
             CHECK( item_storage_battery.is_on_ground( ground ) );
             REQUIRE( !item_storage_battery.find_on_ground( ground )->all_items_top().empty() );
-            REQUIRE( item_storage_battery.find_on_ground( ground )->all_items_top().front()->charges == 10 );
+            REQUIRE( item_storage_battery.find_on_ground( ground )->all_items_top().front()->charges ==
+                     10 );
         }
     }
 }
@@ -516,8 +517,8 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
     auto backpack_iter = *they.wear_item( item( itype_backpack ) );
@@ -577,8 +578,8 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
     clear_everything();
 
     // this is where items will be picked up from
-    const tripoint ground = they.pos();
-    const map_cursor location = map_cursor( tripoint_bub_ms( ground ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const map_cursor location = map_cursor( ground );
 
     // wield body bag and store item reference
     they.set_wielded_item( item( itype_bag_body_bag ) );

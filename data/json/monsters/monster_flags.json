@@ -52,7 +52,7 @@
   {
     "id": "HARDTOSHOOT",
     "type": "monster_flag",
-    "//": "It's one size smaller for ranged attacks, no less then creature_size::tiny"
+    "//": "It's one size smaller for ranged attacks, no less than creature_size::tiny"
   },
   {
     "id": "GRABS",
@@ -308,11 +308,6 @@
     "id": "QUIETDEATH",
     "type": "monster_flag",
     "//": "Monster dies quietly and doesn't display a message."
-  },
-  {
-    "id": "VERMIN",
-    "type": "monster_flag",
-    "//": "Obsolete flag labeling \"nuisance\" or \"scenery\" monsters, now used to prevent loading the same"
   },
   {
     "id": "NOGIB",
@@ -585,6 +580,11 @@
     "//": "This monster can see everything within its vision range regardless of light or obstacles"
   },
   {
+    "id": "MIND_SEEING",
+    "type": "monster_flag",
+    "//": "This monster can see everything within 5 squares + its vision bonuses regardless of light or obstacles, unless that thing is undetectable to telepathy"
+  },
+  {
     "id": "NEVER_WANDER",
     "type": "monster_flag",
     "//": "This monster will never join wandering hordes"
@@ -638,5 +638,10 @@
     "id": "DRACULIN_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to Chiropteran saliva. Use for any creature with nonstandard blood (ie mi-go, insects, but probably not zombies or fungalized animals, unless they have acid blood or something)."
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage/detection"
   }
 ]

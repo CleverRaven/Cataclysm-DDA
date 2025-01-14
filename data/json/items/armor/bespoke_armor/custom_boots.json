@@ -9,7 +9,7 @@
     "volume": "2 L",
     "price": "240 USD",
     "price_postapoc": "50 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "nomex", "leather" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -80,7 +80,7 @@
     "volume": "2500 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "nomex", "leather", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -216,7 +216,7 @@
     "volume": "3500 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "leather", "nomex", "fur", "steel" ],
     "symbol": "[",
     "looks_like": "boots_fur",
@@ -290,7 +290,7 @@
     "volume": "1500 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
     "symbol": "[",
     "looks_like": "boots_bunker",
@@ -371,7 +371,6 @@
     "volume": "1200 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
     "symbol": "[",
     "looks_like": "boots_h20survivor",
@@ -422,8 +421,7 @@
         "description": "mounting for a pair of custom fins.",
         "flag_restriction": [ "BOOT_FINS_CUSTOM" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "xl_boots_h20survivor_light",
@@ -451,7 +449,7 @@
     "volume": "1500 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
     "symbol": "[",
     "looks_like": "boots_h20survivor",

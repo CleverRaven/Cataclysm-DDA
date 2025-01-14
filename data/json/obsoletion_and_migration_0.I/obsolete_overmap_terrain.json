@@ -39,7 +39,10 @@
       "bunker_shop_b_south": "solid_earth",
       "bunker_shop_b_east": "solid_earth",
       "bunker_shop_b_west": "solid_earth",
-      "megastore_parking": "omt_obsolete"
+      "megastore_parking_north": "s_lot_no_sidewalk_north",
+      "megastore_parking_east": "s_lot_no_sidewalk_east",
+      "megastore_parking_south": "s_lot_no_sidewalk_south",
+      "megastore_parking_west": "s_lot_no_sidewalk_west"
     }
   },
   {
@@ -127,6 +130,16 @@
       "trailerparksmall2_roof_west": "omt_obsolete",
       "trailerparksmall2_south": "omt_obsolete",
       "trailerparksmall2_west": "omt_obsolete"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "full_basic_lab_roof_north": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_east": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_south": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_west": "full_mutagen_lab_roof"
     }
   },
   {
@@ -257,6 +270,17 @@
       "farm_lot_wire_turn_v_open_east": "farmland_straight_east",
       "farm_lot_wire_turn_v_open_south": "farmland_straight_south",
       "farm_lot_wire_turn_v_open_west": "farmland_straight_west"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "rock": "empty_rock",
+      "slimepit_top": "slimepit_z0_north",
+      "slimepit_bottom": "slimepit_z-1_north",
+      "slimepit": "slimepit_z-2_north",
+      "slimepit_down": "slimepit_z0_north"
     }
   }
 ]

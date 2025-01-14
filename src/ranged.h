@@ -26,7 +26,7 @@ constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
 namespace target_handler
 {
 // Trajectory to target. Empty if selection was aborted or player ran out of moves
-using trajectory = std::vector<tripoint>;
+using trajectory = std::vector<tripoint_bub_ms>;
 
 /** Generic target select without fire something */
 trajectory mode_select_only( avatar &you, int range );
@@ -75,10 +75,10 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 int throw_cost( const Character &c, const item &to_throw );
 
 // check for steadiness for a given pos
-double calc_steadiness( const Character &you, const item &weapon, const tripoint &pos,
+double calc_steadiness( const Character &you, const item &weapon, const tripoint_bub_ms &pos,
                         double predicted_recoil );
 
-double calculate_aim_cap( const Character &you, const tripoint &target );
+double calculate_aim_cap( const Character &you, const tripoint_bub_ms &target );
 
 double occupied_tile_fraction( creature_size target_size );
 
@@ -89,7 +89,7 @@ struct Target_attributes {
     float light = 0.0f;
     bool visible = true;
     explicit Target_attributes() = default;
-    explicit Target_attributes( tripoint src, tripoint target );
+    explicit Target_attributes( tripoint_bub_ms src, tripoint_bub_ms target );
     explicit Target_attributes( int rng, double size, float l, bool can_see );
 };
 

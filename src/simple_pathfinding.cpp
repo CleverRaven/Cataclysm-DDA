@@ -134,25 +134,33 @@ namespace
 const tripoint &direction_to_tripoint( direction dir )
 {
     switch( dir ) {
+        case direction::NORTHEAST:
+            return tripoint::north_east;
         case direction::EAST:
-            return tripoint_east;
+            return tripoint::east;
+        case direction::SOUTHEAST:
+            return tripoint::south_east;
         case direction::SOUTH:
-            return tripoint_south;
+            return tripoint::south;
+        case direction::SOUTHWEST:
+            return tripoint::south_west;
         case direction::WEST:
-            return tripoint_west;
+            return tripoint::west;
+        case direction::NORTHWEST:
+            return tripoint::north_west;
         case direction::NORTH:
-            return tripoint_north;
+            return tripoint::north;
         case direction::ABOVECENTER:
-            return tripoint_above;
+            return tripoint::above;
         case direction::BELOWCENTER:
-            return tripoint_below;
+            return tripoint::below;
         default:
             debugmsg( "Unexpected direction: %d", static_cast<int>( dir ) );
-            return tripoint_zero;
+            return tripoint::zero;
     }
 }
 
-bool is_horizontal( direction dir )
+bool is_cardinal( direction dir )
 {
     switch( dir ) {
         case direction::EAST:
@@ -233,20 +241,41 @@ struct navigation_node {
     }
 };
 
-const std::vector<direction> &enumerate_directions( bool allow_z_change )
+const std::vector<direction> &enumerate_directions( bool allow_z_change, bool allow_diagonal )
 {
-    static const std::vector<direction> cardinal_dirs = {direction::EAST, direction::SOUTH, direction::WEST, direction::NORTH};
-    static const std::vector<direction> all_dirs = [&]() {
+    static const std::vector<direction> cardinal_dirs = { direction::EAST, direction::SOUTH, direction::WEST, direction::NORTH };
+    static const std::vector<direction> vertical_dirs = { direction::ABOVECENTER, direction::BELOWCENTER };
+    static const std::vector<direction> diagonal_dirs = { direction::NORTHEAST, direction::SOUTHEAST, direction::SOUTHWEST, direction::NORTHWEST };
+    static const std::vector<direction> horizontal_dirs = [&]() {
         std::vector<direction> ret = cardinal_dirs;
-        ret.push_back( direction::ABOVECENTER );
-        ret.push_back( direction::BELOWCENTER );
+        ret.insert( ret.end(), diagonal_dirs.begin(), diagonal_dirs.end() );
+        return ret;
+    }
+    ();
+    static const std::vector<direction> orthogonal_dirs = [&]() {
+        std::vector<direction> ret = cardinal_dirs;
+        ret.insert( ret.end(), vertical_dirs.begin(), vertical_dirs.end() );
+        return ret;
+    }
+    ();
+    static const std::vector<direction> all_dirs = [&]() {
+        std::vector<direction> ret = horizontal_dirs;
+        ret.insert( ret.end(), vertical_dirs.begin(), vertical_dirs.end() );
         return ret;
     }
     ();
     if( allow_z_change ) {
-        return all_dirs;
+        if( allow_diagonal ) {
+            return all_dirs;
+        } else {
+            return orthogonal_dirs;
+        }
     } else {
-        return cardinal_dirs;
+        if( allow_diagonal ) {
+            return horizontal_dirs;
+        } else {
+            return cardinal_dirs;
+        }
     }
 }
 
@@ -255,16 +284,118 @@ direction reverse_direction( direction dir )
     return direction_from( -direction_to_tripoint( dir ) );
 }
 
-int adjust_omt_cost( int base_cost, direction dir_in, direction dir_out )
+// rounded
+constexpr int cost_half( const int base_cost )
 {
-    // Adjust cost for 90-degree turns. We travel from the midpoint of one edge
-    // to the midpoint of an adjacent edge in a square, which is a diagonal
-    // line with length = sqrt(2) / 2 for a unit square.
-    if( dir_in != dir_out && is_horizontal( dir_in ) && is_horizontal( dir_out ) ) {
-        // Note: sqrt(2) is approximately equal to 99 / 70.
-        return base_cost * 99 / 140;
+    return ( base_cost + 1 ) / 2;
+}
+
+// rounded
+constexpr int cost_z( const int base_cost )
+{
+    // assumes Z travel is 1/6 the cost of horizontal travel
+    return ( base_cost + 3 ) / 6;
+}
+
+// rounded
+constexpr int cost_z_half( const int base_cost )
+{
+    // assumes Z travel is 1/6 the cost of horizontal travel
+    return ( base_cost + 6 ) / 12;
+}
+
+// rounded
+constexpr int cost_diagonal( const int base_cost )
+{
+    // sqrt(2) ~= 99 / 70
+    return ( base_cost * 99 + 35 ) / 70;
+}
+
+// rounded
+constexpr int cost_diagonal_half( const int base_cost )
+{
+    // sqrt(2) ~= 99 / 70
+    return ( base_cost * 99 + 70 ) / 140;
+}
+
+// Calculate the cost to cross an OMT based on entry and exit directions
+// TODO: memoize the results
+int omt_cost_to_cross( int base_cost, direction dir_in, direction dir_out )
+{
+
+    // Assumptions:
+    // dir_out != CENTER, although that is conceptually valid
+    // dir_in != dir_out, which the pathfinder should prevent
+
+    if( dir_in == direction::CENTER || dir_in == direction::ABOVECENTER ||
+        dir_in == direction::BELOWCENTER || dir_out == direction::ABOVECENTER ||
+        dir_out == direction::BELOWCENTER ) {
+        // some Z travel involved
+        if( ( dir_in == direction::CENTER || dir_in == direction::ABOVECENTER ||
+              dir_in == direction::BELOWCENTER ) && ( dir_out == direction::ABOVECENTER ||
+                      dir_out == direction::BELOWCENTER ) ) {
+            if( dir_in == direction::CENTER ) {
+                // center to vertical
+                return cost_z_half( base_cost );
+            }
+            // vertical to vertical
+            return cost_z( base_cost );
+        }
+        if( dir_in == direction::ABOVECENTER || dir_in == direction::BELOWCENTER ) {
+            if( is_cardinal( dir_out ) ) {
+                // vertical to edge
+                return cost_z_half( base_cost ) + cost_half( base_cost );
+            }
+            // vertical to corner
+            return cost_z_half( base_cost ) + cost_diagonal_half( base_cost );
+        }
+        if( dir_out == direction::ABOVECENTER || dir_out == direction::BELOWCENTER ) {
+            if( is_cardinal( dir_in ) ) {
+                // edge to vertical
+                return cost_half( base_cost ) + cost_z_half( base_cost );
+            }
+            // corner to vertical
+            return cost_diagonal_half( base_cost ) + cost_z_half( base_cost );
+        }
+        if( is_cardinal( dir_out ) ) {
+            // center to edge
+            return cost_half( base_cost );
+        }
+        // center to corner
+        return cost_diagonal_half( base_cost );
     }
-    return base_cost;
+    // this crossing does not start or end at the center or vertical
+    if( is_cardinal( dir_in ) && is_cardinal( dir_out ) ) {
+        if( dir_in == reverse_direction( dir_out ) ) {
+            return base_cost; // directly across
+        }
+        // edge to adjacent edge
+        return cost_diagonal_half( base_cost );
+    }
+    if( dir_in == reverse_direction( dir_out ) ) {
+        return cost_diagonal( base_cost ); // directly across diagonally
+    }
+    if( !is_cardinal( dir_in ) && !is_cardinal( dir_out ) ) {
+        return base_cost; // corner to adjacent corner
+    }
+    // One of two remaining cases is travel between an edge and an adjacent
+    // corner. The cost for that case would be base_cost / 2.
+    // However, the pathfinder won't ever choose it. An orthogonal move from
+    // the previous node would be shorter. So it's safe to over-estimate the
+    // cost for that case.
+    // This logic should be updated if the pathfinder is ever updated with any
+    // possibility to avoid travel between otherwise-navigable tiles.
+    // This is forunate, because there's no cheap way to distinguish that case
+    // from the final case, travel between an edge and a far corner.
+    // This would be sqrt5 / 2 with trig_dist, but octile_dist is appropriate
+    // for character movement, which means half straight and half diagonal.
+    return cost_half( base_cost ) + cost_diagonal_half( base_cost );
+    // This is the expensive alternative that can handle both of the final two
+    // cases. Actually any non-vertical-travel case, but we do the logic tree
+    // above to avoid needing to do the conversions and math required here.
+    // It requires direction_to_point similar to direction_to_tripoint
+    // return base_cost * octile_dist_exact( direction_to_point( dir_in ), direction_to_point( dir_out ) ) / 2;
+
 }
 
 } // namespace
@@ -276,7 +407,8 @@ omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cos
 
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, const omt_scoring_fn &scorer,
-        const std::function<void( size_t, size_t )> &progress_fn, const std::optional<int> &max_cost )
+        const std::function<void( size_t, size_t )> &progress_fn, const std::optional<int> &max_cost,
+        bool allow_diagonal )
 {
     cata_assert( progress_fn != nullptr );
     simple_path<tripoint_abs_omt> ret;
@@ -287,8 +419,8 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     }
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
     std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> open_set;
-    const node_address start( tripoint_zero );
-    known_nodes.emplace( start, navigation_node{0, 0, -1, start_score.allow_z_change} );
+    const node_address start( tripoint::zero );
+    known_nodes.emplace( start, navigation_node{0, static_cast<int16_t>( start_score.node_cost ), static_cast<int8_t>( direction::CENTER ), start_score.allow_z_change} );
     open_set.push( scored_address{ start, 0 } );
     const point_abs_omt source_point = source.xy();
     constexpr int max_search_count = 100000;
@@ -308,25 +440,39 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
             }
         }
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
+        const navigation_node &cur_node = known_nodes.at( cur_addr );
         if( cur_point == dest ) {
+            ret.dist = omt_cost_to_cross( 24, direction::CENTER, cur_node.get_prev_dir() );
             node_address addr = cur_addr;
+            const navigation_node *next_node = nullptr;
             while( !( addr == start ) ) {
                 const navigation_node &node = known_nodes.at( addr );
+                if( next_node != nullptr ) {
+                    ret.dist += omt_cost_to_cross( 24, node.get_prev_dir(),
+                                                   reverse_direction( next_node->get_prev_dir() ) );
+                }
+                next_node = &node;
                 ret.points.emplace_back( addr.to_tripoint( source ) );
                 addr = addr.displace( node.get_prev_dir() );
             }
             ret.points.emplace_back( addr.to_tripoint( source ) );
+            if( next_node != nullptr ) {
+                ret.dist += omt_cost_to_cross( 24, direction::CENTER,
+                                               next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
+            }
+            // total path cost is the cost to reach an edge of the final node plus the cost to reach the center of that node
+            ret.cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost, direction::CENTER,
+                       cur_node.get_prev_dir() );
             return ret;
         }
-        const navigation_node &cur_node = known_nodes.at( cur_addr );
-        for( direction dir : enumerate_directions( cur_node.allow_z_change ) ) {
+        for( direction dir : enumerate_directions( cur_node.allow_z_change, allow_diagonal ) ) {
             if( dir == cur_node.prev_dir ) {
                 continue; // don't go back the way we just came
             }
             const direction rev_dir = reverse_direction( dir );
             const node_address next_addr = cur_addr.displace( dir );
-            const int cumulative_cost = cur_node.cumulative_cost + adjust_omt_cost( cur_node.node_cost, rev_dir,
-                                        cur_node.get_prev_dir() );
+            const int cumulative_cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost,
+                                        cur_node.get_prev_dir(), dir );
             auto iter = known_nodes.find( next_addr );
             if( iter != known_nodes.end() ) {
                 navigation_node &next_node = iter->second;
@@ -344,9 +490,10 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
                     // TODO: add to closed set to avoid re-visiting
                     continue;
                 }
-                // TODO: pass in the 10 (default terrain cost)
-                const int xy_score = octile_dist( next_point.xy(), dest.xy(), 10 );
-                const int z_score = std::abs( next_point.z() - dest.z() ) * 10;
+                // TODO: pass in the 24 (default terrain cost)
+                const int xy_score = octile_dist( next_point.xy(), dest.xy(), 24 );
+                const int z_score = std::abs( next_point.z() - dest.z() ) *
+                                    4; // Z travel is much faster than X/Y travel
                 const int estimated_total_cost = cumulative_cost + next_score.node_cost + xy_score + z_score;
                 if( max_cost && estimated_total_cost > *max_cost ) {
                     continue;

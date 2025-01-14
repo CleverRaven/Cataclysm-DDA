@@ -3,8 +3,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_Gavin",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ],
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
       "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
     },
@@ -12,7 +11,7 @@
       {
         "text": "Who are you?  This is a refugee center, right?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } },
         "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
@@ -21,7 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
-            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
           ]
         },
         "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
@@ -29,23 +28,27 @@
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] } }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
       },
       {
         "text": "Let's trade.",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
-        "effect": "start_trade"
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Gavin" } ] }
       }
     ]
   },
@@ -53,11 +56,20 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
     "type": "talk_topic",
     "dynamic_line": [ "Hope it helps.", "Give me second to write that down… okay, done.", "You know where to find me." ],
+    "speaker_effect": [ { "effect": "distribute_food_auto" } ],
     "responses": [
       { "text": "About other things…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
       { "text": "When will you have new stuff in stock?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskedRestock" },
-      { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -68,8 +80,8 @@
       "Stick around for <interval>, there will surely be something you'd like."
     ],
     "responses": [
-      { "text": "Actually, I wanted to ask…", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-      { "text": "Thanks, I will make sure to check back.  Farewell.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
+      { "text": "Thanks, I will make sure to check back.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -94,8 +106,16 @@
     ],
     "responses": [
       { "text": "Got some time to talk?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
-      { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
+      { "text": "I just wanted to look around.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -113,7 +133,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
@@ -134,15 +154,15 @@
       { "text": "You mentioned you were selling hardware?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware" },
       {
         "text": "What's with these people in the lobby?  Are they with you?",
-        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars"
       },
       {
         "text": "I took care of your beggar problem.",
         "condition": {
           "and": [
-            { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
-            { "npc_has_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
+            { "compare_string": [ "yes", { "npc_val": "general_recruit_beggars_reward_agreed" } ] }
           ]
         },
         "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
@@ -162,7 +182,15 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld"
       },
       { "text": "I'm looking for work.  Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's trade.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading", "effect": "start_trade" },
+      {
+        "text": "Let's trade.",
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
+      },
       {
         "text": "Are you interested in buying any processed lumber?",
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
@@ -177,13 +205,7 @@
         "text": "Are you interested in any chemical supplies?",
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
         "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
-      },
-      {
-        "text": "Are you interested in any household goods?",
-        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
-        "condition": { "u_has_mission": "MISSION_VALHALLISTS_SET_TRADE_ROUTE" }
-      },
-      { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
+      }
     ]
   },
   {
@@ -199,7 +221,7 @@
       {
         "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
+        "condition": { "math": [ "u_skill('speech') >= 1" ] },
         "effect": { "npc_add_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
@@ -232,6 +254,34 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
     "type": "talk_topic",
+    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
+    "responses": [
+      {
+        "text": "I'll see what I can do.  What's merch?",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_merch" } ] } }
+      },
+      { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited",
+    "type": "talk_topic",
+    "dynamic_line": "I appreciate it a lot, getting them somewhere safe.  I hope that's what you did, anyway.  In any case, having the lobby clear is a big help.  Even with the uh, cardboard guy still around, he's a lot easier to handle alone.",
+    "speaker_effect": {
+      "effect": [
+        { "mapgen_update": "shopkeep_lobby_cleanup1", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "shopkeep_lobby_cleanup2", "om_terrain": "evac_center_18" }
+      ]
+    },
+    "responses": [
+      { "text": "I do believe we discussed a reward?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward" },
+      { "text": "Just glad to help.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward",
+    "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
         "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
@@ -242,28 +292,6 @@
         }
       ]
     },
-    "responses": [
-      {
-        "text": "I'll see what I can do.  What's merch?",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_merch", "value": "yes" } }
-      },
-      { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
-    ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited",
-    "type": "talk_topic",
-    "dynamic_line": "I appreciate it a lot, getting them somewhere safe.  I hope that's what you did, anyway.  In any case, having the lobby clear is a big help.  Even with the uh, cardboard guy still around, he's a lot easier to handle alone.",
-    "responses": [
-      { "text": "I do believe we discussed a reward?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward" },
-      { "text": "Just glad to help.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
-    ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward",
-    "type": "talk_topic",
-    "dynamic_line": "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it.",
     "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
     "responses": [ { "text": "Thank you!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
   },
@@ -280,22 +308,12 @@
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
-        "condition": {
-          "and": [
-            { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" } }
-          ]
-        }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] } }
       },
       {
         "text": "Are there any other settlements around?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
-        "condition": {
-          "or": [
-            { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" },
-            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" }
-          ]
-        }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_hub01_breadcrumb_accepted" } ] }
       },
       { "text": "That's fine for now.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -308,13 +326,17 @@
       {
         "text": "Wait, basement?  I didn't know this place had a basement.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       {
         "text": "Mind if I take a look at your stock?",
-        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "effect": "start_trade"
+        "trial": {
+          "type": "CONDITION",
+          "condition": { "math": [ "faction_food_supply('free_merchants', 'vitamin':'human_flesh_vitamin')", "<", "1" ] }
+        },
+        "success": { "effect": "start_trade", "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading" },
+        "failure": { "topic": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO" }
       },
       { "text": "Radios?  That seems awfully specific.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware1" },
       { "text": "Good to know.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
@@ -333,11 +355,22 @@
       {
         "text": "I don't see that many of you around.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_free_merchants_u_knows_about_basement" } ] } },
         "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_CANNIBAL_GTFO",
+    "type": "talk_topic",
+    "dynamic_line": "Listen, buddy.  We were putting away some of the last food you gave us and noticed it was… off.  Okay I'll cut the shit- It was people.  I don't know how you got it, or what you did, but we aren't taking any chances.  You are not welcome here anymore.  <color_red>I'll give you one minute</color> to fuck off and never come back.",
+    "speaker_effect": [
+      {
+        "effect": [ "end_conversation", { "run_eocs": [ "EOC_GAVE_BEGGAR_CANNIBAL_PROOF" ], "time_in_future": "1 minutes" } ]
+      }
+    ],
+    "responses": [ { "text": "But I-", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE",
@@ -364,26 +397,13 @@
     ]
   },
   {
-    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
-    "type": "talk_topic",
-    "dynamic_line": "We are running a bit short on toilet paper, soap, toothpaste…  What's the offer?",
-    "responses": [
-      {
-        "text": "Well, how about 200 merch for 75 pounds of…",
-        "effect": { "u_spawn_item": "trade_writ" },
-        "topic": "TALK_DONE"
-      }
-    ]
-  },
-  {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
     "dynamic_line": {
       "concatenate": [
         "&You describe the warehouse to the best of your ability.  Smokes listens",
         {
-          "npc_has_var": "exodii_mission_wh_correct",
-          "value": "no",
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
           "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
           "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
         }
@@ -395,12 +415,24 @@
         "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup1",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 22, "x2": 18, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup2",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 0, "x2": 18, "y2": 2 } ] }
   }
 ]

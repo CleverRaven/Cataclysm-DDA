@@ -44,6 +44,11 @@ void nutrients::max_in_place( const nutrients &r )
     }
 }
 
+void nutrients::clear_vitamins()
+{
+    vitamins_.clear();
+}
+
 std::map<vitamin_id, int> nutrients::vitamins() const
 {
     if( !finalized ) {
@@ -211,8 +216,12 @@ nutrients &nutrients::operator*=( double r )
     calories *= r;
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
-        // Note well: This truncates the result!
-        here = static_cast<int>( std::get<int>( here ) * r );
+        cata_assert( std::get<int>( here ) >= 0 );
+        if( std::get<int>( here ) == 0 ) {
+            continue;
+        }
+        // truncates, but always keep at least 1 (for e.g. allergies)
+        here = std::max( static_cast<int>( std::get<int>( here ) * r ), 1 );
     }
     return *this;
 }
@@ -316,8 +325,8 @@ void stomach_contents::deserialize( const JsonObject &jo )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
-            max_volume );
+    return std::max( 250_ml, owner.enchantment_cache->modify_value(
+                         enchant_vals::mod::STOMACH_SIZE_MULTIPLIER, max_volume ) );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const

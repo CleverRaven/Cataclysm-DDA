@@ -66,6 +66,8 @@ UNIT_UNITS = {
 GUNS_BLACKLIST = {
     # Well named, faction-specific weapon, with weird ammo
     "brogyeki",
+    "exodii_plasma_fan",
+    "exodii_plasma_projectile",
 }
 AMMO_BLACKLIST = {
     "arrow",
@@ -79,6 +81,7 @@ AMMO_BLACKLIST = {
 }
 VARIANT_CHECK_BLACKLIST = {
     "pamd68rubik",
+
 }
 VARIANT_CHECK_PAIR_BLACKLIST = {
     # FIXME: fix and remove these
@@ -102,27 +105,16 @@ IDENTIFIER_CHECK_BLACKLIST = {
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "1895sbl",
-    "bfr",
-    "sharps",
     "fn_p90",
     "hk_mp7",
     "obrez",
     "pressin",
-    "m1911-460",
     "m2010",
     "weatherby_5",
     "win70",
-    "2_shot_special",
-    "model_10_revolver",
     "mr73",
-    "ruger_lcr_38",
-    "sw_619",
-    "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
-    "bond_410",
-    "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
@@ -134,7 +126,6 @@ NAME_CHECK_BLACKLIST = {
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "colt_army",
     "atgm_launcher",
     "xedra_gun",
     "90two40",
@@ -147,11 +138,10 @@ NAME_CHECK_BLACKLIST = {
     "AT4",
     "af2011a1_38super",
     "m1911a1_38super",
-    "colt_navy",
     "plasma_gun",
     "bbgun",
-    "LAW",
 }
+# Stripped from gun/mag names before checking for an identifier
 BAD_IDENTIFIERS = [
     "10mm",
     ".22",
@@ -168,9 +158,25 @@ BAD_IDENTIFIERS = [
     "9x19mm",
     "-round",
     "magazine",
+    "pistol",
     "stripper",
     "speedloader",
 ]
+# Common tokens that will be rejected
+BAD_COMMON_TOKENS = {
+    "rifle",
+    "carbine",
+    "pistol",
+    "ing"
+}
+# Common tokens that are permitted to be below length reqs
+SHORT_COMMON_TOKENS = {
+    "AI",  # Abbreviation of gun manufacturer
+    "AK",  # Common name for a gun family
+    "FN",  # Common name for a manufacturer
+    "G3",  # Common name for a certain gun
+    "M9",  # Common name for a certain gun
+}
 TYPE_DESCRIPTORS = [
     "automagnum",
     "blunderbuss",
@@ -178,6 +184,7 @@ TYPE_DESCRIPTORS = [
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",
+    "derringer",
     "flamethrower",
     "flintlock",
     # Special faction-specific invented weapons get a pass
@@ -204,6 +211,10 @@ TYPE_DESCRIPTORS = [
     "SMG",
     "submachine gun",
     "trenchgun",
+]
+DUPE_CHECK_BLACKLIST = [
+    # No magazines, and very similar tube-fed rifles with slightly diff barrels
+    {"rio_bravo", "henry_golden_boy"},
 ]
 
 """
@@ -601,11 +612,12 @@ def common_token(names):
     # Assume the longest common substring will be the "identifier"
     # leading/trailing whitespace isn't meaningful in identifiers
     common_token = longest_common_substring(names).strip()
-    # It can't be a meaningful identifier if it's 1 character long
-    if len(common_token) < 2:
+    # It can't be a meaningful identifier if it's 1-2 characters long
+    # Some exceptions (e.g. AK, G3)
+    if len(common_token) < 3 and common_token not in SHORT_COMMON_TOKENS:
         return None
     # Some common identifiers that don't work
-    if common_token in {"11", "to", "if", "ip", "rifle", "carbine"}:
+    if common_token in BAD_COMMON_TOKENS:
         return None
     return common_token
 
@@ -692,7 +704,24 @@ CHECK 4: No dupes!
 """
 
 
+def remove_blacklisted_dupes(guns):
+    if len(guns) == 1:
+        return guns
+    guns_set = set(map(lambda gun: gun["id"], guns))
+    for blacklist_set in DUPE_CHECK_BLACKLIST:
+        all_match = True
+        for gun in blacklist_set:
+            if gun not in guns_set:
+                print(gun, "not in", guns_set)
+                all_match = False
+                break
+        if all_match:
+            guns = list(filter(lambda g: g["id"] not in blacklist_set, guns))
+    return guns
+
+
 def find_dupe_names(all_guns):
+    error = False
     all_names = {}
     for gun in all_guns:
         name = name_of(gun) + str(sorted(gun["ammo"]))
@@ -701,12 +730,15 @@ def find_dupe_names(all_guns):
         else:
             all_names[name] = [gun]
     for key, value in all_names.items():
-        if len(value) == 1:
+        value = remove_blacklisted_dupes(value)
+        if len(value) < 2:
             continue
         out = "ERROR: Guns have the same name and ammo (" + key + "):"
+        error = True
         for gun in value:
             out += " (" + gun["id"] + "),"
         print(out)
+    return error
 
 
 """
@@ -769,7 +801,7 @@ def check_identifiers(all_guns):
             good_tokens = [[]]
             idx = 0
             len_so_far = 0
-            for token in good_token_list:
+            for token in sorted(good_token_list):
                 guns_str = string_listify(good_token_list[token], " ")
                 good_tokens[idx].append(f"{token} ({guns_str})")
                 len_so_far += len(good_tokens[idx][-1])
@@ -791,9 +823,9 @@ def check_names(all_guns):
     for bad in bad_names:
         print("ERROR: Gun %s (%s) lacks a descriptive name" % (bad[1], bad[0]))
 
-    find_dupe_names(all_guns)
+    dupes = find_dupe_names(all_guns)
 
-    return len(bad_names) > 0
+    return len(bad_names) > 0 or dupes
 
 
 csv = True

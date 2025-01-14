@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_exodii_mission_wh_directions_chance",
-    "//": "to be called by NPCs as a way to assess if they have the right directions to the exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
+    "//": "to be called by NPCs as a way to assess if they have the right directions to the Exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
     "condition": { "one_in_chance": { "global_val": "exodii_mission_wh_chance" } },
     "effect": [ { "npc_add_var": "exodii_mission_wh_correct", "value": "yes" } ],
     "false_effect": [
@@ -29,15 +29,15 @@
       {
         "text": "Can you give me directions?",
         "topic": "TALK_Directions_exodii_true",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "exodii_mission_wh_correct" } ] }
       },
       {
         "text": "Can you give me directions?",
         "topic": "TALK_Directions_exodii_false",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "condition": { "compare_string": [ "alternate", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -45,7 +45,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_true",
-    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "//": "For Exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": [
       {
         "concatenate": [
@@ -65,7 +65,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_false",
-    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
+    "//": "For Exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": [
       {
         "concatenate": [
@@ -107,9 +107,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2, "search_range": 1000 }
-    },
+    "start": { "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",
@@ -132,12 +130,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_special": "Out-of-place Stone Barn",
-        "om_terrain": "exo_safehouse_stone_0",
-        "reveal_radius": 2,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_special": "Out-of-place Stone Barn", "om_terrain": "exo_safehouse_stone_0", "reveal_radius": 2 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -161,7 +154,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Mi-Go Scout Tower", "om_terrain": "mi-go_scout_tower_3", "reveal_radius": 2, "search_range": 1000 }
+      "assign_mission_target": { "om_special": "Mi-Go Scout Tower", "om_terrain": "mi-go_scout_tower_3", "reveal_radius": 2 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -184,9 +177,7 @@
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_special": "desolate barn", "om_terrain": "desolatebarn", "reveal_radius": 2, "search_range": 1000 }
-    },
+    "start": { "assign_mission_target": { "om_special": "desolate barn", "om_terrain": "desolatebarn", "reveal_radius": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": ".",

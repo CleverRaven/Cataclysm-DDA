@@ -1044,7 +1044,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AMPUTEE_RESET",
-    "condition": { "not": { "u_has_var": "traits_limbs_amputee_reset", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "traits_limbs_amputee_reset" } ] } },
     "effect": [
       {
         "u_message": "Resetting character to non-amputated state.  To continue this game unaltered with the WIP limb system exit the game without saving and add WIP Limb Stuff to this world before reloading.",

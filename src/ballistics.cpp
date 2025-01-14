@@ -55,14 +55,13 @@ static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
 static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
-
-static const efftype_id effect_bounced( "bounced" );
+static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
 static const itype_id itype_glass_shard( "glass_shard" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
-static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
+static void drop_or_embed_projectile( const dealt_projectile_attack &attack, projectile &proj_arg )
 {
     const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
@@ -71,7 +70,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    const tripoint &pt = attack.end_point;
+    const tripoint_bub_ms &pt = tripoint_bub_ms( attack.end_point );
 
     if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
@@ -94,7 +93,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                        drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
 
         for( int i = 0; i < nb_of_dropped_shard; ++i ) {
-            item shard( "glass_shard" );
+            item shard( itype_glass_shard );
             //actual dropping of shards
             get_map().add_item_or_charges( pt, shard );
         }
@@ -140,6 +139,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
+        if( proj_arg.proj_effects.count( ammo_effect_BOUNCE ) ) {
+            proj_arg.proj_effects.erase( ammo_effect_BOUNCE );
+        }
         mon->add_item( dropped_item );
         add_msg_if_player_sees( pt, _( "The %1$s embeds in %2$s!" ),
                                 dropped_item.tname(), mon->disp_name() );
@@ -202,6 +204,8 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
     aim.dispersion = dispersion.roll();
+    add_msg_debug( debugmode::DF_BALLISTIC, "Dispersion rolled / max : %f / %f; %f / %f degrees",
+                   aim.dispersion, dispersion.max(), aim.dispersion / 60.0, dispersion.max() / 60.0 );
 
     // an isosceles triangle is formed by the intended and actual target tiles
     aim.missed_by_tiles = iso_tangent( range, units::from_arcmin( aim.dispersion ) );
@@ -217,9 +221,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     return aim;
 }
 
-dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, const dispersion_sources &dispersion, Creature *origin,
-        const vehicle *in_veh, const weakpoint_attack &wp_attack, bool first )
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
+                        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
+                        const weakpoint_attack &wp_attack, bool first )
 {
     const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
 
@@ -228,9 +233,18 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     creature_tracker &creatures = get_creature_tracker();
     Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
-    double target_size = target_critter != nullptr ?
-                         target_critter->ranged_target_size() :
-                         here.ranged_target_size( target_arg );
+    double target_size;
+    if( target_critter != nullptr ) {
+        const monster *mon = target_critter->as_monster();
+        if( mon && proj_arg.proj_effects.count( ammo_effect_WIDE ) ) {
+            // ammo with ammo_effect_WIDE ignores mon_flag_HARDTOSHOOT
+            target_size = occupied_tile_fraction( mon->get_size() );
+        } else {
+            target_size = target_critter->ranged_target_size();
+        }
+    } else {
+        target_size = here.ranged_target_size( target_arg );
+    }
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
@@ -245,14 +259,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack attack {
-        proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
-    };
+    attack.proj = proj_arg;
+    attack.hit_critter = nullptr;
+    attack.dealt_dam = dealt_damage_instance();
+    attack.end_point = source;
+    attack.missed_by = aim.missed_by;
 
     // No suicidal shots
     if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
-        return attack;
+        return;
     }
 
     projectile &proj = attack.proj;
@@ -277,12 +293,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
-    tripoint target = target_arg;
-    std::vector<tripoint> trajectory;
+    tripoint_bub_ms target = target_arg;
+    std::vector<tripoint_bub_ms> trajectory;
     if( aim.missed_by_tiles >= 1.0 ) {
         // We missed enough to target a different tile
-        double dx = target_arg.x - source.x;
-        double dy = target_arg.y - source.y;
+        double dx = target_arg.x() - source.x();
+        double dy = target_arg.y() - source.y();
         units::angle rad = units::atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
@@ -297,12 +313,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = std::clamp( source.x + roll_remainder( new_range * cos( rad ) ), 0, MAPSIZE_X - 1 );
-        target.y = std::clamp( source.y + roll_remainder( new_range * sin( rad ) ), 0, MAPSIZE_Y - 1 );
+        target.x() = std::clamp( source.x() + roll_remainder( new_range * cos( rad ) ), 0, MAPSIZE_X - 1 );
+        target.y() = std::clamp( source.y() + roll_remainder( new_range * sin( rad ) ), 0, MAPSIZE_Y - 1 );
 
         if( target == source ) {
-            target.x = source.x + sgn( dx );
-            target.y = source.y + sgn( dy );
+            target.x() = source.x() + sgn( dx );
+            target.y() = source.y() + sgn( dy );
         }
 
         // Don't extend range further, miss here can mean hitting the ground near the target
@@ -320,14 +336,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     trajectory = here.find_clear_path( source, target );
 
     add_msg_debug( debugmode::DF_BALLISTIC,
-                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
-                   aim.missed_by_tiles, aim.missed_by,
-                   target_arg.x, target_arg.y, target_arg.z,
-                   target.x, target.y, target.z );
+                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %s/%s",
+                   aim.missed_by_tiles, aim.missed_by, target_arg.to_string_writable(),
+                   target.to_string_writable() );
 
     // Trace the trajectory, doing damage in order
-    tripoint &tp = attack.end_point;
-    tripoint prev_point = source;
+    tripoint_bub_ms &tp = attack.end_point;
+    tripoint_bub_ms prev_point = source;
 
     // Add the first point to the trajectory
     trajectory.insert( trajectory.begin(), source );
@@ -340,7 +355,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // TODO: Make it use a more distant point for more realistic extended lines
-        std::vector<tripoint> trajectory_extension = continue_line( trajectory,
+        std::vector<tripoint_bub_ms> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
@@ -361,14 +376,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         prev_point = tp;
         tp = trajectory[i];
 
-        if( tp.z != prev_point.z ) {
-            tripoint floor1 = prev_point;
-            tripoint floor2 = tp;
+        if( tp.z() != prev_point.z() ) {
+            tripoint_bub_ms floor1 = prev_point;
+            tripoint_bub_ms floor2 = tp;
 
-            if( floor1.z < floor2.z ) {
-                floor1.z++;
+            if( floor1.z() < floor2.z() ) {
+                floor1 += tripoint::above;
             } else {
-                floor2.z++;
+                floor2 += tripoint::above;
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
@@ -470,7 +485,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 if( blood_type ) {
                     const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                     if( bt_len > 0 ) {
-                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        const tripoint_bub_ms &dest = move_along_line( tp, trajectory, bt_len );
                         here.add_splatter_trail( blood_type, tp, dest );
                     }
                 }
@@ -519,40 +534,42 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( attack );
+    drop_or_embed_projectile( attack, proj );
 
-    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
+    int dealt_damage = attack.dealt_dam.total_damage();
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( null_source ? nullptr : origin, tp,
+                                      proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( ammo_effect_BOUNCE ) ) {
-        // Add effect so the shooter is not targeted itself.
-        if( origin && !origin->has_effect( effect_bounced ) ) {
-            origin->add_effect( effect_bounced, 1_turns );
-        }
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
+            if( &z == origin ) {
+                return false;
+            }
             // search for creatures in radius 4 around impact site
-            if( rl_dist( z.pos(), tp ) <= 4 &&
-                here.sees( z.pos(), tp, -1 ) ) {
+            if( rl_dist( z.pos_bub(), tp ) <= 4 &&
+                here.sees( z.pos_bub(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
-                if( !z.has_effect( effect_bounced ) ) {
-                    return true;
+                for( auto it : attack.targets_hit ) {
+                    if( &z == it.first ) {
+                        return false;
+                    }
                 }
+                return true;
             }
             return false;
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
+            attack.targets_hit[&z].first += 0;
             add_msg( _( "The attack bounced to %s!" ), z.get_name() );
-            z.add_effect( effect_bounced, 1_turns );
-            projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
+            projectile_attack( attack, proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                     sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
         }
     }
-
-    return attack;
 }

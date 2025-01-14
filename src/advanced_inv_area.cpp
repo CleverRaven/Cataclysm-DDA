@@ -9,7 +9,6 @@
 #include "avatar.h"
 #include "character.h"
 #include "character_attire.h"
-#include "coordinate_constants.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -135,6 +134,7 @@ void advanced_inv_area::init()
             desc[0] = here.has_graffiti_at( pos ) ?
                       here.graffiti_at( pos ) : here.name( pos );
         }
+        break;
         default:
             break;
     }
@@ -198,23 +198,23 @@ static tripoint_rel_ms aim_vector( aim_location id )
 {
     switch( id ) {
         case AIM_SOUTHWEST:
-            return tripoint_rel_ms_south_west;
+            return tripoint_rel_ms::south_west;
         case AIM_SOUTH:
-            return tripoint_rel_ms_south;
+            return tripoint_rel_ms::south;
         case AIM_SOUTHEAST:
-            return tripoint_rel_ms_south_east;
+            return tripoint_rel_ms::south_east;
         case AIM_WEST:
-            return tripoint_rel_ms_west;
+            return tripoint_rel_ms::west;
         case AIM_EAST:
-            return tripoint_rel_ms_east;
+            return tripoint_rel_ms::east;
         case AIM_NORTHWEST:
-            return tripoint_rel_ms_north_west;
+            return tripoint_rel_ms::north_west;
         case AIM_NORTH:
-            return tripoint_rel_ms_north;
+            return tripoint_rel_ms::north;
         case AIM_NORTHEAST:
-            return tripoint_rel_ms_north_east;
+            return tripoint_rel_ms::north_east;
         default:
-            return tripoint_rel_ms_zero;
+            return tripoint_rel_ms::zero;
     }
 }
 
@@ -246,7 +246,7 @@ aim_location advanced_inv_area::offset_to_location() const
         {AIM_WEST,          AIM_CENTER,     AIM_EAST},
         {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
     };
-    return loc_array[off.xy() + point_rel_ms_south_east];
+    return loc_array[off.xy() + point_rel_ms::south_east];
 }
 
 bool advanced_inv_area::can_store_in_vehicle() const

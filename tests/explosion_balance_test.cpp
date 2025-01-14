@@ -32,6 +32,8 @@ static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
 
 static const damage_type_id damage_bullet( "bullet" );
 
+static const itype_id itype_grenade_act( "grenade_act" );
+
 enum class outcome_type {
     Kill, Casualty
 };
@@ -48,7 +50,7 @@ static float get_damage_vs_target( const std::string &target_id )
 
     int damaging_hits = 0;
     int damage_taken = 0;
-    tripoint monster_position( 30, 30, 0 );
+    tripoint_bub_ms monster_position( 30, 30, 0 );
     clear_map_and_put_player_underground();
     int hits = 10000;
     for( int i = 0; i < hits; ++i ) {
@@ -66,7 +68,7 @@ static float get_damage_vs_target( const std::string &target_id )
     return static_cast<float>( damage_taken ) / static_cast<float>( damaging_hits );
 }
 
-static void check_lethality( const std::string &explosive_id, const int range, float lethality,
+static void check_lethality( const itype_id &explosive_id, const int range, float lethality,
                              float margin, outcome_type expected_outcome )
 {
     const epsilon_threshold target_lethality{ lethality, margin };
@@ -77,8 +79,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     std::stringstream survivor_stats;
     int total_hp = 0;
     clear_map_and_put_player_underground();
-    tripoint origin( 30, 30, 0 );
-    std::map<int, std::vector<tripoint>> circles;
+    tripoint_bub_ms origin( 30, 30, 0 );
+    std::map<int, std::vector<tripoint_bub_ms>> circles;
     circles[0] = { origin };
     circles[5] = {
         { 25, 28, 0 }, { 25, 29, 0 }, { 25, 30, 0 }, { 25, 31, 0 }, { 25, 32, 0 },
@@ -98,7 +100,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         clear_creatures();
         // Spawn some monsters in a circle.
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : circles[range] ) {
+        for( const tripoint_bub_ms &monster_position : circles[range] ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -117,7 +119,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         } );
         num_survivors += survivors.size();
         for( Creature *survivor : survivors ) {
-            survivor_stats << survivor->pos() << " " << survivor->get_hp() << ", ";
+            survivor_stats << survivor->pos_bub() << " " << survivor->get_hp() << ", ";
             bool wounded = survivor->get_hp() < survivor->get_hp_max() * 0.75;
             num_wounded += wounded ? 1 : 0;
             total_hp += survivor->get_hp();
@@ -135,7 +137,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         }
     } while( victims.uncertain_about( target_lethality ) );
     CAPTURE( margin );
-    INFO( explosive_id );
+    INFO( explosive_id.c_str() );
     item grenade( explosive_id );
     const explosion_data &ex = dynamic_cast<const explosion_iuse *>
                                ( grenade.type->countdown_action.get_actor_ptr() )->explosion;
@@ -173,21 +175,21 @@ static std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+static void check_vehicle_damage( const itype_id &explosive_id, const std::string &vehicle_id,
                                   const int range, const double damage_lower_bound, const double damage_upper_bound = 1.0 )
 {
     // Clear map
     clear_map_and_put_player_underground();
-    tripoint origin( 30, 30, 0 );
+    tripoint_bub_ms origin( 30, 30, 0 );
 
     vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
                               -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( get_map().veh_at( origin ) ) {
-        origin.x++;
+        origin.x()++;
     }
-    origin.x += range;
+    origin.x() += range;
 
     // Set off an explosion
     item grenade( explosive_id );
@@ -236,9 +238,9 @@ TEST_CASE( "grenade_lethality_scaling_with_size", "[grenade],[explosion],[balanc
 
 TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
 {
-    check_lethality( "grenade_act", 0, 0.99, 0.06, outcome_type::Kill );
-    check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
-    check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
+    check_lethality( itype_grenade_act, 0, 0.99, 0.06, outcome_type::Kill );
+    check_lethality( itype_grenade_act, 5, 0.95, 0.06, outcome_type::Kill );
+    check_lethality( itype_grenade_act, 15, 0.40, 0.06, outcome_type::Casualty );
 }
 
 TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
@@ -258,9 +260,9 @@ TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
      * heavy duty frames.
      */
     for( size_t i = 0; i <= 20 ; ++i ) {
-        check_vehicle_damage( "grenade_act", "car", 5, 0.998 );
-        check_vehicle_damage( "grenade_act", "motorcycle", 5, 0.997 );
-        check_vehicle_damage( "grenade_act", "motorcycle", 0, 0.975, 0.9985 );
-        check_vehicle_damage( "grenade_act", "humvee", 5, 1 );
+        check_vehicle_damage( itype_grenade_act, "car", 5, 0.998 );
+        check_vehicle_damage( itype_grenade_act, "motorcycle", 5, 0.997 );
+        check_vehicle_damage( itype_grenade_act, "motorcycle", 0, 0.975, 0.9985 );
+        check_vehicle_damage( itype_grenade_act, "humvee", 5, 1 );
     }
 }

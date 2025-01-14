@@ -106,6 +106,23 @@
     ]
   },
   {
+    "id": "rifle_cannon_foreign",
+    "copy-from": "ree_33",
+    "type": "GUN",
+    "name": "foreign cannon rifle",
+    "ammo": [ "ammo_rifle_cannon" ],
+    "description": "A powerful Exodii rifle, reserved for the later stage of cataclysm.  It should be considered an anti-tank rifle in modern world, but the round is bigger than any anti-tank round on Earth.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "item_restriction": [ "rifle_mag_cannon", "rifle_mag_cannon_big" ]
+      }
+    ]
+  },
+  {
     "id": "rifle_rail",
     "copy-from": "hk_g80",
     "type": "GUN",
@@ -130,15 +147,6 @@
     "name": "combination rifle shotgun",
     "description": "A break action firearm comprised of a rifle barrel over two smooth bore shotgun barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
     "built_in_mods": [ "rifle_shotgun_combination_shotgun" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
-  },
-  {
-    "id": "feral_rifle",
-    "copy-from": "feral_militia_gun",
-    "type": "GUN",
-    "name": { "str": "mad militias' rifle" },
-    "description": "A fake semi-auto rifle for feral militiamen (because monster aiming is too lethal).",
-    "ammo": [ "ammo_rifle" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
   }
 ]

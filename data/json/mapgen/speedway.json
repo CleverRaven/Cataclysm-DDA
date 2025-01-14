@@ -446,6 +446,7 @@
       ],
       "palettes": [ "speedway_palette" ],
       "items": { "R": { "item": "mechanics", "chance": 40, "repeat": [ 1, 6 ] }, "n": { "item": "SUS_welding_gear", "chance": 50 } },
+      "place_vehicles": [ { "vehicle": "rara_x", "x": 36, "y": 55, "rotation": 90, "chance": 30 } ],
       "place_loot": [
         { "item": "tire_medium_slick", "x": [ 36, 38 ], "y": 50, "repeat": [ 6, 9 ] },
         { "item": "tire_medium_slick", "x": [ 41, 43 ], "y": 74, "repeat": [ 6, 9 ] },

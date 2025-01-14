@@ -11,6 +11,7 @@
     "nested_category_data": [
       "practice_photokinetic_light_local",
       "practice_photokinetic_create_light",
+      "practice_photokinetic_light_up_enemy",
       "practice_photokinetic_snuff_light",
       "practice_photokinetic_light_dodge",
       "practice_photokinetic_light_beam",
@@ -20,6 +21,7 @@
       "practice_photokinetic_hide_ugly",
       "practice_photokinetic_light_image",
       "practice_photokinetic_radio",
+      "practice_photokinetic_sterilize_food",
       "practice_photokinetic_stun_robots",
       "practice_photokinetic_invisibility",
       "practice_photokinetic_light_flash",
@@ -48,14 +50,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_local') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_local", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 1" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -81,14 +83,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT",
-        "condition": { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_create_light') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_create_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -114,23 +116,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT",
-        "condition": { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_snuff_light') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_snuff_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_snuff_light", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -142,6 +145,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_snuff_light", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -163,15 +167,109 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Blackout power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_snuff_light')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_spell_level('photokinetic_snuff_light') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: illuminate",
+    "id": "practice_photokinetic_light_up_enemy",
+    "description": "Contemplate your powers and improve your ability to light up a single target.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_photokinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY",
+        "condition": { "math": [ "u_spell_level('photokinetic_light_up_enemy') >= 1" ] },
+        "effect": [
+          { "set_string_var": "photokinetic_light_up_enemy", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "photokinetic_light_up_enemy", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "photokinetic_light_up_enemy", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_UP_ENEMY_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
+                  "difficulty": 6
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('photokinetic_light_up_enemy') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -198,23 +296,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_dodge') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_dodge", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_dodge", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -226,6 +325,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_dodge", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -247,15 +347,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Trick of the Light power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_light_dodge')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_spell_level('photokinetic_light_dodge') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -282,23 +386,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_beam') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_beam", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_beam", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -310,6 +415,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_beam", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -331,15 +437,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Photon Beam power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_light_beam')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_spell_level('photokinetic_light_beam') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -366,23 +476,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_camouflage') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_camouflage", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_camouflage", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -394,6 +505,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_camouflage", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -415,15 +527,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Chameleoflage power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_camouflage')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_spell_level('photokinetic_camouflage') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -450,23 +566,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY",
-        "condition": { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_rad_immunity') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_rad_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_rad_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -478,6 +595,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_rad_immunity", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -499,15 +617,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Lucent Barrier power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_rad_immunity')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_spell_level('photokinetic_rad_immunity') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -535,23 +657,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_arms') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_arms", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_arms", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -563,6 +686,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_arms", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -584,15 +708,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Refracted Arms power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_light_arms')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40)" ] }
+              { "math": [ "u_spell_level('photokinetic_light_arms') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -620,23 +748,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY",
-        "condition": { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_hide_ugly') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_hide_ugly", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_hide_ugly", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -648,6 +777,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_hide_ugly", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -669,15 +799,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Refracted Arms power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_hide_ugly')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40)" ] }
+              { "math": [ "u_spell_level('photokinetic_hide_ugly') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -705,23 +839,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_image') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_image", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_image", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -733,6 +868,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_image", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -754,15 +890,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Lucid Shadows power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_light_image')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] }
+              { "math": [ "u_spell_level('photokinetic_light_image') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -785,27 +925,29 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_photokinesis", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_RADIO",
-        "condition": { "math": [ "u_spell_level('photokinetic_radio')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_radio') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_radio", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_radio", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_RADIO_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_RADIO_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -817,6 +959,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_RADIO_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_radio", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -838,15 +981,110 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Radio Transception power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_radio')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] }
+              { "math": [ "u_spell_level('photokinetic_radio') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: gamma sterilization",
+    "id": "practice_photokinetic_sterilize_food",
+    "description": "Contemplate your powers and improve your ability use focused radiation to make food last longer.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_photokinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD",
+        "condition": { "math": [ "u_spell_level('photokinetic_sterilize_food')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "photokinetic_sterilize_food", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "photokinetic_sterilize_food", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "photokinetic_sterilize_food", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_PHOTOKIN_STERILIZE_FOOD_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_photokinesis')" ] },
+                  "difficulty": 9
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('photokinetic_sterilize_food') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -869,27 +1107,29 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_photokinesis", -1 ] ]
     ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS",
-        "condition": { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_stun_robots') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_stun_robots", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_stun_robots", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -901,6 +1141,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_STUN_ROBOTS_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_stun_robots", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -922,15 +1163,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Sensor Jamming power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_stun_robots')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] }
+              { "math": [ "u_spell_level('photokinetic_stun_robots') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -958,23 +1203,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY",
-        "condition": { "math": [ "u_spell_level('photokinetic_invisibility')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_invisibility') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -986,6 +1232,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_invisibility", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1007,15 +1254,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Veil of Light power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_invisibility')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60)" ] }
+              { "math": [ "u_spell_level('photokinetic_invisibility') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1043,23 +1294,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_flash') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -1071,6 +1323,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_flash", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1092,15 +1345,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Star Flash power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_light_flash')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60)" ] }
+              { "math": [ "u_spell_level('photokinetic_light_flash') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1128,23 +1385,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE",
-        "condition": { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_blinding_glare') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_blinding_glare", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_blinding_glare", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -1156,6 +1414,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_blinding_glare", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1177,15 +1436,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Blinding Radiance power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_blinding_glare')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70)" ] }
+              { "math": [ "u_spell_level('photokinetic_blinding_glare') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1213,23 +1476,24 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE",
-        "condition": { "math": [ "u_spell_level('photokinetic_light_disintegrate')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('photokinetic_light_disintegrate') >= 1" ] },
         "effect": [
           { "set_string_var": "photokinetic_light_disintegrate", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_photokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "photokinetic_light_disintegrate", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1241,6 +1505,7 @@
     "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "photokinetic_light_disintegrate", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1262,15 +1527,19 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Luminous Disintegration power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('photokinetic_blinding_glare')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80)" ] }
+              { "math": [ "u_spell_level('photokinetic_blinding_glare') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80)" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]

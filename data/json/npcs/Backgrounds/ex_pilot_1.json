@@ -1,0 +1,26 @@
+[
+  {
+    "id": "BGSS_Lost_Pilot_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Where was I?  I don't even know, what day do you think it all ended?  When I thought shit was hitting the fan I took some vacation time at the airline.  Next day, somebody bombed them.  No shit, just like Oklahoma city in '95.  Thought that was a good sign to get out so I emailed some family out in the country that I was coming over and got on the road.  Didn't even make it to the interstate before I ran into the cops setting up a roadblock.  I drove off the road and it all gets fuzzy from there.  Next town I got to was already lynching people from the streetlights… I didn't stop for gas.  Lost the car at some point, lost track of the days too.  Not sure I ever got a reply to my email.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "You were a pilot?  Can you fly a helicopter?", "topic": "BGSS_Lost_Pilot_1_STORY2" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_Lost_Pilot_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "'pot' and 'mary jane' are both slang terms for marijuana, a recreational drug that's federally illegal in the US.  In several states, possessing more than a certain quantity of marijuana is considered 'possession with intent to distribute' and can incur a felony conviction. Some states also allow conviction records of non-violent drug offenses to be 'sealed' (restricted from being publicly published or considered by the court) if the convicted person does not commit further crimes.",
+      "str": "Uh, well probably?  I flew fixed-wing for work, but my interest in flying was for helitack - uh, that's helicopter transport for firefighting teams.  Anyway, I got a stupid pot conviction and that disqualified me.  Took a job with the airline to keep fresh until I could finish probation and get the records sealed.  Funny, you smoke some mary jane and they say you can't save lives with firefighting.  But they'll let you fly a plane with hundreds of people in it, not like anyone's ever crashed one of those on purpose before.  So yeah, get me a helicopter and I'd be happy to fly."
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

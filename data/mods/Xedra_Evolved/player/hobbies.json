@@ -1,0 +1,110 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_eater",
+    "name": "Awakened Eater",
+    "description": "Ever since the Cataclysm you've been able to clearly see elements of other realities that have intruded your own.  You also are able to consume a resource they seem to have brought with them to give you power far beyond a normal human.",
+    "points": 4,
+    "spells": [ { "id": "spring_heeled_leap", "level": 4 }, { "id": "spell_dodge", "level": 4 } ],
+    "traits": [ "EATER" ],
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamer",
+    "name": "Awakened Dreamer",
+    "description": "Ever since the Cataclysm you've become far more aware of the weakened gap between realities.  Specifically, of what is on the other side.  Surprisingly, it doesn't seem universally hostile, and you think you'd be able to bring some of these entities over if you desired.",
+    "points": 4,
+    "spells": [ { "id": "create_dream_dross", "level": 4 }, { "id": "summon_shifter", "level": 4 } ],
+    "traits": [ "DREAMER" ],
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_inventor",
+    "name": "Awakened Inventor",
+    "description": "Ever since the Cataclysm you've begun having crazy ideas on how to create technological devices.  While conventional logic would label these designs as silly or even insane, something tells you that they'd work regardless.",
+    "points": 4,
+    "traits": [ "INVENTOR" ],
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamsmith",
+    "name": "Awakened Dreamsmith",
+    "description": "Ever since the Cataclysm you've gained an instinctive sense of how to work dreamdross into tools and armor.  It will still take some effort to put these vague ideas to proper use.",
+    "points": 4,
+    "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
+    "traits": [ "DREAMSMITH" ],
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "PARACLESIAN_BIRTH",
+    "name": "Paraclesian Birth",
+    "description": "By dint of your birth you already have some knowledge of how the universe really works.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "HOMULLUS_SOCIAL",
+    "name": "Born with the gift of gab.",
+    "description": "You've never met another person but already you are ready for the conversations that will ensue.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "UNDINE_MOVEMENT",
+    "name": "Knack of formless movement.",
+    "description": "Water takes on the shape of whatever opening is given to it.  You were born with this knowledge and way of moving.",
+    "points": 2,
+    "proficiencies": [ "prof_parkour" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SYLPH_EVERYWHERE_NOWHERE",
+    "name": "Everywhere and nowhere.",
+    "description": "Air expands to fill every space it encounters and by filling the space it becomes diffuse and impossible to grasp.  Would you slip through the fingers of those who grasp at you?",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "dodge" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "ARVORE_NURTURE_GREEN",
+    "name": "Born a seedbearer.",
+    "description": "A gift from your birth world?  A quirk of nature?  For reasons unknown to you, you can sprout seeds from this planet.  You can't control what seeds you get, however.",
+    "points": 1,
+    "traits": [ "ARVORE_SEED_BEARER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SALAMANDER_FIRE_DANCE",
+    "name": "Fire dances with itself.",
+    "description": "At your birth you already danced a flaming path, enthralled with your own capacity for destruction and change.",
+    "points": 4,
+    "traits": [ "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 1, "name": "unarmed" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "IERDE_MEDITATION",
+    "name": "What does the stone dream of?",
+    "description": "Before you were born, your thoughts and dreams were those of stone.  When this world sucks you into it's highs and lows, you can remember the eternity that is stone.",
+    "points": 3,
+    "//": "Trait grants an EOC that doing 30 minutes of meditation resets your morale to zero.  Consider making IERDE abilities that function better or only at morales between the range of -15 and 15.",
+    "traits": [ "IERDE_STONE_MEDITATIONS" ]
+  }
+]

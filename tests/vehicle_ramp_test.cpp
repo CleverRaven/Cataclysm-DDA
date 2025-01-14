@@ -54,24 +54,24 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
         for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
             for( int x = 0; x < transit_x; x++ ) {
                 const int mid = up ? upper_zlevel : lower_zlevel;
-                here.ter_set( tripoint( x, y, mid - 2 ), ter_id( "t_rock" ) );
-                here.ter_set( tripoint( x, y, mid - 1 ), ter_id( "t_rock" ) );
-                here.ter_set( tripoint( x, y, mid ), ter_id( "t_pavement" ) );
-                here.ter_set( tripoint( x, y, mid + 1 ), ter_id( "t_open_air" ) );
-                here.ter_set( tripoint( x, y, mid + 2 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid - 2 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid - 1 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid ), ter_id( "t_pavement" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid + 1 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid + 2 ), ter_id( "t_open_air" ) );
             }
-            const tripoint ramp_up_low = tripoint( lowx, y, lower_zlevel );
-            const tripoint ramp_up_high = tripoint( highx, y, lower_zlevel );
-            const tripoint ramp_down_low = tripoint( lowx, y, upper_zlevel );
-            const tripoint ramp_down_high = tripoint( highx, y, upper_zlevel );
+            const tripoint_bub_ms ramp_up_low = tripoint_bub_ms( lowx, y, lower_zlevel );
+            const tripoint_bub_ms ramp_up_high = tripoint_bub_ms( highx, y, lower_zlevel );
+            const tripoint_bub_ms ramp_down_low = tripoint_bub_ms( lowx, y, upper_zlevel );
+            const tripoint_bub_ms ramp_down_high = tripoint_bub_ms( highx, y, upper_zlevel );
             here.ter_set( ramp_up_low, ter_id( "t_ramp_up_low" ) );
             here.ter_set( ramp_up_high, ter_id( "t_ramp_up_high" ) );
             here.ter_set( ramp_down_low, ter_id( "t_ramp_down_low" ) );
             here.ter_set( ramp_down_high, ter_id( "t_ramp_down_high" ) );
             for( int x = transit_x + 2; x < SEEX * MAPSIZE; x++ ) {
-                here.ter_set( tripoint( x, y, 1 ), ter_id( "t_open_air" ) );
-                here.ter_set( tripoint( x, y, 0 ), ter_id( "t_pavement" ) );
-                here.ter_set( tripoint( x, y, -1 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, 1 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_id( "t_pavement" ) );
+                here.ter_set( tripoint_bub_ms( x, y, -1 ), ter_id( "t_rock" ) );
             }
         }
     }
@@ -89,7 +89,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     map &here = get_map();
     clear_game_and_set_ramp( transition_x, use_ramp, up );
 
-    const tripoint map_starting_point( transition_x + 4, 60, 0 );
+    const tripoint_bub_ms map_starting_point( transition_x + 4, 60, 0 );
     REQUIRE( here.ter( map_starting_point ) == ter_id( "t_pavement" ) );
     if( here.ter( map_starting_point ) != ter_id( "t_pavement" ) ) {
         return;
@@ -111,13 +111,13 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     Character &player_character = get_player_character();
     player_character.setpos( map_starting_point );
 
-    REQUIRE( player_character.pos() == map_starting_point );
-    if( player_character.pos() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub() == map_starting_point );
+    if( player_character.pos_bub() != map_starting_point ) {
         return;
     }
     get_map().board_vehicle( map_starting_point, &player_character );
-    REQUIRE( player_character.pos() == map_starting_point );
-    if( player_character.pos() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub() == map_starting_point );
+    if( player_character.pos_bub() != map_starting_point ) {
         return;
     }
     const int transition_cycle = 3;
@@ -132,14 +132,14 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
-    std::set<tripoint> vpts = veh.get_points();
+    std::set<tripoint_bub_ms> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
-        for( const tripoint &checkpt : vpts ) {
+        for( const tripoint_bub_ms &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( tripoint_bub_ms( checkpt ), partnum );
-            CAPTURE( veh_ptr->global_pos3() );
+            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            CAPTURE( veh_ptr->pos_bub() );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
@@ -149,24 +149,24 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         CHECK( veh.velocity == target_velocity );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint &pos : veh.get_points() ) {
+        for( const tripoint_bub_ms &pos : veh.get_points() ) {
             REQUIRE( here.ter( pos ) );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
             if( vp.info().location != "structure" ) {
                 continue;
             }
-            const point &pmount = vp.mount();
+            const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint &ppos = vp.pos();
+            const tripoint_bub_ms &ppos = vp.pos_bub();
             CAPTURE( ppos );
-            if( cycles > ( transition_cycle - pmount.x ) ) {
-                CHECK( ppos.z == target_z );
+            if( cycles > ( transition_cycle - pmount.x() ) ) {
+                CHECK( ppos.z() == target_z );
             } else {
-                CHECK( ppos.z == 0 );
+                CHECK( ppos.z() == 0 );
             }
-            if( pmount.x == 0 && pmount.y == 0 ) {
-                CHECK( player_character.pos() == ppos );
+            if( pmount.x() == 0 && pmount.y() == 0 ) {
+                CHECK( player_character.pos_bub() == ppos );
             }
         }
         vpts = veh.get_points();
@@ -177,7 +177,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z - player_character.pos_bub().z();
+        const int z_change = map_starting_point.z() - player_character.posz();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );
@@ -241,7 +241,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     clear_game_and_set_ramp( 75, drop_pos, false );
     const int start_z = drop_pos ? 1 : 0;
 
-    const tripoint map_starting_point( 60, 60, start_z );
+    const tripoint_bub_ms map_starting_point( 60, 60, start_z );
 
     // Make sure the avatar is out of the way
     Character &player_character = get_player_character();
@@ -266,21 +266,21 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     CHECK( veh.safe_velocity() > 0 );
 
     std::vector<vehicle_part *> all_parts;
-    for( const tripoint &pos : veh.get_points() ) {
+    for( const tripoint_bub_ms &pos : veh.get_points() ) {
         for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
-            if( drop_pos && prt->mount.x < 0 ) {
-                prt->precalc[0].z = -1;
-                prt->precalc[1].z = -1;
-            } else if( !drop_pos && prt->mount.x > 1 ) {
-                prt->precalc[0].z = 1;
-                prt->precalc[1].z = 1;
+            if( drop_pos && prt->mount.x() < 0 ) {
+                prt->precalc[0].z() = -1;
+                prt->precalc[1].z() = -1;
+            } else if( !drop_pos && prt->mount.x() > 1 ) {
+                prt->precalc[0].z() = 1;
+                prt->precalc[1].z() = 1;
             }
         }
     }
     std::set<int> z_span;
     for( vehicle_part *prt : all_parts ) {
-        z_span.insert( veh.global_part_pos3( *prt ).z );
+        z_span.insert( veh.bub_part_pos( *prt ).z() );
     }
     REQUIRE( z_span.size() > 1 );
 
@@ -299,17 +299,17 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
         for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-            here.ter_set( tripoint( x, y, 1 ), ter_id( "t_open_air" ) );
-            here.ter_set( tripoint( x, y, 0 ), ter_id( "t_pavement" ) );
+            here.ter_set( tripoint_bub_ms( x, y, 1 ), ter_id( "t_open_air" ) );
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_id( "t_pavement" ) );
         }
     }
 
     here.vehmove();
     for( vehicle_part *prt : all_parts ) {
-        CHECK( veh.global_part_pos3( *prt ).z == 0 );
+        CHECK( veh.bub_part_pos( *prt ).z() == 0 );
     }
     CHECK( dmon.posz() == 0 );
-    CHECK( veh.global_pos3().z == 0 );
+    CHECK( veh.pos_bub().z() == 0 );
 }
 
 static void test_leveling( const std::string &type )

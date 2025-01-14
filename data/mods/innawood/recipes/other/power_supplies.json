@@ -29,6 +29,42 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_hand_crank_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "90 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "casting_mold_small", -1 ], [ "casting_mold_small", -1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_redsmithing" }
+    ],
+    "components": [
+      [ [ "2x4", 3 ] ],
+      [ [ "copper_scrap_equivalent", 10, "LIST" ] ],
+      [ [ "stick", 1 ] ],
+      [ [ "copper_wire", 2 ] ],
+      [ [ "rope_any_short", 2, "LIST" ] ],
+      [ [ "chunk_magnetite", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "condensor_coil",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -70,6 +106,7 @@
     "difficulty": 4,
     "time": "45 m",
     "autolearn": true,
+    "flags": [ "FULL_MAGAZINE" ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -79,201 +116,6 @@
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "medium_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "1 h 20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 96 ] ],
-      [ [ "chem_potassium_hydroxide", 82 ] ],
-      [ [ "duct_tape", 20 ] ],
-      [ [ "water_clean", 12 ] ],
-      [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "heavy_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "1 h 45 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 200 ] ],
-      [ [ "chem_potassium_hydroxide", 170 ] ],
-      [ [ "duct_tape", 40 ] ],
-      [ [ "water_clean", 25 ] ],
-      [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_disposable_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "water_clean", 3 ] ],
-      [ [ "light_battery_shell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "medium_disposable_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 96 ] ],
-      [ [ "chem_potassium_hydroxide", 82 ] ],
-      [ [ "duct_tape", 20 ] ],
-      [ [ "water_clean", 12 ] ],
-      [ [ "medium_battery_shell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "heavy_disposable_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 5 ],
-    "difficulty": 4,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 200 ] ],
-      [ [ "chem_potassium_hydroxide", 170 ] ],
-      [ [ "duct_tape", 40 ] ],
-      [ [ "water_clean", 25 ] ],
-      [ [ "heavy_battery_shell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "light_dry_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 2 ],
-    "difficulty": 3,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "cathod_mix", 166 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "carbon_electrode", 1 ] ],
-      [ [ "duct_tape", 5 ] ],
-      [ [ "light_battery_shell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "medium_dry_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 2 ],
-    "difficulty": 3,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "cathod_mix", 664 ] ],
-      [ [ "zinc_metal", 96 ] ],
-      [ [ "carbon_electrode", 4 ] ],
-      [ [ "duct_tape", 20 ] ],
-      [ [ "medium_battery_shell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "heavy_dry_cell",
-    "id_suffix": "refill_shell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 2 ],
-    "difficulty": 3,
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "components": [
-      [ [ "cathod_mix", 1328 ] ],
-      [ [ "zinc_metal", 200 ] ],
-      [ [ "carbon_electrode", 8 ] ],
-      [ [ "duct_tape", 40 ] ],
-      [ [ "heavy_battery_shell", 1 ] ]
     ]
   }
 ]

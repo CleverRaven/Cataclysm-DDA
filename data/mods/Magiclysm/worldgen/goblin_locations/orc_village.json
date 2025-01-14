@@ -136,7 +136,8 @@
     "name": "goblin outpost",
     "sym": "G",
     "color": "green",
-    "see_cost": 6,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH" ],
+    "vision_levels": "blends_till_details"
   }
 ]

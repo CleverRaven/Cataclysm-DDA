@@ -18,7 +18,7 @@ function merge_lang
     if [ -f ${o} ]
     then
         echo "merging ${f}"
-        msgcat -F --use-first ${f} ${o} -o ${o} && rm ${f}
+        msgcat --use-first ${f} ${o} -o ${o} && rm ${f}
     else
         echo "importing ${f}"
         mv ${f} ${o}
@@ -26,7 +26,7 @@ function merge_lang
 
     # merge lang/po/cataclysm-dda.pot with .po file
     echo "updating $o"
-    msgmerge --sort-by-file --no-fuzzy-matching $o lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete -o $o
+    msgmerge --no-fuzzy-matching $o lang/po/cataclysm-dda.pot | msgattrib --clear-fuzzy --no-obsolete -o $o
 }
 
 # merge incoming translations for each language specified on the commandline

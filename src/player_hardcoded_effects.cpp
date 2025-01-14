@@ -60,7 +60,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
@@ -81,7 +80,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
-static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -107,12 +105,11 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
 static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
+static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-
-static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 static const mutation_category_id mutation_category_RAT( "RAT" );
@@ -130,6 +127,7 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
@@ -174,7 +172,7 @@ static void eff_fun_fake_common_cold( Character &u, effect & )
     }
 
     avatar &you = get_avatar(); // No NPCs for now.
-    if( rl_dist( u.pos(), you.pos() ) <= 1 ) {
+    if( rl_dist( u.pos_bub(), you.pos_bub() ) <= 1 ) {
         you.get_sick( false );
     }
 }
@@ -185,7 +183,7 @@ static void eff_fun_fake_flu( Character &u, effect & )
     }
 
     avatar &you = get_avatar(); // No NPCs for now.
-    if( rl_dist( u.pos(), you.pos() ) <= 1 ) {
+    if( rl_dist( u.pos_bub(), you.pos_bub() ) <= 1 ) {
         you.get_sick( true );
     }
 }
@@ -245,8 +243,8 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.set_moves( -to_moves<int>( 5_seconds ) );
                 map &here = get_map();
                 fungal_effects fe;
-                for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( sporep == u.pos() ) {
+                for( const tripoint_bub_ms &sporep : here.points_in_radius( u.pos_bub(), 1 ) ) {
+                    if( sporep == u.pos_bub() ) {
                         continue;
                     }
                     fe.fungalize( sporep, &u, 0.25 );
@@ -313,6 +311,10 @@ static void eff_fun_rat( Character &u, effect &it )
 }
 static void eff_fun_bleed( Character &u, effect &it )
 {
+    if( u.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+        return;
+    }
+
     // Presuming that during the first-aid process you're putting pressure
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
@@ -434,7 +436,7 @@ static void eff_fun_hallu( Character &u, effect &it )
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+            sounds::sound( u.pos_bub(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
                            false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
@@ -450,7 +452,7 @@ static void eff_fun_hallu( Character &u, effect &it )
         u.add_miss_reason( _( "Dancing fractals distract you." ), 2 );
         u.mod_str_bonus( -1 );
         if( u.is_avatar() && one_in( 50 ) ) {
-            g->spawn_hallucination( u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
+            g->spawn_hallucination( u.pos_bub() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
         }
     } else if( dur == comedownTime ) {
         if( one_in( 42 ) ) {
@@ -640,9 +642,9 @@ static void eff_fun_teleglow( Character &u, effect &it )
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
             creature_tracker &creatures = get_creature_tracker();
-            tripoint dest( 0, 0, u.posz() );
-            int &x = dest.x;
-            int &y = dest.y;
+            tripoint_bub_ms dest( 0, 0, u.posz() );
+            int &x = dest.x();
+            int &y = dest.y();
             int tries = 0;
             do {
                 x = u.posx() + rng( -4, 4 );
@@ -1094,7 +1096,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_WATERSLEEP ) ) {
+        if( u.has_trait( trait_WATERSLEEP ) || u.has_trait( trait_UNDINE_SLEEP_WATER ) ) {
             u.mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
@@ -1272,49 +1274,7 @@ void Character::hardcoded_effects( effect &it )
     map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
-    if( id == effect_dermatik ) {
-        bool triggered = false;
-        int formication_chance = 3600;
-        if( dur < 4_hours ) {
-            formication_chance += 14400 - to_turns<int>( dur );
-        }
-        if( one_in( formication_chance ) ) {
-            schedule_effect( effect_formication, 60_minutes, bp );
-        }
-        if( dur < 1_days && one_in( 14400 ) ) {
-            vomit();
-        }
-        if( dur > 1_days ) {
-            // Spawn some larvae!
-            // Choose how many insects; more for large characters
-            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
-            int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
-            // Figure out where they may be placed
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
-                                   _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( ; num_insects > 0; num_insects-- ) {
-                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
-                    if( one_in( 3 ) ) {
-                        grub->friendly = -1;
-                        grub->add_effect( effect_pet, 1_turns, true );
-                    }
-                }
-            }
-            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            schedule_effect_removal( effect_formication, bp );
-            mod_moves( -to_moves<int>( 6_seconds ) );
-            triggered = true;
-        }
-        if( triggered ) {
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
-        } else {
-            // Count duration up
-            it.mod_duration( 1_turns );
-        }
-    } else if( id == effect_formication ) {
+    if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
@@ -1323,7 +1283,7 @@ void Character::hardcoded_effects( effect &it )
                          body_part_name_accusative( bp ) );
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
+                add_msg_if_player_sees( pos_bub(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
@@ -1341,11 +1301,11 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint dest( 0, 0, posz() );
+            tripoint_bub_ms dest( 0, 0, posz() );
             int tries = 0;
             do {
-                dest.x = posx() + rng( -4, 4 );
-                dest.y = posy() + rng( -4, 4 );
+                dest.x() = posx() + rng( -4, 4 );
+                dest.y() = posy() + rng( -4, 4 );
                 tries++;
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
@@ -1390,7 +1350,7 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_tindrift ) {
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-        for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
@@ -1648,14 +1608,14 @@ void Character::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                    sounds::sound( pos_bub(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                 }
             }
         } else {
             if( dur == 1_turns ) {
                 if( player_character.has_alarm_clock() ) {
-                    sounds::sound( player_character.pos(), 16, sounds::sound_t::alarm,
+                    sounds::sound( player_character.pos_bub(), 16, sounds::sound_t::alarm,
                                    _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
@@ -1702,7 +1662,7 @@ void Character::hardcoded_effects( effect &it )
                     }
                 }
                 mod *= 2;
-            /* fallthrough */
+                [[fallthrough]];
             case 2:
                 // Myoclonic seizure (muscle spasm)
                 if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
@@ -1741,7 +1701,7 @@ void Character::hardcoded_effects( effect &it )
                     }
                 }
                 mod *= 2;
-            /* fallthrough */
+                [[fallthrough]];
             case 1:
                 // Migraine
                 if( one_turn_in( 2_days / mod ) ) {

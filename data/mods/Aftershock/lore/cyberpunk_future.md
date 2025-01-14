@@ -10,4 +10,4 @@ The Solar Corporations currently mentioned in the mod are:
 
 
 # Technology
-Much was lost during the discontinuity. Colonies that survived relied on technology not much more advanced than the early space age of Earth. While artifacts from before the discontinuity can be found, the secrets of their functionality and construction are often lost. These artifacts can range from exotic weapons to seemingly miraculous medicines, from superefficient power cells to teleportation. Salus IV, as a pre-discontinuity colony is a known source of some of these artifacts, drawing archeologists and treasure hunters alike.
+Much was lost during the discontinuity. Colonies that survived relied on technology not much more advanced than the early space age of Earth. While artifacts from before the discontinuity can be found, the secrets of their functionality and construction are often lost. These artifacts can range from exotic weapons to seemingly miraculous medicines, from superefficient power cells to teleportation. Salus IV, as a pre-discontinuity colony is a known source of some of these artifacts, drawing archaeologists and treasure hunters alike.

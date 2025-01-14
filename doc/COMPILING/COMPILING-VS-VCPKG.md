@@ -22,15 +22,16 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `66444e13a86da7087ee24c342f91801cc6eb9877` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `3b57fb2e1ff55613db14d2aaf0a30529289c7050` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
-***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
+***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace or special symbols. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` and `C:/C++Projects/vcpkg` is not.***
 
 In a `cmd.exe` shell:
 ```cmd
 REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+git pull
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
@@ -39,9 +40,12 @@ In a Git Bash shell, the commands are almost the same except the filesystem path
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+git pull
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
 ```
+
+If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl2 at 2.26.5`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
 
 ## Cloning and compilation:
 

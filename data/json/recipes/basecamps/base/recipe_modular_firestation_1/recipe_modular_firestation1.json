@@ -398,9 +398,9 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_forge" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_anvil" }, { "id": "fbmc_firestation_blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_anvil" } ],
-    "blueprint_resources": [ "anvil", "crucible" ],
+    "blueprint_resources": [ "anvil_crude", "crucible" ],
     "check_blueprint_needs": false,
-    "components": [ [ [ "anvil", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
+    "components": [ [ [ "anvil_crude", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -417,7 +417,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_anvil" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_pottery" }, { "id": "fbmc_firestation_blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_pottery" } ],
-    "blueprint_resources": [ "anvil", "crucible" ],
+    "blueprint_resources": [ "anvil_crude", "crucible" ],
     "components": [ [ [ "glassblowing_book", 1 ] ], [ [ "glasses_safety", 1 ] ], [ [ "chemistry_set", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {

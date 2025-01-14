@@ -81,7 +81,7 @@ High damage: 6 (highest day one threat; feral human, mi-go )
 
 Superhuman damage: 8 (deadly endgame threat; hulk, wild boar, Exodii quadruped )
 
-Maximum dice size for balance purposes: 12 (hardest possible hitter; dire wolf )
+Maximum dice size for balance purposes: 12 (hardest possible hitter; hunting horror )
 
 This is how hard the monster hits.
 
@@ -238,11 +238,11 @@ Grip is a measure of how well you can control the weapon to quickly respond to s
 ### Length
 Length allows more surface area for potential contact, and reduces the need to control the positioning of the body to guarantee a hit. It also allows the player to strike from a safer distance, allowing them to worry more about trying to hit without being hit in return, and allows for swings with larger arcs, making dodging such a strike more difficult.
 
-+0 - "hand" - Any object without a length bonus.
++0 - "hand" - Objects that, from where they're held, extend less than 31 cm (or 1').
 
-+1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand, but less than about 3 feet. A normal American 12-inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
++1 - "short" - Objects that, from where they're held, extend between a 31 cm and 91 cm (or 1' to 3').
 
-+2 - "long" An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
++2 - "long" - Objects that, from where they're held, extend further than 91 cm (or 3').
 
 ### Striking Surface
 Some weapons need to strike in a certain way to be effective. Others are more difficult to use "incorrectly".
@@ -340,6 +340,9 @@ Increases proportional to capacity and should have a comparable ratio to similar
 ### Volume
 Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
 
+### Jam multiplier
+`mag_jam_mult` field is used to determine how much the magazine is affected by being damaged. Default rate is described in Character::handle_gun_damage(); at this moment it is roughly: 0.000288% for undamaged magazine, 5% for 1 damage (|\), 24% for 2 damage (|.), 96% for 3 damage (\.), and 250% for 4 damage (XX), then this and gun values are summed up and multiplied by 1.8. Rule of thumb: helical mags should have 3, drum mags should have 2, the rest can be tweaked case by case, but mostly doesn't worth emulating it
+
 ### Rarity
 Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9x19mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
 
@@ -361,7 +364,7 @@ Bow damage is based on the momentum achieved in the projectile.  Since arrows an
 The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 90% of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
 
-Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
+Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or Wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
 
 Each cartridge also has a default barrel length (**Brl**) listed determined based loosely on cartridge length (with some exceptions). Friction losses were not modelled. Plugging in optimistically long barrel lengths will not yield accurate data. Real world barrels should provide useful estimates for determining modifiers. Any barrel featuring a separate chamber (e.g. revolvers, the HK G11, etc) should have the length of this chamber added to the barrel length as part of these calculations.  What is given here as **OAL** is the overall length of the cartridge. Barrel lengths, (**Brl**), less than the overall length of the cartridge, (**OAL**), should default to 0 ballistic damage.
 

@@ -133,10 +133,6 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
-        /** Nutrition values to use for this type when they aren't calculated from
-         * components */
-        nutrients default_nutrition;
-
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
 
@@ -154,6 +150,19 @@ struct islot_comestible {
 
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
+
+        /*
+        * For the few rare cases where default nutrition needs to be accessible. Prefer using
+        * default_character_compute_effective_nutrients unless absolutely necessary.
+        */
+        nutrients default_nutrition_read_only() const {
+            return default_nutrition;
+        }
+
+        /** For the one case where default nutrition needs to be overridden. */
+        void set_default_nutrition( nutrients new_nutrition ) {
+            default_nutrition = std::move( new_nutrition );
+        };
 
         /** TODO: add documentation */
         int healthy = 0;
@@ -194,13 +203,20 @@ struct islot_comestible {
             return default_nutrition.kcal() / kcal_per_nutr;
         }
 
-        /** The monster group that is drawn from when the item rots away */
-        mongroup_id rot_spawn = mongroup_id::NULL_ID();
+        /** The monster that is drawn from when the item rots away */
+        mtype_id rot_spawn_monster = mtype_id::NULL_ID();
+        mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
 
-        /** Chance the above monster group spawns*/
+        /** Chance the above monster spawns*/
         int rot_spawn_chance = 10;
 
+        std::pair<int, int> rot_spawn_monster_amount = {1, 1};
+
     private:
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
+
         /** effect on morale when consuming */
         int fun = 0;
 
@@ -398,6 +414,12 @@ struct islot_armor {
          * How much warmth this item provides.
          */
         int warmth = 0;
+        /**
+         * The max health of an energy shield type armor.  Value is completely ignored if the
+         * ENERGY_SHIELD flag is not set.  This value and "energy_shield_hp" are then stored
+         * through item variables so that they might be manipulated with EOCS and magic.
+         */
+        int max_energy_shield_hp = 0;
         /**
          * Whether this is a power armor item.
          */
@@ -787,6 +809,11 @@ struct islot_gun : common_ranged_data {
     */
     double overheat_threshold = -1.0;
 
+    /**
+    *  Multiplier of the chance for the gun to jam.
+    */
+    double gun_jam_mult = 1;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
     /**
@@ -858,6 +885,9 @@ struct islot_gunmod : common_ranged_data {
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
 
+    /** Multiplies base loudness as provided by the currently loaded ammo */
+    float loudness_multiplier = 1;
+
     /** How many moves does this gunmod take to install? */
     int install_time = -1;
 
@@ -898,6 +928,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
+
+    /** Modifies base strength required if user is prone */
+    int min_str_required_mod_if_prone = 0;
 
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
@@ -944,6 +977,9 @@ struct islot_magazine {
 
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
+
+    /** Multiplier for the gun jamming from physical damage */
+    double mag_jam_mult = 1 ;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
@@ -1343,6 +1379,9 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // list of traits.
+        string_id<Trait_group> trait_group;
+
         // used for corpses placed by mapgen
         mtype_id source_monster = mtype_id::NULL_ID();
     private:
@@ -1416,7 +1455,10 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
-        int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
+        // TODO: Add some very basic unweildiness calc for non specified to_hit?
+        int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
+        // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
+        bool using_legacy_to_hit = false;
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
@@ -1428,6 +1470,9 @@ struct itype {
         * greater than zero, transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
+
+        /** Flat damage reduction (increase if negative) on fall (some logic may apply). */
+        int fall_damage_reduction = 0;
 
         /**
         * Efficiency of solar energy conversion for solarpacks.
@@ -1540,10 +1585,10 @@ struct itype {
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         std::optional<int> invoke( Character *p, item &it,
-                                   const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
+                                   const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character *p, item &it, const tripoint &pos ) const;
+        int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 
         virtual ~itype() = default;
 

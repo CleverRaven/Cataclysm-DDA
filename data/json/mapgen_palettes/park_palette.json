@@ -54,11 +54,11 @@
       "i": "f_region_water_plant",
       "L": "f_table",
       "T": "f_table",
-      "v": "f_vending_c",
       "X": "f_trashcan",
       "Y": "f_brazier",
       "5": "f_sink"
     },
+    "vendingmachines": { "v": { "lootable": true } },
     "toilets": { "x": {  } },
     "item": { "g": { "item": "sandbox_kit", "chance": 5 } },
     "items": {

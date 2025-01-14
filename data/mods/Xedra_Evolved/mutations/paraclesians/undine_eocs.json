@@ -20,10 +20,6 @@
                 { "u_near_om_location": "river_c_not_nw", "range": 1 },
                 { "u_near_om_location": "river_c_not_se", "range": 1 },
                 { "u_near_om_location": "river_c_not_sw", "range": 1 },
-                { "u_near_om_location": "river_ne", "range": 1 },
-                { "u_near_om_location": "river_se", "range": 1 },
-                { "u_near_om_location": "river_sw", "range": 1 },
-                { "u_near_om_location": "river_nw", "range": 1 },
                 { "u_near_om_location": "lake_shore", "range": 1 },
                 { "u_near_om_location": "lake_surface", "range": 1 },
                 { "u_near_om_location": "ocean", "range": 1 },
@@ -44,8 +40,8 @@
                 { "u_at_om_location": "undine_genius_loci_SE" }
               ]
             },
-            "effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_undine_is_connected_to_waters = 1" ] } ],
+            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters = 0" ] } ]
           }
         ]
       }
@@ -80,7 +76,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_UNDINE_CLOSE_TO_OR_IN_WATER",
     "condition": {
-      "or": [ { "math": [ "u_undine_is_connected_to_waters", "==", "1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+      "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
     },
     "effect": [  ]
   },
@@ -96,40 +92,46 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SALTWATER_TO_FRESHWATER",
-    "condition": { "u_has_trait": "SALTWATER_TO_FRESHWATER" },
+    "id": "EOC_UNDINE_LEARN_SALTWATER_TO_FRESHWATER",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "SALTWATER_TO_FRESHWATER", { "context_val": "trait" } ] },
     "effect": [
+      { "u_learn_recipe": "salt_water_from_water" },
+      { "u_learn_recipe": "water_from_salt_water" },
       {
-        "u_roll_remainder": [ "salt_water_from_water", "water_from_salt_water" ],
-        "type": "recipe",
-        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+        "u_message": "Drawn from some atavistic well, knowledge of how to turn fresh water into salt water, and vice versa, fills your mind.",
+        "type": "good"
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_FOUL_WATER",
-    "condition": { "u_has_trait": "FOUL_WATER" },
+    "id": "EOC_UNDINE_LEARN_FOUL_WATER",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "FOUL_WATER", { "context_val": "trait" } ] },
     "effect": [
+      { "u_learn_recipe": "water_from_water_clean" },
+      { "u_learn_recipe": "water_clean_from_water" },
       {
-        "u_roll_remainder": [ "water_from_water_clean", "water_clean_from_water" ],
-        "type": "recipe",
-        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+        "u_message": "Drawn from some atavistic well, knowledge of how to turn foul water into clean, pure water, and vice versa, fills your mind.",
+        "type": "good"
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LIQUID_TO_WATER",
-    "condition": { "u_has_trait": "LIQUID_TO_WATER" },
+    "id": "EOC_UNDINE_LEARN_LIQUID_TO_WATER",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "LIQUID_TO_WATER", { "context_val": "trait" } ] },
     "effect": [
+      { "u_learn_recipe": "water_from_liquid" },
+      { "u_learn_recipe": "water_clean_from_water" },
       {
-        "u_roll_remainder": [ "water_from_liquid" ],
-        "type": "recipe",
-        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ELEMENTAL_RECIPE" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE" ]
+        "u_message": "Drawn from some atavistic well, knowledge of how to turn various other liquids directly into water fills your mind.",
+        "type": "good"
       }
     ]
   },
@@ -208,10 +210,6 @@
             { "u_at_om_location": "river_c_not_nw" },
             { "u_at_om_location": "river_c_not_se" },
             { "u_at_om_location": "river_c_not_sw" },
-            { "u_at_om_location": "river_ne" },
-            { "u_at_om_location": "river_se" },
-            { "u_at_om_location": "river_sw" },
-            { "u_at_om_location": "river_nw" },
             { "u_at_om_location": "lake_shore" },
             { "u_at_om_location": "lake_surface" },
             { "u_at_om_location": "ocean" },

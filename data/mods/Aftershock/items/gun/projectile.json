@@ -6,7 +6,6 @@
     "description": "Bionic one-shot subdermal 10mm pistol integrated with your head.",
     "volume": "80 ml",
     "price": "0 cent",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "magenta",

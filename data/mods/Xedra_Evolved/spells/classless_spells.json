@@ -1,5 +1,10 @@
 [
   {
+    "id": "xedra_magic_generic",
+    "type": "magic_type",
+    "energy_source": "MANA"
+  },
+  {
     "id": "night_sight",
     "type": "SPELL",
     "name": "Night Sight",
@@ -12,7 +17,7 @@
     "shape": "blast",
     "base_casting_time": 2000,
     "base_energy_cost": 1200,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "difficulty": 6,
     "max_level": 20,
     "min_duration": { "math": [ "spell_time(time(' 3 m'))" ] },
@@ -47,7 +52,7 @@
     "flags": [ "SOMATIC", "NO_PROJECTILE" ],
     "base_casting_time": 200,
     "base_energy_cost": 400,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "difficulty": 3,
     "damage_type": "cold"
   },
@@ -61,7 +66,7 @@
     "effect_str": "blurred_aura",
     "skill": "deduction",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "spell_class": "NONE",
     "flags": [ "NO_LEGS" ],
     "difficulty": 4,
@@ -92,15 +97,15 @@
     "max_level": 20,
     "difficulty": 6,
     "base_casting_time": 200,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": 600,
     "extra_effects": [ { "id": "damage_transfer_heal", "hit_self": true } ]
   },
   {
     "id": "damage_transfer_heal",
     "type": "SPELL",
-    "name": "Damage Transfer Heal",
-    "description": "A spell that will heal you for a bit.  You can see it only in debug mode.",
+    "name": { "str": "Damage Transfer Heal", "//~": "NO_I18N" },
+    "description": { "str": "A spell that will heal you for a bit.  You can see it only in debug mode.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT" ],
     "effect": "attack",
@@ -129,7 +134,7 @@
     "max_level": 30,
     "difficulty": 5,
     "base_casting_time": 300,
-    "energy_source": "MANA",
+    "magic_type": "xedra_magic_generic",
     "base_energy_cost": 900,
     "energy_increment": -10,
     "final_energy_cost": 600,
@@ -138,8 +143,8 @@
   {
     "id": "fire_teleport_explosion",
     "type": "SPELL",
-    "name": "Pyroportation Explosion",
-    "description": "Makes a pretty big fire explosion around you.",
+    "name": { "str": "Pyroportation Explosion", "//~": "NO_I18N" },
+    "description": { "str": "Makes a pretty big fire explosion around you.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
@@ -152,5 +157,39 @@
     "max_aoe": 6,
     "aoe_increment": 0.1,
     "damage_type": "heat"
+  },
+  {
+    "id": "call_daffodil",
+    "type": "SPELL",
+    "name": "Call Daffodil",
+    "description": "A few daffodil warriors appear near you.  They will fight for you, but they will fade away after a day.",
+    "valid_targets": [ "self" ],
+    "spell_class": "NONE",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CALL_DAFFODIL",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ]
+  },
+  {
+    "id": "call_daffodil_real",
+    "type": "SPELL",
+    "name": { "str": "Call Daffodil", "//~": "NO_I18N" },
+    "description": { "str": "Hidden spell that spawns the daffodil", "//~": "NO_I18N" },
+    "valid_targets": [ "ground" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "max_level": 1,
+    "difficulty": 0,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "spell_class": "NONE",
+    "effect": "summon",
+    "effect_str": "mon_fetch_daffodil_warrior",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ],
+    "min_duration": { "math": [ "spell_time(time(' 24 h'))" ] },
+    "max_duration": { "math": [ "spell_time(time(' 24 h'))" ] }
   }
 ]

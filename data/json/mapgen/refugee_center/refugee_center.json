@@ -289,7 +289,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] },
         { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 72, 72 ], "y": [ 0, 0 ] },
         { "type": "LOOT_CURRENCY", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 2, 2 ] },
-        { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] }
+        { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 59, 60 ], "y": [ 10, 11 ] }
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },

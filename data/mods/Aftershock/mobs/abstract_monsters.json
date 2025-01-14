@@ -3,8 +3,11 @@
     "abstract": "mon_milbot_base",
     "type": "MONSTER",
     "looks_like": "mon_secubot",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
+    "name": { "str": "military robot", "//~": "NO_I18N" },
+    "description": {
+      "str": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
+      "//~": "NO_I18N"
+    },
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -31,8 +34,11 @@
     "abstract": "mon_defbot_base",
     "type": "MONSTER",
     "looks_like": "mon_secubot",
-    "name": "defense robot",
-    "description": "An automated defense robot still active due to its internal power source.  This one is armed with an electric prod and an integrated 9mm firearm.",
+    "name": { "str": "defense robot", "//~": "NO_I18N" },
+    "description": {
+      "str": "An automated defense robot still active due to its internal power source.  This one is armed with an electric prod and an integrated 9mm firearm.",
+      "//~": "NO_I18N"
+    },
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -62,8 +68,11 @@
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
     "looks_like": "mon_copbot",
-    "name": "advanced robot",
-    "description": "An advanced robot still functioning due to its internal fusion core.  This model is armed with a powerful laser-emitter.",
+    "name": { "str": "advanced robot", "//~": "NO_I18N" },
+    "description": {
+      "str": "An advanced robot still functioning due to its internal fusion core.  This model is armed with a powerful laser-emitter.",
+      "//~": "NO_I18N"
+    },
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "hp": 100,
@@ -77,8 +86,8 @@
   {
     "abstract": "afs_mon_reaver_abstract",
     "type": "MONSTER",
-    "name": { "str_sp": "bandits, pirates and reavers" },
-    "description": "A scavenger willing to engage in violence to scavenge your remains.",
+    "name": { "str_sp": "bandits, pirates and reavers", "//~": "NO_I18N" },
+    "description": { "str": "A scavenger willing to engage in violence to scavenge your remains.", "//~": "NO_I18N" },
     "default_faction": "reavers",
     "species": [ "HUMAN" ],
     "volume": "62500 ml",

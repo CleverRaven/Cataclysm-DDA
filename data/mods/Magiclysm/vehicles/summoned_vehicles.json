@@ -101,7 +101,7 @@
     "type": "AMMO",
     "category": "chems",
     "name": { "str_sp": "mana core power" },
-    "description": "Seeing this is a bug.",
+    "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },
     "weight": "10 g",
     "volume": "10 ml",
     "phase": "solid",

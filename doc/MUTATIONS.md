@@ -10,7 +10,7 @@ Traits and mutations are the same thing in DDA's code. The terms are used interc
 
 There are two substances required to mutate: mutagen and primer. All mutagen and primers are handled as vitamins in the code.
 
-Mutagen is the core nutrient, and it's what is required to initate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
+Mutagen is the core nutrient, and it's what is required to initiate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
 
 Primers do not cause mutations to happen on their own, but instead influence what mutations the player gains. Think of mutagen as a car that can only drive on roads, and each type of primer as a possible road for the car to drive on. Every type of mutation category has an associated primer vitamin, and when mutating, the game will mutate down the category that has the most respective primer present. The car can't drive without any roads, but at the same time, the roads will do nothing without the car. Both nutrients are needed to cause mutation.
 
@@ -44,7 +44,7 @@ The mutation system works in several steps. All time references are in game time
   * Otherwise, the game chooses a random mutation in that category. This is the target mutation.
   * If the character has an existing trait that conflicts with the target mutation, the conflicting trait will be removed or downgraded, and nothing else will happen. Otherwise, the player will gain that mutation.
   * Each mutation attempt can take only one "step". For instance, if the game attempts to mutate towards the Beautiful trait while the character has no beauty-related traits, it would simply give them the Pretty trait, because Pretty is a prerequisite of Beautiful. However, if the character had the Ugly trait, then that trait would be removed and nothing else would happen.
-  * On a successful mutation, primer of that mutation's category is removed from the character's body. This defaults to 100, but can be overriden on a by-trait basis.
+  * On a successful mutation, primer of that mutation's category is removed from the character's body. This defaults to 100, but can be overridden on a by-trait basis.
   * Finally, Instability equal to the primer cost is added to the player. Instability is explained in the next section.
 5. When the player mutates towards a trait, if they have at least 2200 of the primer tied to that trait's category, attempt to cross the threshold. The game rolls a chance to pass the threshold, which is heavily influenced by how mutated into that category the player is. If the check succeeds, the player gains the threshold mutation and receives a unique message - they have "crossed the threshold".
 6. Repeat from step 3 until the character no longer has enough mutagen in their body to continue mutating. The `Changing` trait will be then removed, and the game will begin repeating step 1 once more until the character takes enough mutagen to begin mutating again.
@@ -96,6 +96,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description.
   "starting_trait": true,                     // Can be selected at character creation (default: false).
+  "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
@@ -173,12 +174,14 @@ Note that **all new traits that can be obtained through mutation must be purifia
     }
   ],
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
+  "activation_msg": "Time to rock and roll",  // Optional, default "You activate your %s." where %s is replaced with the mutation's name.
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
   "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or sleepiness values set to true (default: 0).
   "time": 100,                                // Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again.  Needs to be higher than one to have any effect (default: 0).
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
+  "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
@@ -212,7 +215,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
       { 
-        "condition": { "math": [ "u_val('morale')", "<", "-50" ] },                                     // Dialogue condition (see NPCs.md).
+        "condition": { "math": [ "u_val('morale') < -50" ] },                                     // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],
@@ -220,14 +223,33 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialogue condition (see NPCs.md).
           "or": [ 
-            { "math": [ "u_val('strength')", "<", "5" ] },
-            { "math": [ "u_val('dexterity')", ">", "20" ] }
+            { "math": [ "u_val('strength') < 5" ] },
+            { "math": [ "u_val('dexterity') > 20" ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.
         "msg_off": { "text": "Your glow fades." }                                                      // Message displayed when the trigger deactivates the trait.
       }
     ]
+  ],
+  "comfort": [                                // List of comfort data. The first comfort data with passing conditions will apply.
+  {                                           // If multiple mutations would apply comfort data, only the data with the worst `comfort` will apply.
+      "conditions": [                         // List of comfort conditions. See 'Comfort Conditions' below. Mandatory.
+        { "type": "terrain", "flag": "DEEP_WATER" },
+        { "type": "furniture", "id": "f_null", "invert": true },
+        { "type": "field", "id": "fd_web", "intensity": 3 },
+        { "type": "vehicle" },
+        { "type": "trait": "id": "SHELL2", "active": true }
+      ],
+      "conditions_any": true,                 // If this comfort data passes when ANY of its conditions are true (true) or when ALL of its conditions are true (false) (default: false).
+      "comfort": "very_comfortable",          // The comfort provided by this comfort data if applied. Can be an integer or any of "very_comfortable" (10), "comfortable" (5), "sleep_aid" (4), "slightly_comfortable" (3), "neutral" (0), "uncomfortable" (-7), or "impossible" (-999) (default: "neutral").
+      "add_human_comfort": false,             // If the furniture/trap/terrain's comfort value should be added to `comfort` (default: false). Not compatible with `use_better_comfort`.
+      "use_better_comfort": false,            // If the furniture/trap/terrain's comfort value should be used INSTEAD OF `comfort` if better (default: false). Not compatible with `add_human_comfort`.
+      "add_sleep_aids": false,                // If sleep aids should add their comfort value to the final result (default: false).
+      "msg_try": { "text": "You try to sleep.", "rating": "good" },                 // Message displayed when trying to sleep.
+      "msg_hint": { "text": "Maybe you should sleep on a bed?", "rating": "info" }, // Message displayed after the above message. Used to suggest better places for a mutant to sleep.
+      "msg_sleep": { "text": "You fall asleep.", "rating": "good" }                 // Message displayed when falling asleep.
+    }
   ],
   "activated_is_setup": true,                 // If this is true the bellow activated EOC runs then the mutation turns on for processing every turn. If this is false the below "activated_eocs" will run and then the mod will turn itself off.
   "activated_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
@@ -266,7 +288,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
 | `cancels`         | Nothing | Trait IDs defined in this array will be forcibly removed from the character when trait is mutated.                                                          |
 | `changes_to`      | Nothing | Used for defining mutation lines with defined steps. This trait can further mutate into any other trait defined in this list.                               |
-| `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!                                                    |
+| `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!            |
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
@@ -282,12 +304,45 @@ These fields are optional, but are very frequently used in mutations and their c
 | `cost`            | 0       | For active mutations, this value is the cost to activate them. At least one of the following three values will need to be `true` for this to function.      |
 | `kcal`            | false   | If true, this active mutation will consume `cost` kcal during activation or upkeep.                                                                         |
 | `thirst`          | false   | If true, this active mutation will consume `cost` thirst during activation or upkeep.                                                                       |
-| `sleepiness`         | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                      |
+| `sleepiness`      | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                   |
+| `mana`            | false   | If true, this active mutation will consume `cost` mana during activation or upkeep. Can used by magic mods.                                                 |
 | `enchantments`    | Nothing | A list of enchantments granted by this mutation. Can either be string IDs of a defined enchantment, or an inline definition.                                |
 
 ### Optional Fields
 
 There are many, many optional fields present for mutations to let them do all sorts of things. You can see them documented above.
+
+### Comfort Conditions
+
+Comfort data can have one or more `conditions`. Comfort data passes (is true) when **any** of its conditions pass, if `conditions_any` is `true`, or when **all** of its conditions pass, if `conditions_any` is `false`.
+
+#### Fields
+
+Conditions have the following fields. `type` is mandatory and determines which other fields are mandatory. `invert` is always optional.
+
+| Identifier  | Type    | Description
+|-------------|---------|-------------
+| `type`      | string  | One of `"terrain"`, `"furniture"`, `"trap"`, `"field"`, `"vehicle"`, `"character"`, or `"trait"`. Always mandatory.
+| `id`        | string  | The ID of a terrain, furniture, trap, field, or trait.
+| `flag`      | string  | A terrain, furniture, vehicle part, or character flag.
+| `intensity` | integer | A field's intensity.
+| `active`    | boolean | If a trait must be active.
+| `invert`    | boolean | If a condition should pass when it would fail and fail when it would pass. Always optional.
+
+#### Types
+
+A condition's `type` determines what it checks for in a location. A condition passes (is true) according to it's `type`.
+
+| Type        | Mandatory      | Optional    | Passes
+|-------------|----------------|-------------|-------------
+| `terrain`   | `id` or `flag` |             | Passes if on terrain with the given `id` or `flag`.
+| `furniture` | `id` or `flag` |             | Passes if on furniture with the given `id` or `flag`.
+| `trap`      | `id`           |             | Passes if on a trap with the given `id`.
+| `field`     | `id`           | `intensity` | Passes if in a field with the given `id`. If `intensity` is defined, the field's intensity must be greater than or equal to `intensity`.
+| `vehicle`   |                | `flag`      | Passes if in/on a part of a vehicle. If `flag` is defined, the part must have the given `flag` and cannot be broken.
+| `character` | `flag`         |             | Passes if the character has the given `flag`.
+| `trait`     | `id`           | `active`    | Passes if the character has a trait with the given `id`. If `active` is defined, the trait must be active.
+| all types   |                | `invert`    | Passes if the condition would fail. Fails if the condition would pass.
 
 ### EOC details
 

@@ -46,6 +46,8 @@ item item_from( const item_group_id &group_id, const time_point &birthday );
  * Same as above but with implicit birthday at turn 0.
  */
 item item_from( const item_group_id &group_id );
+// Return a formatted list of min-max items an item group can spawn
+std::string potential_items( const item_group_id &group_id );
 
 using ItemList = std::vector<item>;
 /**
@@ -87,10 +89,6 @@ bool group_is_defined( const item_group_id &group_id );
  * Return the corresponding Item_spawn_data for an item_group_id as .obj() is undefined
  */
 Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
-/**
- * Shows an menu to debug the item groups.
- */
-void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
@@ -153,11 +151,6 @@ class Item_spawn_data
          */
         virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                                     spawn_flags = spawn_flags::none ) const = 0;
-        /**
-        * Instead of calculating at run-time, give a step to finalize those item_groups that has count-min but not count-max.
-        * The reason is
-        */
-        virtual void finalize( const itype_id & ) = 0;
         std::size_t create( ItemList &list, const time_point &birthday,
                             spawn_flags = spawn_flags::none ) const;
         /**
@@ -205,6 +198,7 @@ class Item_spawn_data
          */
         std::optional<std::vector<itype_id>> components_items;
         bool sealed = true;
+        std::optional<bool> active = std::nullopt;
 
         struct relic_generator {
             relic_procgen_data::generation_rules rules;
@@ -339,7 +333,6 @@ class Single_item_creator : public Item_spawn_data
 
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
-        void finalize( const itype_id &container = itype_id::NULL_ID() ) override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
         void check_consistency( bool actually_spawn ) const override;
@@ -388,7 +381,6 @@ class Item_group : public Item_spawn_data
          * a Single_item_creator or Item_group to @ref items.
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
-        void finalize( const itype_id &container = itype_id::NULL_ID() )override;
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

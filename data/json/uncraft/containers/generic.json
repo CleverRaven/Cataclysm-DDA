@@ -26,5 +26,53 @@
     "result": "saline_bag_2000_empty",
     "time": "5 s",
     "components": [ [ [ "plastic_sheet_small", 8 ] ] ]
+  },
+  {
+    "result": "mre_bag_jam",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 37 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
+    "result": "mre_bag_dessert",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 111 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
+  },
+  {
+    "result": "mre_bag_spread",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 37 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
+    "result": "stirling_kit_box",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cardboard", 40 ] ] ]
+  },
+  {
+    "result": "robot_kit_box",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cardboard", 40 ] ] ]
+  },
+  {
+    "result": "bottle_glass_seasoning_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

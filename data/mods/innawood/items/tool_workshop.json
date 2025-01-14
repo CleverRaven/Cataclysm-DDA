@@ -9,7 +9,6 @@
     "longest_side": "25 cm",
     "price": "50 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -2,
     "material": [ "steel", "clay" ],
     "symbol": ";",
     "color": "dark_gray",

@@ -47,7 +47,6 @@
 #include "get_version.h"
 #include "help.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
@@ -61,9 +60,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
-#if defined(MACOSX) || defined(__CYGWIN__)
-#   include <unistd.h> // getpid()
-#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -76,7 +72,7 @@
 
 class ui_adaptor;
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
 #   else
@@ -162,20 +158,8 @@ void exit_handler( int s )
         signal( SIGABRT, SIG_DFL );
 #endif
 
-#if !defined(_WIN32)
-        if( s == 2 ) {
-            struct sigaction sigIntHandler;
-            sigIntHandler.sa_handler = SIG_DFL;
-            sigemptyset( &sigIntHandler.sa_mask );
-            sigIntHandler.sa_flags = 0;
-            sigaction( SIGINT, &sigIntHandler, nullptr );
-            kill( getpid(), s );
-        } else
-#endif
-        {
-            imclient.reset();
-            exit( exit_status );
-        }
+        imclient.reset();
+        exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
     ui_manager::redraw_invalidated();
@@ -751,7 +735,7 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
     SDL_version compiled;
     SDL_VERSION( &compiled );
     DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
@@ -807,14 +791,16 @@ int main( int argc, const char *argv[] )
         }
         if( cli.check_mods ) {
             init_colors();
-            loading_ui ui( false );
             const std::vector<mod_id> mods( cli.opts.begin(), cli.opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
+            exit( g->check_mod_data( mods ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
+
+    // Load the colors of ImGui to match the colors set by the user.
+    cataimgui::init_colors();
 
     // Override existing settings from cli  options
     if( cli.disable_ascii_art ) {
@@ -851,6 +837,8 @@ int main( int argc, const char *argv[] )
 
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
+        imclient->new_frame(); // we have to prime the pump, because of reasons
+        imclient->end_frame();
         const std::string lang = select_language();
         get_options().get_option( "USE_LANG" ).setValue( lang );
         set_language_from_options();
@@ -859,8 +847,6 @@ int main( int argc, const char *argv[] )
     replay_buffered_debugmsg_prompts();
 
     main_menu::queued_world_to_load = std::move( cli.world );
-
-    get_help().load();
 
     while( true ) {
         main_menu menu;

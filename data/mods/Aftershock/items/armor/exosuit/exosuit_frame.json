@@ -341,7 +341,15 @@
     ],
     "power_draw": "6460 mW",
     "revert_to": "modular_exosuit",
-    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
+    "use_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "The %s disengages.",
+        "target": "modular_exosuit"
+      }
+    ],
     "armor": [
       {
         "material": [
@@ -560,7 +568,15 @@
     "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
     "power_draw": "5787 mW",
     "revert_to": "modular_exosuit_light",
-    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit_light" } ],
+    "use_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "The %s disengages.",
+        "target": "modular_exosuit_light"
+      }
+    ],
     "armor": [
       {
         "material": [

@@ -40,9 +40,15 @@ static const efftype_id effect_infected( "infected" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_socks( "test_socks" );
+static const itype_id itype_test_zentai( "test_zentai" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 static const morale_type morale_killed_innocent( "morale_killed_innocent" );
@@ -85,6 +91,8 @@ static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" )
 static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
+static const widget_id widget_test_custom_var_dynamic_range( "test_custom_var_dynamic_range" );
+static const widget_id widget_test_custom_var_static_range( "test_custom_var_static_range" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
@@ -908,14 +916,14 @@ TEST_CASE( "widgets_showing_movement_cost", "[widget][move_cost]" )
     }
     SECTION( "wearing sneakers" ) {
         // Sneakers eliminate the no-shoes penalty
-        ava.wear_item( item( "sneakers" ) );
+        ava.wear_item( item( itype_sneakers ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.run_cost( 100 ) == 100 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 100" );
     }
     SECTION( "wearing swim fins" ) {
         // Swim fins multiply cost by 1.5
-        ava.wear_item( item( "swim_fins" ) );
+        ava.wear_item( item( itype_swim_fins ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.run_cost( 100 ) == 167 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
@@ -1372,7 +1380,7 @@ TEST_CASE( "widget_showing_body_part_status_text", "[widget][bp_status]" )
 
     WHEN( "broken and splinted" ) {
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         REQUIRE( ava.is_limb_broken( arm ) );
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
         check_bp_has_status( arm_status_w.layout( ava ),
@@ -1497,7 +1505,7 @@ TEST_CASE( "compact_bodypart_status_widgets_+_legend", "[widget][bp_status]" )
 
     WHEN( "broken and splinted" ) {
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         REQUIRE( ava.is_limb_broken( arm ) );
         REQUIRE( ava.worn_with_flag( json_flag_SPLINT, arm ) );
         check_bp_has_status( arm_stat.layout( ava, sidebar_width ),
@@ -1578,17 +1586,17 @@ TEST_CASE( "outer_armor_widget", "[widget][armor]" )
     CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
 
     // Wearing something covering torso
-    ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_zentai ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
-    ava.worn.wear_item( ava, item( "test_socks" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_socks ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
-    ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
+    ava.worn.wear_item( ava, item( itype_test_hazmat_suit ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_green>++</color>\u00A0TEST hazmat suit (poor fit)" );
 }
@@ -1674,8 +1682,8 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms northeast = ava.pos_bub() + tripoint( 10, -10, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters" ) {
         clear_map();
@@ -1940,7 +1948,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint_below );
+            ava.setpos( tripoint_bub_ms::zero + tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
@@ -1954,7 +1962,7 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
         for( int y = -1; y <= 1; ++y ) {
             const tripoint offset( x, y, 0 );
             overmap_buffer.ter_set( ava_pos + offset, oter );
-            overmap_buffer.set_seen( ava_pos + offset, true );
+            overmap_buffer.set_seen( ava_pos + offset, om_vision_level::full );
         }
     }
 }
@@ -2044,13 +2052,13 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Single-line layout" ) {
             std::string layout1 = "abcd efgh ijkl mnop qrst";
             CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2062,7 +2070,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         SECTION( "Single-line layout" ) {
             std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
             CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd                           " );
             CHECK( lines[1] == " efgh                           " );
             CHECK( lines[2] == " ijkl                           " );
@@ -2092,7 +2100,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
         clear_map();
@@ -2440,7 +2448,7 @@ TEST_CASE( "Widget_alignment", "[widget]" )
         ava.add_effect( effect_bleed, 1_minutes, torso );
         ava.get_effect( effect_bleed, torso ).set_intensity( 5 );
         ava.set_part_hp_cur( arm, 0 );
-        ava.wear_item( item( "arm_splint" ) );
+        ava.wear_item( item( itype_arm_splint ) );
         ava.add_effect( effect_bandaged, 1_minutes, arm );
 
         bp_legend._label_align = widget_alignment::LEFT;
@@ -2597,7 +2605,7 @@ TEST_CASE( "Clause_conditions_-_pure_JSON_widgets", "[widget][clause][condition]
 
 TEST_CASE( "widget_disabled_when_empty", "[widget]" )
 {
-    item blindfold( "blindfold" );
+    item blindfold( itype_blindfold );
     avatar &ava = get_avatar();
     clear_avatar();
 
@@ -2623,14 +2631,14 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         const int cols = 32;
         const int rows = 5;
 
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Not empty" ) {
             // Show widget text when character is not blind
             REQUIRE( !ava.is_blind() );
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " NOT EMPTY: Text exists         " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2645,7 +2653,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
             REQUIRE( ava.is_blind() );
             // Shouldn't be called (height should be decremented), but check it just in case
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == "                                " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2904,6 +2912,49 @@ TEST_CASE( "W_NO_PADDING_widget_flag", "[widget]" )
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+        }
+    }
+}
+
+TEST_CASE( "widgets_using_custom_vars", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "static range" ) {
+        widget static_range_w = widget_test_custom_var_static_range.obj();
+
+        ava.set_focus( 75 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 75" );
+        ava.set_focus( 120 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 120" );
+    }
+
+    SECTION( "dynamic range" ) {
+        widget dynamic_range_w = widget_test_custom_var_dynamic_range.obj();
+        ava.str_max = 8;
+
+        GIVEN( "value within normal range" ) {
+            ava.set_str_bonus( 0 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_white>8</color>" );
+        }
+
+        GIVEN( "value below normal range" ) {
+            ava.set_str_bonus( -1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_yellow>7</color>" );
+            ava.set_str_bonus( -2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_red>6</color>" );
+            ava.set_str_bonus( -3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_red>5</color>" );
+        }
+
+        GIVEN( "value above normal range" ) {
+            ava.set_str_bonus( 1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_cyan>9</color>" );
+            ava.set_str_bonus( 2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_green>10</color>" );
+            ava.set_str_bonus( 3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_green>11</color>" );
         }
     }
 }

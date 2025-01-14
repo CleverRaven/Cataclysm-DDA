@@ -12,6 +12,7 @@
     "batch_time_factors": [ 80, 3 ],
     "book_learn": [ [ "schematics_transporters", 9 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },
@@ -31,7 +32,7 @@
       [ [ "matrix_crystal_clair_dust_refined", 8 ] ],
       [ [ "memory_card", 2 ] ],
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "super_glue", 1 ] ],
       [ [ "RAM", 4 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
@@ -55,6 +56,7 @@
     "batch_time_factors": [ 80, 3 ],
     "book_learn": [ [ "schematics_transporters", 6 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false },

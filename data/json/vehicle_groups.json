@@ -306,7 +306,6 @@
       [ "van_full-size", 600 ],
       [ "van_cargo", 400 ],
       [ "van_camper", 200 ],
-      [ "rara_x", 800 ],
       [ "apc", 300 ],
       [ "apc-gl", 100 ],
       [ "aapc-mg", 100 ],
@@ -409,8 +408,6 @@
       [ "suv_electric_rack", 120 ],
       [ "pickup", 300 ],
       [ "4seat_pickup", 125 ],
-      [ "portable_generator", 50 ],
-      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -462,8 +459,6 @@
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
-      [ "portable_generator", 50 ],
-      [ "portable_diesel_generator", 25 ],
       [ "bicycle", 200 ],
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
@@ -577,7 +572,6 @@
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
       [ "bicycle", 1000 ],
-      [ "rara_x", 300 ],
       [ "unicycle", 100 ],
       [ "bicycle_electric", 200 ],
       [ "motorcycle", 500 ],
@@ -589,8 +583,6 @@
       [ "icecream_truck", 50 ],
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
-      [ "portable_generator", 50 ],
-      [ "portable_diesel_generator", 25 ],
       [ "4x4_car", 100 ],
       [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
@@ -634,8 +626,6 @@
       [ "engine_crane", 40 ],
       [ "motorcycle", 10 ],
       [ "motorcycle_chassis", 20 ],
-      [ "portable_generator", 20 ],
-      [ "portable_diesel_generator", 20 ],
       [ "motorcycle_3wheel", 5 ],
       [ "motorcycle_3wheel_super", 5 ],
       [ "quad_bike", 10 ],
@@ -675,8 +665,7 @@
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
       [ "excavator", 500 ],
-      [ "wheelbarrow", 100 ],
-      [ "portable_diesel_generator", 75 ]
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -1083,7 +1072,7 @@
   {
     "type": "vehicle_group",
     "id": "workshop_vehicles",
-    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ], [ "portable_diesel_generator", 20 ] ]
+    "vehicles": [ [ "welding_cart", 30 ] ]
   },
   {
     "type": "vehicle_group",
@@ -1251,7 +1240,6 @@
     "vehicles": [
       [ "electric_car", 100 ],
       [ "suv_electric", 70 ],
-      [ "rara_x", 40 ],
       [ "car_luxury", 40 ],
       [ "car_micro", 40 ],
       [ "car_micro_hybrid", 40 ],

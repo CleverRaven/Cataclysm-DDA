@@ -84,6 +84,10 @@ void mongroup::clear()
     monsters.clear();
 }
 
+/**
+ * The average speed of the monsters in the group.
+ * If monsters vector is empty, the average speed of the group is calculated.
+ */
 float mongroup::avg_speed() const
 {
     float avg_speed = 0.0f;
@@ -237,11 +241,20 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
             // Check for monsters within subgroup
             for( int i = 0; i < pack_size; i++ ) {
                 std::vector<MonsterGroupResult> tmp_grp =
-                    GetResultFromGroup( entry.group, quantity, mon_found, true );
+                    GetResultFromGroup( entry.group, quantity, &monster_found, true );
                 spawn_details.insert( spawn_details.end(), tmp_grp.begin(), tmp_grp.end() );
             }
-        } else if( use_pack_size ) {
-            for( int i = 0; i < pack_size; i++ ) {
+        } else {
+            if( use_pack_size ) {
+                for( int i = 0; i < pack_size; i++ ) {
+                    spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                    // And if a quantity pointer with remaining value was passed, will modify the external
+                    // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+                    if( quantity ) {
+                        *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+                    }
+                }
+            } else {
                 spawn_details.emplace_back( entry.name, pack_size, entry.data );
                 // And if a quantity pointer with remaining value was passed, will modify the external
                 // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
@@ -249,30 +262,23 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
                     *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
                 }
             }
-        } else {
-            spawn_details.emplace_back( entry.name, pack_size, entry.data );
-            // And if a quantity pointer with remaining value was passed, will modify the external
-            // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
-            if( quantity ) {
-                *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
-            }
+            monster_found = true;
         }
-        monster_found = true;
         break;
     }
 
-    // Force quantity to decrement regardless of whether we found a monster.
-    if( quantity && !monster_found && !is_recursive ) {
-        ( *quantity )--;
-    }
     if( mon_found ) {
         ( *mon_found ) = monster_found;
     }
 
-    if( !is_recursive && spawn_details.empty() ) {
+    if( !is_recursive && !monster_found ) {
         spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
         if( returned_default ) {
             ( *returned_default ) = true;
+        }
+        // Force quantity to decrement regardless of whether we found a monster.
+        if( quantity ) {
+            ( *quantity )--;
         }
     }
 
@@ -447,6 +453,11 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             mg.defaultMonster = mtype_id::NULL_ID();
         }
     }
+}
+
+std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
+{
+    return MonsterGroupManager::monsterGroupMap;
 }
 
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )

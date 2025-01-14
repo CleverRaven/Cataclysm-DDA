@@ -48,6 +48,51 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "afs_physical_stat_genemod",
+    "name": "Genemod: Physical Ability",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to increase strength, coordination, and sensory ability as well as fix problems such as nearsightedness.",
+    "points": 2,
+    "traits": [ "AFS_PHYSICAL_CAPABILITY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_mental_stat_genemod",
+    "name": "Genemod: Mental Acuity",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to increase mental flexibility and memorization.",
+    "points": 2,
+    "traits": [ "AFS_MENTAL_CAPABILITY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_health_genemod",
+    "name": "Genemod: Improved Health",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to health, providing increased healing speed and resistance to disease and infection.",
+    "points": 2,
+    "traits": [ "AFS_HEALTH_CAPABILITY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_efficiency_genemod",
+    "name": "Genemod: Efficient System",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to recovery, allowing a quicker sleep cycle and faster return to baseline after exertion.",
+    "points": 2,
+    "traits": [ "AFS_RECOVERY_CAPABILITY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_beauty_genemod",
+    "name": "Genemod: Beauty",
+    "description": "Much more common in the Hyperspace Era, the rich or those from Earth still have access to genemodding technology designed to make humanity better.  This is the suite of improvements to physical appearance, offering clearer skin, more striking features, increased facial symmetry, and removing signs of aging.",
+    "points": 2,
+    "traits": [ "AFS_BEAUTY_GENEMOD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "afs_electrokinetic_hobby",
     "name": "Esper Inheritance (Spark)",
     "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you.  You have no training and little idea what you're doing, but you've developed a trick or two.",
@@ -64,5 +109,15 @@
     "points": 5,
     "traits": [ "ESPER", "AFS_TELEPATH" ],
     "spells": [ { "id": "afs_telepathic_mind_sense", "level": 3 }, { "id": "afs_telepathic_shield", "level": 2 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_telekinetic_hobby",
+    "name": "Esper Inheritance (Geist)",
+    "description": "Some long-distant member of your family received psi treatments during the Hyperspace Era and somehow it stuck in their DNA.  Always unpredictable, skipping multiple generations at a time, that inheritance has been passed down to you.  You have no training and little idea what you're doing, but you've developed a trick or two.",
+    "points": 5,
+    "traits": [ "ESPER", "AFS_TELEKINETIC" ],
+    "spells": [ { "id": "afs_telekinetic_move_item", "level": 3 }, { "id": "afs_telekinetic_move_creature", "level": 2 } ]
   }
 ]

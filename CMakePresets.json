@@ -23,7 +23,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
@@ -53,7 +53,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Visual Studio 16 2019",
+      "generator": "Visual Studio 17 2022",
       "inherits": "windows-tiles-sounds-x64",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
@@ -65,19 +65,19 @@
       }
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
+      "name": "windows-tiles-sounds-x64-clang-cl",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "displayName": "Windows Tiles Sounds x64 LLVM",
-      "description": "Target Windows (64-bit) with the LLVM development environment.",
-      "inherits": "windows-tiles-sounds-x64",
+      "displayName": "Windows Tiles Sounds x64 ClangCL",
+      "description": "Target Windows (64-bit) with the ClangCL development environment.",
+      "inherits": "windows-tiles-sounds-x64-msvc",
+      "toolset": "CLangCL",
       "environment": {
-        "VCPKG_ROOT": "C:/vcpkg"
+        "CXXFLAGS": "-ftime-trace"
       },
       "cacheVariables": {
-        "LLVM_ROOT": "C:/Program Files/LLVM",
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/LLVM.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE": null,
+        "VCPKG_MANIFEST_DIR": "${sourceDir}/msvc-full-features",
         "VCPKG_APPLOCAL_DEPS": "False"
       }
     },
@@ -157,9 +157,12 @@
       "configuration": "RelWithDebInfo"
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
-      "configurePreset": "windows-tiles-sounds-x64-llvm",
-      "configuration": "RelWithDebInfo"
+      "name": "windows-tiles-sounds-x64-clang-cl",
+      "configurePreset": "windows-tiles-sounds-x64-clang-cl",
+      "configuration": "RelWithDebInfo",
+      "environment": {
+        "UseMultiToolTask":  "true"
+      }
     }
   ],
   "testPresets": [

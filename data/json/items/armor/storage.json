@@ -121,6 +121,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -129,6 +130,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -407,6 +409,20 @@
     "color": "brown",
     "pocket_data": [
       {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack.",
+        "ripoff": 3,
+        "transparent": true
+      },
+      {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "25 L",
         "max_contains_weight": "30 kg",
@@ -589,7 +605,6 @@
     "volume": "52500 ml",
     "price": "75 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
@@ -609,8 +624,7 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "bigback",
@@ -703,7 +717,6 @@
     "volume": "3 L",
     "price": "80 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton", "wood" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -716,6 +729,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -723,8 +737,8 @@
     "type": "ARMOR",
     "name": { "str": "box backpack" },
     "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
-    "weight": "8000 g",
-    "to_hit": -5,
+    "weight": "8 kg",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "symbol": "]",
     "looks_like": "jerrypack",
@@ -774,7 +788,7 @@
     "price": "35 USD",
     "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 16, "cut": 4 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "briefcase",
@@ -786,7 +800,6 @@
     "longest_side": "46 cm",
     "price": "240 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -805,6 +818,7 @@
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 5 }
   },
   {
@@ -816,7 +830,7 @@
     "volume": "10500 ml",
     "price": "240 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel", "leather" ],
     "symbol": "&",
     "looks_like": "briefcase",
@@ -835,7 +849,7 @@
     "material_thickness": 5,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "daypack",
@@ -1151,7 +1165,6 @@
     "volume": "525 ml",
     "price": "45 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 2,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1169,8 +1182,7 @@
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "fanny",
@@ -1181,7 +1193,6 @@
     "volume": "1050 ml",
     "price": "35 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 2,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1206,8 +1217,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "golf_bag",
@@ -1348,7 +1358,6 @@
     "volume": "10500 ml",
     "price": "14 USD 50 cent",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -1376,7 +1385,6 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1400,8 +1408,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "legrig",
@@ -1810,7 +1817,6 @@
     "volume": "5 L",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -1848,7 +1854,6 @@
     "volume": "2625 ml",
     "price": "79 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
@@ -1874,7 +1879,6 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ],
-    "melee_damage": { "bash": 1 },
     "use_action": {
       "type": "transform",
       "msg": "You slide the bag to your side.",
@@ -1904,7 +1908,7 @@
   {
     "id": "molle_pack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE assault pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1450 g",
@@ -1995,7 +1999,7 @@
   {
     "id": "molle_medium_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE medium rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military medium rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1600 g",
@@ -2086,7 +2090,7 @@
   {
     "id": "molle_large_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE large rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military large rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "2200 g",
@@ -2242,12 +2246,12 @@
     "type": "ARMOR",
     "name": { "str": "plastic shopping bag" },
     "description": "A bag used to carry groceries home.",
+    "ascii_picture": "bag_plastic",
     "category": "container",
     "weight": "2 g",
     "volume": "30 ml",
     "price": "1 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
@@ -2269,7 +2273,6 @@
     "volume": "1 L",
     "price": "75 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -2293,8 +2296,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front" ]
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "id": "ragpouch",
@@ -2305,7 +2307,6 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "light_gray",
@@ -2328,8 +2329,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "rucksack",
@@ -2462,7 +2462,6 @@
     "volume": "1500 ml",
     "price": "240 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -2488,8 +2487,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "slingpack",
@@ -2526,8 +2524,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "straw_basket",
@@ -2538,7 +2535,6 @@
     "volume": "10500 ml",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "paper" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -2624,7 +2620,6 @@
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duffelbag",
@@ -3222,8 +3217,7 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
   },
   {
     "id": "bookstrap",

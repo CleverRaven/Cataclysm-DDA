@@ -20,6 +20,7 @@ static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PA
 
 static const itype_id itype_club_wooden( "club_wooden" );
 static const itype_id itype_sword_crude( "sword_crude" );
+static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_weapon1( "test_weapon1" );
 static const itype_id itype_test_weapon2( "test_weapon2" );
 
@@ -36,7 +37,7 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
 
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
 TEST_CASE( "martial_arts", "[martial_arts]" )
 {
@@ -94,7 +95,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
     clear_character( dude );
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );
-    monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint_east );
+    monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint::east );
     const matec_id &tec = *test_style_ma1->techniques.find( test_vector_tech_1 );
     const matec_id &tec2 = *test_style_ma1->techniques.find( test_vector_tech_2 );
     REQUIRE( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
@@ -136,7 +137,7 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
     }
     SECTION( "Encumbrance" ) {
         REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
-        item test_eoc_armor_suit( "test_eoc_armor_suit" );
+        item test_eoc_armor_suit( itype_test_eoc_armor_suit );
         REQUIRE( dude.wear_item( test_eoc_armor_suit, false ) );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ) );
@@ -153,9 +154,9 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
 {
     clear_map();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    const tripoint target_1_pos = dude_pos + tripoint_east;
-    const tripoint target_2_pos = dude_pos + tripoint_north;
-    const tripoint target_3_pos = dude_pos + tripoint_west;
+    const tripoint_bub_ms target_1_pos = dude_pos + tripoint::east;
+    const tripoint_bub_ms target_2_pos = dude_pos + tripoint::north;
+    const tripoint_bub_ms target_3_pos = dude_pos + tripoint::west;
     clear_character( dude, true );
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );

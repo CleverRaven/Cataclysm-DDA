@@ -58,7 +58,7 @@
     "//": "Keeps your solar panels, lights and well everything going.",
     "items": [
       [ "screwdriver_set", 20 ],
-      [ "superglue", 30 ],
+      { "group": "superglue", "prob": 30 },
       [ "pliers", 10 ],
       [ "multitool", 20 ],
       [ "voltmeter", 20 ],
@@ -76,6 +76,12 @@
       { "item": "solder_wire", "prob": 30 },
       { "item": "duct_tape", "prob": 30, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_vehicle_repair",
+    "//": "Fixes up rovers, shuttlecraft, aerocraft and more. (Group stubed created for someone more knowledgable to fill)",
+    "items": [ { "group": "afs_tools_structural_repair", "prob": 40 }, { "group": "afs_tools_electric_repair", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -210,14 +216,14 @@
       { "item": "multitool", "prob": 5 },
       { "item": "screwdriver_set", "prob": 15 },
       { "item": "pliers", "prob": 5 },
-      { "item": "superglue", "prob": 5 },
+      { "group": "superglue", "prob": 5 },
       { "item": "duct_tape", "prob": 10, "count": [ 1, 2 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "afs_tools_scavenging",
-    "//": "lightweight tools used for finding and getting into places where you dont belong.",
+    "//": "lightweight tools used for finding and getting into places where you don't belong.",
     "items": [
       { "item": "electrohack", "prob": 100 },
       {

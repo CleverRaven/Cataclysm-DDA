@@ -39,6 +39,7 @@ static const ammotype ammo_water( "water" );
 
 static const damage_type_id damage_bash( "bash" );
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
@@ -126,10 +127,10 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     clear_vehicles();
     set_time_to_day();
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &character = get_player_character();
     character.toggle_trait( trait_DEBUG_CNF );
-    const item backpack( "backpack" );
+    const item backpack( itype_backpack );
     character.wear_item( backpack );
     for( const item &i : items ) {
         character.i_add( i );
@@ -137,7 +138,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     // Shift skill levels by one to ensure successful crafting
     // after the change in https://github.com/CleverRaven/Cataclysm-DDA/pull/61985
     character.set_skill_level( recipe.skill_used, recipe.difficulty + 1 );
-    for( const std::pair<skill_id, int> req : recipe.required_skills ) {
+    for( const std::pair<const skill_id, int> &req : recipe.required_skills ) {
         character.set_skill_level( req.first, req.second + 1 );
     }
     for( const recipe_proficiency &prof : recipe.proficiencies ) {
@@ -205,10 +206,10 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     clear_vehicles();
     set_time( midday );
 
-    const tripoint test_origin( 60, 60, 0 );
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;
     Character &character = get_player_character();
-    const item backpack( "backpack" );
+    const item backpack( itype_backpack );
     character.wear_item( backpack );
     get_map().add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position ovp = get_map().veh_at( test_origin );
@@ -234,12 +235,12 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         }
     }
     REQUIRE( faucet.has_value() );
-    get_map().board_vehicle( faucet->pos_bub() + tripoint_east, &character );
+    get_map().board_vehicle( faucet->pos_bub() + tripoint::east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
-        veh.build_interact_menu( menu, faucet->pos(), false );
+        veh.build_interact_menu( menu, faucet->pos_bub(), false );
         const std::vector<veh_menu_item> items = menu.get_items();
         const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),

@@ -5,7 +5,7 @@
     "name": { "str": "tame dragonfly egg" },
     "copy-from": "egg_dragonfly",
     "description": "The still-wet egg of a mutated dragonfly.  This one has been carefully tended for.  The dragonfly inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_DRAGONFLY_TAME"
+    "rot_spawn": { "monster": "mon_dragonfly_naiad_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -13,7 +13,7 @@
     "name": { "str": "tame mantis egg" },
     "copy-from": "egg_mantis",
     "description": "Praying mantis eggs glued to each other inside a strange-looking case.  These ones have been carefully tended for.  The mantis inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_MANTIS_TAME"
+    "rot_spawn": { "monster": "mon_mantis_nymph_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -21,7 +21,7 @@
     "name": { "str": "tame ladybug egg" },
     "copy-from": "egg_lady_bug",
     "description": "A ladybug egg.  You can see a translucent, happy looking larva inside.  This one has been carefully tended for.  The larva inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_LADY_BUG_TAME"
+    "rot_spawn": { "monster": "mon_lady_bug_larva_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -29,7 +29,7 @@
     "name": { "str": "tame antlion egg" },
     "copy-from": "egg_antlion",
     "description": "A large, white antlion egg.  This one has been carefully tended for.  The larva inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_ANTLION_TAME"
+    "rot_spawn": { "monster": "mon_antlion_larva_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -37,7 +37,7 @@
     "name": { "str": "tame cicada egg" },
     "copy-from": "egg_cicada",
     "description": "The egg of a cicada.  This one has been carefully tended for.  The cicada inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_CICADA_TAME"
+    "rot_spawn": { "monster": "mon_cicada_nymph_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -45,7 +45,7 @@
     "name": { "str": "tame water beetle egg" },
     "copy-from": "egg_water_beetle",
     "description": "The egg of a water beetle.  This one has been carefully tended for.  The larva inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_WATER_BEETLE_TAME"
+    "rot_spawn": { "monster": "mon_diving_larva_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -53,7 +53,7 @@
     "name": { "str": "tame water scorpion egg" },
     "copy-from": "egg_water_bug",
     "description": "The egg of a water scorpion.  This one has been carefully tended for.  The water scorpion inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_WATER_BUG_TAME"
+    "rot_spawn": { "monster": "mon_water_scorpion_larva_friendly", "chance": 100 }
   },
   {
     "type": "COMESTIBLE",
@@ -61,6 +61,6 @@
     "name": { "str": "tame centipede egg" },
     "copy-from": "egg_centipede",
     "description": "The egg of a centipede.  This one has been carefully tended for.  The centipede larva inside seems more timid and calmer upon touch.",
-    "rot_spawn": "GROUP_EGG_CENTIPEDE_TAME"
+    "rot_spawn": { "monster": "mon_centipede_larva_friendly", "chance": 100 }
   }
 ]

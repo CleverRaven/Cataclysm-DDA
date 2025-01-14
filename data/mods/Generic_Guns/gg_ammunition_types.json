@@ -43,6 +43,13 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_rifle_cannon",
+    "//": "specifically for Ree 3.3",
+    "name": "foreign cannon ammo",
+    "default": "rifle_ball_cannon"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_railgun",
     "name": "railgun ammo",
     "default": "rifle_rail_ammo"

@@ -120,38 +120,37 @@
   {
     "id": "TALK_PRISONER_GENERIC",
     "type": "talk_topic",
-    "dynamic_line": "<get_lost>",
+    "dynamic_line": "Get the fuck out of here.",
     "responses": [
       { "text": "Ok, sorry, I'm already leaving!", "topic": "TALK_DONE" },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
     "id": "TALK_PRISONER_GREET",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ],
       "no": {
         "gendered_line": "Hey, who the fuck are you?  I haven't seen you 'round.  Ah, fuck it, it doesn't matter.\nHere's the rules.  The first and most important one: ALWAYS CLOSE THE FUCKING ENTRY DOOR BEHIND YOUR ASS!  If you're okay with that, the following rules are: don't fuck with us, don't steal from us, don't start a fight without a reason with someone from us.  Got it, punk?  Now get lost.",
         "relevant_genders": [ "u" ]
       },
-      "yes": "<get_lost>"
+      "yes": "Do I need to repeat myself?  Get outta here, <name_b>."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_first_meeting", "value": "yes" } },
     "responses": [
       {
-        "text": "Yeah, I got it.  See ya.",
+        "text": "Yeah, I got it.  <end_talking_bye>",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] } }
       },
       {
         "text": "I just wanted to ask if you have a job for me.",
         "topic": "TALK_PRISONER_ANNOYED",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_annoyed_greeter_talked_to_greeter", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ] } }
           ]
         }
       },
@@ -160,9 +159,9 @@
         "topic": "TALK_PRISONER_ANGRY",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" },
-            { "u_has_var": "dialogue_annoyed_greeter_talked_to_greeter", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_angry_greeter_talked_to_greeter", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_angry_greeter_talked_to_greeter" } ] } }
           ]
         }
       },
@@ -171,42 +170,40 @@
         "topic": "TALK_PRISONER_READY_TO_MUG",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" },
-            { "u_has_var": "dialogue_angry_greeter_talked_to_greeter", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_angry_greeter_talked_to_greeter" } ] }
           ]
         }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
     "id": "TALK_PRISONER_ANNOYED",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_annoyed_greeter_talked_to_greeter",
-      "value": "yes",
-      "no": "Do I have a <swear> exclamation sign over my <swear> head, like I'm a <swear> quest-giver from some <swear> video game?",
-      "yes": "<get_lost>"
+      "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ],
+      "no": "Do I have a <freaking> exclamation sign over my <freaking> head, like I'm a <freaking> quest-giver from some <freaking> video game?",
+      "yes": "Get out, loser."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_annoyed_greeter_talked_to_greeter", "value": "yes" } },
     "responses": [
       {
         "text": "No, of course not!  Sorry, I'm leaving.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "dialogue_annoyed_greeter_talked_to_greeter", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ] } }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
     "id": "TALK_PRISONER_ANGRY",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_annoyed_greeter_talked_to_greeter",
-      "value": "yes",
-      "no": "<get_lost>",
+      "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ],
+      "no": "Disappear, <name_b>.",
       "yes": {
-        "gendered_line": "Are you deaf or stupid?  I said I don't give a fuck for you and your <swear> problems.  Bother me one more time, and you'll regret that.  <get_lost>",
+        "gendered_line": "Are you deaf or stupid?  I said I don't give a fuck for you and your <freaking> problems.  Bother me one more time, and you'll regret that.  Get outta my sight.",
         "relevant_genders": [ "u" ]
       }
     },
@@ -215,9 +212,9 @@
       {
         "text": "Ok, sorry, I promise I won't bother you anymore.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "dialogue_angry_greeter_talked_to_greeter", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_angry_greeter_talked_to_greeter" } ] } }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
@@ -246,26 +243,21 @@
     "id": "TALK_PRISONER_LEADER_GREET",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_military_id_prisoner_leader_mission",
-      "value": "yes",
-      "yes": "I have nothing more to say to you.  <get_lost>",
+      "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ],
+      "yes": "I have nothing more to say to you.  Get the fuck out of here.",
       "no": {
-        "u_has_var": "mission_accepted_prisoner_leader_mission",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ],
         "yes": "So, what are you waiting for?",
         "no": {
-          "u_has_var": "mission_completed_prisoner_leader_mission",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ],
           "yes": {
             "gendered_line": "I don't know if you know, but there are sewers underneath the prison.  I was planning an escape long before <the_cataclysm>, and while I was working on cleaning the sewers, I noticed a damaged wall section.  There was a flow of fresh air coming out of it, so I think it's leading to the surface.  It could be your way to freedom.  Feel free to use it.",
             "relevant_genders": [ "npc" ]
           },
           "no": {
-            "u_has_var": "dialogue_first_meeting_talked_to_leader",
-            "value": "yes",
+            "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ],
             "yes": {
-              "u_has_var": "dialogue_cannibal_talked_to_leader",
-              "value": "yes",
+              "compare_string": [ "yes", { "u_val": "dialogue_cannibal_talked_to_leader" } ],
               "no": "It's you again.",
               "yes": "You are what you eat, as they say."
             },
@@ -281,8 +273,8 @@
         "topic": "TALK_PRISONER_LEADER_INQUIRY",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_leader", "value": "yes" } },
-            { "not": { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -291,8 +283,8 @@
         "topic": "TALK_PRISONER_LEADER_FROWN",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_leader", "value": "yes" } },
-            { "not": { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -302,46 +294,46 @@
         "condition": {
           "and": [
             { "u_has_trait": "CANNIBAL" },
-            { "not": { "u_has_var": "dialogue_first_meeting_talked_to_leader", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_cannibal_talked_to_leader", "value": "yes" } },
-            { "not": { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_cannibal_talked_to_leader" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] } }
           ]
         }
       },
       {
-        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <freaking> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_leader", "value": "yes" },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } }
           ]
         }
       },
       {
         "text": "I'm on my way.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] }
       },
       {
         "text": "I don't know if I'll take your advice, but thanks nevertheless.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" },
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } }
           ]
         }
       },
       {
-        "text": "Wait, what?  A <swear> can of beans?!  I went through hell to get this <swear> thing for you, and all you give me as reward is a <swear> can of beans?!  I demand something more substantial.",
+        "text": "Wait, what?  A <freaking> can of beans?!  I went through hell to get this <freaking> thing for you, and all you give me as reward is a <freaking> can of beans?!  I demand something more substantial.",
         "topic": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
         "condition": {
           "and": [
-            { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" },
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -350,17 +342,17 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_first_meeting_talked_to_leader", "value": "yes" },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_completed_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_leader" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } }
           ]
         }
       },
       {
         "text": "Okay.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] }
       }
     ]
   },
@@ -377,7 +369,7 @@
     "dynamic_line": "Well, that's a boastful statement.  Not that I don't believe it, it's just….  Ah, nevermind.  Let's get to the point.  What do you want?",
     "responses": [
       {
-        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <freaking> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK"
       }
     ]
@@ -391,7 +383,7 @@
         "text": "Please!  I don't want to go back there!  I'm tired and hungry!  I just need time to rest!",
         "topic": "TALK_PRISONER_LEADER_ANNOYED"
       },
-      { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  Bye.", "topic": "TALK_DONE" }
+      { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -407,7 +399,7 @@
       {
         "text": "[Survival 2] I have some survival expertise!",
         "topic": "TALK_PRISONER_LEADER_NO",
-        "condition": { "math": [ "u_skill('survival')", ">=", "2" ] }
+        "condition": { "math": [ "u_skill('survival') >= 2" ] }
       },
       { "text": "I guess I need to find some other place…", "topic": "TALK_DONE" }
     ]
@@ -418,15 +410,14 @@
     "dynamic_line": "The answer is still no.  In fact it might be better for us to kill you right away - you know, the less mouths to feed, the better.  But I'm in a good mood today, so I've decided to help you get out of this island.",
     "responses": [
       { "text": "Ok, I'm listening.", "topic": "TALK_PRISONER_LEADER_GIVES_WORK" },
-      { "text": "You know, I think I'll manage without your help.  Bye.", "topic": "TALK_DONE" }
+      { "text": "You know, I think I'll manage without your help.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_PRISONER_LEADER_GIVES_WORK",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_accepted_prisoner_leader_mission",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ],
       "no": "I need you to retrieve some stuff from a locked safe.  Interested?",
       "yes": "So, what are you waiting for?"
     },
@@ -437,7 +428,7 @@
         "condition": {
           "and": [
             { "u_has_item": "id_military" },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -446,8 +437,8 @@
         "topic": "TALK_PRISONER_LEADER_ASKED_ABOUT_SAFE_CONTENTS",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -456,8 +447,8 @@
         "topic": "TALK_PRISONER_LEADER_ASKED_ABOUT_WHAT_FOR_DO_YOU_NEED_IT",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } }
           ]
         }
       },
@@ -466,23 +457,23 @@
         "topic": "TALK_MISSION_OFFER",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-            { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } }
           ]
         }
       },
       {
         "text": "I have a bad feeling about this.  Sorry, I'll pass.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] } }
       },
       {
         "text": "I'm on my way.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-            { "u_has_var": "mission_accepted_prisoner_leader_mission", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ] } },
+            { "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ] }
           ]
         }
       }
@@ -500,7 +491,7 @@
   {
     "id": "TALK_PRISONER_LEADER_ASKED_ABOUT_WHAT_FOR_DO_YOU_NEED_IT",
     "type": "talk_topic",
-    "dynamic_line": "Let's say that's none of your <swear> business.  Other questions?",
+    "dynamic_line": "Let's say that's none of your <freaking> business.  Other questions?",
     "responses": [
       { "text": "That's weird.", "topic": "TALK_NONE" },
       { "text": "I have a bad feeling about this.  Sorry, I'll pass.", "topic": "TALK_DONE" }
@@ -510,7 +501,7 @@
     "id": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
     "type": "talk_topic",
     "speaker_effect": { "effect": { "u_add_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-    "dynamic_line": "Hey, where did you get it?  Nevermind, just give it to me.  Just <swear> now.",
+    "dynamic_line": "Hey, where did you get it?  Nevermind, just give it to me.  Right now.",
     "responses": [
       {
         "text": "Hey, no need to be hostile.  Here you go, I don't need it anyway.",
@@ -536,15 +527,15 @@
     "id": "TALK_PRISONER_LEADER_TRIAL_SUCCESS",
     "type": "talk_topic",
     "dynamic_line": "Okay.  It was convincing.  I'll still get what I want, one way or another.  You better watch your back from now on.",
-    "responses": [ { "text": "Noted.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Noted.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
     "type": "talk_topic",
     "speaker_effect": { "effect": { "u_add_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-    "dynamic_line": "I'm afraid you're not in the position to demand anything from me, <name_b>.  <get_lost>",
+    "dynamic_line": "I'm afraid you're not in the position to demand anything from me, <name_b>.  You're done here, leave.",
     "responses": [
-      { "text": "Hey, <fuck_you>!  You'll regret that!", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "Hey, fuck you, <name_b>!  You'll regret that!", "topic": "TALK_DONE", "effect": "hostile" },
       { "text": "Okay, fine.  Cheapskate!", "topic": "TALK_DONE" }
     ]
   },

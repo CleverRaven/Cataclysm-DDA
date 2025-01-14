@@ -281,21 +281,6 @@
   },
   {
     "type": "recipe",
-    "result": "triple_launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "pipe_launcher40mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "m320",
     "obsolete": true
   },
@@ -312,11 +297,6 @@
   {
     "type": "recipe",
     "result": "ashot",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "460_casing",
     "obsolete": true
   },
   {
@@ -362,16 +342,6 @@
   {
     "type": "recipe",
     "result": "bp_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bp_460_rowland",
     "obsolete": true
   },
   {
@@ -602,16 +572,6 @@
   {
     "type": "recipe",
     "result": "reloaded_46mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_fmj",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_460_rowland",
     "obsolete": true
   },
   {

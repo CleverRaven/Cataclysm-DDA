@@ -223,7 +223,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": -10 } ]
+        "incoming_damage_mod": [ { "type": "cold", "add": -10 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -240,7 +241,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -259,7 +261,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
       }
     ]
   },
@@ -347,10 +350,23 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Sylph learns how to use surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
+    "description": "The Sylph learns how to surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
     "prereqs": [ "PUSHING_WIND" ],
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "sylph_hindering_wind_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CLEAR_THE_AIR",
+    "name": { "str": "Purifying the Air" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph can remove contaminants from the air such as smoke or pollen and leave only pure air behind.",
+    "prereqs": [ "SYLPH_PER_BONUS_1" ],
+    "prereqs2": [ "PUSHING_WIND" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_clear_the_air", 1 ] ]
   },
   {
     "type": "mutation",
@@ -382,8 +398,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Sylph gains the ability to call down the thunderstorm's judgement on a location while outdoors.",
-    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
-    "prereqs2": [ "ELECTRICAL_FIELD" ],
+    "prereqs": [ "SYLPH_LIGHTNING_MELEE_ATTACKS" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
     "spells_learned": [ [ "sylph_massive_lightning_bolt_spell", 1 ] ]
@@ -398,6 +413,36 @@
     "description": "Upon gaining this ability the Sylph gains the ability to summon an air sprite.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "summon_air_sprite", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_LIGHTNING_MELEE_ATTACKS",
+    "name": { "str": "Fulgurating Strikes" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "ELECTRICAL_EMISSIONS" ],
+    "prereqs2": [ "ELECTRICAL_FIELD" ],
+    "description": "At will, the Sylph may cause their attacks to carry a charge, whose power grows with their mastery of lightning.  Each attack costs mana while this trait is active.",
+    "category": [ "SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE",
+    "name": { "str": "Fulgurating Strikes Active", "//~": "NO_I18N" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": { "str": "The actual trait that grants you fulgurating strikes.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "category": [ "SYLPH" ],
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ "ench_sylph_fulgurating_strikes_basic", "ench_sylph_fulgurating_strikes_advanced" ]
   },
   {
     "type": "mutation",

@@ -14,9 +14,9 @@ The devcontainer was introduced in [#65748](https://github.com/CleverRaven/Catac
 
 1. Install all prerequisites.
 2. Clone your fork of the CleverRaven/Cataclysm-DDA repo and create a branch
-3. Add Cleverraven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
+3. Add CleverRaven as the remote upstream with git remote add upstream git@github.com:CleverRaven/Cataclysm-DDA.git
 4. Open the folder where you cloned your repository in Visual Studio Code via the UI or by navigating to the directory in a terminal and typing Code
-5. Visual Studio Code will show a pup-up in the bottom right with recommended extentions. Install those.
+5. Visual Studio Code will show a pup-up in the bottom right with recommended extensions. Install those.
 6. If you don't plan to compile the object creator, open the Dockerfile in the VSCode file browser and scroll down to find this section:
   ![Image showing the uncommented part of the dockerfile](../img/Devcontainer-Find-Uncommented-Linux-QT5-Libs.png)
 
@@ -60,7 +60,7 @@ Next, scroll down to find this section:
 
 9. Select the makefile extension on the bottom left and choose your desired configuration. Press the "Play" button to build the project
 
-  ![Image the buttons to press in the makefile extention](../img/Devcontainer-Make-File-Configs.png)
+  ![Image the buttons to press in the makefile extension](../img/Devcontainer-Make-File-Configs.png)
 
 
   
@@ -90,7 +90,7 @@ You can then test your build on your linux machine by opening a terminal in the 
 
   ![Image showing prompt to rebuild the devcontainer](../img/Devcontainer-Dockerfile-Changed-Prompt-Click-Rebuild.png)
 
-4. Go to the makefile extention and set the makefile settings as follows:
+4. Go to the makefile extension and set the makefile settings as follows:
 
   ![Image showing the makefile settings for cross compilation](../img/Devcontainer-Makefile-Settings-Crosscompile-Windows.png)
   

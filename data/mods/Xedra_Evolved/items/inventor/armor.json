@@ -52,16 +52,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [
-      "WATERPROOF",
-      "STURDY",
-      "PADDED",
-      "TRADER_AVOID",
-      "PSYSHIELD_PARTIAL",
-      "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
-    ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -150,7 +141,7 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "MORPHIC", "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -174,7 +165,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -236,7 +227,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -317,11 +308,11 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [
-            { "value": "ARMOR_CUT", "multiply": -0.5 },
-            { "value": "ARMOR_BASH", "multiply": -0.5 },
-            { "value": "ARMOR_STAB", "multiply": -0.5 },
-            { "value": "ARMOR_BULLET", "multiply": -0.5 }
+          "incoming_damage_mod": [
+            { "type": "bash", "multiply": -0.5 },
+            { "type": "stab", "multiply": -0.5 },
+            { "type": "cut", "multiply": -0.5 },
+            { "type": "bullet", "multiply": -0.5 }
           ]
         }
       ]
@@ -348,7 +339,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "aura_force_on",
@@ -392,6 +383,7 @@
     "ammo": [ "battery" ],
     "material_thickness": 0.1,
     "flags": [
+      "MORPHIC",
       "WATCH",
       "ALARMCLOCK",
       "SKINTIGHT",
@@ -399,8 +391,7 @@
       "CALORIES_INTAKE",
       "ELECTRONIC",
       "MUNDANE",
-      "INVENTOR_CRAFTED",
-      "ELECTROKINETIC_CHARGEABLE"
+      "INVENTOR_CRAFTED"
     ],
     "pocket_data": [
       {
@@ -426,12 +417,24 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "distance": 30,
+              "descriptions": [
+                {
+                  "id": "moving_creature",
+                  "symbol": "?",
+                  "color": "c_white",
+                  "text": "Your halo register potential hazard from this direction."
+                }
+              ]
+            }
+          ],
           "values": [
             { "value": "BONUS_DODGE", "add": 1 },
             { "value": "PERCEPTION", "add": 2 },
-            { "value": "MOTION_VISION_RANGE", "add": 30 },
             { "value": "RANGED_DAMAGE", "multiply": 0.33 },
-            { "value": "WEAPON_DISPERSION", "multiply": 0.33 }
+            { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
           ]
         }
       ]
@@ -473,7 +476,7 @@
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
-    "flags": [ "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
+    "flags": [ "MORPHIC", "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
     "material_thickness": 1,
     "armor": [
@@ -548,7 +551,8 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "melee_damage": { "electric": 10 },
+    "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -574,12 +578,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
-        }
+        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
       ]
     },
     "material_thickness": 0.3,
@@ -611,7 +610,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
-    "flags": [ "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC", "MUNDANE", "INVENTOR_CRAFTED" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
@@ -647,7 +646,7 @@
     "id": "wolf_mask_act",
     "type": "TOOL_ARMOR",
     "copy-from": "wolf_mask",
-    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
+    "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
     "revert_to": "wolf_mask",
@@ -678,7 +677,55 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
+    "flags": [ "MORPHIC", "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xedra_inventor_damage_reversal_device",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "Injury Reset Device" },
+    "description": "A bulky wristwatch that attaches to your arm.  Using it will revert the last injury that you have suffered.  Also tells the time.",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "looks_like": "wristwatch",
+    "ammo": [ "battery" ],
+    "material": [ "kevlar", "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "charges_per_use": 300,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Reverse your last injury.",
+      "effect_on_conditions": [ "EOC_XEDRA_DAMAGE_REVERSAL" ],
+      "need_worn": true
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "flags": [
+      "MORPHIC",
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "ELECTRONIC",
+      "INVENTOR_CRAFTED",
+      "STURDY",
+      "PADDED"
+    ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   }
 ]

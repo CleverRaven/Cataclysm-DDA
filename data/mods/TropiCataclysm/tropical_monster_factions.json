@@ -12,6 +12,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "onicophore",
+    "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "turtle",
     "base_faction": "small_animal"
   },

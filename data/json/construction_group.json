@@ -433,6 +433,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_char_kiln",
+    "name": "Place Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
   },
@@ -1317,6 +1322,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_glassblowers_crucible",
+    "name": "Place Glassblower's Crucible"
+  },
+  {
+    "type": "construction_group",
     "id": "place_drill_press",
     "name": "Place Drill Press"
   },
@@ -1462,6 +1472,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_motorbike_battery",
+    "name": "Place Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_motorbike_small_battery",
+    "name": "Place Small Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_washing_machine",
     "name": "Place Washing Machine"
   },
@@ -1523,7 +1543,7 @@
   {
     "type": "construction_group",
     "id": "place_anvil_crude",
-    "name": "Place Crude Anvil"
+    "name": "Place Small Anvil"
   },
   {
     "type": "construction_group",
@@ -1827,11 +1847,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_active_backup_generator",
-    "name": "Place backup generator"
-  },
-  {
-    "type": "construction_group",
     "id": "build_rope_hoist",
     "name": "Hang Simple Rope Hoist"
   },
@@ -2064,5 +2079,10 @@
     "type": "construction_group",
     "id": "build_vent_pipe",
     "name": "Build Vent Pipe"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_windowframe_with_sheet",
+    "name": "Cover Empty Window With Sheet"
   }
 ]

@@ -19,7 +19,7 @@ static const update_mapgen_id update_mapgen_test_update_remove_npc( "test_update
 namespace
 {
 
-void check_creature( tripoint const &loc, string_id<npc_template> const &id, bool state )
+void check_creature( tripoint_bub_ms const &loc, string_id<npc_template> const &id, bool state )
 {
     Creature *critter = get_creature_tracker().creature_at( loc, true );
     if( state ) {
@@ -30,7 +30,7 @@ void check_creature( tripoint const &loc, string_id<npc_template> const &id, boo
     }
 }
 
-void place_npc_and_check( map &m, tripoint const &loc, update_mapgen_id const &id,
+void place_npc_and_check( map &m, tripoint_bub_ms const &loc, update_mapgen_id const &id,
                           string_id<npc_template> const &nid )
 {
     check_creature( loc, nid, false );
@@ -40,7 +40,7 @@ void place_npc_and_check( map &m, tripoint const &loc, update_mapgen_id const &i
     g->mon_info_update();
 }
 
-void remove_npc_and_check( map &m, tripoint const &loc, update_mapgen_id const &id,
+void remove_npc_and_check( map &m, tripoint_bub_ms const &loc, update_mapgen_id const &id,
                            string_id<npc_template> const &nid )
 {
     check_creature( loc, nid, true );
@@ -63,18 +63,19 @@ TEST_CASE( "mapgen_remove_npcs" )
         map &here = get_map();
         clear_map();
         clear_avatar();
-        tripoint const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
+        tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
         get_avatar().setpos( start_loc );
         clear_npcs();
         set_time( calendar::turn_zero + 12_hours );
 
         tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
-        tripoint_abs_omt const omt2 = omt + tripoint_east;
-        tripoint const loc = here.getlocal( project_to<coords::ms>( omt ) );
-        tripoint const loc2 = here.getlocal( project_to<coords::ms>( omt2 ) );
-        tripoint const loc3 = loc2 + tripoint_east;
+        tripoint_abs_omt const omt2 = omt + tripoint::east;
+        tripoint_bub_ms const loc = here.bub_from_abs( project_to<coords::ms>( omt ) );
+        tripoint_bub_ms const loc2 = here.bub_from_abs( project_to<coords::ms>( omt2 ) );
+        tripoint_bub_ms const loc3 = loc2 + tripoint::east;
         REQUIRE( get_map().inbounds( loc ) );
-        place_npc_and_check( here, loc, update_mapgen_test_update_place_npc, npc_template_test_npc_trader );
+        place_npc_and_check( here, loc, update_mapgen_test_update_place_npc,
+                             npc_template_test_npc_trader );
         REQUIRE( overmap_buffer.get_npcs_near_omt( omt, 0 ).size() == 1 );
         place_npc_and_check( here, loc2, update_mapgen_test_update_place_npc,
                              npc_template_test_npc_trader );
@@ -90,7 +91,8 @@ TEST_CASE( "mapgen_remove_npcs" )
             }
 
             THEN( "NPC of different class on same submap not affected" ) {
-                place_npc_and_check( here, loc3, update_mapgen_test_update_place_npc_thug, npc_template_thug );
+                place_npc_and_check( here, loc3, update_mapgen_test_update_place_npc_thug,
+                                     npc_template_thug );
                 REQUIRE( overmap_buffer.get_npcs_near_omt( omt2, 0 ).size() == 2 );
                 remove_npc_and_check( here, loc2, update_mapgen_test_update_remove_npc,
                                       npc_template_test_npc_trader );

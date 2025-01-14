@@ -64,7 +64,8 @@
         "distribution": [ { "item": "tac_fullhelmet_uicas", "prob": 20 }, { "item": "tac_helmet_uicas", "prob": 1 } ],
         "prob": 40
       },
-      { "item": "afs_military_cloak", "prob": 40 }
+      { "item": "afs_military_cloak", "prob": 40 },
+      { "item": "afs_backpack_shieldgen", "prob": 1 }
     ]
   },
   {

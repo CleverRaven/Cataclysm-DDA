@@ -5,7 +5,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AI bolt-action sniper rifle" },
-    "description": "A high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the cataclysm.  Firing the powerful .338 Lapua cartridge, the weapon feeds from detachable five round Accuracy International magazines.",
+    "description": "A high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the Cataclysm.  Firing the powerful .338 Lapua cartridge, the weapon feeds from detachable five round Accuracy International magazines.",
     "variant_type": "gun",
     "variants": [
       {

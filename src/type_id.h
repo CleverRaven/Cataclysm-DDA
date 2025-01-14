@@ -201,6 +201,9 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class oter_vision;
+using oter_vision_id = string_id<oter_vision>;
+
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;
 
@@ -248,6 +251,9 @@ using speed_description_id = string_id<speed_description>;
 
 class mood_face;
 using mood_face_id = string_id<mood_face>;
+
+class magic_type;
+using magic_type_id = string_id<magic_type>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;

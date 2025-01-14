@@ -183,7 +183,7 @@
     "type": "skill",
     "id": "rifle",
     "name": { "str": "rifles" },
-    "description": "Classic rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in in close combat.  Short-barreled rifles and carbines are more like SMGs and performs well in close combat.",
+    "description": "Classic rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close combat.  Short-barreled rifles and carbines are more like SMGs and perform well in close combat.",
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
@@ -310,7 +310,7 @@
     "type": "skill",
     "id": "weapon",
     "name": { "str": "weapon" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "tags": [ "contextual_skill" ],
     "display_category": "none",
     "sort_rank": 500000

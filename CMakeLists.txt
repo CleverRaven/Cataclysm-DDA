@@ -317,6 +317,18 @@ if (CURSES)
     if (WIN32 AND VCPKG_MANIFEST_MODE)
         find_package(unofficial-pdcurses CONFIG)
         if(TARGET unofficial::pdcurses::pdcurses)
+            get_target_property(_IMPORTED_CONFIGURATIONS unofficial::pdcurses::pdcurses
+                IMPORTED_CONFIGURATIONS
+            )
+            if (RELEASE AND "Release" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_RELEASE)
+            elseif("Debug" IN_LIST _IMPORTED_CONFIGURATIONS)
+                get_target_property(_IMPORTED_LOCATION unofficial::pdcurses::pdcurses
+                IMPORTED_IMPLIB_DEBUG)
+            endif()
+            set_target_properties(unofficial::pdcurses::pdcurses PROPERTIES
+                IMPORTED_LOCATION ${_IMPORTED_LOCATION})
             set(USE_PDCURSES TRUE)
         endif()
     elseif(MSYS2)
@@ -354,14 +366,6 @@ if (CURSES)
 endif ()
 
 if (SOUND)
-    # You need TILES to be able to use SOUND
-    if (NOT TILES)
-        message(FATAL_ERROR
-                "You must enable graphical support with -DTILES=1 \
-                 to be able to enable sound support. \
-                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
-
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)

@@ -146,7 +146,7 @@
       [ "popcan_stove", 10 ],
       [ "denat_alcohol", 6 ],
       [ "methed_alcohol", 4 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "water_clean", 50 ],
       [ "granola", 60 ],
       [ "fruit_leather", 50 ],

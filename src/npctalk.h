@@ -105,6 +105,9 @@ void start_training_npc( npc & );
 void start_training_seminar( npc &p );
 void start_training_gen( Character &teacher, std::vector<Character *> &students, teach_domain &d );
 
+// used for NPC camps
+void distribute_food_auto( npc &p );
+
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
@@ -133,6 +136,8 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                               const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
+
+std::vector<std::string> get_all_talk_topic_ids();
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,

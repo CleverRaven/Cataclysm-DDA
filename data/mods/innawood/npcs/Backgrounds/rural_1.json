@@ -18,7 +18,7 @@
   {
     "id": "BGSS_RURAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up my crops.  Not that I'd been working the fields since… well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and some strange sounds.  I was scared, kept to my shelter, practicing on my flute.  Then, one day, it was quiet.",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up my crops.  Not that I'd been working the fields since… well, it'd been a terrible year and I hadn't done much worth doing.  There were explosions and things, and some strange sounds.  I was scared, kept to my shelter, practicing on my flute.  Then, one day, it was quiet.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -29,8 +29,7 @@
     "id": "BGSS_RURAL_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_BGSS_rural_1_started_quest",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_BGSS_rural_1_started_quest" } ],
       "no": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people I cared about a bit.  I started to worry about them.  I headed out, but everything seemed different to me.  Didn't get far before I bumped into a giant fly buzzing, and that's when I started to put it all together.  Never did see my friends again.  My place was trashed anyway, so I've just been wandering since.",
       "yes": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people I cared about a bit.  I started to worry about them.  I headed out, but everything seemed different to me.  Didn't get far before I bumped into a giant fly buzzing, and that's when I started to put it all together.  Never did see my friends again.  My place was trashed anyway, so I wandered on.  And now I'm here with you."
     },
