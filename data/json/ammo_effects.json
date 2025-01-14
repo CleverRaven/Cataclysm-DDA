@@ -220,7 +220,7 @@
     "id": "CORROSIVE",
     "type": "ammo_effect",
     "//": "Leaves a large pool of acid on detonation",
-    "aoe": { "field_type": "fd_acid", "intensity_min": 3, "intensity_max": 3, "radius": 13 }
+    "aoe": { "field_type": "fd_acid", "intensity_min": 3, "intensity_max": 3, "radius": 5 }
   },
   {
     "id": "TOXICGAS",
