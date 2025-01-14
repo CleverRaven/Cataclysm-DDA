@@ -272,6 +272,7 @@
     "weight": "6 g",
     "price_postapoc": "8 USD 66 cent"
   },
+  {
     "id": "khuunaofaai_ammo_foam",
     "type": "AMMO",
     "range": 100,
@@ -283,6 +284,7 @@
     "copy-from": "khuunaofaai_ammo_firework",
     "weight": "8 g",
     "price_postapoc": "5 USD 10 cent"
+  },
   {
     "id": "33naval_ball",
     "type": "AMMO",
