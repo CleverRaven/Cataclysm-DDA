@@ -44,6 +44,7 @@
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
     "description": "A simple necklace made of string and wooden beads.  Also doubles as a set of prayer beads, if you're so inclined.",
+    "ascii_picture": "bead_necklace",
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
@@ -391,6 +392,7 @@
     "type": "ARMOR",
     "name": { "str": "copper necklace" },
     "description": "A simple chain of copper, with a clasp in the middle to create a necklace.",
+    "ascii_picture": "copper_necklace",
     "weight": "30 g",
     "volume": "10 ml",
     "price": "30 USD",
@@ -1000,6 +1002,7 @@
     "type": "ARMOR",
     "name": { "str": "gold necklace" },
     "description": "A shiny, unadorned gold necklace.",
+    "ascii_picture": "gold_necklace",
     "weight": "50 g",
     "volume": "25 ml",
     "price": "400 USD",
@@ -1698,6 +1701,7 @@
     "type": "ARMOR",
     "name": { "str": "platinum necklace" },
     "description": "A platinum necklace, with a small, empty heart-shaped frame hanging from a chain.",
+    "ascii_picture": "platinum_necklace",
     "weight": "47 g",
     "volume": "25 ml",
     "price": "500 USD",
@@ -1827,6 +1831,7 @@
     "type": "ARMOR",
     "name": { "str": "silver necklace" },
     "description": "A nice silver necklace.",
+    "ascii_picture": "silver_necklace",
     "weight": "30 g",
     "volume": "25 ml",
     "price": "120 USD",
@@ -3419,6 +3424,7 @@
     "type": "ARMOR",
     "name": { "str": "garnet and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a garnet pendant.",
+    "ascii_picture": "garnet_gold_pendant_necklace",
     "weight": "70 g",
     "volume": "15 ml",
     "price": "500 USD",
@@ -3435,6 +3441,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a diamond pendant.",
+    "ascii_picture": "diamond_gold_pendant_necklace",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -3452,6 +3459,7 @@
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with an aquamarine pendant.",
+    "ascii_picture": "aquamarine_gold_pendant_necklace",
     "color": "light_blue"
   },
   {
@@ -3468,6 +3476,7 @@
     "type": "ARMOR",
     "name": { "str": "alexandrite and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with an alexandrite pendant.",
+    "ascii_picture": "alexandrite_gold_pendant_necklace",
     "color": "green"
   },
   {
@@ -3475,6 +3484,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and gold pendant necklace" },
+    "ascii_picture": "ruby_gold_pendant_necklace",
     "description": "A shiny, gold necklace adorned with a ruby pendant."
   },
   {
@@ -3499,6 +3509,7 @@
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a tourmaline pendant.",
+    "ascii_picture": "tourmaline_gold_pendant_necklace",
     "color": "light_red"
   },
   {
@@ -3515,6 +3526,7 @@
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a blue topaz pendant.",
+    "ascii_picture": "blue_topaz_gold_pendant_necklace",
     "color": "light_blue"
   },
   {
@@ -3523,6 +3535,7 @@
     "type": "ARMOR",
     "name": { "str": "opal and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with an opal pendant.",
+    "ascii_picture": "opal_gold_pendant_necklace",
     "color": "white"
   },
   {
@@ -3531,6 +3544,7 @@
     "type": "ARMOR",
     "name": { "str": "pearl and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a pearl pendant.",
+    "ascii_picture": "pearl_gold_pendant_necklace",
     "color": "white"
   },
   {
@@ -3539,6 +3553,7 @@
     "type": "ARMOR",
     "name": { "str": "onyx and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with an onyx pendant.",
+    "ascii_picture": "onyx_gold_pendant_necklace",
     "color": "dark_gray"
   },
   {
@@ -3579,6 +3594,7 @@
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an aquamarine pendant.",
+    "ascii_picture": "aquamarine_silver_pendant_necklace",
     "color": "light_blue"
   },
   {
@@ -3595,6 +3611,7 @@
     "type": "ARMOR",
     "name": { "str": "alexandrite and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an alexandrite pendant.",
+    "ascii_picture": "alexandrite_silver_pendant_necklace",
     "color": "green"
   },
   {
@@ -3603,6 +3620,7 @@
     "type": "ARMOR",
     "name": { "str": "ruby and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a ruby pendant.",
+    "ascii_picture": "ruby_silver_pendant_necklace",
     "variant_type": "generic",
     "variants": [
       {
@@ -3632,6 +3650,7 @@
     "type": "ARMOR",
     "name": { "str": "sapphire and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a sapphire pendant.",
+    "ascii_picture": "sapphire_silver_pendant_necklace",
     "color": "blue"
   },
   {
@@ -3640,6 +3659,7 @@
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a tourmaline pendant.",
+    "ascii_picture": "tourmaline_silver_pendant_necklace",
     "color": "light_red"
   },
   {
@@ -3656,6 +3676,7 @@
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a blue topaz pendant.",
+    "ascii_picture": "blue_topaz_silver_pendant_necklace",
     "color": "light_blue"
   },
   {
@@ -3664,6 +3685,7 @@
     "type": "ARMOR",
     "name": { "str": "opal and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an opal pendant.",
+    "ascii_picture": "opal_silver_pendant_necklace",
     "color": "white"
   },
   {
@@ -3680,6 +3702,7 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
+    "ascii_picture": "onyx_silver_pendant_necklace",
     "variant_type": "generic",
     "variants": [
       {
@@ -3701,6 +3724,7 @@
     "type": "ARMOR",
     "name": { "str": "garnet and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a garnet pendant.",
+    "ascii_picture": "garnet_platinum_pendant_necklace",
     "weight": "70 g",
     "volume": "15 ml",
     "price": "500 USD",
@@ -3717,6 +3741,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a diamond pendant.",
+    "ascii_picture": "diamond_platinum_pendant_necklace",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -3726,6 +3751,7 @@
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with an amethyst pendant.",
+    "ascii_picture": "amethyst_platinum_pendant_necklace",
     "color": "blue"
   },
   {
@@ -3742,6 +3768,7 @@
     "type": "ARMOR",
     "name": { "str": "emerald and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with an emerald pendant.",
+    "ascii_picture": "emerald_platinum_pendant_necklace",
     "color": "green"
   },
   {
@@ -3750,6 +3777,7 @@
     "type": "ARMOR",
     "name": { "str": "alexandrite and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with an alexandrite pendant.",
+    "ascii_picture": "alexandrite_platinum_pendant_necklace",
     "color": "green"
   },
   {
@@ -3765,6 +3793,7 @@
     "type": "ARMOR",
     "name": { "str": "peridot and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a peridot pendant.",
+    "ascii_picture": "peridot_platinum_pendant_necklace",
     "color": "light_green"
   },
   {
@@ -3773,6 +3802,7 @@
     "type": "ARMOR",
     "name": { "str": "sapphire and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a sapphire pendant.",
+    "ascii_picture": "sapphire_platinum_pendant_necklace",
     "color": "blue"
   },
   {
@@ -3781,6 +3811,7 @@
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a tourmaline pendant.",
+    "ascii_picture": "tourmaline_platinum_pendant_necklace",
     "color": "light_red"
   },
   {
@@ -3797,6 +3828,7 @@
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a blue topaz pendant.",
+    "ascii_picture": "blue_topaz_platinum_pendant_necklace",
     "color": "light_blue"
   },
   {
@@ -4536,6 +4568,7 @@
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
     "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
+    "ascii_picture": "simple_pistol_cartridge_necklace",
     "snippet_category": [
       {
         "id": "pistol_pendent1",
@@ -4575,6 +4608,7 @@
       { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str": "Thumper-cartridge necklace" } }
     ],
     "description": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.",
+    "ascii_picture": "simple_rifle_cartridge_necklace",
     "snippet_category": [
       {
         "id": "rifle_pendent1",
@@ -4621,6 +4655,7 @@
       { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordnance necklace" } }
     ],
     "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
+    "ascii_picture": "simple_ordnance_cartridge_necklace",
     "snippet_category": [
       {
         "id": "ordinance_pendent1",
@@ -4772,6 +4807,7 @@
     "type": "ARMOR",
     "copy-from": "fancy_pistol_cartridge_necklace",
     "name": { "str": "refined ordnance-cartridge necklace" },
+    "ascii_picture": "fancy_ordinance_cartridge_necklace",
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },
