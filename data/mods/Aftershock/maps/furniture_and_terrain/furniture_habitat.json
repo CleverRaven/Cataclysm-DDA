@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_gene_editor",
     "name": "Mercurial Resequencer",
-    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety og gene templates.",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety of gene templates.",
     "symbol": "O",
     "color": "light_blue",
     "examine_action": "genemill",

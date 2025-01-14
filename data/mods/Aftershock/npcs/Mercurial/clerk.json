@@ -52,13 +52,13 @@
     "dynamic_line": "&The Mercurial store is attended by a massive clerk, sleek scales adorn their massive forearms and slightly pointed ears.  They greet you with a voice that is both deep and melodious, \"Welcome to Mercurial Genetech, where we can help you unlock your potential.\"",
     "responses": [
       { "text": "I'm looking into augments", "topic": "TALK_DONE", "effect": "start_trade" },
-      { "text": "How does this genetech stuff works?", "topic": "TALK_AUGUSTMOON_GENETECH_WORKS" },
+      { "text": "How does this Genetech stuff works?", "topic": "TALK_AUGUSTMOON_GENETECH_WORKS" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": [ "TALK_AUGUSTMOON_GENETECH_WORKS" ],
     "type": "talk_topic",
-    "dynamic_line": "&The clerk smiles, \"Our genetech is a marvel of modern science, capable of rewriting your very DNA.  We offer a wide range of treatments, from the mundanely medical to the exotic.  You need only select one of our templates and visit one of our editing machines in both ends of this store.  If you ever have doubts, remember that all our treatments are reversible.\""
+    "dynamic_line": "&The clerk smiles, \"Our Genetech is a marvel of modern science, capable of rewriting your very DNA.  We offer a wide range of treatments, from the mundanely medical to the exotic.  You need only select one of our templates and visit one of our editing machines in both ends of this store.  If you ever have doubts, remember that all our treatments are reversible.\""
   }
 ]
