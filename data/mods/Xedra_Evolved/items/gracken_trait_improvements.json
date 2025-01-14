@@ -156,5 +156,53 @@
     "condition": { "not": { "u_has_trait": "SHADE_CARNIVORE" } },
     "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ],
     "false_effect": [ { "u_message": "You are already a carnivore.", "type": "neutral" } ]
+  },
+  {
+    "id": "gracken_shade_legs",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Shade Legs" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their legs back to a base state.",
+    "consumption_effect_on_conditions": [ "shade_legs" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shade_legs",
+    "condition": { "not": { "u_has_trait": "SHADE_LEGS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_LEGS" } ],
+    "false_effect": [ { "u_message": "You are already have Gracken legs.", "type": "neutral" } ]
+  },
+  {
+    "id": "gracken_short_legs",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Short Legs" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their legs to a shorter form.",
+    "consumption_effect_on_conditions": [ "short_legs" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "short_legs",
+    "condition": { "not": { "u_has_trait": "SHADE_SHORT_LEGS" } },
+    "effect": [ { "u_message": "You exchanged your previous legs for this." }, { "u_add_trait": "SHADE_SHORT_LEGS" } ],
+    "false_effect": [ { "u_message": "You are already have short legs.", "type": "neutral" } ]
+  },
+  {
+    "id": "gracken_long_legs",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Long Legs" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their legs to a longer form.",
+    "consumption_effect_on_conditions": [ "long_legs" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "long_legs",
+    "condition": { "not": { "u_has_trait": "SHADE_LONG_LEGS" } },
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_LONG_LEGS" } ],
+    "false_effect": [ { "u_message": "You are already have long legs.", "type": "neutral" } ]
   }
 ]
