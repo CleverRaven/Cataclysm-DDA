@@ -10,8 +10,8 @@ Typo fixes and the like usually do not need to be tested.
 The [Manual of Style](MANUAL_OF_STYLE.md), applies to any proposed change,
 so read this one first.
 
-For JSON changes, read [JSON_STYLE.md](JSON_STYLE.md).
-For C++ changes, read [CODE_STYLE.md](CODE_STYLE.md).
+For JSON changes, read [JSON/JSON_STYLE.md](JSON/JSON_STYLE.md).
+For C++ changes, read [COMPILING/CODE_STYLE.md](COMPILING/CODE_STYLE.md).
 
 All released builds include a pre-compiled `json_formatter.cgi`, which
 is a handy tool to automatically format any JSON file you point it at
@@ -37,7 +37,7 @@ Cataclysm or reload your save, whatever is more convenient.
 
 For C++ changes, you will need to compile the game yourself.
 See [COMPILING.md](COMPILING/COMPILING.md).
-You may also want to look at [TESTING.md](TESTING.md) for our unit
+You may also want to look at [COMPILING/TESTING.md](COMPILING/TESTING.md) for our unit
 tests.
 
 ## Using the debug menu
