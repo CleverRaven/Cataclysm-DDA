@@ -772,14 +772,12 @@
     "speed": 150,
     "color": "pink",
     "extend": { "flags": [ "FIREPROOF" ] },
-    "starting_ammo": { "plasma": 100 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "irradiant_gun",
         "move_cost": 100,
-        "ammo_type": "plasma",
         "fake_skills": [ [ "gun", 10 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "ranges": [ [ 0, 40, "DEFAULT" ] ],
