@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "sub_station" ],
-    "weight": 250,
+    "om_terrain": "sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -74,8 +73,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "sewer_sub_station" ],
-    "weight": 250,
+    "om_terrain": "sewer_sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -107,21 +105,22 @@
       "palettes": [ "subway_underground" ],
       "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "C": { "item_group": "vending_food", "lootable": true } },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
-      "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
+      "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ],
+      "//": "Temporary workaround, see /overmap/overmap_connections.json",
+      "nested": { ">": { "chunks": [ "1x1_stairs_up_below" ] } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "underground_sub_station" ],
-    "weight": 250,
+    "om_terrain": "underground_sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "0^^^X^^^X^^^^^^X^^^X^^^0",
         "0^^-x---x-^^^^-x---x-^^0",
         "0^^^X^^^X^IIII^X^^^X^^^0",
-        "R^^^X^^^X^<<<<^X^^^X^^^R",
+        "R^^^X^^^X^____^X^^^X^^^R",
         "R^^-x---x-____-x---x-^^R",
         "G^^^X^^^X^____^X^^^X^^^G",
         "R^^^X^^^X^____^X^^^X^^^R",
@@ -131,16 +130,16 @@
         "B^^-x---x-_bb_-x---x-^^B",
         "B^^^X^^^X^_MM_^X^^^X^^^B",
         "B^^^X^^^X^____^X^^^X^^^B",
-        "B^^-x---x-____-x---x-^^B",
-        "B^^^X^^^X^_MM_^X^^^X^^^B",
+        "B^^-x---x-_MM_-x---x-^^B",
+        "B^^^X^^^X^_bb_^X^^^X^^^B",
         "R^^^X^^^X^_bb_^X^^^X^^^R",
         "R^^-x---x-_bb_-x---x-^^R",
-        "R^^^X^^^X^_bb_^X^^^X^^^R",
-        "G^^^X^^^X^_MM_^X^^^X^^^G",
+        "R^^^X^^^X^_MM_^X^^^X^^^R",
+        "G^^^X^^^X^____^X^^^X^^^G",
         "R^^-x---x-____-x---x-^^R",
         "R^^^X^^^X^____^X^^^X^^^R",
-        "0^^^X^^^X^____^X^^^X^^^0",
-        "0^^-x---x-IIII-x---x-^^0",
+        "0^^^X^^^X^IIII^X^^^X^^^0",
+        "0^^-x---x-^^^^-x---x-^^0",
         "0^^^X^^^X^^^^^^X^^^X^^^0"
       ],
       "place_vehicles": [

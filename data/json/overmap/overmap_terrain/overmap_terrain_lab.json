@@ -194,7 +194,7 @@
     "id": "lab_train_depot",
     "vision_levels": "underground_stone",
     "name": "science train depot",
-    "sym": "L",
+    "sym": "S",
     "color": "light_blue",
     "see_cost": "full_high",
     "extras": "subway",

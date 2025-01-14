@@ -1328,7 +1328,13 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "sub_station_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "sub_station_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "sub_station_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "sewer_sub_station_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "underground_sub_station_north" }
+    ],
+    "connections": [
+      { "point": [ 0, 1, -2 ], "connection": "subway_tunnel", "terrain": "subway", "from": [ 0, 0, -2 ] },
+      { "point": [ 0, -1, -2 ], "connection": "subway_tunnel", "terrain": "subway", "from": [ 0, 0, -2 ] }
     ]
   },
   {
@@ -3302,12 +3308,12 @@
       { "point": [ 6, 1, 0 ], "overmap": "mall_a_75_south" },
       { "point": [ 5, 1, 0 ], "overmap": "mall_a_76_south" },
       { "point": [ 4, 1, 0 ], "overmap": "mall_a_77_south" },
-      { "point": [ 4, 1, -2 ], "overmap": "microlab_sub_connector_north" },
       { "point": [ 3, 1, 0 ], "overmap": "mall_a_78_south" },
       { "point": [ 2, 1, 0 ], "overmap": "mall_a_79_south" },
       { "point": [ 1, 1, 0 ], "overmap": "mall_a_80_south" },
       { "point": [ 0, 1, 0 ], "overmap": "mall_a_81_south" }
     ],
+    "connections": [ { "point": [ 4, 1, -2 ], "terrain": "subway", "connection": "subway_tunnel", "from": [ 4, 2, -2 ] } ],
     "city_sizes": [ 16, -1 ],
     "flags": [ "CITY_UNIQUE" ]
   },
@@ -5215,7 +5221,6 @@
     "type": "city_building",
     "id": "urban_25_dense_diner_apt",
     "overmaps": [
-      { "point": [ 1, 1, -1 ], "overmap": "sewer_connector_east" },
       { "point": [ 0, 1, -1 ], "overmap": "urban_25_sewer_connector_south" },
       { "point": [ 1, 0, -1 ], "overmap": "urban_25_1_south" },
       { "point": [ 0, 0, -1 ], "overmap": "urban_25_2_south" },
@@ -5229,6 +5234,7 @@
       { "point": [ 0, 0, 3 ], "overmap": "urban_25_10_south" },
       { "point": [ 0, 0, 4 ], "overmap": "urban_25_12_south" }
     ],
+    "connections": [ { "point": [ 1, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] } ],
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
   },
@@ -5308,9 +5314,9 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cs_open_sewer_north" },
       { "point": [ 0, 0, 1 ], "overmap": "cs_open_sewer_roof_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "cs_open_sewer_undergound_north" },
-      { "point": [ 0, -1, -1 ], "overmap": "sewer_connector_north" }
-    ]
+      { "point": [ 0, 0, -1 ], "overmap": "cs_open_sewer_undergound_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] } ]
   },
   {
     "type": "city_building",

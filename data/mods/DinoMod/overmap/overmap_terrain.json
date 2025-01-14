@@ -42,7 +42,7 @@
     "id": "microlab_DinoLab_sub_entry",
     "name": "science lab",
     "sym": "L",
-    "copy-from": "microlab_sub_connector"
+    "copy-from": "microlab_sub_station"
   },
   {
     "type": "overmap_terrain",

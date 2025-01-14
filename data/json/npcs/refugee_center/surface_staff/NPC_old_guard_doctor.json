@@ -200,7 +200,7 @@
     "start": {
       "assign_mission_target": {
         "om_terrain": "underground_lab_cargo_stationA",
-        "om_special": "Lab_CORE_2x1x3",
+        "om_special": "lab_mutagen_6_level",
         "reveal_radius": 1,
         "random": false,
         "z": -4

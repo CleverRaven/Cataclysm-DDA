@@ -1,0 +1,245 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_straight",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_straight" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_straight",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_straight" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_straight",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. "
+      ],
+      "palettes": [ "subway_underground" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "24x24_subway_cross_se", 1 ], [ "24x24_subway_cross_sw", 1 ], [ "null", 10 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              { "om_terrain": "subway_straight", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_straight", "om_terrain_match_type": "SUBTYPE" }
+            ],
+            "south": [
+              { "om_terrain": "subway_straight", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_straight", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_cross_se",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   DD  DD               ",
+        "    DD  DD              ",
+        "     DD  DD             ",
+        "      DD ^DD            ",
+        "       DD^^DD           ",
+        "        DD^^DD          ",
+        "         DD^^DD         ",
+        "          DD^^DD        ",
+        "           DD^^DD       ",
+        "            DD^ DD      ",
+        "             DD  DD     ",
+        "              DD  DD    "
+      ],
+      "palettes": [ "subway_underground" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_cross_sw",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               DD  DD   ",
+        "              DD  DD    ",
+        "             DD  DD     ",
+        "            DD^ DD      ",
+        "           DD^^DD       ",
+        "          DD^^DD        ",
+        "         DD^^DD         ",
+        "        DD^^DD          ",
+        "       DD^^DD           ",
+        "      DD ^DD            ",
+        "     DD  DD             ",
+        "    DD  DD              "
+      ],
+      "palettes": [ "subway_underground" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_straight_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [
+        { "vehicle": "train_car_passenger", "x": 6, "y": [ 8, 15 ], "chance": 20, "rotation": 90 },
+        { "vehicle": "train_car_passenger", "x": 17, "y": [ 8, 15 ], "chance": 20, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sub_ramp_above" ],
+    "object": {
+      "fallback_predecessor_mapgen": "deep_rock",
+      "rows": [
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..-x---x-....-x---x-.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " ..^X^^^X^....^X^^^X^.. ",
+        " dddzdddzddddddzdddzddd ",
+        " DDD>DDD>DDDDDD>DDD>DDD ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** ",
+        " ********************** "
+      ],
+      "palettes": [ "subway_underground" ],
+      "terrain": {
+        "z": "t_railroad_ramp_down_high",
+        "d": "t_concrete_ramp_down_high",
+        "D": "t_concrete_ramp_down_low",
+        ">": "t_railroad_ramp_down_low"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sub_ramp_below" ],
+    "object": {
+      "fallback_predecessor_mapgen": "deep_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " DDD>DDD>DDDDDD>DDD>DDD ",
+        " dddzdddzddddddzdddzddd ",
+        " ''-x---x-''''-x---x-'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''-x---x-''''-x---x-'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''-x---x-''''-x---x-'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''^X^^^X^''''^X^^^X^'' ",
+        " ''-x---x-''''-x---x-'' ",
+        " ''^X^^^X^''''^X^^^X^'' "
+      ],
+      "palettes": [ "subway_underground" ],
+      "terrain": {
+        "z": "t_railroad_ramp_up_low",
+        "d": "t_concrete_ramp_up_low",
+        "D": "t_concrete_ramp_up_high",
+        ">": "t_railroad_ramp_up_high"
+      }
+    }
+  }
+]

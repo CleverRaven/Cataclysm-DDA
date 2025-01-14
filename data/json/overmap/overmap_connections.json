@@ -21,8 +21,20 @@
     "type": "overmap_connection",
     "id": "subway_tunnel",
     "subtypes": [
-      { "terrain": "subway", "locations": [ "subterranean_subway" ], "flags": [ "ORTHOGONAL" ] },
-      { "terrain": "lab_subway", "locations": [ "lab_subway" ], "flags": [ "ORTHOGONAL" ] }
+      { "terrain": "subway", "locations": [ "subway" ], "basic_cost": 0, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "subway", "locations": [ "subterranean_subway" ], "basic_cost": 5, "flags": [ "ORTHOGONAL" ] },
+      { "terrain": "lab_subway", "locations": [ "lab_subway" ], "basic_cost": 0, "flags": [ "ORTHOGONAL" ] },
+      {
+        "terrain": "lab_subway",
+        "locations": [ "subterranean_subway_deep" ],
+        "basic_cost": 5,
+        "flags": [ "ORTHOGONAL" ]
+      },
+      {
+        "terrain": "underground_sub_station",
+        "locations": [  ],
+        "//": "For some reason this is causing the map to be rotated 180 degrees when it shouldn't be touching it just pathing past it like road_nesw_manhole"
+      }
     ]
   },
   {

@@ -41,7 +41,6 @@ void mapgen_forest( mapgendata &dat );
 void mapgen_river_curved_not( mapgendata &dat );
 void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
-void mapgen_subway( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ocean_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );

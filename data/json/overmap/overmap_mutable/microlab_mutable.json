@@ -41,8 +41,7 @@
       { "id": "dmicrolab_to_dhallway", "opposite": "dhallway_to_dmicrolab" },
       "nether_to_nether",
       "dmicrolab_to_dmicrolab",
-      "microlab_entry_to_station",
-      "microlab_station_to_subway"
+      "microlab_entry_to_station"
     ],
     "overmaps": {
       "surface": { "overmap": "lab_subway_vent_shaft_surface", "below": "duct_to_surface", "locations": [ "land" ] },
@@ -92,8 +91,11 @@
         "south": "microlab_to_hallway",
         "west": "microlab_to_microlab"
       },
-      "microlab_sub_station": { "overmap": "microlab_sub_station_north", "north": "microlab_station_to_subway", "south": "microlab_entry_to_station" },
-      "microlab_subway": { "overmap": "microlab_sub_connector_north", "south": "microlab_station_to_subway" },
+      "microlab_sub_station": {
+        "overmap": "microlab_sub_station_north",
+        "south": "microlab_entry_to_station",
+        "connections": { "north": { "connection": "subway_tunnel" } }
+      },
       "firebreak": { "overmap": "microlab_generic_firebreak_north", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
       "portal_elevator": {
         "overmap": "microlab_portal_elevator_north",
@@ -223,8 +225,7 @@
             { "overmap": "hallway_straight", "pos": [ 1, 1, 0 ], "rot": "east" },
             { "overmap": "hallway_end", "pos": [ 0, 1, 0 ], "rot": "east" },
             { "overmap": "microlab_sub_entry", "pos": [ 0, 0, 0 ] },
-            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] },
-            { "overmap": "microlab_subway", "pos": [ 0, -2, 0 ] }
+            { "overmap": "microlab_sub_station", "pos": [ 0, -1, 0 ] }
           ],
           "max": 1
         }

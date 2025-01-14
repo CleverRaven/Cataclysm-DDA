@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_four_way",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_four_way" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_four_way",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_four_way" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_four_way",
+    "//TODO": "Could do with conditional nests based on adjacent diagonals to prevent double backs",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " .^/D^^/D^....^D/^^D/^. ",
+        ".^/DX^/DX^....^XD/^XD/^.",
+        "^/D^X/D^X^....^X^D/X^D/^",
+        "/D^^XD^^X^|^^|^X^^DX^^D/",
+        "DXXDDXXXXXxXXxXXXXXDDXXD",
+        "^^/DX^^^X^|^^|^X^^^XD/^^",
+        "^/D^X^^^X^|^^|^X^^^X^D/^",
+        "/D^^X^^^X^|^^|^X^^^X^^D/",
+        "DXXXXXXXXXxXXxXXXXXXXXXD",
+        "^^^^X^^^X^|^^|^X^^^X^^^^",
+        "...-x---x-....-x---x-...",
+        "...^X^^^X^....^X^^^X^...",
+        "...^X^^^X^....^X^^^X^...",
+        "...-x---x-....-x---x-...",
+        "^^^^X^^^X^|^^|^X^^^X^^^^",
+        "DXXXXXXXXXxXXxXXXXXXXXXD",
+        "/D^^X^^^X^|^^|^X^^^X^^D/",
+        "^/D^X^^^X^|^^|^X^^^X^D/^",
+        "^^/DX^^^X^|^^|^X^^^XD/^^",
+        "DXXDDXXXXXxXXxXXXXXDDDDD",
+        "/D^^XD^^X^|^^|^X^^DX^^D/",
+        "^/D^X/D^X^....^X^D/X^D/^",
+        ".^/DX^/DX^....^XD/^XD/^.",
+        " .^/D^^/D^....^D/^^D/^. "
+      ],
+      "palettes": [ "subway_underground" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

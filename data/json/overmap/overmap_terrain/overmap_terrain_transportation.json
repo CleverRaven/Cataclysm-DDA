@@ -136,12 +136,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "sub_station",
+    "abstract": "generic_sub_station",
     "name": "subway station",
     "vision_levels": "city_building",
     "sym": "S",
     "color": "yellow",
-    "see_cost": "high",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sub_station",
+    "copy-from": "generic_sub_station",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
@@ -149,79 +154,60 @@
   {
     "type": "overmap_terrain",
     "id": "sub_station_roof",
+    "copy-from": "generic_sub_station",
     "name": "subway station roof",
     "vision_levels": "roof_or_air",
-    "sym": "S",
-    "color": "yellow",
-    "see_cost": "none",
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "sewer_sub_station",
-    "name": "subway station (sewer level)",
+    "copy-from": "generic_sub_station",
     "vision_levels": "underground_dirt",
-    "sym": "S",
-    "color": "yellow",
     "see_cost": "full_high",
-    "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "underground_sub_station",
-    "name": "subway station (underground level)",
+    "copy-from": "generic_sub_station",
     "vision_levels": "underground_stone",
-    "sym": "S",
-    "color": "yellow",
     "see_cost": "full_high",
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_subway",
+    "name": "subway",
+    "vision_levels": "underground_stone",
+    "color": "dark_gray",
+    "see_cost": "full_high",
+    "travel_cost_type": "dirt_road",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "subway",
-    "name": "subway",
-    "vision_levels": "underground_stone",
-    "color": "dark_gray",
-    "see_cost": "full_high",
+    "copy-from": "generic_subway",
     "extras": "subway",
-    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY", "population": [ 1, 3 ], "chance": 66 },
-    "travel_cost_type": "dirt_road",
-    "flags": [ "LINEAR" ]
+    "extend": { "flags": [ "LINEAR" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "lab_subway",
-    "name": "subway",
-    "vision_levels": "underground_stone",
-    "color": "dark_gray",
-    "see_cost": "full_high",
+    "copy-from": "generic_subway",
     "extras": "lab_subway",
-    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 3 ], "chance": 50 },
-    "travel_cost_type": "dirt_road",
-    "flags": [ "LINEAR" ]
+    "extend": { "flags": [ "LINEAR" ] }
   },
   {
     "type": "overmap_terrain",
     "id": [ "sub_ramp_above", "sub_ramp_below" ],
+    "copy-from": "generic_subway",
     "name": "subway ramp",
-    "vision_levels": "underground_stone",
-    "sym": "S",
-    "color": "dark_gray",
-    "see_cost": "full_high"
+    "sym": "S"
   },
   {
     "type": "overmap_terrain",

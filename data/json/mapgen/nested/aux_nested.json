@@ -165,6 +165,18 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "1x1_stairs_up_below",
+    "object": { "mapgensize": [ 1, 1 ], "place_nested": [ { "chunks": [ "1x1_stairs_up" ], "x": 0, "y": 0, "z": -1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_stairs_up",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_stairs_up" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "1x1_boarded_up",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up", "x": 0, "y": 0 } ] }
   },

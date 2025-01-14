@@ -21,13 +21,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "sewer_connector",
-    "copy-from": "generic_sewer",
-    "sym": "X",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0", "sewage_treatment_1_1_0" ],
     "name": "sewage treatment plant",
     "vision_levels": "isolated_building",

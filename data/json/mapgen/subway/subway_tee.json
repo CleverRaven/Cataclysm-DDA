@@ -1,0 +1,180 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_tee",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_tee",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//TODO": "Could do with more sophisticated nest logic in case eg the east rail immediately curves south",
+    "nested_mapgen_id": "24x24_subway_tee",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "........................",
+        "........................",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "XxXXxXXxXXxXXxXXxXXxXXxX",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "XxXXxXXxXXxXXxXXxXXxXXxX",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "XxXXxXXxXXxXXxXXxXXxXXxX",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "XxXXxXXxXXxXXxXXxXXxXXxX",
+        "^|^^|^^|^^|^^|^^|^^|^^|^",
+        "........................",
+        "........................",
+        " ...................... "
+      ],
+      "palettes": [ "subway_underground" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_subway_tee_into_curved" ],
+          "else_chunks": [ "24x24_subway_tee_sw", "24x24_subway_tee_se" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south": [
+              { "om_terrain": "subway_curved", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_curved", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_tee_into_curved",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_subway_cross_sw" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south_east": [
+              { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
+              { "om_terrain": "lab_subway", "om_terrain_match_type": "TYPE" }
+            ]
+          }
+        },
+        {
+          "chunks": [ "24x24_subway_cross_se" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south_west": [
+              { "om_terrain": "subway", "om_terrain_match_type": "TYPE" },
+              { "om_terrain": "lab_subway", "om_terrain_match_type": "TYPE" }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_tee_sw",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "^^^^^^^                 ",
+        "DXXXXXX                 ",
+        "DD^^^^^                 ",
+        "^DD^^^^                 ",
+        "^^DD^^^                 ",
+        "XXX33XX                 ",
+        "DD^^DD^                 ",
+        "^DD^21D^                ",
+        " ^D12^DD^               ",
+        "  ^DD^21D^              ",
+        "   ^D12^DD^             ",
+        "^^^^^DD^^DD^^^^^^^      ",
+        "XXXXXX33XX33XXXXXX      ",
+        "DD^^^^^^^^^DD^^^^^      ",
+        "^DD^^^^^^^^^DD^^^^      ",
+        "^^DD^^^^^^^^^DD^^^      ",
+        "XXX33XXXXX33XX33XX      ",
+        "DD^^DD^^^^^DD^^DD^      ",
+        "^DD^21D^   ^DD^21D^     ",
+        " ^D12^DD^   ^D12^DD^    ",
+        "  ^DD^^DD^   ^DD^^DD^   "
+      ],
+      "palettes": [ "subway_underground" ],
+      "terrain": { "1": "t_railroad_track_d_on_tie", "2": "t_railroad_tie_d", "3": "t_railroad_track_d2" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_tee_se",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                 .......",
+        "                 .......",
+        "                 ^^^^^^^",
+        "                 XXXXXXD",
+        "                 ^^^^^DD",
+        "                 ^^^^DD^",
+        "                 ^^^DD^^",
+        "                 XX33XXX",
+        "                 ^DD^^DD",
+        "                ^D12^DD^",
+        "               ^DD^21D^ ",
+        "              ^D12^DD^  ",
+        "             ^DD^21D^   ",
+        "       ^^^^^^DD^^DD^^^^^",
+        "       XXXXX33XX33XXXXXX",
+        "       ^^^^DD^^^^^^^^^DD",
+        "       ^^^DD^^^^^^^^^DD^",
+        "       ^^DD^^^^^^^^^DD^^",
+        "       X33XX33XXXXX33XXX",
+        "      ^DD^^DD^^^^^DD^^DD",
+        "     ^D12^DD^...^D12^DD^",
+        "    ^DD^21D^...^DD^21D^ ",
+        "   ^DD^^DD^...^DD^^DD^  "
+      ],
+      "palettes": [ "subway_underground" ],
+      "terrain": { "1": "t_railroad_track_d_on_tie", "2": "t_railroad_tie_d", "3": "t_railroad_track_d1" }
+    }
+  }
+]

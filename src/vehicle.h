@@ -2132,14 +2132,11 @@ class vehicle
         /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
          * new_turn_dir             - turn direction to calculate
          * falling_only             - is vehicle falling
-         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
-         * ter_flag_to_check        - terrain flag vehicle wheel should land on
          ** Results:
          * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
-        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
+        void precalculate_vehicle_turning( units::angle new_turn_dir, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
         bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
         bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;

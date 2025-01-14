@@ -3929,20 +3929,17 @@ bool vehicle::is_moving() const
 bool vehicle::can_use_rails() const
 {
     // do not allow vehicles without rail wheels or with mixed wheels
-    bool can_use = !rail_wheelcache.empty() && wheelcache.size() == rail_wheelcache.size();
-    if( !can_use ) {
+    if( rail_wheelcache.empty() || wheelcache.size() != rail_wheelcache.size() ) {
         return false;
     }
     map &here = get_map();
-    bool is_wheel_on_rail = false;
     for( int part_index : rail_wheelcache ) {
         // at least one wheel should be on track
         if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, bub_part_pos( part_index ) ) ) {
-            is_wheel_on_rail = true;
-            break;
+            return true;
         }
     }
-    return is_wheel_on_rail;
+    return false;
 }
 
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const

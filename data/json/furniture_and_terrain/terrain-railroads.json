@@ -24,70 +24,12 @@
         { "item": "rock", "count": [ 4, 12 ] }
       ]
     },
+    "connect_groups": [ "GRAVEL" ],
+    "connects_to": [ "GRAVEL" ],
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ]
   },
   {
     "id": "t_railroad_track",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_h",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_v",
     "type": "terrain",
     "name": "railroad track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
@@ -120,99 +62,30 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "GRAVEL" ],
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d",
     "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "copy-from": "t_railroad_track",
+    "connect_groups": [ "RAIL_D", "GRAVEL" ],
+    "connects_to": "RAIL_D",
+    "extend": { "flags": [ "RAIL_D" ] }
   },
   {
     "id": "t_railroad_track_d1",
     "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "copy-from": "t_railroad_track_d",
+    "//TODO": "Support extending/deleting connect_groups",
+    "connect_groups": [ "RAIL", "RAIL_D", "GRAVEL" ]
   },
   {
     "id": "t_railroad_track_d2",
     "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "copy-from": "t_railroad_track_d",
+    "connect_groups": [ "RAIL", "RAIL_D", "GRAVEL" ]
   },
   {
     "id": "t_railroad_tie",
@@ -234,96 +107,36 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
+    "connect_groups": [ "RAIL_TIE", "GRAVEL" ],
+    "connects_to": "RAIL_TIE",
     "flags": [ "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_h",
     "type": "terrain",
-    "name": "railroad tie",
-    "description": "A crosstie, used to support train rails.",
-    "symbol": "#",
-    "color": "dark_gray_yellow",
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_railroad_tie"
   },
   {
     "id": "t_railroad_tie_v",
     "type": "terrain",
-    "name": "railroad tie",
-    "description": "A crosstie, used to support train rails.",
-    "symbol": "#",
-    "color": "dark_gray_yellow",
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_railroad_tie"
   },
   {
     "id": "t_railroad_tie_d",
     "type": "terrain",
-    "name": "railroad tie",
-    "description": "A crosstie, used to support train rails.",
-    "symbol": "#",
-    "color": "dark_gray_yellow",
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_railroad_tie"
   },
   {
     "id": "t_railroad_track_on_tie",
     "type": "terrain",
-    "name": "railroad track",
+    "copy-from": "t_railroad_track",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
     "bash": {
       "str_min": 60,
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_railroad_tie",
       "items": [
         { "item": "mc_steel_lump", "count": [ 10, 20 ] },
         { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
@@ -331,99 +144,32 @@
       ]
     },
     "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_h_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
+      "result": "t_railroad_tie",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_railroad_tie",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "log", "count": [ 0, 1 ] },
-        { "item": "splinter", "count": [ 10, 20 ] }
+        { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
-  },
-  {
-    "id": "t_railroad_track_v_on_tie",
-    "type": "terrain",
-    "name": "railroad track",
-    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
-    },
-    "hacksaw": {
-      "result": "t_rock_floor",
-      "duration": "30 minutes",
-      "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "connect_groups": [ "RAIL", "RAIL_TIE", "GRAVEL" ]
   },
   {
     "id": "t_railroad_track_d_on_tie",
     "type": "terrain",
-    "name": "railroad track",
+    "copy-from": "t_railroad_track_on_tie",
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
-    "symbol": "X",
-    "color": "cyan",
-    "move_cost": 3,
     "bash": {
       "str_min": 60,
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_railroad_tie_d",
       "items": [
         { "item": "mc_steel_lump", "count": [ 10, 20 ] },
         { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
@@ -431,14 +177,21 @@
       ]
     },
     "hacksaw": {
-      "result": "t_rock_floor",
+      "result": "t_railroad_tie_d",
       "duration": "30 minutes",
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
     },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "deconstruct": {
+      "ter_set": "t_railroad_tie_d",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "connect_groups": [ "RAIL_D", "RAIL_TIE", "GRAVEL" ],
+    "connects_to": "RAIL_D"
   },
   {
     "id": "t_buffer_stop",
@@ -451,60 +204,25 @@
     "bash": {
       "str_min": 4,
       "str_max": 12,
-      "ter_set": "t_dirt",
+      "ter_set": "t_railroad_rubble",
       "sound": "crack.",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 5 ] }, { "item": "nail", "charges": [ 3, 8 ] }, { "item": "splinter", "count": 2 } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE" ]
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE" ],
+    "connect_groups": [ "GRAVEL", "RAIL" ]
   },
   {
     "id": "t_railroad_tie_d1",
     "type": "terrain",
-    "name": "railroad tie",
-    "description": "A crosstie, used to support train rails.",
-    "symbol": "/",
-    "color": "dark_gray_yellow",
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_railroad_tie",
+    "symbol": "/"
   },
   {
     "id": "t_railroad_tie_d2",
     "type": "terrain",
-    "name": "railroad tie",
-    "description": "A crosstie, used to support train rails.",
-    "symbol": "\\",
-    "color": "dark_gray_yellow",
-    "move_cost": 2,
-    "bash": {
-      "str_min": 10,
-      "str_max": 120,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "deconstruct": {
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "copy-from": "t_railroad_tie",
+    "symbol": "\\"
   },
   {
     "id": "t_railroad_crossing_signal",
@@ -555,11 +273,8 @@
   {
     "id": "t_crossbuck_metal",
     "type": "terrain",
-    "name": "crossbuck",
-    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
-    "symbol": "X",
+    "copy-from": "t_crossbuck_wood",
     "color": "light_gray",
-    "move_cost": 0,
     "bash": {
       "str_min": 10,
       "str_max": 50,
@@ -567,8 +282,7 @@
       "sound": "crash!",
       "sound_fail": "clang.",
       "items": [ { "item": "pipe", "count": [ 2, 3 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
-    },
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    }
   },
   {
     "id": "t_railroad_track_small",
@@ -601,43 +315,14 @@
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
     },
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "GRAVEL" ],
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_small_d",
     "type": "terrain",
-    "name": "small railroad track",
-    "description": "Like a railroad track, only smaller.  You could probably run a small vehicle on this.",
-    "symbol": "=",
-    "color": "cyan",
-    "looks_like": "t_railroad_track_d",
-    "move_cost": 3,
-    "bash": {
-      "str_min": 60,
-      "str_max": 210,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_railroad_rubble",
-      "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "splinter", "count": [ 6, 12 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_railroad_rubble",
-      "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "splinter", "count": [ 6, 12 ] }
-      ]
-    },
-    "connect_groups": "RAIL",
-    "connects_to": "RAIL",
-    "flags": [ "RAIL", "TRANSPARENT" ]
+    "copy-from": "t_railroad_track_small",
+    "extend": { "flags": [ "RAIL_D" ] }
   }
 ]

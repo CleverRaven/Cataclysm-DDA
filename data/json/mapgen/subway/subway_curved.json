@@ -1,0 +1,156 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "subway_curved",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "empty_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lab_subway_curved",
+    "object": {
+      "rotation": [ 0 ],
+      "fallback_predecessor_mapgen": "deep_rock",
+      "place_nested": [ { "chunks": [ "24x24_subway_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_curved",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                       .",
+        "                      ..",
+        "                     ..^",
+        "                    ..^D",
+        "                   ..^DD",
+        "                  ..^DD^",
+        "                 ..^D12^",
+        "                ..^DD^21",
+        "               ..^D12^DD",
+        "              ..^DD^21D^",
+        "             ..^D12^DD^.",
+        "            ..^DD^21D^..",
+        "           ..^D12^DD^...",
+        "          ..^DD^21D^...^",
+        "         ..^D12^DD^...^D",
+        "        ..^DD^21D^...^DD",
+        "       ..^D12^DD^...^DD^",
+        "      ..^DD^21D^...^DD^^",
+        "     ..^D12^DD^...^D12^D",
+        "    ..^DD^21D^...^DD^21D",
+        "   ..^D12^DD^...^D12^DD^",
+        "  ..^DD^21D^...^DD^21D^.",
+        " ..^DD^^DD^...^DD^^DD^. "
+      ],
+      "palettes": [ "subway_underground" ],
+      "terrain": { "1": "t_railroad_track_d_on_tie", "2": "t_railroad_tie_d" },
+      "place_nested": [
+        {
+          "chunks": [ "24x24_subway_curved_s_railroad_tie" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south": [
+              { "om_terrain": "subway_curved", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_curved", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        },
+        {
+          "chunks": [ "24x24_subway_curved_e_railroad_tie" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "east": [
+              { "om_terrain": "subway_curved", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "lab_subway_curved", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_curved_s_railroad_tie",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     12         12      "
+      ],
+      "terrain": { "1": "t_railroad_track_d_on_tie", "2": "t_railroad_tie_d" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_subway_curved_e_railroad_tie",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       1",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                      12",
+        "                       2",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "1": "t_railroad_track_d_on_tie", "2": "t_railroad_tie_d" }
+    }
+  }
+]
