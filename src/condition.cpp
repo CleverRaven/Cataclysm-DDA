@@ -772,6 +772,14 @@ conditional_t::func f_u_has_mission( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_u_has_achievement( const JsonObject &jo, std::string_view member )
+{
+    str_or_var u_achievement = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [u_achievement]( dialogue const & d ) {
+        return get_avatar().has_achievement( achievement_id( u_achievement.evaluate( d ) ) );
+    };
+}
+
 conditional_t::func f_u_monsters_in_direction( const JsonObject &jo,
         std::string_view member )
 {
@@ -2531,6 +2539,7 @@ parsers = {
     {"u_has_activity", "npc_has_activity", jarg::string, &conditional_fun::f_has_activity },
     {"u_is_riding", "npc_is_riding", jarg::string, &conditional_fun::f_is_riding },
     {"u_has_mission", jarg::string, &conditional_fun::f_u_has_mission },
+    {"u_has_achievement", jarg::string, &conditional_fun::f_u_has_achievement },
     {"u_monsters_in_direction", jarg::string, &conditional_fun::f_u_monsters_in_direction },
     {"u_safe_mode_trigger", jarg::member, &conditional_fun::f_u_safe_mode_trigger },
     {"u_profession", jarg::string, &conditional_fun::f_u_profession },
