@@ -128,14 +128,14 @@
     "effect_str": "corroding",
     "min_duration": 1300,
     "max_duration": 1300,
-    "min_aoe": 12,
-    "max_aoe": 12,
+    "min_aoe": 9,
+    "max_aoe": 9,
     "difficulty": 1,
     "min_range": 10,
     "max_range": 10,
     "field_id": "fd_acid",
-    "min_field_intensity": 2,
-    "max_field_intensity": 2
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
   },
   {
     "id": "sapra",
