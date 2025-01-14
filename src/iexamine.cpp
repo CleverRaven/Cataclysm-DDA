@@ -227,6 +227,8 @@ static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
@@ -406,6 +408,180 @@ void iexamine::change_appearance( Character &you, const tripoint_bub_ms & )
         you.customize_appearance( customize_appearance_choice::EYES );
     } else if( amenu.ret == 1 ) {
         you.customize_appearance( customize_appearance_choice::SKIN );
+    }
+}
+
+/**
+* Remove the current threshold and devolve all post thresh mutations to their pre threshold level, unless the new threshold is compatible.
+*/
+static void genemill_remove_thresh( Character &you, mutation_category_id highest_id )
+{
+    int rc = 0;
+    for( const trait_id &mut : you.get_mutations( false, true ) ) {
+        if( !mut->threshreq.empty() || mut->threshold ) {
+            trait_id lastrevert = mut;
+            you.remove_mutation( mut );
+            do {
+                for( const trait_id &c : you.get_mutations( false, true ) ) {
+                    if( std::find( c->replacements.begin(), c->replacements.end(),
+                                   lastrevert ) != c->replacements.end() && ( !c->threshreq.empty() ||
+                                           std::find( c->category.begin(), c->category.end(), highest_id ) != c->category.end() ) ) {
+                        lastrevert = c;
+                        you.remove_mutation( c );
+                    } else {
+                        break;
+                    }
+                }
+                rc++;
+            } while( rc < 10 );
+        }
+    }
+}
+
+/**
+ * GENEMILL: Like a Nanofab, but for your genes.
+ * Used in aftershock, and maybe in other mods.
+ */
+void iexamine::genemill( Character &you, const tripoint_bub_ms & )
+{
+    uilist genemenu;
+    genemenu.title = _( "Select Genetic Treatment" );
+
+    std::vector<trait_id>available_traits;
+    std::vector<item_location> genetech;
+
+    for( item_location &loc : you.all_items_loc() ) {
+        if( loc->has_flag( flag_GENE_TECH ) ) {
+            genetech.push_back( loc );
+        }
+    }
+
+
+    if( genetech.empty() ) {
+        popup( _( "You aren't carrying have any genetic treatments." ) );
+        return;
+    }
+    std::map<int, item_location> item_map;
+    int i = 0;
+    for( const item_location &it : genetech ) {
+        for( trait_id trait : it->template_traits ) {
+            item_map[i] = it;
+            available_traits.push_back( trait );
+            bool can_select = true;
+            std::string context_string;
+
+            //if you have the trait we can abort this early since the only thing we can do is remove it
+            if( you.has_permanent_trait( trait ) ) {
+                context_string = _( "Trait will be reverted to base human morphology." );
+                context_string = string_format( "    <color_green>%s</color>", context_string );
+                genemenu.addentry_col( i, can_select, input_event(), trait->name(), context_string );
+                i++;
+                continue;
+            }
+
+            const mutation_branch &mut = trait.obj();
+            std::vector<trait_id> cancel = mut.cancels;
+            std::vector<trait_id> threshreq = mut.threshreq;
+            bool c_has_threshreq = threshreq.empty() ? true : false;
+
+            //Threshold requirement
+            for( const trait_id &c : threshreq ) {
+                if( you.has_permanent_trait( c ) ) {
+                    c_has_threshreq = true;
+                    break;
+                }
+            }
+            if( !c_has_threshreq ) {
+                std::vector<std::string> thresholds;
+                thresholds.reserve( threshreq.size() );
+                for( const trait_id &c : threshreq ) {
+                    thresholds.push_back( c->name() );
+                }
+                context_string = ( _( " %s" ), string_join( thresholds, ", " ) );
+                context_string =
+                    string_format( "    <color_red>Requires either of the following traits: %s</color>",
+                                   context_string );
+                can_select = false;
+            }
+
+            //Bionic Incompatibility
+            std::vector<std::string> bionics;
+            for( const bionic_id &bid : you.get_bionics() ) {
+                if( bid->mutation_conflicts.count( trait ) != 0 ) {
+                    bionics.push_back( bid->name.translated() );
+                }
+            }
+            if( !bionics.empty() ) {
+                context_string = string_join( bionics, ", " );
+                context_string = string_format( "    <color_red>Conflicts with installed: %s</color>",
+                                                context_string );
+                can_select = false;
+            }
+
+            genemenu.addentry_col( i, can_select, input_event(), mut.name(), context_string );
+            i++;
+        }
+    }
+
+    genemenu.query();
+
+    if( genemenu.ret < 0 ) {
+        return;
+    }
+
+    //Grant the selected mutation.
+    trait_id treatment = available_traits.at( genemenu.ret );
+    int rc = 0;
+    if( you.has_permanent_trait( treatment ) ) {
+        trait_id lastrevert = treatment;
+        you.remove_mutation( treatment );
+        do {
+            for( const trait_id &c : you.get_mutations( false, true ) ) {
+                if( std::find( c->replacements.begin(), c->replacements.end(),
+                               lastrevert ) != c->replacements.end() ) {
+                    lastrevert = c;
+                    you.remove_mutation( c );
+                }
+            }
+            rc++;
+        } while( rc < 10 );
+
+    } else {
+        do {
+            you.mutate_towards( treatment );
+            rc++;
+        } while( !you.has_permanent_trait( treatment ) && rc < 10 );
+    }
+
+    //Handle Thesholds changing/removal.
+    auto highest_id = std::max_element( you.mutation_category_level.begin(),
+                                        you.mutation_category_level.end(),
+                                        []( const std::pair<mutation_category_id, int> &p1,
+    const std::pair<mutation_category_id, int> &p2 ) {
+        return p1.second < p2.second;
+    } );
+    const mutation_category_trait &highest_mct = mutation_category_trait::get_category(
+                highest_id->first );
+
+    //Since chimera grants access to most post thresh traits with little inconvenience, we prevent the player from getting it through genemill.
+    if( highest_id->first != mutation_category_CHIMERA &&
+        you.get_threshold_category() != mutation_category_CHIMERA ) {
+        if( highest_id->second > 30 && !you.has_permanent_trait( highest_mct.threshold_mut ) ) {
+            genemill_remove_thresh( you, highest_id->first );
+            you.set_mutation( highest_mct.threshold_mut );
+            you.add_msg_if_player(
+                _( "As you wake, you find yourself much more attuned to your new form than before." ) );
+
+        } else if( highest_id->second < 30 && you.crossed_threshold() ) {
+            genemill_remove_thresh( you, mutation_category_id::NULL_ID() );
+            you.add_msg_if_player(
+                _( "As you wake, you feel like if you have lost a once important part of yourself." ) );
+        }
+    }
+    //Consume the template if its single use.
+    item_location selected = item_map[genemenu.ret];
+    if( selected->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+        selected.remove_item();
     }
 }
 
@@ -7401,6 +7577,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },
+            { "genemill", &iexamine::genemill },
             { "nanofab", &iexamine::nanofab },
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },

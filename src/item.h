@@ -2866,6 +2866,11 @@ class item : public visitable
         void handle_pickup_ownership( Character &c );
 
         /**
+        * Traits contained for interaction with a genemill furniture.
+        */
+        std::vector<trait_id> template_traits;
+
+        /**
          * Get gun energy drain. Includes modifiers from gunmods.
          * @return energy drained per shot
          */

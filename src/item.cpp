@@ -102,6 +102,7 @@
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "trait_group.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
@@ -366,6 +367,13 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         itype_id nanofab_recipe =
             item_group::item_from( type->nanofab_template_group ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
+    }
+
+    if( type->trait_group.is_valid() ) {
+        const trait_group::Trait_list &tlist = trait_group::traits_from( type->trait_group );
+        for( const trait_and_var &tr : tlist ) {
+            template_traits.push_back( tr.trait );
+        }
     }
 
     select_itype_variant();
@@ -1727,6 +1735,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
     static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
+    bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );

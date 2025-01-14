@@ -8547,8 +8547,14 @@ bool Character::crossed_threshold() const
 mutation_category_id Character::get_threshold_category() const
 {
     for( const trait_id &mut : get_functioning_mutations() ) {
-        if( mut->threshold && !mut->category.empty() ) {
-            return mut->category[0];
+        if( mut->threshold ) {
+            const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+                mutation_category_trait::get_all();
+            for( const auto &cat : mutation_categories ) {
+                if( cat.second.threshold_mut == mut ) {
+                    return cat.first;
+                }
+            }
         }
     }
     return mutation_category_id::NULL_ID();
