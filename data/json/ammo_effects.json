@@ -338,7 +338,7 @@
     "id": "EXPLOSIVE_EXODII_FIREWORK",
     "//": "a large, shockwave like explosion with no shrapnel.",
     "type": "ammo_effect",
-    "explosion": { "power": 288 }
+    "explosion": { "power": 318 }
   },
   {
     "id": "CORROSIVE",
