@@ -133,7 +133,7 @@
     "difficulty": 1,
     "min_range": 10,
     "max_range": 10,
-    "field_type": "fd_acid",
+    "field_id": "fd_acid",
     "min_field_intensity": 3,
     "max_field_intensity": 3
   },
