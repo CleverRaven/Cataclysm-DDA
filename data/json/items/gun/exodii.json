@@ -118,6 +118,26 @@
     "ammo": [ "khuunaofaai_payload", "khuunaofaai_payload_fire", "khuunaofaai_payload_acid" ]
   },
   {
+    "id": "spell_corrosive_spray",
+    "type": "SPELL",
+    "name": { "str": "corrosive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in highly corrosive chemicals", "//~": "NO_I18N" },
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect_str": "corroding",
+    "min_duration": 1200,
+    "max_duration": 1200,
+    "min_aoe": 12,
+    "max_aoe": 12,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "field_type": "fd_acid",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  },
+  {
     "id": "sapra",
     "looks_like": "smle_mk3",
     "type": "GUN",
