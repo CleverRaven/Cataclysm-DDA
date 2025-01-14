@@ -145,6 +145,32 @@
     ]
   },
   {
+    "id": "exodii_khuunaofaai_mag_adhesive",
+    "copy-from": "exodii_khuunaofaai_mag_firework",
+    "ammo_type": [ "khuunaofaai_payload_glue" ],
+    "name": { "str": "ordnance cannon adhesive canister" },
+    "type": "MAGAZINE",
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for sticking nasty things in place when they otherwise couldn't be destroyed, or they didn't want to waste the ammunition to.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodii_khuunaofaai_mag_adhesive",
+        "name": { "str": "Khuunäöfaai adhesive canister" },
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for sticking nasty things in place when they otherwise couldn't be destroyed, or they didn't want to waste the ammunition to.",
+        "weight": 1
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "khuunaofaai_payload_glue": 6 },
+        "watertight": true
+      }
+    ]
+  },
+  {
     "id": "ree_33_4_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

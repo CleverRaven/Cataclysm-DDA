@@ -848,6 +848,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "khuunaofaai_payload_glue",
+    "name": "Khuunäöfaai adhesive payload",
+    "default": "khuunaofaai_ammo_foam"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"

@@ -138,6 +138,26 @@
     "max_field_intensity": 3
   },
   {
+    "id": "spell_adhesive_spray",
+    "type": "SPELL",
+    "name": { "str": "adhesive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in quickly hardening resin", "//~": "NO_I18N" },
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect_str": "sludged",
+    "min_duration": 60000,
+    "max_duration": 60000,
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "field_id": "fd_sludge",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  },
+  {
     "id": "sapra",
     "looks_like": "smle_mk3",
     "type": "GUN",

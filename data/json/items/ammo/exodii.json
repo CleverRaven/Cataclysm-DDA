@@ -272,6 +272,17 @@
     "weight": "6 g",
     "price_postapoc": "8 USD 66 cent"
   },
+    "id": "khuunaofaai_ammo_foam",
+    "type": "AMMO",
+    "range": 100,
+    "name": { "str": "Khuunäöfaai foaming payload" },
+    "description": "Pressurized chemical payload for the Khuunäöfaai.  An incredibly powerful binding agent and sealant, removing it from the tank would be a bad idea.",
+    "ammo_type": "khuunaofaai_payload_glue",
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "GLUE_FOAM" ],
+    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 4 },
+    "copy-from": "khuunaofaai_ammo_firework",
+    "weight": "8 g",
+    "price_postapoc": "5 USD 10 cent"
   {
     "id": "33naval_ball",
     "type": "AMMO",
