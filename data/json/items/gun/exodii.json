@@ -111,7 +111,7 @@
       {
         "magazine_well": "1250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "exodii_khuunaofaai_mag_firework", "exodii_khuunaofaai_mag_incendiary", "exodii_khuunaofaai_mag_corrosive" ]
+        "item_restriction": [ "exodii_khuunaofaai_mag_firework", "exodii_khuunaofaai_mag_incendiary", "exodii_khuunaofaai_mag_corrosive", "exodii_khuunaofaai_mag_adhesive" ]
       }
     ],
     "reload_noise_volume": 20,
