@@ -1057,7 +1057,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
         if( act == ACT_VEHICLE_DECONSTRUCTION ) {
             // find out if there is a vehicle part here we can remove.
-            // TODO: fix point types
             std::vector<vehicle_part *> parts =
                 veh->get_parts_at( src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
@@ -1081,7 +1080,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 item base( vpinfo.base_item );
-                // TODO: fix point types
                 const units::mass max_lift = you.best_nearby_lifting_assist( src_loc );
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
@@ -1103,7 +1101,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         } else if( act == ACT_VEHICLE_REPAIR ) {
             // find out if there is a vehicle part here we can repair.
-            // TODO: fix point types
             std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const vpart_info &vpinfo = part_elem->info();
@@ -1126,7 +1123,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.repair_requirements();
-                // TODO: fix point types
                 const inventory &inv =
                     you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
@@ -1301,7 +1297,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
             nearest_src_loc = route.back();
         }
-        // TODO: fix point types
         const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
@@ -1404,7 +1399,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        // TODO: fix point types
         const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
@@ -1521,8 +1515,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
              you.get_location(), distance, you.is_npc(), _fac_id( you ) ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
-                       // TODO: fix point types
-                       tripoint_bub_ms( elem ) ) != already_there_spots.end() ) {
+                       elem ) != already_there_spots.end() ) {
             // construction tasks don't need the loot spot *and* the already_there/combined spots both added.
             // but a farming task will need to go and fetch the tool no matter if its near the work spot.
             // whereas the construction will automatically use what's nearby anyway.
@@ -1811,8 +1804,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
         }
     }
     pc.components = used;
-    // TODO: fix point types
-    here.partial_con_set( tripoint_bub_ms( src_loc ), pc );
+    here.partial_con_set( src_loc, pc );
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         you.consume_tools( it );
     }

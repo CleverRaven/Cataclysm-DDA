@@ -282,7 +282,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        const std::optional<tripoint_bub_ms> target_pos_ = choose_adjacent_bub( liqstr );
+        const std::optional<tripoint_bub_ms> target_pos_ = choose_adjacent( liqstr );
         if( !target_pos_ ) {
             return;
         }

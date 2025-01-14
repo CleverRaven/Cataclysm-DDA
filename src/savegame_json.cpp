@@ -1462,9 +1462,9 @@ void Character::store( JsonOut &json ) const
     json.start_array();
     for( const auto &elem : known_traps ) {
         json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
+        json.member( "x", elem.first.x() );
+        json.member( "y", elem.first.y() );
+        json.member( "z", elem.first.z() );
         json.member( "trap", elem.second );
         json.end_object();
     }
