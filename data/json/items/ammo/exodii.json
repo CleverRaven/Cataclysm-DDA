@@ -249,7 +249,7 @@
     "description": "Pressurized chemical payload for the Khuunäöfaai.  Highly flammable and reactive to oxygen, removing it from the tank would be a bad idea.",
     "ammo_type": "khuunaofaai_payload_fire",
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "TRAIL", "PYROPHORIC" ],
-    "damage": { "damage_type": "fire", "amount": 44, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 4 },
     "recoil": 10,
     "dispersion": 20,
     "price_postapoc": "8 USD",
