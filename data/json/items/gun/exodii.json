@@ -115,7 +115,7 @@
       }
     ],
     "reload_noise_volume": 20,
-    "ammo": [ "khuunaofaai_payload", "khuunaofaai_payload_fire", "khuunaofaai_payload_acid" ]
+    "ammo": [ "khuunaofaai_payload", "khuunaofaai_payload_fire", "khuunaofaai_payload_acid", "khuunaofaai_payload_glue" ]
   },
   {
     "id": "spell_corrosive_spray",
