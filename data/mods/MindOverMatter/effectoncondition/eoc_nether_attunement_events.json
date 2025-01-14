@@ -359,6 +359,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ]
             ]
@@ -372,6 +373,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
@@ -387,6 +389,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -404,6 +407,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -424,6 +428,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -447,6 +452,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -472,6 +478,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -498,6 +505,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
@@ -524,6 +532,7 @@
               [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 9 ],
               [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 6 ],
               [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_VOMIT", 9 ],
               [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
               [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
               [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
@@ -664,6 +673,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_VOMIT",
+    "//": "Base is 2% chance from 50 attunement to 80 attunement, then scaling up 0.125% per attunement up to 10.75% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 35.75% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 50" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( ( u_vitamin('vitamin_psionic_drain') * 1.25)- 50), 0, 200) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your stomach churns!", "type": "bad" },
+      { "u_cast_spell": { "id": "nether_attunement_vomit", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
     "//": "Base is 1% chance from 25 attunement to 60 attunement, then scaling up 0.1% per attunement up to 12% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 37% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
@@ -673,7 +706,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 60), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 60), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 150) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
               ]
             },
             "y": 1000
