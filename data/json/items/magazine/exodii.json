@@ -124,13 +124,13 @@
     "ammo_type": [ "khuunaofaai_payload_acid" ],
     "name": { "str": "ordnance cannon corrosive canister" },
     "type": "MAGAZINE",
-    "description": "A pressurized tank containing a mixture of several different acids and peroxides, capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "exodii_khuunaofaai_mag_corrosive",
         "name": { "str": "Khuunäöfaai corrosive canister" },
-        "description": "A pressurized tank containing a mixture of several different acids and peroxides, capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
+        "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
         "weight": 1
       }
     ],
