@@ -31,9 +31,17 @@
         "™™|™™™|™™™|™™™|™™™™™™™™™",
         "™™™™™™™™™™™™™™™™™™™™™™™™"
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_terra", "afs_habitat_residential_furnishing" ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_terra",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
       "terrain": { "1": "t_sidewalk" },
-      "furniture": { "1": "f_screenmirror", "2": "f_genetech_mannequin" }
+      "furniture": { "1": "f_screenmirror", "2": "f_genetech_mannequin" },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 8, 16 ], "pack_size": [ 2, 5 ], "chance": 60 } ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -48,7 +56,7 @@
         "  [..................[  ",
         "  [..................[  ",
         "  ||)|||)|||)||))|||||  ",
-        "  |@yn|@yn|@yn|{{{{{{|  ",
+        "  |@yn|@yn|@yn|{{{{ö{|  ",
         "  |@;k|@;k|@;k|;;|;;{|  ",
         "  |{{c|{{c|{{c|<<|{{{|  ",
         " ||:|||:|||:||||||221|  ",
@@ -68,8 +76,11 @@
         "  [[[[[[[[[[[[[         ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_life_support", "afs_habitat_residential_furnishing" ],
-      "terrain": { "1": "t_afs_mercurial_card_reader", "2": "t_door_metal_locked", " ": "t_open_air", "❻": "t_metal_floor" }
+      "palettes": [ "afs_habitat_structure", "afs_habitat_life_support", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
+      "terrain": { "1": "t_afs_mercurial_card_reader", "2": "t_door_metal_locked", " ": "t_open_air", "❻": "t_metal_floor" },
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 5, 17 ], "pack_size": [ 2, 4 ], "chance": 60 } ],
+      "monster": { "ö": { "monster": "mon_afs_commercial_laser_turret" } },
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -92,11 +103,11 @@
         "  |{{{{{;{{{{{{{;{{{{)  ",
         "  |{{{{{;{{{{{{{;{{{{)  ",
         "  ||!!|||||||{{|||||||  ",
-        "  |4{{4|4|qq|{{:{{{ch)  ",
-        "  ||{{||{{{{1{{|l{;k{)  ",
-        "  |4;;4|{{;{2;;|p{{{v)  ",
-        "  ||{{||{{{{|{{|||||||  ",
-        "  |4{{4|5|qq|{{:{{{ch)  ",
+        "  |4..4|4|qq|{{:{{{ch)  ",
+        "  |4''4|)|{{1{{|l{;k{)  ",
+        "  ||21||{{;{2;;|p{{{v)  ",
+        "  |.'..|{{{{|{{|||||||  ",
+        "  |....|5|qq|{{:{{{ch)  ",
         "  |||||||||||))|l{;k{)  ",
         "               |p{{{v)  ",
         "               |))))))  ",
@@ -104,9 +115,16 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
-      "terrain": { "1": "t_afs_mercurial_card_reader", "2": "t_door_metal_locked", " ": "t_open_air", "❻": "t_metal_floor" },
-      "furniture": { "3": "f_gene_editor", "4": "f_drone_recharge_station", "5": "f_e_safe_l" }
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
+      "terrain": { "1": "t_afs_mercurial_card_reader", "2": "t_door_metal_locked", " ": "t_open_air", "4": "t_metal_floor" },
+      "furniture": { "3": "f_gene_editor_inactive", "4": "f_drone_recharge_station", "5": "f_e_safe_l" },
+      "place_monster": [
+        { "group": "AFS_GROUP_ROBOT_MODERATE_RISK", "x": [ 4, 19 ], "y": [ 10, 11 ], "pack_size": 1, "chance": 100 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 3, 6 ], "y": [ 13, 14 ], "pack_size": 4, "chance": 30 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 3, 13 ], "y": [ 5, 8 ], "pack_size": 2, "chance": 10 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 16, 20 ], "y": [ 13, 19 ], "pack_size": 2, "chance": 10 }
+      ],
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },
   {
