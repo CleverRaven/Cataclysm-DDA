@@ -768,7 +768,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     int alive = 0;
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             alive += creatures.creature_at<Creature>( cursor ) != nullptr;
         }

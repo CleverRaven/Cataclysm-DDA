@@ -203,11 +203,6 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
-tripoint Creature::pos() const
-{
-    return Creature::pos_bub().raw();
-}
-
 tripoint_bub_ms Creature::pos_bub() const
 {
     return get_map().bub_from_abs( location );
@@ -613,11 +608,6 @@ bool Creature::sees( const Creature &critter ) const
         }
     }
     return visible( ch );
-}
-
-bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
-{
-    return Creature::sees( tripoint_bub_ms( t ), is_avatar, range_mod );
 }
 
 bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const

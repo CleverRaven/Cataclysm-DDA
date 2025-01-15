@@ -962,7 +962,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, const tripoi
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( query );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -1042,7 +1042,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint_bub
     map &here = get_map();
     const tripoint_range<tripoint_bub_ms> target_range = place_randomly ?
             points_in_radius( p->pos_bub(), radius ) :
-            points_in_radius( choose_adjacent_bub( _( "Place NPC where?" ) ).value_or( p->pos_bub() ), 0 );
+            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos_bub() ), 0 );
 
     const std::optional<tripoint_bub_ms> target_pos =
     random_point( target_range, [&here]( const tripoint_bub_ms & t ) {
@@ -1123,7 +1123,7 @@ static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
     }
     tripoint_bub_ms pnt( pos );
     if( pos == p->pos_bub() ) {
-        if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Deploy where?" ) ) ) {
+        if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
             return ret_val<tripoint_bub_ms>::make_failure( pos );
@@ -1338,7 +1338,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
 {
     // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos_bub() ) {
-        if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Light where?" ) ) ) {
+        if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
             return false;
@@ -1980,7 +1980,7 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, const tripoint_b
     }
 
     if( choice == 0 ) {
-        const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Write where?" ) );
+        const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Write where?" ) );
         if( !dest_ ) {
             return std::nullopt;
         }
@@ -3982,7 +3982,7 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint_bub_ms> pos_ = choose_adjacent_bub( string_format(
+    const std::optional<tripoint_bub_ms> pos_ = choose_adjacent( string_format(
                 _( "Place %s where?" ),
                 it.tname() ) );
     if( !pos_ ) {
@@ -5287,7 +5287,7 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( string_format(
+    const std::optional<tripoint_rel_ms> dir = choose_direction( string_format(
                 _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return std::nullopt;

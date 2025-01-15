@@ -371,7 +371,7 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z() );
+                        tripoint_bub_ms tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z() );
                         const Creature *critter = creatures.creature_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
@@ -440,7 +440,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-static void rcdrive( const point &d )
+static void rcdrive( const point_rel_ms &d )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -487,7 +487,7 @@ static void rcdrive( const point &d )
     }
 }
 
-static void pldrive( const tripoint &p )
+static void pldrive( const tripoint_rel_ms &p )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -510,7 +510,7 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
-    if( veh->is_on_ramp && p.x != 0 ) {
+    if( veh->is_on_ramp && p.x() != 0 ) {
         add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
         return;
     }
@@ -535,7 +535,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    if( p.z != 0 ) {
+    if( p.z() != 0 ) {
         if( !veh->can_control_in_air( player_character ) ) {
             player_character.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
             return;
@@ -545,13 +545,13 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    if( p.z == -1 ) {
+    if( p.z() == -1 ) {
         if( veh->check_heli_descend( player_character ) ) {
             player_character.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
         } else {
             return;
         }
-    } else if( p.z == 1 ) {
+    } else if( p.z() == 1 ) {
         if( veh->check_heli_ascend( player_character ) ) {
             player_character.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         } else {
@@ -564,12 +564,12 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    veh->pldrive( get_avatar(), p.x, p.y, p.z );
+    veh->pldrive( get_avatar(), p.x(), p.y(), p.z() );
 }
 
-static void pldrive( point d )
+static void pldrive( point_rel_ms d )
 {
-    return pldrive( tripoint( d, 0 ) );
+    return pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
 static void open()
@@ -707,12 +707,12 @@ static void grab()
         return;
     }
 
-    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint_bub_ms> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
     }
-    tripoint_bub_ms grabp = tripoint_bub_ms( *grabp_ );
+    tripoint_bub_ms grabp = *grabp_;
 
     if( grabp == you.pos_bub() ) {
         add_msg( _( "You get a hold of yourself." ) );
@@ -913,11 +913,12 @@ static bool is_smashable_corpse( const item &maybe_corpse )
 static void smash()
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint_bub_ms> smashp_ = choose_adjacent( _( "Smash where?" ),
+            allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
-    tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
+    tripoint_bub_ms smashp = *smashp_;
 
     // Little hack: If there's a smashable corpse, it'll always be bashed first. So don't bother warning about
     // terrain smashing unless it's actually possible.
@@ -2322,7 +2323,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 // so no rotation needed
                 pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
             } else {
-                point_rel_ms dest_delta = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
+                point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
@@ -2339,7 +2340,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         }
                     }
                     act = player_character.get_next_auto_move_direction();
-                    const point_rel_ms dest_next = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
+                    const point_rel_ms dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_rel_ms::zero ) {
                         player_character.abort_automove();
                     }
@@ -2386,7 +2387,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint::below );
+                    pldrive( tripoint_rel_ms::below );
                     break;
                 }
             }
@@ -2444,7 +2445,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint::above );
+                    pldrive( tripoint_rel_ms::above );
                 }
             }
             break;
@@ -2689,7 +2690,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             drop_in_direction( player_character.pos_bub() );
             break;
         case ACTION_DIR_DROP:
-            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Drop where?" ) ) ) {
+            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
                 if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {

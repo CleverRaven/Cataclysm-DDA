@@ -548,38 +548,6 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint> input_context::get_direction( const std::string &action ) const
-{
-    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
-        return p;
-    } );
-    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
-        rotate_direction_cw( p.x, p.y );
-        return p;
-    } );
-    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
-
-    if( action == "UP" ) {
-        return transform( tripoint::north );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint::south );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint::west );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint::east );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint::north_west );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint::north_east );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint::south_west );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint::south_east );
-    } else {
-        return std::nullopt;
-    }
-}
-
 std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
 const
 {

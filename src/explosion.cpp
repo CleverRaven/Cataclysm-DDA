@@ -896,8 +896,7 @@ void resonance_cascade( const tripoint_bub_ms &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                // TODO: fix point types
-                                here.add_field( tripoint_bub_ms{ k, l, p.z()}, type, 3 );
+                                here.add_field( { k, l, p.z()}, type, 3 );
                             }
                         }
                     }

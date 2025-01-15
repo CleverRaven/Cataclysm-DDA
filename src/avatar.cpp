@@ -1209,11 +1209,6 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p ) const
-{
-    return cant_see( tripoint_bub_ms( p ) );
-}
-
 bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
