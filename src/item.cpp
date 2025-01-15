@@ -370,8 +370,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( type->trait_group.is_valid() ) {
-        const trait_group::Trait_list &tlist = trait_group::traits_from( type->trait_group );
-        for( const trait_and_var &tr : tlist ) {
+        for( const trait_and_var &tr : trait_group::traits_from( type->trait_group ) ) {
             template_traits.push_back( tr.trait );
         }
     }
