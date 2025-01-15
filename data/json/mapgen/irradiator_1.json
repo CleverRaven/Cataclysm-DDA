@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
+    "id": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 450, "cost_multiplier": 3 },
       { "monster": "mon_zombie_hazmat", "weight": 250, "cost_multiplier": 3 },

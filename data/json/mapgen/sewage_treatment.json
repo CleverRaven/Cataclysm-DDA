@@ -130,7 +130,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWAGE_TREATMENT",
+    "id": "GROUP_SEWAGE_TREATMENT",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_sewer_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },

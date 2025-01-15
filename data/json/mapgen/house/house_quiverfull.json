@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_QUIVERFULL",
+    "id": "GROUP_QUIVERFULL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 900 },
