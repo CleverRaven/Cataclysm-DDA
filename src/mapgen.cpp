@@ -3513,7 +3513,7 @@ class jmapgen_variable : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
             queued_points[name] = dat.m.get_abs( tripoint_bub_ms( int( x.val ), int( y.val ),
-                                                   dat.zlevel() + z.get() ) );
+                                                 dat.zlevel() + z.get() ) );
         }
 };
 

@@ -1549,12 +1549,12 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
         point_bub_ms z_l_end = z_end.xy().rotate( turns, dim );
         tripoint_abs_ms first =
             target_map.get_abs( tripoint_bub_ms( std::min( z_l_start.x(), z_l_end.x() ),
-                                  std::min( z_l_start.y(), z_l_end.y() ),
-                                  z_start.z() ) );
+                                std::min( z_l_start.y(), z_l_end.y() ),
+                                z_start.z() ) );
         tripoint_abs_ms second =
             target_map.get_abs( tripoint_bub_ms( std::max( z_l_start.x(), z_l_end.x() ),
-                                  std::max( z_l_start.y(), z_l_end.y() ),
-                                  z_end.z() ) );
+                                std::max( z_l_start.y(), z_l_end.y() ),
+                                z_end.z() ) );
         zone.set_position( std::make_pair( first, second ), false, true, false, true );
     }
 }
