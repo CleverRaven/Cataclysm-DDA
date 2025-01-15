@@ -5,7 +5,7 @@
 Example usage:
 py monstergroup_name_to_id.py ../../data/mods/my_mod
 
-See https://github.com/CleverRaven/Cataclysm-DDA/pull/79177 for context and motivation
+See https://github.com/CleverRaven/Cataclysm-DDA/pull/79177
 Should be removed after 0.I
 
 """
