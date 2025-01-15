@@ -353,7 +353,7 @@ struct auto_navigation_data {
     }
     // transforms a point from map bub coords into view map coords
     point to_view( const tripoint_bub_ms &p ) const {
-        return to_view( get_map().getglobal( p ) );
+        return to_view( get_map().get_abs( p ) );
     }
     // returns `p` adjusted so that the z-level is placed on the ground
     template<typename Tripoint>
@@ -711,7 +711,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs = here.getglobal( pt );
+    const tripoint_abs_ms pt_abs = here.get_abs( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -799,7 +799,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
             const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
-            const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
+            const tripoint_bub_ms p = here.get_bub( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;
             enqueue_if_ramp( ramp_points, here, p );

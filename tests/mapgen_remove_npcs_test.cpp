@@ -34,7 +34,7 @@ void place_npc_and_check( map &m, tripoint_bub_ms const &loc, update_mapgen_id c
                           string_id<npc_template> const &nid )
 {
     check_creature( loc, nid, false );
-    tripoint_abs_omt const omt = project_to<coords::omt>( m.getglobal( loc ) );
+    tripoint_abs_omt const omt = project_to<coords::omt>( m.get_abs( loc ) );
     manual_mapgen( omt, manual_update_mapgen, id );
     check_creature( loc, nid, true );
     g->mon_info_update();
@@ -44,7 +44,7 @@ void remove_npc_and_check( map &m, tripoint_bub_ms const &loc, update_mapgen_id 
                            string_id<npc_template> const &nid )
 {
     check_creature( loc, nid, true );
-    tripoint_abs_omt const omt = project_to<coords::omt>( m.getglobal( loc ) );
+    tripoint_abs_omt const omt = project_to<coords::omt>( m.get_abs( loc ) );
     manual_mapgen( omt, manual_update_mapgen, id );
     check_creature( loc, nid, false );
 
@@ -70,8 +70,8 @@ TEST_CASE( "mapgen_remove_npcs" )
 
         tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
         tripoint_abs_omt const omt2 = omt + tripoint::east;
-        tripoint_bub_ms const loc = here.bub_from_abs( project_to<coords::ms>( omt ) );
-        tripoint_bub_ms const loc2 = here.bub_from_abs( project_to<coords::ms>( omt2 ) );
+        tripoint_bub_ms const loc = here.get_bub( project_to<coords::ms>( omt ) );
+        tripoint_bub_ms const loc2 = here.get_bub( project_to<coords::ms>( omt2 ) );
         tripoint_bub_ms const loc3 = loc2 + tripoint::east;
         REQUIRE( get_map().inbounds( loc ) );
         place_npc_and_check( here, loc, update_mapgen_test_update_place_npc,

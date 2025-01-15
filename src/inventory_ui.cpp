@@ -2191,7 +2191,7 @@ void inventory_selector::add_basecamp_items( const basecamp &camp )
     std::unordered_set<tripoint_abs_ms> tiles = camp.get_storage_tiles();
     map &here = get_map();
     for( tripoint_abs_ms tile : tiles ) {
-        add_map_items( here.bub_from_abs( tile ) );
+        add_map_items( here.get_bub( tile ) );
     }
 }
 
