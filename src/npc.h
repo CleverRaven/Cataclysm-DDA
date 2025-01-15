@@ -77,10 +77,6 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
-using bionic_id = string_id<bionic_data>;
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

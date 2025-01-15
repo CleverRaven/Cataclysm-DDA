@@ -28,7 +28,6 @@ struct localized_comparator;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
-using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
 extern const bodypart_str_id body_part_bp_null;

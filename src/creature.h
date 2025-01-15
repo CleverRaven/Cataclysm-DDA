@@ -64,8 +64,6 @@ struct projectile_attack_results;
 struct trap;
 template <typename T> struct enum_traits;
 
-using anatomy_id = string_id<anatomy>;
-
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
     // Squirrel, cat, human toddler
