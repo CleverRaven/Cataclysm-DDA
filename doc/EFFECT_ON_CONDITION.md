@@ -2990,7 +2990,7 @@ Remove effect from character or NPC, if it has one
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_lose_effect" / "npc_lose_effect" | **mandatory** | string, [variable object](#variable-object), or array of both | id of effect or effects to be removed; if character or NPC has no such effect, nothing happens |
-| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
+| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `ALL` can be used to remove effect from all bodyparts talker has | 
 
 ##### Valid talkers:
 
@@ -3007,6 +3007,11 @@ Removes `infection` effect from player:
 Removes `bleed` effect from player's head:
 ```json
 { "u_lose_effect": "bleed", "target_part": "head" }
+```
+
+Removes `bleed` effect from all bodyparts:
+```json
+{ "u_lose_effect": "bleed", "target_part": "ALL" }
 ```
 
 Removes effect, stored in `effect_id` context value, from the player:

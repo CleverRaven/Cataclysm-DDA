@@ -317,8 +317,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_MEDITATE_EFFFECT_REMOVE",
     "effect": [
-      { "u_lose_effect": "effect_xedra_rewrite_wound_causality" },
-      { "u_lose_effect": "effect_xedra_rewrite_equipment_causality" },
+      { "u_lose_effect": [ "effect_xedra_rewrite_wound_causality", "effect_xedra_rewrite_equipment_causality" ] },
       { "u_message": "You finish your meditations.", "type": "good" }
     ]
   },
@@ -461,11 +460,15 @@
         },
         "then": [
           { "u_message": "Your chronomantic powers destabilize and you lose their effects!" },
-          { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" },
-          { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" },
-          { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" },
-          { "u_lose_effect": "effect_xedra_chronomancer_reverse_entropy" },
-          { "u_lose_effect": "effect_xedra_chronomancer_stable_timeloop" }
+          {
+            "u_lose_effect": [
+              "effect_xedra_chronomancer_chronal_accel",
+              "effect_xedra_chronomancer_destabilizing_strikes",
+              "effect_xedra_chronomancer_stabilize_timeline",
+              "effect_xedra_chronomancer_reverse_entropy",
+              "effect_xedra_chronomancer_stable_timeloop"
+            ]
+          }
         ]
       },
       { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS", "time_in_future": [ "30 minutes", "2 hours" ] }
