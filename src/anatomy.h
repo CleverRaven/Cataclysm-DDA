@@ -14,7 +14,7 @@ class Creature;
 class JsonObject;
 class anatomy;
 
-using anatomy_id = string_id<anatomy>;
+
 
 /**
  * A structure that contains body parts.

@@ -23,8 +23,7 @@
 
 struct ter_t;
 
-using ter_str_id = string_id<ter_t>;
-
+class Character;
 class JsonObject;
 class Character;
 struct iexamine_actor;

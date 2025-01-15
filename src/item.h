@@ -76,7 +76,7 @@ enum class mod : int;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
-using faction_id = string_id<faction>;
+class body_part_set;
 class item_category;
 struct islot_armor;
 struct use_function;
