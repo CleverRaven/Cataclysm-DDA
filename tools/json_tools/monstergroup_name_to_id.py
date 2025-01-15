@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 
 """
-Example usage py monstergroup_name_to_id.py ../data/mods/my_mod
+
+Example usage:
+py monstergroup_name_to_id.py ../../data/mods/my_mod
+
+See https://github.com/CleverRaven/Cataclysm-DDA/pull/79177 for context and motivation
 Should be removed after 0.I
+
 """
 import argparse
 import json
@@ -18,9 +23,9 @@ failures = set()
 def format_json(path):
     file_path = os.path.dirname(__file__)
     # Might need changing to match your setup
-    format_path_linux = os.path.join(file_path, "/format/json_formatter.cgi")
-    path_win = "../json_formatter.exe"
-    alt_path_win = "/format/json_formatter.exe"
+    format_path_linux = os.path.join(file_path, "../format/json_formatter.cgi")
+    path_win = "../../json_formatter.exe"
+    alt_path_win = "../format/json_formatter.exe"
     format_path_win = os.path.join(file_path, path_win)
     format_alt_path_win = os.path.join(file_path, alt_path_win)
     if os.path.exists(format_path_linux):
