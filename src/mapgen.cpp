@@ -2280,7 +2280,9 @@ class jmapgen_gaspump : public jmapgen_piece_with_has_vehicle_collision
             int charges = amount.get() * 100;
             dat.m.furn_set( r, furn_str_id::NULL_ID() );
             if( charges == 0 ) {
-                charges = rng( 10000, 50000 );
+                int option_fuel_modifier = get_option<int>( "DIFFICULTY_FUEL_AVAILABILITY" );
+                charges = normal_roll( 30000 * option_fuel_modifier,
+                                       10000 + 100 * option_fuel_modifier ) * option_fuel_modifier;
             }
             itype_id chosen_fuel = fuel.get( dat );
             if( chosen_fuel.is_null() ) {

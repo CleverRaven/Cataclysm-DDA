@@ -13512,7 +13512,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
         return false;
     }
 
-    if( corpse->has_flag( mon_flag_DORMANT ) ) {
+    if( corpse->has_flag( mon_flag_DORMANT ) && get_option<bool>( "ZOMBIE_REVIVIFICATION_DORMANT" ) ) {
         //if dormant, ensure trap still exists.
         const trap *trap_here = &here.tr_at( pos );
         if( trap_here->is_null() ) {
@@ -13532,7 +13532,10 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
         set_var( "zombie_form", mon_human->zombify_into.c_str() );
     }
 
-    if( !ready_to_revive( here, pos ) ) {
+    const bool revivification_over_time_enabled = get_option<bool>( "ZOMBIE_REVIVIFICATION_OVER_TIME" )
+            || ( has_var( "zombie_form" ) && get_option<bool>( "ZOMBIE_REVIVIFICATION_HUMAN_ZOMBIFICATION" ) );
+
+    if( !revivification_over_time_enabled || !ready_to_revive( here, pos ) ) {
         return false;
     }
     if( rng( 0, volume() / 250_ml ) > burnt &&

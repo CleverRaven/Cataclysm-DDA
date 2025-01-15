@@ -1539,7 +1539,8 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint_bub
     for( const tripoint_bub_ms &aoe : area ) {
         for( item &corpse : here.i_at( aoe ) ) {
             const mtype *mt = corpse.get_mtype();
-            if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
+            if( !( get_option<bool>( "ZOMBIE_REVIVIFICATION_SPELLS" ) && corpse.is_corpse() &&
+                   corpse.can_revive() && corpse.active &&
                    mt->has_flag( mon_flag_REVIVES ) && !mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) &&
                    !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
                 continue;
@@ -1562,7 +1563,8 @@ void spell_effect::revive_dormant( const spell &sp, Creature &caster,
     for( const tripoint_bub_ms &aoe : area ) {
         for( item &corpse : here.i_at( aoe ) ) {
             const mtype *mt = corpse.get_mtype();
-            if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
+            if( !( get_option<bool>( "ZOMBIE_REVIVIFICATION_DORMANT" ) && corpse.is_corpse() &&
+                   corpse.can_revive() && corpse.active &&
                    mt->has_flag( mon_flag_REVIVES ) && mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) ) ) {
                 continue;
             }

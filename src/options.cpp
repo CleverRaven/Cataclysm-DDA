@@ -2827,6 +2827,45 @@ void options_manager::add_options_world_default()
              to_translation( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
              false
            );
+
+        add( "DIFFICULTY_FUEL_AVAILABILITY", page_id, to_translation( "Fuel availability" ),
+             to_translation( "Determines the percentage of fuel, relative to the default values, that will be found in vehicles, gas stations and containers. Also affects vehicle battery charge." ),
+             0, 100, 100
+           );
+
+        add( "DIFFICULTY_VEHICLE_DAMAGE_CHANCE", page_id,
+             to_translation( "Chance of vehicles being damaged" ),
+             to_translation( "Increases the chances of vehicles being damaged.  A value of 0 will spawn vehicles with their default mapgen damage values.  A positive number will add a chance for the whole vehicle or some specific parts being destroyed." ),
+             0, 100, 0
+           );
+
+        add( "DIFFICULTY_VEHICLE_TURRET_CHANCE", page_id,
+             to_translation( "Chance of finding working vehicle turrets" ),
+             to_translation( "Determines the chance of turrets found in vehicles not being destroyed." ),
+             0, 100, 20
+           );
+
+        add( "ZOMBIE_REVIVIFICATION_OVER_TIME", page_id,
+             to_translation( "Zombie revivification over time" ),
+             to_translation( "Determines if zombies can revive over time if corpses are not pulped." ),
+             true
+           );
+
+        add( "ZOMBIE_REVIVIFICATION_SPELLS", page_id,
+             to_translation( "Zombie revivification through spells" ),
+             to_translation( "Determines if zombies can be revived through spells if corpses are not pulped.  This doesn't prevent necromancer zombies from reviving other zombies." ),
+             true
+           );
+
+        add( "ZOMBIE_REVIVIFICATION_DORMANT", page_id, to_translation( "Dormant zombie revivification" ),
+             to_translation( "Determines if dormant zombies can wake up when triggered." ),
+             true
+           );
+
+        add( "ZOMBIE_REVIVIFICATION_HUMAN_ZOMBIFICATION", page_id, to_translation( "Human zombification" ),
+             to_translation( "Determines if humans can revive as zombies after death.  This setting can be force-disabled by mods." ),
+             true
+           );
     } );
 
     add_empty_line();

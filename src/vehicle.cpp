@@ -327,15 +327,30 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     // More realistically it should be -5 days old
     last_update = calendar::turn_zero;
 
+    int option_fuel_modifier = clamp( get_option<int>( "DIFFICULTY_FUEL_AVAILABILITY" ), 0, 100 );
+    int option_vehicle_damage_chance = clamp( get_option<int>( "DIFFICULTY_VEHICLE_DAMAGE_CHANCE" ), 0,
+                                       100 );
+    int option_vehicle_turret_chance = clamp( get_option<int>( "DIFFICULTY_VEHICLE_TURRET_CHANCE" ), 0,
+                                       100 );
+    float fuel_modifier = ( option_fuel_modifier / 100.0 );
+
     if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
         if( !force_status ) {
             init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
         }
         init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
+    } else {
+        if( !force_status && init_veh_status != 1 && x_in_y( option_vehicle_damage_chance, 100 ) ) {
+            init_veh_status = 1;
+        }
+        if( init_veh_fuel > 0 ) {
+            init_veh_fuel = init_veh_fuel * fuel_modifier;
+        }
     }
 
     std::map<itype_id, double> fuels; // lets tanks of same fuel type have even contents
-    const auto rng_fuel_amount = [&fuels, init_veh_fuel]( vehicle_part & vp, const itype_id & fuel ) {
+    const auto rng_fuel_amount = [&fuels, init_veh_fuel, fuel_modifier]( vehicle_part & vp,
+    const itype_id & fuel ) {
         if( !fuel ) {
             vp.ammo_unset(); // clear if no valid fuel
             return;
@@ -343,14 +358,15 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         const int max = vp.item_capacity( fuel );
         if( init_veh_fuel < 0 ) {
             // map.emplace(...).first returns iterator to the new or existing element
-            const double roll = fuels.emplace( fuel, normal_roll( 0.3, 0.15 ) ).first->second;
-            vp.ammo_set( fuel, max * std::clamp( roll, 0.05, 0.95 ) );
+            const double roll = fuels.emplace( fuel, normal_roll( 0.3 * fuel_modifier,
+                                               0.03 + 0.12 * fuel_modifier ) ).first->second;
+            int charges = max * std::clamp( roll, 0.0, 0.95 );
+            vp.ammo_set( fuel, charges );
         } else if( init_veh_fuel == 0 ) {
             vp.ammo_unset();
-        } else if( init_veh_fuel > 0 && init_veh_fuel < 100 ) {
-            vp.ammo_set( fuel, max * init_veh_fuel / 100 );
-        } else { // init_veh_fuel >= 100
-            vp.ammo_set( fuel, max );
+        } else {
+            const int adjusted_charge = max * ( init_veh_fuel / 100.0 ) * fuel_modifier;
+            vp.ammo_set( fuel, std::min( adjusted_charge, max ) );
         }
     };
     // veh_status is initial vehicle damage
@@ -520,7 +536,11 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
                         pt.fault_set( random_entry( pt.faults_potential() ) );
                     } while( one_in( 3 ) );
                 }
-
+            } else if( vp.part().is_turret() ) {
+                // Destroy turrets based on chance set in world settings
+                if( !x_in_y( option_vehicle_turret_chance, 100 ) ) {
+                    set_hp( pt, 0, false );
+                }
             } else if( ( destroySeats && ( vp.has_feature( "SEAT" ) || vp.has_feature( "SEATBELT" ) ) ) ||
                        ( destroyControls && ( vp.has_feature( "CONTROLS" ) || vp.has_feature( "SECURITY" ) ) ) ||
                        ( destroyAlarm && vp.has_feature( "SECURITY" ) ) ) {
@@ -533,8 +553,9 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
                 pt.ammo_unset();
             }
 
-            //Solar panels have 25% of being destroyed
-            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) && init_veh_status != 2 ) {
+            //Solar panels have a base 25% of being destroyed up to 95%, adjusted by vehicle destruction world setting
+            if( vp.has_feature( "SOLAR_PANEL" ) && x_in_y( 25 + 0.70 * option_vehicle_damage_chance, 100 ) &&
+                init_veh_status != 2 ) {
                 set_hp( pt, 0, false );
             }
 
