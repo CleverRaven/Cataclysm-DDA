@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_e1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -47,7 +46,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_e1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -95,7 +93,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -158,7 +155,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2d_start" ],
-    "weight": 800,
     "//": "possible starting room, sex lair",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -261,7 +257,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -322,7 +317,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2_start" ],
     "//": "possible starting room, panic room",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -506,7 +500,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -563,7 +556,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t4u" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -613,7 +605,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c1" ],
-    "weight": 700,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -669,7 +660,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -733,7 +723,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -800,7 +789,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -861,7 +849,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c3" ],
     "//": "updated",
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -919,7 +906,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c3u" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -980,7 +966,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c4" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1037,7 +1022,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

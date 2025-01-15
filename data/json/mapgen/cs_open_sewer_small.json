@@ -52,7 +52,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_open_sewer" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -120,7 +119,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_open_sewer_roof" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -156,7 +154,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cs_open_sewer_undergound",
-    "weight": 1000,
     "object": {
       "rows": [
         "#########o~~~~o#########",

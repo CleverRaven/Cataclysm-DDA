@@ -904,7 +904,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper right. This is a server room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_urdoor",
     "object": {
@@ -929,7 +928,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 500,
     "//": "A nested map for the Phavian secret skyscraper lab room north on the north side, door in the upper left. This is a server room.",
     "nested_mapgen_id": "phavian_skyscraper_lab_north_uldoor",
     "object": {

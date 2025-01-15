@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "gym" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -85,7 +84,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "gym_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -150,7 +148,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "gym_upper_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

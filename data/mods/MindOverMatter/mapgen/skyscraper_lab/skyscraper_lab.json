@@ -6,7 +6,6 @@
       [ "phavan_office_skyscraper_lab_lower_sw", "phavan_office_skyscraper_lab_lower_se" ]
     ],
     "method": "json",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -135,7 +134,6 @@
       [ "phavan_office_skyscraper_lab_middle_sw", "phavan_office_skyscraper_lab_middle_se" ]
     ],
     "method": "json",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -264,7 +262,6 @@
       [ "phavan_office_skyscraper_lab_upper_sw", "phavan_office_skyscraper_lab_upper_se" ]
     ],
     "method": "json",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

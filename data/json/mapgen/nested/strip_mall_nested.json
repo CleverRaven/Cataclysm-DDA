@@ -76,7 +76,6 @@
     "method": "json",
     "//": "Strip mall stores must be 23x by 23y, each chunk must include a back wall and storefront, and both the bottom and top row should be a sidewalk.  Use this sample as a base.  Rename it to one of the following: strip_mall_shop_a; strip_mall_shop_b; strip_mall_shop_c; strip_mall_shop_d",
     "nested_mapgen_id": "strip_mall_sample",
-    "weight": 100,
     "object": {
       "mapgensize": [ 23, 23 ],
       "rotation": [ 0, 3 ],
@@ -863,7 +862,6 @@
     "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp",
-    "weight": 100,
     "object": {
       "mapgensize": [ 23, 23 ],
       "rotation": [ 0, 3 ],
@@ -947,7 +945,6 @@
     "method": "json",
     "//": "Survivor's camp, chance to spawn in the second EMPTY - FOR LEASE shop",
     "nested_mapgen_id": "strip_mall_camp2",
-    "weight": 100,
     "object": {
       "mapgensize": [ 23, 23 ],
       "rotation": [ 0, 3 ],
