@@ -14,6 +14,7 @@ args_dict = vars(args.parse_args())
 
 failures = set()
 
+
 def format_json(path):
     file_path = os.path.dirname(__file__)
     # Might need changing to match your setup
@@ -34,8 +35,8 @@ def format_json(path):
 
 def readWriteJson(path, jo_function):
     change = False
-    format_error = "Json Decode Error at:\n{0}\nEnsure that the file is a JSON"\
-        " file consisting of an object or array of objects!".format(path)
+    format_error = "Json Decode Error at:\n{0}\nEnsure that the file is a "\
+        "JSON file consisting of an object or array of objects!".format(path)
     with open(path, "r", encoding="utf-8") as json_file:
         try:
             json_data = json.load(json_file)
@@ -44,14 +45,14 @@ def readWriteJson(path, jo_function):
             return
         if type(json_data) is dict:  # File with a single json object
             json_data = jo_function(json_data)
-            change = json_data != None
+            change = json_data is not None
         elif type(json_data) is list:
             for jo in json_data:
                 if type(jo) is not dict:
                     failures.add(format_error)
                     return
                 jo_new = jo_function(jo)
-                changed = jo_new != None
+                changed = jo_new is not None
                 if changed:
                     change = True
                     pos = json_data.index(jo)
@@ -66,9 +67,9 @@ def readWriteJson(path, jo_function):
 
 
 def migrateMonsterGroupNameToId(jo):
-    assert("type" in jo)
+    assert "type" in jo
     if jo["type"] == "monstergroup" and "name" in jo:
-        assert(type(jo["name"]) is str)
+        assert type(jo["name"]) is str
         # While dicts are ordered they have no way to directly edit keys
         # or access by index
         pos = list(jo.keys()).index("name")
