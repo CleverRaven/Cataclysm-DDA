@@ -1756,9 +1756,9 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                 }
             } else if( type == "around" ) {
                 if( !message.empty() ) {
-                    loc = choose_adjacent_bub( message );
+                    loc = choose_adjacent( message );
                 } else {
-                    loc = choose_adjacent_bub( _( "Choose direction" ) );
+                    loc = choose_adjacent( _( "Choose direction" ) );
                 }
             } else {
                 debugmsg( string_format( "Invalid selection type: %s", type ) );

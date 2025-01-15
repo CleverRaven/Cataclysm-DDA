@@ -928,7 +928,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
-        const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Start a fire where?" ) );
+        const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) && !here.get_field( *pnt, fd_fire ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
@@ -954,7 +954,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             set_rad( 0 );
         }
     } else if( bio.id == bio_emp ) {
-        if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub(
+        if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent(
                     _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );

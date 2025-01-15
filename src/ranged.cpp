@@ -2976,9 +2976,9 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint_rel_ms> delta = ctxt.get_direction_rel_ms( action ) ) {
         // Shift view/cursor with directional keys
-        shift_view_or_cursor( *delta );
+        shift_view_or_cursor( delta->raw() );
     } else if( action == "SELECT" &&
                ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse

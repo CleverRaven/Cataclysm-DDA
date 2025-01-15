@@ -576,7 +576,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your head begins to throb.", "type": "bad" },
+      { "u_message": "Your head begins to throb.", "type": "bad" },
       {
         "u_add_effect": "psionic_overload",
         "duration": {
@@ -605,7 +605,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, the temperature suddenly drops!", "type": "bad" },
+      { "u_message": "The temperature suddenly drops!", "type": "bad" },
       { "u_cast_spell": { "id": "nether_attunement_cold_chill", "hit_self": true } }
     ]
   },
@@ -629,7 +629,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      { "u_message": "You feel a strange tingling sensation.", "type": "mixed" },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(5) + 2" ] }
     ]
   },
@@ -654,19 +654,14 @@
     },
     "effect": [
       {
-        "run_eocs": [
-          {
-            "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE_2",
-            "condition": { "math": [ "rand(2) >= 2" ] },
-            "effect": [
-              { "math": [ "u_health() += (rand(25) + 5)" ] },
-              { "u_message": "As you unleash your powers, you bloom with vitality.", "type": "good" }
-            ],
-            "false_effect": [
-              { "math": [ "u_health() -= (rand(25) + 5)" ] },
-              { "u_message": "As you unleash your powers, you are struck with malaise.", "type": "bad" }
-            ]
-          }
+        "if": { "math": [ "rand(2) >= 2" ] },
+        "then": [
+          { "math": [ "u_health() += (rand(25) + 5)" ] },
+          { "u_message": "As you unleash your powers, you bloom with vitality.", "type": "good" }
+        ],
+        "else": [
+          { "math": [ "u_health() -= (rand(25) + 5)" ] },
+          { "u_message": "As you unleash your powers, you are struck with malaise.", "type": "bad" }
         ]
       }
     ]
@@ -715,7 +710,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
+      { "u_message": "Blood drips from your nose.", "type": "bad" },
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
       { "math": [ "u_hp('head')", "-=", "1" ] }
     ]
@@ -740,7 +735,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, they take more out of you than you expected.", "type": "bad" },
+      { "u_message": "You feel a sudden wave of fatigue.", "type": "bad" },
       { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
     ]
   },
@@ -764,7 +759,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
+      { "u_message": "You feel a sudden wave of exhaustion.", "type": "bad" },
       { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
     ]
   },
@@ -793,10 +788,7 @@
           "id": "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT_2",
           "condition": { "not": { "u_has_proficiency": "effect_nether_attunement_attenuation" } },
           "effect": [
-            {
-              "u_message": "As you unleash your powers, you feel a strange tingling sensation that does not go away.",
-              "type": "mixed"
-            },
+            { "u_message": "You feel a strange tingling sensation that does not go away.", "type": "mixed" },
             {
               "u_add_effect": "effect_nether_attunement_raiser",
               "duration": {
@@ -828,7 +820,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel a stabbing pain!", "type": "good" },
+      { "u_message": "You feel a stabbing pain!", "type": "good" },
       { "math": [ "u_pain()", "+=", "rand(7) + 3" ] },
       {
         "u_add_effect": "effect_nether_attunement_feedback",
@@ -858,7 +850,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you feel a surge of strength!", "type": "good" },
+      { "u_message": "You feel a surge of strength!", "type": "good" },
       {
         "u_add_effect": "effect_nether_attunement_power_surge",
         "duration": { "math": [ "u_vitamin('vitamin_psionic_drain') * rng(1,10)" ] }
@@ -885,7 +877,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your skin feels tight!", "type": "bad" },
+      { "u_message": "Your skin feels tight!", "type": "bad" },
       {
         "u_add_effect": "effect_psi_teleport_lock",
         "duration": {
@@ -914,7 +906,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, your muscles tremble and weaken.", "type": "bad" },
+      { "u_message": "Your muscles tremble and weaken.", "type": "bad" },
       {
         "u_add_effect": "effect_biokin_overload",
         "duration": {
@@ -948,7 +940,7 @@
           "id": "EOC_NETHER_EFFECT_CHECK_ATTENUATION_2",
           "condition": { "not": { "u_has_proficiency": "effect_nether_attunement_raiser" } },
           "effect": [
-            { "u_message": "As you unleash your powers, the flow of energy slows to a trickle!", "type": "bad" },
+            { "u_message": "The flow of Netherum energy slows to a trickle!", "type": "bad" },
             {
               "u_add_effect": "effect_nether_attunement_attenuation",
               "duration": {
@@ -980,7 +972,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you gasp and your breath gives out.", "type": "bad" },
+      { "u_message": "You gasp and your breath gives out.", "type": "bad" },
       {
         "u_add_effect": "effect_psi_reduced_breathing",
         "duration": {
@@ -1009,7 +1001,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, you begin to feel a sudden sense of dread and paranoia!", "type": "bad" },
+      { "u_message": "You begin to feel a sudden sense of dread and paranoia!", "type": "bad" },
       {
         "u_add_effect": "hallu",
         "duration": {
@@ -1038,7 +1030,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, a soundless explosion hurls you off your feet.", "type": "bad" },
+      { "u_message": "A soundless explosion hurls you off your feet.", "type": "bad" },
       { "u_cast_spell": { "id": "nether_attunement_everyone_downed", "hit_self": true } }
     ]
   },
@@ -1062,10 +1054,7 @@
       ]
     },
     "effect": [
-      {
-        "u_message": "As you unleash your powers, the flow of Nether energy you are channeling is suddenly cut off!",
-        "type": "bad"
-      },
+      { "u_message": "The flow of Nether energy is suddenly cut off!", "type": "bad" },
       {
         "u_add_effect": "effect_psi_null_unbound",
         "duration": {
@@ -1119,7 +1108,7 @@
       ]
     },
     "effect": [
-      { "u_message": "As you unleash your powers, crackling energy erupts all around you!", "type": "bad" },
+      { "u_message": "Crackling energy erupts all around you!", "type": "bad" },
       { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": false } }
     ]
   },
@@ -1151,7 +1140,7 @@
     },
     "effect": [
       { "u_add_effect": "tindrift", "duration": "1 day" },
-      { "u_message": "As you unleash your powers, you feel a horrible sensation of watching eyes.", "type": "bad" }
+      { "u_message": "You feel a horrible sensation of watching eyes.", "type": "bad" }
     ]
   },
   {
@@ -1175,7 +1164,7 @@
     },
     "effect": [
       { "run_eocs": "EOC_NETHER_ATTUNEMENT_MUTATION_GAINER" },
-      { "u_message": "As you unleash your powers, feel an internal wrenching sensation.", "type": "bad" }
+      { "u_message": "You feel an internal wrenching sensation.", "type": "bad" }
     ]
   },
   {
@@ -1206,7 +1195,7 @@
     },
     "effect": [
       { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
-      { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
+      { "u_message": "The air around you twists and warps in on itself.", "type": "bad" }
     ]
   },
   {

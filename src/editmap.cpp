@@ -2070,8 +2070,8 @@ void editmap::mapgen_retarget()
 
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
+        if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
             if( get_map().inbounds( ptarget ) &&
                 get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {

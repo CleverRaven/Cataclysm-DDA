@@ -5816,7 +5816,7 @@ void game::control_vehicle()
             add_msg( _( "No vehicle controls found." ) );
             return;
         } else if( num_valid_controls > 1 ) {
-            const std::optional<tripoint_bub_ms> temp = choose_adjacent_bub( _( "Control vehicle where?" ) );
+            const std::optional<tripoint_bub_ms> temp = choose_adjacent( _( "Control vehicle where?" ) );
             if( !vehicle_position ) {
                 return;
             } else {
@@ -6329,7 +6329,7 @@ void game::pickup( const tripoint_bub_ms &p )
 //represents carefully peeking around a corner, hence the large move cost.
 void game::peek()
 {
-    const std::optional<tripoint_rel_ms> p = choose_direction_rel_ms( _( "Peek where?" ), true );
+    const std::optional<tripoint_rel_ms> p = choose_direction( _( "Peek where?" ), true );
     if( !p ) {
         return;
     }
@@ -7914,7 +7914,8 @@ look_around_result game::look_around(
             action = ctxt.handle_input();
         }
         if( ( action == "LEVEL_UP" || action == "LEVEL_DOWN" || action == "MOUSE_MOVE" ||
-              ctxt.get_direction( action ) ) && ( ( select_zone && has_first_point ) || is_moving_zone ) ) {
+              ctxt.get_direction_rel_ms( action ) ) && ( ( select_zone && has_first_point ) ||
+                      is_moving_zone ) ) {
             blink = true; // Always draw blink symbols when moving cursor
         } else if( action == "TIMEOUT" ) {
             blink = !blink;
@@ -9384,7 +9385,7 @@ void game::insert_item()
 
 void game::unload_container()
 {
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Unload where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
         u.drop( game_menus::inv::unload_container(), *pnt );
     }
 }
