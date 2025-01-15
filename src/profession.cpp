@@ -748,7 +748,7 @@ void profession::learn_spells( avatar &you ) const
     }
 }
 
-const std::vector<effect_on_condition_id> profession::get_eocs() const
+std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
 }
