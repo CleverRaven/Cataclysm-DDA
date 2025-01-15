@@ -57,7 +57,7 @@ using coord_point =
  * point_omt_ms is the position of a map square within an overmap terrain.
  * tripoint_rel_sm is a relative tripoint submap offset.
  *
- * For more details see doc/COMPILING/POINTS_COORDINATES.md.
+ * For more details see doc/c++/POINTS_COORDINATES.md.
  */
 /*@{*/
 using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;

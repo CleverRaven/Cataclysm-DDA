@@ -40,4 +40,4 @@ jobs:
       uses: reviewdog/action-suggester@v1
       if: ${{ always() }}
       with:
-        tool_name: '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/DEVELOPER_TOOLING.md)'
+        tool_name: '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/DEVELOPER_TOOLING.md)'
