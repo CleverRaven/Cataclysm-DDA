@@ -8791,10 +8791,10 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
             std::vector<MonsterGroupResult> spawn_details =
                 MonsterGroupManager::GetResultFromGroup( group.type, &pop );
             for( const MonsterGroupResult &mgr : spawn_details ) {
-                if( !mgr.name ) {
+                if( !mgr.id ) {
                     continue;
                 }
-                monster tmp( mgr.name );
+                monster tmp( mgr.id );
 
                 // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
                 if( group.horde ) {

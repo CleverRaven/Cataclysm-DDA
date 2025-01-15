@@ -366,7 +366,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                     std::vector<MonsterGroupResult> spawn_details =
                         MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
                     for( const MonsterGroupResult &mgr : spawn_details ) {
-                        if( !mgr.name ) {
+                        if( !mgr.id ) {
                             continue;
                         }
                         if( const std::optional<tripoint_bub_ms> pt =
@@ -2654,7 +2654,7 @@ class jmapgen_monster : public jmapgen_piece
                     MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
                             use_pack_size );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
+                    dat.m.add_spawn( mgr.id, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.zlevel() + z.get()},
                     friendly, -1, mission_id, chosen_name, data );
                 }
@@ -6630,7 +6630,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         std::vector<MonsterGroupResult> spawn_details =
             MonsterGroupManager::GetResultFromGroup( group, &num );
         for( const MonsterGroupResult &mgr : spawn_details ) {
-            add_spawn( mgr.name, mgr.pack_size, { p, abs_sub.z() },
+            add_spawn( mgr.id, mgr.pack_size, { p, abs_sub.z() },
                        friendly, -1, mission_id, name, mgr.data );
         }
     }
@@ -6830,7 +6830,7 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id,
 
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
+    add_spawn( spawn_details.id, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 

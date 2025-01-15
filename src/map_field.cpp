@@ -770,7 +770,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
             std::vector<MonsterGroupResult> spawn_details =
                 MonsterGroupManager::GetResultFromGroup( int_level.monster_spawn_group, &monster_spawn_count );
             for( const MonsterGroupResult &mgr : spawn_details ) {
-                if( !mgr.name ) {
+                if( !mgr.id ) {
                     continue;
                 }
                 if( const std::optional<tripoint_bub_ms> spawn_point =

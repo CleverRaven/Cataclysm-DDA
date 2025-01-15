@@ -4871,7 +4871,7 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
 void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
 {
     for( const MonsterGroupResult &monster : group ) {
-        const mtype_id target = monster.name;
+        const mtype_id target = monster.id;
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
             int num_to_spawn = monster.pack_size;
