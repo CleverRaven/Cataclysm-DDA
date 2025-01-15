@@ -35,8 +35,8 @@
             },
             "effect": [
               { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
-              { "u_lose_effect": "dermatik" },
-              { "u_lose_effect": "dermatik_visible" },
+              { "u_lose_effect": ["dermatik", "dermatik_visible"] },
+ 
               { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] },
               { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
             ],
@@ -109,25 +109,19 @@
       { "u_message": "You begin to sweat.", "type": "mixed" },
       { "u_add_wet": 8 },
       { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
-      { "u_lose_effect": "poison" },
+      { "u_lose_effect": [ "poison", "badpoison","venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "paralyzepoison" ] },
       { "u_lose_effect": "poison", "target_part": "head" },
       { "u_lose_effect": "poison", "target_part": "torso" },
       { "u_lose_effect": "poison", "target_part": "arm_r" },
       { "u_lose_effect": "poison", "target_part": "arm_l" },
       { "u_lose_effect": "poison", "target_part": "leg_r" },
       { "u_lose_effect": "poison", "target_part": "leg_l" },
-      { "u_lose_effect": "badpoison" },
       { "u_lose_effect": "badpoison", "target_part": "head" },
       { "u_lose_effect": "badpoison", "target_part": "torso" },
       { "u_lose_effect": "badpoison", "target_part": "arm_r" },
       { "u_lose_effect": "badpoison", "target_part": "arm_l" },
       { "u_lose_effect": "badpoison", "target_part": "leg_r" },
-      { "u_lose_effect": "badpoison", "target_part": "leg_l" },
-      { "u_lose_effect": "venom_dmg" },
-      { "u_lose_effect": "venom_weaken" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "venom_pain" },
-      { "u_lose_effect": "paralyzepoison" }
+      { "u_lose_effect": "badpoison", "target_part": "leg_l" }
     ]
   },
   {
@@ -739,14 +733,15 @@
     },
     "effect": [
       { "u_message": "You feel much better.", "type": "good" },
-      { "u_lose_effect": "pre_common_cold" },
-      { "u_lose_effect": "common_cold" },
-      { "u_lose_effect": "pre_flu" },
-      { "u_lose_effect": "flu" },
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
-      { "u_lose_effect": "conjunctivitis_bacterial" },
+      { "u_lose_effect": ["pre_common_cold",
+"common_cold",
+"pre_flu",
+"flu",
+"pre_conjunctivitis_viral",
+"conjunctivitis_viral",
+"pre_conjunctivitis_bacterial",
+"conjunctivitis_bacterial"
+] },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ],
     "false_effect": [

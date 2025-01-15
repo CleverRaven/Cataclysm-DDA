@@ -32,20 +32,17 @@
     ],
     "false_effect": [
       {
-        "run_eocs": {
-          "id": "EOC_PERK_GRIT_YOUR_TEETH_3",
-          "condition": { "math": [ "u_grit_your_teeth_pain_value >= 30" ] },
-          "effect": [
-            { "math": [ "u_grit_your_teeth_pain_value_removed = 30" ] },
-            { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
-            { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
-          ],
-          "false_effect": [
-            { "math": [ "u_grit_your_teeth_pain_value_removed = u_pain()" ] },
-            { "math": [ "u_pain() = 0" ] },
-            { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
-          ]
-        }
+        "if": { "math": [ "u_grit_your_teeth_pain_value >= 30" ] },
+        "then": [
+          { "math": [ "u_grit_your_teeth_pain_value_removed = 30" ] },
+          { "math": [ "u_pain()", "-=", "u_grit_your_teeth_pain_value_removed" ] },
+          { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
+        ],
+        "else": [
+          { "math": [ "u_grit_your_teeth_pain_value_removed = u_pain()" ] },
+          { "math": [ "u_pain() = 0" ] },
+          { "run_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
+        ]
       }
     ]
   },

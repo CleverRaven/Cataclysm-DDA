@@ -279,6 +279,12 @@ void profession::load( const JsonObject &jo, const std::string_view )
         }
     }
 
+    if( jo.has_member( "effect_on_conditions" ) ) {
+        for ( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+            effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ));
+        }
+    }
+
     mandatory( jo, was_loaded, "points", _point_cost );
 
     if( !was_loaded || jo.has_member( "items" ) ) {
@@ -738,6 +744,14 @@ void profession::learn_spells( avatar &you ) const
         while( sp.get_level() < spell_pair.second && !sp.is_max_level( you ) ) {
             sp.gain_level( you );
         }
+    }
+}
+
+void profession::run_profession_eocs( avatar &you ) const
+{
+    for( const effect_on_condition_id &eoc : effect_on_conditions ) {
+        dialogue d( get_talker_for( you ), nullptr );
+        eoc->activate( d );
     }
 }
 

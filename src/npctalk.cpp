@@ -3366,7 +3366,14 @@ talk_effect_fun_t::func f_add_effect( const JsonObject &jo, std::string_view mem
 talk_effect_fun_t::func f_remove_effect( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
-    str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
+    std::vector<str_or_var> old_effects;
+    if( jo.has_string( member ) ) {
+        old_effects.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+    } else if( jo.has_array( member ) ) {
+        for( JsonValue jv : jo.get_array( member ) ) {
+            old_effects.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
 
     str_or_var target;
     if( jo.has_member( "target_part" ) ) {
@@ -3375,8 +3382,10 @@ talk_effect_fun_t::func f_remove_effect( const JsonObject &jo, std::string_view 
         target.str_val = "bp_null";
     }
 
-    return [is_npc, old_effect, target]( dialogue const & d ) {
-        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
+    return [is_npc, old_effects, target]( dialogue const & d ) {
+        for ( str_or_var old_effect : old_effects ) { 
+            d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
+        }
     };
 }
 
