@@ -694,7 +694,7 @@
     "id": "EOC_CONCENTRATION_CHECK_FOR_NETHER_ATTUNEMENT_BACKLASH",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 15" ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
         { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 2500 } }
       ]
     },
