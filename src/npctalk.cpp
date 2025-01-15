@@ -3384,10 +3384,11 @@ talk_effect_fun_t::func f_remove_effect( const JsonObject &jo, std::string_view 
 
     return [is_npc, old_effects, target]( dialogue const & d ) {
         if( target.evaluate( d ) == "ALL" ) {
-            std::vector<bodypart_id> all_bprts = d.actor( is_npc )->get_all_body_parts();
+            std::vector<bodypart_id> all_bprts = d.actor( is_npc )->get_all_body_parts(
+                    get_body_part_flags::only_main );
             for( str_or_var old_effect : old_effects ) {
                 for( bodypart_id bp : all_bprts ) {
-                    d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), bp );
+                    d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), bp.id().c_str() );
                 }
             }
         } else {

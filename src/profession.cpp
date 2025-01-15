@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -747,12 +748,9 @@ void profession::learn_spells( avatar &you ) const
     }
 }
 
-void profession::run_profession_eocs( avatar &you ) const
+const std::vector<effect_on_condition_id> profession::get_eocs() const
 {
-    for( const effect_on_condition_id &eoc : effect_on_conditions ) {
-        dialogue d( get_talker_for( you ), nullptr );
-        eoc->activate( d );
-    }
+    return effect_on_conditions;
 }
 
 // item_substitution stuff:

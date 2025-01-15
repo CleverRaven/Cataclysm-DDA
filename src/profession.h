@@ -139,7 +139,7 @@ class profession
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
-        void run_profession_eocs( avatar &you ) const;
+        const std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;
 

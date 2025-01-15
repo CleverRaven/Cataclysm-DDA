@@ -1082,8 +1082,6 @@ void avatar::initialize( character_type type )
         profession->learn_spells( *this );
     }
 
-    prof->run_profession_eocs( *this );
-
 }
 
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
