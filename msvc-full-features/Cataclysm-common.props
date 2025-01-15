@@ -113,8 +113,6 @@
         freetype$(VcpkgLibSuffix).lib;
         jpeg.lib;
         libpng16$(VcpkgLibSuffix).lib;
-        libwavpack.lib;
-        libxmp-static.lib;
         modplug.lib;
         mpg123.lib;
         ogg.lib;
