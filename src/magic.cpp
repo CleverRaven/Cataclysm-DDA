@@ -1714,11 +1714,13 @@ static constexpr double c = -62.5;
 
 std::optional<int> spell_type::get_max_book_level() const
 {
+    std::optional<int> max_level;
     if( max_book_level.has_value() ) {
-        return max_book_level;
+        max_level = max_book_level;
     } else if( magic_type.has_value() ) {
-        return magic_type.value()->max_book_level;
+        max_level = magic_type.value()->max_book_level;
     }
+    return max_level;
 }
 
 std::optional<int> spell::max_book_level() const
