@@ -62,10 +62,19 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
+static const itype_id itype_beartrap( "beartrap" );
+static const itype_id itype_bolt_steel( "bolt_steel" );
 static const itype_id itype_bullwhip( "bullwhip" );
+static const itype_id itype_crossbow( "crossbow" );
+static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_light_snare_kit( "light_snare_kit" );
+static const itype_id itype_pointy_stick( "pointy_stick" );
 static const itype_id itype_rope_30( "rope_30" );
+static const itype_id itype_shotgun_d( "shotgun_d" );
+static const itype_id itype_shotgun_s( "shotgun_s" );
+static const itype_id itype_string_36( "string_36" );
 
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 
@@ -210,7 +219,7 @@ bool trapfunc::beartrap( const tripoint_bub_ms &p, Creature *c, item * )
         }
         c->check_dead_state();
     } else {
-        here.spawn_item( p, "beartrap" );
+        here.spawn_item( p, itype_beartrap );
     }
 
     return true;
@@ -541,10 +550,10 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
     }
     map &here = get_map();
     here.remove_trap( p );
-    here.spawn_item( p, "crossbow" );
-    here.spawn_item( p, "string_36" );
+    here.spawn_item( p, itype_crossbow );
+    here.spawn_item( p, itype_string_36 );
     if( add_bolt ) {
-        here.spawn_item( p, "bolt_steel", 1, 1 );
+        here.spawn_item( p, itype_bolt_steel, 1, 1 );
     }
     return true;
 }
@@ -645,8 +654,8 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
         c->check_dead_state();
     }
 
-    here.spawn_item( p, here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
-    here.spawn_item( p, "string_36" );
+    here.spawn_item( p, here.tr_at( p ) == tr_shotgun_1 ? itype_shotgun_s : itype_shotgun_d );
+    here.spawn_item( p, itype_string_36 );
     here.remove_trap( p );
     return true;
 }
@@ -691,7 +700,7 @@ bool trapfunc::snare_light( const tripoint_bub_ms &p, Creature *c, item * )
     }
 
     // Always get trap components back on triggering tile
-    here.spawn_item( p, "light_snare_kit" );
+    here.spawn_item( p, itype_light_snare_kit );
     return true;
 }
 
@@ -1063,7 +1072,7 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
         // 4 spears to a pit
         for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
-                here.spawn_item( p, "pointy_stick" );
+                here.spawn_item( p, itype_pointy_stick );
             }
         }
     }
@@ -1153,7 +1162,7 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
         // 20 shards in a pit.
         for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
-                here.spawn_item( p, "glass_shard" );
+                here.spawn_item( p, itype_glass_shard );
             }
         }
     }

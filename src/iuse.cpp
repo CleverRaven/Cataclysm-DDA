@@ -300,6 +300,8 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
 static const itype_id itype_tazer( "tazer" );
 static const itype_id itype_tongs( "tongs" );
@@ -8717,16 +8719,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos_bub(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), itype_stick, 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "stick", 1 );
-        here.spawn_item( p->pos_bub(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), itype_stick, 1 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 1 );
         return 1;
     }
     return 0;
