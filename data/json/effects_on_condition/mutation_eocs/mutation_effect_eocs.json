@@ -803,7 +803,7 @@
         { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
       ]
     },
-    "effect": [ { "u_lose_effect": ["asocial_dissatisfied", "social_dissatisfied"] } ]
+    "effect": [ { "u_lose_effect": [ "asocial_dissatisfied", "social_dissatisfied" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -280,8 +280,8 @@ void profession::load( const JsonObject &jo, const std::string_view )
     }
 
     if( jo.has_member( "effect_on_conditions" ) ) {
-        for ( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-            effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ));
+        for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+            effect_on_conditions.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
         }
     }
 
