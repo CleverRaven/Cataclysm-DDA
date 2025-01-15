@@ -303,7 +303,7 @@
     "id": "renfield_9mm_death_drops",
     "entries": [
       {
-        "distribution": [
+        "collection": [
           { "item": "glock17_17", "prob": 100, "damage": [ 1, 3 ] },
           { "group": "renfield_glock_mags", "prob": 40 },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
@@ -319,7 +319,7 @@
     "id": "renfield_shotgun_death_drops",
     "entries": [
       {
-        "distribution": [
+        "collection": [
           { "item": "mossberg_500", "prob": 100, "damage": [ 1, 3 ] },
           { "item": "shot_00", "prob": 40, "count": [ 1, 6 ] },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
@@ -334,7 +334,7 @@
     "id": "renfield_flamethrower_death_drops",
     "entries": [
       {
-        "distribution": [
+        "collection": [
           { "item": "rm451_flamethrower", "prob": 100, "damage": [ 1, 3 ] },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
