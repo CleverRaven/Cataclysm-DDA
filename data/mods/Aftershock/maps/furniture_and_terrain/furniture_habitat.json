@@ -590,5 +590,26 @@
         { "item": "rock", "count": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_genetech_mannequin",
+    "name": "Genetech display mannequin",
+    "description": "A life-size painted plastic figure of a person displaying prominent genetic alterations.  Commonly used as part of Mercurial Ad campaigns intended to sell the public on Genetech treatments.",
+    "symbol": "@",
+    "color": "white",
+    "looks_like": "f_mannequin",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 15 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 9, 12 ] } ]
+    }
   }
 ]
