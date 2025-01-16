@@ -91,6 +91,42 @@
   },
   {
     "type": "furniture",
+    "id": "f_gene_editor_gutted",
+    "name": "Ravaged Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Panels dangle loosely from their hinges revealing a rat's nest of wires and cabling ripped from the machine.  Useless metal and electronics scraps are strewn about haphazardly on the floor.  It's clear anything of value has long been taken from this machine.",
+    "symbol": "O",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_habitat_kitchenette",
     "name": "habitat kitchenette",
     "symbol": "#",
