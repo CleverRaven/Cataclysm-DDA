@@ -500,7 +500,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     monster *mon = dynamic_cast<monster *>( critter );
                     if( mon != nullptr && mon->has_dest() ) {
                         for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
-                            hilights["mplan"].points[m->bub_from_abs( location )] = 1;
+                            hilights["mplan"].points[m->get_bub( location )] = 1;
                         }
                     }
                 }
@@ -2129,13 +2129,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
-        point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
+        tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+        point_bub_ms omt_lpos = here.get_bub( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+            tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {

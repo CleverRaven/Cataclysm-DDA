@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_weldingstore" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -40,7 +39,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_weldingstore_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

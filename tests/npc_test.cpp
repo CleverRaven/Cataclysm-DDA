@@ -333,7 +333,7 @@ static npc *make_companion( const tripoint_bub_ms &npc_pos )
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
-    guy->spawn_at_precise( get_map().getglobal( npc_pos ) );
+    guy->spawn_at_precise( get_map().get_abs( npc_pos ) );
     overmap_buffer.insert_npc( guy );
     g->load_npcs();
     guy->companion_mission_role_id.clear();
@@ -488,7 +488,7 @@ TEST_CASE( "npc-movement" )
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
                 REQUIRE( !guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( get_map().getglobal( p ) );
+                guy->spawn_at_precise( get_map().get_abs( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.

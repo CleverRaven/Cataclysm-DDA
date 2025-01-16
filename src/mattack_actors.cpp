@@ -143,7 +143,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
-    const tripoint_bub_ms target = here.bub_from_abs( target_abs );
+    const tripoint_bub_ms target = here.get_bub( target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
                    target.to_string_writable() );
 

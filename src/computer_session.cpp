@@ -318,8 +318,8 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
-            coords::project_to<coords::omt>( here.getglobal(
+        if( coords::project_to<coords::omt>( here.get_abs( critter.pos_bub() ) ) ==
+            coords::project_to<coords::omt>( here.get_abs(
                     player_character.pos_bub() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {

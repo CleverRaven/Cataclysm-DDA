@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_cosmetic" ],
-    "weight": 100,
     "object": {
       "rows": [
         "__....................._",
@@ -78,7 +77,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_cosmetic_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

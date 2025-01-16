@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_ANIMALPOUND_CATS",
+    "id": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 580 },
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALPOUND_DOGS",
+    "id": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_dog", "weight": 250, "cost_multiplier": 0 },
@@ -36,7 +36,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -158,7 +157,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound_roof" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

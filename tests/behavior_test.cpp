@@ -236,7 +236,7 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         // Gross but I couldn't figure out how to place a sealed item without manual mapgen and the mapgen helper version doesn't let you specify rel_ms and adding that as a defaulted arg breaks the templated manual_mapgen()...
-        const tripoint_abs_ms abs_pos = here.getglobal( monster_location );
+        const tripoint_abs_ms abs_pos = here.get_abs( monster_location );
         tripoint_abs_omt pos;
         point_omt_ms pos_rel;
         std::tie( pos, pos_rel ) = project_remain<coords::omt>( abs_pos );

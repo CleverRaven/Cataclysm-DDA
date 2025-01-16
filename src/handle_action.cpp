@@ -1035,7 +1035,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     }
 
     if( should_pulp ) {
-        assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
+        assign_activity( pulp_activity_actor( here.get_abs( smashp ), true ) );
         return ret; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1936,7 +1936,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         }
     }
     if( target ) {
-        spell_act.coords.emplace_back( get_map().getglobal( *target ) );
+        spell_act.coords.emplace_back( get_map().get_abs( *target ) );
     }
     assign_activity( spell_act );
     return true;

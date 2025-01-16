@@ -152,7 +152,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "art_gallery_roof" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [

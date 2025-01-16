@@ -265,7 +265,7 @@ As an array, `update_mapgen` consists of two or more `update_mapgen` objects.
 
 As an object, `update_mapgen` contains any valid JSON mapgen objects.  The objects are placed on the mission target terrain from "assign_mission_target" or optionally the closest overmap terrain specified by the `om_terrain` and `om_special` fields.  If "mapgen_update_id" is specified, the "mapge_update" object with the matching "mapgen_update_id" will be executed.
 
-See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
+See [MAPGEN.md](MAPGEN.md) for more details on JSON mapgen and `update_mapgen`.
 
 An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 

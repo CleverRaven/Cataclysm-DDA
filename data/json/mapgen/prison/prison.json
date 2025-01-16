@@ -7,7 +7,6 @@
       [ "prison_1_6", "prison_1_5", "prison_1_4" ],
       [ "prison_1_9", "prison_1_8", "prison_1_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -119,7 +118,6 @@
       [ "prison_1_b_6", "prison_1_b_5", "prison_1_b_4" ],
       [ "prison_1_b_9", "prison_1_b_8", "prison_1_b_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -212,7 +210,6 @@
       [ "prison_1_2f_6", "prison_1_2f_5", "prison_1_2f_4" ],
       [ "prison_1_2f_9", "prison_1_2f_8", "prison_1_2f_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -305,7 +302,6 @@
       [ "prison_1_3f_6", "prison_1_3f_5", "prison_1_3f_4" ],
       [ "prison_1_3f_9", "prison_1_3f_8", "prison_1_3f_7" ]
     ],
-    "weight": 250,
     "object": {
       "rows": [
         "                                                                        ",
@@ -389,7 +385,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "prison_1_b_9_hidden", "prison_1_b_8_hidden_lab_stairs", "prison_1_b_7_hidden" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
