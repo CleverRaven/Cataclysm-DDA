@@ -1289,6 +1289,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
+    ctxt.register_action( "UNLOAD_CONTAINER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1672,7 +1673,11 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     recalc = true;
     cata_assert( amount_to_move > 0 );
 
-    if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
+    if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
+        spane.container.held_by( player_character ) ) {
+        popup_getkey( _( "The %s is already in your inventory. You may want to (U)nload" ), sitem->items.front()->tname() );
+
+    } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
@@ -2016,6 +2021,17 @@ void advanced_inventory::display()
             if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
                 action_examine( sitem, spane );
             }
+        } else if ( action == "UNLOAD_CONTAINER") {
+            if ( spane.get_area() == AIM_CONTAINER && !spane.container.get_item()->has_flag( json_flag_NO_UNLOAD )  ) {
+                player_character.unload(spane.container);
+                popup_getkey( _( "Unloading selected area" ) );
+            } else if (sitem && sitem -> contents_count > 0) {
+                player_character.unload(sitem -> items.front());
+                popup_getkey( _( "Unloading selected item" ) );
+            } else {
+                popup_getkey( _( "Source container can't be unloaded." ) );
+            }
+            
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
@@ -2059,7 +2075,7 @@ void advanced_inventory::display()
                         dpane.recalc = true;
                     }
                 }
-            } else {
+            }  else {
                 popup_getkey( _( "There's no vehicle storage space there." ) );
             }
         }
