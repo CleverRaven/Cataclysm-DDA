@@ -1076,7 +1076,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                 here.bash( p, 999, false, true, true );
-                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
+                here.spawn_item( p, itype_ash, 1, rng( 10, 1000 ) );
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {

@@ -116,11 +116,24 @@ static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
 
+static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
+static const itype_id itype_glass_shard( "glass_shard" );
+static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
+static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_jp8( "jp8" );
+static const itype_id itype_laser_rifle( "laser_rifle" );
+static const itype_id itype_plasma( "plasma" );
+static const itype_id itype_plasma_gun( "plasma_gun" );
+static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_recipe_atomic_battery( "recipe_atomic_battery" );
+static const itype_id itype_recipe_caseless( "recipe_caseless" );
+static const itype_id itype_rm13_armor( "rm13_armor" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_v29( "v29" );
 static const itype_id itype_water( "water" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -6353,7 +6366,7 @@ void map::draw_lab( mapgendata &dat )
                                   point_bub_ms( 6, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), itype_id_science );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY - 3, dat.zlevel() ), tr_dissector );
                         mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6375,22 +6388,22 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point_bub_ms( SEEX - 1, SEEY ), furn_f_table );
                         furn_set( point_bub_ms( SEEX, SEEY ), furn_f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "heavy_battery_cell" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "v29" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma_gun" );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_UPS_off );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_heavy_battery_cell );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_v29 );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_laser_rifle, dice( 1, 0 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma_gun );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_recipe_atomic_battery );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_atomic_battery );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), "rm13_armor" );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "plut_cell" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "plut_cell" );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_caseless" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), itype_rm13_armor );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_plut_cell );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_plut_cell );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_caseless );
                         }
                     } else { // 4% of the lab ends will be this weapons testing end.
                         mtrap_set( this, tripoint_bub_ms( SEEX - 4, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6423,7 +6436,7 @@ void map::draw_lab( mapgendata &dat )
                         place_items( Item_spawn_data_guns_rare, 96, point_bub_ms( SEEX - 2, SEEY ),
                                      point_bub_ms( SEEX + 1, SEEY ), abs_sub.z(), false,
                                      calendar::start_of_cataclysm );
-                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
+                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 1, 10 ) );
                     }
                     break;
                 // Netherworld access
@@ -6452,7 +6465,7 @@ void map::draw_lab( mapgendata &dat )
                         }
                     }
 
-                    spawn_item( point_bub_ms( SEEX - 1, 8 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 1, 8 ), itype_id_science );
                     tmpcomp = add_computer( { SEEX,  8, abs_sub.z() },
                                             _( "Sub-prime contact console" ), 7 );
                     if( monsters_end ) { //only add these options when there are monsters.
@@ -6506,7 +6519,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 1, SEEY - 1 ), point_bub_ms( SEEX + 1,
                             SEEY ),
                           dat.zlevel() );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), itype_id_science );
                     furn_set( point_bub_ms( SEEX - 3, SEEY - 3 ), furn_f_console );
                     tmpcomp = add_computer( { SEEX - 3,  SEEY - 3, abs_sub.z() },
                                             _( "Bionic access" ), 3 );
@@ -6538,7 +6551,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, ter_t_cvdbody, point_bub_ms( SEEX + 1, SEEY - 2 ), point_bub_ms( SEEX + 1, SEEY + 1 ),
                           dat.zlevel() );
                     ter_set( point_bub_ms( SEEX, SEEY - 2 ), ter_t_cvdmachine );
-                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), itype_id_science );
                     break;
             }
         } // end use_hardcoded_lab_finale
@@ -6680,7 +6693,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         bash( p, 9999 );
         for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
-                spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                spawn_item( loc, itype_glass_shard, rng( 1, 25 ) );
             }
         }
     } else {
@@ -7733,7 +7746,7 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
                     if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{ i, j, z }, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
-                            spawn_item( point_bub_ms( i, j ), "rock" );
+                            spawn_item( point_bub_ms( i, j ), itype_rock );
                         }
                     }
                 }

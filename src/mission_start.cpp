@@ -34,6 +34,7 @@ static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
 
+static const itype_id itype_safe_box( "safe_box" );
 static const itype_id itype_software_medical( "software_medical" );
 static const itype_id itype_software_useless( "software_useless" );
 static const itype_id itype_usb_drive( "usb_drive" );
@@ -229,7 +230,7 @@ void mission_start::place_deposit_box( mission *miss )
     }
     const tripoint_omt_ms fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
     const tripoint_omt_ms comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "safe_box" );
+    compmap.spawn_item( comppoint, itype_safe_box );
     compmap.save();
 }
 
