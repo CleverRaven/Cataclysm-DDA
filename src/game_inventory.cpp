@@ -407,7 +407,7 @@ class wear_inventory_preset: public armor_inventory_preset
             return loc->is_armor() &&
                    ( !loc.has_parent() || !is_worn_ablative( loc.parent_item(), loc ) ) &&
                    !you.is_worn( *loc ) &&
-                   ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
+                   ( bp != bodypart_str_id::NULL_ID() ? loc->covers( bp ) : true );
         }
 
         std::string get_denial( const item_location &loc ) const override {

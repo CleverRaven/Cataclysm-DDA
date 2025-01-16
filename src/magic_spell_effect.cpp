@@ -651,7 +651,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
             }
         } else {
-            cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
+            cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id::NULL_ID().id() }, caster ) );
         }
     }
 }

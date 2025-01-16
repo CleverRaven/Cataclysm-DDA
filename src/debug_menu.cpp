@@ -2062,7 +2062,7 @@ static void character_edit_hp_menu( Character &you )
         hotkey++;
     }
     smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
-    part_ids.emplace_back( body_part_bp_null );
+    part_ids.emplace_back( bodypart_str_id::NULL_ID().id() );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
     bool all_select = false;
@@ -2071,11 +2071,11 @@ static void character_edit_hp_menu( Character &you )
         return;
     }
     bp = part_ids.at( smenu.ret ).id();
-    if( bp == body_part_bp_null ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         all_select = true;
     }
 
-    if( bp.is_valid() && bp != body_part_bp_null ) {
+    if( bp.is_valid() && bp != bodypart_str_id::NULL_ID() ) {
         int value;
         if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
                        you.get_part_hp_cur( bp.id() ) ) &&

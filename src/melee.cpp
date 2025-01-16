@@ -942,7 +942,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
+        t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), 0.0f, &dp );
     }
     return true;
 }

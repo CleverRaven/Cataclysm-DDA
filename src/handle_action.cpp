@@ -1047,9 +1047,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     }
 
     if( !has_weapon() ) {
-        const bodypart_id bp_null( "bp_null" );
         std::pair<bodypart_id, int> best_part_to_smash = this->best_part_to_smash();
-        if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
+        if( best_part_to_smash.first != bodypart_str_id::NULL_ID() && here.is_bashable( smashp ) ) {
             std::string name_to_bash = _( "thing" );
             if( here.is_bashable_furn( smashp ) ) {
                 name_to_bash = here.furnname( smashp );
