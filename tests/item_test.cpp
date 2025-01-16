@@ -788,7 +788,7 @@ TEST_CASE( "item_new_to_hit_enforcement", "[item]" )
     }
     if( !msg_enforce.empty() ) {
         msg_enforce +=
-            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
+            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/design-balance-lore/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
     }
     if( !msg_prune.empty() ) {
         msg_prune +=
