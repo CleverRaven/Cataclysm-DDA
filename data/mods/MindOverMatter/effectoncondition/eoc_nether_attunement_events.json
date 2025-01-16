@@ -908,13 +908,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS",
-    "condition": { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
-    "effect": { "run_eocs": "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS_2" },
-    "false_effect": { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS_2",
     "//": "Base is 3% chance at 200 attunement, scaling up 0.1% per attunement up to 8% chance at 250 attunement, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
@@ -970,13 +963,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_RIFT",
-    "condition": { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
-    "effect": { "run_eocs": "EOC_NETHER_EFFECT_CHECK_RIFT_2" },
-    "false_effect": { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NETHER_EFFECT_CHECK_RIFT_2",
     "//": "Base is 2% chance at 235 attunement, scaling up 0.1% per attunement up to 3.5% chance at 250 attunement, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
