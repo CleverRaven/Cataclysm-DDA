@@ -75,7 +75,10 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "NC_FORGE_LORD_SHOP",
-    "items": [ { "group": "NC_FORGE_LORD_STORE", "count": [ 20, 32 ], "prob": 100 } ]
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE", "count": [ 20, 32 ], "prob": 100 },
+      { "item": "denarius", "count": [ 5, 20 ], "prob": 100 }
+    ]
   },
   {
     "id": "TALK_FORGE_LORD",
