@@ -337,16 +337,16 @@ tripoint _from_OM_string( std::string const &s )
     return { om.x, om.y, 0 };
 }
 
-using rdi_t = fs::recursive_directory_iterator;
-using f_validate_t = std::function<bool( fs::path const &dep, rdi_t &iter )>;
+using rdi_t = std::filesystem::recursive_directory_iterator;
+using f_validate_t = std::function<bool( std::filesystem::path const &dep, rdi_t &iter )>;
 
-bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &validate = {} )
+bool _add_dir( tgz_archiver &tgz, std::filesystem::path const &root, f_validate_t const &validate = {} )
 {
-    fs::path const cnc = root.has_root_path() ?  fs::canonical( root ) : root;
-    fs::path const parent_cnc = cnc.parent_path();
+    std::filesystem::path const cnc = root.has_root_path() ?  std::filesystem::canonical( root ) : root;
+    std::filesystem::path const parent_cnc = cnc.parent_path();
 
     for( auto iter = rdi_t( cnc ); iter != rdi_t(); ++iter ) {
-        fs::path const dep = iter->path().lexically_relative( parent_cnc );
+        std::filesystem::path const dep = iter->path().lexically_relative( parent_cnc );
 
         if( validate && !validate( dep, iter ) ) {
             continue;
@@ -361,16 +361,17 @@ bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &vali
     return true;
 }
 
-bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
+bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
+                      tripoint_range<tripoint> const &segs,
                       tripoint_range<tripoint> const &regs )
 {
     // discard map memory outside of current region and adjacent regions
-    if( dep.parent_path().extension() == fs::u8path( ".mm1" ) &&
+    if( dep.parent_path().extension() == std::filesystem::u8path( ".mm1" ) &&
         !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
         return false;
     }
     // discard map buffer outside of current and adjacent segments
-    if( dep.parent_path().filename() == fs::u8path( "maps" ) &&
+    if( dep.parent_path().filename() == std::filesystem::u8path( "maps" ) &&
         !segs.is_point_inside(
             tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
         iter.disable_recursion_pending();
@@ -379,7 +380,7 @@ bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint>
     return true;
 }
 
-bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &oms )
+bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
     std::string const fname = dep.filename().generic_u8string();
 
@@ -392,9 +393,9 @@ bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &o
            oms.is_point_inside( _from_OM_string( fname.substr( 2 ) ) );
 }
 
-bool _discard_temporary( fs::path const &dep )
+bool _discard_temporary( std::filesystem::path const &dep )
 {
-    return !dep.has_extension() || dep.extension() != fs::u8path( ".temp" );
+    return !dep.has_extension() || dep.extension() != std::filesystem::u8path( ".temp" );
 }
 
 void write_min_archive()
@@ -407,18 +408,19 @@ void write_min_archive()
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
-    fs::path const save_root( PATH_INFO::world_base_save_path() );
+    std::filesystem::path const save_root( PATH_INFO::world_base_save_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );
 
-    f_validate_t const mb_validate = [&segs, &regs, &oms]( fs::path const & dep, rdi_t & iter ) {
+    f_validate_t const mb_validate = [&segs, &regs, &oms]( std::filesystem::path const & dep,
+    rdi_t & iter ) {
         return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, regs ) &&
                _trim_overmapbuffer( dep, oms );
     };
 
     if( _add_dir( tgz, save_root, mb_validate ) &&
-        _add_dir( tgz, fs::path( PATH_INFO::config_dir_path() ) ) ) {
+        _add_dir( tgz, std::filesystem::path( PATH_INFO::config_dir_path() ) ) ) {
         tgz.finalize();
         popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
     }
@@ -541,7 +543,7 @@ static void normalize_body( Character &u )
 static tripoint_abs_ms player_picks_tile()
 {
     std::optional<tripoint_bub_ms> newpos = g->look_around();
-    return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
+    return newpos ? get_map().get_abs( *newpos ) : get_player_character().get_location();
 }
 
 static void monster_ammo_edit( monster &mon )
@@ -839,7 +841,7 @@ static void monster_edit_menu()
         }
         case D_TELE: {
             if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
-                critter->setpos( get_map().bub_from_abs( newpos ) );
+                critter->setpos( get_map().get_bub( newpos ) );
             }
             break;
         }
@@ -1805,11 +1807,12 @@ static void teleport_overmap( bool specific_coordinates = false )
         coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint_rel_ms> dir_ = choose_direction(
+                    _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
-        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        const tripoint offset = tripoint( OMAPX * dir_->x(), OMAPY * dir_->y(), dir_->z() );
         where = player_character.global_omt_location() + offset;
     }
     g->place_player_overmap( where );
@@ -1853,13 +1856,13 @@ static void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint_abs_ms abs_ms( here.getglobal( *where ) );
+        const tripoint_abs_ms abs_ms( here.get_abs( *where ) );
         const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
         const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.get_bub( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {

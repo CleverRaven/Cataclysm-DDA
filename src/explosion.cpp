@@ -282,10 +282,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
 
     // Draw the explosion, but only if the explosion center is within the reality bubble
     map &bubble_map = get_map();
-    if( bubble_map.inbounds( m->getglobal( p ) ) ) {
+    if( bubble_map.inbounds( m->get_abs( p ) ) ) {
         std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
-            const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
+            const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( pt ) ) );
 
             if( !bubble_map.inbounds( bubble_pos ) ) {
                 continue;
@@ -337,7 +337,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         }
 
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( pt ) ) );
         Creature *critter = creatures.creature_at( bubble_pos, true );
         if( critter == nullptr ) {
             continue;
@@ -459,7 +459,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
         // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( target ) ) );
+        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( target ) ) );
         Creature *critter = creatures.creature_at( bubble_pos );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
@@ -538,14 +538,14 @@ bool explosion_processing_active()
 
 void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex )
 {
-    _explosions.emplace_back( source, get_map().getglobal( p ), ex );
+    _explosions.emplace_back( source, get_map().get_abs( p ), ex );
 }
 
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {
-    if( get_map().inbounds( m->getglobal( p ) ) ) {
-        tripoint_bub_ms bubble_pos = get_map().bub_from_abs( m->getglobal( p ) );
+    if( get_map().inbounds( m->get_abs( p ) ) ) {
+        tripoint_bub_ms bubble_pos = get_map().get_bub( m->get_abs( p ) );
         int noise = ex.power * ( ex.fire ? 2 : 10 );
         noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
 
@@ -896,8 +896,7 @@ void resonance_cascade( const tripoint_bub_ms &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                // TODO: fix point types
-                                here.add_field( tripoint_bub_ms{ k, l, p.z()}, type, 3 );
+                                here.add_field( { k, l, p.z()}, type, 3 );
                             }
                         }
                     }
@@ -919,7 +918,7 @@ void resonance_cascade( const tripoint_bub_ms &p )
                     std::vector<MonsterGroupResult> spawn_details =
                         MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     for( const MonsterGroupResult &mgr : spawn_details ) {
-                        g->place_critter_at( mgr.name, dest );
+                        g->place_critter_at( mgr.id, dest );
                     }
                 }
                 break;
@@ -958,7 +957,7 @@ void process_explosions()
     for( const queued_explosion &ex : explosions_copy ) {
         const int safe_range = ex.data.safe_range();
         map  *bubble_map = &get_map();
-        const tripoint_bub_ms bubble_pos( bubble_map->bub_from_abs( ex.pos ) );
+        const tripoint_bub_ms bubble_pos( bubble_map->get_bub( ex.pos ) );
 
         if( bubble_pos.x() - safe_range < 0 || bubble_pos.x() + safe_range > MAPSIZE_X ||
             bubble_pos.y() - safe_range < 0 || bubble_pos.y() + safe_range > MAPSIZE_Y ) {
@@ -971,9 +970,9 @@ void process_explosions()
             process_explosions_in_progress = true;
             m.load( origo, false, false );
             process_explosions_in_progress = false;
-            _make_explosion( &m, ex.source, m.bub_from_abs( ex.pos ), ex.data );
+            _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
         } else {
-            _make_explosion( bubble_map, ex.source, bubble_map->bub_from_abs( ex.pos ), ex.data );
+            _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
         }
     }
 }

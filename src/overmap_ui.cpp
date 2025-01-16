@@ -2026,7 +2026,7 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint_bub_ms pos_rel = get_map().bub_from_abs( pos );
+            tripoint_bub_ms pos_rel = get_map().get_bub( pos );
             uistate.open_menu = [pos_rel]() {
                 tripoint_bub_ms pos_cpy = pos_rel;
                 g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );

@@ -387,7 +387,7 @@ diag_eval_dbl_f field_strength_eval( char scope, std::vector<diag_value> const &
             loc = d.const_actor( beta )->global_pos();
         }
         field_type_id ft = field_type_id( field_value.str( d ) );
-        field_entry *fp = here.field_at( here.bub_from_abs( loc ) ).find_field( ft );
+        field_entry *fp = here.field_at( here.get_bub( loc ) ).find_field( ft );
         return fp ? fp->get_field_intensity() :  0;
     };
 }
@@ -1534,7 +1534,7 @@ diag_eval_dbl_f vision_range_eval( char scope, std::vector<diag_value> const & /
             return chr->unimpaired_range();
         } else if( monster const *const mon = actor->get_const_monster(); mon != nullptr ) {
             map &here = get_map();
-            tripoint_bub_ms tripoint = get_map().bub_from_abs( mon->get_location() );
+            tripoint_bub_ms tripoint = get_map().get_bub( mon->get_location() );
             return mon->sight_range( here.ambient_light_at( tripoint ) );
         }
         throw math::runtime_error( "Tried to access vision range of a non-Character talker" );

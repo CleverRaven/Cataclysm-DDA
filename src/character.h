@@ -3770,14 +3770,13 @@ class Character : public Creature, public visitable
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        using trap_map = std::map<tripoint, std::string>;
+        using trap_map = std::map<tripoint_abs_ms, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
         bool knows_trap( const tripoint_bub_ms &pos ) const;
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
-        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;

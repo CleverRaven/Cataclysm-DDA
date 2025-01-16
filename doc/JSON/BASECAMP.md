@@ -93,7 +93,7 @@ The `"faction_base_camp_8"` upgrade mission can be performed after `"faction_bas
 
 ## mapgen update JSON
 
-These are standard mapgen update JSON; see [the MAPGEN docs](doc/MAPGEN.md) for
+These are standard mapgen update JSON; see [the MAPGEN docs](./MAPGEN.md) for
 more details.  Each one should change a localized portion of the camp map and
 should, as much as possible, be independent of any other pieces of
 mapgen update for the basecamp upgrade path.  Obviously, some bits are going to
@@ -139,7 +139,7 @@ In this situation, you can define multiple upgrade options with a single recipe
 and a single mapgen update.  This works as follows.
 
 Put one or more mapgen parameters in the mapgen update.  Mapgen parameters are
-documented in [the MAPGEN docs](doc/MAPGEN.md).  Each parameter should be at
+documented in [the MAPGEN docs](./MAPGEN.md).  Each parameter should be at
 OMT scope and have a set of options defined e.g. via `"distribution"`, but the
 weights of the different options do not matter; the player will choose between
 them rather than a random choice.

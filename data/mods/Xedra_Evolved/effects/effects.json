@@ -948,7 +948,7 @@
         ]
       }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
@@ -973,7 +973,7 @@
       { "limb_score": "grip", "modifier": 0.8 },
       { "limb_score": "reaction", "modifier": 0.8 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
@@ -1000,7 +1000,7 @@
       { "limb_score": "grip", "modifier": 0.85 },
       { "limb_score": "reaction", "modifier": 0.85 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
@@ -1025,7 +1025,7 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",
@@ -1071,7 +1071,7 @@
       { "limb_score": "grip", "modifier": 0.9 },
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "NO_FEY_MAGIC" ]
   },
   {
     "type": "effect_type",

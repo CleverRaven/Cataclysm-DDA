@@ -40,7 +40,7 @@ tripoint_bub_ms talker_furniture_const::pos_bub() const
 
 tripoint_abs_ms talker_furniture_const::global_pos() const
 {
-    return get_map().getglobal( me_comp->loc );
+    return get_map().get_abs( me_comp->loc );
 }
 
 tripoint_abs_omt talker_furniture_const::global_omt_location() const

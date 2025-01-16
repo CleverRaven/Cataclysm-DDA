@@ -7,7 +7,6 @@
       [ "karting_1_0_0", "karting_1_1_0", "karting_1_2_0" ],
       [ "karting_2_0_0", "karting_2_1_0", "karting_2_2_0" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_strconc_floor_no_roof",
       "rows": [
@@ -117,7 +116,6 @@
       [ "karting_1_0_1", "karting_1_1_1", "karting_1_2_1" ],
       [ "karting_2_0_1", "karting_2_1_1", "karting_2_2_1" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -207,7 +205,6 @@
       [ "karting_1_0_2", "karting_1_1_2", "karting_1_2_2" ],
       [ "karting_2_0_2", "karting_2_1_2", "karting_2_2_2" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [

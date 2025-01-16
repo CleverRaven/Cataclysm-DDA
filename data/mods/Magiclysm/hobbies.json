@@ -123,8 +123,8 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "dabbler_light_healing",
-    "name": "Dabbler (Cure Light Wounds)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Cure Light Wounds.  Certainly no one ever asked your reasons for studying biomancy, especially after you saw that guy get hit by a truck running a red light and managed to stop him from bleeding out before the paramedics arrived.  As long as you're light on your feet, you won't have to worry about dying of your injuries now.",
+    "name": "Dabbler (Knit the Rent Flesh)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knit the Rent Flesh.  Certainly no one ever asked your reasons for studying biomancy, especially after you saw that guy get hit by a truck running a red light and managed to stop him from bleeding out before the paramedics arrived.  It was disturbing to watch, but it was undoubtedly effective.  As long as you're light on your feet, you won't have to worry about dying of your injuries now.",
     "points": 4,
     "spells": [ { "id": "light_healing", "level": 5 } ],
     "traits": [ "BIOMANCER" ]

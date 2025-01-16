@@ -20,7 +20,6 @@
     "type": "mapgen",
     "om_terrain": [ "cs_gardening_allotment" ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

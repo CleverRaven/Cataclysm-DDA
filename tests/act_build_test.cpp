@@ -43,7 +43,7 @@ void run_activities( Character &u, int max_moves )
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
-            u.setpos( get_map().bub_from_abs( *u.destination_point ) );
+            u.setpos( get_map().get_bub( *u.destination_point ) );
             get_map().build_map_cache( u.posz() );
             u.start_destination_activity();
         }
@@ -89,8 +89,8 @@ construction setup_testcase( Character &u, std::string const &constr,
                 build.pre_terrain.begin(), build.group, build.id );
 
     map &here = get_map();
-    tripoint_abs_ms const loot_abs = here.getglobal( loot_loc );
-    tripoint_abs_ms const build_abs = here.getglobal( build_loc );
+    tripoint_abs_ms const loot_abs = here.get_abs( loot_loc );
+    tripoint_abs_ms const build_abs = here.get_abs( build_loc );
     faction_id const fac = u.get_faction()->id;
 
     zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs,

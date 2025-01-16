@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dojo" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -167,7 +166,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dojo_1" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

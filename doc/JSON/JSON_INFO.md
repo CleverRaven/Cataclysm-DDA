@@ -3468,7 +3468,7 @@ Weakpoints only match if they share the same id, so it's important to define the
   "bash": 0,
   "cut": 0
 },
-"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           // the item's grip value
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
@@ -3530,7 +3530,7 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
-See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
+See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
@@ -3732,7 +3732,7 @@ Overrides the armor breathability, which is driven by armor material. Can be `IM
 
 ##### Layers
 
-What layer this piece of armor occupy. Can be `PERSONAL`, `SKINTIGHT`, `NORMAL`, `WAIST`, `OUTER`, `BELTED`, `AURA`, see [ARMOR_BALANCE_AND_DESIGN.md#layers](ARMOR_BALANCE_AND_DESIGN.md#layers) for details
+What layer this piece of armor occupy. Can be `PERSONAL`, `SKINTIGHT`, `NORMAL`, `WAIST`, `OUTER`, `BELTED`, `AURA`, see [ARMOR_BALANCE_AND_DESIGN.md#layers](/doc/design-balance-lore/ARMOR_BALANCE_AND_DESIGN.md#layers) for details
 
 ##### rigid_layer_only
 
@@ -4150,7 +4150,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
   "cut": 12
 },
 "flags" : ["CHOP"],    // Indicates special effects
-"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           
   "length": "long",                          
   "surface": "point",                        
@@ -4326,7 +4326,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
   "bash": 12,
   "cut": 0
 },
-"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           
   "length": "long",                          
   "surface": "point",                        

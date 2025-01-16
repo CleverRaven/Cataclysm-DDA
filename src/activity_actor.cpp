@@ -892,7 +892,7 @@ static hack_type get_hack_type( const tripoint_bub_ms &examp )
 
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
-    tripoint_bub_ms examp = get_map().bub_from_abs( act.placement );
+    tripoint_bub_ms examp = get_map().get_bub( act.placement );
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who, tool ) ) {
         case hack_result::UNABLE:
@@ -1270,7 +1270,7 @@ void hotwire_car_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
-        bool lost = !here.veh_at( here.bub_from_abs( target ) ).has_value();
+        bool lost = !here.veh_at( here.get_bub( target ) ).has_value();
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
@@ -1286,7 +1286,7 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( target ) );
+    const optional_vpart_position vp = here.veh_at( here.get_bub( target ) );
     if( !vp ) {
         debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
         return;
@@ -2804,7 +2804,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     map &here = get_map();
-    const tripoint_bub_ms target = here.bub_from_abs( this->target );
+    const tripoint_bub_ms target = here.get_bub( this->target );
     const ter_id &ter_type = here.ter( target );
     const furn_id &furn_type = here.furn( target );
     optional_vpart_position const veh = here.veh_at( target );
@@ -5024,7 +5024,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
+    const tripoint_bub_ms source_pos = here.get_bub( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         // We might end up here if the creature dies while being milked
@@ -5041,7 +5041,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms source_pos = here.bub_from_abs( tripoint_abs_ms( monster_coords.at( 0 ) ) );
+    const tripoint_bub_ms source_pos = here.get_bub( tripoint_abs_ms( monster_coords.at( 0 ) ) );
     monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
@@ -6397,10 +6397,10 @@ static void chop_single_do_turn( player_activity &act )
 {
     const map &here = get_map();
     sfx::play_activity_sound( "tool", "axe",
-                              sfx::get_heard_volume( here.bub_from_abs( act.placement ) ) );
+                              sfx::get_heard_volume( here.get_bub( act.placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( here.bub_from_abs( act.placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+        sounds::sound( here.get_bub( act.placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
     }
 }
 
@@ -6418,7 +6418,7 @@ void chop_logs_activity_actor::do_turn( player_activity &act, Character & )
 void chop_logs_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
+    const tripoint_bub_ms &pos = here.get_bub( act.placement );
     int log_quan;
     int stick_quan;
     int splint_quan;
@@ -6502,12 +6502,12 @@ void chop_planks_activity_actor::finish( player_activity &act, Character &who )
 
     map &here = get_map();
     if( planks > 0 ) {
-        here.spawn_item( here.bub_from_abs( act.placement ), itype_2x4, planks, 0, calendar::turn );
+        here.spawn_item( here.get_bub( act.placement ), itype_2x4, planks, 0, calendar::turn );
         who.add_msg_if_player( m_good, n_gettext( "You produce %d plank.", "You produce %d planks.",
                                planks ), planks );
     }
     if( scraps > 0 ) {
-        here.spawn_item( here.bub_from_abs( act.placement ), itype_splinter, scraps, 0, calendar::turn );
+        here.spawn_item( here.get_bub( act.placement ), itype_splinter, scraps, 0, calendar::turn );
         who.add_msg_if_player( m_good, n_gettext( "You produce %d splinter.", "You produce %d splinters.",
                                scraps ), scraps );
     }
@@ -6552,13 +6552,13 @@ void chop_tree_activity_actor::do_turn( player_activity &act, Character & )
 void chop_tree_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
+    const tripoint_bub_ms &pos = here.get_bub( act.placement );
 
     tripoint_rel_ms direction;
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction(
                         _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
@@ -6612,7 +6612,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     // sound of falling tree
     here.collapse_at( pos, false, true, false );
     sfx::play_variant_sound( "misc", "timber",
-                             sfx::get_heard_volume( here.bub_from_abs( act.placement ) ) );
+                             sfx::get_heard_volume( here.get_bub( act.placement ) ) );
     get_event_bus().send<event_type::cuts_tree>( who.getID() );
     act.set_to_null();
     activity_handlers::resume_for_multi_activities( who );
@@ -6650,7 +6650,7 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
     who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.bub_from_abs( act.placement ), ter_t_dirtmound );
+    here.ter_set( here.get_bub( act.placement ), ter_t_dirtmound );
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
@@ -6688,7 +6688,7 @@ void clear_rubble_activity_actor::start( player_activity &act, Character & )
 void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
+    const tripoint_bub_ms &pos = here.get_bub( act.placement );
     who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
     here.furn_set( pos, furn_str_id::NULL_ID() );
 
@@ -6832,8 +6832,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     bool next_to_bush = false;
     map &here = get_map();
     for( const tripoint_bub_ms &pnt : here.points_in_radius( who.pos_bub(), 1 ) ) {
-        // TODO: fix point types
-        if( here.getglobal( pnt ) == act.placement ) {
+        if( here.get_abs( pnt ) == act.placement ) {
             next_to_bush = true;
             break;
         }
@@ -6871,7 +6870,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
             debugmsg( "Invalid season" );
     }
 
-    const tripoint_bub_ms bush_pos = here.bub_from_abs( act.placement );
+    const tripoint_bub_ms bush_pos = here.get_bub( act.placement );
     here.ter_set( bush_pos, next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
@@ -7111,7 +7110,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
     const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
     if( will_mop ) {
         map &here = get_map();
-        here.mop_spills( here.bub_from_abs( act.placement ) );
+        here.mop_spills( here.get_bub( act.placement ) );
     }
     activity_handlers::resume_for_multi_activities( who );
 }
@@ -7265,7 +7264,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             placement = src;
             coord_set.erase( src );
 
-            const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
+            const tripoint_bub_ms &src_loc = here.get_bub( src );
             if( !here.inbounds( src_loc ) ) {
                 if( !here.inbounds( you.pos_bub() ) ) {
                     // p is implicitly an NPC that has been moved off the map, so reset the activity
@@ -7349,9 +7348,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         }
     }
     if( stage == DO ) {
-        // TODO: fix point types
         const tripoint_abs_ms src( placement );
-        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
+        const tripoint_bub_ms src_loc = here.get_bub( src );
 
         bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
         // before we move any item, check if player is at or
@@ -8037,7 +8035,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 
     int moves = 0;
     for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint_bub_ms &pos = here.bub_from_abs( *pos_iter );
+        const tripoint_bub_ms &pos = here.get_bub( *pos_iter );
         map_stack corpse_pile = here.i_at( pos );
         for( item &corpse : corpse_pile ) {
             if( !corpse.is_corpse() || !corpse.can_revive() ) {

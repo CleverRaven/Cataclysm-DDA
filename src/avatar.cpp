@@ -250,12 +250,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
+    return player_map_memory->save( get_map().get_abs( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos_bub() ) );
+    player_map_memory->load( get_map().get_abs( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -690,14 +690,14 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
                 for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( m.get_abs( target ), /* prefix = */ "vp_" );
                     }
                     m.memory_cache_dec_set_dirty( target, true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
+                memorize_clear_decoration( m.get_abs( pos_bub() + gpoint ) );
             }
             m.memory_cache_dec_set_dirty( pos_bub() + gpoint, true );
         }
@@ -1209,11 +1209,6 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p ) const
-{
-    return cant_see( tripoint_bub_ms( p ) );
-}
-
 bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
@@ -1236,7 +1231,7 @@ void avatar::rebuild_aim_cache() const
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().bub_from_abs(
+    const tripoint_bub_ms local_last_target = get_map().get_bub(
                 last_target_pos.value() );
 
     float base_angle = atan2f( local_last_target.y() - posy(),

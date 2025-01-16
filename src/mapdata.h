@@ -62,6 +62,7 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         std::vector<furn_str_id> tent_centers;
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
+        std::string potential_bash_items( const std::string &ter_furn_name ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -103,6 +104,7 @@ struct map_common_deconstruct_info {
         virtual void check( const std::string &id ) const;
     public:
         virtual ~map_common_deconstruct_info() = default;
+        std::string potential_deconstruct_items( const std::string &ter_furn_name ) const;
 };
 struct map_ter_deconstruct_info : map_common_deconstruct_info {
     ter_str_id ter_set = ter_str_id::NULL_ID();

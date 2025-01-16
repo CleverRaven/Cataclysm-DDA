@@ -842,26 +842,6 @@
   },
   {
     "type": "snippet",
-    "category": "<need_junk>",
-    "//": "NPC complaint when they are low on CBM power and have an internal furnace.  Additional versions should continue to specify that the NPC needs junk (withered plants, paper, or wood) and they need them to recharge their power CBMs.",
-    "text": [
-      "Any fuel to stoke these embers?",
-      "Fuel for the furnace?  Yes please.",
-      "Fuel reserves are burnt through, got anymore?",
-      "Gotta stoke the furnace, need some fuel.",
-      "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge.",
-      "I can't recharge my CBMs without some firewood for my internal furnace.",
-      "I'll be all burned out soon enough, need some fuel.",
-      "I'm running on embers, got any fuel?",
-      "I need some junk to power my internal furnace.",
-      "I need something to burn for my furnace.  Can you help?",
-      "I need something to use as fuel for my furnace.",
-      "Need to get my burn on, got any fuel?",
-      "No fuel?  No power."
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "<need_fuel>",
     "//": "NPC complaint when they are low on CBM power and have a fueled bionic.  Additional versions should continue to specify that the NPC needs fuel and they need it to recharge their power CBMs.",
     "text": [
@@ -876,29 +856,6 @@
       "No fuel?  No power.",
       "What do I and an empty car have in common?  No fuel.",
       "Without some fuel, I'm gonna be obsolete."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<need_radioactives>",
-    "//": "NPC complaint when they are low on CBM power and have an internal reactor.  Additional versions should continue to specify that the NPC needs radioactive slurry and they need it to recharge their power CBMs.  Also, mostly obsolete since internal reactors got removed.",
-    "text": [
-      "Beta radiation can be blocked by clothing, but is really dangerous if you ingest it.  So can I have some plutonium slurry to power my reactor and give me cancer?",
-      "Critical slurry supply, need to top up the reactor.",
-      "Empty reactor coming up, unless I get some slurry.",
-      "Gotta slurp some slurry in a hurry here!",
-      "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor.",
-      "I can't believe I'm saying this, but I need radioactive plutonium slurry for my internal reactor.",
-      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.",
-      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!",
-      "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
-      "I sure could use a highly radioactive slurry shake for my power supply right now.",
-      "I'm pretty slurriless right now, need a top up.",
-      "If I don't get some slurry, we'll have a miniature China Syndrome on our hands.",
-      "No slurry?  No power.",
-      "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
-      "Supplies of slurry are low, could do with some more.",
-      "Systems saying slurry reserves are low."
     ]
   },
   {

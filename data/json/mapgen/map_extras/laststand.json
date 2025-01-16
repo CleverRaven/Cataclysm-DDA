@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_LAST_STAND",
+    "id": "GROUP_LAST_STAND",
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_civilian_police", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
