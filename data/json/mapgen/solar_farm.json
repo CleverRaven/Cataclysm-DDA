@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "solar_farm" ],
-    "weight": 10,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

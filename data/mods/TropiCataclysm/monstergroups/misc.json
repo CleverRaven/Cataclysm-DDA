@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "id": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
     "monsters": [
@@ -27,7 +27,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY",
+    "id": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_cellar_giant",
     "monsters": [

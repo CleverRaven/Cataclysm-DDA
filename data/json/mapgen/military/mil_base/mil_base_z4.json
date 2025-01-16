@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_3i4" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

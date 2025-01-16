@@ -774,7 +774,7 @@ void mapgen_forest( mapgendata &dat )
     for( int bd_x = 0; bd_x < 2; bd_x++ ) {
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
             // Use the corners of the overmap tiles as hash seeds.
-            point_abs_ms global_corner = m->getglobal( tripoint_bub_ms( bd_x * SEEX * 2, bd_y * SEEY * 2,
+            point_abs_ms global_corner = m->get_abs( tripoint_bub_ms( bd_x * SEEX * 2, bd_y * SEEY * 2,
                                          m->get_abs_sub().z() ) ).xy();
             uint32_t net_hash = std::hash<uint32_t> {}( global_corner.x() ) ^ ( std::hash<int> {}( global_corner.y() )
                                 << 1 );
@@ -2202,7 +2202,7 @@ void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( m->getglobal( p ), true );
+        Creature *c = get_creature_tracker().creature_at( m->get_abs( p ), true );
         if( c ) {
             return;
         }
@@ -2213,7 +2213,7 @@ void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creat
 void mtrap_set( tinymap *m, const point_omt_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( m->getglobal( tripoint_omt_ms( p,
+        Creature *c = get_creature_tracker().creature_at( m->get_abs( tripoint_omt_ms( p,
                       m->get_abs_sub().z() ) ), true );
         if( c ) {
             return;

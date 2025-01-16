@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_cubical_phavian" ],
-    "weight": 50000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

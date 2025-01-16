@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE",
+    "id": "GROUP_ZOMBIE",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 60 },
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
@@ -10,7 +10,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOSPITAL",
+    "id": "GROUP_HOSPITAL",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 60 },
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
@@ -18,7 +18,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GROCERY",
+    "id": "GROUP_GROCERY",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 60 },
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
@@ -26,7 +26,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOUSE",
+    "id": "GROUP_HOUSE",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 60 },
       { "monster": "mon_zombie_skeltal", "weight": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
@@ -34,7 +34,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "monsters": [
       {
         "monster": "mon_bear_smoky",
@@ -47,7 +47,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "monsters": [
       {
         "monster": "mon_bear_smoky",
@@ -60,7 +60,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RIVER",
+    "id": "GROUP_RIVER",
     "monsters": [
       {
         "monster": "mon_bear_smoky",
@@ -73,7 +73,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE",
+    "id": "GROUP_CAVE",
     "monsters": [
       { "monster": "mon_bear_smoky", "weight": 10, "cost_multiplier": 0, "starts": 672 },
       { "monster": "mon_bear_smoky", "weight": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
@@ -82,13 +82,13 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWAGE_TREATMENT",
+    "id": "GROUP_SEWAGE_TREATMENT",
     "is_animal": true,
     "monsters": [ { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NUCLEAR_PLANT_BEASTS",
+    "id": "GROUP_NUCLEAR_PLANT_BEASTS",
     "is_animal": true,
     "monsters": [ { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 } ]
   }

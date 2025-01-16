@@ -5,7 +5,7 @@
     "terrain": [ { "result": [ "t_strconc_floor", [ "t_region_groundcover_forest", 3 ] ], "valid_terrain": [ "t_strconc_floor" ] } ]
   },
   {
-    "name": "GROUP_MLAB_RUST_ZOMBIE",
+    "id": "GROUP_MLAB_RUST_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_rust", "weight": 250 },
@@ -13,7 +13,7 @@
     ]
   },
   {
-    "name": "GROUP_MLAB_ACID_ZOMBIE",
+    "id": "GROUP_MLAB_ACID_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_acidic", "weight": 250 },
@@ -21,7 +21,7 @@
     ]
   },
   {
-    "name": "GROUP_MLAB_PHASE_ZOMBIE",
+    "id": "GROUP_MLAB_PHASE_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_phase_skulker", "weight": 250 },
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "name": "GROUP_MLAB_HUNTER_ZOMBIE",
+    "id": "GROUP_MLAB_HUNTER_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_hunter", "weight": 250 },
@@ -37,7 +37,7 @@
     ]
   },
   {
-    "name": "GROUP_MLAB_RAPTOR_ZOMBIE",
+    "id": "GROUP_MLAB_RAPTOR_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_pupa", "weight": 50 },
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "name": "GROUP_MLAB_MUTANTS",
+    "id": "GROUP_MLAB_MUTANTS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_mutant_experimental", "weight": 150 },
@@ -56,7 +56,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MLAB_ROBOT",
+    "id": "GROUP_MLAB_ROBOT",
     "monsters": [
       { "monster": "mon_science_bot", "weight": 200 },
       { "monster": "mon_manhack", "weight": 200 },
@@ -70,7 +70,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MLAB_LEECH_PLANT",
+    "id": "GROUP_MLAB_LEECH_PLANT",
     "monsters": [
       { "monster": "mon_leech_root_drone", "weight": 200 },
       { "monster": "mon_leech_root_runner", "weight": 200 },
@@ -79,7 +79,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MLAB_YRAX",
+    "id": "GROUP_MLAB_YRAX",
     "monsters": [
       { "monster": "mon_yrax_trifacet", "weight": 200 },
       { "monster": "mon_yrax_triakis", "weight": 200 },

@@ -116,11 +116,24 @@ static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
 
+static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
+static const itype_id itype_glass_shard( "glass_shard" );
+static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
+static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_jp8( "jp8" );
+static const itype_id itype_laser_rifle( "laser_rifle" );
+static const itype_id itype_plasma( "plasma" );
+static const itype_id itype_plasma_gun( "plasma_gun" );
+static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_recipe_atomic_battery( "recipe_atomic_battery" );
+static const itype_id itype_recipe_caseless( "recipe_caseless" );
+static const itype_id itype_rm13_armor( "rm13_armor" );
+static const itype_id itype_rock( "rock" );
+static const itype_id itype_v29( "v29" );
 static const itype_id itype_water( "water" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -366,7 +379,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                     std::vector<MonsterGroupResult> spawn_details =
                         MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
                     for( const MonsterGroupResult &mgr : spawn_details ) {
-                        if( !mgr.name ) {
+                        if( !mgr.id ) {
                             continue;
                         }
                         if( const std::optional<tripoint_bub_ms> pt =
@@ -2024,7 +2037,7 @@ class jmapgen_npc : public jmapgen_piece
             tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
-            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
             if( dat.mission() && target ) {
@@ -2654,7 +2667,7 @@ class jmapgen_monster : public jmapgen_piece
                     MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
                             use_pack_size );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
+                    dat.m.add_spawn( mgr.id, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.zlevel() + z.get()},
                     friendly, -1, mission_id, chosen_name, data );
                 }
@@ -2737,7 +2750,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             if( veh && !faction.empty() ) {
                 veh->set_owner( faction_id( faction ) );
             }
-            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
         }
@@ -3482,9 +3495,9 @@ class jmapgen_zone : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
-            const tripoint_abs_ms start = dat.m.getglobal( tripoint_bub_ms( int( x.val ), int( y.val ),
+            const tripoint_abs_ms start = dat.m.get_abs( tripoint_bub_ms( int( x.val ), int( y.val ),
                                           dat.zlevel() + z.get() ) );
-            const tripoint_abs_ms end = dat.m.getglobal( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
+            const tripoint_abs_ms end = dat.m.get_abs( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
                                         dat.zlevel() + z.get() ) );
             mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
@@ -3512,8 +3525,8 @@ class jmapgen_variable : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            queued_points[name] = dat.m.getglobal( tripoint_bub_ms( int( x.val ), int( y.val ),
-                                                   dat.zlevel() + z.get() ) );
+            queued_points[name] = dat.m.get_abs( tripoint_bub_ms( int( x.val ), int( y.val ),
+                                                 dat.zlevel() + z.get() ) );
         }
 };
 
@@ -3604,7 +3617,7 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.clear_fields( p );
                 dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
-                    if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                    if( get_map().inbounds( dat.m.get_abs( start ) ) ) {
                         get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                     }
                     dat.m.destroy_vehicle( &vp->vehicle() );
@@ -5034,7 +5047,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                Creature *tmp_critter = get_creature_tracker().creature_at( m.getglobal(
+                Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
                                             target_pos ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
                     tmp_critter->die( nullptr );
@@ -5090,7 +5103,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
-                queued_points[string_val] = m.getglobal( target_pos );
+                queued_points[string_val] = m.get_abs( target_pos );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
@@ -5135,7 +5148,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                        point_bub_ms( x2_get(), y2_get() ),
                                                        0 );
                 for( const point_bub_ms &i : line ) {
-                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
+                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -5218,7 +5231,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 const int cy2 = y2_get();
                 for( int tx = c.x(); tx <= cx2; tx++ ) {
                     for( int ty = c.y(); ty <= cy2; ty++ ) {
-                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
+                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -6353,7 +6366,7 @@ void map::draw_lab( mapgendata &dat )
                                   point_bub_ms( 6, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), itype_id_science );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY - 3, dat.zlevel() ), tr_dissector );
                         mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6375,22 +6388,22 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point_bub_ms( SEEX - 1, SEEY ), furn_f_table );
                         furn_set( point_bub_ms( SEEX, SEEY ), furn_f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "heavy_battery_cell" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "v29" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma_gun" );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_UPS_off );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_heavy_battery_cell );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_v29 );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_laser_rifle, dice( 1, 0 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma_gun );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_plasma );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_recipe_atomic_battery );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_atomic_battery );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), "rm13_armor" );
-                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "plut_cell" );
-                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "plut_cell" );
-                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_caseless" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), itype_rm13_armor );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), itype_plut_cell );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), itype_plut_cell );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), itype_recipe_caseless );
                         }
                     } else { // 4% of the lab ends will be this weapons testing end.
                         mtrap_set( this, tripoint_bub_ms( SEEX - 4, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6423,7 +6436,7 @@ void map::draw_lab( mapgendata &dat )
                         place_items( Item_spawn_data_guns_rare, 96, point_bub_ms( SEEX - 2, SEEY ),
                                      point_bub_ms( SEEX + 1, SEEY ), abs_sub.z(), false,
                                      calendar::start_of_cataclysm );
-                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
+                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), itype_plut_cell, rng( 1, 10 ) );
                     }
                     break;
                 // Netherworld access
@@ -6452,7 +6465,7 @@ void map::draw_lab( mapgendata &dat )
                         }
                     }
 
-                    spawn_item( point_bub_ms( SEEX - 1, 8 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 1, 8 ), itype_id_science );
                     tmpcomp = add_computer( { SEEX,  8, abs_sub.z() },
                                             _( "Sub-prime contact console" ), 7 );
                     if( monsters_end ) { //only add these options when there are monsters.
@@ -6506,7 +6519,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, ter_t_reinforced_glass, point_bub_ms( SEEX + 1, SEEY - 1 ), point_bub_ms( SEEX + 1,
                             SEEY ),
                           dat.zlevel() );
-                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), itype_id_science );
                     furn_set( point_bub_ms( SEEX - 3, SEEY - 3 ), furn_f_console );
                     tmpcomp = add_computer( { SEEX - 3,  SEEY - 3, abs_sub.z() },
                                             _( "Bionic access" ), 3 );
@@ -6538,7 +6551,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, ter_t_cvdbody, point_bub_ms( SEEX + 1, SEEY - 2 ), point_bub_ms( SEEX + 1, SEEY + 1 ),
                           dat.zlevel() );
                     ter_set( point_bub_ms( SEEX, SEEY - 2 ), ter_t_cvdmachine );
-                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), itype_id_science );
                     break;
             }
         } // end use_hardcoded_lab_finale
@@ -6630,7 +6643,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         std::vector<MonsterGroupResult> spawn_details =
             MonsterGroupManager::GetResultFromGroup( group, &num );
         for( const MonsterGroupResult &mgr : spawn_details ) {
-            add_spawn( mgr.name, mgr.pack_size, { p, abs_sub.z() },
+            add_spawn( mgr.id, mgr.pack_size, { p, abs_sub.z() },
                        friendly, -1, mission_id, name, mgr.data );
         }
     }
@@ -6680,7 +6693,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         bash( p, 9999 );
         for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
-                spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                spawn_item( loc, itype_glass_shard, rng( 1, 25 ) );
             }
         }
     } else {
@@ -6693,7 +6706,7 @@ character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( getglobal( { p, abs_sub.z() } ) );
+    temp->spawn_at_precise( get_abs( { p, abs_sub.z() } ) );
     temp->toggle_trait( trait_NPC_STATIC_NPC );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -6830,7 +6843,7 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id,
 
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
+    add_spawn( spawn_details.id, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 
@@ -7135,10 +7148,10 @@ void map::rotate( int turns )
         }
 
         // Translate bubble -> global -> current map.
-        const point_bub_ms old( bub_from_abs( get_map().getglobal( np.pos_bub() ).xy() ) );
+        const point_bub_ms old( get_bub( get_map().get_abs( np.pos_bub() ).xy() ) );
 
         const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
-        np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );
+        np.spawn_at_precise( get_abs( tripoint_bub_ms( new_pos, sq.z() ) ) );
     }
 
     clear_vehicle_level_caches();
@@ -7217,7 +7230,7 @@ void map::rotate( int turns )
                 continue;
             }
             const point_abs_sm queued_point_sm( project_to<coords::sm>( queued_point.second.xy() ) );
-            const point_bub_ms queued_point_bub( get_map().bub_from_abs( queued_point.second.xy() ) );
+            const point_bub_ms queued_point_bub( get_map().get_bub( queued_point.second.xy() ) );
             point_bub_ms old( queued_point_bub.x() % SEEX, queued_point_bub.y() % SEEY );
 
             if( queued_point_sm.x() % 2 != 0 ) {
@@ -7227,7 +7240,7 @@ void map::rotate( int turns )
                 old.y() += SEEY;
             }
             const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
-            queued_points[queued_point.first] = getglobal( tripoint_bub_ms( new_pos,
+            queued_points[queued_point.first] = get_abs( tripoint_bub_ms( new_pos,
                                                 queued_point.second.z() ) );
         }
     }
@@ -7733,7 +7746,7 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
                     if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{ i, j, z }, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
-                            spawn_item( point_bub_ms( i, j ), "rock" );
+                            spawn_item( point_bub_ms( i, j ), itype_rock );
                         }
                     }
                 }

@@ -14,7 +14,6 @@
       [ "airliner_1i", "airliner_2i", "airliner_3i" ],
       [ "airliner_1j", "airliner_2j", "airliner_3j" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -289,7 +288,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "airliner_2a_1" ], [ "airliner_2b_1" ], [ "airliner_2c_1" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "AAAAAAAAAAAAAAAAAAAAAAAA",
@@ -372,7 +370,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "airliner_2b_-1" ], [ "airliner_2c_-1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [

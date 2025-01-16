@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_upper",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -41,7 +40,6 @@
     "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_lower",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

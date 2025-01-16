@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_UTILIBOT",
+    "id": "GROUP_UTILIBOT",
     "monsters": [
       { "monster": "mon_utilibot_fire", "weight": 200, "cost_multiplier": 3 },
       { "monster": "mon_utilibot", "weight": 550 },
@@ -11,7 +11,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWER",
+    "id": "GROUP_SEWER",
     "monsters": [
       { "monster": "mon_utilibot", "weight": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_utilibot_const", "weight": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
@@ -19,12 +19,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TURRET",
+    "id": "GROUP_TURRET",
     "monsters": [ { "monster": "mon_laserturret_xray", "weight": 50, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB",
+    "id": "GROUP_LAB",
     "auto_total": true,
     "monsters": [
       { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -37,7 +37,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CENTRAL_LAB",
+    "id": "GROUP_CENTRAL_LAB",
     "auto_total": true,
     "monsters": [
       { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
@@ -50,7 +50,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT",
+    "id": "GROUP_ROBOT",
     "auto_total": true,
     "monsters": [
       { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 0 },
@@ -69,7 +69,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PUBLICWORKERS",
+    "id": "GROUP_PUBLICWORKERS",
     "monsters": [
       { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
@@ -77,7 +77,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SMALL_STATION",
+    "id": "GROUP_SMALL_STATION",
     "monsters": [
       { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0 }
@@ -85,31 +85,31 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LARGE_STATION",
+    "id": "GROUP_LARGE_STATION",
     "monsters": [
       { "monster": "mon_utilibot", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_utilibot_const", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
-    "name": "GROUP_MANSION_START",
+    "id": "GROUP_MANSION_START",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_utilibot_butler", "weight": 80 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOSPITAL",
+    "id": "GROUP_HOSPITAL",
     "//": "Hospital monster spawns.  Same as GROUP_ZOMBIE, but without Z-dogs.",
     "monsters": [ { "monster": "mon_medibot", "weight": 15, "cost_multiplier": 20, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FIRE",
+    "id": "GROUP_FIRE",
     "monsters": [ { "monster": "mon_utilibot_fire", "weight": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MIL_BASE",
+    "id": "GROUP_MIL_BASE",
     "monsters": [
       { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
@@ -118,7 +118,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MAYBE_MIL",
+    "id": "GROUP_MAYBE_MIL",
     "monsters": [
       { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
@@ -127,7 +127,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MIL_STRONG",
+    "id": "GROUP_MIL_STRONG",
     "monsters": [
       { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },

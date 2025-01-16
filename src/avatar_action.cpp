@@ -655,7 +655,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
             return;
         }
     }
-    tripoint_abs_ms old_abs_pos = m.getglobal( you.pos_bub() );
+    tripoint_abs_ms old_abs_pos = m.get_abs( you.pos_bub() );
     you.setpos( p );
     g->update_map( you );
 

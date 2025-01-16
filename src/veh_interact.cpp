@@ -178,10 +178,10 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getglobal( p ) );
+        res.coord_set.insert( here.get_abs( p ) );
     }
-    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
-    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );   // values[1]
+    res.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );   // values[0]
+    res.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );   // values[1]
     res.values.push_back( dd.x() );   // values[2]
     res.values.push_back( dd.y() );   // values[3]
     res.values.push_back( -dd.x() );   // values[4]
@@ -3054,7 +3054,7 @@ void veh_interact::complete_vehicle( Character &you )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint_abs_ms &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( pt ) );
+            ovp = here.veh_at( here.get_bub( pt ) );
             if( ovp ) {
                 break;
             }

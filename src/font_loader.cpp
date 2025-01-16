@@ -194,7 +194,7 @@ void font_loader::save( const cata_path &path ) const
         write_to_file( path, [&]( std::ostream & stream ) {
             JsonOut json( stream, true ); // pretty-print
             json.start_object();
-            json.member( "//", "See docs/FONT_OPTIONS.md for an explanation of this file." );
+            json.member( "//", "See docs/user-guides/FONT_OPTIONS.md for an explanation of this file." );
             json.member( "typeface" );
             write_font_config( json, typeface );
             json.member( "gui_typeface" );

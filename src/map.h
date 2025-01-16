@@ -1242,25 +1242,6 @@ class map
                         variant, faction );
         }
 
-        // FIXME: remove these overloads and require spawn_item to take an
-        // itype_id
-        void spawn_item( const tripoint_bub_ms &p, const std::string &type_id,
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant,
-                        faction );
-        }
-        void spawn_item( const point_bub_ms &p, const std::string &type_id,
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            spawn_item( tripoint_bub_ms( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel,
-                        flags,
-                        variant, faction );
-        }
         units::volume max_volume( const tripoint_bub_ms &p );
         units::volume free_volume( const tripoint_bub_ms &p );
         units::volume stored_volume( const tripoint_bub_ms &p );
@@ -1750,13 +1731,13 @@ class map
          * Coordinates is in the system that is used by the ter/furn/i_at functions.
          * Output is in the same scale, but in global system.
          */
-        tripoint_abs_ms getglobal( const tripoint_bub_ms &p ) const;
+        tripoint_abs_ms get_abs( const tripoint_bub_ms &p ) const;
         /**
-         * Inverse of @ref getglobal
+         * Inverse of @ref get_abs
          */
-        tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
-        point_bub_ms bub_from_abs( const point_abs_ms &p ) const {
-            return bub_from_abs( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
+        tripoint_bub_ms get_bub( const tripoint_abs_ms &p ) const;
+        point_bub_ms get_bub( const point_abs_ms &p ) const {
+            return get_bub( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
         }
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
@@ -2383,14 +2364,6 @@ class tinymap : private map
             map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
                              faction );
         }
-        void spawn_item( const tripoint_omt_ms &p, const std::string &type_id, // TODO: Make it typed
-                         unsigned quantity = 1, int charges = 0,
-                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
-                         const std::string &faction = "" ) {
-            map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
-                             faction );
-        }
         std::vector<item *> spawn_items( const tripoint_omt_ms &p, const std::vector<item> &new_items ) {
             return map::spawn_items( rebase_bub( p ), new_items );
         }
@@ -2474,11 +2447,11 @@ class tinymap : private map
         tripoint_abs_sm get_abs_sub() const {
             return map::get_abs_sub();
         }
-        tripoint_abs_ms getglobal( const tripoint_omt_ms &p ) const {
-            return map::getglobal( rebase_bub( p ) );
+        tripoint_abs_ms get_abs( const tripoint_omt_ms &p ) const {
+            return map::get_abs( rebase_bub( p ) );
         }
-        tripoint_omt_ms omt_from_abs( const tripoint_abs_ms &p ) const {
-            return rebase_omt( map::bub_from_abs( p ) );
+        tripoint_omt_ms get_omt( const tripoint_abs_ms &p ) const {
+            return rebase_omt( map::get_bub( p ) );
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );

@@ -1986,7 +1986,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration total_
             std::vector<tripoint_bub_ms> src_set_pt;
             src_set_pt.resize( src_set.size() );
             for( const tripoint_abs_ms &p : src_set ) {
-                src_set_pt.emplace_back( target_map.bub_from_abs( p ) );
+                src_set_pt.emplace_back( target_map.get_bub( p ) );
             }
             for( item *i : equipment ) {
                 int count = i->count();
@@ -2161,7 +2161,7 @@ void basecamp::remove_camp( const tripoint_abs_omt &omt_pos ) const
     const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
-    here.remove_submap_camp( here.bub_from_abs( ms_pos ) );
+    here.remove_submap_camp( here.get_bub( ms_pos ) );
 }
 
 void basecamp::abandon_camp()
@@ -4871,7 +4871,7 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
 void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
 {
     for( const MonsterGroupResult &monster : group ) {
-        const mtype_id target = monster.name;
+        const mtype_id target = monster.id;
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
             int num_to_spawn = monster.pack_size;
@@ -5923,7 +5923,7 @@ bool basecamp::distribute_food( bool player_command )
     // @FIXME: items under a vehicle cargo part will get taken even if there's no non-vehicle zone there
     // @FIXME: items in a vehicle cargo part will get taken even if the zone is on the ground underneath
     for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
-        const tripoint_bub_ms p_food_stock = here.bub_from_abs( p_food_stock_abs );
+        const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
             if( consume( *iter, nullptr ) ) {
@@ -6137,7 +6137,7 @@ void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
     form_storage_zones( target_bay, bb_pos );
-    tripoint_bub_ms new_spot = target_bay.bub_from_abs( get_dumping_spot() );
+    tripoint_bub_ms new_spot = target_bay.get_bub( get_dumping_spot() );
     // Special handling for liquids
     // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead
     if( result.made_of( phase_id::LIQUID ) ) {
@@ -6145,8 +6145,8 @@ void basecamp::place_results( const item &result )
             // No items at a potential spot? Set the destination there and stop checking.
             // We could check if the item at the tile are the same as the item we're placing, but liquids of the same typeid
             // don't always mix depending on their components...
-            if( target_bay.i_at( target_bay.bub_from_abs( potential_spot ) ).empty() ) {
-                new_spot = target_bay.bub_from_abs( potential_spot );
+            if( target_bay.i_at( target_bay.get_bub( potential_spot ) ).empty() ) {
+                new_spot = target_bay.get_bub( potential_spot );
                 break;
             }
             // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.

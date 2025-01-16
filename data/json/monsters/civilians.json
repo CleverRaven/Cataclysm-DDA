@@ -225,7 +225,7 @@
     "copy-from": "mon_civilian_panic"
   },
   {
-    "name": "GROUP_CIVILIANS_UPGRADE",
+    "id": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
@@ -237,7 +237,7 @@
     ]
   },
   {
-    "name": "GROUP_CIVILIANS_STANDARD",
+    "id": "GROUP_CIVILIANS_STANDARD",
     "//": "Used for deduplication only, so one does not have to repeat the same standard ratio over and over again",
     "type": "monstergroup",
     "monsters": [

@@ -396,7 +396,7 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialog
                   d.get_callstack() );
         return tripoint_abs_ms::invalid;
     }
-    return get_map().getglobal( d.const_actor( is_npc )->pos_bub() );
+    return get_map().get_abs( d.const_actor( is_npc )->pos_bub() );
 }
 
 template<class T>
@@ -1691,8 +1691,8 @@ conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view memb
         with_fields = jo.get_bool( "with_fields" );
     }
     return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
-        tripoint_bub_ms loc_1 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_1, d, false ) );
-        tripoint_bub_ms loc_2 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_2, d, false ) );
+        tripoint_bub_ms loc_1 = get_map().get_bub( get_tripoint_from_var( loc_var_1, d, false ) );
+        tripoint_bub_ms loc_2 = get_map().get_bub( get_tripoint_from_var( loc_var_2, d, false ) );
 
         return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
@@ -1766,7 +1766,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
 
         }
         if( loc.has_value() ) {
-            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            tripoint_abs_ms pos_global = get_map().get_abs( *loc );
             write_var_value( target_var.type, target_var.name, d,
                              pos_global.to_string() );
         }
@@ -1804,7 +1804,7 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
@@ -1819,7 +1819,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
     var_info loc_var = read_var_info( jo.get_object( "loc" ) );
 
     return [member, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_from_var( loc_var, d, false ) );
         if( member == "map_terrain_id" ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else if( member == "map_furniture_id" ) {
@@ -2148,7 +2148,7 @@ conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view m
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( const_dialogue const & d ) {
         tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ) );
+        return d.const_actor( is_npc )->can_see_location( get_map().get_bub( target_pos ) );
     };
 }
 
@@ -2205,7 +2205,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
         str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
         bool use_beta_talker = mutator == "npc_loc_relative";
         return [target, use_beta_talker, ret_func]( const_dialogue const & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.const_actor( use_beta_talker )->pos_bub() );
+            tripoint_abs_ms char_pos = get_map().get_abs( d.const_actor( use_beta_talker )->pos_bub() );
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
         };

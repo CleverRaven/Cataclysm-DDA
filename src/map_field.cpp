@@ -278,7 +278,7 @@ void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_sp
     const bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     const int winddirection = weather.winddirection;
-    const int windpower = get_local_windpower( weather.windspeed, om_ter, getglobal( p ),
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, get_abs( p ),
                           winddirection,
                           sheltered );
 
@@ -770,7 +770,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
             std::vector<MonsterGroupResult> spawn_details =
                 MonsterGroupManager::GetResultFromGroup( int_level.monster_spawn_group, &monster_spawn_count );
             for( const MonsterGroupResult &mgr : spawn_details ) {
-                if( !mgr.name ) {
+                if( !mgr.id ) {
                     continue;
                 }
                 if( const std::optional<tripoint_bub_ms> spawn_point =
@@ -953,7 +953,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
     bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     int winddirection = weather.winddirection;
-    int windpower = get_local_windpower( weather.windspeed, om_ter, get_map().getglobal( p ),
+    int windpower = get_local_windpower( weather.windspeed, om_ter, get_map().get_abs( p ),
                                          winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
@@ -1076,7 +1076,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                 here.bash( p, 999, false, true, true );
-                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
+                here.spawn_item( p, itype_ash, 1, rng( 10, 1000 ) );
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {

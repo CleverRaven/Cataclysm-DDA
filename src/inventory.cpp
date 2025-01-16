@@ -510,7 +510,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     std::vector<tripoint_bub_ms> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.bub_from_abs( elem ) );
+        pts.push_back( m.get_bub( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }

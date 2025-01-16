@@ -157,7 +157,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
     REQUIRE( !test_subject->path.empty() );
 
     // we must force them to actually walk the path for this test
-    test_subject->goto_to_this_pos = here.getglobal( test_subject->path.back() );
+    test_subject->goto_to_this_pos = here.get_abs( test_subject->path.back() );
 
     // copy our path before we lose it
     std::vector<tripoint_bub_ms> path_taken = test_subject->path;

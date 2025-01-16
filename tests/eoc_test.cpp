@@ -185,7 +185,7 @@ void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const
 {
     map tm;
     tm.load( project_to<coords::sm>( center - point{ range, range } ), false, false );
-    tripoint_bub_ms const center_local = tm.bub_from_abs( center );
+    tripoint_bub_ms const center_local = tm.get_bub( center );
     for( tripoint_bub_ms p : tm.points_in_radius( center_local, range ) ) {
         if( trig_dist( center_local, p ) <= range ) {
             REQUIRE( tm.ter( p ) == ter );
@@ -200,7 +200,7 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     tripoint_abs_ms const orig = coord_min( first, second );
     tm.load( project_to<coords::sm>( orig ), false, false );
     for( tripoint_abs_ms p : line_to( first, second ) ) {
-        REQUIRE( tm.ter( tm.bub_from_abs( p ) ) == ter );
+        REQUIRE( tm.ter( tm.get_bub( p ) ) == ter );
     }
 }
 
@@ -1095,11 +1095,11 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
 
     // Activate test for item
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
-    CHECK( get_map().furn( get_map().bub_from_abs( pos_after ) ) == furn_f_cardboard_box );
+    CHECK( get_map().furn( get_map().get_bub( pos_after ) ) == furn_f_cardboard_box );
 
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
-    CHECK( get_map().i_at( get_map().bub_from_abs( pos_after ) ).size() == 3 );
+    CHECK( get_map().i_at( get_map().get_bub( pos_after ) ).size() == 3 );
 
     // Math function test for armor
     CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
@@ -1327,12 +1327,12 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     map &m = get_map();
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );
+    const tripoint_bub_ms tgt = m.get_bub( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
     CHECK( globvars.get_global_value( "this" ) == "test_f_eoc" );
-    CHECK( globvars.get_global_value( "pos" ) == m.getglobal( tgt ).to_string() );
+    CHECK( globvars.get_global_value( "pos" ) == m.get_abs( tgt ).to_string() );
 
     const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east * 10;
     npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
@@ -1354,7 +1354,7 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     g->place_player( tripoint_bub_ms::zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );
+    const tripoint_bub_ms tgt = m.get_bub( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
@@ -1367,8 +1367,8 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
                                     globvars.get_global_value( "map_test_loc_a" ) ) );
     tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
                                     globvars.get_global_value( "map_test_loc_b" ) ) );
-    CHECK( m.bub_from_abs( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
-    CHECK( m.bub_from_abs( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
+    CHECK( m.get_bub( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
+    CHECK( m.get_bub( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
 
     globvars.clear_global_values();
     clear_avatar();
@@ -1512,7 +1512,7 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     clear_npcs();
     npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "thug" );
     tripoint_abs_ms mon_loc = u.get_location() + tripoint::west;
-    monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
+    monster *zombie = g->place_critter_at( mon_zombie, get_map().get_bub( mon_loc ) );
     REQUIRE( zombie != nullptr );
 
     item hammer( itype_hammer );

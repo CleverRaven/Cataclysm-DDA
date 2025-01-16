@@ -11,7 +11,7 @@
 # output more reasonable, but the cumulative tally does include smaller
 # versions not listed.
 #
-# See also doc/COMPILING/COMPILER_SUPPORT.md
+# See also doc/c++/COMPILER_SUPPORT.md
 
 import csv
 import re
