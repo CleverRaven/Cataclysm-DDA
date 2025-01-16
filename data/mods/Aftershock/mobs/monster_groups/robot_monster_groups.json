@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "AFS_GROUP_ROBOT_NEUTRAL_OLD",
+    "id": "AFS_GROUP_ROBOT_NEUTRAL_OLD",
     "//": "Neutral bots from the original colony.",
     "monsters": [
       { "monster": "mon_utilibot_const", "weight": 550, "cost_multiplier": 0 },
@@ -13,7 +13,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "AFS_GROUP_ROBOT_NEUTRAL_OLD_DOMESTIC",
+    "id": "AFS_GROUP_ROBOT_NEUTRAL_OLD_DOMESTIC",
     "//": "Neutral bots from the original colony.  Specifcally those suited for use in a domestic or residental settings.",
     "monsters": [
       { "monster": "mon_utilibot", "weight": 550, "cost_multiplier": 0 },
@@ -23,7 +23,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "AFS_GROUP_ROBOT_LOW_RISK",
+    "id": "AFS_GROUP_ROBOT_LOW_RISK",
     "default": "mon_skitterbot_rat",
     "monsters": [
       { "monster": "mon_bloodhound_drone", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -34,7 +34,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PIRATE__BOT_AMBUSH",
+    "id": "GROUP_PIRATE__BOT_AMBUSH",
     "default": "mon_manhack",
     "monsters": [
       { "monster": "mon_bloodhound_drone", "weight": 500, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
@@ -45,7 +45,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_FARM_HOSTILE",
+    "id": "GROUP_ROBOT_FARM_HOSTILE",
     "default": "mon_manhack",
     "monsters": [
       { "monster": "mon_utilibot_hostile", "weight": 500, "cost_multiplier": 70 },
@@ -56,7 +56,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_COPS_HOSTILE",
+    "id": "GROUP_ROBOT_COPS_HOSTILE",
     "default": "mon_manhack",
     "monsters": [
       { "monster": "mon_zenit", "weight": 50, "cost_multiplier": 100 },

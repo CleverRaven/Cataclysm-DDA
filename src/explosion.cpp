@@ -918,7 +918,7 @@ void resonance_cascade( const tripoint_bub_ms &p )
                     std::vector<MonsterGroupResult> spawn_details =
                         MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     for( const MonsterGroupResult &mgr : spawn_details ) {
-                        g->place_critter_at( mgr.name, dest );
+                        g->place_critter_at( mgr.id, dest );
                     }
                 }
                 break;

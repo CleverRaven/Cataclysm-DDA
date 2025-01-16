@@ -99,7 +99,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DRUID_TOWER_DRUID_HEAD",
+    "id": "GROUP_DRUID_TOWER_DRUID_HEAD",
     "monsters": [ { "monster": "mon_feral_druid", "weight": 150 }, { "monster": "mon_feral_druid_enhanced", "weight": 850 } ]
   },
   {

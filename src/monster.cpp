@@ -484,17 +484,17 @@ void monster::try_upgrade( bool pin_time )
                         type->upgrade_group, nullptr, nullptr, false, &ret_default );
                 if( !res.empty() && !ret_default ) {
                     // Set the type to poly the current monster (preserves inventory)
-                    new_type = res.front().name;
+                    new_type = res.front().id;
                     res.front().pack_size--;
                     for( const MonsterGroupResult &mgr : res ) {
-                        if( !mgr.name ) {
+                        if( !mgr.id ) {
                             continue;
                         }
                         for( int i = 0; i < mgr.pack_size; i++ ) {
                             tripoint_bub_ms spawn_pos;
-                            if( g->find_nearby_spawn_point( pos_bub(), mgr.name, 1, *type->upgrade_multi_range,
+                            if( g->find_nearby_spawn_point( pos_bub(), mgr.id, 1, *type->upgrade_multi_range,
                                                             spawn_pos, false, false ) ) {
-                                monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
+                                monster *spawned = g->place_critter_at( mgr.id, spawn_pos );
                                 if( spawned ) {
                                     spawned->friendly = friendly;
                                 }
@@ -594,7 +594,7 @@ void monster::try_reproduce()
                             type->baby_type.baby_monster_group, &spawn_cnt,
                             nullptr, false, nullptr, true );
                 for( const MonsterGroupResult &mgr : babies ) {
-                    here.add_spawn( mgr.name, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
+                    here.add_spawn( mgr.id, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
                 }
             }
             if( !type->baby_type.baby_egg.is_null() ) {

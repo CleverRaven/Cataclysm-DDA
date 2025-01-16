@@ -1,13 +1,13 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_NULL",
+    "id": "GROUP_NULL",
     "is_safe": true,
     "monsters": [ { "monster": "mon_null" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BLACK_ROAD",
+    "id": "GROUP_BLACK_ROAD",
     "monsters": [
       { "monster": "mon_zombie", "weight": 407 },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -62,7 +62,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_START",
+    "id": "GROUP_MANSION_START",
     "//": "Nonsense ferals for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "monsters": [
       { "group": "GROUP_MANSION_PURSUERS", "weight": 1600 },
@@ -72,7 +72,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_PURSUERS",
+    "id": "GROUP_MANSION_PURSUERS",
     "monsters": [
       { "monster": "mon_feral_maid_broom", "weight": 600 },
       { "monster": "mon_feral_maid_candlestick", "weight": 600 },
@@ -81,12 +81,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_ARMORED",
+    "id": "GROUP_MANSION_ARMORED",
     "monsters": [ { "monster": "mon_feral_armored_mace", "weight": 100 }, { "monster": "mon_feral_armored_battleaxe", "weight": 100 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHUD",
+    "id": "GROUP_CHUD",
     "monsters": [
       { "monster": "mon_chud", "weight": 875, "cost_multiplier": 0 },
       { "monster": "mon_crawler", "weight": 35, "cost_multiplier": 0 }
@@ -94,7 +94,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY",
+    "id": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_silverfish_small",
     "monsters": [
@@ -127,7 +127,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_CITY",
+    "id": "GROUP_SUBWAY_CITY",
     "//": "Normal subway, extra spawns underneath a city",
     "default": "mon_chud",
     "monsters": [
@@ -153,7 +153,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_LAB",
+    "id": "GROUP_SUBWAY_LAB",
     "//": "Lower subway with eldritch nasties and lab escapees",
     "default": "mon_kreck",
     "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
@@ -193,7 +193,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
@@ -235,7 +235,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BIRD_DOMESTIC",
+    "id": "GROUP_BIRD_DOMESTIC",
     "default": "mon_chicken",
     "is_animal": true,
     "monsters": [
@@ -248,7 +248,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BIRD_DOMESTIC_WATERFOWL",
+    "id": "GROUP_BIRD_DOMESTIC_WATERFOWL",
     "default": "mon_duck_domestic",
     "is_animal": true,
     "monsters": [
@@ -258,7 +258,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "id": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
     "monsters": [
@@ -306,7 +306,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BASEMENT_HOUSE",
+    "id": "GROUP_BASEMENT_HOUSE",
     "//": "60-30-10% chance of zombies/roaches/cellar spiders, no mixing enemies in the same spawn",
     "monsters": [
       { "group": "GROUP_HOUSE", "weight": 6, "pack_size": [ 2, 6 ] },
@@ -316,7 +316,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "DUMP_ANIMALS",
+    "id": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
       { "group": "GROUP_FLY", "weight": 100 },
@@ -342,7 +342,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PEST",
+    "id": "GROUP_PEST",
     "monsters": [
       { "monster": "mon_crow", "weight": 760 },
       {
@@ -367,7 +367,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWER",
+    "id": "GROUP_SEWER",
     "monsters": [
       { "monster": "mon_null", "weight": 370, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 75, "cost_multiplier": 0 },
@@ -382,7 +382,7 @@
     ]
   },
   {
-    "name": "GROUP_VETS",
+    "id": "GROUP_VETS",
     "type": "monstergroup",
     "//": "for veterinarian",
     "monsters": [
@@ -396,7 +396,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BUNKER",
+    "id": "GROUP_BUNKER",
     "monsters": [
       { "monster": "mon_zombie_armored", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_soldier", "weight": 600, "cost_multiplier": 3 }
@@ -404,12 +404,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SCI",
+    "id": "GROUP_SCI",
     "monsters": [ { "monster": "mon_zombie_scientist", "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_INFESTED_SPAWN",
+    "id": "GROUP_INFESTED_SPAWN",
     "//": "For Compromised Shelter scenario.",
     "monsters": [
       { "monster": "mon_zombie", "weight": 250, "pack_size": [ 2, 3 ], "cost_multiplier": 2 },
@@ -422,7 +422,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_YOUR_FEARS",
+    "id": "GROUP_YOUR_FEARS",
     "//": "For monsters, spawned by hallucinator effects.  Must represent the awful monsters the player want never see.  Put here every asshole you want.",
     "monsters": [
       { "monster": "mon_wasp_small" },
@@ -476,7 +476,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NUCLEAR_PLANT_BEASTS",
+    "id": "GROUP_NUCLEAR_PLANT_BEASTS",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
@@ -495,18 +495,18 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BEEKEEPER",
+    "id": "GROUP_BEEKEEPER",
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   },
   {
-    "name": "GROUP_RATTLESNAKE",
+    "id": "GROUP_RATTLESNAKE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_rattlesnake", "weight": 19 }, { "monster": "mon_rattlesnake_big", "weight": 1 } ],
     "//": "Normally for the time until mutants start spawning we take the growth time of a mutant baby with default evolution rates. But because rattlesnakes follow the mutation logic of invertebrates, we assume there were some mildly oversized variations at the start of the Cataclysm already."
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_HUNTING",
+    "id": "GROUP_CAMP_HUNTING",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
@@ -521,7 +521,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_TRAPPING",
+    "id": "GROUP_CAMP_TRAPPING",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
@@ -540,7 +540,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "id": "GROUP_CAMP_HUNTING_LARGE",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
@@ -558,7 +558,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DEBUG_EXACTLY_ONE",
+    "id": "GROUP_DEBUG_EXACTLY_ONE",
     "//": "Hardcoded reference in debug() (debug_menu.cpp). Used for debugging, duh.",
     "monsters": [ { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 1, "pack_size": [ 1, 1 ] } ]
   }
