@@ -1,6 +1,6 @@
 [
   {
-    "//": "For use in a commercial settings but secured such as in safes.  Offers more reward for greater risk/effort involved in obtaining.  Shouldn't give any super special or highly valuable genetech.",
+    "//": "For use in a commercial settings but secured such as in safes. Offers more reward for greater risk/effort involved in obtaining. Shouldn't give any super special or highly valuable genetech.",
     "id": "afs_genetech_commerical_safe",
     "type": "item_group",
     "subtype": "collection",

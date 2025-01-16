@@ -113,7 +113,7 @@
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 5, 17 ], "pack_size": [ 2, 4 ], "chance": 60 } ],
       "graffiti": {
         "3": {
-          "text": "Employee Breakroom: We would like to remind you that all staff break times are extensively monitored by Corp Security.  And remember, the customer is always right! - Management"
+          "text": "Employee Breakroom: We would like to remind you that all staff break times are extensively monitored by Corp Security.  And remember, the customer is always right!  - Management"
         },
         "4": {
           "text": "Gene-Editing Lab: The new you is waiting just beyond these doors.  All clients must be accompanied by Mercurial Staff."
@@ -184,7 +184,7 @@
       "graffiti": {
         "6": { "text": "Doctor <given_name>'s Office." },
         "7": { "text": "Only licensed Mercurial Repair Techs beyond this point: Drone Storage and Maintenance." },
-        "8": { "text": "Gene-Vault: All removal of Genetech products must be promptly logged - Management." },
+        "8": { "text": "Gene-Vault: All removal of Genetech products must be promptly logged.  - Management." },
         "9": { "text": "Operating Theatre" }
       },
       "place_nested": [

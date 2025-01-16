@@ -57,7 +57,7 @@
     "type": "trait_group",
     "id": "GENETECH_TRAITS_LOW_TIER",
     "subtype": "distribution",
-    "//": "Used in more accesible locations where Genetech can be found such as on shelves in Genetech-vaults.  Weighted so that the most useful traits will spawn at a greatly reduced rate.  Highly valuable or military grade traits should not end up in here.",
+    "//": "Used in more accesible locations where Genetech can be found such as on shelves in Genetech-vaults. Weighted so that the most useful traits will spawn at a greatly reduced rate. Highly valuable or military grade traits should not end up in here.",
     "traits": [
       { "group": "GENETECH_TAILS", "prob": 100 },
       { "group": "GENETECH_EARS", "prob": 100 },
