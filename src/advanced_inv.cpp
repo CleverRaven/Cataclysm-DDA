@@ -1637,8 +1637,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         return false;
     }
     item it_copy = *sitem->items.front();
-    if ( it_copy.count_by_charges()){
-        it_copy.charges = std::min(amount_to_move, sitem->items.front()->charges);
+    if( it_copy.count_by_charges() ) {
+        it_copy.charges = std::min( amount_to_move, sitem->items.front()->charges );
     }
     if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
