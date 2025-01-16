@@ -4391,7 +4391,7 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_from_var( target_var, d, is_npc );
-            target_pos = get_map().bub_from_abs( abs_ms );
+            target_pos = get_map().get_bub( abs_ms );
         } else {
             target_pos = d.actor( is_npc )->pos_bub();
         }
