@@ -1672,11 +1672,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     recalc = true;
     cata_assert( amount_to_move > 0 );
 
-    if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
-        spane.container.held_by( player_character ) ) {
-        popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
-
-    } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
+    if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
