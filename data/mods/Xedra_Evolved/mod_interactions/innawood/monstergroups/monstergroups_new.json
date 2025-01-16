@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 10, "cost_multiplier": 10 },
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "//": "Current SPRING first DAY count is X.",
     "is_animal": true,
     "monsters": [
@@ -24,13 +24,13 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OVERLAND_RENFIELD",
+    "id": "GROUP_OVERLAND_RENFIELD",
     "is_animal": true,
     "monsters": [ { "monster": "mon_renfield", "weight": 200 }, { "monster": "mon_renfield", "weight": 50, "pack_size": [ 2, 5 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE_VAMPIRE",
+    "id": "GROUP_CAVE_VAMPIRE",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_renfield", "weight": 200 },

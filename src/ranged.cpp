@@ -3209,7 +3209,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint_bub_ms &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint_bub_ms local_lt = get_map().bub_from_abs( *you->last_target_pos );
+    tripoint_bub_ms local_lt = get_map().get_bub( *you->last_target_pos );
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3258,10 +3258,10 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 void target_ui::set_last_target()
 {
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().getglobal( dst ) ) {
+        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getglobal( dst );
+    you->last_target_pos = get_map().get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3426,7 +3426,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos_bub();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos );
+        curr_recoil_pos = get_map().get_bub( *you->last_target_pos );
     } else {
         curr_recoil_pos = src;
     }

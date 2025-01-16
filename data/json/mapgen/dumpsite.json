@@ -71,7 +71,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "dumpsite",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rotation": [ 0, 3 ],
@@ -179,7 +178,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "dumpsite_edge",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [

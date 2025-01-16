@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_hardware" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -130,7 +129,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_hardware_1" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -272,7 +270,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_hardware_2" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -406,7 +403,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_hardware_3" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

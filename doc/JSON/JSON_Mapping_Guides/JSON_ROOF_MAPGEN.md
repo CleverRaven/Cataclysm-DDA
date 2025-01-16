@@ -14,7 +14,7 @@ Files that will be edited:
 
 ## Making the Roof Map
 
-Refer to [MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md) for creating the map if you are new to map creation.
+Refer to [MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md) for creating the map if you are new to map creation.
 
 Open the file that contains the map for the building `data/json/mapgen/[name of building].json`
 Add a new entry for the roof.  You can copy the building entry since you want the same foundation footprint for the roof.

@@ -191,5 +191,5 @@ Contributors are encouraged to not overuse `copy-from`, as it can decrease the h
 In general, there are two situations where `copy-from` should be used in the core game:
 
 * Two things are nearly identical variants of each other.
-  * If they're pretty much identical (e.g. everything except for their descriptions can be kept, there are only decorative differences, there are no mechanical differences, or in the case of [guns](GUN_NAMING_AND_INCLUSION.md#difference-threshold) minor value differences), they can be handled as [variants](JSON_INFO.md#snippets) (scroll down to the variant example).
+  * If they're pretty much identical (e.g. everything except for their descriptions can be kept, there are only decorative differences, there are no mechanical differences, or in the case of [guns](/doc/GUN_NAMING_AND_INCLUSION.md#difference-threshold) minor value differences), they can be handled as [variants](JSON_INFO.md#snippets) (scroll down to the variant example).
 * A group of entities always (not almost always, always) shares some set of properties, then one or two levels of abstracts can set up a very shallow and narrow hierarchy.

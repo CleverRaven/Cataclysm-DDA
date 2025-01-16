@@ -1315,7 +1315,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getglobal( pnt );
+    player_character.activity.placement = here.get_abs( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1325,7 +1325,7 @@ void complete_construction( Character *you )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.placement );
+    const tripoint_bub_ms terp = here.get_bub( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );

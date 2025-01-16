@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -45,7 +44,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -81,7 +79,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling1",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -138,7 +135,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling1_roof",
-    "weight": 75,
     "object": {
       "rows": [
         "                        ",
@@ -173,7 +169,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling2",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -215,7 +210,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling2_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -252,7 +246,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling3",
-    "weight": 75,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -299,7 +292,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "riverside_dwelling3_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

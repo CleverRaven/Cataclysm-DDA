@@ -370,8 +370,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( type->trait_group.is_valid() ) {
-        const trait_group::Trait_list &tlist = trait_group::traits_from( type->trait_group );
-        for( const trait_and_var &tr : tlist ) {
+        for( const trait_and_var &tr : trait_group::traits_from( type->trait_group ) ) {
             template_traits.push_back( tr.trait );
         }
     }
@@ -1518,7 +1517,7 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc != tripoint_abs_omt::max && that_loc != tripoint_abs_omt::max ) {
-        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                                get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
@@ -13190,7 +13189,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                env_temperature = wgen.get_weather_temperature( get_map().getglobal( pos ), time, seed );
+                env_temperature = wgen.get_weather_temperature( get_map().get_abs( pos ), time, seed );
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
@@ -13889,7 +13888,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
-        link().t_abs_pos = get_map().getglobal( link().t_veh->pos_bub() );
+        link().t_abs_pos = get_map().get_abs( link().t_veh->pos_bub() );
         link().t_mount = mount;
         link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
 
@@ -14142,7 +14141,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
         if( !length_check_needed ) {
             return false;
         }
-        link().length = rl_dist( here.getglobal( pos ), link().t_abs_pos ) +
+        link().length = rl_dist( here.get_abs( pos ), link().t_abs_pos ) +
                         link().t_mount.abs().x() + link().t_mount.abs().y();
         if( check_length() ) {
             return reset_link( true, carrier );
@@ -14195,7 +14194,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
     // Set the new absolute position to the vehicle's origin.
     tripoint_bub_ms t_veh_bub_pos = t_veh->pos_bub();
-    tripoint_abs_ms new_t_abs_pos = here.getglobal( t_veh_bub_pos );
+    tripoint_abs_ms new_t_abs_pos = here.get_abs( t_veh_bub_pos );
     if( link().t_abs_pos != new_t_abs_pos ) {
         link().t_abs_pos = new_t_abs_pos;
         length_check_needed = true;
@@ -14660,7 +14659,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
                 here.rotten_item_spawn( *this, pos );
             }
             if( is_corpse() ) {
-                here.handle_decayed_corpse( *this, here.getglobal( pos ) );
+                here.handle_decayed_corpse( *this, here.get_abs( pos ) );
             }
             return true;
         }
