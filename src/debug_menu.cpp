@@ -1807,11 +1807,12 @@ static void teleport_overmap( bool specific_coordinates = false )
         coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint_rel_ms> dir_ = choose_direction(
+                    _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
-        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        const tripoint offset = tripoint( OMAPX * dir_->x(), OMAPY * dir_->y(), dir_->z() );
         where = player_character.global_omt_location() + offset;
     }
     g->place_player_overmap( where );

@@ -1911,7 +1911,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -7649,9 +7649,7 @@ void Character::drench_mut_calc()
 weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
 {
     weighted_int_list<mutation_category_id> weighted_output;
-    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
-        mutation_category_trait::get_all();
-    for( const auto &elem : mutation_categories ) {
+    for( const auto &elem : mutation_category_trait::get_all() ) {
         add_msg_debug( debugmode::DF_MUTATION, "get_vitamin_weighted_categories: category %s weight %d",
                        elem.second.id.c_str(), vitamin_get( elem.second.vitamin ) );
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
@@ -10715,17 +10713,17 @@ void Character::echo_pulse()
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 {
     const tripoint_abs_ms p = get_map().getglobal( pos );
-    return known_traps.count( p.raw() ) > 0;
+    return known_traps.count( p ) > 0;
 }
 
 void Character::add_known_trap( const tripoint_bub_ms &pos, const trap &t )
 {
     const tripoint_abs_ms p = get_map().getglobal( pos );
     if( t.is_null() ) {
-        known_traps.erase( p.raw() );
+        known_traps.erase( p );
     } else {
         // TODO: known_traps should map to a trap_str_id
-        known_traps[p.raw()] = t.id.str();
+        known_traps[p] = t.id.str();
     }
 }
 
@@ -11373,11 +11371,6 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
 npc_attitude Character::get_attitude() const
 {
     return NPCATT_NULL;
-}
-
-bool Character::sees( const tripoint &t, bool, int ) const
-{
-    return sees( tripoint_bub_ms( t ) );
 }
 
 bool Character::sees( const tripoint_bub_ms &t, bool, int ) const

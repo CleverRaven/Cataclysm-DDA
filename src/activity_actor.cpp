@@ -6558,7 +6558,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction(
                         _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
@@ -6832,7 +6832,6 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     bool next_to_bush = false;
     map &here = get_map();
     for( const tripoint_bub_ms &pnt : here.points_in_radius( who.pos_bub(), 1 ) ) {
-        // TODO: fix point types
         if( here.getglobal( pnt ) == act.placement ) {
             next_to_bush = true;
             break;
@@ -7349,7 +7348,6 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         }
     }
     if( stage == DO ) {
-        // TODO: fix point types
         const tripoint_abs_ms src( placement );
         const tripoint_bub_ms src_loc = here.bub_from_abs( src );
 

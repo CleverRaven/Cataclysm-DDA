@@ -484,26 +484,6 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
             std::vector<trait_id> threshreq = mut.threshreq;
             bool c_has_threshreq = threshreq.empty() ? true : false;
 
-            //Threshold requirement
-            for( const trait_id &c : threshreq ) {
-                if( you.has_permanent_trait( c ) ) {
-                    c_has_threshreq = true;
-                    break;
-                }
-            }
-            if( !c_has_threshreq ) {
-                std::vector<std::string> thresholds;
-                thresholds.reserve( threshreq.size() );
-                for( const trait_id &c : threshreq ) {
-                    thresholds.push_back( c->name() );
-                }
-                context_string = ( _( " %s" ), string_join( thresholds, ", " ) );
-                context_string =
-                    string_format( "    <color_red>Requires either of the following traits: %s</color>",
-                                   context_string );
-                can_select = false;
-            }
-
             //Bionic Incompatibility
             std::vector<std::string> bionics;
             for( const bionic_id &bid : you.get_bionics() ) {
@@ -512,9 +492,30 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
                 }
             }
             if( !bionics.empty() ) {
-                context_string = string_join( bionics, ", " );
-                context_string = string_format( "    <color_red>Conflicts with installed: %s</color>",
-                                                context_string );
+                context_string = string_format( "    <color_red>%s %s</color>", _( "Conflicts with installed:" ),
+                                                string_join( bionics, ", " ) );
+                can_select = false;
+                genemenu.addentry_col( i, can_select, input_event(), mut.name(), context_string );
+                i++;
+                continue;
+            }
+
+            //Threshold requirement
+            for( const trait_id &c : threshreq ) {
+                if( you.has_permanent_trait( c ) ) {
+                    c_has_threshreq = true;
+                    break;
+                }
+            }
+            if( !c_has_threshreq ) {
+                context_string = string_format( "    <color_red>%s ",
+                                                _( "Requires any of the following traits:" ) );
+                for( size_t i = 0; i < threshreq.size() - 1; i++ ) {
+                    context_string += threshreq[i]->name();
+                    context_string += ", ";
+                }
+                context_string += threshreq[threshreq.size() - 1]->name();
+                context_string += "</color>";
                 can_select = false;
             }
 

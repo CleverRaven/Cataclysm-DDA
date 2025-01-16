@@ -307,7 +307,6 @@ class Creature : public viewer
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
         // TODO: fix point types (remove pos() and rename pos_bub() to be the new pos())
-        tripoint pos() const;
         tripoint_bub_ms pos_bub() const;
         inline int posx() const {
             return pos_bub().x();
@@ -393,8 +392,6 @@ class Creature : public viewer
          */
         /*@{*/
         bool sees( const Creature &critter ) const override;
-        // TODO: Get rid of untyped overload.
-        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
