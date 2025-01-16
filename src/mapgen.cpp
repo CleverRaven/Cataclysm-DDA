@@ -2037,7 +2037,7 @@ class jmapgen_npc : public jmapgen_piece
             tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
-            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
             if( dat.mission() && target ) {
@@ -2750,7 +2750,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             if( veh && !faction.empty() ) {
                 veh->set_owner( faction_id( faction ) );
             }
-            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+            if( get_map().inbounds( dat.m.get_abs( dst ) ) ) {
                 dat.m.queue_main_cleanup();
             }
         }
@@ -3495,9 +3495,9 @@ class jmapgen_zone : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
-            const tripoint_abs_ms start = dat.m.getglobal( tripoint_bub_ms( int( x.val ), int( y.val ),
+            const tripoint_abs_ms start = dat.m.get_abs( tripoint_bub_ms( int( x.val ), int( y.val ),
                                           dat.zlevel() + z.get() ) );
-            const tripoint_abs_ms end = dat.m.getglobal( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
+            const tripoint_abs_ms end = dat.m.get_abs( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
                                         dat.zlevel() + z.get() ) );
             mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
@@ -3525,8 +3525,8 @@ class jmapgen_variable : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            queued_points[name] = dat.m.getglobal( tripoint_bub_ms( int( x.val ), int( y.val ),
-                                                   dat.zlevel() + z.get() ) );
+            queued_points[name] = dat.m.get_abs( tripoint_bub_ms( int( x.val ), int( y.val ),
+                                                 dat.zlevel() + z.get() ) );
         }
 };
 
@@ -3617,7 +3617,7 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.clear_fields( p );
                 dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
-                    if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                    if( get_map().inbounds( dat.m.get_abs( start ) ) ) {
                         get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                     }
                     dat.m.destroy_vehicle( &vp->vehicle() );
@@ -5047,7 +5047,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                Creature *tmp_critter = get_creature_tracker().creature_at( m.getglobal(
+                Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
                                             target_pos ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
                     tmp_critter->die( nullptr );
@@ -5103,7 +5103,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
-                queued_points[string_val] = m.getglobal( target_pos );
+                queued_points[string_val] = m.get_abs( target_pos );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
@@ -5148,7 +5148,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                        point_bub_ms( x2_get(), y2_get() ),
                                                        0 );
                 for( const point_bub_ms &i : line ) {
-                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
+                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -5231,7 +5231,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 const int cy2 = y2_get();
                 for( int tx = c.x(); tx <= cx2; tx++ ) {
                     for( int ty = c.y(); ty <= cy2; ty++ ) {
-                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
+                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.get_abs(
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -6706,7 +6706,7 @@ character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( getglobal( { p, abs_sub.z() } ) );
+    temp->spawn_at_precise( get_abs( { p, abs_sub.z() } ) );
     temp->toggle_trait( trait_NPC_STATIC_NPC );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -7148,10 +7148,10 @@ void map::rotate( int turns )
         }
 
         // Translate bubble -> global -> current map.
-        const point_bub_ms old( bub_from_abs( get_map().getglobal( np.pos_bub() ).xy() ) );
+        const point_bub_ms old( get_bub( get_map().get_abs( np.pos_bub() ).xy() ) );
 
         const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
-        np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );
+        np.spawn_at_precise( get_abs( tripoint_bub_ms( new_pos, sq.z() ) ) );
     }
 
     clear_vehicle_level_caches();
@@ -7230,7 +7230,7 @@ void map::rotate( int turns )
                 continue;
             }
             const point_abs_sm queued_point_sm( project_to<coords::sm>( queued_point.second.xy() ) );
-            const point_bub_ms queued_point_bub( get_map().bub_from_abs( queued_point.second.xy() ) );
+            const point_bub_ms queued_point_bub( get_map().get_bub( queued_point.second.xy() ) );
             point_bub_ms old( queued_point_bub.x() % SEEX, queued_point_bub.y() % SEEY );
 
             if( queued_point_sm.x() % 2 != 0 ) {
@@ -7240,7 +7240,7 @@ void map::rotate( int turns )
                 old.y() += SEEY;
             }
             const point_bub_ms new_pos( old.rotate( turns, {SEEX * 2, SEEY * 2} ) );
-            queued_points[queued_point.first] = getglobal( tripoint_bub_ms( new_pos,
+            queued_points[queued_point.first] = get_abs( tripoint_bub_ms( new_pos,
                                                 queued_point.second.z() ) );
         }
     }

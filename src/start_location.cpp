@@ -473,7 +473,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
-                best_spot = here.bub_from_abs( zone.get_center_point() );
+                best_spot = here.get_bub( zone.get_center_point() );
                 break;
             }
         }

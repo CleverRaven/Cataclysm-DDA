@@ -2977,7 +2977,7 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.getglobal( pos_bub() ) );
+        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.get_abs( pos_bub() ) );
         // Do it for overmap above/below too
         for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types
@@ -3500,7 +3500,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 
@@ -3887,7 +3887,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         max_error = 1;
     }
 
-    tripoint_abs_ms target = get_map().getglobal( source ) + point( rng( -max_error, max_error ),
+    tripoint_abs_ms target = get_map().get_abs( source ) + point( rng( -max_error, max_error ),
                              rng( -max_error, max_error ) );
     // target_z will require some special check due to soil muffling sounds
 

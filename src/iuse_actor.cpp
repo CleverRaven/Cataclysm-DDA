@@ -1361,7 +1361,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getglobal( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.get_abs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -1513,7 +1513,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
                         0, it.tname() );
     p->activity.targets.emplace_back( *p, &it );
     p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = get_map().getglobal( pos );
+    p->activity.placement = get_map().get_abs( pos );
     // charges to use are handled by the activity
     return 0;
 }
@@ -5018,7 +5018,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         const bool using_power_cord = it.typeId() == itype_power_cord;
         if( using_power_cord && it.link().t_veh->is_powergrid() && sel_vp->vehicle().is_powergrid() ) {
             // If both vehicles are adjacent power grids, try to merge them together first.
-            const point_bub_ms prev_pos = here.bub_from_abs( it.link().t_veh->coord_translate(
+            const point_bub_ms prev_pos = here.get_bub( it.link().t_veh->coord_translate(
                                               it.link().t_mount ) +
                                           it.link().t_abs_pos ).xy();
             if( selection.xy().raw().distance( prev_pos.raw() ) <= 1.5f &&
