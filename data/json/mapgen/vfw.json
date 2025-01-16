@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_vfw" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

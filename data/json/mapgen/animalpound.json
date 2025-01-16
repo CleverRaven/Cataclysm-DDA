@@ -36,7 +36,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -158,7 +157,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound_roof" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

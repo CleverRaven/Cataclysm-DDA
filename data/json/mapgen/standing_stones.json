@@ -29,7 +29,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "standing_stones" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

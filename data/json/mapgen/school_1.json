@@ -7,7 +7,6 @@
       [ "school_1_6", "school_1_5", "school_1_4" ],
       [ "school_1_9", "school_1_8", "school_1_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -107,7 +106,6 @@
       [ "school_2_6", "school_2_5", "school_2_4" ],
       [ "school_2_9", "school_2_8", "school_2_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -204,7 +202,6 @@
       [ "school_3_6", "school_3_5", "school_3_4" ],
       [ "school_3_9", "school_3_8", "school_3_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -301,7 +298,6 @@
       [ "school_4_6", "school_4_5", "school_4_4" ],
       [ "school_4_9", "school_4_8", "school_4_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

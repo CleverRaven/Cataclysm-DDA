@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_pwr_sub_s" ],
-    "weight": 10,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
