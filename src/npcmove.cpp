@@ -452,7 +452,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
             continue;   // Consider only imminent dangers.
         }
 
-        result.emplace_back( elem.position(), safe_range );
+        result.emplace_back( elem.pos_bub().raw(), safe_range );
     }
 
     return result;
