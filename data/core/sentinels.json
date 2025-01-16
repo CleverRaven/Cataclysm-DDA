@@ -59,6 +59,12 @@
     "description": "This fault id is a reserved sentinel."
   },
   {
+    "type": "attack_vector",
+    "id": "vector_null",
+    "//": "Fallback weapon vector, unarmed attacks always go through techs",
+    "weapon": true
+  },
+  {
     "type": "SPELL",
     "id": "null",
     "name": { "str": "none" },

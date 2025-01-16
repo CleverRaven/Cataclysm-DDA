@@ -74,8 +74,6 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const attack_vector_id attack_vector_vector_null( "vector_null" );
-
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_shock( "bio_shock" );
@@ -699,7 +697,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
             !( t.has_flag( json_flag_CANNOT_MOVE ) &&
                t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -733,12 +731,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Pick our attack
         // Unarmed needs a defined technique
         if( has_force_technique ) {
-            attack = std::make_tuple( force_technique, attack_vector_vector_null,
+            attack = std::make_tuple( force_technique, attack_vector_id::NULL_ID(),
                                       sub_bodypart_str_id::NULL_ID() );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_bodypart_str_id::NULL_ID() );
+            attack = std::make_tuple( tec_none, attack_vector_id::NULL_ID(), sub_bodypart_str_id::NULL_ID() );
         }
         // Unpack our data
         matec_id attack_id;
@@ -1420,7 +1418,7 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
         }
     }
 
-    return random_entry( possible, std::make_tuple( tec_none, attack_vector_vector_null,
+    return random_entry( possible, std::make_tuple( tec_none, attack_vector_id::NULL_ID(),
                          sub_bodypart_str_id::NULL_ID() ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
