@@ -2319,7 +2319,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
-                             sub_body_part_sub_limb_debug, &mon, bp );
+                             sub_bodypart_str_id::NULL_ID(), &mon, bp );
         damage_instance dealt_damage = base_damage;
         dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
         // TODO: Modify DPS calculation to consider weakpoints.
@@ -2346,7 +2346,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_vector_null,
-                                 sub_body_part_sub_limb_debug, &mon, bp );
+                                 sub_bodypart_str_id::NULL_ID(), &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -5623,10 +5623,10 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
         player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug, nullptr, bp );
+                                          sub_bodypart_str_id::NULL_ID(), nullptr, bp );
         damage_instance crit;
         player_character.roll_all_damage( true, crit, true, *this, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug, nullptr, bp );
+                                          sub_bodypart_str_id::NULL_ID(), nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {

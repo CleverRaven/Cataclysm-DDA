@@ -734,11 +734,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Unarmed needs a defined technique
         if( has_force_technique ) {
             attack = std::make_tuple( force_technique, attack_vector_vector_null,
-                                      sub_body_part_sub_limb_debug );
+                                      sub_bodypart_str_id::NULL_ID() );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_bodypart_str_id::NULL_ID() );
         }
         // Unpack our data
         matec_id attack_id;
@@ -747,7 +747,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         std::tie( attack_id, vector_id, contact_area ) = attack;
 
         // If no weapon is selected, use highest layer of clothing for attack vector instead.
-        if( contact_area != sub_body_part_sub_limb_debug ) {
+        if( contact_area != sub_bodypart_str_id::NULL_ID() ) {
             // todo: simplify this by using item_location everywhere
             // so only cur_weapon = worn.current_unarmed_weapon remains
             // Check if our vector allows armor-derived damage
@@ -1420,9 +1420,8 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
         }
     }
 
-    return random_entry( possible,
-                         std::make_tuple( tec_none, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug ) );
+    return random_entry( possible, std::make_tuple( tec_none, attack_vector_vector_null,
+                         sub_bodypart_str_id::NULL_ID() ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         Character::evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,

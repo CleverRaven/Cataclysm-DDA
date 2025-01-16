@@ -35,8 +35,6 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
-const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
-
 side opposite_side( side s )
 {
     switch( s ) {
@@ -641,7 +639,7 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
     //first try to compress sets of sub body parts together into a full limb
     for( size_t i = 0; i < covered.size(); i++ ) {
         const sub_bodypart_id &sbp = covered[i];
-        if( sbp == sub_body_part_sub_limb_debug ) {
+        if( sbp == sub_bodypart_str_id::NULL_ID() ) {
             // if we have already covered this continue
             continue;
         }
@@ -650,9 +648,10 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         bool found_all = true;
         for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
             //skip secondary locations for this
-            if( !searching->secondary ) {
-                found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
-                            found_all;
+            if( !searching->secondary &&
+                std::find( covered.begin(), covered.end(), searching.id() ) == covered.end() ) {
+                found_all = false;
+                break;
             }
         }
 
@@ -664,7 +663,7 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
             for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
                 if( !searching->secondary ) {
                     auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
-                    *sbp_it = sub_body_part_sub_limb_debug;
+                    *sbp_it = sub_bodypart_str_id::NULL_ID();
                 }
             }
         }
@@ -698,13 +697,13 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
 
     for( size_t i = 0; i < covered.size(); i++ ) {
         const sub_bodypart_id &sbp = covered[i];
-        if( sbp == sub_body_part_sub_limb_debug ) {
+        if( sbp == sub_bodypart_str_id::NULL_ID() ) {
             // if we have already covered this value as a pair continue
             continue;
         }
         sub_bodypart_id temp;
         // if our sub part has an opposite
-        if( sbp->opposite != sub_body_part_sub_limb_debug ) {
+        if( sbp->opposite != sub_bodypart_str_id::NULL_ID() ) {
             temp = sbp->opposite;
         } else {
             // if it doesn't have an opposite add it to the return vector alone and continue
@@ -720,7 +719,7 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
                 to_return.insert( sbp->name_multiple );
                 found = true;
                 // set the found part to a null value
-                sbp_it = sub_body_part_sub_limb_debug;
+                sbp_it = sub_bodypart_str_id::NULL_ID();
                 break;
             }
         }

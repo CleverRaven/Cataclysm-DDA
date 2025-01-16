@@ -45,8 +45,6 @@ extern const bodypart_str_id body_part_foot_l;
 extern const bodypart_str_id body_part_leg_r;
 extern const bodypart_str_id body_part_foot_r;
 
-extern const sub_bodypart_str_id sub_body_part_sub_limb_debug;
-
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
     bp_torso = 0,
