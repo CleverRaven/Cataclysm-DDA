@@ -641,6 +641,8 @@ class spell
         mod_id get_src() const;
 
         std::optional<int> max_book_level() const;
+        double get_failure_cost_percent( Creature &caster ) const;
+        void consume_spell_cost( Character &caster );
 
         // tries to create a field at the location specified
         void create_field( const tripoint_bub_ms &at, Creature &caster ) const;

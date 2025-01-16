@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 
+#include "dialogue_helpers.h"
 #include "enum_bitset.h"
 #include "type_id.h"
 
@@ -44,11 +45,11 @@ class magic_type
         std::optional<jmath_func_id> exp_for_level_formula_id;
 
         std::optional<jmath_func_id> casting_xp_formula_id;
-
         std::optional<magic_energy_type> energy_source;
         std::set<std::string> cannot_cast_flags; // string flags
         std::optional<std::string> cannot_cast_message;
         std::optional<int> max_book_level;
+        dbl_or_var failure_cost_percent;
 
         static const std::vector<magic_type> &get_all();
         static void check_consistency();

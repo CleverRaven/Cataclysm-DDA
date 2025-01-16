@@ -1,5 +1,6 @@
 #include "magic_type.h"
 
+#include "condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "math_parser_jmath.h"
@@ -53,6 +54,10 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
     }
     optional( jo, was_loaded, "cannot_cast_message", cannot_cast_message );
     optional( jo, was_loaded, "max_book_level", max_book_level );
+    if( !was_loaded || jo.has_member( "failure_cost_percent" ) ) {
+        failure_cost_percent = get_dbl_or_var( jo, "failure_cost_percent", false,
+                                               0.0f );
+    }
 }
 
 void magic_type::serialize( JsonOut &json ) const
@@ -69,6 +74,8 @@ void magic_type::serialize( JsonOut &json ) const
     json.member( "cannot_cast_flags", cannot_cast_flags, std::set<std::string> {} );
     json.member( "cannot_cast_message", cannot_cast_message );
     json.member( "max_book_level", max_book_level );
+    json.member( "failure_cost_percent", static_cast<float>( failure_cost_percent.min.dbl_val.value() ),
+                 0.0f );
 
     json.end_object();
 }
