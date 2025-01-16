@@ -156,6 +156,12 @@ if (TILES)
         install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
 
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
+
 endif ()
 
 # Build curses version if requested
@@ -234,13 +240,14 @@ if (CURSES)
     if (RELEASE)
         install(TARGETS cataclysm RUNTIME)
     endif ()
+
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
 endif ()
 
-if (TARGET ZLIB::ZLIB)
-    target_link_libraries(cataclysm-common PUBLIC ZLIB::ZLIB)
-else()
-    target_link_libraries(cataclysm-common PUBLIC ${ZLIB_LIBRARIES})
-endif()
 
 if (MINGW AND NOT RELEASE)
     # Try to Install shared libraries for dev builds
