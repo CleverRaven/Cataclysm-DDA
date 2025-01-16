@@ -1180,7 +1180,7 @@ sense in the nest.
 
 ### Apply mapgen transformation with "ter_furn_transforms"
 
-Run a [ter_furn_transform](doc/TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
+Run a [ter_furn_transform](TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 

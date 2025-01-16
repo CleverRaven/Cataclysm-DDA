@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "house_detatched7",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

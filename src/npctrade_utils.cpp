@@ -89,7 +89,7 @@ void add_fallback_zone( npc &guy )
 
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
-        tripoint_bub_ms const t_here = here.bub_from_abs( t );
+        tripoint_bub_ms const t_here = here.get_bub( t );
         const furn_id &f = here.furn( t_here );
         if( f != furn_str_id::NULL_ID() &&
             ( f->max_volume > ter_t_floor->max_volume ||
@@ -136,7 +136,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
+            tripoint_bub_ms const dpoint_here = here.get_bub( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );

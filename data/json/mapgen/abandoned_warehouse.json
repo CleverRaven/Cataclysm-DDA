@@ -57,7 +57,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rotation": [ 1, 1 ],
@@ -95,7 +94,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rotation": [ 1, 1 ],
@@ -135,7 +133,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -179,7 +176,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_1_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -223,7 +219,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_2",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -279,7 +274,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_2_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [
@@ -318,7 +312,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_3",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -357,7 +350,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_3_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -411,7 +403,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_4",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -454,7 +445,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "abandonedwarehouse_4_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
