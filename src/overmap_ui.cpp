@@ -2197,7 +2197,11 @@ static tripoint_abs_omt display()
     } else {
         data.fast_traveling = true;
     }
-    return ret;
+    if( overmap_buffer.distance_limit( g->overmap_data.distance, g->overmap_data.origin_pos, ret ) ) {
+        return ret;
+    } else {
+        return tripoint_abs_omt::invalid;
+    }
 }
 
 } // namespace overmap_ui
@@ -2330,7 +2334,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         cur_ter = overmap_buffer.ter( omp );
     }
 
-    if( blink && opts.show_pc && !opts.hilite_pc && omp == opts.center ) {
+    if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().global_omt_location() ) {
         // Display player pos, should always be visible
         ret.second = player_character.symbol_color();
         ret.first = "@";
@@ -2341,6 +2345,10 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = type->get_symbol();
     } else if( opts.debug_scent && overmap_ui::get_scent_glyph( omp, ret.second, ret.first ) ) {
         // get_scent_glyph has changed ret.second and ret.first if omp has a scent
+    } else if( blink &&
+               overmap_buffer.distance_limit_line( g->overmap_data.distance, g->overmap_data.origin_pos, omp ) ) {
+        ret.second = c_light_red;
+        ret.first = "X";
     } else if( blink && overmap_buffer.is_marked_dangerous( omp ) ) {
         ret.second = c_red;
         ret.first = "X";
@@ -2525,26 +2533,30 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
     overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info,
+        const int distance )
 {
-    return choose_point( message, get_player_character().global_omt_location(), show_debug_info );
+    return choose_point( message, get_player_character().global_omt_location(), show_debug_info,
+                         distance );
 }
 
 tripoint_abs_omt ui::omap::choose_point( const std::string &message, const tripoint_abs_omt &origin,
-        bool show_debug_info )
+        bool show_debug_info, const int distance )
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t();
     g->overmap_data.message = message;
     g->overmap_data.origin_pos = origin;
     g->overmap_data.debug_info = show_debug_info;
+    g->overmap_data.distance = distance;
     return overmap_ui::display();
 }
 
-tripoint_abs_omt ui::omap::choose_point( const std::string &message, int z, bool show_debug_info )
+tripoint_abs_omt ui::omap::choose_point( const std::string &message, int z, bool show_debug_info,
+        const int distance )
 {
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = z;
-    return choose_point( message, pos, show_debug_info );
+    return choose_point( message, pos, show_debug_info, distance );
 }
 
 void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container )
