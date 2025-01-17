@@ -1820,14 +1820,19 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
     item_location loc;
     if( ( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) ) {
         loc = spane.container;
-    } else if( sitem && sitem -> contents_count > 0 && sitem -> items.front()->can_unload() ) {
-        loc = sitem -> items.front();
+    } else if( sitem && sitem->items.front()->can_unload() ) {
+        if( sitem -> contents_count > 0 ) {
+            loc = sitem->items.front();
+        } else {
+            popup_getkey( _( "%1$s is already empty." ), sitem->items.front()->display_name() );
+        }
+
     } else {
-        popup_getkey( _( "Source container %1$s can't be unloaded." ), spane.container->tname() );
+        popup_getkey( _( "%1$s can't be unloaded." ), sitem->items.front()->display_name() );
         return false;
     }
 
-    if( loc != item_location::nowhere ) {
+    if( loc != item_location::nowhere && !loc->is_container_empty() ) {
         do_return_entry();
         return u.unload( loc );;
     }
