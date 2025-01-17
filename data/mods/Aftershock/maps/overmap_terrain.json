@@ -576,5 +576,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Mercurial Gene Clinic",
+    "id": [ "afs_gene_clinic_1_a1", "afs_gene_clinic_1_a2", "afs_gene_clinic_1_a3", "afs_gene_clinic_1_a4" ],
+    "sym": "G",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

@@ -51,5 +51,12 @@
     "//": "The matching Magellan Exosuit set. Includes suit, mask and possible future accessories",
     "subtype": "collection",
     "entries": [ { "item": "afs_magellan_suit" }, { "item": "afs_magellan_suit_helmet", "prob": 90 } ]
+  },
+  {
+    "id": "afs_mutant_colonist_eva_g",
+    "type": "item_group",
+    "//": "Colonist grade EVA gear modified to accomadate mutant anatonmy. Should include suit and mask, and possible future accesories. TODO: this gear does not yet exist so spawn a bodyglove instead, remove this TODO when the group has been filled.",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_cryopod_bodyglove" } ]
   }
 ]

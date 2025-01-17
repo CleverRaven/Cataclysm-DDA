@@ -34,6 +34,13 @@
     "flags": [ "GENE_TECH" ]
   },
   {
+    "id": "afs_gene_disp_low_tier",
+    "name": "Mercurial Genetech",
+    "copy-from": "afs_gene_disp",
+    "type": "TOOL",
+    "trait_group": "GENETECH_TRAITS_LOW_TIER"
+  },
+  {
     "type": "trait_group",
     "id": "GENETECH_TRAITS",
     "subtype": "distribution",
@@ -44,6 +51,20 @@
       { "group": "GENETECH_SKIN", "prob": 100 },
       { "group": "GENETECH_COMBAT", "prob": 50 },
       { "group": "GENETECH_WORKER", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "GENETECH_TRAITS_LOW_TIER",
+    "subtype": "distribution",
+    "//": "Used in more accesible locations where Genetech can be found such as on shelves in Genetech-vaults. Weighted so that the most useful traits will spawn at a greatly reduced rate. Highly valuable or military grade traits should not end up in here.",
+    "traits": [
+      { "group": "GENETECH_TAILS", "prob": 100 },
+      { "group": "GENETECH_EARS", "prob": 100 },
+      { "group": "GENETECH_LOOKS", "prob": 50 },
+      { "group": "GENETECH_SKIN", "prob": 100 },
+      { "group": "GENETECH_WORKER", "prob": 30 },
+      { "group": "GENETECH_COMBAT", "prob": 10 }
     ]
   },
   {
