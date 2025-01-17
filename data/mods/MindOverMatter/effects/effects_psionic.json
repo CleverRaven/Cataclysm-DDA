@@ -1263,7 +1263,7 @@
       "CLIMB_FLYING",
       "LEVITATION",
       "ITEM_WATERPROOFING",
-      "WALK_UNDERWATER",
+      "WATERWALKING",
       "NO_PSIONICS"
     ]
   },
