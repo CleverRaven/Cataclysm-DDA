@@ -4435,7 +4435,7 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
         Character const *ch = d.const_actor( is_npc )->get_const_character();
         if( ch && ch->as_avatar() ) {
 
-            tripoint_abs_omt target_pos = d.actor( is_npc )->global_omt_location();
+            tripoint_abs_omt target_pos = d.actor( is_npc )->pos_abs_omt();
             if( target_var.has_value() ) {
                 tripoint_abs_ms abs_ms = get_tripoint_from_var( target_var, d, is_npc );
                 target_pos = project_to<coords::omt>( abs_ms );

@@ -2334,7 +2334,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         cur_ter = overmap_buffer.ter( omp );
     }
 
-    if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().global_omt_location() ) {
+    if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
         ret.second = player_character.symbol_color();
         ret.first = "@";
@@ -2536,8 +2536,7 @@ void ui::omap::display_zones( const tripoint_abs_omt &center, const tripoint_abs
 tripoint_abs_omt ui::omap::choose_point( const std::string &message, bool show_debug_info,
         const int distance )
 {
-    return choose_point( message, get_player_character().pos_abs_omt(), show_debug_info );
-    return choose_point( message, get_player_character()pos_abs_omt(), show_debug_info,
+    return choose_point( message, get_player_character().pos_abs_omt(), show_debug_info,
                          distance );
 }
 
