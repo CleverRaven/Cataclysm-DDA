@@ -1675,7 +1675,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
-        popup_getkey( _( "The %s is already in your inventory. You may want to (U)nload" ),
+        popup_getkey( _( "The %s is already in your inventory.  You may want to (U)nload" ),
                       sitem->items.front()->tname() );
 
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
@@ -1818,7 +1818,7 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 {
     avatar &u = get_avatar();
     item_location loc;
-    if( ( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) ) {
+    if( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) {
         loc = spane.container;
     } else if( sitem && sitem->items.front()->can_unload() ) {
         if( sitem -> contents_count > 0 ) {
