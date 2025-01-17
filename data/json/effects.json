@@ -2563,6 +2563,26 @@
   },
   {
     "type": "effect_type",
+    "id": "glued",
+    "name": [ "Encased" ],
+    "desc": [ "A substance hard as rock holds you in place." ],
+    "apply_message": "The foam splatters you and quickly hardens!",
+    "rating": "bad",
+    "miss_messages": [ [ "The shell of resin doesn't budge from your efforts to break it.", 8 ] ],
+    "max_intensity": 1,
+    "limb_score_mods": [
+      { "limb_score": "move_speed", "modifier": 0 },
+      { "limb_score": "footing", "modifier": 0 },
+      { "limb_score": "balance", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0.1 },
+      { "limb_score": "lift", "modifier": 0.2 },
+      { "limb_score": "breathing", "modifier": 0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "bite",
     "name": [ "Bite", "Painful Bite" ],
     "desc": [ "You have a nasty bite wound." ],
