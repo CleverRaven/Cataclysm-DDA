@@ -1675,7 +1675,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
-        popup_getkey( _( "The %s is already in your inventory. You may want to (U)nload" ), sitem->items.front()->tname() );
+        popup_getkey( _( "The %s is already in your inventory. You may want to (U)nload" ),
+                      sitem->items.front()->tname() );
 
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1813,28 +1814,22 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 }
 
 bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
-        advanced_inventory_pane &spane ) 
+                                        advanced_inventory_pane &spane )
 {
     avatar &u = get_avatar();
-    item_location it_loc;
-    if ( spane.get_area() == AIM_CONTAINER && spane.container->can_unload()  ) {
-        // it_loc = sitem -> items.front();
-        it_loc = spane.container;
-    } else if (sitem && sitem -> contents_count > 0 && sitem -> items.front()->can_unload()) {
-        it_loc = sitem -> items.front();
+    item_location loc;
+    if( ( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) ) {
+        loc = spane.container;
+    } else if( sitem && sitem -> contents_count > 0 && sitem -> items.front()->can_unload() ) {
+        loc = sitem -> items.front();
     } else {
         popup_getkey( _( "Source container %1$s can't be unloaded." ), spane.container->tname() );
         return false;
     }
-    item_location &loc = sitem->items.front(); // testval
-    if (loc != item_location::nowhere) {
-        
-        popup_getkey( _( "item: %1$s" ), loc->display_name());
+
+    if( loc != item_location::nowhere ) {
         do_return_entry();
-        bool unloaded = u.unload(loc);
-        popup_getkey( _( "unloaded: %1$s" ), unloaded?"true":"false");
-        return true;
-        // }
+        return u.unload( loc );;
     }
     return false;
 }
@@ -2048,9 +2043,9 @@ void advanced_inventory::display()
             if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
                 action_examine( sitem, spane );
             }
-        } else if ( action == "UNLOAD_CONTAINER") {
-            action_unload(sitem, spane);
-            
+        } else if( action == "UNLOAD_CONTAINER" ) {
+            recalc = exit = action_unload( sitem, spane );
+
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
