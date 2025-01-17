@@ -1294,13 +1294,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const auto &proj_effects = proj.proj_effects;
 
     viewer &player_view = get_player_view();
-
-    const double goodhit = accuracy_projectile_attack( attack.proj.speed, missed_by );
-    // We only trigger a dodge attempt if it's a relatively slow projectile.
-    if( attack.proj.speed < 20 ) {
-        on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
-    }
-
     Character *guy = as_character();
     if( guy ) {
         double range_dodge_chance = guy->enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
@@ -1312,7 +1305,17 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( goodhit >= 1.0 && !magic ) {
+    const bool can_dodge = !magic && attack.proj.speed < 20 &&
+                           ( !guy || guy->can_try_dodge().success() );
+    double goodhit = can_dodge ?
+                     accuracy_projectile_attack( attack.proj.speed, missed_by ) :
+                     missed_by;
+    // We only trigger a dodge attempt if it's a relatively slow projectile.
+    if( can_dodge ) {
+        on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
+    }
+
+    if( goodhit >= 1.0 ) {
         if( !print_messages ) {
             return;
         }
@@ -1333,7 +1336,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     wp_attack_copy.is_crit = hit_selection.is_crit;
 
     // copy it, since we're mutating.
-    damage_instance impact = proj.impact;
+    // use shot_impact after point-blank
+    damage_instance impact = proj.multishot ? proj.shot_impact : proj.impact;
     if( hit_selection.damage_mult > 0.0f && proj_effects.count( ammo_effect_NO_DAMAGE_SCALING ) ) {
         hit_selection.damage_mult = 1.0f;
     }
@@ -1362,7 +1366,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     check_dead_state();
-    attack.hit_critter = this;
+    attack.last_hit_critter = this;
     attack.missed_by = goodhit;
     attack.headshot = hit_selection.is_headshot;
     attack.targets_hit[this].first++;
