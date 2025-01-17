@@ -1,10 +1,12 @@
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "speed_description.h"
-
-#include <algorithm>
+#include "type_id.h"
 
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_150( "mon_test_speed_desc_base_150" );

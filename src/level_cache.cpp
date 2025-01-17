@@ -1,6 +1,9 @@
 #include "level_cache.h"
 
-#include <algorithm>
+#include <list>
+
+#include "lightmap.h"
+#include "shadowcasting.h"
 
 level_cache::level_cache()
 {

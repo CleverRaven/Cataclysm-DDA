@@ -1,16 +1,9 @@
 #include "subbodypart.h"
 
-#include <cstdlib>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 #include <vector>
 
-#include "debug.h"
-#include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "type_id.h"
 
 namespace

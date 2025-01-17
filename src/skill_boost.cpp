@@ -2,12 +2,10 @@
 
 #include <algorithm>
 #include <cmath>
-#include <new>
-#include <set>
 #include <string>
 
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 
 namespace
 {

@@ -5,7 +5,7 @@
 #include <set>
 #include <string>
 
-#include "translations.h"
+#include "translation.h"
 
 class item;
 

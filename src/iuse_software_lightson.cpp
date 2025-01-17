@@ -1,5 +1,6 @@
 #include "iuse_software_lightson.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <optional>
 #include <string>

@@ -1,8 +1,8 @@
 #include "system_locale.h"
 
-#include <cstring>
+#include <map>
 #include <set>
-#include <vector>
+#include <utility>
 
 #if defined(_WIN32)
 #if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
@@ -24,7 +24,6 @@
 
 #include "cata_utility.h"  // IWYU pragma: keep
 #include "options.h"  // IWYU pragma: keep
-
 
 #ifndef _WIN32
 namespace

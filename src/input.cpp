@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <exception>
+#include <functional>
 #include <locale>
-#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -19,8 +19,8 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "input_context.h" // IWYU pragma: keep
 #include "json.h"
 #include "json_error.h"

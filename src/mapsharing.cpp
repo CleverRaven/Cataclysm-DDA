@@ -1,9 +1,14 @@
 #include "mapsharing.h"
 
 #include <cstdlib>
-#include <stdexcept>
+#include <filesystem>
+#include <fstream>
+#include <locale>
+#include <map>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <system_error>
 
 #include "filesystem.h"
 #include "ofstream_wrapper.h"

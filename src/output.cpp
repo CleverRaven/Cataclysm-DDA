@@ -1,20 +1,21 @@
 #include "output.h"
 
-#include <cctype>
 // IWYU pragma: no_include <sys/errno.h>
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <cwctype>
 #include <map>
+#include <ratio>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "cached_options.h" // IWYU pragma: keep
@@ -22,15 +23,14 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
-#include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
-#include "game_constants.h"
-#include "imgui/imgui.h"
+#include "cursesport.h" // IWYU pragma: keep
+#include "game.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "line.h"
-#include "game.h"
 #include "options.h"
 #include "point.h"
 #include "popup.h"
@@ -38,14 +38,18 @@
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text.h"
+#include "translation.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "unicode.h"
+#include "units.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
-#include <jni.h>
 #include <SDL_keyboard.h>
+#include <jni.h>
 #endif
 
 // Display data

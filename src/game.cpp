@@ -98,6 +98,7 @@
 #include "filesystem.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -228,8 +229,8 @@
 
 #include <minwinbase.h> // for SYSTEMTIME
 #include <minwindef.h>  // for WIN32
-#include <sysinfoapi.h> // for GetLocalTime
 #include <processthreadsapi.h>  // for ???
+#include <sysinfoapi.h> // for GetLocalTime
 #include <winuser.h>    // for ??
 #endif
 

@@ -7,8 +7,8 @@
 
 #include "coordinates.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 
 class pixel_minimap_projector;
 
@@ -87,6 +87,7 @@ class pixel_minimap
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         class shared_texture_pool;
+
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         std::map<tripoint_abs_sm, submap_cache> cache;

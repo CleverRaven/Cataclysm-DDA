@@ -1,8 +1,11 @@
 #include "animation.h"
 
+#include <cstdint>
+
 #include "avatar.h"
 #include "cached_options.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -24,6 +27,7 @@
 #include "units_fwd.h"
 #include "viewer.h"
 #include "weather.h"
+#include "weather_type.h"
 
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -32,14 +36,11 @@
 
 #include <algorithm>
 #include <chrono>
-#include <functional>
-#include <iosfwd>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <ratio>
 #include <thread>
-#include <type_traits>
 #include <utility>
 #include <vector>
 

@@ -1,9 +1,13 @@
 #include "character.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <functional>
+#include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 #include "avatar.h"
@@ -11,6 +15,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "magic.h"
 #include "mutation.h"
@@ -19,6 +24,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
+
 enum class mutation_menu_mode {
     activating,
     examining,

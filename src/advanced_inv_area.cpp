@@ -1,5 +1,7 @@
 #include "advanced_inv_area.h"
 
+#include <list>
+#include <map>
 #include <memory>
 #include <optional>
 #include <set>

@@ -1,13 +1,21 @@
 #include "simple_pathfinding.h"
 
+#include <array>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <limits>
+#include <list>
 #include <queue>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "coordinates.h"
-#include "enums.h"
+#include "debug.h"
 #include "hash_utils.h"
 #include "line.h"
 #include "omdata.h"

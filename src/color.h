@@ -3,9 +3,10 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
-#include <iosfwd>
+#include <cstddef>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 
 #include "translation.h"

@@ -2,14 +2,13 @@
 #ifndef CATA_SRC_EMIT_H
 #define CATA_SRC_EMIT_H
 
-#include <map>
-#include <string>
-
-#include "field_type.h"
-#include "type_id.h"
 #include <dialogue_helpers.h>
+#include <map>
+
+#include "type_id.h"
 
 class JsonObject;
+struct const_dialogue;
 
 class emit
 {

@@ -1,6 +1,7 @@
 #include "activity_type.h"
 
 #include <functional>
+#include <list>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -10,10 +11,10 @@
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json_error.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"

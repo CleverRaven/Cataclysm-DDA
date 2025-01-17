@@ -2,32 +2,35 @@
 #ifndef CATA_SRC_VEHICLE_H
 #define CATA_SRC_VEHICLE_H
 
+#include <cstdint>
 #include <array>
 #include <climits>
-#include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
+#include <memory>
 #include <optional>
 #include <set>
 #include <stack>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "cata_bitset.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coords_fwd.h"
-#include "damage.h"
-#include "game_constants.h"
+#include "color.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "enums.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -35,35 +38,30 @@
 #include "line.h"
 #include "map.h"
 #include "point.h"
+#include "ret_val.h"
+#include "safe_reference.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 
 class Character;
 class Creature;
+class JsonArray;
 class JsonObject;
 class JsonOut;
-class map;
 class monster;
-class nc_color;
 class npc;
-class vehicle;
-class vehicle_part_range;
 class veh_menu;
+class vehicle;
 class vpart_info;
-class vpart_position;
 class vpart_variant;
-class zone_data;
-struct input_event;
-struct itype;
-struct uilist_entry;
-template <typename E> struct enum_traits;
-
-enum vpart_bitflags : int;
 enum class ter_furn_flag : int;
-template<typename feature_type>
-class vehicle_part_with_feature_range;
+enum vpart_bitflags : int;
+struct itype;
+struct vehicle_part;
+template <typename E> struct enum_traits;
 
 void handbrake();
 
@@ -2322,6 +2320,7 @@ class vehicle
         tripoint_abs_ms autodrive_local_target =
             tripoint_abs_ms::zero; // current node the autopilot is aiming for
         class autodrive_controller;
+
         std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 
     public:

@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 
@@ -17,13 +16,12 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "rng.h"
 #include "talker.h"
 #include "text_snippets.h"
+
+class JsonObject;
 
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );

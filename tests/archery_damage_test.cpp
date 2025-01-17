@@ -11,13 +11,16 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
-#include <iosfwd>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
+#include "creature.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"

@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -31,10 +30,9 @@
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -43,6 +41,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "mdarray.h"
@@ -58,7 +58,6 @@
 #include "shadowcasting.h"
 #include "sounds.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"

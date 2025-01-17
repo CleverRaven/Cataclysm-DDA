@@ -4,20 +4,18 @@
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
+#include <optional>
+#include <utility>
+
+class JsonObject;
+class cata_path;
+
 #undef IMGUI_DEFINE_MATH_OPERATORS
 
 #if defined( TILES )
 
-#include <algorithm>
-#include <stdexcept>
 #include <string>
 #include <vector>
-
-#include "cata_utility.h"
-#include "debug.h"
-#include "filesystem.h"
-#include "json.h"
-#include "path_info.h"
 
 // The font-configuration values modifiable by the user.
 struct font_config {

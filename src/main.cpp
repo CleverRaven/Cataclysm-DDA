@@ -7,24 +7,25 @@
 // KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
-#include <algorithm>
-#include <array>
 #include <clocale>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <ctime>
 #include <exception>
+#include <filesystem>
 #include <functional>
 #include <iostream>
+#include <locale>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
 #if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
-#   include "platform_win.h"  // IWYU pragma: keep
+#   include "platform_win.h"
 #endif
 #include <consoleapi.h> // for AttachConsole, ATTACH_PARENT_PRO...
 #include <handleapi.h>  // for INVALID_HANDLE_VALUE
@@ -35,12 +36,13 @@
 #include <csignal>
 #endif
 
-
-
+#include <flatbuffers/base.h>
 #include <flatbuffers/util.h>
 
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "cata_path.h"
+#include "cata_scope_helpers.h"
 #include "color.h"
 #include "compatibility.h"
 #include "crash.h"
@@ -50,12 +52,13 @@
 #include "event.h"
 #include "event_bus.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
-#include "help.h"
 #include "input.h"
+#include "json.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
@@ -68,7 +71,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#include "cata_imgui.h"
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -78,8 +80,6 @@
 #   undef PREFIX
 #   include "prefix.h"
 #endif
-
-class ui_adaptor;
 
 #if defined(TILES) || defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

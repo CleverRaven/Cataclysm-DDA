@@ -1,9 +1,12 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -12,7 +15,6 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
-#include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player_helpers.h"

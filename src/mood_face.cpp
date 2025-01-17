@@ -1,9 +1,11 @@
 #include "mood_face.h"
 
+#include <algorithm>
+#include <optional>
+
 #include "avatar.h"
-#include "debug.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "mutation.h"
 #include "options.h"
 

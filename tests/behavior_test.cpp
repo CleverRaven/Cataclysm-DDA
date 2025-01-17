@@ -1,27 +1,39 @@
 #include <functional>
-#include <iosfwd>
-#include <list>
+#include <map>
+#include <memory>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <vector>
 
 #include "behavior.h"
+#include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "character_oracle.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "mapgen.h"
+#include "mapgendata.h"
 #include "monattack.h"
 #include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_backpack( "backpack" );
@@ -39,7 +51,6 @@ static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" 
 
 namespace behavior
 {
-class oracle_t;
 
 static sequential_t default_sequential;
 static fallback_t default_fallback;

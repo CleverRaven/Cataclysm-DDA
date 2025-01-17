@@ -2,8 +2,6 @@
 
 #ifdef _WIN32
 
-#include <vector>
-
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"  // IWYU pragma: keep
 #endif
@@ -21,12 +19,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "cata_scope_helpers.h"
+#include "cata_utility.h"
+
 #endif
 
 #include <filesystem>
-
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
 
 mmap_file::mmap_file() = default;
 

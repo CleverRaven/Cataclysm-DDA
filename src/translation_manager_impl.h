@@ -2,6 +2,13 @@
 #ifndef CATA_SRC_TRANSLATION_MANAGER_IMPL_H
 #define CATA_SRC_TRANSLATION_MANAGER_IMPL_H
 
+#include <cstddef>
+#include <cstdint>
+#include <string>
+#include <string_view>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 #if defined(LOCALIZE)
 
 #include <optional>

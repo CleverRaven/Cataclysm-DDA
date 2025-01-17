@@ -1,33 +1,34 @@
-#include <algorithm>
 #include <array>
 #include <functional>
-#include <iterator>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "cached_options.h"
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "colony.h"
-#include "damage.h"
 #include "debug.h"
+#include "dialogue_helpers.h"
 #include "enum_bitset.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "item.h"
 #include "json.h"
+#include "json_error.h"
 #include "json_loader.h"
 #include "magic.h"
-#include "mutation.h"
+#include "magic_type.h"
 #include "sounds.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 static const damage_type_id damage_pure( "pure" );

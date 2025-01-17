@@ -1,10 +1,13 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <algorithm>
 #include <fstream>
+#include <list>
+#include <locale>
 #include <map>
 #include <sstream>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -16,17 +19,28 @@
 #include "basecamp.h"
 #include "cata_io.h"
 #include "cata_path.h"
+#include "cata_utility.h"
 #include "city.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
+#include "effect.h"
+#include "enum_conversions.h"
 #include "faction.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "hash_utils.h"
 #include "input.h"
+#include "inventory.h"
 #include "json.h"
+#include "json_error.h"
 #include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "mapgendata.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -35,13 +49,18 @@
 #include "omdata.h"
 #include "options.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "overmap_types.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
+#include "player_activity.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
+#include "submap.h"
 #include "timed_event.h"
+#include "units.h"
+#include "vehicle.h"
 
 class overmap_connection;
 

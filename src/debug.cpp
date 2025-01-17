@@ -1,46 +1,40 @@
 #include "debug.h"
 
-#include <cctype>
+
 // IWYU pragma: no_include <sys/errno.h>
-#include <sys/stat.h>
 // IWYU pragma: no_include <sys/unistd.h>
-#include <clocale>
+#include <sys/stat.h>
 #include <algorithm>
-#include <cmath>
 #include <cstdint>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <ctime>
+#include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <iterator>
-#include <map>
 #include <memory>
-#include <new>
-#include <optional>
-#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
 #include <type_traits>
-#include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_assert.h"
-#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "demangle.h"
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
+#include "input_enums.h"
 #include "loading_ui.h"
 #include "mod_manager.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -62,9 +56,18 @@
 #       if defined(LIBBACKTRACE)
 #           include <winnt.h>
 #       endif
+#       include <sysinfoapi.h>
+#       include <winerror.h>
+#       include <basetsd.h>
+#       include <debugapi.h>
+#       include <libloaderapi.h>
+#       include <minwinbase.h>
+#       include <minwindef.h>
+#       include <processthreadsapi.h>
+#       include <winreg.h>
 #   elif defined(__ANDROID__)
-#       include <unwind.h>
 #       include <dlfcn.h>
+#       include <unwind.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -82,6 +85,7 @@
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
+
 #include "input_context.h"
 #endif
 

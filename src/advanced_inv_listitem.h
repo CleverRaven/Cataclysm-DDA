@@ -10,7 +10,6 @@
 #include "units.h"
 
 class item_category;
-
 enum aim_location : char;
 
 /**

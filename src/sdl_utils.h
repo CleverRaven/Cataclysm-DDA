@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_SDL_UTILS_H
 #define CATA_SRC_SDL_UTILS_H
 
-#include <algorithm>
-#include <cmath>
 #include <string>
 #include <unordered_map>
 #include <vector>

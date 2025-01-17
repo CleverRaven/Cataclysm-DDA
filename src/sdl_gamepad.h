@@ -1,9 +1,9 @@
 #pragma once
 #ifndef CATA_SRC_SDL_GAMEPAD_H
 #define CATA_SRC_SDL_GAMEPAD_H
+struct input_event;
 #if defined(TILES)
 
-#include "input.h"
 #include "sdl_wrappers.h"
 
 #define SDL_GAMEPAD_SCHEDULER (SDL_USEREVENT+1)

@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_MONSTER_ORACLE_H
 #define CATA_SRC_MONSTER_ORACLE_H
 
-#include <iosfwd>
+#include <string_view>
 
+#include "behavior.h"
 #include "behavior_oracle.h"
 
 class monster;
 
 namespace behavior
 {
-enum class status_t : char;
 
 class monster_oracle_t : public oracle_t
 {

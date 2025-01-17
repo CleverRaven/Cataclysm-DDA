@@ -1,13 +1,19 @@
 #include "translation.h"
 
+#include <memory>
+#include <ostream>
 #include <regex>
+#include <utility>
 
 #include "cached_options.h"
-#include "cata_utility.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "json_error.h"
 #include "localized_comparator.h"
+#include "rng.h"
+#include "translations.h"
 
 translation::translation( const plural_tag ) : raw_pl( cata::make_value<std::string>() ) {}
 

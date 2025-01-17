@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -30,7 +30,6 @@
 #include "item_location.h"
 #include "localized_comparator.h"
 #include "make_static.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"

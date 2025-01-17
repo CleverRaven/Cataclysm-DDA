@@ -8,43 +8,49 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <tuple>
 #include <utility>
 #include <variant>
 #include <vector>
 
 #include "active_item_cache.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "cata_type_traits.h"
 #include "cata_utility.h"
+#include "character_id.h"
 #include "colony.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
 #include "item_stack.h"
 #include "level_cache.h"
 #include "lightmap.h"
-#include "line.h"
 #include "lru_cache.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
+#include "mdarray.h"
 #include "point.h"
-#include "rng.h"
+#include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
+#include "vpart_position.h"
+
+enum class direction : unsigned int;
+struct field_type;
+struct rl_vec2d;
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -57,34 +63,24 @@ namespace catacurses
 class window;
 } // namespace catacurses
 class Character;
-class Creature;
 class basecamp;
-class character_id;
 class computer;
 class field;
 class field_entry;
-class item_location;
 class mapgendata;
 class monster;
-class optional_vpart_position;
-class relic_procgen_data;
+class npc_template;
 class submap;
+class tileray;
 class vehicle;
 class zone_data;
+struct MonsterGroupResult;
 struct fragment_cloud;
+struct mongroup;
 struct partial_con;
+struct projectile;
 struct spawn_data;
 struct trap;
-template<typename Tripoint>
-class tripoint_range;
-
-enum class special_item_type : int;
-class npc_template;
-class tileray;
-class vpart_reference;
-struct MonsterGroupResult;
-struct mongroup;
-struct projectile;
 struct veh_collision;
 
 struct wrapped_vehicle {
@@ -93,16 +89,13 @@ struct wrapped_vehicle {
 };
 
 using VehicleList = std::vector<wrapped_vehicle>;
+class PathfindingFlags;
 class map;
-
-enum class ter_furn_flag : int;
+struct field_proc_data;
 struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
-struct field_proc_data;
-
-class PathfindingFlags;
 
 class map_stack : public item_stack
 {

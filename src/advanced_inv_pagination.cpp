@@ -1,11 +1,9 @@
 #include "advanced_inv_pagination.h"
 
-#include <memory>
 #include <vector>
 
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
-
-class item_category;
 
 void advanced_inventory_pagination::reset_page()
 {

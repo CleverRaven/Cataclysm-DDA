@@ -1,4 +1,14 @@
+#include <functional>
+#include <string>
+#include <utility>
+
+#include "cached_options.h"
+#include "catacharset.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
+#include "json_error.h"
 #include "text_style_check.h"
 
 text_style_check_reader::text_style_check_reader( const allow_object object_allowed )

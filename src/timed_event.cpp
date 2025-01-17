@@ -2,7 +2,6 @@
 
 #include <array>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -16,22 +15,22 @@
 #include "event.h"
 #include "event_bus.h"
 #include "game.h"
-#include "game_constants.h"
-#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
-#include "mapdata.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
+#include "mdarray.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
-#include "options.h"
 #include "rng.h"
 #include "sounds.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 

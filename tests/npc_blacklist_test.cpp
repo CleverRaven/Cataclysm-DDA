@@ -1,5 +1,7 @@
 #include "cata_catch.h"
+#include "item.h"
 #include "npc.h"
+#include "type_id.h"
 
 static const itype_id itype_bow_saw( "bow_saw" );
 

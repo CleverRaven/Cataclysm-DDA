@@ -2,13 +2,17 @@
 
 #include "sdl_utils.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
+#include <list>
 #include <utility>
 
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"
 #include "debug.h"
+#include "point.h"
 #include "sdltiles.h"
 
 static color_pixel_function_map builtin_color_pixel_functions = {

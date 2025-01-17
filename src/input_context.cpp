@@ -1,24 +1,24 @@
 #include "input_context.h"
+
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <climits>
 #include <cstddef>
 #include <exception>
-#include <iterator>
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
-#include "cuboid_rectangle.h"
-#include "cursesdef.h"
 #include "game.h"
-#include "help.h"
 #include "input.h"
 #include "map.h" // IWYU pragma: keep
 #include "options.h"
@@ -27,11 +27,9 @@
 #include "popup.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter

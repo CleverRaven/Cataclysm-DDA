@@ -15,15 +15,14 @@
 #include "calendar.h"
 #include "debug.h"
 #include "global_vars.h"
-#include "math_parser_type.h"
 #include "translation.h"
 
-class JsonArray;
 class JsonObject;
 class math_exp;
 class npc;
-struct dialogue;
+enum class math_type_t : int;
 struct const_dialogue;
+struct dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;

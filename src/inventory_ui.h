@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
+#include <cstdint>
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -11,30 +12,36 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "color.h"
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
-#include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "pocket_type.h"
 #include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "translations.h"
 #include "units_fwd.h"
 
-class basecamp;
 class Character;
+class JsonObject;
+class JsonOut;
+class basecamp;
 class inventory_selector_preset;
 class item;
+class item_category;
 class item_stack;
 class string_input_popup;
 class tinymap;
 class ui_adaptor;
+template <typename E> struct enum_traits;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -217,6 +224,7 @@ class inventory_entry
 };
 
 struct inventory_selector_save_state;
+
 class inventory_selector_preset
 {
     public:

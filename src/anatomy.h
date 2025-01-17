@@ -12,7 +12,6 @@
 
 class Creature;
 class JsonObject;
-class anatomy;
 
 
 

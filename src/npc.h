@@ -2,61 +2,69 @@
 #ifndef CATA_SRC_NPC_H
 #define CATA_SRC_NPC_H
 
-#include <algorithm>
+#include <cstdint>
 #include <array>
-#include <functional>
 #include <iosfwd>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <type_traits>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "auto_pickup.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coords_fwd.h"
-#include "creature.h"
+#include "compatibility.h"
+#include "coordinates.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
 #include "pimpl.h"
 #include "point.h"
+#include "ret_val.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "units_fwd.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class cata_path;
+class character_id;
+class const_talker;
+class faction;
 class mission;
 class monfaction;
 class monster;
-class npc_class;
 class talker;
 class vehicle;
+namespace auto_pickup
+{
+class npc_settings;
+}  // namespace auto_pickup
+namespace npc_factions
+{
+enum class relationship : int;
+}  // namespace npc_factions
+struct Target_attributes;
+struct const_dialogue;
+struct faction_price_rule;
 
 constexpr int NPC_PERSONALITY_MIN = -10;
 constexpr int NPC_PERSONALITY_MAX = 10;
@@ -69,11 +77,11 @@ namespace catacurses
 {
 class window;
 }  // namespace catacurses
-struct bionic_data;
-struct mission_type;
+class gun_mode;
 struct overmap_location;
 struct pathfinding_settings;
 
+using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

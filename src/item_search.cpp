@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "make_static.h"
 #include "material.h"
+#include "math_parser_type.h"
 #include "requirements.h"
 #include "type_id.h"
 

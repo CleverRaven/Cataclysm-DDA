@@ -10,17 +10,18 @@
 
 #include "bodypart.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "point.h"
-#include "widget.h"
+#include "translation.h"
+#include "type_id.h"
 
 class Character;
 class Creature;
 class avatar;
 class mood_face;
 class time_point;
-class translation;
 class vehicle;
+enum class cardinal_direction : int;
 
 // These are the supported data variables for coloring bodygraphs.
 enum class bodygraph_var : int {

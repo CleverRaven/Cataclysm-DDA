@@ -1,9 +1,12 @@
 #if defined(LOCALIZE)
 
-#include <iostream>
+#include <cctype>
+#include <list>
 #include <unordered_map>
 #include <unordered_set>
-#include "enum_conversions.h"
+#include <utility>
+
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "translation_plural_evaluator.h"
 #include "try_parse_integer.h"

@@ -10,9 +10,10 @@
 #include "translation.h"
 #include "type_id.h"
 
-class Character;
 class JsonObject;
 class JsonOut;
+
+class Character;
 
 struct add_type {
     private:

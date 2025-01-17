@@ -1,15 +1,17 @@
 #include "rotatable_symbols.h"
 
-#include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "catacharset.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "string_formatter.h"
 
 namespace

@@ -3,7 +3,6 @@
 #define CATA_SRC_TEMP_CRAFTING_INVENTORY_H
 
 #include <cstddef>
-#include <functional>
 
 #include "colony.h"
 #include "item.h"

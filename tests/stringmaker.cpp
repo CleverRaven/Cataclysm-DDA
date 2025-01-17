@@ -1,6 +1,6 @@
 #include "cata_variant.h"
-#include "cuboid_rectangle.h"
 #include "dialogue.h"
+#include "enum_conversions.h"
 #include "item.h"
 #include "stringmaker.h"
 

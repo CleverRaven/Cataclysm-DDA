@@ -1,7 +1,11 @@
 #include "profession_group.h"
 
 #include "assign.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
+
+class JsonObject;
 
 namespace
 {

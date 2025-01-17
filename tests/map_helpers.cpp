@@ -1,26 +1,24 @@
 #include "map_helpers.h"
 
-#include "catch/catch.hpp"
-
-#include <functional>
-#include <list>
-#include <map>
 #include <memory>
-#include <utility>
+#include <optional>
 #include <vector>
 
+#include "avatar.h"
+#include "basecamp.h"
 #include "calendar.h"
-#include "cata_assert.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "character_attire.h"
 #include "clzones.h"
-#include "faction.h"
+#include "coordinates.h"
 #include "field.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
+#include "monster.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "pocket_type.h"

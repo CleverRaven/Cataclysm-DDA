@@ -1,12 +1,20 @@
+#include <clocale>
+#include <memory>
+#include <optional>
+#include <ostream>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "debug.h"
 #include "get_version.h"
 #include "path_info.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
-#include "translations.h"
+#include "translation.h"
 #include "translation_gendered.h"
+#include "translations.h"
 
 // int version/generation that is incremented each time language is changed
 // used to invalidate translation cache

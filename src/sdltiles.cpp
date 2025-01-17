@@ -1,8 +1,28 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
+#include <cstdlib>
+#include <list>
+#include <tuple>
+#include <unordered_set>
+
+#include "basecamp.h"
+#include "character.h"
+#include "city.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "input_context.h"
+#include "input_enums.h"
+#include "lightmap.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
+#include "mongroup.h"
+#include "omdata.h"
+#include "overmap.h"
 #include "point.h"
+#include "rng.h"
+#include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 
@@ -14,15 +34,12 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
-#include <iterator>
-#include <limits>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <stack>
 #include <stdexcept>
-#include <type_traits>
 #include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
@@ -35,7 +52,7 @@
 
 #include "avatar.h"
 #include "cached_options.h"
-#include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
@@ -44,36 +61,28 @@
 #include "color_loader.h"
 #include "cursesport.h"
 #include "debug.h"
-#include "filesystem.h"
-#include "flag.h"
 #include "font_loader.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "hash_utils.h"
 #include "input.h"
-#include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_extras.h"
-#include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h"
-#include "sdl_geometry.h"
-#include "sdl_wrappers.h"
 #include "sdl_font.h"
 #include "sdl_gamepad.h"
+#include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
-#include "uistate.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "wcwidth.h"
-#include "cata_imgui.h"
 
 std::unique_ptr<cataimgui::client> imclient;
 
@@ -85,7 +94,7 @@ std::unique_ptr<cataimgui::client> imclient;
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #       include "platform_win.h"
 #   endif
-#   include <shlwapi.h>
+#   include <windef.h> // for HWND
 #endif
 
 #if defined(__ANDROID__)

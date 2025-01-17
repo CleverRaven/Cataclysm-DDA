@@ -1,6 +1,7 @@
 ﻿#if defined( TILES )
 #include "sdl_font.h"
 
+#include "catacharset.h"
 #include "font_loader.h"
 #include "output.h"
 #include "sdl_utils.h"

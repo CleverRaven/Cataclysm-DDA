@@ -1,6 +1,15 @@
 #include "item_tname.h"
 
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
+#include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,6 +18,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
@@ -20,13 +30,15 @@
 #include "itype.h"
 #include "map.h"
 #include "options.h"
-#include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 

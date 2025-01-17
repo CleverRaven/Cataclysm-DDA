@@ -3,19 +3,23 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
-#include <clocale>
+#include <cerrno>
 #include <cmath>
-#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <iomanip>
 #include <iterator>
 #include <limits>
+#include <locale>
 #include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
+#include <stack>
 #include <string>
+#include <string_view>
 #include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 
@@ -23,28 +27,29 @@
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "clothing_mod.h"
-#include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
-#include "display.h"
 #include "effect.h" // for weed_msg
 #include "effect_source.h"
+#include "enum_bitset.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
@@ -53,8 +58,12 @@
 #include "field_type.h"
 #include "fire.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
+#include "generic_factory.h"
 #include "gun_mode.h"
 #include "iexamine.h"
 #include "inventory.h"
@@ -72,13 +81,15 @@
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
 #include "mtype.h"
-#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -98,23 +109,26 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_id_utils.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
+#include "weighted_list.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -238,8 +252,6 @@ static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_D
 static const int PRICE_FILTHY_MALUS = 100;  // cents
 
 static constexpr float MIN_LINK_EFFICIENCY = 0.001f;
-
-class npc_class;
 
 using npc_class_id = string_id<npc_class>;
 

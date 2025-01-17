@@ -8,6 +8,7 @@
 #include "condition.h"
 #include "dialogue.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "game.h"
 #include "magic.h"

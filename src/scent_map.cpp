@@ -1,8 +1,9 @@
 #include "scent_map.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
-#include <new>
+#include <map>
 
 #include "assign.h"
 #include "calendar.h"
@@ -11,8 +12,8 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"

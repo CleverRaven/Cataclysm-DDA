@@ -4,6 +4,7 @@
 
 #include "coordinates.h"
 #include "game_constants.h"
+#include "point.h"
 
 namespace om_noise
 {

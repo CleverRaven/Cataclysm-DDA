@@ -1,6 +1,8 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
+#include <functional>
+#include <istream>
 #include <optional>
 #include <stdexcept>
 #include <string>

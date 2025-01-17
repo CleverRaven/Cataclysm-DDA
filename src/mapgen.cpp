@@ -2,58 +2,72 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <filesystem>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <ostream>
 #include <set>
 #include <stdexcept>
+#include <tuple>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 
 #include "all_enum_values.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "common_types.h"
 #include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "creature_tracker.h"
+#include "cube_direction.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field.h"
 #include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
+#include "jmapgen_flags.h"
+#include "json_error.h"
 #include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -64,13 +78,16 @@
 #include "overmapbuffer.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "to_string_id.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -81,7 +98,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
-#include "creature_tracker.h"
 
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
@@ -1315,6 +1331,7 @@ class mapgen_value
     public:
         using StringId = to_string_id_t<Id>;
         struct void_;
+
         using Id_unless_string =
             std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 

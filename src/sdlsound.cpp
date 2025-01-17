@@ -2,17 +2,23 @@
 
 #include "sdlsound.h"
 
-#include <cstdlib>
 #include <algorithm>
 #include <chrono>
-#include <map>
-#include <string>
-#include <unordered_map>
-#include <vector>
+#include <cstdint>
+#include <cstdlib>
 #include <exception>
+#include <filesystem>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
 #include <ostream>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -21,9 +27,11 @@
 #endif
 
 #include "cached_options.h"
+#include "cata_path.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "init.h"
-#include "json.h"
 #include "messages.h"
 #include "music.h"
 #include "options.h"

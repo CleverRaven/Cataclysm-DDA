@@ -1,5 +1,7 @@
 #include "crash.h"
 
+#include <cerrno>
+
 // IWYU pragma: no_include <sys/signal.h>
 
 #if defined(BACKTRACE)

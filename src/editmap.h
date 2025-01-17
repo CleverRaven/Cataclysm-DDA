@@ -13,12 +13,12 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
-#include "input_context.h"
 #include "point.h"
 #include "type_id.h"
 
 class Creature;
 class field;
+class input_context;
 class map;
 class smallmap;
 class tinymap;

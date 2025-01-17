@@ -1,39 +1,44 @@
 #include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <ostream>
 #include <tuple>
+#include <type_traits>
 
 #include "active_item_cache.h"
-#include "activity_handlers.h"
 #include "activity_actor_definitions.h"
-#include "ammo.h"
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "cata_algo.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
@@ -48,10 +53,11 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
-#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
@@ -60,7 +66,6 @@
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
-#include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -68,20 +73,23 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "talker.h"  // IWYU pragma: keep; completes get_talker_for definition
+#include "talker.h" // IWYU pragma: keep; completes get_talker_for definition
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "viewer.h"
 #include "visitable.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+enum class side : int;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );

@@ -1,11 +1,13 @@
 #include "activity_scheduling_helper.h"
 
 #include <climits>
+#include <cmath>
 #include <cstdlib>
-#include <list>
 
+#include "activity_tracker.h"
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "debug.h"
 #include "item.h"
 #include "make_static.h"

@@ -1,20 +1,30 @@
 #include "options.h"
 
+#include <array>
 #include <cfloat>
 #include <climits>
 #include <clocale>
+#include <exception>
 #include <iterator>
+#include <list>
+#include <locale>
+#include <set>
 #include <stdexcept>
+#include <type_traits>
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -23,13 +33,16 @@
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
+#include "map_scale_constants.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
-#include "sdltiles.h" // IWYU pragma: keep
+#include "ret_val.h"
+#include "rng.h"
 #include "sdlsound.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"

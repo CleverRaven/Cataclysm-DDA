@@ -1,10 +1,8 @@
 #include "catacharset.h"
 
-#include <algorithm>
 #include <array>
-#include <cstdlib>
+#include <utility>
 
-#include "cata_assert.h"
 #include "output.h"
 #include "wcwidth.h"
 
@@ -12,8 +10,8 @@
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"  // IWYU pragma: keep
 #endif
+// IWYU pragma: no_include <winnls.h>
 #include <stringapiset.h>
-#include <winnls.h>
 #endif
 
 //copied from SDL2_ttf code

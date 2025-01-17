@@ -1,28 +1,29 @@
 #include "editmap.h"
 
-#include <algorithm>
-#include <cstdlib>
+#include <array>
 #include <cstdint>
+#include <cstdlib>
 #include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <ostream>
 #include <set>
 #include <string>
+#include <tuple>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "demangle.h"
@@ -30,14 +31,16 @@
 #include "field_type.h"
 #include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "game_constants.h"
+#include "input_context.h"
 #include "input_enums.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -53,14 +56,18 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "tileray.h"
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class uilist_impl;
 
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
