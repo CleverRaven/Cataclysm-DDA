@@ -1812,6 +1812,33 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     }
 }
 
+bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
+        advanced_inventory_pane &spane ) 
+{
+    avatar &u = get_avatar();
+    item_location it_loc;
+    if ( spane.get_area() == AIM_CONTAINER && spane.container->can_unload()  ) {
+        // it_loc = sitem -> items.front();
+        it_loc = spane.container;
+    } else if (sitem && sitem -> contents_count > 0 && sitem -> items.front()->can_unload()) {
+        it_loc = sitem -> items.front();
+    } else {
+        popup_getkey( _( "Source container %1$s can't be unloaded." ), spane.container->tname() );
+        return false;
+    }
+    item_location &loc = sitem->items.front(); // testval
+    if (loc != item_location::nowhere) {
+        
+        popup_getkey( _( "item: %1$s" ), loc->display_name());
+        do_return_entry();
+        bool unloaded = u.unload(loc);
+        popup_getkey( _( "unloaded: %1$s" ), unloaded?"true":"false");
+        return true;
+        // }
+    }
+    return false;
+}
+
 void advanced_inventory::display()
 {
     avatar &player_character = get_avatar();
@@ -2022,15 +2049,7 @@ void advanced_inventory::display()
                 action_examine( sitem, spane );
             }
         } else if ( action == "UNLOAD_CONTAINER") {
-            if ( spane.get_area() == AIM_CONTAINER && !spane.container.get_item()->has_flag( json_flag_NO_UNLOAD )  ) {
-                player_character.unload(spane.container);
-                popup_getkey( _( "Unloading selected area" ) );
-            } else if (sitem && sitem -> contents_count > 0) {
-                player_character.unload(sitem -> items.front());
-                popup_getkey( _( "Unloading selected item" ) );
-            } else {
-                popup_getkey( _( "Source container can't be unloaded." ) );
-            }
+            action_unload(sitem, spane);
             
         } else if( action == "QUIT" ) {
             exit = true;
