@@ -79,7 +79,7 @@ bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 void add_fallback_zone( npc &guy )
 {
     zone_manager &zmgr = zone_manager::get_manager();
-    tripoint_abs_ms const loc = guy.get_location();
+    tripoint_abs_ms const loc = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
     map &here = get_map();
 
@@ -119,7 +119,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 {
     zone_manager &zmgr = zone_manager::get_manager();
     map &here = get_map();
-    tripoint_abs_ms const loc_abs = guy.get_location();
+    tripoint_abs_ms const loc_abs = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
 
     std::list<item> leftovers;
@@ -158,7 +158,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 void consume_items_in_zones( npc &guy, time_duration const &elapsed )
 {
     std::unordered_set<tripoint_bub_ms> const src = zone_manager::get_manager().get_point_set_loot(
-                guy.get_location(), PICKUP_RANGE, guy.get_fac_id() );
+                guy.pos_abs(), PICKUP_RANGE, guy.get_fac_id() );
 
     consume_cache cache;
     map &here = get_map();

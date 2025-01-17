@@ -174,7 +174,7 @@ class teleporter_callback : public uilist_callback
             const int entnum = menu->previewing;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
                 avatar &player_character = get_avatar();
-                int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );
+                int dist = rl_dist( player_character.pos_abs_omt(), index_pairs[entnum] );
                 ImGui::Text( _( "Distance: %d %s" ), dist, index_pairs[entnum].to_string().c_str() );
                 overmap_ui::draw_overmap_chunk_imgui( player_character, index_pairs[entnum], 29, 21 );
             }

@@ -74,7 +74,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     tester_rules.clear_overrides(); // just to be sure
     tester_rules.set_flag( rule_to_test );
     REQUIRE( tester_rules.has_flag( rule_to_test ) );
-    const tripoint_abs_omt test_omt_pos = guy->global_omt_location() + point::north;
+    const tripoint_abs_omt test_omt_pos = guy->pos_abs_omt() + point::north;
     manual_mapgen( test_omt_pos, manual_update_mapgen, update_mapgen_id_to_apply );
     return guy;
 }

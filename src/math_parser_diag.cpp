@@ -187,9 +187,9 @@ diag_eval_dbl_f distance_eval( char scope, std::vector<diag_value> const &params
     return[params, beta = is_beta( scope )]( const_dialogue const & d ) {
         const auto get_pos = [&d]( std::string_view str ) {
             if( str == "u" ) {
-                return d.const_actor( false )->global_pos();
+                return d.const_actor( false )->pos_abs();
             } else if( str == "npc" ) {
-                return d.const_actor( true )->global_pos();
+                return d.const_actor( true )->pos_abs();
             }
             return tripoint_abs_ms( tripoint::from_string( str.data() ) );
         };
@@ -384,7 +384,7 @@ diag_eval_dbl_f field_strength_eval( char scope, std::vector<diag_value> const &
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
-            loc = d.const_actor( beta )->global_pos();
+            loc = d.const_actor( beta )->pos_abs();
         }
         field_type_id ft = field_type_id( field_value.str( d ) );
         field_entry *fp = here.field_at( here.get_bub( loc ) ).find_field( ft );
@@ -760,7 +760,7 @@ bool _filter_character( Character const *beta, Character const &guy, int radius,
         ( beta == nullptr || beta->getID() != guy.getID() ) ) {
         return beta == nullptr ||
                ( _friend_match_filter_character( *beta, guy, filter ) &&
-                 radius >= rl_dist( guy.get_location(), loc ) );
+                 radius >= rl_dist( guy.pos_abs(), loc ) );
     }
     return false;
 }
@@ -790,7 +790,7 @@ diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> con
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
-            loc = d.const_actor( beta )->global_pos();
+            loc = d.const_actor( beta )->pos_abs();
         }
 
         int const radius = static_cast<int>( radius_val.dbl( d ) );
@@ -878,7 +878,7 @@ bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int r
         } );
 
         return id_filter && _matches_attitude_filter( critter, filter ) &&
-               radius >= rl_dist( critter.get_location(), loc );
+               radius >= rl_dist( critter.pos_abs(), loc );
     }
     return false;
 }
@@ -908,7 +908,7 @@ diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
-            loc = d.const_actor( beta )->global_pos();
+            loc = d.const_actor( beta )->pos_abs();
         }
 
         int const radius = static_cast<int>( radius_val.dbl( d ) );
@@ -1534,7 +1534,7 @@ diag_eval_dbl_f vision_range_eval( char scope, std::vector<diag_value> const & /
             return chr->unimpaired_range();
         } else if( monster const *const mon = actor->get_const_monster(); mon != nullptr ) {
             map &here = get_map();
-            tripoint_bub_ms tripoint = get_map().get_bub( mon->get_location() );
+            tripoint_bub_ms tripoint = get_map().get_bub( mon->pos_abs() );
             return mon->sight_range( here.ambient_light_at( tripoint ) );
         }
         throw math::runtime_error( "Tried to access vision range of a non-Character talker" );

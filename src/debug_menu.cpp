@@ -400,12 +400,12 @@ bool _discard_temporary( std::filesystem::path const &dep )
 
 void write_min_archive()
 {
-    tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().get_location() );
+    tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().pos_abs() );
     tripoint_range<tripoint> const segs = points_in_radius( tripoint{ seg.xy().raw(), 0 }, 1 );
-    point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
+    point sm = project_to<coords::sm>( get_avatar().pos_abs() ).raw().xy();
     point const reg = sm_to_mmr_remain( sm.x, sm.y );
     tripoint_range<tripoint> const regs = points_in_radius( tripoint{ reg, 0 }, 1 );
-    tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
+    tripoint_abs_om const om = project_to<coords::om>( get_avatar().pos_abs() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
     std::filesystem::path const save_root( PATH_INFO::world_base_save_path() );
@@ -543,7 +543,7 @@ static void normalize_body( Character &u )
 static tripoint_abs_ms player_picks_tile()
 {
     std::optional<tripoint_bub_ms> newpos = g->look_around();
-    return newpos ? get_map().get_abs( *newpos ) : get_player_character().get_location();
+    return newpos ? get_map().get_abs( *newpos ) : get_player_character().pos_abs();
 }
 
 static void monster_ammo_edit( monster &mon )
@@ -764,10 +764,10 @@ static void monster_edit_menu()
                                        ammos.first.c_str() ) << std::endl;
             }
         }
-        if( critter->wander_pos != critter->get_location() && critter->wander_pos != tripoint_abs_ms() ) {
+        if( critter->wander_pos != critter->pos_abs() && critter->wander_pos != tripoint_abs_ms() ) {
             data << string_format( _( "Wandering towards: %s" ), critter->wander_pos.to_string() ) << std::endl;
             data << string_format( _( "From cur location: %s" ),
-                                   critter->get_location().to_string() ) << std::endl;
+                                   critter->pos_abs().to_string() ) << std::endl;
             data << string_format( _( "Desire to wander: %d" ), critter->wandf ) << std::endl;
         }
         // TODO: Move these out into a sub-menu, this is too many lines!
@@ -840,13 +840,13 @@ static void monster_edit_menu()
             break;
         }
         case D_TELE: {
-            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().pos_abs() ) {
                 critter->setpos( get_map().get_bub( newpos ) );
             }
             break;
         }
         case D_WANDER_DES: {
-            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
+            if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().pos_abs() ) {
                 critter->wander_to( newpos, 1000 );
             }
             break;
@@ -1813,12 +1813,12 @@ static void teleport_overmap( bool specific_coordinates = false )
             return;
         }
         const tripoint offset = tripoint( OMAPX * dir_->x(), OMAPY * dir_->y(), dir_->z() );
-        where = player_character.global_omt_location() + offset;
+        where = player_character.pos_abs_omt() + offset;
     }
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
-        project_to<coords::om>( player_character.global_omt_location() );
+        project_to<coords::om>( player_character.pos_abs_omt() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
@@ -3100,11 +3100,11 @@ static void debug_menu_game_state()
     popup_top(
         s.c_str(),
         player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
-        overmap_buffer.ter( player_character.global_omt_location() )->get_name( om_vision_level::full ),
+        overmap_buffer.ter( player_character.pos_abs_omt() )->get_name( om_vision_level::full ),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
-        tripoint_abs_sm t = guy.global_sm_location();
+        tripoint_abs_sm t = guy.pos_abs_sm();
         add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
                  t.y(), guy.posx(), guy.posy() );
     }
@@ -3482,7 +3482,7 @@ static void import_folower()
         g->add_npc_follower( temp->getID() );
         temp->set_attitude( NPCATT_FOLLOW );
         temp->set_fac( faction_your_followers );
-        temp->spawn_at_precise( get_avatar().get_location() + point( -4, -4 ) );
+        temp->spawn_at_precise( get_avatar().pos_abs() + point( -4, -4 ) );
         overmap_buffer.insert_npc( temp );
         g->load_npcs();
     } catch( const std::exception &err ) {
@@ -3627,11 +3627,11 @@ static void spawn_npc()
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->randomize();
-    temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
     overmap_buffer.insert_npc( temp );
     temp->form_opinion( player_character );
     temp->mission = NPC_MISSION_NULL;
-    temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
+    temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->pos_abs_omt(),
                            temp->getID() ) );
     std::string new_fac_id = "solo_";
     new_fac_id += temp->name;
@@ -3664,7 +3664,7 @@ static void spawn_named_npc()
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( npc_template );
-    temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    temp->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
     overmap_buffer.insert_npc( temp );
     temp->form_opinion( player_character );
 
@@ -3928,7 +3928,7 @@ void debug()
         break;
 
         case debug_menu_index::SPAWN_HORDE: {
-            const tripoint_abs_ms &player_abs_ms = get_player_character().get_location();
+            const tripoint_abs_ms &player_abs_ms = get_player_character().pos_abs();
             tripoint_abs_sm horde_dest = project_to<coords::sm>( player_abs_ms );
             horde_dest = horde_dest + point{0, -20}; // 20 submaps to the north
             overmap &om = overmap_buffer.get( project_to<coords::om>( player_abs_ms ).xy() );

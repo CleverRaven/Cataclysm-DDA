@@ -281,7 +281,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::DSA_ALRP_SUMMON: {
-            const tripoint_abs_sm u_pos = player_character.global_sm_location();
+            const tripoint_abs_sm u_pos = player_character.pos_abs_sm();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const tripoint_bub_ms spot = here.get_bub( project_to<coords::ms>( map_point ) );
                 monster dispatcher( mon_dsa_alien_dispatch );
@@ -391,7 +391,7 @@ void timed_event_manager::process()
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id, int strength, const std::string &key )
 {
-    add( type, when, faction_id, get_player_character().get_location(), strength, "", key );
+    add( type, when, faction_id, get_player_character().pos_abs(), strength, "", key );
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,

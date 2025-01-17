@@ -3586,7 +3586,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     if( !unique_id.empty() ) {
                         g->unique_npc_despawn( unique_id );
                     }
-                    if( get_map().inbounds( npc->get_location() ) ) {
+                    if( get_map().inbounds( npc->pos_abs() ) ) {
                         g->remove_npc( npc->getID() );
                         get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
@@ -7141,7 +7141,7 @@ void map::rotate( int turns )
     const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_omt( abs_omt, 0 );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
-        const tripoint_abs_ms sq( np.get_location() );
+        const tripoint_abs_ms sq( np.pos_abs() );
 
         if( sq.z() != abs_sub.z() && !zlevels ) {
             continue;

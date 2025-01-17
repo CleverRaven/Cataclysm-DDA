@@ -612,7 +612,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
 static std::optional<basecamp *> get_basecamp( npc &p,
         const std::string_view camp_type = "default" )
 {
-    tripoint_abs_omt omt_pos = p.global_omt_location();
+    tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
@@ -692,7 +692,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 
 void talk_function::start_camp( npc &p )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
     const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ref,
@@ -740,7 +740,7 @@ void talk_function::start_camp( npc &p )
 void talk_function::basecamp_mission( npc &p )
 {
     const std::string title = _( "Base Missions" );
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     mission_data mission_key;
 
     std::optional<basecamp *> temp_camp = get_basecamp( p );
@@ -754,7 +754,7 @@ void talk_function::basecamp_mission( npc &p )
     }
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
     map &here = bcp->get_camp_map();
-    bcp->form_storage_zones( here, p.get_location() );
+    bcp->form_storage_zones( here, p.pos_abs() );
     bcp->get_available_missions( mission_key, here );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id );
@@ -4470,12 +4470,12 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    recruit->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
     recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
-                              recruit->global_omt_location(),
+                              recruit->pos_abs_omt(),
                               recruit->getID() ) );
     talk_function::follow( *recruit );
     g->load_npcs();
@@ -4532,7 +4532,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     }
 
 
-    tripoint_abs_omt where( get_player_character().global_omt_location() );
+    tripoint_abs_omt where( get_player_character().pos_abs_omt() );
 
     while( true ) {
         where = ui::omap::choose_point( string_format(
@@ -4614,7 +4614,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
 
 
-    tripoint_abs_omt where( get_player_character().global_omt_location() );
+    tripoint_abs_omt where( get_player_character().pos_abs_omt() );
 
     while( true ) {
         where = ui::omap::choose_point( string_format(
@@ -5431,7 +5431,7 @@ bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
     map *here = &get_map();
-    const tripoint_abs_ms abspos = get_player_character().get_location();
+    const tripoint_abs_ms abspos = get_player_character().pos_abs();
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, MAX_VIEW_DISTANCE, get_owner() ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, MAX_VIEW_DISTANCE, get_owner() ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {

@@ -68,7 +68,7 @@ TEST_CASE( "mapgen_remove_npcs" )
         clear_npcs();
         set_time( calendar::turn_zero + 12_hours );
 
-        tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
+        tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().pos_abs() );
         tripoint_abs_omt const omt2 = omt + tripoint::east;
         tripoint_bub_ms const loc = here.get_bub( project_to<coords::ms>( omt ) );
         tripoint_bub_ms const loc2 = here.get_bub( project_to<coords::ms>( omt2 ) );

@@ -446,7 +446,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.set_location( midpoint( project_bounds<coords::ms>( omtstart ) ) );
+    you.set_pos_abs_only( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;

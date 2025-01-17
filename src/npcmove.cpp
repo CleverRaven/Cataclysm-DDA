@@ -290,7 +290,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
                        "%s doesn't already have an escape path.  Checking for retreat zone.", name );
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
-        const tripoint_abs_ms abs_pos = get_location();
+        const tripoint_abs_ms abs_pos = pos_abs();
         const zone_manager &mgr = zone_manager::get_manager();
         std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos,
                 MAX_VIEW_DISTANCE, fac_id );
@@ -1217,7 +1217,7 @@ void npc::regen_ai_cache()
     creature_tracker &creatures = get_creature_tracker();
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = get_location();
+            ai_cache.guard_pos = pos_abs();
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
@@ -1287,8 +1287,8 @@ void npc::regen_ai_cache()
                     has_effect( effect_npc_player_still_looking ) ) {
                     continue;
                 }
-                if( global_omt_location() != player_character.global_omt_location() ) {
-                    goal = player_character.global_omt_location();
+                if( pos_abs_omt() != player_character.pos_abs_omt() ) {
+                    goal = player_character.pos_abs_omt();
                 }
                 set_attitude( NPCATT_TALK );
                 break;
@@ -1387,7 +1387,7 @@ void npc::move()
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
         tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = get_location();
+            ai_cache.guard_pos = pos_abs();
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
             std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
@@ -1502,16 +1502,16 @@ void npc::move()
                 action = npc_player_activity;
             } else {
                 action = npc_worker_downtime;
-                goal = global_omt_location();
+                goal = pos_abs_omt();
             }
         }
         if( is_stationary( true ) && !assigned_camp ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
-                goal = global_omt_location();
+                goal = pos_abs_omt();
             } else {
-                action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
+                action = goal == pos_abs_omt() ?  npc_pause : npc_goto_destination;
             }
         } else if( has_new_items && scan_new_items() ) {
             return;
@@ -1902,7 +1902,7 @@ void npc::execute_action( npc_action action )
             update_path( get_map().get_bub( *goto_to_this_pos ) );
             move_to_next();
 
-            if( get_location() == *goto_to_this_pos ) {
+            if( pos_abs() == *goto_to_this_pos ) {
                 goto_to_this_pos = std::nullopt;
             }
             break;
@@ -3299,7 +3299,7 @@ void npc::worker_downtime()
     if( chair_pos && !creatures.creature_at( local_chair_pos ) ) {
         if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, local_chair_pos ) ) {
             update_path( local_chair_pos );
-            if( get_location() == *chair_pos || path.empty() ) {
+            if( pos_abs() == *chair_pos || path.empty() ) {
                 move_pause();
                 path.clear();
             } else {
@@ -3328,7 +3328,7 @@ void npc::worker_downtime()
     // wander back to near the bulletin board of the camp.
     if( wander_pos ) {
         update_path( here.get_bub( *wander_pos ) );
-        if( get_location() == *wander_pos || path.empty() ) {
+        if( pos_abs() == *wander_pos || path.empty() ) {
             move_pause();
             path.clear();
             if( one_in( 30 ) ) {
@@ -3562,7 +3562,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint_abs_ms abs_p = get_location() + ( p - pos_bub() );
+        const tripoint_abs_ms abs_p = pos_abs() + ( p - pos_bub() );
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         map_stack m_stack = here.i_at( p );
@@ -3939,7 +3939,7 @@ bool npc::find_corpse_to_pulp()
     const int range = mem_combat.engagement_distance;
 
     const item *corpse = nullptr;
-    if( pulp_location && square_dist( get_location(), *pulp_location ) <= range ) {
+    if( pulp_location && square_dist( pos_abs(), *pulp_location ) <= range ) {
         corpse = check_tile( here.get_bub( *pulp_location ) );
     }
 
@@ -3979,7 +3979,7 @@ bool npc::can_do_pulp()
         return false;
     }
 
-    if( rl_dist( *pulp_location, get_location() ) > 1 || pulp_location->z() != posz() ) {
+    if( rl_dist( *pulp_location, pos_abs() ) > 1 || pulp_location->z() != posz() ) {
         return false;
     }
     return true;
@@ -4555,7 +4555,7 @@ bool npc::consume_food_from_camp()
     Character &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
-        if( rl_dist( camp_pos.xy(), global_omt_location().xy() ) < 3 ) {
+        if( rl_dist( camp_pos.xy(), pos_abs_omt().xy() ) < 3 ) {
             potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
             if( potential_bc ) {
                 break;
@@ -4788,7 +4788,7 @@ void npc::reach_omt_destination()
     }
     map &here = get_map();
     if( is_travelling() ) {
-        guard_pos = get_location();
+        guard_pos = pos_abs();
         goal = no_goal_point;
         if( is_player_ally() ) {
             Character &player_character = get_player_character();
@@ -4808,7 +4808,7 @@ void npc::reach_omt_destination()
             set_mission( NPC_MISSION_GUARD );
             if( !needs.empty() && needs[0] == need_safety ) {
                 // we found our base.
-                base_location = global_omt_location();
+                base_location = pos_abs_omt();
             }
         }
         return;
@@ -4820,8 +4820,8 @@ void npc::reach_omt_destination()
         return;
     }
     // If we are guarding, remember our position in case we get forcibly moved
-    goal = global_omt_location();
-    if( guard_pos && *guard_pos == get_location() ) {
+    goal = pos_abs_omt();
+    if( guard_pos && *guard_pos == pos_abs() ) {
         // This is the specific point
         return;
     }
@@ -4833,7 +4833,7 @@ void npc::reach_omt_destination()
         update_path( here.get_bub( *guard_pos ) );
         move_to_next();
     } else {
-        guard_pos = get_location();
+        guard_pos = pos_abs();
     }
 }
 
@@ -4855,7 +4855,7 @@ void npc::set_omt_destination()
         return;
     }
 
-    tripoint_abs_omt surface_omt_loc = global_omt_location();
+    tripoint_abs_omt surface_omt_loc = pos_abs_omt();
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z() = 0;
 
@@ -4938,7 +4938,7 @@ void npc::go_to_omt_destination()
 {
     map &here = get_map();
     if( ai_cache.guard_pos ) {
-        if( get_location() == *ai_cache.guard_pos ) {
+        if( pos_abs() == *ai_cache.guard_pos ) {
             path.clear();
             ai_cache.guard_pos = std::nullopt;
             move_pause();
@@ -4951,7 +4951,7 @@ void npc::go_to_omt_destination()
         reach_omt_destination();
         return;
     }
-    const tripoint_abs_omt omt_pos = global_omt_location();
+    const tripoint_abs_omt omt_pos = pos_abs_omt();
     if( goal == omt_pos ) {
         // We're at our desired map square!  Pause to keep the NPC infinite loop counter happy
         move_pause();
@@ -5004,8 +5004,8 @@ void npc::go_to_omt_destination()
 
 void npc::guard_current_pos()
 {
-    goal = global_omt_location();
-    guard_pos = get_location();
+    goal = pos_abs_omt();
+    guard_pos = pos_abs();
 }
 
 std::string npc_action_name( npc_action action )
