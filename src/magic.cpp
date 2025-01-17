@@ -1198,7 +1198,6 @@ bool spell::can_cast( const Character &guy ) const
             }
         }
     }
-    
     if( has_flag( spell_flag::NON_MAGICAL ) ) {
         return true;
     }
