@@ -50,6 +50,7 @@ class magic_type
         std::optional<std::string> cannot_cast_message;
         std::optional<int> max_book_level;
         dbl_or_var failure_cost_percent;
+        std::vector<effect_on_condition_id> failure_eocs;
 
         static const std::vector<magic_type> &get_all();
         static void check_consistency();

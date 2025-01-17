@@ -1818,6 +1818,14 @@ void spell::consume_spell_cost( Character &caster )
     }
 }
 
+std::vector<effect_on_condition_id> spell::get_failure_eoc_ids() const
+{
+    if( type->magic_type.has_value() ) {
+        return type->magic_type.value()->failure_eocs;
+    } else {
+        return std::vector<effect_on_condition_id> {};
+    }
+}
 
 int spell::get_level() const
 {

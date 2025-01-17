@@ -3830,6 +3830,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                 if( act->get_value( 2 ) != 0 ) {
                     spell_being_cast.consume_spell_cost( *you );
                 }
+                dialogue d( get_talker_for( you ), nullptr );
+                std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
+                for( effect_on_condition_id failure_eoc : failure_eocs ) {
+                    failure_eoc->activate( d );
+                }
                 get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
                         spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
                         spell_being_cast.energy_cost( *you ), spell_being_cast.casting_time( *you ),
