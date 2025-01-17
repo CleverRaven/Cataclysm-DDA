@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <iterator>
 #include <memory>
+#include <regex> // IWYU pragma: keep
 #include <set>
 #include <sstream>
 #include <string>

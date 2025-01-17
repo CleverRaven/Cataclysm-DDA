@@ -1,7 +1,6 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <list>
 #include <tuple>
 #include <unordered_set>
@@ -31,6 +30,7 @@
 #include <climits>
 #include <cmath>
 #include <cstdint>
+#include <cstdlib> // for atexit(), and getenv()/setenv() on linux
 #include <cstring>
 #include <exception>
 #include <fstream>
@@ -85,10 +85,6 @@
 #include "wcwidth.h"
 
 std::unique_ptr<cataimgui::client> imclient;
-
-#if defined(__linux__)
-#   include <cstdlib> // getenv()/setenv()
-#endif
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU

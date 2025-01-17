@@ -1,5 +1,6 @@
 #include "unicode.h"
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <utility>

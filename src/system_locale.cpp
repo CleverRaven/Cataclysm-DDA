@@ -1,5 +1,6 @@
 #include "system_locale.h"
 
+#include <cstring>  // IWYU pragma: 
 #include <map>
 #include <set>
 #include <utility>
