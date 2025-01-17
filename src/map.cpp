@@ -541,7 +541,7 @@ void map::reset_vehicles_sm_pos()
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
-                        elem->sm_pos = grid.raw();
+                        elem->sm_pos = rebase_bub( grid );
                         add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
@@ -576,12 +576,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         return std::unique_ptr<vehicle>();
     }
 
-    int z = veh->sm_pos.z;
+    int z = veh->sm_pos.z();
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
-                  veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%s",
+                  veh->name, veh->sm_pos.to_string() );
         // Try to fix by moving the vehicle here
-        z = veh->sm_pos.z = abs_sub.z();
+        z = veh->sm_pos.z() = abs_sub.z();
     }
 
     // Unboard all passengers before detaching
@@ -592,10 +592,10 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x,
-                  veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
+                  veh->sm_pos.to_string() );
         return std::unique_ptr<vehicle>();
     }
 
@@ -621,8 +621,8 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
-              veh->sm_pos.y, veh->sm_pos.z );
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%s", veh->name,
+              veh->sm_pos.to_string() );
     return std::unique_ptr<vehicle>();
 }
 
@@ -780,7 +780,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     // Ensured by the splitting above
     cata_assert( vertical == ( dp.xy() == point_rel_ms::zero ) );
 
-    const int target_z = dp.z() + veh.sm_pos.z;
+    const int target_z = dp.z() + veh.sm_pos.z();
     // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
     // and causing `get_cache_ref( zlev + 1 );` call in map::build_sunlight_cache overflowing
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT - 1 ) {
@@ -1007,7 +1007,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+    const bool vertical = veh.sm_pos.z() != veh2.sm_pos.z();
 
     if( c.part < 0 || c.part >= static_cast<int>( veh.part_count() ) ) {
         debugmsg( "invalid c.part %d", c.part );
@@ -1298,7 +1298,7 @@ VehicleList map::get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_
                 }
                 for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
-                    elem->sm_pos.z = cz;
+                    elem->sm_pos.z() = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
                     w.pos = w.v->pos_bub();
@@ -8158,7 +8158,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid.raw(), z};
+                veh->sm_pos = { grid, z};
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8686,9 +8686,9 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
                   from.z() );
         return;
     }
-    setsubmap( get_nonant( tripoint_rel_sm( to ) ), smap );
+    setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->sm_pos = to.raw();
+        it->sm_pos = rebase_bub( to );
     }
 }
 

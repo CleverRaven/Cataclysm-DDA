@@ -825,8 +825,8 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
         if( stop ) {
             break;
         }
-        const optional_vpart_position ovp = here.veh_at( tripoint_bub_ms( elem.x(), elem.y(), sm_pos.z ) );
-        if( here.impassable_ter_furn( tripoint_bub_ms( elem.x(), elem.y(), sm_pos.z ) ) || ( ovp &&
+        const optional_vpart_position ovp = here.veh_at( { elem, sm_pos.z() } );
+        if( here.impassable_ter_furn( { elem, sm_pos.z() } ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
             stop = true;
             break;
@@ -840,8 +840,8 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
             }
         }
         bool its_a_pet = false;
-        if( creatures.creature_at( tripoint_bub_ms( elem, sm_pos.z ) ) ) {
-            npc *guy = creatures.creature_at<npc>( tripoint_bub_ms( elem, sm_pos.z ) );
+        if( creatures.creature_at( {elem, sm_pos.z()} ) ) {
+            npc *guy = creatures.creature_at<npc>( { elem, sm_pos.z() } );
             if( guy && !guy->in_vehicle ) {
                 stop = true;
                 break;
@@ -1906,7 +1906,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         add_msg( _( "You load the %1$s on the rack." ), carry_veh->name );
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
-        here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_transparency_cache_dirty( sm_pos.z() );
         here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
@@ -2131,11 +2131,11 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if( remove_dependent_part( "WINDOW", "CURTAIN" ) || vpi.has_flag( VPFLAG_OPAQUE ) ) {
-        handler.set_transparency_cache_dirty( sm_pos.z );
+        handler.set_transparency_cache_dirty( sm_pos.z() );
     }
 
     if( vpi.has_flag( VPFLAG_ROOF ) || vpi.has_flag( VPFLAG_OPAQUE ) ) {
-        handler.set_floor_cache_dirty( sm_pos.z + 1 );
+        handler.set_floor_cache_dirty( sm_pos.z() + 1 );
     }
 
     remove_dependent_part( "SEAT", "SEATBELT" );
@@ -2638,7 +2638,7 @@ bool vehicle::split_vehicles( map &here,
         new_vehicle->zones_dirty = true;
 
         here.dirty_vehicle_list.insert( new_vehicle );
-        here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_transparency_cache_dirty( sm_pos.z() );
         here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
@@ -3623,7 +3623,7 @@ tripoint_abs_omt vehicle::global_omt_location() const
 
 tripoint_bub_ms vehicle::pos_bub() const
 {
-    return coords::project_to<coords::ms>( tripoint_bub_sm( sm_pos ) ) + rebase_rel( pos );
+    return coords::project_to<coords::ms>( sm_pos ) + rebase_rel( pos );
 }
 
 tripoint_bub_ms vehicle::bub_part_pos( const int index ) const
@@ -3636,10 +3636,10 @@ tripoint_bub_ms vehicle::bub_part_pos( const vehicle_part &pt ) const
     return pos_bub() + pt.precalc[ 0 ];
 }
 
-void vehicle::set_submap_moved( const tripoint_sm_ms &p )
+void vehicle::set_submap_moved( const tripoint_bub_sm &p )
 {
     const point_abs_ms old_msp = global_square_location().xy();
-    sm_pos = p.raw();
+    sm_pos = p;
     if( !tracking_on ) {
         return;
     }
@@ -5998,7 +5998,7 @@ void vehicle::on_move()
         is_passenger( pc ), player_is_driving_this_veh(), remote_controlled( pc ),
         is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
         is_falling, is_in_water( true ) && !can_float(),
-        skidding, velocity, sm_pos.z
+        skidding, velocity, sm_pos.z()
     );
 }
 
@@ -8183,7 +8183,7 @@ void vehicle::update_time( const time_point &update_to )
 
     map &here = get_map();
 
-    if( sm_pos.z < 0 ) {
+    if( sm_pos.z() < 0 ) {
         last_update = update_to;
         return;
     }
