@@ -51,10 +51,7 @@
     "type": "item_group",
     "//": "The bare minimum matching suit to vist Salus. Prevents having to restart because Port Augustmoon is mising a part like the mask.",
     "subtype": "collection",
-    "entries": [
-      { "item": "afs_frontier_cryo" },
-      { "item": "afs_frontier_cryomask" }
-    ]
+    "entries": [ { "item": "afs_frontier_cryo" }, { "item": "afs_frontier_cryomask" } ]
   },
   {
     "type": "item_group",
