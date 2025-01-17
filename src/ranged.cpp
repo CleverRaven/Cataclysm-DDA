@@ -1055,8 +1055,6 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
 
         dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
-        bool first = true;
-        bool headshot = false;
         dealt_projectile_attack shot;
         projectile_attack( shot, proj, pos_bub(), aim, dispersion, this, in_veh, wp_attack );
         if( !shot.targets_hit.empty() ) {
