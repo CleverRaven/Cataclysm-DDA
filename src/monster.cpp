@@ -2249,10 +2249,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                      bool print_messages, const weakpoint_attack &wp_attack )
+                                      const double &missed_by, bool print_messages,
+                                      const weakpoint_attack &wp_attack )
 {
     const projectile &proj = attack.proj;
-    double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
 
     // Whip has a chance to scare wildlife even if it misses
@@ -2265,9 +2265,9 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         return;
     }
 
-    Creature::deal_projectile_attack( source, attack, print_messages, wp_attack );
+    Creature::deal_projectile_attack( source, attack, missed_by, print_messages, wp_attack );
 
-    if( !is_hallucination() && attack.hit_critter == this ) {
+    if( !is_hallucination() && attack.last_hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
         on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
     }

@@ -948,16 +948,16 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     dealt_dam.bp_hit = bp_hit;
 }
 
-double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) const
+double Creature::accuracy_projectile_attack( const int &speed, const double &missed_by ) const
 {
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
-    const int diff_roll = dice( 10, attack.proj.speed );
+    const int diff_roll = dice( 10, speed );
     // Partial dodge, capped at [0.0, 1.0], added to missed_by
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
 
-    return attack.missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
+    return missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
 }
 
 void projectile::apply_effects_damage( Creature &target, Creature *source,
@@ -1269,10 +1269,10 @@ void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view ) con
  * @param print_messages enables message printing by default.
  */
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                       bool print_messages, const weakpoint_attack &wp_attack )
+                                       const double &missed_by, bool print_messages,
+                                       const weakpoint_attack &wp_attack )
 {
     const bool magic = attack.proj.proj_effects.count( ammo_effect_MAGIC ) > 0;
-    const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 && !magic ) {
         // Total miss
         return;
@@ -1283,7 +1283,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( mon_flag_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack, print_messages, wp_attack );
+                mons->mounted_player->deal_projectile_attack( source, attack, missed_by, print_messages,
+                                                              wp_attack );
                 return;
             }
         }
@@ -1294,7 +1295,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     viewer &player_view = get_player_view();
 
-    const double goodhit = accuracy_projectile_attack( attack );
+    const double goodhit = accuracy_projectile_attack( attack.proj.speed, missed_by );
     // We only trigger a dodge attempt if it's a relatively slow projectile.
     if( attack.proj.speed < 20 ) {
         on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
@@ -1312,7 +1313,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( goodhit >= 1.0 && !magic ) {
-        attack.missed_by = 1.0; // Arbitrary value
         if( !print_messages ) {
             return;
         }

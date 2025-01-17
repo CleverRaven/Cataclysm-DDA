@@ -115,7 +115,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack, pro
     // Copy the item
     item dropped_item = drop_item;
 
-    monster *mon = dynamic_cast<monster *>( attack.hit_critter );
+    monster *mon = dynamic_cast<monster *>( attack.last_hit_critter );
 
     // We can only embed in monsters
     bool mon_there = mon != nullptr && !mon->is_dead_state();
@@ -224,9 +224,9 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
                         const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
                         const dispersion_sources &dispersion, Creature *origin, const vehicle *in_veh,
-                        const weakpoint_attack &wp_attack, bool first )
+                        const weakpoint_attack &wp_attack )
 {
-    const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -260,7 +260,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
     // TODO: move to-hit roll back in here
 
     attack.proj = proj_arg;
-    attack.hit_critter = nullptr;
+    attack.last_hit_critter = nullptr;
     attack.dealt_dam = dealt_damage_instance();
     attack.end_point = source;
     attack.missed_by = aim.missed_by;
@@ -325,10 +325,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        if( first ) {
-            sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
-                                     sfx::get_heard_angle( target ) );
-        }
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
+                                 sfx::get_heard_angle( target ) );
         // TODO: Z dispersion
     }
 
@@ -342,7 +340,6 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
 
     // Trace the trajectory, doing damage in order
     tripoint_bub_ms &tp = attack.end_point;
-    tripoint_bub_ms prev_point = source;
 
     // Add the first point to the trajectory
     trajectory.insert( trajectory.begin(), source );
@@ -360,188 +357,237 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
     }
-    // Range can be 0
-    size_t traj_len = trajectory.size();
-    while( traj_len > 0 && rl_dist( source, trajectory[traj_len - 1] ) > proj_arg.range ) {
-        --traj_len;
-    }
 
-    const float projectile_skip_multiplier = 0.1f;
-    // Randomize the skip so that bursts look nicer
-    int projectile_skip_calculation = range * projectile_skip_multiplier;
-    int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
-    bool has_momentum = true;
-
-    for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
-        prev_point = tp;
-        tp = trajectory[i];
-
-        if( tp.z() != prev_point.z() ) {
-            tripoint_bub_ms floor1 = prev_point;
-            tripoint_bub_ms floor2 = tp;
-
-            if( floor1.z() < floor2.z() ) {
-                floor1 += tripoint::above;
-            } else {
-                floor2 += tripoint::above;
+    bool first = true;
+    bool multishot = false;
+    tripoint_bub_ms first_p = trajectory[1];
+    for( int j = 0; j < proj.count; ++j ) {
+        tripoint_bub_ms prev_point = source;
+        proj = proj_arg;
+        proj.multishot = multishot;
+        tripoint_bub_ms target_c = target;
+        std::vector<tripoint_bub_ms> t_copy = trajectory;
+        double spread = 0;
+        // calculate dispersion from shot_spread
+        if( proj.shot_spread > 0 ) {
+            double sample = rng_normal( -proj.shot_spread, proj.shot_spread );
+            sample = sample >= 0 ? sample : -sample;
+            units::angle arc = std::min( units::from_arcmin( sample ), 30_degrees );
+            spread = tan( arc / 2 ) * 2.0;
+            double max_spread = spread * ( t_copy.size() - 1 );
+            if( max_spread >= 1.0 ) {
+                double dx = target_c.x() - source.x();
+                double dy = target_c.y() - source.y();
+                units::angle d = units::atan2( dy, dx );
+                d += ( one_in( 2 ) ? 1 : -1 ) * arc;
+                target_c.x() = std::clamp( source.x() + roll_remainder( range * cos( d ) ),
+                               0, MAPSIZE_X - 1 );
+                target_c.y() = std::clamp( source.y() + roll_remainder( range * sin( d ) ),
+                               0, MAPSIZE_Y - 1 );
+                if( target_c == source ) {
+                    target_c.x() = source.x() + sgn( dx );
+                    target_c.y() = source.y() + sgn( dy );
+                }
+                t_copy = here.find_clear_path( first_p, target_c );
+                // point-blank tile should be the same
+                t_copy.insert( t_copy.begin(), first_p );
+                t_copy.insert( t_copy.begin(), source );
+                if( !no_overshoot && range < extend_to_range ) {
+                    std::vector<tripoint_bub_ms> extension = continue_line( t_copy,
+                        extend_to_range - range );
+                    t_copy.reserve( t_copy.size() + extension.size() );
+                    t_copy.insert( t_copy.end(), extension.begin(), extension.end() );
+                }
             }
-            // We only stop the bullet if there are two floors in a row
-            // this allow the shooter to shoot adjacent enemies from rooftops.
-            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
-                // Currently strictly no shooting through floor
-                // TODO: Bash the floor
-                tp = prev_point;
-                traj_len = --i;
-                break;
-            }
+            add_msg_debug( debugmode::DF_BALLISTIC,
+                           "shot_spread: %d; spread roll/max_spread: %.2f/%.2f; target (orig/hit): %s/%s",
+                           proj.shot_spread, spread, max_spread,
+                           target_arg.to_string_writable(), target_c.to_string_writable() );
+        }
+        // Range can be 0
+        size_t traj_len = t_copy.size();
+        while( traj_len > 0 && rl_dist( source, t_copy[traj_len - 1] ) > proj_arg.range ) {
+            --traj_len;
         }
 
-        // Drawing the bullet uses player g->u, and not player p, because it's drawn
-        // relative to YOUR position, which may not be the gunman's position.
-        if( do_animation && !do_draw_line ) {
-            // TODO: Make this draw thrown item/launched grenade/arrow
-            if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
-                projectile_skip_current_frame = 0;
-                // If we missed recalculate the skip factor so they spread out.
-                projectile_skip_calculation =
-                    std::max( static_cast<size_t>( range ), i ) * projectile_skip_multiplier;
-            } else {
-                projectile_skip_current_frame++;
-            }
-        }
+        const float projectile_skip_multiplier = 0.1f;
+        // Randomize the skip so that bursts look nicer
+        int projectile_skip_calculation = range * projectile_skip_multiplier;
+        int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
+        bool has_momentum = true;
+        bool print_messages = true;
 
-        if( in_veh != nullptr ) {
-            const optional_vpart_position other = here.veh_at( tp );
-            if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
-                // Turret is on the roof and can't hit anything inside
-                continue;
-            }
-        }
+        for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
+            tp = t_copy[i];
 
-        Creature *critter = creatures.creature_at( tp );
-        if( origin == critter ) {
-            // No hitting self with "weird" attacks.
-            critter = nullptr;
-        }
+            if( tp.z() != prev_point.z() ) {
+                tripoint_bub_ms floor1 = prev_point;
+                tripoint_bub_ms floor2 = tp;
 
-        monster *mon = dynamic_cast<monster *>( critter );
-        // ignore non-point-blank digging targets (since they are underground)
-        if( mon != nullptr && mon->digging() &&
-            rl_dist( source, tp ) > 1 ) {
-            critter = nullptr;
-            mon = nullptr;
-        }
-
-        // Reset hit critter from the last iteration
-        attack.hit_critter = nullptr;
-
-        // If we shot us a monster...
-        // TODO: add size effects to accuracy
-        // If there's a monster in the path of our bullet, and either our aim was true,
-        //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        double cur_missed_by = aim.missed_by;
-
-        // unintentional hit on something other than our actual target
-        // don't re-roll for the actual target, we already decided on a missed_by value for that
-        // at the start, misses should stay as misses
-        if( critter != nullptr && tp != target_arg ) {
-            // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
-                                      critter->ranged_target_size(), 0.4 );
-        }
-
-        if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
-                critter->is_avatar() ) {
-                // Turret either was aimed by the player (who is now ducking) and shoots from above
-                // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
-                continue;
-            }
-            // avoid friendly fire
-            if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
-                origin->check_avoid_friendly_fire() ) {
-                continue;
-            }
-            attack.missed_by = cur_missed_by;
-            bool print_messages = true;
-            // If the attack is shot, once we're past point-blank,
-            // overwrite the default damage with shot damage.
-            if( proj.count > 1 && rl_dist( source, tp ) > 1 ) {
-                attack.proj.impact = attack.proj.shot_impact;
-                print_messages = false;
-            }
-            critter->deal_projectile_attack( null_source ? nullptr : origin, attack, print_messages,
-                                             wp_attack );
-
-            if( critter->is_npc() ) {
-                critter->as_npc()->on_attacked( *origin );
+                if( floor1.z() < floor2.z() ) {
+                    floor1 += tripoint::above;
+                } else {
+                    floor2 += tripoint::above;
+                }
+                // We only stop the bullet if there are two floors in a row
+                // this allow the shooter to shoot adjacent enemies from rooftops.
+                if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
+                    // Currently strictly no shooting through floor
+                    // TODO: Bash the floor
+                    tp = prev_point;
+                    traj_len = --i;
+                    break;
+                }
             }
 
-            // Critter can still dodge the projectile
-            // In this case hit_critter won't be set
-            if( attack.hit_critter != nullptr ) {
-                const field_type_id blood_type = critter->bloodType();
-                if( blood_type ) {
-                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                    if( bt_len > 0 ) {
-                        const tripoint_bub_ms &dest = move_along_line( tp, trajectory, bt_len );
-                        here.add_splatter_trail( blood_type, tp, dest );
+            // Drawing the bullet uses player g->u, and not player p, because it's drawn
+            // relative to YOUR position, which may not be the gunman's position.
+            if( first && do_animation && !do_draw_line ) {
+                // TODO: Make this draw thrown item/launched grenade/arrow
+                if( projectile_skip_current_frame >= projectile_skip_calculation ) {
+                    g->draw_bullet( tp, static_cast<int>( i ), trajectory, bullet );
+                    projectile_skip_current_frame = 0;
+                    // If we missed recalculate the skip factor so they spread out.
+                    projectile_skip_calculation =
+                        std::max( static_cast<size_t>( range ), i ) * projectile_skip_multiplier;
+                } else {
+                    projectile_skip_current_frame++;
+                }
+            }
+
+            if( in_veh != nullptr ) {
+                const optional_vpart_position other = here.veh_at( tp );
+                if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
+                    // Turret is on the roof and can't hit anything inside
+                    continue;
+                }
+            }
+
+            Creature *critter = creatures.creature_at( tp );
+            if( origin == critter ) {
+                // No hitting self with "weird" attacks.
+                critter = nullptr;
+            }
+
+            monster *mon = dynamic_cast<monster *>( critter );
+            int distance = rl_dist( source, tp );
+            // ignore non-point-blank digging targets (since they are underground)
+            if( mon != nullptr && mon->digging() &&
+                distance > 1 ) {
+                critter = nullptr;
+                mon = nullptr;
+            }
+
+            // Reset hit critter from the last iteration
+            attack.last_hit_critter = nullptr;
+
+            // If we shot us a monster...
+            // TODO: add size effects to accuracy
+            // If there's a monster in the path of our bullet, and either our aim was true,
+            //  OR it's not the monster we were aiming at and we were lucky enough to hit it
+            double cur_missed_by = aim.missed_by + spread * std::max( distance - 1, 0 );
+
+            // unintentional hit on something other than our actual target
+            // don't re-roll for the actual target, we already decided on a missed_by value for that
+            // at the start, misses should stay as misses
+            if( critter != nullptr && tp != target_arg ) {
+                // Unintentional hit
+                cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
+                                          critter->ranged_target_size(), 0.4 );
+            }
+
+            if( critter != nullptr && cur_missed_by < 1.0 ) {
+                if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
+                    critter->is_avatar() ) {
+                    // Turret either was aimed by the player (who is now ducking) and shoots from above
+                    // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
+                    continue;
+                }
+                // avoid friendly fire
+                if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
+                    origin->check_avoid_friendly_fire() ) {
+                    continue;
+                }
+                // If the attack is shot, once we're past point-blank,
+                // don't print normal hit msg.
+                if( proj.count > 1 && distance > 1 ) {
+                    multishot = true;
+                    attack.proj.multishot = true;
+                    print_messages = false;
+                }
+                critter->deal_projectile_attack( null_source ? nullptr : origin, attack, cur_missed_by,
+                                                 print_messages, wp_attack );
+
+                if( critter->is_npc() ) {
+                    critter->as_npc()->on_attacked( *origin );
+                }
+
+                // Critter can still dodge the projectile
+                // In this case hit_critter won't be set
+                if( attack.last_hit_critter != nullptr ) {
+                    const field_type_id blood_type = critter->bloodType();
+                    if( blood_type ) {
+                        const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                        if( bt_len > 0 ) {
+                            const tripoint_bub_ms &dest = move_along_line( tp, t_copy, bt_len );
+                            here.add_splatter_trail( blood_type, tp, dest );
+                        }
+                    }
+                    sfx::do_projectile_hit( *attack.last_hit_critter );
+                    has_momentum = false;
+                    // on-hit effects for inflicted damage types
+                    for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
+                        dt.first->onhit_effects( origin, attack.last_hit_critter );
                     }
                 }
-                sfx::do_projectile_hit( *attack.hit_critter );
-                has_momentum = false;
-                // on-hit effects for inflicted damage types
-                for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
-                    dt.first->onhit_effects( origin, attack.hit_critter );
-                }
+            } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
+                // Don't do anything, especially don't call map::shoot as this would damage the vehicle
             } else {
-                attack.missed_by = aim.missed_by;
-            }
-        } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
-            // Don't do anything, especially don't call map::shoot as this would damage the vehicle
-        } else {
-            if( proj.count > 1 ) {
-                if( rl_dist( source, tp ) > 1 ) {
-                    proj.impact = proj.shot_impact;
+                if( proj.count > 1 && distance > 1 ) {
+                    multishot = true;
+                    proj.multishot = true;
                 }
+                here.shoot( tp, proj, !no_item_damage && tp == target_c );
+                has_momentum = multishot ?
+                               proj.shot_impact.total_damage() > 0 :
+                               proj.impact.total_damage() > 0;
             }
-            here.shoot( tp, proj, !no_item_damage && tp == target );
-            has_momentum = proj.impact.total_damage() > 0;
+            if( !has_momentum && proj.count > 1 && distance <= 1 ) {
+                // Track that we hit an obstacle while wadded up,
+                // to cancel out of applying the other projectiles.
+                proj.count = 1;
+            }
+
+            if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
+                // Don't let flamethrowers go through walls
+                // TODO: Let them go through bars
+                traj_len = i;
+                break;
+            }
+            prev_point = tp;
         }
-        if( !has_momentum && proj.count > 1 && rl_dist( source, tp ) <= 1 ) {
-            // Track that we hit an obstacle while wadded up,
-            // to cancel out of applying the other projectiles.
-            proj.count = 1;
+        // Done with the trajectory!
+        if( first && do_animation && do_draw_line && traj_len > 2 ) {
+            t_copy.erase( t_copy.begin() );
+            t_copy.resize( traj_len-- );
+            g->draw_line( tp, t_copy );
+            g->draw_bullet( tp, static_cast<int>( traj_len-- ), t_copy, bullet );
         }
 
-        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
-            // Don't let flamethrowers go through walls
-            // TODO: Let them go through bars
-            traj_len = i;
-            break;
+        if( here.impassable( tp ) ) {
+            tp = prev_point;
         }
-    }
-    // Done with the trajectory!
-    if( do_animation && do_draw_line && traj_len > 2 ) {
-        trajectory.erase( trajectory.begin() );
-        trajectory.resize( traj_len-- );
-        g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
-    }
 
-    if( here.impassable( tp ) ) {
-        tp = prev_point;
-    }
+        drop_or_embed_projectile( attack, proj );
 
-    drop_or_embed_projectile( attack, proj );
-
-    int dealt_damage = attack.dealt_dam.total_damage();
-    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
-    const explosion_data &expl = proj.get_custom_explosion();
-    if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp,
-                                      proj.get_custom_explosion() );
+        int dealt_damage = attack.dealt_dam.total_damage();
+        apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
+        const explosion_data &expl = proj.get_custom_explosion();
+        if( expl.power > 0.0f ) {
+            explosion_handler::explosion( null_source ? nullptr : origin, tp,
+                                          proj.get_custom_explosion() );
+        }
+        first = false;
     }
 
     // TODO: Move this outside now that we have hit point in return values?

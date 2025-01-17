@@ -3556,7 +3556,6 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
   "dispersion": 0,        // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
   "shot_counter": 5,      // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5). Designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
   "projectile_count": 5,  // Amount of pellets, that the ammo will shot, like in shotgun-like weapon. If used, `"shot_damage"` should be specified
-  "multi_projectile_effects": true,  // (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
   "shot_damage": { "damage_type": "bullet", "amount": 15 },  // (Optional) Specifies the damage caused by a single projectile fired from this round. If present, projectile_count must also be specified. Syntax is the same as `"damage"`
   "critical_multiplier": 4,  // If the hit is a critical hit, all ranged damage dealt will be multiplied by this
   "shot_spread": 100,     // (Optional) Specifies the additional dispersion of single projectiles. Only meaningful if shot_count is present.

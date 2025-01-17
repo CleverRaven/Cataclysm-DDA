@@ -740,7 +740,7 @@ bool mattack::acid( monster *z )
     projectile_attack( dealt, proj, z->pos_bub(), target->pos_bub(),
                        dispersion_sources{ 5400 }, z );
     const tripoint_bub_ms &hitp = tripoint_bub_ms( dealt.end_point );
-    const Creature *hit_critter = dealt.hit_critter;
+    const Creature *hit_critter = dealt.last_hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
         add_msg_if_player_sees( hitp,  _( "A glob of acid hits the %s!" ), here.tername( hitp ) );
         if( here.impassable( hitp ) ) {

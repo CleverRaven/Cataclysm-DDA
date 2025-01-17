@@ -75,7 +75,7 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
         monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
         attack.missed_by = headshot ? accuracy_headshot * 0.75 : accuracy_critical;
-        target.deal_projectile_attack( nullptr, attack, false );
+        target.deal_projectile_attack( nullptr, attack, attack.missed_by, false );
         CAPTURE( target_type );
         CAPTURE( target.get_hp() );
         CAPTURE( target.get_hp_max() );
