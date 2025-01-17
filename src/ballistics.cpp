@@ -485,7 +485,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             // TODO: add size effects to accuracy
             // If there's a monster in the path of our bullet, and either our aim was true,
             //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-            double cur_missed_by = aim.missed_by + spread * std::max( distance - 1, 0 );
+            double cur_missed_by = std::min( 1.0, aim.missed_by + spread * std::max( distance - 1, 0 ) );
 
             // unintentional hit on something other than our actual target
             // don't re-roll for the actual target, we already decided on a missed_by value for that
