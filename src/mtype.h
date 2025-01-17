@@ -214,7 +214,7 @@ struct mon_effect_data {
     // Whether the effect is permanent.
     bool permanent;
     bool affect_hit_bp;
-    bodypart_str_id bp;
+    bodypart_str_id bp = bodypart_str_id::NULL_ID();
     // The range of the durations (in turns) of the effect.
     std::pair<int, int> duration;
     // The range of the intensities of the effect.

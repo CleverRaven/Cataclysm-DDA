@@ -6596,7 +6596,7 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
         }
 
         if( d.actor( is_npc )->get_monster() ) {
-            bp = bodypart_id( "bp_null" );
+            bp = bodypart_str_id::NULL_ID();
         }
 
         dmg_inst.add_damage( damage_type, dmg_amount.evaluate( d ), arpen.evaluate( d ),

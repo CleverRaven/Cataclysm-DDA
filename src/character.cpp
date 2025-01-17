@@ -1835,7 +1835,7 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        bodypart_id hit( "bp_null" );
+        bodypart_id hit = bodypart_str_id::NULL_ID();
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
@@ -3710,8 +3710,7 @@ void Character::apply_skill_boost()
 
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
-    const bodypart_id bp_null( "bp_null" );
-    std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+    std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
     int tmp_bash_armor = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         tmp_bash_armor += worn.damage_resist( damage_bash, bp );

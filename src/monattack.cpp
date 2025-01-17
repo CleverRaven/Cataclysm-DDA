@@ -4115,7 +4115,7 @@ bool mattack::bio_op_takedown( monster *z )
         return true;
     }
     // Yes, it has the CQC bionic.
-    bodypart_id hit( "bp_null" );
+    bodypart_id hit = bodypart_str_id::NULL_ID();
     if( one_in( 2 ) ) {
         hit = bodypart_id( "leg_l" );
     } else {

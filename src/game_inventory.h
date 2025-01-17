@@ -163,7 +163,7 @@ item_location molle_attach( Character &you, item &tool );
 item_location veh_tool_attach( Character &you, const std::string &vp_name,
                                const std::set<itype_id> &allowed_types );
 /** Choose item to wear. */
-item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
+item_location wear( Character &you, const bodypart_id &bp = bodypart_str_id::NULL_ID() );
 /** Choose item to take off. */
 item_location take_off();
 /** Item cut up menu. */

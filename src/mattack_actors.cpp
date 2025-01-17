@@ -589,7 +589,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
         } else {
             // Monsters don't have limb scores, no need to target limbs
-            target->add_effect( grab_data.grab_effect, 1_days, body_part_bp_null, true, eff_grab_strength );
+            target->add_effect( grab_data.grab_effect, 1_days, bodypart_str_id::NULL_ID().id(), true,
+                                eff_grab_strength );
             z.add_effect( effect_grabbing, 1_days, true, 1 );
         }
     }
