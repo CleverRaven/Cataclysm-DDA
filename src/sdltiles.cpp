@@ -2761,7 +2761,7 @@ static void CheckMessages()
                         const tripoint_bub_ms bub_pos( pos );
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = here.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( bub_pos );
                             if( vp ) {
                                 if( const std::optional<vpart_reference> controlpart = vp.part_with_feature( "CONTROLS", true ) ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
