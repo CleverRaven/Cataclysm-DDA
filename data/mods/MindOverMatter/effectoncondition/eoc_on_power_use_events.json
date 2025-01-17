@@ -695,7 +695,9 @@
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
-        { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 2500 } }
+        {
+          "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain') * concentration_nether_attunement_influences()" ] }, "y": 2500 }
+        }
       ]
     },
     "effect": [
