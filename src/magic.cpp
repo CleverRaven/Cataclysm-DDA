@@ -1189,9 +1189,6 @@ bool spell::can_cast( const Character &guy ) const
     if( guy.has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
-    if( has_flag( spell_flag::NON_MAGICAL ) ) {
-        return true;
-    };
 
     if( type->magic_type.has_value() ) {
         for( std::string cannot_cast_flag_string : type->magic_type.value()->cannot_cast_flags ) {
@@ -1200,6 +1197,10 @@ bool spell::can_cast( const Character &guy ) const
                 return false;
             }
         }
+    }
+    
+    if( has_flag( spell_flag::NON_MAGICAL ) ) {
+        return true;
     }
 
     if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
