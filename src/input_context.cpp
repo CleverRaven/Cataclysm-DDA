@@ -1,5 +1,4 @@
 #include "input_context.h"
-
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -21,7 +20,7 @@
 #include "game.h"
 #include "help.h"
 #include "input.h"
-#include "map.h"
+#include "map.h" // IWYU pragma: keep
 #include "options.h"
 #include "output.h"
 #include "point.h"

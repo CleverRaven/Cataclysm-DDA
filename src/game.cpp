@@ -5,12 +5,12 @@
 #include <chrono>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <filesystem>
 #include <functional>
 #include <iomanip>
 #include <iostream>
@@ -22,6 +22,7 @@
 #include <memory>
 #include <numeric>
 #include <queue>
+#include <ratio>
 #include <set>
 #include <sstream>
 #include <string>
@@ -40,7 +41,6 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "ascii_art.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -59,14 +59,13 @@
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
+#include "char_validity_check.h"
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
-#include "char_validity_check.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "computer.h"
 #include "computer_session.h"
@@ -98,7 +97,6 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -107,6 +105,7 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
+#include "hash_utils.h"
 #include "iexamine.h"
 #include "imgui/imgui_stdlib.h"
 #include "init.h"
@@ -121,7 +120,6 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_search.h"
-#include "item_stack.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -156,6 +154,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
@@ -169,6 +168,7 @@
 #include "pathfinding.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "point.h"
 #include "popup.h"
 #include "profession.h"
 #include "proficiency.h"
@@ -186,12 +186,14 @@
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "submap.h"
 #include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translation.h"
 #include "translation_cache.h"
+#include "translation_manager.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -208,15 +210,28 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "wcwidth.h"
 #include "weakpoint.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
 
 #if defined(TILES)
+#include "cata_tiles.h"
 #include "sdl_utils.h"
+#include "sdl_wrappers.h"
 #endif // TILES
+
+#if defined(_WIN32)
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   include "platform_win.h"  // IWYU pragma: keep
+#endif
+
+#include <minwinbase.h> // for SYSTEMTIME
+#include <minwindef.h>  // for WIN32
+#include <sysinfoapi.h> // for GetLocalTime
+#include <processthreadsapi.h>  // for ???
+#include <winuser.h>    // for ??
+#endif
 
 #if defined(__clang__) || defined(__GNUC__)
 #define UNUSED __attribute__((unused))
@@ -378,17 +393,6 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
-
-#if defined(TILES)
-#include "cata_tiles.h"
-#endif // TILES
-
-#if defined(_WIN32)
-#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#   include "platform_win.h"
-#endif
-#   include <tchar.h>
-#endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2934,8 +2938,6 @@ bool game::is_game_over()
     }
     return false;
 }
-
-class end_screen_data;
 
 class end_screen_data
 {

@@ -10,9 +10,10 @@
 
 #if defined(_WIN32)
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#include "platform_win.h"
+#include "platform_win.h"  // IWYU pragma: keep
 #endif
-#include "mmsystem.h"
+#include <stringapiset.h>
+#include <winnls.h>
 #endif
 
 //copied from SDL2_ttf code

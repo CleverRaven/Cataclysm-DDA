@@ -41,6 +41,7 @@
 
 #if defined(TILES)
 #include "cata_tiles.h"
+#include "sdl_wrappers.h"
 #endif // TILES
 
 #if defined(__ANDROID__)

@@ -12,9 +12,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
-
 #include "cata_inline.h"
-#include "coords_fwd.h"
+#include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "map_scale_constants.h"
@@ -28,7 +27,7 @@ enum class direction : unsigned;
 
 namespace coords
 {
-
+    
 constexpr int map_squares_per( scale s )
 {
     static_assert( SEEX == SEEY, "we assume submaps are square" );

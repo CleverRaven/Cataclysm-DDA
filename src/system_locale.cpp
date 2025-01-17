@@ -1,26 +1,30 @@
+#include "system_locale.h"
+
 #include <cstring>
 #include <set>
 #include <vector>
 
 #if defined(_WIN32)
 #if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
-#   include "platform_win.h"
+#   include "platform_win.h"  // IWYU pragma: keep
 #endif
-#   include "mmsystem.h"
+#include <minwindef.h>  // for DWORD, LOCALE_USER_DEFAULT, LPSTR, TCHAR
+#include <winnls.h>     // for GetUserDefaultUILanguage, GetLocaleInfo, LOCA...
 #elif defined(__APPLE__)
 #include <CoreFoundation/CFLocale.h>
 #include <CoreFoundation/CoreFoundation.h>
 #elif defined(__ANDROID__)
 #include <jni.h>
-#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+
 #include "debug.h" // for DebugLog/D_INFO/D_MAIN
+#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
 #elif defined(__linux__)
 #include <langinfo.h>
 #endif
 
-#include "cata_utility.h"
-#include "options.h"
-#include "system_locale.h"
+#include "cata_utility.h"  // IWYU pragma: keep
+#include "options.h"  // IWYU pragma: keep
+
 
 #ifndef _WIN32
 namespace

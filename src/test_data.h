@@ -12,6 +12,8 @@
 #include "type_id.h"
 #include "pocket_type.h"
 
+// IWYU pragma: no_forward_declare pocket_type
+
 class Character;
 class JsonObject;
 

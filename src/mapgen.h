@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAPGEN_H
 #define CATA_SRC_MAPGEN_H
 
+
 #include <cstddef>
 #include <iosfwd>
 #include <map>
@@ -15,7 +16,7 @@
 #include "cata_variant.h"
 #include "coords_fwd.h"
 #include "dialogue_helpers.h"
-#include "jmapgen_flags.h"
+#include "jmapgen_flags.h" // IWYU pragma: keep
 #include "json.h"
 #include "memory_fast.h"
 #include "point.h"

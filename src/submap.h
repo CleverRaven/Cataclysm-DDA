@@ -13,7 +13,7 @@
 #include <vector>
 
 #include "active_item_cache.h"
-#include "basecamp.h"
+#include "basecamp.h"  // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_type_traits.h"
 #include "colony.h"
@@ -29,6 +29,8 @@
 #include "trap.h"
 #include "type_id.h"
 #include "vehicle.h"
+
+// IWYU pragma: no_forward_declare vehicle
 
 class JsonOut;
 class map;

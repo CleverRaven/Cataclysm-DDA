@@ -1,0 +1,40 @@
+[
+    { include: ["<stdint.h>", "public", "<cstdint>", "public"] },
+
+    { symbol: ["std::ceil", "private", "<cmath>", "public"] },
+    { symbol: ["std::round", "private", "<cmath>", "public"] },
+    { symbol: ["std::pow", "private", "<cmath>", "public"] },
+    { symbol: ["std::fstream", "private", "<fstream>", "public"] },
+    { symbol: ["std::ifstream", "private", "<fstream>", "public"] },
+    { symbol: ["std::ofstream", "private", "<fstream>", "public"] },
+    { symbol: ["std::stringstream", "private", "<sstream>", "public"] },
+    { symbol: ["std::istringstream", "private", "<sstream>", "public"] },
+    { symbol: ["std::ostringstream", "private", "<sstream>", "public"] },
+    { symbol: ["std::hash", "private", "<functional>", "public"] },
+    { symbol: ["std::hash", "private", "<unordered_set>", "public"] },
+    { symbol: ["std::hash", "private", "<unordered_map>", "public"] },
+    { symbol: ["std::addressof", "private", "<memory>", "public"] },
+    { symbol: ["std::forward", "private", "<utility>", "public"] },
+    { symbol: ["std::move", "private", "<utility>", "public"] },
+    { symbol: ["std::fill", "private", "<algorithm>", "public"] },
+    { symbol: ["std::find", "private", "<algorithm>", "public"] },
+    { symbol: ["std::memchr", "private", "<cstring>", "public"] },
+
+    { symbol: ["std::qsort", "private", "<stdlib>", "public"] },
+    
+    { symbol: ["uint8_t", "private", "<cstdint>", "public"] },
+
+    
+    { symbol: ["size_t", "private", "<cstddef>", "public"] },
+    { symbol: ["size_t", "private", "<cstdio>", "public"] },
+    { symbol: ["size_t", "private", "<cstlib>", "public"] },
+    { symbol: ["size_t", "private", "<cstring>", "public"] },
+    { symbol: ["size_t", "private", "<ctime>", "public"] },
+
+    {symbol: ["std::min", "private", "<algorithm>", "public"]},
+    {symbol: ["std::max", "private", "<algorithm>", "public"]},
+
+    {symbol: ["errno", "private", "<cerrno>", "public"]},
+    {symbol: ["std::abort", "private", "<cstdlib>", "public"]},
+    {symbol: ["abort", "private", "<stdlib.h>", "public"]},
+]

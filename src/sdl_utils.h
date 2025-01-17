@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "color.h"
+#include "color.h"  // IWYU pragma: keep
 #include "options.h"
 #include "sdl_wrappers.h"
 

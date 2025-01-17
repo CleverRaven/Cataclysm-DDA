@@ -23,10 +23,19 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
-#include "platform_win.h"
+#if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
+#   include "platform_win.h"  // IWYU pragma: keep
+#endif
+#include <consoleapi.h> // for AttachConsole, ATTACH_PARENT_PRO...
+#include <handleapi.h>  // for INVALID_HANDLE_VALUE
+#include <minwindef.h>  // for HANDLE, HINSTANCE, APIENTRY, LPSTR
+#include <processenv.h> // for GetStdHandle
+#include <sal.h>        // for _In_, _In_opt_
 #else
 #include <csignal>
 #endif
+
+
 
 #include <flatbuffers/util.h>
 

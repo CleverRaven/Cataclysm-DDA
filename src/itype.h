@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstddef>
+#include <functional>  // IWYU pragma: keep
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -31,6 +32,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare std::hash
 class Item_factory;
 class JsonObject;
 class item;

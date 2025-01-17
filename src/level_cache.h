@@ -14,6 +14,7 @@
 #include "shadowcasting.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
 
 struct level_cache {

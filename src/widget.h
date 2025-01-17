@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "cursesdef.h" // IWYU pragma: keep // (why?)
 #include "enum_traits.h"
 #include "generic_factory.h"
 #include "panels.h"
@@ -151,12 +152,11 @@ struct enum_traits<widget_alignment> {
 
 // Use generic_factory for loading JSON data.
 class JsonObject;
+class widget;
+// Forward declaration, due to codependency on panels.h
+class window_panel;  // IWYU pragma: keep
 template<typename T>
 class generic_factory;
-class widget;
-
-// Forward declaration, due to codependency on panels.h
-class window_panel;
 
 struct widget_clause {
     private:

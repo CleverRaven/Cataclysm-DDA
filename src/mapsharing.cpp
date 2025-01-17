@@ -13,7 +13,11 @@
 #endif // __linux__
 
 #if defined(_WIN32)
-#include "platform_win.h"
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#include "platform_win.h"  // IWYU pragma: keep
+#endif
+
+#include <processthreadsapi.h>  // for GetCurrentProcessId
 #endif
 
 #if defined(EMSCRIPTEN)

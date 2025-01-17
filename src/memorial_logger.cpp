@@ -54,6 +54,8 @@
 #include "type_id.h"
 #include "units.h"
 
+// IWYU pragma: no_forward_declare debug_menu::debug_menu_index
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );

@@ -11,6 +11,7 @@
 #include "cata_assert.h"
 #include "debug.h"
 #include "event_statistics.h"
+#include "flexbuffer_json.h" // IWYU pragma: keep
 #include "json.h"
 
 static bool event_data_matches( const cata::event::data_type &data,

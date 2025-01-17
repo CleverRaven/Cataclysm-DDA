@@ -20,6 +20,7 @@
 #include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
+#include "craft_command.h" // IWYU pragma: keep // but maybe delete later
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"

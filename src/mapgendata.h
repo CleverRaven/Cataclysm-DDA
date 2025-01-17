@@ -12,6 +12,9 @@
 #include "type_id.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
+// IWYU pragma: no_forward_declare cube_direction
+
 class JsonValue;
 class map;
 class mission;

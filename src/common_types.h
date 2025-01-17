@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "json.h"
+#include "flexbuffer_json.h" // IWYU pragma: keep
 
 /**
  * An interval of numeric values between @ref min and @ref max (including both).

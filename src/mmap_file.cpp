@@ -4,14 +4,21 @@
 
 #include <vector>
 
-#include "platform_win.h"
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   include "platform_win.h"  // IWYU pragma: keep
+#endif
+
+#include <fileapi.h>    // for CreateFileW, GetFileSizeEx, OPEN_EXISTING
+#include <handleapi.h>  // for INVALID_HANDLE_VALUE, CloseHandle
+#include <memoryapi.h>  // for CreateFileMappingW, MapViewOfFile, UnmapViewO...
+#include <minwindef.h>  // for HANDLE, FILE_SHARE_DELETE, FILE_SHARE_READ
 
 #else
 
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #endif

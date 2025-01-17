@@ -7,7 +7,7 @@
 #include <ctime>
 #include <functional>
 #include <iosfwd>
-#include <map>
+#include <map>  // IWYU pragma: keep
 #include <memory>
 #include <optional>
 #include <set>

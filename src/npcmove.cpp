@@ -1,5 +1,4 @@
 #include "npc.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -72,7 +71,7 @@
 #include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "talker.h"
+#include "talker.h"  // IWYU pragma: keep; completes get_talker_for definition
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"

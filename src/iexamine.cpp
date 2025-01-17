@@ -78,6 +78,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"  // IWYU pragma: keep
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"

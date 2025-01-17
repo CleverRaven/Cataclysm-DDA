@@ -75,6 +75,10 @@
 
 class read_only_visitable;
 
+#if defined( TILES )
+#include "cata_tiles.h"
+#endif
+
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
@@ -2520,9 +2524,9 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
-    ter_id const &base_ter )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    ter_id const &base_ter = ter_t_dirt.id();
     build_reqs total_reqs;
 
     if( !finalized ) {
