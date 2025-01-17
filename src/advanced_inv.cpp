@@ -2094,7 +2094,7 @@ void advanced_inventory::display()
                         dpane.recalc = true;
                     }
                 }
-            }  else {
+            } else {
                 popup_getkey( _( "There's no vehicle storage space there." ) );
             }
         }
