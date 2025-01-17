@@ -150,11 +150,13 @@ void effect_on_conditions::load_new_character( Character &you )
         }
     }
 
-    for( const effect_on_condition_id &eoc_id : you.get_profession()->get_eocs() ) {
-        effect_on_condition eoc = eoc_id.obj();
-        if( eoc.type == eoc_type::PROFESSION_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
-            you.queued_effect_on_conditions.push( new_eoc );
+    if( you.get_profession() ) {
+        for( const effect_on_condition_id &eoc_id : you.get_profession()->get_eocs() ) {
+            effect_on_condition eoc = eoc_id.obj();
+            if( eoc.type == eoc_type::PROFESSION_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
+                queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
+                you.queued_effect_on_conditions.push( new_eoc );
+            }
         }
     }
 
