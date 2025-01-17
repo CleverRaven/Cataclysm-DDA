@@ -8073,7 +8073,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     }
 
     if( const std::optional<vpart_reference> cargo_vp = vp.cargo() ) {
-        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub().raw(), filter,
+        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub(), filter,
                               in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {

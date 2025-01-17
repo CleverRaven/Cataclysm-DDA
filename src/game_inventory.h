@@ -62,7 +62,7 @@ drop_locations titled_multi_filter_menu( const item_location_filter &filter, Cha
 
 void common();
 void common( item_location &loc );
-void compare( const std::optional<tripoint> &offset );
+void compare( const std::optional<tripoint_rel_ms> &offset );
 void reassign_letter( item &it );
 void swap_letters();
 
@@ -105,11 +105,7 @@ drop_locations multidrop( Character &you );
  * Otherwise, pick up items from the avatar's current location and all adjacent tiles.
  * @return A list of pairs of item_location, quantity.
  */
-// TODO: Get rid of untyped overload. Restore the target default while doing so (removed
-// to allow profiles to be distinguished.
-drop_locations pickup( const std::optional<tripoint> &target = std::nullopt,
-                       const std::vector<drop_location> &selection = {} );
-drop_locations pickup( const std::optional<tripoint_bub_ms> &target,
+drop_locations pickup( const std::optional<tripoint_bub_ms> &target = std::nullopt,
                        const std::vector<drop_location> &selection = {} );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,

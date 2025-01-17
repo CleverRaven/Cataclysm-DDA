@@ -2203,16 +2203,6 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
-                                        const std::vector<drop_location> &selection )
-{
-    std::optional<tripoint_bub_ms> tmp;
-    if( target.has_value() ) {
-        tmp = tripoint_bub_ms( target.value() );
-    }
-    return game_menus::inv::pickup( tmp, selection );
-}
-
 drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
                                         const std::vector<drop_location> &selection )
 {
@@ -2220,17 +2210,12 @@ drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &ta
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
-    std::optional<tripoint> tmp;
-    if( target.has_value() ) {
-        tmp = target.value().raw();
-    }
-
-    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), tmp );
+    pickup_selector pick_s( you, preset, _( "ITEMS TO PICK UP" ), target );
 
     // Add items from the selected tile, or from current and all surrounding tiles
     if( target ) {
-        pick_s.add_vehicle_items( tripoint_bub_ms( *target ) );
-        pick_s.add_map_items( tripoint_bub_ms( *target ) );
+        pick_s.add_vehicle_items( *target );
+        pick_s.add_map_items( *target );
     } else {
         pick_s.add_nearby_items();
     }
@@ -2405,7 +2390,7 @@ bool game_menus::inv::compare_item_menu::show()
     return false;
 }
 
-void game_menus::inv::compare( const std::optional<tripoint> &offset )
+void game_menus::inv::compare( const std::optional<tripoint_rel_ms> &offset )
 {
     avatar &you = get_avatar();
     you.inv->restack( you );

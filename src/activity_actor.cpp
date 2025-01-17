@@ -4655,7 +4655,7 @@ static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
                 break;
             case item_location::type::map:
             case item_location::type::vehicle:
-                return lhs.position() == rhs.position();
+                return lhs.pos_bub() == rhs.pos_bub();
                 break;
             default:
                 break;

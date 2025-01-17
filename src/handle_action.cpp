@@ -2460,7 +2460,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
             } else if( mouse_target ) {
-                doors::close_door( m, player_character, tripoint_bub_ms( *mouse_target ) );
+                doors::close_door( m, player_character, *mouse_target );
             } else {
                 close();
             }
@@ -2478,7 +2478,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EXAMINE_AND_PICKUP:
             if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( tripoint_bub_ms( *mouse_target ), act == ACTION_EXAMINE_AND_PICKUP );
+                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
             } else {
                 examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
@@ -2491,7 +2491,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
             if( mouse_target ) {
-                pickup( tripoint_bub_ms( *mouse_target ) );
+                pickup( *mouse_target );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();
@@ -3230,12 +3230,10 @@ bool game::handle_action()
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                // TODO: fix point types
                 if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                // TODO: fix point types
                 if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }

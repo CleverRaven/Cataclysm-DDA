@@ -23,22 +23,22 @@ std::string talker_item_const::get_name() const
 
 int talker_item_const::posx() const
 {
-    return me_it_const->position().x;
+    return me_it_const->pos_bub().x();
 }
 
 int talker_item_const::posy() const
 {
-    return me_it_const->position().y;
+    return me_it_const->pos_bub().y();
 }
 
 int talker_item_const::posz() const
 {
-    return me_it_const->position().z;
+    return me_it_const->pos_bub().z();
 }
 
 tripoint talker_item_const::pos() const
 {
-    return me_it_const->position();
+    return me_it_const->pos_bub().raw();
 }
 
 tripoint_bub_ms talker_item_const::pos_bub() const

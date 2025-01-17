@@ -472,9 +472,9 @@ void map::add_vehicle_to_cache( vehicle *veh )
         }
         const tripoint_bub_ms p = veh->bub_part_pos( vpr.part() );
         level_cache &ch = get_cache( p.z() );
-        ch.set_veh_cached_parts( p.raw(), *veh, static_cast<int>( vpr.part_index() ) );
+        ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
-            ch.set_veh_exists_at( p.raw(), true );
+            ch.set_veh_exists_at( p, true );
             set_transparency_cache_dirty( p );
         }
     }
@@ -490,9 +490,9 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &p
     level_cache *ch = get_cache_lazy( pt.z() );
     if( ch ) {
         if( inbounds( pt ) ) {
-            ch->set_veh_exists_at( pt.raw(), false );
+            ch->set_veh_exists_at( pt, false );
         }
-        ch->clear_veh_from_veh_cached_parts( pt.raw(), veh );
+        ch->clear_veh_from_veh_cached_parts( pt, veh );
     }
 }
 
@@ -1334,12 +1334,12 @@ const vehicle *map::veh_at_internal( const tripoint_bub_ms &p, int &part_num ) c
 {
     // This function is called A LOT. Move as much out of here as possible.
     const level_cache &ch = get_cache( p.z() );
-    if( !ch.get_veh_in_active_range() || !ch.get_veh_exists_at( p.raw() ) ) {
+    if( !ch.get_veh_in_active_range() || !ch.get_veh_exists_at( p ) ) {
         part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
-    std::pair<vehicle *, int> ret = ch.get_veh_cached_parts( p.raw() );
+    std::pair<vehicle *, int> ret = ch.get_veh_cached_parts( p );
     if( ret.first ) {
         part_num = ret.second;
         return ret.first;
@@ -5323,8 +5323,8 @@ void map::make_active( item_location &loc )
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.add( *iter, l ) ) {
-        tripoint_abs_sm const smloc( abs_sub.x() + loc.position().x / SEEX,
-                                     abs_sub.y() + loc.position().y / SEEY, loc.position().z );
+        tripoint_abs_sm const smloc( abs_sub.x() + loc.pos_bub().x() / SEEX,
+                                     abs_sub.y() + loc.pos_bub().y() / SEEY, loc.pos_bub().z() );
         submaps_with_active_items_dirty.insert( smloc );
         if( this != &get_map() && get_map().inbounds( smloc ) ) {
             get_map().make_active( smloc );
@@ -6004,7 +6004,7 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
 
     for( const tripoint_bub_ms &p : reachable_pts ) {
         if( accessible_items( p ) ) {
-            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p.raw(), filter, in_tools );
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter, in_tools );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;

@@ -3947,8 +3947,8 @@ void game::add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb )
 static void draw_trail( const tripoint_bub_ms &start, const tripoint_bub_ms &end, bool bDrawX );
 
 static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
-    const std::optional<tripoint> &zone_start,
-    const std::optional<tripoint> &zone_end,
+    const std::optional<tripoint_bub_ms> &zone_start,
+    const std::optional<tripoint_bub_ms> &zone_end,
     const bool &zone_blink,
     const bool &zone_cursor,
     const bool &is_moving_zone = false
@@ -3958,12 +3958,12 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
     [&]() {
         if( zone_cursor ) {
             if( is_moving_zone ) {
-                g->draw_cursor( tripoint_bub_ms( ( zone_start.value() + zone_end.value() ) / 2 ) );
+                g->draw_cursor( tripoint_bub_ms( ( zone_start.value().raw() + zone_end.value().raw() ) / 2 ) );
             } else {
                 if( zone_end ) {
-                    g->draw_cursor( tripoint_bub_ms( zone_end.value() ) );
+                    g->draw_cursor( zone_end.value() );
                 } else if( zone_start ) {
-                    g->draw_cursor( tripoint_bub_ms( zone_start.value() ) );
+                    g->draw_cursor( zone_start.value() );
                 }
             }
         }
@@ -3984,12 +3984,12 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             }
 #endif
 
-            const tripoint_bub_ms start( std::min( zone_start->x, zone_end->x ),
-                                         std::min( zone_start->y, zone_end->y ),
-                                         zone_end->z );
-            const tripoint_bub_ms end( std::max( zone_start->x, zone_end->x ),
-                                       std::max( zone_start->y, zone_end->y ),
-                                       zone_end->z );
+            const tripoint_bub_ms start( std::min( zone_start->x(), zone_end->x() ),
+                                         std::min( zone_start->y(), zone_end->y() ),
+                                         zone_end->z() );
+            const tripoint_bub_ms end( std::max( zone_start->x(), zone_end->x() ),
+                                       std::max( zone_start->y(), zone_end->y() ),
+                                       zone_end->z() );
             g->draw_zones( start, end, offset );
         }
     } );
@@ -4193,10 +4193,9 @@ void game::draw_critter( const Creature &critter, const tripoint_bub_ms &center 
         return;
     }
     if( critter.posz() != center.z() ) {
-        static constexpr tripoint up_tripoint( tripoint::above );
         if( critter.posz() == center.z() - 1 &&
             ( debug_mode || u.sees( critter ) ) &&
-            m.valid_move( critter.pos_bub(), critter.pos_bub() + up_tripoint, false, true ) ) {
+            m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint::above, false, true ) ) {
             // Monster is below
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
@@ -5513,11 +5512,6 @@ bool game::swap_critters( Creature &a, Creature &b )
         m.board_vehicle( other_npc->pos_bub(), other_npc );
     }
     return true;
-}
-
-bool game::is_empty( const tripoint &p )
-{
-    return is_empty( tripoint_bub_ms( p ) );
 }
 
 bool game::is_empty( const tripoint_bub_ms &p )
@@ -7087,8 +7081,8 @@ void game::zones_manager()
         wnoutrefresh( w_zones_options );
     };
 
-    std::optional<tripoint> zone_start;
-    std::optional<tripoint> zone_end;
+    std::optional<tripoint_bub_ms> zone_start;
+    std::optional<tripoint_bub_ms> zone_end;
     bool zone_blink = false;
     bool zone_cursor = false;
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback(
@@ -7264,8 +7258,8 @@ void game::zones_manager()
         if( zone_cnt > 0 ) {
             blink = !blink;
             const zone_data &zone = zones[active_index].get();
-            zone_start = m.get_bub( zone.get_start_point() ).raw();
-            zone_end = m.get_bub( zone.get_end_point() ).raw();
+            zone_start = m.get_bub( zone.get_start_point() );
+            zone_end = m.get_bub( zone.get_end_point() );
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         } else {
             blink = false;
@@ -7699,7 +7693,6 @@ look_around_result game::look_around(
 
     temp_exit_fullscreen();
 
-    // TODO: fix point types
     tripoint_bub_ms lp( is_moving_zone ? ( tripoint_bub_ms( ( start_point.raw() + end_point.raw() ) /
                                            2 ) ) : start_point ); // cursor
     int &lx = lp.x();
@@ -7845,8 +7838,8 @@ look_around_result game::look_around(
         add_draw_callback( ter_indicator_cb );
     }
 
-    std::optional<tripoint> zone_start;
-    std::optional<tripoint> zone_end;
+    std::optional<tripoint_bub_ms> zone_start;
+    std::optional<tripoint_bub_ms> zone_end;
     bool zone_blink = false;
     bool zone_cursor = true;
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
@@ -7867,12 +7860,10 @@ look_around_result game::look_around(
         u.view_offset = center - u.pos_bub();
         if( select_zone ) {
             if( has_first_point ) {
-                zone_start = start_point.raw();
-                // TODO: fix point types
-                zone_end = lp.raw();
+                zone_start = start_point;
+                zone_end = lp;
             } else {
-                // TODO: fix point types
-                zone_start = lp.raw();
+                zone_start = lp;
                 zone_end = std::nullopt;
             }
             // Actually accessed from the terrain overlay callback `zone_cb` in the
@@ -7882,10 +7873,8 @@ look_around_result game::look_around(
         }
 
         if( is_moving_zone ) {
-            // TODO: fix point types
-            zone_start = lp.raw() - ( start_point.raw() + end_point.raw() ) / 2 + start_point.raw();
-            // TODO: fix point types
-            zone_end = lp.raw() - ( start_point.raw() + end_point.raw() ) / 2 + end_point.raw();
+            zone_start = lp - ( start_point.raw() + end_point.raw() ) / 2 + start_point.raw();
+            zone_end = lp - ( start_point.raw() + end_point.raw() ) / 2 + end_point.raw();
             // Actually accessed from the terrain overlay callback `zone_cb` in the
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
@@ -8053,8 +8042,7 @@ look_around_result game::look_around(
     bVMonsterLookFire = true;
 
     if( action == "CONFIRM" || action == "SELECT" ) {
-        // TODO: fix point types
-        result.position = is_moving_zone ? tripoint_bub_ms( zone_start.value() ) : lp;
+        result.position = is_moving_zone ? zone_start.value() : lp;
     }
 
 #if defined(TILES)
@@ -8751,7 +8739,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
-            game_menus::inv::compare( active_pos.raw() );
+            game_menus::inv::compare( active_pos );
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
