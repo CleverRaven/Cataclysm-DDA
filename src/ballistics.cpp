@@ -381,9 +381,9 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 units::angle d = units::atan2( dy, dx );
                 d += ( one_in( 2 ) ? 1 : -1 ) * arc;
                 target_c.x() = std::clamp( source.x() + roll_remainder( range * cos( d ) ),
-                               0, MAPSIZE_X - 1 );
+                                           0, MAPSIZE_X - 1 );
                 target_c.y() = std::clamp( source.y() + roll_remainder( range * sin( d ) ),
-                               0, MAPSIZE_Y - 1 );
+                                           0, MAPSIZE_Y - 1 );
                 if( target_c == source ) {
                     target_c.x() = source.x() + sgn( dx );
                     target_c.y() = source.y() + sgn( dy );
@@ -394,7 +394,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 t_copy.insert( t_copy.begin(), source );
                 if( !no_overshoot && range < extend_to_range ) {
                     std::vector<tripoint_bub_ms> extension = continue_line( t_copy,
-                        extend_to_range - range );
+                            extend_to_range - range );
                     t_copy.reserve( t_copy.size() + extension.size() );
                     t_copy.insert( t_copy.end(), extension.begin(), extension.end() );
                 }

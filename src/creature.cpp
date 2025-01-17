@@ -1284,7 +1284,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             if( !mons->has_flag( mon_flag_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
                 mons->mounted_player->deal_projectile_attack( source, attack, missed_by, print_messages,
-                                                              wp_attack );
+                        wp_attack );
                 return;
             }
         }
