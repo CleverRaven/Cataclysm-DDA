@@ -1035,7 +1035,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     }
 
     if( should_pulp ) {
-        assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
+        assign_activity( pulp_activity_actor( here.get_abs( smashp ), true ) );
         return ret; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1047,9 +1047,8 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     }
 
     if( !has_weapon() ) {
-        const bodypart_id bp_null( "bp_null" );
         std::pair<bodypart_id, int> best_part_to_smash = this->best_part_to_smash();
-        if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
+        if( best_part_to_smash.first != bodypart_str_id::NULL_ID() && here.is_bashable( smashp ) ) {
             std::string name_to_bash = _( "thing" );
             if( here.is_bashable_furn( smashp ) ) {
                 name_to_bash = here.furnname( smashp );
@@ -1936,7 +1935,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         }
     }
     if( target ) {
-        spell_act.coords.emplace_back( get_map().getglobal( *target ) );
+        spell_act.coords.emplace_back( get_map().get_abs( *target ) );
     }
     assign_activity( spell_act );
     return true;
@@ -2461,7 +2460,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
             } else if( mouse_target ) {
-                doors::close_door( m, player_character, tripoint_bub_ms( *mouse_target ) );
+                doors::close_door( m, player_character, *mouse_target );
             } else {
                 close();
             }
@@ -2479,7 +2478,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EXAMINE_AND_PICKUP:
             if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( tripoint_bub_ms( *mouse_target ), act == ACTION_EXAMINE_AND_PICKUP );
+                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
             } else {
                 examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
@@ -2492,7 +2491,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
             if( mouse_target ) {
-                pickup( tripoint_bub_ms( *mouse_target ) );
+                pickup( *mouse_target );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();
@@ -3231,12 +3230,10 @@ bool game::handle_action()
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                // TODO: fix point types
                 if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                // TODO: fix point types
                 if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }

@@ -484,17 +484,17 @@ void monster::try_upgrade( bool pin_time )
                         type->upgrade_group, nullptr, nullptr, false, &ret_default );
                 if( !res.empty() && !ret_default ) {
                     // Set the type to poly the current monster (preserves inventory)
-                    new_type = res.front().name;
+                    new_type = res.front().id;
                     res.front().pack_size--;
                     for( const MonsterGroupResult &mgr : res ) {
-                        if( !mgr.name ) {
+                        if( !mgr.id ) {
                             continue;
                         }
                         for( int i = 0; i < mgr.pack_size; i++ ) {
                             tripoint_bub_ms spawn_pos;
-                            if( g->find_nearby_spawn_point( pos_bub(), mgr.name, 1, *type->upgrade_multi_range,
+                            if( g->find_nearby_spawn_point( pos_bub(), mgr.id, 1, *type->upgrade_multi_range,
                                                             spawn_pos, false, false ) ) {
-                                monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
+                                monster *spawned = g->place_critter_at( mgr.id, spawn_pos );
                                 if( spawned ) {
                                     spawned->friendly = friendly;
                                 }
@@ -594,7 +594,7 @@ void monster::try_reproduce()
                             type->baby_type.baby_monster_group, &spawn_cnt,
                             nullptr, false, nullptr, true );
                 for( const MonsterGroupResult &mgr : babies ) {
-                    here.add_spawn( mgr.name, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
+                    here.add_spawn( mgr.id, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
                 }
             }
             if( !type->baby_type.baby_egg.is_null() ) {
@@ -2447,8 +2447,8 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 7 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 32 ) ) {
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos_bub(), "rope_6" );
-                here.spawn_item( pos_bub(), "snare_trigger" );
+                here.spawn_item( pos_bub(), itype_rope_6 );
+                here.spawn_item( pos_bub(), itype_snare_trigger );
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
@@ -2460,7 +2460,7 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 18 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 200 ) ) {
                 remove_effect( effect_beartrap );
-                here.spawn_item( pos_bub(), "beartrap" );
+                here.spawn_item( pos_bub(), itype_beartrap );
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }
@@ -2977,7 +2977,7 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.getglobal( pos_bub() ) );
+        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.get_abs( pos_bub() ) );
         // Do it for overmap above/below too
         for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types
@@ -3500,7 +3500,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 
@@ -3887,7 +3887,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         max_error = 1;
     }
 
-    tripoint_abs_ms target = get_map().getglobal( source ) + point( rng( -max_error, max_error ),
+    tripoint_abs_ms target = get_map().get_abs( source ) + point( rng( -max_error, max_error ),
                              rng( -max_error, max_error ) );
     // target_z will require some special check due to soil muffling sounds
 

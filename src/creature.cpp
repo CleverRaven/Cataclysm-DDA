@@ -205,7 +205,7 @@ Creature::~Creature() = default;
 
 tripoint_bub_ms Creature::pos_bub() const
 {
-    return get_map().bub_from_abs( location );
+    return get_map().get_bub( location );
 }
 
 void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
@@ -231,7 +231,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     vehicle &veh = vp_there->vehicle();
 
     std::vector<vehicle_part *> cargo_parts;
-    cargo_parts = veh.get_parts_at( here.bub_from_abs( loc ), "CARGO", part_status_flag::any );
+    cargo_parts = veh.get_parts_at( here.get_bub( loc ), "CARGO", part_status_flag::any );
 
     units::volume capacity = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -246,7 +246,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.bub_from_abs( loc ) ) ) {
+        if( !veh.enclosed_at( here.get_bub( loc ) ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();
@@ -293,7 +293,7 @@ void Creature::move_to( const tripoint_abs_ms &loc )
 
 void Creature::set_pos_only( const tripoint_bub_ms &p )
 {
-    location = get_map().getglobal( p );
+    location = get_map().get_abs( p );
 }
 
 void Creature::set_location( const tripoint_abs_ms &loc )
@@ -2348,7 +2348,7 @@ void Creature::set_body()
 
 bool Creature::has_part( const bodypart_id &id, body_part_filter filter ) const
 {
-    return get_part_id( id, filter, true ) != body_part_bp_null;
+    return get_part_id( id, filter, true ) != bodypart_str_id::NULL_ID();
 }
 
 bodypart *Creature::get_part( const bodypart_id &id )
@@ -2423,7 +2423,7 @@ bodypart_id Creature::get_part_id( const bodypart_id &id,
         }
     }
     // try to find the next best thing
-    std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+    std::pair<bodypart_id, float> best = { bodypart_str_id::NULL_ID().id(), 0.0f };
     if( filter >= body_part_filter::next_best ) {
         for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
             for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
@@ -2436,7 +2436,7 @@ bodypart_id Creature::get_part_id( const bodypart_id &id,
             }
         }
     }
-    if( best.first == body_part_bp_null && !suppress_debugmsg ) {
+    if( best.first == bodypart_str_id::NULL_ID() && !suppress_debugmsg ) {
         debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
     }
 

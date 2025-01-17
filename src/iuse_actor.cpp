@@ -1361,7 +1361,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
         target_is_firewood = true;
     } else {
         zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getglobal( pos ) );
+        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.get_abs( pos ) );
         if( !zones.empty() ) {
             target_is_firewood = true;
         }
@@ -1513,7 +1513,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
                         0, it.tname() );
     p->activity.targets.emplace_back( *p, &it );
     p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = get_map().getglobal( pos );
+    p->activity.placement = get_map().get_abs( pos );
     // charges to use are handled by the activity
     return 0;
 }
@@ -3702,8 +3702,8 @@ static bodypart_id pick_part_to_heal(
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
                                   bleed_stop, bite_chance, infect_chance, bandage_power, disinfectant_power );
-        if( healed_part == bodypart_id( "bp_null" ) ) {
-            return bodypart_id( "bp_null" );
+        if( healed_part == bodypart_str_id::NULL_ID() ) {
+            return healed_part;
         }
 
         if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
@@ -3738,7 +3738,7 @@ static bodypart_id pick_part_to_heal(
 bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient, item &it,
         bool force ) const
 {
-    bodypart_id healed = bodypart_id( "bp_null" );
+    bodypart_id healed = bodypart_str_id::NULL_ID();
     const int head_bonus = get_heal_value( healer, bodypart_id( "head" ) );
     const int limb_power = get_heal_value( healer, bodypart_id( "arm_l" ) );
     const int torso_bonus = get_heal_value( healer, bodypart_id( "torso" ) );
@@ -3747,7 +3747,7 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         patient.add_msg_player_or_npc( m_bad,
                                        _( "Your biology is not compatible with that item." ),
                                        _( "<npcname>'s biology is not compatible with that item." ) );
-        return bodypart_id( "bp_null" ); // canceled
+        return bodypart_str_id::NULL_ID().id(); // canceled
     }
 
     if( healer.is_npc() ) {
@@ -3779,9 +3779,9 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
             healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                         get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                         get_disinfected_level( healer ) );
-            if( healed == bodypart_id( "bp_null" ) ) {
+            if( healed == bodypart_str_id::NULL_ID() ) {
                 add_msg( m_info, _( "Never mind." ) );
-                return bodypart_id( "bp_null" ); // canceled
+                return bodypart_str_id::NULL_ID().id(); // canceled
             }
             return healed;
         } else {
@@ -5018,7 +5018,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         const bool using_power_cord = it.typeId() == itype_power_cord;
         if( using_power_cord && it.link().t_veh->is_powergrid() && sel_vp->vehicle().is_powergrid() ) {
             // If both vehicles are adjacent power grids, try to merge them together first.
-            const point_bub_ms prev_pos = here.bub_from_abs( it.link().t_veh->coord_translate(
+            const point_bub_ms prev_pos = here.get_bub( it.link().t_veh->coord_translate(
                                               it.link().t_mount ) +
                                           it.link().t_abs_pos ).xy();
             if( selection.xy().raw().distance( prev_pos.raw() ) <= 1.5f &&

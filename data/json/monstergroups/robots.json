@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT",
+    "id": "GROUP_ROBOT",
     "monsters": [
       { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TURRET",
+    "id": "GROUP_TURRET",
     "monsters": [
       {
         "monster": "mon_turret_rifle",
@@ -29,7 +29,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_SECUBOT",
+    "id": "GROUP_ROBOT_SECUBOT",
     "monsters": [ { "monster": "mon_secubot", "cost_multiplier": 0, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": 30 } ] } } ]
   }
 ]

@@ -64,7 +64,7 @@ There are a couple of guidelines we suggest sticking to (see [#Example Workflow]
 ## Code Style
 
 Code style is enforced across the codebase by `astyle`.
-See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
+See [CODE_STYLE](../doc/c++/CODE_STYLE.md) for details.
 
 ## Translations
 
@@ -268,7 +268,7 @@ When your PR should close an issue, please include [closing keywords](https://he
 
 ## Tooling support
 
-Various tools are available to help you keep your contributions conforming to the appropriate style. See [DEVELOPER_TOOLING.md](../doc/DEVELOPER_TOOLING.md) for more details.
+Various tools are available to help you keep your contributions conforming to the appropriate style. See [DEVELOPER_TOOLING.md](../doc/c++/DEVELOPER_TOOLING.md) for more details.
 
 ## Advanced Techniques
 
@@ -341,9 +341,9 @@ The test took 41.772 seconds
 
 It is recommended to habitually invoke make like ``make YOUR BUILD OPTIONS && make check``.
 
-If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/COMPILING/COMPILING-VS-VCPKG.md#running-unit-tests).
+If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/c++/COMPILING-VS-VCPKG.md#running-unit-tests).
 
-If you want/need to add a test, see [TESTING.md](../doc/TESTING.md)
+If you want/need to add a test, see [TESTING.md](../doc/c++/TESTING.md)
 
 ## In-game testing, test environment and the debug menu
 

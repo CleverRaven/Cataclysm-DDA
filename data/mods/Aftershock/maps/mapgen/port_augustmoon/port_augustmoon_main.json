@@ -192,7 +192,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "augustmoon_solar_array1" ], [ "augustmoon_solar_array2" ] ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_hard_vacuum",
       "rows": [
@@ -254,7 +253,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "augustmoon_bar" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -302,7 +300,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "augustmoon_docking_arm" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -350,7 +347,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "augustmoon_concourse_vending2",
-    "weight": 200,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

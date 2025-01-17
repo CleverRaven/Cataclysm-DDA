@@ -543,7 +543,7 @@ static void normalize_body( Character &u )
 static tripoint_abs_ms player_picks_tile()
 {
     std::optional<tripoint_bub_ms> newpos = g->look_around();
-    return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
+    return newpos ? get_map().get_abs( *newpos ) : get_player_character().get_location();
 }
 
 static void monster_ammo_edit( monster &mon )
@@ -841,7 +841,7 @@ static void monster_edit_menu()
         }
         case D_TELE: {
             if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().get_location() ) {
-                critter->setpos( get_map().bub_from_abs( newpos ) );
+                critter->setpos( get_map().get_bub( newpos ) );
             }
             break;
         }
@@ -1856,13 +1856,13 @@ static void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint_abs_ms abs_ms( here.getglobal( *where ) );
+        const tripoint_abs_ms abs_ms( here.get_abs( *where ) );
         const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
         const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.get_bub( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
@@ -2062,7 +2062,7 @@ static void character_edit_hp_menu( Character &you )
         hotkey++;
     }
     smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
-    part_ids.emplace_back( body_part_bp_null );
+    part_ids.emplace_back( bodypart_str_id::NULL_ID().id() );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
     bool all_select = false;
@@ -2071,11 +2071,11 @@ static void character_edit_hp_menu( Character &you )
         return;
     }
     bp = part_ids.at( smenu.ret ).id();
-    if( bp == body_part_bp_null ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         all_select = true;
     }
 
-    if( bp.is_valid() && bp != body_part_bp_null ) {
+    if( bp.is_valid() && bp != bodypart_str_id::NULL_ID() ) {
         int value;
         if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
                        you.get_part_hp_cur( bp.id() ) ) &&

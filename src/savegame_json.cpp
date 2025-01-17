@@ -2434,12 +2434,12 @@ void monster::load( const JsonObject &data )
 
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
-        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+        set_location( get_map().get_abs( read_legacy_creature_pos( data ) ) );
         tripoint_bub_ms wand;
         data.read( "wandx", wand.x() );
         data.read( "wandy", wand.y() );
         data.read( "wandz", wand.z() );
-        wander_pos = get_map().getglobal( wand );
+        wander_pos = get_map().get_abs( wand );
         tripoint destination;
         data.read( "destination", destination );
         if( destination != tripoint::zero ) {

@@ -434,7 +434,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_mon_nearby_test",
+    "id": "GROUP_mon_nearby_test",
     "monsters": [ { "monster": "mon_triffid", "weight": 1 }, { "monster": "mon_zombie_tough", "weight": 1 } ]
   },
   {

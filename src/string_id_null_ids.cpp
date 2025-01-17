@@ -63,6 +63,7 @@ MAKE_NULL_ID( spell_type, "null" )
     }
 
 //NOLINTNEXTLINE(cata-static-string_id-constants)
+MAKE_NULL_ID2( attack_vector, "vector_null" )
 MAKE_NULL_ID2( itype, "null" )
 MAKE_NULL_ID2( mtype, "mon_null" )
 MAKE_NULL_ID2( oter_t, "" )

@@ -849,7 +849,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
 
 void iexamine::translocator( Character &, const tripoint_bub_ms &examp )
 {
-    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().getglobal( examp ) ) );
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().get_abs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
@@ -1477,8 +1477,8 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     tripoint_abs_ms const old_abs_pos = you.get_location();
-    tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
-    tripoint_bub_ms const sm_orig = here.bub_from_abs( project_to<coords::ms>( this_omt ) );
+    tripoint_abs_omt const this_omt = project_to<coords::omt>( here.get_abs( examp ) );
+    tripoint_bub_ms const sm_orig = here.get_bub( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint_bub_ms> this_elevator;
 
     for( tripoint_bub_ms const &pos : closest_points_first( examp, SEEX - 1 ) ) {
@@ -1603,7 +1603,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
         hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub(), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
-        you.activity.placement = get_map().getglobal( examp );
+        you.activity.placement = get_map().get_abs( examp );
         return true;
     }
 }
@@ -1706,7 +1706,7 @@ void iexamine::rubble( Character &you, const tripoint_bub_ms &examp )
         return;
     }
     you.assign_activity( clear_rubble_activity_actor( moves ) );
-    you.activity.placement = here.getglobal( examp );
+    you.activity.placement = here.get_abs( examp );
 }
 
 /**
@@ -2135,7 +2135,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.get_abs( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2190,7 +2190,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
 {
     g->validate_camps();
     map &here = get_map();
-    point_abs_omt omt( coords::project_to<coords::omt>( here.getglobal( examp ) ).xy() );
+    point_abs_omt omt( coords::project_to<coords::omt>( here.get_abs( examp ) ).xy() );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -2221,7 +2221,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
             return;
         }
 
-        temp_camp->validate_bb_pos( here.getglobal( examp ) );
+        temp_camp->validate_bb_pos( here.get_abs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
         temp_camp->scan_pseudo_items();
@@ -2773,7 +2773,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().getglobal( examp );
+    act.placement = get_map().get_abs( examp );
     act.str_values.emplace_back( seed_id );
     you.assign_activity( act );
 }
@@ -4787,7 +4787,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
-    you.activity.placement = here.getglobal( examp );
+    you.activity.placement = here.get_abs( examp );
     you.activity.auto_resume = true;
 }
 
@@ -4904,7 +4904,7 @@ void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
             }
         } else {
             you.assign_activity( ACT_BUILD );
-            you.activity.placement = here.getglobal( examp );
+            you.activity.placement = here.get_abs( examp );
         }
         return;
     }

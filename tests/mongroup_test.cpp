@@ -40,7 +40,7 @@ static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<m
             rand_gets.emplace( tmp_get );
         }
 
-        mtype_id tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).front().name;
+        mtype_id tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).front().id;
         if( !tmp_res.is_null() ) {
             rand_results.emplace( tmp_res );
         }
@@ -196,12 +196,12 @@ TEST_CASE( "Nested_monster_groups_spawn_chance", "[mongroup]" )
 
     for( int i = 0; i < iters; i++ ) {
         MonsterGroupResult res = MonsterGroupManager::GetResultFromGroup( mg ).front();
-        auto iter = results.find( res.name );
-        CAPTURE( res.name.c_str() );
+        auto iter = results.find( res.id );
+        CAPTURE( res.id.c_str() );
         REQUIRE( iter != results.end() );
         if( iter != results.end() ) {
             layers[std::get<0>( iter->second )].second++;
-            std::get<2>( results[res.name] )++;
+            std::get<2>( results[res.id] )++;
         }
     }
 

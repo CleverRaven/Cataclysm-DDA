@@ -3202,7 +3202,7 @@ class Character : public Creature, public visitable
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
-                                   const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
+                                   const bodypart_id &bp = bodypart_str_id::NULL_ID() ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */

@@ -57,7 +57,7 @@ On Windows, there is an [AStyle extension for Visual Studio 2019](https://github
 
 ## JSON style
 
-See the [JSON style guide](JSON_STYLE.md).
+See the [JSON style guide](../JSON/JSON_STYLE.md).
 
 ## ctags
 

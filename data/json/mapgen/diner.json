@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_3" ],
-    "weight": 300,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -74,7 +73,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_roof_3" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

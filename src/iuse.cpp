@@ -300,6 +300,8 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
 static const itype_id itype_tazer( "tazer" );
 static const itype_id itype_tongs( "tongs" );
@@ -1759,7 +1761,7 @@ static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
     map &here = get_map();
     // isolated little body of water with no definite fish population
     const oter_id &cur_omt =
-        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.get_abs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -2910,7 +2912,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
-        p->activity.placement = here.getglobal( pnt );
+        p->activity.placement = here.get_abs( pnt );
         return 1;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3130,7 +3132,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
     p->assign_activity( activity, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3197,7 +3199,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getglobal( *target ) ) );
+                         item_location( you, it ), get_map().get_abs( *target ) ) );
     return 1;
 }
 
@@ -4602,7 +4604,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos_bub() );
+    p.activity.placement = get_map().get_abs( p.pos_bub() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint_bub_ms & )
@@ -4699,7 +4701,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -4744,7 +4746,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -6456,7 +6458,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint_bub_m
                                               obj_list );
     }
 
-    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.get_abs( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
@@ -8003,12 +8005,12 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
-    const float incident_light = incident_sunlight( current_weather( here.getglobal( pos ) ),
+    const float incident_light = incident_sunlight( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     const float nat_light = g->natural_light_level( pos.z() );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
-    const float incident_irrad = incident_sun_irradiance( current_weather( here.getglobal( pos ) ),
+    const float incident_irrad = incident_sun_irradiance( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     p->add_msg_if_player( m_neutral,
                           _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
@@ -8330,7 +8332,7 @@ heater find_heater( Character *p, item *it )
                 optional_vpart_position vp = get_map().veh_at( app.value().first );
                 available_heater = vp->vehicle().connected_battery_power_level().first;
                 heating_effect = app.value().second->charges_to_use();
-                vpt = get_map().getglobal( app.value().first );
+                vpt = get_map().get_abs( app.value().first );
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
@@ -8717,16 +8719,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos_bub(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), itype_stick, 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "stick", 1 );
-        here.spawn_item( p->pos_bub(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), itype_stick, 1 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 1 );
         return 1;
     }
     return 0;

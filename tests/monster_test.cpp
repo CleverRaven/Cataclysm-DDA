@@ -44,7 +44,7 @@ static int moves_to_destination( const std::string &monster_type,
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( get_map().getglobal( end ) );
+    test_monster.set_dest( get_map().get_abs( end ) );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;

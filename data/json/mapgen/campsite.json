@@ -1,6 +1,6 @@
 [
   {
-    "name": "CAMPERS",
+    "id": "CAMPERS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 500 },
