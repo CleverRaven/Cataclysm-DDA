@@ -441,6 +441,18 @@ void overmapbuffer::toggle_explored( const tripoint_abs_omt &p )
     om_loc.om->explored( om_loc.local ) = !om_loc.om->explored( om_loc.local );
 }
 
+bool overmapbuffer::distance_limit( const int distance, const tripoint_abs_omt &origin_pos,
+                                    const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) <= distance;
+}
+
+bool overmapbuffer::distance_limit_line( const int distance, const tripoint_abs_omt &origin_pos,
+        const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) == distance;
+}
+
 bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 {
     for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
