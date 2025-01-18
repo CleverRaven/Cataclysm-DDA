@@ -86,7 +86,7 @@ void magic_type::serialize( JsonOut &json ) const
     json.member( "max_book_level", max_book_level );
     json.member( "failure_cost_percent", static_cast<float>( failure_cost_percent.min.dbl_val.value() ),
                  0.0f );
-    json.member( "failure_exp_percent", static_cast<float>( failure_cost_percent.min.dbl_val.value() ),
+    json.member( "failure_exp_percent", static_cast<float>( failure_exp_percent.min.dbl_val.value() ),
                  0.2f );
     json.member( "failure_eocs", failure_eocs, std::vector<effect_on_condition_id> {} );
 

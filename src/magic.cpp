@@ -1806,7 +1806,7 @@ static void blood_magic( Character *you, int cost )
     you->mod_pain( std::max( 1, cost / 3 ) );
 }
 
-void spell::consume_spell_cost( Character &caster )
+void spell::consume_spell_cost( Character &caster ) const
 {
     int cost = energy_cost( caster ) * get_failure_cost_percent( caster );
     switch( energy_source() ) {
