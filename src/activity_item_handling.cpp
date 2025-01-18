@@ -2202,7 +2202,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                         }
 
                         // if unloading molle
-                        if( unload_molle and ! it->get_contents().get_added_pockets().empty() ) {
+                        if( unload_molle && ! it->get_contents().get_added_pockets().empty() ) {
                             has_items_to_work_on = true;
                             break;
                         }
