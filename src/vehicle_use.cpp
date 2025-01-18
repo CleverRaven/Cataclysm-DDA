@@ -1322,7 +1322,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
-    here.set_transparency_cache_dirty( sm_pos.z );
+    here.set_transparency_cache_dirty( sm_pos.z() );
     const tripoint_bub_ms part_location = mount_to_tripoint( parts[part_index].mount );
     here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos_bub(), part_location );
