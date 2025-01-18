@@ -383,6 +383,8 @@ class spell_type
         int exp_for_level( int level ) const;
         // returns the level of this spell type if the spell has the given experience.
         int get_level( int experience ) const;
+        // the maximum level of this spell that can be learned from a book.
+        std::optional<int> get_max_book_level() const;
     private:
         // default values
         static const skill_id skill_default;
@@ -438,6 +440,7 @@ class spell_type
         std::optional<magic_energy_type> energy_source;
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;
+        std::optional<int> max_book_level;
 };
 
 class spell
@@ -636,6 +639,12 @@ class spell
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
         mod_id get_src() const;
+
+        std::optional<int> max_book_level() const;
+        double get_failure_cost_percent( Creature &caster ) const;
+        double get_failure_exp_percent( Creature &caster ) const;
+        void consume_spell_cost( Character &caster ) const;
+        std::vector<effect_on_condition_id> get_failure_eoc_ids() const;
 
         // tries to create a field at the location specified
         void create_field( const tripoint_bub_ms &at, Creature &caster ) const;

@@ -3790,29 +3790,6 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     act->set_to_null();
 }
 
-static void blood_magic( Character *you, int cost )
-{
-    std::vector<uilist_entry> uile;
-    std::vector<bodypart_id> parts;
-    int i = 0;
-    for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
-        const int hp_cur = you->get_part_hp_cur( bp );
-        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
-
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, you->get_part_hp_max( bp ) );
-        entry.ctxt = colorize( hp.first, hp.second );
-        uile.emplace_back( entry );
-        parts.push_back( bp );
-        i++;
-    }
-    int action = -1;
-    while( action < 0 ) {
-        action = uilist( _( "Choose part\nto draw blood from." ), uile );
-    }
-    you->mod_part_hp_cur( parts[action], - cost );
-    you->mod_pain( std::max( 1, cost / 3 ) );
-}
-
 void activity_handlers::spellcasting_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -3843,9 +3820,18 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                         _( "You lose your concentration!" ) );
                 if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
                     // still get some experience for trying
-                    spell_being_cast.gain_exp( *you, exp_gained / 5 );
-                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                    exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
+                    spell_being_cast.gain_exp( *you, exp_gained );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                             spell_being_cast.xp() );
+                }
+                if( act->get_value( 2 ) != 0 ) {
+                    spell_being_cast.consume_spell_cost( *you );
+                }
+                dialogue d( get_talker_for( you ), nullptr );
+                std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
+                for( effect_on_condition_id failure_eoc : failure_eocs ) {
+                    failure_eoc->activate( d );
                 }
                 get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
                         spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
@@ -3866,30 +3852,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
-            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
-            int cost = spell_being_cast.energy_cost( *you );
-
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                switch( spell_being_cast.energy_source() ) {
-                    case magic_energy_type::mana:
-                        you->magic->mod_mana( *you, -cost );
-                        break;
-                    case magic_energy_type::stamina:
-                        you->mod_stamina( -cost );
-                        break;
-                    case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
-                        break;
-                    case magic_energy_type::hp:
-                        blood_magic( you, cost );
-                        break;
-                    case magic_energy_type::none:
-                    default:
-                        break;
-                }
-
+                spell_being_cast.consume_spell_cost( *you );
             }
             if( level_override == -1 ) {
                 if( !spell_being_cast.is_max_level( *you ) ) {

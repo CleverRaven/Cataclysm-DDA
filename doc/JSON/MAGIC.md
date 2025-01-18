@@ -670,6 +670,12 @@ Magic Type Example:
     "get_level_formula_id": "magic_test_func_get_level",
     "exp_for_level_formula_id": "magic_test_func_exp_for_level",
     "cannot_cast_flags": "NO_SPELLCASTING",
+    "cannot_cast_message": "you cannot cast test spells!",
+    "casting_xp_formula_id": "magic_test_xp_formula", // id of a jmath func that determines how much xp is gained by successful casts.
+    "max_book_level": 0, // associated spells can not be leveled by reading books, scrolls, etc above this level.
+    "failure_cost_percent": 1, // decimal value that decides how much energy is consumed by spells when they fail to cast.  Defaults to 0.
+    "failure_exp_percent": 1, // decimal value that decides how much exp is gained when spells fail to cast compared to normal.  Defaults to 0.2 .
+    "failure_eocs": "EOC_random_mutate" // EOC cast by the player if the spell fails to cast.
   },
   {
     "id": "test_spell",

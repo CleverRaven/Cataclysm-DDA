@@ -488,6 +488,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
     optional( jo, was_loaded, "magic_type", magic_type );
+    optional( jo, was_loaded, "max_book_level", max_book_level );
     if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
         ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
@@ -635,6 +636,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "get_level_formula_id", get_level_formula_id );
     json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
     json.member( "magic_type", magic_type );
+    json.member( "max_book_level", max_book_level );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -1710,6 +1712,22 @@ static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
 
+std::optional<int> spell_type::get_max_book_level() const
+{
+    std::optional<int> max_level;
+    if( max_book_level.has_value() ) {
+        max_level = max_book_level;
+    } else if( magic_type.has_value() ) {
+        max_level = magic_type.value()->max_book_level;
+    }
+    return max_level;
+}
+
+std::optional<int> spell::max_book_level() const
+{
+    return type->get_max_book_level();
+}
+
 magic_energy_type spell_type::get_energy_source() const
 {
     if( energy_source.has_value() ) {
@@ -1742,6 +1760,80 @@ std::optional<jmath_func_id> spell_type::overall_exp_for_level_formula_id() cons
     } else {
         std::optional<jmath_func_id> val;
         return val;
+    }
+}
+
+double spell::get_failure_cost_percent( Creature &caster ) const
+{
+    if( type->magic_type.has_value() ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->magic_type.value()->failure_cost_percent.evaluate( d );
+    } else {
+        return 0.0f;
+    }
+}
+
+double spell::get_failure_exp_percent( Creature &caster ) const
+{
+    if( type->magic_type.has_value() ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->magic_type.value()->failure_exp_percent.evaluate( d );
+    } else {
+        return 0.2f;
+    }
+}
+
+static void blood_magic( Character *you, int cost )
+{
+    std::vector<uilist_entry> uile;
+    std::vector<bodypart_id> parts;
+    int i = 0;
+    for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
+        const int hp_cur = you->get_part_hp_cur( bp );
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
+
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, you->get_part_hp_max( bp ) );
+        entry.ctxt = colorize( hp.first, hp.second );
+        uile.emplace_back( entry );
+        parts.push_back( bp );
+        i++;
+    }
+    int action = -1;
+    while( action < 0 ) {
+        action = uilist( _( "Choose part\nto draw blood from." ), uile );
+    }
+    you->mod_part_hp_cur( parts[action], - cost );
+    you->mod_pain( std::max( 1, cost / 3 ) );
+}
+
+void spell::consume_spell_cost( Character &caster ) const
+{
+    int cost = energy_cost( caster ) * get_failure_cost_percent( caster );
+    switch( energy_source() ) {
+        case magic_energy_type::mana:
+            caster.magic->mod_mana( caster, -cost );
+            break;
+        case magic_energy_type::stamina:
+            caster.mod_stamina( -cost );
+            break;
+        case magic_energy_type::bionic:
+            caster.mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
+            break;
+        case magic_energy_type::hp:
+            blood_magic( &caster, cost );
+            break;
+        case magic_energy_type::none:
+        default:
+            break;
+    }
+}
+
+std::vector<effect_on_condition_id> spell::get_failure_eoc_ids() const
+{
+    if( type->magic_type.has_value() ) {
+        return type->magic_type.value()->failure_eocs;
+    } else {
+        return std::vector<effect_on_condition_id> {};
     }
 }
 
@@ -1876,10 +1968,14 @@ float spell::exp_modifier( const Character &guy ) const
 
 int spell::casting_exp( const Character &guy ) const
 {
-    // the amount of xp you would get with no modifiers
-    const int base_casting_xp = 75;
-
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    if( type->magic_type.has_value() && type->magic_type.value()->casting_xp_formula_id.has_value() ) {
+        const_dialogue d( get_const_talker_for( guy ), nullptr );
+        return std::round( type->magic_type.value()->casting_xp_formula_id.value()->eval( d, {} ) );
+    } else {
+        // the amount of xp you would get with no modifiers
+        const int base_casting_xp = 75;
+        return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    }
 }
 
 std::string spell::enumerate_targets() const

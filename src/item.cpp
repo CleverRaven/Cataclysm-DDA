@@ -6425,8 +6425,11 @@ nc_color item::color_in_inventory( const Character *const ch ) const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
+            std::optional<int> max_book_level = sp_id->get_max_book_level();
             if( player_character.magic->knows_spell( sp_id ) &&
-                !player_character.magic->get_spell( sp_id ).is_max_level( player_character ) ) {
+                !player_character.magic->get_spell( sp_id ).is_max_level( player_character ) &&
+                !( max_book_level.has_value() &&
+                   player_character.magic->get_spell( sp_id ).get_level() >= max_book_level.value() ) ) {
                 ret = c_yellow;
             }
             if( !player_character.magic->knows_spell( sp_id ) &&

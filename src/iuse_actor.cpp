@@ -2425,7 +2425,8 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint_
         if( p->magic->knows_spell( sp_id ) ) {
             const spell sp = p->magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
-            if( sp.is_max_level( *p ) ) {
+            if( sp.is_max_level( *p ) || ( sp.max_book_level().has_value() &&
+                                           sp.get_level() >= sp.max_book_level() ) ) {
                 entry.ctxt += _( " (Max)" );
                 entry.enabled = false;
             } else {
