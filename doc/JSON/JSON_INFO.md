@@ -2020,6 +2020,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
     "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
     "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "effect_on_conditions": [ "scenario_assassin_conv" ],      // (optional) eoc id, inline eoc, or multiple of them, that would run when scenario starts
     "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
       { "id": "magic_missile", "level": 4 },
       { "id": "summon_undead", "level": 5 },

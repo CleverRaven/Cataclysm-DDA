@@ -545,22 +545,26 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "formication" },
-      { "u_lose_effect": "blisters" },
-      { "u_lose_effect": "frostbite" },
-      { "u_lose_effect": "frostbite_recovery" },
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "slimed" },
-      { "u_lose_effect": "migo_atmosphere" },
-      { "u_lose_effect": "fetid_goop" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" }
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed"
+        ]
+      }
     ]
   },
   {
