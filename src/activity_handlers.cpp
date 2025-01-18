@@ -3823,8 +3823,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                         _( "You lose your concentration!" ) );
                 if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
                     // still get some experience for trying
-                    spell_being_cast.gain_exp( *you, exp_gained / 5 );
-                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                    exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
+                    spell_being_cast.gain_exp( *you, exp_gained );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                             spell_being_cast.xp() );
                 }
                 if( act->get_value( 2 ) != 0 ) {

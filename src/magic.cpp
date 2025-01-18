@@ -1773,6 +1773,16 @@ double spell::get_failure_cost_percent( Creature &caster ) const
     }
 }
 
+double spell::get_failure_exp_percent( Creature &caster ) const
+{
+    if( type->magic_type.has_value() ) {
+        const_dialogue d( get_const_talker_for( caster ), nullptr );
+        return type->magic_type.value()->failure_exp_percent.evaluate( d );
+    } else {
+        return 0.2f;
+    }
+}
+
 static void blood_magic( Character *you, int cost )
 {
     std::vector<uilist_entry> uile;

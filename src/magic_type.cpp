@@ -59,6 +59,10 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
         failure_cost_percent = get_dbl_or_var( jo, "failure_cost_percent", false,
                                                0.0f );
     }
+    if( !was_loaded || jo.has_member( "failure_exp_percent" ) ) {
+        failure_exp_percent = get_dbl_or_var( jo, "failure_exp_percent", false,
+                                               0.2f );
+    }
     if( !was_loaded ) {
         for( JsonValue jv : jo.get_array( "failure_eocs" ) ) {
             failure_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
@@ -82,6 +86,8 @@ void magic_type::serialize( JsonOut &json ) const
     json.member( "max_book_level", max_book_level );
     json.member( "failure_cost_percent", static_cast<float>( failure_cost_percent.min.dbl_val.value() ),
                  0.0f );
+    json.member( "failure_exp_percent", static_cast<float>( failure_cost_percent.min.dbl_val.value() ),
+                 0.2f );
     json.member( "failure_eocs", failure_eocs, std::vector<effect_on_condition_id> {} );
 
     json.end_object();

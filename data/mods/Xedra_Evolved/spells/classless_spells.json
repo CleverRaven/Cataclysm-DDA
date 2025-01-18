@@ -12,6 +12,7 @@
     "exp_for_level_formula_id": "xedra_dream_formula_exp_for_level",
     "casting_xp_formula_id": "xedra_dream_casting_xp_formula",
     "failure_cost_percent": 0.1,
+    "failure_exp_percent": 1,
     "max_book_level": 0
   },
   {
