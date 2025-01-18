@@ -424,6 +424,8 @@
     "min_range": 1,
     "max_range": 15,
     "range_increment": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "damage_increment": 0.5,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 200,

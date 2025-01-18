@@ -505,6 +505,8 @@
     "min_range": 1,
     "max_range": 15,
     "range_increment": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "max_level": 35,
     "difficulty": 3,
     "effect": "summon",
