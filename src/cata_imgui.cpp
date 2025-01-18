@@ -347,7 +347,7 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "zh_CN" ) {
         AddGlyphRangesFromCLDRForZH_HANS( b );
     } else if( lang == "zh_TW" ) {
-        AddGlyphRangesFromCLDRForZH_HANS( b );
+        AddGlyphRangesFromCLDRForZH_HANT( b );
     }
     // NOLINTEND(bugprone-branch-clone)
 }
