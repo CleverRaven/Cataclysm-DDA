@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -130,7 +129,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage_1" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -242,7 +240,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage_2" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

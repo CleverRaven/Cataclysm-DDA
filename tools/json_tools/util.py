@@ -39,8 +39,8 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                         errors.append(
                             "Problem reading file {},".format(json_file) +
                             " reason: {}".format(err))
-                    if type(candidates) != list:
-                        if type(candidates) == OrderedDict:
+                    if type(candidates) is not list:
+                        if type(candidates) is OrderedDict:
                             data.append(candidates)
                         else:
                             errors.append(
@@ -56,13 +56,13 @@ def match_primitive_values(item_value, where_value):
     """Perform any odd logic on item matching.
     """
     # Matching interpolation for keyboard constrained input.
-    if type(item_value) == str:
+    if type(item_value) is str:
         # Direct match
         return bool(re.match(where_value, item_value))
-    elif type(item_value) == int or type(item_value) == float:
+    elif type(item_value) is int or type(item_value) is float:
         # match after string conversion
         return bool(re.match(where_value, str(item_value)))
-    elif type(item_value) == bool:
+    elif type(item_value) is bool:
         # help conversion to JSON booleans from the commandline
         return bool(re.match(where_value, str(item_value).lower()))
     else:
@@ -86,14 +86,14 @@ def matches_where(item, where_key, where_value):
     # So we have some value.
     item_value = item[where_key]
     # Matching interpolation for keyboard constrained input.
-    if type(item_value) == list:
+    if type(item_value) is list:
         # 1 level deep.
         for next_level in item_value:
             if match_primitive_values(next_level, where_value):
                 return True
         # else...
         return False
-    elif type(item_value) == dict:
+    elif type(item_value) is dict:
         # Match against the keys of the dictionary... I question my logic.
         # 1 level deep.
         for next_level in item_value:
@@ -179,14 +179,14 @@ def key_counter(data, where_fn_list):
 
             val = item[key]
             # If value is an object, tally key.subkey for all object subkeys
-            if type(val) == OrderedDict:
+            if type(val) is OrderedDict:
                 for subkey in val.keys():
                     if not subkey.startswith('//'):
                         stats[key + '.' + subkey] += 1
 
             # If value is a list of objects, tally key.subkey for each
-            elif type(val) == list:
-                if all(type(e) == OrderedDict for e in val):
+            elif type(val) is list:
+                if all(type(e) is OrderedDict for e in val):
                     for obj in val:
                         for subkey in obj.keys():
                             if not subkey.startswith('//'):
@@ -208,13 +208,13 @@ def item_value_counter(_value):
     if isinstance(_value, str):
         stats[_value] += 1
     # Cast numbers to strings
-    elif type(_value) == int or type(_value) == float:
+    elif type(_value) is int or type(_value) is float:
         stats[str(_value)] += 1
     # Pull all values from objects
-    elif type(_value) == OrderedDict:
+    elif type(_value) is OrderedDict:
         stats += list_value_counter(list(_value.values()))
     # Pull values from list of objects or strings
-    elif type(_value) == list:
+    elif type(_value) is list:
         stats += list_value_counter(_value)
     else:
         raise ValueError("Value '%s' has unknown type %s" %
@@ -267,14 +267,14 @@ def value_counter(data, search_key, where_fn_list):
 
         # If this value is a list of objects, pull parent_key.child_key
         # values from all of them to include in stats
-        if type(parent_val) == list and all(type(e) == OrderedDict
+        if type(parent_val) is list and all(type(e) is OrderedDict
                                             for e in parent_val):
             for od in parent_val:
                 if child_key in od:
                     stat_vals.append(od[child_key])
 
         # If this value is a single object, get value at parent_key.child_key
-        elif type(parent_val) == OrderedDict and child_key in parent_val:
+        elif type(parent_val) is OrderedDict and child_key in parent_val:
             stat_vals.append(parent_val[child_key])
 
         # Other kinds of data cannot be indexed by parent_key.child_key
@@ -381,7 +381,7 @@ class CDDAJSONWriter(object):
         while items:
             k, v = items.pop(0)
             # Special cases first.
-            if (k == "tools" or k == "components") and type(v) == list:
+            if (k == "tools" or k == "components") and type(v) is list:
                 self.list_of_lists(k, v)
             else:
                 self.write_primitive_key_val(k, v)

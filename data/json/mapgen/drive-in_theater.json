@@ -2,7 +2,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [ [ "car_theater_0_0_1", "car_theater_1_0_1", "car_theater_2_0_1" ] ],
     "object": {
       "rows": [
@@ -37,7 +36,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [ [ "car_theater_0_0_2", "car_theater_1_0_2", "car_theater_2_0_2" ] ],
     "object": {
       "rows": [
@@ -72,7 +70,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [
       [ "car_theater_0_0", "car_theater_1_0", "car_theater_2_0", "car_theater_3_0", "null" ],
       [ "car_theater_0_1", "car_theater_1_1", "car_theater_2_1", "car_theater_3_1", "car_theater_4_1" ],
@@ -174,7 +171,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [ "car_theater_1_2_1" ],
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -216,7 +212,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [ "car_theater_1_2_2" ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -252,7 +247,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [ [ "car_theater_3_1_1" ], [ "car_theater_3_2_1" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",

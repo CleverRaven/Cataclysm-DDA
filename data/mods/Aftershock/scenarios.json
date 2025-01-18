@@ -94,7 +94,18 @@
     "allowed_locs": [ "sloc_augustmoon_docking" ],
     "professions": [ "afs_salvor", "afs_academic", "afs_holo_fighter", "afs_wraitheon_executive", "rocket_jumper", "robot_scavenger" ],
     "whitelist_hobbies": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_physical_stat_genemod",
+      "afs_mental_stat_genemod",
+      "afs_health_genemod",
+      "afs_efficiency_genemod",
+      "afs_beauty_genemod"
+    ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
   },

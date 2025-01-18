@@ -344,7 +344,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
         monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
         REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
-        REQUIRE( mon.get_armor_type( damage_test_fire, body_part_bp_null ) == expected_resist );
+        REQUIRE( mon.get_armor_type( damage_test_fire, bodypart_str_id::NULL_ID() ) == expected_resist );
         REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( mon.get_hp() == mon.get_hp_max() );
         REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );

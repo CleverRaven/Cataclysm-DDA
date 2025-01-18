@@ -2815,7 +2815,7 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     clear_map();
     tripoint_abs_omt const this_omt =
         project_to<coords::omt>( get_avatar().get_location() );
-    tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
+    tripoint_bub_ms const this_bub = get_map().get_bub( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
     REQUIRE( !get_map().i_at( this_bub + tripoint::zero ).empty() );
     REQUIRE( !get_map().i_at( this_bub + tripoint::east ).empty() );

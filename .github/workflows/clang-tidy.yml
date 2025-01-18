@@ -27,56 +27,71 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/clang-tidy.sh", "build-scripts/clang-tidy-wrapper.sh", "build-scripts/get_affected_files.py", ".github/workflows/clang-tidy.yml" ]'
-  build:
-    needs: skip-duplicates
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/clang-tidy-build.sh", "build-scripts/clang-tidy-run.sh", "build-scripts/clang-tidy-wrapper.sh", "build-scripts/get_affected_files.py", ".github/workflows/clang-tidy.yml" ]'
 
+
+  build-clang-tidy:
+    needs: skip-duplicates
+    strategy:
+        fail-fast: true
+    runs-on: ubuntu-24.04
+    env:
+        COMPILER: clang++-17
+    steps:
+    - name: install LLVM 17
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+      run: |
+          sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 libclang-17-dev
+          sudo apt install python3-pip ninja-build cmake
+          pip3 install --user lit
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: build clang-tidy plugin
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+      run: bash ./build-scripts/clang-tidy-build.sh
+    - name: upload plugin
+      uses: actions/upload-artifact@v4
+      with:
+        name: cata-analyzer-plugin
+        path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
+        retention-days: 1
+
+
+  run-clang-tidy:
+    needs: build-clang-tidy
     strategy:
       fail-fast: false
       matrix:
-        # To make the run finish in the run time limit, we split it up into two
-        # parts: the src directory and everything else
+        # To make the run finish in the run time limit, we split it up into three parts:
+        # the files explicitly changed in the pr, the src directory and everything else
         subset: [
             'directly-changed',
             'indirectly-changed-src',
             'indirectly-changed-other'
         ]
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
-        CMAKE: 1
-        CLANG: clang++-17
         COMPILER: clang++-17
-        CATA_CLANG_TIDY: plugin
+        CATA_CLANG_TIDY: clang-tidy-17
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
-        RELEASE: 1
+        LOCALIZE: 1
     steps:
-    - name: install LLVM 17
-      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
-      run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
-          sudo apt update
-          sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 \
-            libclang-17-dev libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
-            libpulse-dev ccache gettext jq
     - name: install dependencies
-      run: |
-          sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
-          pip3 install --user lit
-    - name: ensure clang-tidy and FileCheck commands point to LLVM 17
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
-          mkdir ~/llvm-command-override
-          ln -s /usr/bin/clang-tidy-17 ~/llvm-command-override/clang-tidy
-          ln -s /usr/bin/FileCheck-17 ~/llvm-command-override/FileCheck
-          echo "$HOME/llvm-command-override" >> $GITHUB_PATH
+          sudo apt install clang-17 clang-tidy-17 cmake ccache jq
+          sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext 
     - name: checkout repository
       uses: actions/checkout@v4
-    - name: prepare
-      run: bash ./build-scripts/requirements.sh
+    - name: download plugin from the previous job in this workflow run
+      uses: actions/download-artifact@v4
+      with:
+        name: cata-analyzer-plugin
+        path: build/tools/clang-tidy-plugin/
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
       uses: actions/github-script@v7
@@ -98,7 +113,7 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
-      run: bash ./build-scripts/clang-tidy.sh
+      run: bash ./build-scripts/clang-tidy-run.sh
     - name: show most time consuming checks
       if: always()
       run: | # the folder may not exist if there is no file to analyze

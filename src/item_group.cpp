@@ -956,6 +956,27 @@ std::map<const itype *, std::pair<int, int>> Item_group::every_item_min_max() co
     return result;
 }
 
+std::string item_group::potential_items( const item_group_id &group_id )
+{
+    std::string ret;
+    const Item_spawn_data *spawn_data = spawn_data_from_group( group_id );
+    if( spawn_data ) {
+        const std::map<const itype *, std::pair<int, int>> items_min_max =
+                    spawn_data->every_item_min_max();
+        for( const auto &item_min_max : items_min_max ) {
+            const int &min = item_min_max.second.first;
+            const int &max = item_min_max.second.second;
+            if( min != max ) {
+                ret += string_format( "- <color_cyan>%d-%d %s</color>\n", min, max,
+                                      item_min_max.first->nname( max ) );
+            } else {
+                ret += string_format( "- <color_cyan>%d %s</color>\n", max, item_min_max.first->nname( max ) );
+            }
+        }
+    }
+    return ret;
+}
+
 item_group::ItemList item_group::items_from( const item_group_id &group_id,
         const time_point &birthday, spawn_flags flags )
 {

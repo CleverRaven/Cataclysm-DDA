@@ -227,6 +227,8 @@ static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
+
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
@@ -406,6 +408,181 @@ void iexamine::change_appearance( Character &you, const tripoint_bub_ms & )
         you.customize_appearance( customize_appearance_choice::EYES );
     } else if( amenu.ret == 1 ) {
         you.customize_appearance( customize_appearance_choice::SKIN );
+    }
+}
+
+/**
+* Remove the current threshold and devolve all post thresh mutations to their pre threshold level, unless the new threshold is compatible.
+*/
+static void genemill_remove_thresh( Character &you, mutation_category_id highest_id )
+{
+    int rc = 0;
+    for( const trait_id &mut : you.get_mutations( false, true ) ) {
+        if( !mut->threshreq.empty() || mut->threshold ) {
+            trait_id lastrevert = mut;
+            you.remove_mutation( mut );
+            do {
+                for( const trait_id &c : you.get_mutations( false, true ) ) {
+                    if( std::find( c->replacements.begin(), c->replacements.end(),
+                                   lastrevert ) != c->replacements.end() && ( !c->threshreq.empty() ||
+                                           std::find( c->category.begin(), c->category.end(), highest_id ) != c->category.end() ) ) {
+                        lastrevert = c;
+                        you.remove_mutation( c );
+                    } else {
+                        break;
+                    }
+                }
+                rc++;
+            } while( rc < 10 );
+        }
+    }
+}
+
+/**
+ * GENEMILL: Like a Nanofab, but for your genes.
+ * Used in aftershock, and maybe in other mods.
+ */
+void iexamine::genemill( Character &you, const tripoint_bub_ms & )
+{
+    uilist genemenu;
+    genemenu.title = _( "Select Genetic Treatment" );
+
+    std::vector<trait_id>available_traits;
+    std::vector<item_location> genetech;
+
+    for( item_location &loc : you.all_items_loc() ) {
+        if( loc->has_flag( flag_GENE_TECH ) ) {
+            genetech.push_back( loc );
+        }
+    }
+
+
+    if( genetech.empty() ) {
+        popup( _( "You aren't carrying have any genetic treatments." ) );
+        return;
+    }
+    std::map<int, item_location> item_map;
+    int i = 0;
+    for( const item_location &it : genetech ) {
+        for( trait_id trait : it->template_traits ) {
+            item_map[i] = it;
+            available_traits.push_back( trait );
+            bool can_select = true;
+            std::string context_string;
+
+            //if you have the trait we can abort this early since the only thing we can do is remove it
+            if( you.has_permanent_trait( trait ) ) {
+                context_string = _( "Trait will be reverted to base human morphology." );
+                context_string = string_format( "    <color_green>%s</color>", context_string );
+                genemenu.addentry_col( i, can_select, input_event(), trait->name(), context_string );
+                i++;
+                continue;
+            }
+
+            const mutation_branch &mut = trait.obj();
+            std::vector<trait_id> cancel = mut.cancels;
+            std::vector<trait_id> threshreq = mut.threshreq;
+            bool c_has_threshreq = threshreq.empty() ? true : false;
+
+            //Bionic Incompatibility
+            std::vector<std::string> bionics;
+            for( const bionic_id &bid : you.get_bionics() ) {
+                if( bid->mutation_conflicts.count( trait ) != 0 ) {
+                    bionics.push_back( bid->name.translated() );
+                }
+            }
+            if( !bionics.empty() ) {
+                context_string = string_format( "    <color_red>%s %s</color>", _( "Conflicts with installed:" ),
+                                                string_join( bionics, ", " ) );
+                can_select = false;
+                genemenu.addentry_col( i, can_select, input_event(), mut.name(), context_string );
+                i++;
+                continue;
+            }
+
+            //Threshold requirement
+            for( const trait_id &c : threshreq ) {
+                if( you.has_permanent_trait( c ) ) {
+                    c_has_threshreq = true;
+                    break;
+                }
+            }
+            if( !c_has_threshreq ) {
+                context_string = string_format( "    <color_red>%s ",
+                                                _( "Requires any of the following traits:" ) );
+                for( size_t i = 0; i < threshreq.size() - 1; i++ ) {
+                    context_string += threshreq[i]->name();
+                    context_string += ", ";
+                }
+                context_string += threshreq[threshreq.size() - 1]->name();
+                context_string += "</color>";
+                can_select = false;
+            }
+
+            genemenu.addentry_col( i, can_select, input_event(), mut.name(), context_string );
+            i++;
+        }
+    }
+
+    genemenu.query();
+
+    if( genemenu.ret < 0 ) {
+        return;
+    }
+
+    //Grant the selected mutation.
+    trait_id treatment = available_traits.at( genemenu.ret );
+    int rc = 0;
+    if( you.has_permanent_trait( treatment ) ) {
+        trait_id lastrevert = treatment;
+        you.remove_mutation( treatment );
+        do {
+            for( const trait_id &c : you.get_mutations( false, true ) ) {
+                if( std::find( c->replacements.begin(), c->replacements.end(),
+                               lastrevert ) != c->replacements.end() ) {
+                    lastrevert = c;
+                    you.remove_mutation( c );
+                }
+            }
+            rc++;
+        } while( rc < 10 );
+
+    } else {
+        do {
+            you.mutate_towards( treatment );
+            rc++;
+        } while( !you.has_permanent_trait( treatment ) && rc < 10 );
+    }
+
+    //Handle Thesholds changing/removal.
+    auto highest_id = std::max_element( you.mutation_category_level.begin(),
+                                        you.mutation_category_level.end(),
+                                        []( const std::pair<mutation_category_id, int> &p1,
+    const std::pair<mutation_category_id, int> &p2 ) {
+        return p1.second < p2.second;
+    } );
+    const mutation_category_trait &highest_mct = mutation_category_trait::get_category(
+                highest_id->first );
+
+    //Since chimera grants access to most post thresh traits with little inconvenience, we prevent the player from getting it through genemill.
+    if( highest_id->first != mutation_category_CHIMERA &&
+        you.get_threshold_category() != mutation_category_CHIMERA ) {
+        if( highest_id->second > 30 && !you.has_permanent_trait( highest_mct.threshold_mut ) ) {
+            genemill_remove_thresh( you, highest_id->first );
+            you.set_mutation( highest_mct.threshold_mut );
+            you.add_msg_if_player(
+                _( "As you wake, you find yourself much more attuned to your new form than before." ) );
+
+        } else if( highest_id->second < 30 && you.crossed_threshold() ) {
+            genemill_remove_thresh( you, mutation_category_id::NULL_ID() );
+            you.add_msg_if_player(
+                _( "As you wake, you feel like if you have lost a once important part of yourself." ) );
+        }
+    }
+    //Consume the template if its single use.
+    item_location selected = item_map[genemenu.ret];
+    if( selected->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+        selected.remove_item();
     }
 }
 
@@ -672,7 +849,7 @@ void iexamine::attunement_altar( Character &you, const tripoint_bub_ms & )
 
 void iexamine::translocator( Character &, const tripoint_bub_ms &examp )
 {
-    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().getglobal( examp ) ) );
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().get_abs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
@@ -1300,8 +1477,8 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     tripoint_abs_ms const old_abs_pos = you.get_location();
-    tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
-    tripoint_bub_ms const sm_orig = here.bub_from_abs( project_to<coords::ms>( this_omt ) );
+    tripoint_abs_omt const this_omt = project_to<coords::omt>( here.get_abs( examp ) );
+    tripoint_bub_ms const sm_orig = here.get_bub( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint_bub_ms> this_elevator;
 
     for( tripoint_bub_ms const &pos : closest_points_first( examp, SEEX - 1 ) ) {
@@ -1426,7 +1603,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
         hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub(), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
-        you.activity.placement = get_map().getglobal( examp );
+        you.activity.placement = get_map().get_abs( examp );
         return true;
     }
 }
@@ -1529,7 +1706,7 @@ void iexamine::rubble( Character &you, const tripoint_bub_ms &examp )
         return;
     }
     you.assign_activity( clear_rubble_activity_actor( moves ) );
-    you.activity.placement = here.getglobal( examp );
+    you.activity.placement = here.get_abs( examp );
 }
 
 /**
@@ -1958,7 +2135,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.get_abs( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2013,7 +2190,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
 {
     g->validate_camps();
     map &here = get_map();
-    point_abs_omt omt( coords::project_to<coords::omt>( here.getglobal( examp ) ).xy() );
+    point_abs_omt omt( coords::project_to<coords::omt>( here.get_abs( examp ) ).xy() );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -2044,7 +2221,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
             return;
         }
 
-        temp_camp->validate_bb_pos( here.getglobal( examp ) );
+        temp_camp->validate_bb_pos( here.get_abs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
         temp_camp->scan_pseudo_items();
@@ -2596,7 +2773,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( Character &you, const tripoint_bub_ms &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().getglobal( examp );
+    act.placement = get_map().get_abs( examp );
     act.str_values.emplace_back( seed_id );
     you.assign_activity( act );
 }
@@ -4610,7 +4787,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
-    you.activity.placement = here.getglobal( examp );
+    you.activity.placement = here.get_abs( examp );
     you.activity.auto_resume = true;
 }
 
@@ -4727,7 +4904,7 @@ void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
             }
         } else {
             you.assign_activity( ACT_BUILD );
-            you.activity.placement = here.getglobal( examp );
+            you.activity.placement = here.get_abs( examp );
         }
         return;
     }
@@ -7401,6 +7578,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },
+            { "genemill", &iexamine::genemill },
             { "nanofab", &iexamine::nanofab },
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },

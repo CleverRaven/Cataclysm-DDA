@@ -190,6 +190,13 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
+#if defined(SDL_HINT_APP_NAME)
+    // Requires SDL 2.0.18. String used multiple ways, one of them is the game
+    // identifying itself when asking to inhibit screensaver via dbus under
+    // Linux.
+    SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Dark Days Ahead" ) );
+#endif
+
 #if defined(__linux__)
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
@@ -2754,7 +2761,7 @@ static void CheckMessages()
                         const tripoint_bub_ms bub_pos( pos );
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = here.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( bub_pos );
                             if( vp ) {
                                 if( const std::optional<vpart_reference> controlpart = vp.part_with_feature( "CONTROLS", true ) ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );

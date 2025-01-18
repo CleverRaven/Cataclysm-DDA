@@ -62,6 +62,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "concentration_nether_attunement_influences",
+    "num_args": 0,
+    "return": "(concentration_calculations() > 1 ? concentration_calculations(): 1) * (u_has_proficiency('prof_concentration_basic') ? 0.9: 1) + (u_has_proficiency('prof_concentration_intermediate') ? 0.9: 1) + (u_has_proficiency('prof_concentration_master') ? 0.8: 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
     "//": "This equates to about 500 XP per hour of contemplation when at minimum focus",

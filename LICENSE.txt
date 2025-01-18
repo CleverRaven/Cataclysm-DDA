@@ -14,8 +14,6 @@ PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib l
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
 
-gulrak filesystem (src/third-party/ghc/*) is licensed under the MIT license, see file for text of license.
-
 libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/libbacktrace/blob/master/LICENSE). The full license text is as follows:
 
 # Copyright (C) 2012-2016 Free Software Foundation, Inc.

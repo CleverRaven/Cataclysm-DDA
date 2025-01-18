@@ -650,9 +650,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         layering = PATH_INFO::defaultlayeringjson();
     }
 
-    cata_path json_path = tileset_root / fs::u8path( json_conf );
-    cata_path img_path = tileset_root / fs::u8path( tileset_path );
-    cata_path layering_path = tileset_root / fs::u8path( layering );
+    cata_path json_path = tileset_root / std::filesystem::u8path( json_conf );
+    cata_path img_path = tileset_root / std::filesystem::u8path( tileset_path );
+    cata_path layering_path = tileset_root / std::filesystem::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
     std::ifstream layering_file( layering_path.get_unrelative_path(),
@@ -1421,8 +1421,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     here.prev_o = o;
 
     you.prepare_map_memory_region(
-        here.getglobal( tripoint_bub_ms( min_mm_reg.x, min_mm_reg.y, center.z() ) ),
-        here.getglobal( tripoint_bub_ms( max_mm_reg.x, max_mm_reg.y, center.z() ) )
+        here.get_abs( tripoint_bub_ms( min_mm_reg.x, min_mm_reg.y, center.z() ) ),
+        here.get_abs( tripoint_bub_ms( max_mm_reg.x, max_mm_reg.y, center.z() ) )
     );
 
     //set up a default tile for the edges outside the render area
@@ -1500,7 +1500,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                 for( int zlevel = center.z(); zlevel >= draw_min_z; zlevel -- ) {
                     // todo: conversion slightly simplified, a couple of calls already use pos as tripoint_bub_ms
                     const tripoint_bub_ms pos( point_bub_ms( temp.value() ), zlevel );
-                    const tripoint_abs_ms pos_global = here.getglobal( pos );
+                    const tripoint_abs_ms pos_global = here.get_abs( pos );
                     const int &x = pos.x();
                     const int &y = pos.y();
                     const bool is_center_z = zlevel == center.z();
@@ -1880,7 +1880,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             //bypass cache check in case we learn something new about the terrain's connections
             draw_terrain( p, lighting, height_3d, invisible, true );
             if( here.memory_cache_dec_is_dirty( p ) ) {
-                you.memorize_clear_decoration( here.getglobal( p ), "" );
+                you.memorize_clear_decoration( here.get_abs( p ), "" );
                 draw_furniture( p, lighting, height_3d, invisible, true );
                 draw_trap( p, lighting, height_3d, invisible, true );
                 draw_part_con( p, lighting, height_3d, invisible, true );
@@ -2830,7 +2830,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::FIELD:
         case TILE_CATEGORY::LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
+            seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
             break;
         case TILE_CATEGORY::VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2862,7 +2862,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
+                    seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
                 }
             }
         }
@@ -2878,7 +2878,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( found_id == "graffiti" ) {
                 seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
             } else if( string_starts_with( found_id, "graffiti" ) ) {
-                seed = simple_point_hash( here.getglobal( pos ).raw().xy() );
+                seed = simple_point_hash( here.get_abs( pos ).raw().xy() );
             }
             break;
         case TILE_CATEGORY::ITEM:
@@ -3347,7 +3347,7 @@ bool cata_tiles::draw_terrain( const tripoint_bub_ms &p, const lit_level ll, int
             // do something to get other terrain orientation values
         }
         if( here.memory_cache_ter_is_dirty( p ) ) {
-            get_avatar().memorize_terrain( here.getglobal( p ), tname, subtile, rotation );
+            get_avatar().memorize_terrain( here.get_abs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
         if( !neighborhood_overridden ) {
@@ -3387,7 +3387,7 @@ bool cata_tiles::draw_terrain( const tripoint_bub_ms &p, const lit_level ll, int
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_tile &mt = get_terrain_memory_at( here.getglobal( p ) );
+        const memorized_tile &mt = get_terrain_memory_at( here.get_abs( p ) );
         if( !mt.get_ter_id().empty() ) {
             return memorize_only
                    ? false
@@ -3438,7 +3438,7 @@ bool cata_tiles::draw_furniture( const tripoint_bub_ms &p, const lit_level ll, i
         if( !( you.get_grab_type() == object_type::FURNITURE
                && p == you.pos_bub() + you.grab_point )
             && here.memory_cache_dec_is_dirty( p ) ) {
-            you.memorize_decoration( here.getglobal( p ), fname, subtile, rotation );
+            you.memorize_decoration( here.get_abs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
         if( !neighborhood_overridden ) {
@@ -3488,7 +3488,7 @@ bool cata_tiles::draw_furniture( const tripoint_bub_ms &p, const lit_level ll, i
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_tile &mt = get_furniture_memory_at( here.getglobal( p ) );
+        const memorized_tile &mt = get_furniture_memory_at( here.get_abs( p ) );
         if( !mt.get_dec_id().empty() ) {
             return memorize_only
                    ? false
@@ -3531,7 +3531,7 @@ bool cata_tiles::draw_trap( const tripoint_bub_ms &p, const lit_level ll, int &h
         get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
         if( here.memory_cache_dec_is_dirty( p ) ) {
-            you.memorize_decoration( here.getglobal( p ), trname, subtile, rotation );
+            you.memorize_decoration( here.get_abs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
         if( !neighborhood_overridden ) {
@@ -3574,7 +3574,7 @@ bool cata_tiles::draw_trap( const tripoint_bub_ms &p, const lit_level ll, int &h
         }
     } else if( invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_tile &mt = get_trap_memory_at( here.getglobal( p ) );
+        const memorized_tile &mt = get_trap_memory_at( here.get_abs( p ) );
         if( !mt.get_dec_id().empty() ) {
             return memorize_only
                    ? false
@@ -3595,7 +3595,7 @@ bool cata_tiles::draw_part_con( const tripoint_bub_ms &p, const lit_level ll, in
         avatar &you = get_avatar();
         std::string const &trname = tr_unfinished_construction.str();
         if( here.memory_cache_dec_is_dirty( p ) ) {
-            you.memorize_decoration( here.getglobal( p ), trname, 0, 0 );
+            you.memorize_decoration( here.get_abs( p ), trname, 0, 0 );
         }
         return memorize_only
                ? false
@@ -3938,7 +3938,7 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( ( you.pos_bub() + you.grab_point ) ) )
                 && here.memory_cache_dec_is_dirty( p ) ) {
-                you.memorize_decoration( here.getglobal( p ), vd.get_tileset_id(), subtile, rotation );
+                you.memorize_decoration( here.get_abs( p ), vd.get_tileset_id(), subtile, rotation );
             }
             if( !overridden ) {
                 int height_3d_temp = height_3d;
@@ -3984,7 +3984,7 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
         }
     } else if( !roof && invisible[0] ) {
         // try drawing memory if invisible and not overridden
-        const memorized_tile &t = get_vpart_memory_at( here.getglobal( p ) );
+        const memorized_tile &t = get_vpart_memory_at( here.get_abs( p ) );
         std::string_view tid = t.get_dec_id();
         if( !tid.empty() ) {
             int height_3d_temp = height_3d;
@@ -4261,7 +4261,7 @@ bool cata_tiles::draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &he
     }
 
     const zone_manager &mgr = zone_manager::get_manager();
-    const tripoint_abs_ms abs = get_map().getglobal( p );
+    const tripoint_abs_ms abs = get_map().get_abs( p );
     const zone_data *zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {

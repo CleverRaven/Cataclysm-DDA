@@ -3,6 +3,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <locale>
@@ -18,16 +19,17 @@ tgz_archiver::~tgz_archiver()
     finalize();
 }
 
-std::string tgz_archiver::_gen_tar_header( fs::path const &file_name, fs::path const &prefix,
-        fs::path const &real_path, std::streamsize size )
+std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_name,
+        std::filesystem::path const &prefix,
+        std::filesystem::path const &real_path, std::streamsize size )
 {
-    unsigned const type = fs::is_directory( real_path ) ? 5 : 0;
-    unsigned const perms = fs::is_directory( real_path ) ? 0775 : 0664;
+    unsigned const type = std::filesystem::is_directory( real_path ) ? 5 : 0;
+    unsigned const perms = std::filesystem::is_directory( real_path ) ? 0775 : 0664;
     // https://stackoverflow.com/a/61067330
-    std::time_t const mtime = fs::exists( real_path )
+    std::time_t const mtime = std::filesystem::exists( real_path )
                               ? std::chrono::system_clock::to_time_t(
                                   std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-                                      fs::last_write_time( real_path ) - _fsnow + _sysnow ) ) : std::time_t{};
+                                      std::filesystem::last_write_time( real_path ) - _fsnow + _sysnow ) ) : std::time_t{};
 
     std::string buf( tar_block_size, '\0' );
     std::ostringstream ss( buf );
@@ -53,7 +55,8 @@ std::string tgz_archiver::_gen_tar_header( fs::path const &file_name, fs::path c
     return ss.str();
 }
 
-bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived_path )
+bool tgz_archiver::add_file( std::filesystem::path const &real_path,
+                             std::filesystem::path const &archived_path )
 {
     if( fd == nullptr && ( fd = gzopen( output.c_str(), "wb" ), fd == nullptr ) ) {
         return false;
@@ -69,11 +72,11 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
         return false;
     }
 
-    fs::path prefix;
-    fs::path file_name;
+    std::filesystem::path prefix;
+    std::filesystem::path file_name;
     if( prefix_len > 0 ) {
         std::size_t len = 0;
-        for( fs::path const &it : archived_path ) {
+        for( std::filesystem::path const &it : archived_path ) {
             prefix /= it;
             len += it.generic_u8string().size() + 1;
             if( len >= prefix_len ) {
@@ -88,7 +91,7 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
     std::string header( tar_block_size, '\0' );
     std::streamsize size = 0;
     std::ifstream file( real_path, std::ios::binary | std::ios::ate );
-    if( fs::is_regular_file( real_path ) ) {
+    if( std::filesystem::is_regular_file( real_path ) ) {
         size = file.tellg();
         header = _gen_tar_header( file_name, prefix, real_path, size );
         file.seekg( 0 );
@@ -98,7 +101,7 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
     }
     bool ret = gzwrite( fd, header.c_str(), tar_block_size ) != 0;
 
-    if( !ret || !fs::is_regular_file( real_path ) || size == 0 ) {
+    if( !ret || !std::filesystem::is_regular_file( real_path ) || size == 0 ) {
         return ret;
     }
 

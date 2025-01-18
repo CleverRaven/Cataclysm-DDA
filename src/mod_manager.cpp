@@ -155,6 +155,10 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
+    if( !dir_exist( PATH_INFO::user_moddir() ) ) {
+        assure_dir_exist( PATH_INFO::user_moddir() );
+    }
+
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
     load_mods_from( PATH_INFO::user_moddir_path() );

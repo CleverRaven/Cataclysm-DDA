@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bank" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -126,7 +125,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bank_1" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

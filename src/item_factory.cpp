@@ -4345,6 +4345,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
     }
 
+    if( jo.has_string( "trait_group" ) ) {
+        def.trait_group = string_id<Trait_group>( jo.get_string( "trait_group" ) );
+    }
+
     if( jo.has_string( "template_requirements" ) ) {
         def.template_requirements = requirement_id( jo.get_string( "template_requirements" ) );
     }
