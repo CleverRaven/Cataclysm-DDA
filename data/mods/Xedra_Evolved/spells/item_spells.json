@@ -435,7 +435,17 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "IGNORES_SPELL_RESISTANCE", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
+    "flags": [
+      "SILENT",
+      "NO_EXPLOSION_SFX",
+      "NO_FAIL",
+      "NO_HANDS",
+      "NO_LEGS",
+      "ALWAYS_CASTABLE",
+      "IGNORES_SPELL_RESISTANCE",
+      "RANDOM_DAMAGE",
+      "RANDOM_TARGET"
+    ],
     "min_damage": 80,
     "max_damage": 100,
     "min_range": 9,
