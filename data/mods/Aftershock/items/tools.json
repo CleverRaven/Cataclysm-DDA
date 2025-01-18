@@ -691,7 +691,7 @@
     "id": "afs_internal_battery_compartment",
     "type": "TOOL_ARMOR",
     "name": { "str": "high-voltage battery compartment" },
-    "description": "A battery slot installled in your upper torso, designed to power bionic implants.  Compatible with the power cartridges used by laser weaponry.",
+    "description": "A battery slot installed in your upper torso, designed to power bionic implants.  Compatible with the power cartridges used by laser weaponry.",
     "volume": "750 ml",
     "weight": "1 g",
     "price": "0 cent",
