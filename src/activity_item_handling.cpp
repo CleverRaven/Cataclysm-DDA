@@ -2146,7 +2146,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // check if there is valid destination for any item of the tile
             bool has_items_to_work_on = false;
 
-            for( const item * it : items ) {
+            for( const item *it : items ) {
 
                 const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
                                                   MAX_VIEW_DISTANCE, _fac_id( you ) );
