@@ -6,31 +6,31 @@
 <color_yellow>Whales</color> (<color_dark_gray>引退</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>現在の主要な開発者:</color>
-<color_yellow>anoobindisguise</color> - Relentless bugfixing and polish across most areas of the game.
-<color_yellow>GuardianDll</color> - Random changes in game, random changes in mods.
-<color_yellow>irwiss</color> - Massive bugfixing and code hardening.
-<color_yellow>Maleclypse</color> - Lead Merger for this release cycle and many enhancements to Xedra Evolved.
+<color_yellow>anoobindisguise</color> - ゲームの大部分の領域での絶え間ないバグ修正と改良。
+<color_yellow>GuardianDll</color> - ゲーム内とMOD内の色々な変更。
+<color_yellow>irwiss</color> - 大規模なバグ修正とコード強化。
+<color_yellow>Maleclypse</color> - このリリースサイクルのマージ主導、Xedra Evolvedの多くの機能強化。
 
 <color_white>スペシャルサンクス:</color>
-<color_yellow>anothersimulacrum</color> - For solving difficult problems.
-<color_yellow>akrieger</color> - The Slowdown Smasher.
-<color_yellow>Fris0uman</color> - For managing the tilesets and more.
-<color_yellow>John-Candlebury</color> - For boss fights and Isolation Protocols.
-<color_yellow>Night-Pryanik</color> - For making colds and the flu finally make sense.
-<color_yellow>PatrikLundell</color> - Massive and sorely needed overhauls to faction camp content and infrastructure.
-<color_yellow>Procyonae</color> - For so much mapgen improvements and all the backporting.
-<color_yellow>Qrox</color> - For bugfixes, reviews and infrastructure.
-<color_yellow>Ramza13</color> - For making so many modders dreams come true.
-<color_yellow>RenechCDDA</color> - For the Shadow, camp improvements and NPC Personality.
-<color_yellow>Rivet-the-Zombie</color> - For hitting 10,000 merges.
-<color_yellow>Standing-Storm</color> - For the fastest 0 to 100 in several years.
-<color_yellow>Venera3</color> - For limbification progress.
+<color_yellow>anothersimulacrum</color> - 難問の解決。
+<color_yellow>akrieger</color> - 処理速度低下の解決。
+<color_yellow>Fris0uman</color> - タイルセット管理など。
+<color_yellow>John-Candlebury</color> - ボス戦と隔離プロトコルMOD
+<color_yellow>Night-Pryanik</color> - 風邪やインフルエンザのようやくの正常化。
+<color_yellow>PatrikLundell</color> - 派閥拠点コンテンツと基盤の大規模かつ必要不可欠な改修作業。
+<color_yellow>Procyonae</color> - 多数のマップ生成改善と全ての移植作業。
+<color_yellow>Qrox</color> - バグ修正、レビューと基盤整備。
+<color_yellow>Ramza13</color> - 多くのMOD作成者の夢の実現。
+<color_yellow>RenechCDDA</color> - 影、拠点の改善とNPCの個性強化。
+<color_yellow>Rivet-the-Zombie</color> - 10000回のマージ。
+<color_yellow>Standing-Storm</color> - 数年ぶりの0から100までの加速。
+<color_yellow>Venera3</color> - 四肢実装作業の進行。
 <color_yellow>ZhilkinSerg</color> - あらゆるマージ作業
-<color_yellow>alef</color>, <color_yellow>andrei8l</color>, <color_yellow>Karol1223</color>, <color_yellow>mqrause</color>, and <color_yellow>lispcoc</color>.
+<color_yellow>alef</color>、<color_yellow>andrei8l</color>、<color_yellow>Karol1223</color>、<color_yellow>mqrause</color>、<color_yellow>lispcoc</color>。
 
-<color_white>技術的なスペシャルサンクス:</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>,
-<color_yellow>gettingusedto</color>, and many more.
+<color_white>技術分野スペシャルサンクス:</color>
+<color_yellow>Fris0uman</color>、<color_yellow>Golfavel</color>、<color_yellow>vetall812</color>、<color_yellow>Dandy-boy</color>、
+<color_yellow>gettingusedto</color>、他多数の皆様。
 
 <color_white>全貢献者リスト:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -67,7 +67,7 @@
 <color_yellow>LyleSY</color> - 更なる恐竜
 <color_yellow>irwiss</color>、<color_yellow>Maleclypse</color>、<color_yellow>Venera3</color>、<color_yellow>MylieDaniels</color>、<color_yellow>andrei8l</color>、<color_yellow>mqrause</color>、<color_yellow>Eltank</color>
 
-<color_white>技術的なスペシャルサンクス:</color>
+<color_white>技術分野スペシャルサンクス:</color>
 <color_yellow>Fris0uman</color>、<color_yellow>Golfavel</color>、<color_yellow>vetall812</color>、<color_yellow>Dandy-boy</color>、その他たくさんの方々
 
 <color_white>全貢献者リスト:</color>
