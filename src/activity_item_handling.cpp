@@ -2134,7 +2134,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             std::vector<const item *> items;
             // populate items from the appropriate source
             if( vp ) {
-                for( const item& it : vp->items() ) {
+                for( const item &it : vp->items() ) {
                     items.push_back( &it );
                 }
             } else
