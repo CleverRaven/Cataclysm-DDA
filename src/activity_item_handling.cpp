@@ -2137,9 +2137,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 for( const item &it : vp->items() ) {
                     items.push_back( &it );
                 }
-            } else
-            {
-                for( const item& it : here.i_at( src_loc ) ) {
+            } else {
+                for( const item &it : here.i_at( src_loc ) ) {
                     items.push_back( &it );
                 }
             }
