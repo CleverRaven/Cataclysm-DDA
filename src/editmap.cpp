@@ -500,7 +500,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     monster *mon = dynamic_cast<monster *>( critter );
                     if( mon != nullptr && mon->has_dest() ) {
                         for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
-                            hilights["mplan"].points[m->bub_from_abs( location )] = 1;
+                            hilights["mplan"].points[m->get_bub( location )] = 1;
                         }
                     }
                 }
@@ -2070,8 +2070,8 @@ void editmap::mapgen_retarget()
 
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
+        if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( vec->xy() );
             tripoint_bub_ms ptarget = target + vec_ms;
             if( get_map().inbounds( ptarget ) &&
                 get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
@@ -2129,13 +2129,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
-        point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
+        tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+        point_bub_ms omt_lpos = here.get_bub( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
+            tc.fromabs( here.get_abs( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {

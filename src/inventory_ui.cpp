@@ -1308,7 +1308,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             return !e.is_collated() &&
                    e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
-                   entry_item.position() == found_entry_item.position() &&
+                   entry_item.pos_bub() == found_entry_item.pos_bub() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->link_length() == found_entry_item->link_length() &&
@@ -2191,7 +2191,7 @@ void inventory_selector::add_basecamp_items( const basecamp &camp )
     std::unordered_set<tripoint_abs_ms> tiles = camp.get_storage_tiles();
     map &here = get_map();
     for( tripoint_abs_ms tile : tiles ) {
-        add_map_items( here.bub_from_abs( tile ) );
+        add_map_items( here.get_bub( tile ) );
     }
 }
 
@@ -4170,7 +4170,7 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const std::optional<tripoint> &where ) :
+                                  const std::string &selection_column_title, const std::optional<tripoint_bub_ms> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );
@@ -4293,7 +4293,11 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+        std::optional<tripoint_bub_ms> temp;
+        if( where.has_value() ) {
+            temp = tripoint_bub_ms( where.value() );
+        }
+        get_player_character().pick_up( game_menus::inv::pickup( temp, to_use ) );
     };
 }
 

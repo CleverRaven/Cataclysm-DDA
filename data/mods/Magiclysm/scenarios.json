@@ -7,9 +7,19 @@
     "flags": [ "LONE_START" ],
     "points": 2,
     "description": "You've been preaching your faith for a long time, but the recent events have begun to make you doubt it.  Wandering in your temple, you just found books that may restore your faith or shatter it completely.",
-    "start_name": "Church",
+    "start_name": "Sanctuary",
     "allowed_locs": [ "sloc_church" ],
-    "professions": [ "priest_magic2", "shinto_priest_magic2", "imam_magic2", "rabbi_magic2", "guru_magic2", "preacher_magic2" ]
+    "eoc": [ "EOC_MAGICLYSM_LOST_FAITH" ],
+    "professions": [ "priest", "shinto_priest", "imam", "rabbi", "guru", "preacher" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_LOST_FAITH",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_item": "priest_beginner", "suppress_message": true },
+      { "u_spawn_item": "priest_advanced", "suppress_message": true }
+    ]
   },
   {
     "type": "scenario",

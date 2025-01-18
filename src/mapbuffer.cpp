@@ -224,7 +224,7 @@ void mapbuffer::save_quad(
 
     bool all_uniform = true;
     bool reverted_to_uniform = false;
-    bool const file_exists = fs::exists( filename.get_unrelative_path() );
+    bool const file_exists = std::filesystem::exists( filename.get_unrelative_path() );
     for( point_rel_sm &offsets_offset : offsets ) {
         tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
         submap_addr += offsets_offset.raw(); // TODO: Make += etc. available to relative parameters as well.
@@ -296,7 +296,7 @@ void mapbuffer::save_quad(
     } );
 
     if( all_uniform && reverted_to_uniform ) {
-        fs::remove( filename.get_unrelative_path() );
+        std::filesystem::remove( filename.get_unrelative_path() );
     }
 }
 

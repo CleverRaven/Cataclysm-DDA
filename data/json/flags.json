@@ -1057,6 +1057,11 @@
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
+    "id": "GENE_TECH",
+    "type": "json_flag",
+    "//": "Used in Aftershock gene editing."
+  },
+  {
     "id": "NANOFAB_REPAIR",
     "type": "json_flag",
     "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."

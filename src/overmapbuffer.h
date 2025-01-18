@@ -197,6 +197,12 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
+        // compare origin_pos with a limit
+        bool distance_limit( int distance, const tripoint_abs_omt &origin_pos,
+                             const tripoint_abs_omt &picked_pos );
+        // same as distance_limit, used to draw a border, to visualize the limit
+        bool distance_limit_line( int distance, const tripoint_abs_omt &origin_pos,
+                                  const tripoint_abs_omt &picked_pos );
         om_vision_level seen( const tripoint_abs_omt &p );
         bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
         void set_seen( const tripoint_abs_omt &p, om_vision_level seen );

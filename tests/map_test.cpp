@@ -29,9 +29,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
         here.vertical_shift( 0 );
     } );
 
-    tripoint test_point =
-        GENERATE( tripoint::zero, tripoint::south, tripoint::east, tripoint::above, tripoint::below );
-    tripoint_bub_ms test_bub( test_point );
+    tripoint_bub_ms test_point = tripoint_bub_ms::zero +
+                                 GENERATE( tripoint_rel_ms::zero, tripoint_rel_ms::south,
+                                           tripoint_rel_ms::east, tripoint_rel_ms::above,
+                                           tripoint_rel_ms::below );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
@@ -51,18 +52,18 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     point_abs_ms map_origin_ms = project_to<coords::ms>( here.get_abs_sub().xy() );
 
-    tripoint_abs_ms test_abs = map_origin_ms + test_point;
+    tripoint_abs_ms test_abs = map_origin_ms + rebase_rel( test_point );
 
     if( test_abs.z() > OVERMAP_HEIGHT || test_abs.z() < -OVERMAP_DEPTH ) {
         return;
     }
 
-    CAPTURE( test_bub );
+    CAPTURE( test_point );
     CAPTURE( test_abs );
 
     // Verify round-tripping
-    CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
-    CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
+    CHECK( here.get_abs( here.get_bub( test_abs ) ) == test_abs );
+    CHECK( here.get_bub( here.get_abs( test_point ) ) == test_point );
 }
 
 TEST_CASE( "destroy_grabbed_furniture" )
@@ -181,7 +182,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     REQUIRE( here.get_submaps_with_active_items().empty() );
     here.check_submap_active_item_consistency();
     tripoint_bub_ms const test_loc;
-    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.get_abs( test_loc ) );
 
     item bottle_plastic( itype_bottle_plastic );
     REQUIRE( !bottle_plastic.needs_processing() );
@@ -221,7 +222,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     here.check_submap_active_item_consistency();
     REQUIRE( here.get_submaps_with_active_items().empty() );
     tripoint_bub_ms const test_loc;
-    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
+    tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.get_abs( test_loc ) );
 
     restore_on_out_of_scope restore_temp(
         get_weather().forced_temperature );

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ [ "junkyard_1a", "junkyard_1b" ] ],
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -63,7 +62,6 @@
     "method": "json",
     "om_terrain": [ [ "junkyard_roof_1a", "junkyard_roof_1b" ] ],
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -99,7 +97,6 @@
     "method": "json",
     "om_terrain": [ [ "junkyard_2a", "junkyard_2b" ] ],
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [

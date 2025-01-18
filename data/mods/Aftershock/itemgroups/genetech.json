@@ -1,0 +1,15 @@
+[
+  {
+    "//": "For use in a commercial settings but secured such as in safes. Offers more reward for greater risk/effort involved in obtaining. Shouldn't give any super special or highly valuable genetech.",
+    "id": "afs_genetech_commerical_safe",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "afs_gene_disp", "count": [ 3, 7 ] }, { "item": "afs_gene_template", "prob": 80, "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "afs_genetech_commercial_shelf",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "afs_gene_disp_low_tier", "count": [ 1, 3 ] } ]
+  }
+]

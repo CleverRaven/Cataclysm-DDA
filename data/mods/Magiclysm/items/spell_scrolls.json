@@ -186,8 +186,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_light_healing",
     "//": "Biomancer spell",
-    "name": { "str": "Scroll of Cure Light Wounds", "str_pl": "Scrolls of Cure Light Wounds" },
-    "description": "Heals a little bit of damage on the target.",
+    "name": { "str": "Scroll of Knit the Rent Flesh", "str_pl": "Scrolls of Knit the Rent Flesh" },
+    "description": "Cause the target's wounds to pull themselves together.",
     "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
   },
   {
@@ -1686,8 +1686,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_cure_disease_minor",
     "//": "Biomancer spell",
-    "name": { "str": "Scroll of Cure Disease, Minor", "str_pl": "Scrolls of Cure Disease, Minor" },
-    "description": "Snap your fingers and get rid of that nasty cold or flu.",
+    "name": { "str": "Scroll of Purgation of Maladies", "str_pl": "Scrolls of Purgation of Maladies" },
+    "description": "Snap your fingers and get rid of that nasty cold or flu, with the slight disadvantage that you'll have to vomit it out.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_cure_disease_minor" ] }
   },
   {
@@ -1713,7 +1713,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_hyper_regeneration",
     "//": "Biomancer spell",
-    "name": { "str": "Scroll of Rapid Regeneration", "str_pl": "Scrolls of Rapid Regeneration" },
+    "name": { "str": "Scroll of Corporeal Reconstitution", "str_pl": "Scrolls of Corporeal Reconstitution" },
     "description": "Cuts?  Lacerations?  Torn organs?  Fix all that with this handy spell.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
   },

@@ -335,21 +335,25 @@
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "u_lose_effect": "effect_biokin_sealed" },
-      { "u_lose_effect": "effect_biokin_combat_dance" },
-      { "u_lose_effect": "effect_biokin_perfected_motion" },
-      { "u_lose_effect": "effect_clair_sense_rads_self" },
+      {
+        "u_lose_effect": [
+          "effect_biokin_sealed",
+          "effect_biokin_combat_dance",
+          "effect_biokin_perfected_motion",
+          "effect_clair_sense_rads_self",
+          "effect_clair_perfect_shot",
+          "effect_clair_omniscence",
+          "effect_photokin_arms",
+          "effect_telekinetic_slowfall",
+          "effect_telekinetic_aegis",
+          "effect_telepath_invisibility",
+          "effect_telepath_network_effect",
+          "effect_vitakin_purge_rads",
+          "effect_psi_intense_concentration"
+        ]
+      },
       { "u_remove_item_with": "clair_sense_rad_item" },
-      { "u_lose_effect": "effect_clair_perfect_shot" },
-      { "u_lose_effect": "effect_clair_omniscence" },
-      { "u_lose_effect": "effect_photokin_arms" },
-      { "u_lose_effect": "effect_telekinetic_slowfall" },
-      { "u_lose_effect": "effect_telekinetic_aegis" },
-      { "u_lose_effect": "effect_telepath_invisibility" },
-      { "u_lose_effect": "effect_telepath_network_effect" },
-      { "u_lose_effect": "effect_vitakin_purge_rads" },
-      { "math": [ "u_vitamin('vitamin_maintained_powers') = 0" ] },
-      { "u_lose_effect": "effect_psi_intense_concentration" }
+      { "math": [ "u_vitamin('vitamin_maintained_powers') = 0" ] }
     ]
   },
   {

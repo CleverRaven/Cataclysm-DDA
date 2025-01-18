@@ -408,10 +408,10 @@ void veh_app_interact::refill()
         const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ) );
+            act.coord_set.insert( here.get_abs( p ) );
         }
-        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
-        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
+        act.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );
         act.values.push_back( a_point.x() );
         act.values.push_back( a_point.y() );
         act.values.push_back( -a_point.x() );
@@ -497,9 +497,9 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ) );
+            act.coord_set.insert( here.get_abs( p ) );
         }
-        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
+        const tripoint a_point_abs( here.get_abs( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
         act.values.push_back( a_point.x() );
@@ -617,7 +617,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ).raw(), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

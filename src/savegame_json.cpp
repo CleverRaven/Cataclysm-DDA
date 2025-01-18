@@ -218,10 +218,11 @@ static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
     //    }
 }
 
-static tripoint read_legacy_creature_pos( const JsonObject &data )
+static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
 {
-    tripoint pos;
-    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+    tripoint_bub_ms pos;
+    if( !data.read( "posx", pos.x() ) || !data.read( "posy", pos.y() ) ||
+        !data.read( "posz", pos.z() ) ) {
         debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
     }
     return pos;
@@ -1461,9 +1462,9 @@ void Character::store( JsonOut &json ) const
     json.start_array();
     for( const auto &elem : known_traps ) {
         json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
+        json.member( "x", elem.first.x() );
+        json.member( "y", elem.first.y() );
+        json.member( "z", elem.first.z() );
         json.member( "trap", elem.second );
         json.end_object();
     }
@@ -2059,15 +2060,15 @@ void npc::load( const JsonObject &data )
     if( !data.has_member( "location" ) ) {
         point submap_coords;
         data.read( "submap_coords", submap_coords );
-        const tripoint pos = read_legacy_creature_pos( data );
+        const tripoint_bub_ms pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
-        std::optional<tripoint> opt;
+                                       0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
+        std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
-            last_player_seen_pos = get_location() + *opt - pos;
+            last_player_seen_pos = get_location() + ( *opt - pos );
         }
         if( data.read( "pulp_location", opt ) && opt ) {
-            pulp_location = get_location() + *opt - pos;
+            pulp_location = get_location() + ( *opt - pos );
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
@@ -2433,12 +2434,12 @@ void monster::load( const JsonObject &data )
 
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
-        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-        tripoint wand;
-        data.read( "wandx", wand.x );
-        data.read( "wandy", wand.y );
-        data.read( "wandz", wand.z );
-        wander_pos = get_map().getglobal( wand );
+        set_location( get_map().get_abs( read_legacy_creature_pos( data ) ) );
+        tripoint_bub_ms wand;
+        data.read( "wandx", wand.x() );
+        data.read( "wandy", wand.y() );
+        data.read( "wandz", wand.z() );
+        wander_pos = get_map().get_abs( wand );
         tripoint destination;
         data.read( "destination", destination );
         if( destination != tripoint::zero ) {
@@ -2901,6 +2902,7 @@ void item::io( Archive &archive )
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
+    archive.io( "template_traits", template_traits );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
@@ -3951,7 +3953,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
     const auto write_seq = [&]() {
         jsout.start_array();
         jsout.write( num_same );
-        jsout.write( last.symbol );
+        jsout.write( static_cast<int>( last.symbol ) );
         jsout.write( last.ter_id );
         jsout.write( static_cast<int>( last.ter_subtile ) );
         jsout.write( static_cast<int>( last.ter_rotation ) );

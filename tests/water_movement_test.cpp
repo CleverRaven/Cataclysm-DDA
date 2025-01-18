@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <memory>
 #include <utility>
 
@@ -951,7 +952,7 @@ TEST_CASE( "export_scenario_swim_move_cost_and_distance_values", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
     testfile << "scenario, move cost, steps" << std::endl;
 
     for( const swim_scenario &scenario : generate_scenarios() ) {
@@ -976,7 +977,7 @@ TEST_CASE( "export_profession_swim_cost_and_distance", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
     const std::vector<profession> &all = profession::get_all();
@@ -1012,7 +1013,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-skill.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-skill.csv" ), std::ofstream::trunc );
     testfile << "athletics, move cost, steps" << std::endl;
     for( int i = 0; i <= 10; i++ ) {
         swimmer_config config( stats_map.at( "average" ), swimmer_skills{i}, gear_map.at( "none" ),
@@ -1022,7 +1023,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     }
     testfile.close();
 
-    testfile.open( fs::u8path( "swim-strength.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-strength.csv" ), std::ofstream::trunc );
     testfile << "strength, move cost, steps" << std::endl;
     for( int i = 4; i <= 20; i++ ) {
         swimmer_config config( {i, 8}, skills_map.at( "none" ), gear_map.at( "none" ),
@@ -1032,7 +1033,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     }
     testfile.close();
 
-    testfile.open( fs::u8path( "swim-dexterity.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-dexterity.csv" ), std::ofstream::trunc );
     testfile << "dexterity, move cost, steps" << std::endl;
     for( int i = 4; i <= 20; i++ ) {
         swimmer_config config( { 8, i }, skills_map.at( "none" ), gear_map.at( "none" ),

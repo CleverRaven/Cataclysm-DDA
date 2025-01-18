@@ -21,7 +21,7 @@
     "entries": [ { "item": "mead", "container-item": "bowl_clay", "charges": [ 2, 7 ] } ]
   },
   {
-    "name": "GROUP_STANDING_STONES",
+    "id": "GROUP_STANDING_STONES",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 900 }, { "monster": "mon_darkman", "weight": 100, "conditions": [ "NIGHT" ] } ]
   },
@@ -29,7 +29,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "standing_stones" ],
-    "weight": 500,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

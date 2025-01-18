@@ -359,6 +359,10 @@ class game
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint_bub_ms> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint_bub_ms> &range );
+        // Differs from the operations above in that it refers to a map that isn't necessarily the main one.
+        // Also, it places the critter at the center position if possible, and any available location with equal weight if not.
+        monster *place_critter_at_or_within( const shared_ptr_fast<monster> &mon, map *here,
+                                             const tripoint_bub_ms &center, const tripoint_range<tripoint_bub_ms> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -496,13 +500,13 @@ class game
         Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
-        // TODO: fix point types (remove the first overload)
-        bool is_empty( const tripoint &p );
         bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint_bub_ms &p );
+        bool is_in_sunlight( map *here, const tripoint_bub_ms &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint_bub_ms &p );
+        bool is_sheltered( map *here, const tripoint_bub_ms &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a

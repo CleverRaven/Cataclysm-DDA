@@ -672,5 +672,24 @@
       { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
       { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_STONE_MEDITATIONS",
+    "effect": [
+      {
+        "switch": { "math": [ "u_val('morale')" ] },
+        "cases": [
+          { "case": -100, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 90, "max_bonus": 90 } },
+          { "case": -75, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 65, "max_bonus": 65 } },
+          { "case": -50, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 45, "max_bonus": 45 } },
+          { "case": -25, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": 22, "max_bonus": 22 } },
+          { "case": 25, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -22, "max_bonus": -22 } },
+          { "case": 50, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -45, "max_bonus": 45 } },
+          { "case": 75, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -65, "max_bonus": -65 } },
+          { "case": 100, "effect": { "u_add_morale": "morale_ierde_meditation", "bonus": -90, "max_bonus": -90 } }
+        ]
+      }
+    ]
   }
 ]

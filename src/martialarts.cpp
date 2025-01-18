@@ -1482,7 +1482,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
             // Store a dummy sublimb to show we're attacking with a weapon
             weight = weapon->base_damage_melee().total_damage();
             list.add_or_replace( vec, weight );
-            storage.emplace_back( vec, sub_body_part_sub_limb_debug );
+            storage.emplace_back( vec, sub_bodypart_str_id::NULL_ID() );
             add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
                            weapon->display_name(),
                            vec.c_str(), weight );

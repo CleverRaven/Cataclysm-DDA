@@ -3,7 +3,7 @@
   Usage:
     `cd path/to/Cataclysm-DDA/`
     `python3 tools/json_tools/update-translate-dialogue-mod.py`
-    then lint via `json_formatter.cgi`, check `doc/JSON_STYLE.md`
+    then lint via `json_formatter.cgi`, check `doc/JSON/JSON_STYLE.md`
 
   You can also add `"//": "mod_update_script_compact"`
   to dynamic lines to make the script concatenate that line
@@ -71,7 +71,7 @@ def main():
     for f in files:
         dialogues = []
         with open(input_dir + f, encoding="utf-8") as fp:
-            print(f"Reading from {input_dir+f}")
+            print(f"Reading from {input_dir + f}")
             json_data = json.load(fp)
 
         for obj in json_data:
@@ -82,7 +82,7 @@ def main():
 
         if dialogues:
             with open(output_dir + f, "w", encoding="utf-8") as fp:
-                print(f"  Writing to {output_dir+f}")
+                print(f"  Writing to {output_dir + f}")
                 json.dump(dialogues, fp, ensure_ascii=False, indent="  ")
 
 

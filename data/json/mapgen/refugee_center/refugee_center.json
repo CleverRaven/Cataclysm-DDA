@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ] ],
-    "weight": 100,
     "object": {
       "faction_owner": [
         { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -56,7 +55,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_6", "evac_center_7", "evac_center_8", "evac_center_9", "evac_center_10" ] ],
-    "weight": 100,
     "object": {
       "faction_owner": [
         { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -158,7 +156,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_11", "evac_center_12", "evac_center_13", "evac_center_14", "evac_center_15" ] ],
-    "weight": 100,
     "object": {
       "faction_owner": [
         { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -239,7 +236,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_16", "evac_center_17", "evac_center_18", "evac_center_19", "evac_center_20" ] ],
-    "weight": 100,
     "object": {
       "faction_owner": [
         { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -289,7 +285,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] },
         { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 72, 72 ], "y": [ 0, 0 ] },
         { "type": "LOOT_CURRENCY", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 2, 2 ] },
-        { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] }
+        { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 59, 60 ], "y": [ 10, 11 ] }
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
@@ -357,7 +354,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_21", "evac_center_22", "evac_center_23", "evac_center_24", "evac_center_25" ] ],
-    "weight": 100,
     "object": {
       "faction_owner": [
         { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },

@@ -4345,6 +4345,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
     }
 
+    if( jo.has_string( "trait_group" ) ) {
+        def.trait_group = string_id<Trait_group>( jo.get_string( "trait_group" ) );
+    }
+
     if( jo.has_string( "template_requirements" ) ) {
         def.template_requirements = requirement_id( jo.get_string( "template_requirements" ) );
     }
@@ -5366,43 +5370,6 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
         rval.push_back( group_pair.first );
     }
     return rval;
-}
-
-void item_group::debug_spawn()
-{
-    std::vector<item_group_id> groups = item_controller->get_all_group_names();
-    uilist menu;
-    menu.text = _( "Test which group?" );
-    for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
-    }
-    while( true ) {
-        menu.query();
-        const int index = menu.ret;
-        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
-            break;
-        }
-        // Spawn items from the group 100 times
-        std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
-            const ItemList items = items_from( groups[index], calendar::turn );
-            for( const item &it : items ) {
-                itemnames[it.display_name()]++;
-            }
-        }
-        // Invert the map to get sorting!
-        std::multimap<int, std::string> itemnames2;
-        for( const auto &e : itemnames ) {
-            itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
-        }
-        uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
-        for( const auto &e : itemnames2 ) {
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
-                                        string_format( _( "%d x %s" ), e.first, e.second ) );
-        }
-        menu2.query();
-    }
 }
 
 bool Item_factory::has_template( const itype_id &id ) const

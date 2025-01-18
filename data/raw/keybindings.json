@@ -4013,6 +4013,13 @@
   },
   {
     "type": "keybinding",
+    "id": "UNLOAD_CONTAINER",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Unload item from container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "keyboard_any", "key": "U" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_CONTAINER",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in container",

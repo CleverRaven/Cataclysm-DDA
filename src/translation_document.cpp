@@ -63,7 +63,7 @@ std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
 TranslationDocument::TranslationDocument( const std::string &path )
 {
     try {
-        const uintmax_t file_size = fs::file_size( fs::u8path( path ) );
+        const uintmax_t file_size = std::filesystem::file_size( std::filesystem::u8path( path ) );
         if( file_size < 20 ) {
             throw InvalidTranslationDocumentException( path, "file too small" );
         }

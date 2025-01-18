@@ -44,7 +44,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "parking_garage_down_0", "parking_garage_down_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -81,7 +80,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "parking_garage_0_0", "parking_garage_0_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -119,7 +117,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "parking_garage_1_0", "parking_garage_1_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -157,7 +154,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "parking_garage_2_0", "parking_garage_2_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -194,7 +190,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "parking_garage_roof_0", "parking_garage_roof_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
