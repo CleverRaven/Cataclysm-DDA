@@ -61,7 +61,7 @@ void magic_type::load( const JsonObject &jo, const std::string_view src )
     }
     if( !was_loaded || jo.has_member( "failure_exp_percent" ) ) {
         failure_exp_percent = get_dbl_or_var( jo, "failure_exp_percent", false,
-                                               0.2f );
+                                              0.2f );
     }
     if( !was_loaded ) {
         for( JsonValue jv : jo.get_array( "failure_eocs" ) ) {
