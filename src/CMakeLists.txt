@@ -248,7 +248,6 @@ if (CURSES)
     endif()
 endif ()
 
-
 if (MINGW AND NOT RELEASE)
     # Try to Install shared libraries for dev builds
     # Note: It is specific to MSYS2 and uses hardcoded versions so
