@@ -655,6 +655,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         WHEN( "when player cuts npc" ) {
 
             npc &test_npc = *spawn_npc( player.pos_bub().xy() + point::south_west, "thug" );
+            test_npc.clear_worn(); // Ensure the victim doesn't generate with too much protection.
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
@@ -669,6 +670,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
     GIVEN( "two npcs" ) {
         npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "bandit" );
         npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
+        npc_dst.clear_worn(); // Ensure the victim doesn't generate with too much protection.
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
