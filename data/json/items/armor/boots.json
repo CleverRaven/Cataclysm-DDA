@@ -832,6 +832,7 @@
   {
     "id": "sabaton_metal_sheets",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of sheet metal sabatons", "str_pl": "pairs of sheet metal sabatons" },
     "description": "Some sheets of metal hammered to fit over the top of your foot and around your ankles, meant to be worn over boots.  They make walking a fair bit more awkward, but they'll keep your toes from being stomped on.",
     "//": "The weight assumes two small sheets of about 20cm x 10cm and two small sheets of about 30cm x 10 cm.",
