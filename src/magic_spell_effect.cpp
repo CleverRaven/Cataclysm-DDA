@@ -558,7 +558,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
 
             if( const int spell_resist = cr->get_spell_resist() - spell_accuracy > 0 &&
-                                         !sp.has_flag( spell_flag::NON_MAGICAL ) ) {
+                                         !sp.has_flag( spell_flag::IGNORES_SPELL_RESISTANCE ) ) {
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
             }

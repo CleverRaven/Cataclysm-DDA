@@ -547,7 +547,7 @@
     "spell_class": "CLAIRSENTIENT",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "NO_FAIL", "NON_MAGICAL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_FAIL", "ALWAYS_CASTABLE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
     "shape": "blast"

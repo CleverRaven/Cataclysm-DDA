@@ -10,7 +10,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_SHIFTER_RAVEN_FORM_ASCEND",
     "shape": "blast",
-    "flags": [ "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "SILENT", "NO_FAIL" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "base_casting_time": 75
   }

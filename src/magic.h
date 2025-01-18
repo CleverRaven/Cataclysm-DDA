@@ -85,7 +85,8 @@ enum class spell_flag : int {
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NO_CORPSE_QUIET, // allow summoned monsters to vanish/leave without leaving a corpse
-    NON_MAGICAL, // ignores spell resistance
+    IGNORES_SPELL_RESISTANCE, // ignores spell resistance
+    ALWAYS_CASTABLE, // ignores non-castable flags and other statuses that prevent casting
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
     EVOCATION_SPELL, // Evocation spell category, used for Magiclysm proficiencies

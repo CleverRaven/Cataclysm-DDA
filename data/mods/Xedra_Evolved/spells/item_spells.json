@@ -5,7 +5,7 @@
     "name": { "str": "Throw The Hammer", "//~": "NO_I18N" },
     "description": { "str": "You throw the hammer.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
-    "flags": [ "SOMATIC", "SILENT", "NON_MAGICAL", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SOMATIC", "SILENT", "ALWAYS_CASTABLE", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "min_damage": { "math": [ "(u_skill('deduction') + u_skill('throw')) * 4" ] },
     "max_damage": { "math": [ "(u_skill('deduction') + u_skill('throw')) * 7" ] },
     "damage_type": "bash",
@@ -265,7 +265,7 @@
     "name": { "str": "Overture Electric Attack", "//~": "NO_I18N" },
     "description": { "str": "You cast an electric spell at the monster.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NON_MAGICAL", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "ALWAYS_CASTABLE", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "min_damage": 18,
     "max_damage": 29,
     "damage_type": "electric",
@@ -435,7 +435,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "IGNORES_SPELL_RESISTANCE", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
     "min_damage": 80,
     "max_damage": 100,
     "min_range": 9,
@@ -458,7 +458,7 @@
     "min_aoe": 2,
     "max_aoe": 5,
     "damage_type": "pure",
-    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "RANDOM_AOE", "PERCENTAGE_DAMAGE", "IGNORE_WALLS" ]
   },
   {
     "id": "netherium_warp_grenade_detonation_portal",
@@ -472,7 +472,7 @@
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "valid_targets": [ "ground", "self", "ally", "hostile", "field", "item", "none" ],
-    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE" ]
   },
   {
     "id": "inventor_portal_closer_spell",
@@ -492,7 +492,7 @@
     "max_damage": 1,
     "min_range": 1,
     "max_range": 1,
-    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "IGNORE_WALLS" ]
   },
   {
     "id": "inventor_portal_closer_spell_portal_storm",
@@ -503,7 +503,7 @@
     "effect_str": "EOC_CAUSE_PORTAL_STORM",
     "shape": "blast",
     "valid_targets": [ "ground", "self" ],
-    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NON_MAGICAL", "IGNORE_WALLS" ]
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "ALWAYS_CASTABLE", "IGNORE_WALLS" ]
   },
   {
     "type": "ter_furn_transform",
@@ -518,7 +518,7 @@
     "description": "Used by a time piercer to fix frozen time areas.  Having this spell is a bug.",
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NON_MAGICAL", "NO_FAIL" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "ALWAYS_CASTABLE", "NO_FAIL" ],
     "difficulty": 0,
     "max_level": 1,
     "effect": "ter_transform",
@@ -540,7 +540,7 @@
     "description": "Used by a time piercer to fix time frozen creatures.  Having this spell is a bug.",
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NON_MAGICAL", "NO_FAIL" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_SFX", "ALWAYS_CASTABLE", "NO_FAIL" ],
     "difficulty": 0,
     "max_level": 1,
     "effect": "remove_effect",

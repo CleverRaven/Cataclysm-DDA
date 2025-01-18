@@ -168,7 +168,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CALL_DAFFODIL",
     "shape": "blast",
-    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ]
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "ALWAYS_CASTABLE" ]
   },
   {
     "id": "call_daffodil_real",
@@ -188,7 +188,7 @@
     "effect": "summon",
     "effect_str": "mon_fetch_daffodil_warrior",
     "shape": "blast",
-    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "NON_MAGICAL" ],
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL", "NO_HANDS", "ALWAYS_CASTABLE" ],
     "min_duration": { "math": [ "spell_time(time(' 24 h'))" ] },
     "max_duration": { "math": [ "spell_time(time(' 24 h'))" ] }
   }

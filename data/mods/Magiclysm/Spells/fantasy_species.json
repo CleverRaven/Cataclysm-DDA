@@ -7,7 +7,7 @@
     "message": "You take control of the animal's mind!",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "flags": [ "NON_MAGICAL", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "ALWAYS_CASTABLE", "IGNORES_SPELL_RESISTANCE", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "max_level": 1,
     "spell_class": "GOBLIN_BUILD",
     "effect": "effect_on_condition",
