@@ -1,6 +1,5 @@
 #include "system_locale.h"
 
-#include <cstring>  // IWYU pragma: 
 #include <map>
 #include <set>
 #include <utility>
@@ -20,7 +19,10 @@
 #include "debug.h" // for DebugLog/D_INFO/D_MAIN
 #include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
 #elif defined(__linux__)
+#include <cstring>  // for std::strcmp
 #include <langinfo.h>
+#else
+#include <cstring> // for std::strcmp
 #endif
 
 #include "cata_utility.h"  // IWYU pragma: keep
