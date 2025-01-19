@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SEWER",
+    "id": "GROUP_ZOMBIE_SEWER",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 850, "cost_multiplier": 3 },
       { "monster": "mon_zombie_static", "weight": 150, "cost_multiplier": 5 }
@@ -52,7 +52,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_open_sewer" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -120,7 +119,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_open_sewer_roof" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -156,7 +154,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cs_open_sewer_undergound",
-    "weight": 1000,
     "object": {
       "rows": [
         "#########o~~~~o#########",

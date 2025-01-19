@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "large_storage_units_1",
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -125,7 +124,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "large_storage_units_2",
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

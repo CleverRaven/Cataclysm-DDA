@@ -12,8 +12,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "effect_shape_of_dust" },
-      { "u_lose_effect": "effect_technomancer_invisibility" },
+      { "u_lose_effect": [ "effect_shape_of_dust", "effect_technomancer_invisibility" ] },
       { "npc_lose_effect": "telepathic_ignorance" }
     ]
   },
@@ -30,8 +29,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "effect_shape_of_dust" },
-      { "u_lose_effect": "effect_technomancer_invisibility" },
+      { "u_lose_effect": [ "effect_shape_of_dust", "effect_technomancer_invisibility" ] },
       { "npc_lose_effect": "telepathic_ignorance" }
     ]
   }

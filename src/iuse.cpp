@@ -316,6 +316,8 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick( "stick" );
 static const itype_id itype_syringe( "syringe" );
 static const itype_id itype_tazer( "tazer" );
 static const itype_id itype_tongs( "tongs" );
@@ -1588,7 +1590,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( string_format(
+    const std::optional<tripoint_bub_ms> pnt = choose_adjacent( string_format(
                 _( "Tame which animal with %s?" ),
                 it->tname() ) );
     if( !pnt ) {
@@ -1775,7 +1777,7 @@ static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
     map &here = get_map();
     // isolated little body of water with no definite fish population
     const oter_id &cur_omt =
-        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.get_abs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -1838,7 +1840,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Put fish trap where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -1958,7 +1960,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bu
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -2335,7 +2337,7 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -2909,7 +2911,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Till soil where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Till soil where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -2926,7 +2928,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
-        p->activity.placement = here.getglobal( pnt );
+        p->activity.placement = here.get_abs( pnt );
         return 1;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3103,7 +3105,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
     tripoint_bub_ms pnt( pos );
     if( pos == p->pos_bub() ) {
-        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( prompt );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3146,7 +3148,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
     p->assign_activity( activity, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3213,7 +3215,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getglobal( *target ) ) );
+                         item_location( you, it ), get_map().get_abs( *target ) ) );
     return 1;
 }
 
@@ -3696,7 +3698,7 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
 
     tripoint_bub_ms pnt = pos;
     if( pos == p->pos_bub() ) {
-        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Shock where?" ) );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Shock where?" ) );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -4618,7 +4620,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos_bub() );
+    p.activity.placement = get_map().get_abs( p.pos_bub() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint_bub_ms & )
@@ -4715,7 +4717,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -4760,7 +4762,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -4941,7 +4943,7 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_ms & )
 {
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -6472,7 +6474,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint_bub_m
                                               obj_list );
     }
 
-    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.get_abs( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
@@ -7040,7 +7042,7 @@ std::optional<int> iuse::afs_translocator( Character *p, item *it, const tripoin
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Create buoy where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Create buoy where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -8019,12 +8021,12 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
-    const float incident_light = incident_sunlight( current_weather( here.getglobal( pos ) ),
+    const float incident_light = incident_sunlight( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     const float nat_light = g->natural_light_level( pos.z() );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
-    const float incident_irrad = incident_sun_irradiance( current_weather( here.getglobal( pos ) ),
+    const float incident_irrad = incident_sun_irradiance( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     p->add_msg_if_player( m_neutral,
                           _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
@@ -8061,7 +8063,7 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, const tri
                               it->tname() );
         return std::nullopt;
     }
-    const std::optional<tripoint_bub_ms> posp = choose_adjacent_bub(
+    const std::optional<tripoint_bub_ms> posp = choose_adjacent(
                 _( "Choose hologram direction." ) );
     if( !posp ) {
         return std::nullopt;
@@ -8159,7 +8161,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
             return std::nullopt;
         } else {
             const std::string query = string_format( _( "Place the %s where?" ), contained_name );
-            const std::optional<tripoint_bub_ms> pos_ = choose_adjacent_bub( query );
+            const std::optional<tripoint_bub_ms> pos_ = choose_adjacent( query );
             if( !pos_ ) {
                 return std::nullopt;
             }
@@ -8346,7 +8348,7 @@ heater find_heater( Character *p, item *it )
                 optional_vpart_position vp = get_map().veh_at( app.value().first );
                 available_heater = vp->vehicle().connected_battery_power_level().first;
                 heating_effect = app.value().second->charges_to_use();
-                vpt = get_map().getglobal( app.value().first );
+                vpt = get_map().get_abs( app.value().first );
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
@@ -8733,16 +8735,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos_bub(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), itype_stick, 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "stick", 1 );
-        here.spawn_item( p->pos_bub(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), itype_stick, 1 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 1 );
         return 1;
     }
     return 0;
@@ -9384,7 +9386,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
 
 std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
 {
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Check voltage where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }

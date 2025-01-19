@@ -7,7 +7,6 @@
       [ "golfcourse_01", "golfcourse_11", "golfcourse_21", "golfcourse_31" ],
       [ "golfcourse_02", "golfcourse_12", "golfcourse_22", "golfcourse_32" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

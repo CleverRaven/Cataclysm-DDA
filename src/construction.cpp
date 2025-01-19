@@ -425,7 +425,6 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
     return make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         // Draw construction result preview on valid squares
-        // TODO: fix point types
         for( const auto &elem : valid ) {
             const tripoint_bub_ms &loc = elem.first;
             const construction &con = *elem.second;
@@ -1317,7 +1316,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getglobal( pnt );
+    player_character.activity.placement = here.get_abs( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1327,7 +1326,7 @@ void complete_construction( Character *you )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.placement );
+    const tripoint_bub_ms terp = here.get_bub( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -2085,10 +2084,8 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
-    // TODO: fix point types
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
     if( calendar::once_every( 1_minutes ) ) {
-        // TODO: fix point types
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }

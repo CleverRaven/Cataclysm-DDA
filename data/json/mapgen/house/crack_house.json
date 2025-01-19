@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "house_crack1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -127,7 +126,6 @@
     "method": "json",
     "om_terrain": "house_crack2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -210,7 +208,6 @@
     "method": "json",
     "om_terrain": "house_crack3",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

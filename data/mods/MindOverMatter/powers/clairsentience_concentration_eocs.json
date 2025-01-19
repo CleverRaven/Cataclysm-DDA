@@ -30,15 +30,19 @@
     "id": "EOC_CLAIR_REMOVE_NIGHT_EYES",
     "condition": { "u_has_effect": "effect_clair_night_eyes" },
     "effect": [
-      { "u_lose_effect": "effect_clair_night_eyes_1" },
-      { "u_lose_effect": "effect_clair_night_eyes_2" },
-      { "u_lose_effect": "effect_clair_night_eyes_3" },
-      { "u_lose_effect": "effect_clair_night_eyes_4" },
-      { "u_lose_effect": "effect_clair_night_eyes_5" },
-      { "u_lose_effect": "effect_clair_night_eyes_6" },
-      { "u_lose_effect": "effect_clair_night_eyes_7" },
-      { "u_lose_effect": "effect_clair_night_eyes_8" },
-      { "u_lose_effect": "effect_clair_night_eyes" },
+      {
+        "u_lose_effect": [
+          "effect_clair_night_eyes_1",
+          "effect_clair_night_eyes_2",
+          "effect_clair_night_eyes_3",
+          "effect_clair_night_eyes_4",
+          "effect_clair_night_eyes_5",
+          "effect_clair_night_eyes_6",
+          "effect_clair_night_eyes_7",
+          "effect_clair_night_eyes_8",
+          "effect_clair_night_eyes"
+        ]
+      },
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
     ]
   },

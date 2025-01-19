@@ -772,14 +772,12 @@
     "speed": 150,
     "color": "pink",
     "extend": { "flags": [ "FIREPROOF" ] },
-    "starting_ammo": { "plasma": 100 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "irradiant_gun",
         "move_cost": 100,
-        "ammo_type": "plasma",
         "fake_skills": [ [ "gun", 10 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "ranges": [ [ 0, 40, "DEFAULT" ] ],
@@ -1074,5 +1072,17 @@
     "color": "light_gray",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "LEAK_DAM", "RADIOACTIVE" ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "mon_uica_irradiant",
+    "type": "MONSTER",
+    "copy-from": "mon_wraitheon_irradiant",
+    "name": "UICA Irradiant",
+    "description": "An autonomous anti-armor weapons platform, mounting a 5kg plasma railgun over an insectoid chassis.  The Irradiant designation excels at ambush and midrange combat, where it can leverage its superior agility and reduced sensor profile to successfully engage technologically advanced foes.",
+    "default_faction": "UICA_mil",
+    "aggression": -20,
+    "morale": 70,
+    "aggro_character": false,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
   }
 ]

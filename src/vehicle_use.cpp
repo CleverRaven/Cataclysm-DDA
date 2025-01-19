@@ -1323,7 +1323,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
-    here.set_transparency_cache_dirty( sm_pos.z );
+    here.set_transparency_cache_dirty( sm_pos.z() );
     const tripoint_bub_ms part_location = mount_to_tripoint( parts[part_index].mount );
     here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos_bub(), part_location );
@@ -1805,13 +1805,13 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( get_map().getglobal( vp_pos ) ); // tell it to search for the tool on `pos`
+        act.coords.push_back( get_map().get_abs( vp_pos ) ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
     //Hack for heat_activity_actor.
     if( act.id() == ACT_HEATING ) {
-        act.coords.push_back( get_map().getglobal( vp_pos ) );
+        act.coords.push_back( get_map().get_abs( vp_pos ) );
     }
 
     const int used_charges = ammo_in_tool - tool.ammo_remaining();

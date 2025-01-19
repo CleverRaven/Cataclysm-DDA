@@ -1620,8 +1620,8 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
 {
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
-          !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
+          !here.inbounds( here.get_bub( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.get_bub( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1836,7 +1836,7 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        bodypart_id hit( "bp_null" );
+        bodypart_id hit = bodypart_str_id::NULL_ID();
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
@@ -1912,7 +1912,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -3711,8 +3711,7 @@ void Character::apply_skill_boost()
 
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
-    const bodypart_id bp_null( "bp_null" );
-    std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+    std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
     int tmp_bash_armor = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         tmp_bash_armor += worn.damage_resist( damage_bash, bp );
@@ -7650,9 +7649,7 @@ void Character::drench_mut_calc()
 weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
 {
     weighted_int_list<mutation_category_id> weighted_output;
-    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
-        mutation_category_trait::get_all();
-    for( const auto &elem : mutation_categories ) {
+    for( const auto &elem : mutation_category_trait::get_all() ) {
         add_msg_debug( debugmode::DF_MUTATION, "get_vitamin_weighted_categories: category %s weight %d",
                        elem.second.id.c_str(), vitamin_get( elem.second.vitamin ) );
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
@@ -8548,8 +8545,14 @@ bool Character::crossed_threshold() const
 mutation_category_id Character::get_threshold_category() const
 {
     for( const trait_id &mut : get_functioning_mutations() ) {
-        if( mut->threshold && !mut->category.empty() ) {
-            return mut->category[0];
+        if( mut->threshold ) {
+            const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+                mutation_category_trait::get_all();
+            for( const auto &cat : mutation_categories ) {
+                if( cat.second.threshold_mut == mut ) {
+                    return cat.first;
+                }
+            }
         }
     }
     return mutation_category_id::NULL_ID();
@@ -10709,18 +10712,18 @@ void Character::echo_pulse()
 
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 {
-    const tripoint_abs_ms p = get_map().getglobal( pos );
-    return known_traps.count( p.raw() ) > 0;
+    const tripoint_abs_ms p = get_map().get_abs( pos );
+    return known_traps.count( p ) > 0;
 }
 
 void Character::add_known_trap( const tripoint_bub_ms &pos, const trap &t )
 {
-    const tripoint_abs_ms p = get_map().getglobal( pos );
+    const tripoint_abs_ms p = get_map().get_abs( pos );
     if( t.is_null() ) {
-        known_traps.erase( p.raw() );
+        known_traps.erase( p );
     } else {
         // TODO: known_traps should map to a trap_str_id
-        known_traps[p.raw()] = t.id.str();
+        known_traps[p] = t.id.str();
     }
 }
 
@@ -11132,7 +11135,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11370,11 +11373,6 @@ npc_attitude Character::get_attitude() const
     return NPCATT_NULL;
 }
 
-bool Character::sees( const tripoint &t, bool, int ) const
-{
-    return sees( tripoint_bub_ms( t ) );
-}
-
 bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos_bub(), t );
@@ -11411,7 +11409,7 @@ void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( get_map().getglobal( route.back() ) );
+    destination_point.emplace( get_map().get_abs( route.back() ) );
 }
 
 void Character::clear_destination()
@@ -11449,7 +11447,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( *destination_point );
+           pos_bub() == get_map().get_bub( *destination_point );
 }
 
 void Character::start_destination_activity()

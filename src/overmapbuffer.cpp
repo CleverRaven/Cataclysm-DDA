@@ -440,6 +440,18 @@ void overmapbuffer::toggle_explored( const tripoint_abs_omt &p )
     om_loc.om->explored( om_loc.local ) = !om_loc.om->explored( om_loc.local );
 }
 
+bool overmapbuffer::distance_limit( const int distance, const tripoint_abs_omt &origin_pos,
+                                    const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) <= distance;
+}
+
+bool overmapbuffer::distance_limit_line( const int distance, const tripoint_abs_omt &origin_pos,
+        const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) == distance;
+}
+
 bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 {
     for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
@@ -1593,7 +1605,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         const map &here = get_map();
-        const tripoint_bub_ms local = here.bub_from_abs( this_monster.get_location() );
+        const tripoint_bub_ms local = here.get_bub( this_monster.get_location() );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );

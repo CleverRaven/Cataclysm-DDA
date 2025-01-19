@@ -4636,7 +4636,7 @@
       "prof_shivs_familiar",
       "prof_gross_anatomy"
     ],
-    "traits": [ "PROF_ASSASSIN_CONVICT" ],
+    "effect_on_conditions": [ "scenario_assassin_conv" ],
     "items": {
       "both": {
         "entries": [

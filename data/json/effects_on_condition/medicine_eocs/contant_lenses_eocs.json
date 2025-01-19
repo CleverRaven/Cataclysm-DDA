@@ -53,9 +53,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONTACTS3",
     "effect": [
-      { "u_lose_effect": "contacts" },
-      { "u_lose_effect": "transition_contacts" },
-      { "u_lose_effect": "transition_contacts_plano" },
+      { "u_lose_effect": [ "contacts", "transition_contacts", "transition_contacts_plano" ] },
       { "u_add_effect": { "context_val": "effect" }, "duration": { "math": [ "rng(_time * 0.94, _time * 1.06)" ] } },
       { "u_consume_item": { "context_val": "id" } }
     ]

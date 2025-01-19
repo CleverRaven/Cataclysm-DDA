@@ -63,7 +63,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
-    tripoint_abs_ms abs_ms( here.getglobal( target ) );
+    tripoint_abs_ms abs_ms( here.get_abs( target ) );
     if( abs_ms.z() > OVERMAP_HEIGHT || abs_ms.z() < -OVERMAP_DEPTH ) {
         debugmsg( "%s cannot teleport to point %s: too high or too deep.", critter.get_name(),
                   abs_ms.to_string() );
@@ -92,7 +92,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             dest->load( project_to<coords::sm>( abs_ms ), false );
             dest->spawn_monsters( true, true );
         }
-        dest_target = dest->bub_from_abs( abs_ms );
+        dest_target = dest->get_bub( abs_ms );
     }
     //handles teleporting into solids.
     if( dest->impassable( dest_target ) ) {
@@ -127,8 +127,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
         }
     }
     //update pos
-    abs_ms = dest->getglobal( dest_target );
-    target = here.bub_from_abs( abs_ms );
+    abs_ms = dest->get_abs( dest_target );
+    target = here.get_bub( abs_ms );
     //handles telefragging other creatures
     int tfrag_attempts = 5;
     bool collision = false;
@@ -147,11 +147,11 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             for( tripoint_abs_ms p : nearest_points ) {
                 // If point is not inbounds, ignore if spot is passible or not.  Creatures in impassable terrain will be automatically teleported out in their turn.
                 // some way of validating terrain passability out of bounds would be superior, however.
-                if( ( !dest->inbounds( here.bub_from_abs( p ) ) || dest->passable( here.bub_from_abs( p ) ) ) &&
+                if( ( !dest->inbounds( here.get_bub( p ) ) || dest->passable( here.get_bub( p ) ) ) &&
                     get_creature_tracker().creature_at<Creature>( p ) == nullptr ) {
                     found_new_spot = true;
                     abs_ms = p;
-                    target = here.bub_from_abs( p );
+                    target = here.get_bub( p );
                     break;
                 }
             }

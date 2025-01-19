@@ -46,6 +46,7 @@ enum class segments : std::size_t {
     BROKEN,
     CBM_STATUS,
     UPS,
+    TRAITS,
     TAGS,
     VARS,
     WETNESS,

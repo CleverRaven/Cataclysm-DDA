@@ -28,7 +28,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_base" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -99,7 +98,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f1" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -142,7 +140,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f2" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -184,7 +181,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f3" ],
-    "weight": 1000,
     "object": {
       "rows": [
         "                        ",
@@ -226,7 +222,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -281,7 +276,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ws_fire_lookout_tower_f5" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

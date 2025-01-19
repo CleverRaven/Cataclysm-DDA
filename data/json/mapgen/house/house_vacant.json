@@ -4,7 +4,6 @@
     "om_terrain": "house_vacant",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -46,7 +45,6 @@
     "om_terrain": "house_vacant1",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -88,7 +86,6 @@
     "om_terrain": "house_vacant2",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -130,7 +127,6 @@
     "om_terrain": "house_vacant3",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

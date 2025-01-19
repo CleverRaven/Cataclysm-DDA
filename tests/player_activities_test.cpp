@@ -1839,7 +1839,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
+                zombie.set_dest( get_map().get_abs( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );
@@ -1866,7 +1866,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
+                zombie.set_dest( get_map().get_abs( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );

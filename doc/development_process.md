@@ -32,7 +32,7 @@ This document assumes you have a basic understanding how GitHub works.  Please s
 
 ## The basic concept 
 
-At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](./Lore/design-doc.md).  The project is led by Kevin Granade, who owns CleverRaven and therefore this fork of the code.  As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not.[^code]  The rest of the project's structure is organized chaos, and understanding it is daunting at first.
+At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](./design-balance-lore/design-doc.md).  The project is led by Kevin Granade, who owns CleverRaven and therefore this fork of the code.  As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not.[^code]  The rest of the project's structure is organized chaos, and understanding it is daunting at first.
 
 ### Experimental/Stable
 
@@ -183,7 +183,7 @@ As a classic example, when we first added the mod inclusion criteria and set a b
 
 ### Realism as a design goal
 
-Any prospective contributor should understand that we do not consider realism to be the goal of the design.  Rather, we are aiming for *verisimilitude*.  That is to say, most of the time, things should work the way you would expect them to work.[^movies]  Many things that would be more realistic may be nixed because of problems with play experience or play balance.  You can find a lot more detail about this in [the design document](./Lore/design-balance.md).
+Any prospective contributor should understand that we do not consider realism to be the goal of the design.  Rather, we are aiming for *verisimilitude*.  That is to say, most of the time, things should work the way you would expect them to work.[^movies]  Many things that would be more realistic may be nixed because of problems with play experience or play balance.  You can find a lot more detail about this in [the design document](./design-balance-lore/design-balance.md).
 
 In general, the most common citation of "realism" online comes when glitches in experimental are mistaken for intended design.  An example was when `charges` were being removed as a part of a major *code infrastructure change* with no intended player impact at all.  This caused several months of glitches, like players having to move salt in individual pinches.  This was frequently called a "realism change", not a bug, in certain circles.  While funny, this attitude can be actively harmful to the project, deterring people from fixing bugs because they get the impression it's intended play.  If someone has said that a seemingly hostile and illogical game mechanic is the way it is due to "realism", they're probably wrong, either because the mechanic is bugged or because QoL improvements are desired to make it less frustrating.
 

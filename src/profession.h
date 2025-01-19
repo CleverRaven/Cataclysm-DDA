@@ -82,6 +82,7 @@ class profession
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
+        std::vector<effect_on_condition_id> effect_on_conditions;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
         std::vector<mission_type_id> _missions; // starting missions for profession
@@ -138,7 +139,7 @@ class profession
 
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
-
+        std::vector<effect_on_condition_id> get_eocs() const;
         //returns the profession id
         profession_id get_profession_id() const;
 

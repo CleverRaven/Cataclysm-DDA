@@ -23,7 +23,7 @@
     "final_energy_cost": 100,
     "energy_increment": -5,
     "spell_class": "INVENTOR",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "extra_effects": [ { "id": "firmament_driver_damage" } ]
   },
   {
@@ -71,7 +71,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 150,
     "energy_increment": -8,
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 4,
     "damage_type": "electric"
   }

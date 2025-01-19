@@ -137,7 +137,7 @@ bool map::build_transparency_cache( const int zlev )
                 continue;
             }
 
-            const point sm_offset = coords::project_to<coords::ms>( point_rel_sm( smx, smy ) ).raw();
+            const point_bub_ms sm_offset = coords::project_to<coords::ms>( point_bub_sm( smx, smy ) );
 
             if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
                 continue;
@@ -145,8 +145,8 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const point_sm_ms & p ) {
-                const point_sm_ms sp = p - sm_offset;
+            auto calc_transp = [&]( const point_bub_ms & p ) {
+                const point_sm_ms sp = rebase_sm( p - sm_offset );
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
@@ -176,26 +176,26 @@ bool map::build_transparency_cache( const int zlev )
             if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
-                std::tie( value, dummy ) = calc_transp( point_sm_ms( sm_offset ) );
+                std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
                     bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
                     for( int sx = 0; sx < SEEX; ++sx ) {
                         // init all sy indices in one go
-                        std::uninitialized_fill_n( &transparency_cache[sm_offset.x + sx][sm_offset.y], SEEY, value );
+                        std::uninitialized_fill_n( &transparency_cache[sm_offset.x() + sx][sm_offset.y()], SEEY, value );
                         if( opaque ) {
-                            auto &bs = transparent_cache_wo_fields[sm_offset.x + sx];
+                            auto &bs = transparent_cache_wo_fields[sm_offset.x() + sx];
                             for( int i = 0; i < SEEY; i++ ) {
-                                bs[sm_offset.y + i] = false;
+                                bs[sm_offset.y() + i] = false;
                             }
                         }
                     }
                 }
             } else {
                 for( int sx = 0; sx < SEEX; ++sx ) {
-                    const int x = sx + sm_offset.x;
+                    const int x = sx + sm_offset.x();
                     for( int sy = 0; sy < SEEY; ++sy ) {
-                        const int y = sy + sm_offset.y;
+                        const int y = sy + sm_offset.y();
                         float transp_wo_fields;
                         std::tie( transparency_cache[x][y], transp_wo_fields ) = calc_transp( {x, y } );
                         transparent_cache_wo_fields[x][y] = transp_wo_fields > LIGHT_TRANSPARENCY_SOLID;
@@ -378,7 +378,6 @@ void map::build_sunlight_cache( int pzlev )
         // Replace this with a calculated shift based on time of day and date.
         // At first compress the angle such that it takes no more than one tile of shift per level.
         // To exceed that, we'll have to handle casting light from the side instead of the top.
-        point offset;
         const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
         const auto &prev_lm = prev_map_cache.lm;
         const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
@@ -407,7 +406,7 @@ void map::build_sunlight_cache( int pzlev )
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
                 // Check center, then four adjacent cardinals.
                 for( int i = 0; i < 5; ++i ) {
-                    point prev( cardinals[i] + offset + point( x, y ) );
+                    point prev( cardinals[i] + point( x, y ) );
                     bool inbounds = prev.x >= 0 && prev.x < MAPSIZE_X &&
                                     prev.y >= 0 && prev.y < MAPSIZE_Y;
 
@@ -860,7 +859,7 @@ bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const
 
     const level_cache &map_cache = get_cache_ref( t.z() );
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( getglobal( t ), player_character.get_location() ) > max_range &&
+    if( max_range >= 0 && square_dist( get_abs( t ), player_character.get_location() ) > max_range &&
         map_cache.camera_cache[t.x()][t.y()] == 0 ) {
         return false;    // Out of range!
     }

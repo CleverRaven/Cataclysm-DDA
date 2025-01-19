@@ -1969,7 +1969,7 @@ class item : public visitable
          * @name Item flags
          *
          * If you use any new flags, add them to `flags.json`,
-         * add a comment to doc/JSON_FLAGS.md and make sure your new
+         * add a comment to doc/JSON/JSON_FLAGS.md and make sure your new
          * flag does not conflict with any existing flag.
          *
          * Item flags are taken from the item type (@ref itype::item_tags), but also from the
@@ -2855,6 +2855,11 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+
+        /**
+        * Traits contained for interaction with a genemill furniture.
+        */
+        std::vector<trait_id> template_traits;
 
         /**
          * Get gun energy drain. Includes modifiers from gunmods.

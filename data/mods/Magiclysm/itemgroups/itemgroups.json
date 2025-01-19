@@ -9,7 +9,7 @@
     "type": "item_group",
     "id": "religious_books",
     "copy-from": "religious_books",
-    "extend": { "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
+    "extend": { "items": [ [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
   },
   {
     "type": "item_group",
@@ -1472,7 +1472,6 @@
     "items": [
       {
         "distribution": [
-          { "item": "priest_beginner", "prob": 30 },
           { "item": "spell_scroll_light_healing", "prob": 50 },
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
@@ -1486,6 +1485,7 @@
       {
         "distribution": [
           { "item": "wizard_utility", "prob": 20 },
+          { "item": "priest_beginner", "prob": 30 },
           { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
           { "item": "spell_scroll_biomancer_scalpel_fingers", "prob": 30 },
           { "item": "spell_scroll_pain_split", "prob": 50 },
@@ -1617,7 +1617,6 @@
       },
       {
         "distribution": [
-          { "item": "priest_beginner", "prob": 20 },
           { "item": "wizard_beginner", "prob": 20 },
           { "item": "spell_scroll_create_atomic_light", "prob": 50 },
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },

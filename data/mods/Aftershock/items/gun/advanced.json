@@ -23,6 +23,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 2500, "armor_penetration": 400 },
     "ammo_effects": [ "PLASMA", "EMP", "LOW_RANGE_VAPORIZATION" ],
     "skill": "rifle",
+    "range": 40,
     "extend": { "flags": [ "NO_TURRET" ] },
     "energy_drain": "0 kJ"
   },

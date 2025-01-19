@@ -91,7 +91,7 @@ constexpr scale scale_from_origin( origin o )
  *
  * InBounds define if the point is guaranteed to be inbounds.
  *
- * For more details see doc/POINTS_COORDINATES.md.
+ * For more details see doc/c++/POINTS_COORDINATES.md.
  */
 template<typename Point>
 class coord_point_base

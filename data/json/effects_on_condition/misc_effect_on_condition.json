@@ -90,21 +90,16 @@
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
     "effect": [
       {
-        "run_eocs": {
-          "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "math": [ "u_monsters_nearby() > 1" ] },
-          "effect": [
-            {
-              "u_spawn_monster": "GROUP_YOUR_FEARS",
-              "group": true,
-              "real_count": 0,
-              "hallucination_count": { "math": [ "rand(2) + 1" ] },
-              "outdoor_only": false,
-              "min_radius": 10,
-              "max_radius": 40,
-              "lifespan": [ "1 hours", "4 hours" ]
-            }
-          ]
+        "if": { "math": [ "u_monsters_nearby() > 1" ] },
+        "then": {
+          "u_spawn_monster": "GROUP_YOUR_FEARS",
+          "group": true,
+          "real_count": 0,
+          "hallucination_count": { "math": [ "rand(2) + 1" ] },
+          "outdoor_only": false,
+          "min_radius": 10,
+          "max_radius": 40,
+          "lifespan": [ "1 hours", "4 hours" ]
         }
       }
     ]

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "AFS_GROUP_DM",
+    "id": "AFS_GROUP_DM",
     "monsters": [
       { "monster": "mon_moxie_scavenger_dm", "weight": 350, "cost_multiplier": 1 },
       { "monster": "mon_moxie_regenerator_dm", "weight": 200, "cost_multiplier": 1 },
