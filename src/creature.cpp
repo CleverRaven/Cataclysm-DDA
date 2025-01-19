@@ -963,6 +963,7 @@ double Creature::accuracy_projectile_attack( const int &speed, const double &mis
 void projectile::apply_effects_damage( Creature &target, Creature *source,
                                        const dealt_damage_instance &dealt_dam, bool critical ) const
 {
+    int dam = dealt_dam.total_damage();
     // Apply ammo effects to target.
     if( proj_effects.count( ammo_effect_TANGLE ) ) {
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
@@ -987,13 +988,14 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     }
 
     Character &player_character = get_player_character();
+    int amount = dam > 2 ? dam / 2 : one_in( 2 );
     if( proj_effects.count( ammo_effect_INCENDIARY ) ) {
-        if( x_in_y( 1, 100 ) ) { // 1% chance
+        if( x_in_y( amount, 50 ) ) { // 1% chance for 1 damamge
             if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
-                target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
+                target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ) * amount,
                                    dealt_dam.bp_hit );
             } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
-                target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
+                target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 2_turns ) * amount,
                                    dealt_dam.bp_hit );
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
@@ -1008,9 +1010,9 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     } else if( proj_effects.count( ammo_effect_IGNITE ) ) {
         if( x_in_y( 1, 2 ) ) { // 50% chance
             if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
-                target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
+                target.add_effect( effect_source( source ), effect_onfire, 10_turns * amount, dealt_dam.bp_hit );
             } else if( target.made_of_any( Creature::cmat_flesh ) ) {
-                target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
+                target.add_effect( effect_source( source ), effect_onfire, 6_turns * amount, dealt_dam.bp_hit );
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
                 !player_character.has_morale( morale_pyromania_startfire ) &&
@@ -1043,9 +1045,9 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
     }
 
     if( proj_effects.count( ammo_effect_APPLY_SAP ) ) {
-        target.add_effect( effect_source( source ), effect_sap, 1_turns * dealt_dam.total_damage() );
+        target.add_effect( effect_source( source ), effect_sap, 1_turns * dam );
     }
-    if( proj_effects.count( ammo_effect_PARALYZEPOISON ) && dealt_dam.total_damage() > 0 &&
+    if( proj_effects.count( ammo_effect_PARALYZEPOISON ) && dam > 0 &&
         !dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
         target.add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         target.add_effect( effect_source( source ), effect_paralyzepoison, 5_minutes );

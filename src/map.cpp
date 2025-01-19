@@ -4470,7 +4470,8 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-                if( incendiary && x_in_y( 1, 10 ) ) { // 10% chance
+                if( incendiary && x_in_y( initial_damage, 100 ) ) {
+                    // 1% chance for 1 damage
                     add_field( p, fd_fire, 1 );
                 }
                 if( ignite ) {
