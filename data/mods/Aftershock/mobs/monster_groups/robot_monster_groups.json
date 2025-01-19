@@ -39,7 +39,6 @@
     "monsters": [
       { "monster": "mon_advbot_laser", "weight": 100, "cost_multiplier": 40 },
       { "monster": "afs_mon_sentinel_lx", "weight": 100, "cost_multiplier": 30 },
-      { "monster": "mon_defbot_shot", "weight": 100, "cost_multiplier": 40 },
       { "monster": "mon_milbot_556", "weight": 100, "cost_multiplier": 100 },
       { "monster": "mon_milbot_needle", "weight": 100, "cost_multiplier": 100 }
     ]
@@ -75,6 +74,7 @@
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
       { "monster": "mon_afs_eyebot", "weight": 200, "cost_multiplier": 4 },
       { "monster": "mon_afs_copbot", "weight": 100, "cost_multiplier": 70 },
+      { "monster": "mon_defbot_shot", "weight": 100, "cost_multiplier": 50 },
       { "monster": "mon_afs_riotbot", "weight": 50, "cost_multiplier": 100 }
     ]
   }
