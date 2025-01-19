@@ -14,22 +14,19 @@ TILES=${TILES:-1}
 SOUND=${SOUND:-1}
 
 # create compilation database (compile_commands.json)
-if [ ! -f compile_commands.json ]
-then
-    mkdir -p build
-    cd build
-    cmake \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-        ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
-        -DCMAKE_BUILD_TYPE="Release" \
-        -DBACKTRACE=${BACKTRACE} \
-        -DLOCALIZE=${LOCALIZE} \
-        -DTILES=${TILES} \
-        -DSOUND=${SOUND} \
-        ..
-    cd ..
-    ln -s build/compile_commands.json .
-fi
+mkdir -p build
+cd build
+cmake \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
+    -DCMAKE_BUILD_TYPE="Release" \
+    -DBACKTRACE=${BACKTRACE} \
+    -DLOCALIZE=${LOCALIZE} \
+    -DTILES=${TILES} \
+    -DSOUND=${SOUND} \
+    ..
+cd ..
+ln --force --symbolic build/compile_commands.json .
 
 if [ ! -f build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so ]
 then
