@@ -801,7 +801,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE && !get_scenario()->has_flag( "SKIP_DEFAULT_BACKGROUND" ) ) {
+    if( type != character_type::TEMPLATE && !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
     }
 
