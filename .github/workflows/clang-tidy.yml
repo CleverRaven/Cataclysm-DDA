@@ -88,6 +88,7 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v4
     - name: download plugin from the previous job in this workflow run
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       uses: actions/download-artifact@v4
       with:
         name: cata-analyzer-plugin

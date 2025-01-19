@@ -1223,7 +1223,7 @@ vehicle *game::place_vehicle_nearby(
                 tripoint_bub_sm quotient;
                 point_sm_ms remainder;
                 std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( abs_local );
-                veh->sm_pos = quotient.raw();
+                veh->sm_pos = quotient;
                 veh->pos = remainder;
 
                 veh->unlock();          // always spawn unlocked

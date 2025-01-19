@@ -1929,7 +1929,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = dest_pos.raw();
+                            veh->sm_pos = rebase_bub( dest_pos );
                         }
 
                         if( !destsm->spawns.empty() ) {                             // trigger spawnpoints
