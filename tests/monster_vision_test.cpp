@@ -1,6 +1,5 @@
 #include "calendar.h"
 #include "cata_catch.h"
-#include "type_id.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "map.h"

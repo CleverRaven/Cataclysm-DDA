@@ -7,7 +7,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "type_id.h"
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"

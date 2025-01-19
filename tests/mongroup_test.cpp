@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <cmath>
+#include <cstdlib>
 #include <list>
 #include <map>
 #include <memory>
