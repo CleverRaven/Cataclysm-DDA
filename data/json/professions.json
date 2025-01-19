@@ -993,8 +993,8 @@
       { "level": 3, "name": "survival" },
       { "level": 3, "name": "cooking" }
     ],
-    "traits": [ "PROF_CHURL", "ILLITERATE", "SKIP_DEFAULT_BACKGROUND" ],
-    "flags": [ "SCEN_ONLY" ]
+    "traits": [ "PROF_CHURL", "ILLITERATE" ],
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
