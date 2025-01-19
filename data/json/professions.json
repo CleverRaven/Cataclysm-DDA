@@ -993,7 +993,7 @@
       { "level": 3, "name": "survival" },
       { "level": 3, "name": "cooking" }
     ],
-    "traits": [ "PROF_CHURL", "ILLITERATE" ],
+    "traits": [ "PROF_CHURL", "ILLITERATE", "SKIP_DEFAULT_BACKGROUND" ],
     "flags": [ "SCEN_ONLY" ]
   },
   {
