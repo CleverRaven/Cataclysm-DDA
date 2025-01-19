@@ -6,9 +6,9 @@
     "object": {
       "fill_ter": "t_strconc_floor_heated",
       "rows": [
-        "                                                ",
+        "                       ..                       ",
         "                        .       ||||||||||      ",
-        "  ñññ                 9      ||||8 8|7l|~||||ññ ",
+        "  ñññ                 9      ||||8,8|7l|~||||ññ ",
         "  ñ                     .     |h|)4)|,,|3|@|  ñ ",
         "  ñ  .............     ..     |y6,6,6,6,63,5  ñ ",
         "  ñ..0...000........   ..     |oÑ,,,,,,,,|@|  ñ ",
@@ -47,7 +47,7 @@
         "Ú": "t_intermodal_crate_scripted_source",
         "4": "t_door_metal_locked",
         "5": "t_wall_prefab_glass_shutters",
-        "6": "t_linoleum_whitefloor_olight",
+        "6": "t_strconc_floor_olight",
         "9": "t_region_groundcover_urban"
       },
       "furniture": { "Ñ": "f_habitat_storage_board", "7": "f_ECU", "8": "f_rack", "9": "f_micro_terraforming_mill_active" },
@@ -88,7 +88,7 @@
         "                                                "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
-      "terrain": { " ": "t_open_air" }
+      "terrain": { " ": "t_open_air", "p": "t_metal_floor" }
     }
   },
   {
