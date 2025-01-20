@@ -34,6 +34,7 @@
       "WARM",
       "CAN_BE_CULLED",
       "SMALL_HIDER",
+      "CANPLAY",
       "EATS"
     ],
     "petfood": { "food": [ "ALIEN_LICHEN" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
@@ -52,7 +53,7 @@
     "dodge": 8,
     "stomach_size": 25,
     "harvest": "alien_tiny",
-    "upgrades": { "age_grow": 45, "into": "afs_mon_rabbit" },
+    "upgrades": { "age_grow": 20, "into": "afs_mon_rabbit" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
   {
