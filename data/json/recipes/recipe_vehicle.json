@@ -1140,7 +1140,7 @@
     "reversible": false,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [  { "id": "SAW_W", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "DRILL", "level": 1 }, ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "nuts_bolts", 4 ] ] ]
   },
   {
@@ -1155,7 +1155,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 12 ] ] ]
   },
   {
@@ -1170,7 +1170,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 18 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -1185,7 +1185,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ]
   },
   {
@@ -1200,7 +1200,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 24 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
