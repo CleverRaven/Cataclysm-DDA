@@ -778,9 +778,7 @@
     "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart, but these ones are made out of wood.",
     "damage_modifier": 50,
     "folded_volume": "1500 ml",
-    "breaks_into": [
-      { "item": "nuts_bolts", "count": [ 0, 4 ] }
-    ],
+    "breaks_into": [ { "item": "nuts_bolts", "count": [ 0, 4 ] } ],
     "rolling_resistance": 35.0,
     "wheel_offroad_rating": 0.1,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
