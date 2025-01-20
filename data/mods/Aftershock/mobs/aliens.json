@@ -3,7 +3,7 @@
     "id": "afs_mon_rabbit",
     "type": "MONSTER",
     "name": { "str": "labbit" },
-    "description": "A rabbit from earth, genetically modified to eat the lichen of Salus IV.  Its fur is rust colored and its ears are shortened to preserve warmth.",
+    "description": "A rabbit from Earth, genetically modified to eat the lichen of Salus IV.  Its fur is rust-colored and its ears are shortened to preserve warmth.",
     "default_faction": "small_animal",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -44,7 +44,7 @@
     "type": "MONSTER",
     "copy-from": "afs_mon_rabbit",
     "name": { "str": "labbit kit" },
-    "description": "A tiny rabbit kit, spawned from a rabbit genetically modified to eat the Lichen of Salus IV.  It's coat is a vibrant crimson that will turn a rust orange when it reaches adulthood.",
+    "description": "A tiny rabbit kit, spawned from a rabbit genetically modified to eat the lichen of Salus IV.  It's coat is a vibrant crimson that will turn a rust orange when it reaches adulthood.",
     "volume": "150 ml",
     "weight": "30 g",
     "hp": 1,
@@ -55,6 +55,22 @@
     "harvest": "alien_tiny",
     "upgrades": { "age_grow": 20, "into": "afs_mon_rabbit" },
     "extend": { "flags": [ "NO_BREED" ] }
+  },
+  {
+    "id": "afs_mon_rabbit_domestic",
+    "type": "MONSTER",
+    "copy-from": "afs_mon_rabbit",
+    "name": { "str": "labbit" },
+    "description": "A rabbit from Earth, genetically modified to eat the lichen of Salus IV.  Its fur is rust-colored and its ears are shortened to preserve warmth.  This one seems well-acclimated to the presence of nearby humans.",
+    "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ] }
+  },
+  {
+    "id": "afs_mon_rabbit_kit_domestic",
+    "type": "MONSTER",
+    "copy-from": "afs_mon_rabbit_kit",
+    "name": { "str": "labbit kit" },
+    "description": "A tiny rabbit kit, spawned from a rabbit genetically modified to eat the lichen of Salus IV.  It's coat is a vibrant crimson that will turn a rust orange when it reaches adulthood.  This one seems well-acclimated to the presence of nearby humans.",
+    "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ] }
   },
   {
     "id": "afs_mon_garlander",
