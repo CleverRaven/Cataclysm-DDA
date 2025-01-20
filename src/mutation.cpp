@@ -934,7 +934,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+        if( !overmap_buffer.ter( pos_abs_omt() ).obj().is_wooded() ) {
             add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
         }        // Check for adjacent trees.

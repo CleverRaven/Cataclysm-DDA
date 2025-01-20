@@ -1427,6 +1427,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_moabosaurus",
+    "name": { "str_sp": "moabosaurus" },
+    "copy-from": "mon_camarasaurus",
+    "//": "When large weights and volumes are fixed this should be similar to camarasaurus unless a better scientific assessment is available",
+    "stomach_size": 752000,
+    "hp": 400,
+    "speed": 80,
+    "attack_cost": 80,
+    "zombify_into": "mon_zoabosaurus",
+    "description": "Massive, long-necked, four-legged dinosaur with a long tail and sturdy build.",
+    "reproduction": { "baby_type": { "baby_egg": "egg_moabosaurus" }, "baby_count": 3, "baby_timer": 24 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_haplocanthosaurus",
     "name": { "str_sp": "haplocanthosaurus" },
     "copy-from": "mon_apatosaurus",

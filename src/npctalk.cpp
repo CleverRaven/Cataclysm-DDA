@@ -36,6 +36,7 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "flag.h"
@@ -1429,7 +1430,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 {
     const map &here = get_map();
     const tripoint_abs_ms s_abs_pos = here.get_abs( spos );
-    const tripoint_abs_ms my_abs_pos = get_location();
+    const tripoint_abs_ms my_abs_pos = pos_abs();
 
     add_msg_debug( debugmode::DF_NPC,
                    "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
@@ -3366,7 +3367,14 @@ talk_effect_fun_t::func f_add_effect( const JsonObject &jo, std::string_view mem
 talk_effect_fun_t::func f_remove_effect( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
-    str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
+    std::vector<str_or_var> old_effects;
+    if( jo.has_string( member ) ) {
+        old_effects.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+    } else if( jo.has_array( member ) ) {
+        for( JsonValue jv : jo.get_array( member ) ) {
+            old_effects.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
 
     str_or_var target;
     if( jo.has_member( "target_part" ) ) {
@@ -3375,8 +3383,21 @@ talk_effect_fun_t::func f_remove_effect( const JsonObject &jo, std::string_view 
         target.str_val = "bp_null";
     }
 
-    return [is_npc, old_effect, target]( dialogue const & d ) {
-        d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
+    return [is_npc, old_effects, target]( dialogue const & d ) {
+        if( target.evaluate( d ) == "ALL" ) {
+            std::vector<bodypart_id> all_bprts = d.actor( is_npc )->get_all_body_parts(
+                    get_body_part_flags::none );
+            all_bprts.emplace_back( "bp_null" );
+            for( const str_or_var &old_effect : old_effects ) {
+                for( bodypart_id bp : all_bprts ) {
+                    d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), bp.id().c_str() );
+                }
+            }
+        } else {
+            for( const str_or_var &old_effect : old_effects ) {
+                d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ), target.evaluate( d ) );
+            }
+        }
     };
 }
 
@@ -4325,7 +4346,7 @@ talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_vi
         key.str_val = "";
     }
     return [dov, transform, target_var, dov_time_in_future, key, is_npc]( dialogue & d ) {
-        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        tripoint_abs_ms target_pos = d.actor( is_npc )->pos_abs();
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
@@ -4349,6 +4370,110 @@ talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_vi
             }
 
         }
+    };
+}
+
+talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view member,
+                                     const std::string_view, bool is_npc )
+{
+    dbl_or_var dov_power;
+    dbl_or_var dov_distance_factor;
+    dbl_or_var dov_max_noise;
+    bool fire;
+    dbl_or_var dov_shrapnel_casing_mass = dbl_or_var( 0 );
+    dbl_or_var dov_shrapnel_fragment_mass = dbl_or_var( 0.005f );
+    dbl_or_var dov_shrapnel_recovery = dbl_or_var( 0 );
+    str_or_var dov_shrapnel_drop = str_or_var( "null" );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    JsonObject jo_explosion = jo.get_object( member );
+    dov_power = get_dbl_or_var( jo_explosion, "power", true );
+    dov_distance_factor = get_dbl_or_var( jo_explosion, "distance_factor", false, 0.75f );
+    dov_max_noise = get_dbl_or_var( jo_explosion, "max_noise", false, 90000000 );
+    fire = jo_explosion.get_bool( "fire", false );
+    if( jo_explosion.has_int( "shrapnel" ) ) {
+        dov_shrapnel_casing_mass = get_dbl_or_var( jo_explosion, "casing_mass", true );
+    } else if( jo.has_object( "shrapnel" ) ) {
+        JsonObject jo_shr = jo_explosion.get_object( "shrapnel" );
+        dov_shrapnel_casing_mass = get_dbl_or_var( jo_shr, "casing_mass", true );
+        dov_shrapnel_fragment_mass = get_dbl_or_var( jo_shr, "fragment_mass", false, 0.08 );
+        dov_shrapnel_recovery = get_dbl_or_var( jo_shr, "recovery", false, 0 );
+        dov_shrapnel_drop = get_str_or_var( jo_shr.get_member( "drop" ), "drop", false, "null" );
+    }
+
+    return [target_var, dov_power, dov_distance_factor, dov_max_noise, fire, dov_shrapnel_casing_mass,
+                        dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop,
+                is_npc]( dialogue const & d ) {
+        tripoint_bub_ms target_pos;
+        if( target_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_from_var( target_var, d, is_npc );
+            target_pos = get_map().get_bub( abs_ms );
+        } else {
+            target_pos = d.actor( is_npc )->pos_bub();
+        }
+        Creature &guy = *d.actor( is_npc )->get_creature();
+
+        explosion_data expl_data;
+        expl_data.power = dov_power.evaluate( d );
+        expl_data.distance_factor = dov_distance_factor.evaluate( d );
+        expl_data.max_noise = dov_max_noise.evaluate( d );
+        expl_data.fire = fire;
+        expl_data.shrapnel.casing_mass = dov_shrapnel_casing_mass.evaluate( d );
+        expl_data.shrapnel.fragment_mass = dov_shrapnel_fragment_mass.evaluate( d );
+        expl_data.shrapnel.recovery = dov_shrapnel_recovery.evaluate( d );
+        expl_data.shrapnel.drop = itype_id( dov_shrapnel_drop.evaluate( d ) );
+
+        explosion_handler::explosion( &guy, target_pos, expl_data );
+    };
+}
+
+talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view member,
+                                     const std::string_view, bool is_npc )
+{
+    std::optional<var_info> output_var;
+    if( jo.has_member( "output_var" ) ) {
+        output_var = read_var_info( jo.get_object( "output_var" ) );
+    }
+
+    var_info var = read_var_info( jo.get_object( member ) );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    translation_or_var message = get_translation_or_var( jo.get_member( "message" ), "message", true );
+    dbl_or_var distance_limit = get_dbl_or_var( jo, "distance_limit", false, INT_MAX );
+    dbl_or_var spread = get_dbl_or_var( jo, "spread", false, 1.0 );
+
+    return [message, var, spread, distance_limit, target_var, is_npc]( dialogue & d ) {
+
+        Character const *ch = d.const_actor( is_npc )->get_const_character();
+        if( ch && ch->as_avatar() ) {
+
+            tripoint_abs_omt target_pos = d.actor( is_npc )->pos_abs_omt();
+            if( target_var.has_value() ) {
+                tripoint_abs_ms abs_ms = get_tripoint_from_var( target_var, d, is_npc );
+                target_pos = project_to<coords::omt>( abs_ms );
+            }
+
+            tripoint_abs_omt pick = ui::omap::choose_point( message.evaluate( d ), target_pos, false,
+                                    distance_limit.evaluate( d ) );
+            if( pick != tripoint_abs_omt::invalid ) {
+                tripoint_abs_ms abs_pos_ms = project_to<coords::ms>( pick );
+                // aim at the center of OMT
+                abs_pos_ms.x() += rng_float( 12 - spread.evaluate( d ), 12 + spread.evaluate( d ) );
+                abs_pos_ms.y() += rng_float( 12 - spread.evaluate( d ), 12 + spread.evaluate( d ) );
+                write_var_value( var.type, var.name, &d, abs_pos_ms.to_string() );
+                return;
+            }
+            return;
+        }
+        return;
     };
 }
 
@@ -4507,7 +4632,7 @@ talk_effect_fun_t::func f_npc_goal( const JsonObject &jo, std::string_view membe
         if( guy ) {
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params, d );
             guy->goal = destination;
-            guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
+            guy->omt_path = overmap_buffer.get_travel_path( guy->pos_abs_omt(), guy->goal,
                             overmap_path_params::for_npc() ).points;
             if( destination == tripoint_abs_omt() || destination.is_invalid() ||
                 guy->omt_path.empty() ) {
@@ -6192,7 +6317,7 @@ talk_effect_fun_t::func f_map_run_eocs( const JsonObject &jo, std::string_view m
         if( target_var.has_value() ) {
             pos = get_tripoint_from_var( target_var, d, is_npc );
         } else {
-            pos = d.actor( is_npc )->global_pos();
+            pos = d.actor( is_npc )->pos_abs();
         }
 
         std::vector<tripoint_abs_ms> adjacent = closest_points_first( pos, range.evaluate( d ) );
@@ -6596,7 +6721,7 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
         }
 
         if( d.actor( is_npc )->get_monster() ) {
-            bp = bodypart_id( "bp_null" );
+            bp = bodypart_str_id::NULL_ID();
         }
 
         dmg_inst.add_damage( damage_type, dmg_amount.evaluate( d ), arpen.evaluate( d ),
@@ -6920,7 +7045,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
         int radius = dov_radius.evaluate( d );
         int intensity = dov_intensity.evaluate( d );
 
-        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        tripoint_abs_ms target_pos = d.actor( is_npc )->pos_abs();
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
@@ -6947,7 +7072,7 @@ talk_effect_fun_t::func f_emit( const JsonObject &jo, std::string_view member,
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
     return [emit, target_var, chance_mult, is_npc ]( dialogue & d ) {
-        tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
+        tripoint_abs_ms target_pos = d.actor( is_npc )->pos_abs();
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
@@ -7218,6 +7343,8 @@ parsers = {
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun::f_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun::f_location_variable },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun::f_transform_radius },
+    { "u_explosion", "npc_explosion", jarg::member, &talk_effect_fun::f_explosion },
+    { "u_query_omt", "npc_query_omt", jarg::member, &talk_effect_fun::f_query_omt },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun::f_npc_goal },
     { "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun::f_guard_pos },
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun::f_learn_recipe },

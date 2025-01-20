@@ -469,22 +469,9 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             frag.shrapnel = true;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance( damage_bullet, damage );
-            // dealt_dam.total_damage() == 0 means armor block
-            // dealt_dam.total_damage() > 0 means took damage
-            // Need to differentiate target among player, npc, and monster
-            // Do we even print monster damage?
-            int damage_taken = 0;
-            int damaging_hits = 0;
-            int non_damaging_hits = 0;
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( mutable_source, frag, false );
-                if( frag.dealt_dam.total_damage() > 0 ) {
-                    damaging_hits++;
-                    damage_taken += frag.dealt_dam.total_damage();
-                } else {
-                    non_damaging_hits++;
-                }
+                critter->deal_projectile_attack( mutable_source, frag, frag.missed_by, false );
                 add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
@@ -493,11 +480,11 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                     break;
                 }
             }
-            int total_hits = damaging_hits + non_damaging_hits;
+            auto it = frag.targets_hit[critter];
             if( bubble_map.inbounds(
                     bubble_pos ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
-                multi_projectile_hit_message( critter, total_hits, damage_taken, n_gettext( "bomb fragment",
-                                              "bomb fragments", total_hits ) );
+                multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
+                                              "bomb fragments", it.first ) );
             }
         }
         if( m->impassable( target ) ) {

@@ -1312,7 +1312,7 @@ int Character::unimpaired_range() const
 
 bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
 {
-    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_omt ompos = pos_abs_omt();
     const point_rel_omt offset = omt.xy() - ompos.xy();
     if( offset.x() < -sight_points || offset.x() > sight_points ||
         offset.y() < -sight_points || offset.y() > sight_points ) {
@@ -1835,7 +1835,7 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        bodypart_id hit( "bp_null" );
+        bodypart_id hit = bodypart_str_id::NULL_ID();
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
@@ -2099,7 +2099,7 @@ bool Character::uncanny_dodge()
         here.unboard_vehicle( pos_bub() );
     }
     if( adjacent.xy() != pos_bub().xy() ) {
-        set_pos_only( adjacent );
+        set_pos_bub_only( adjacent );
 
         //landed in a vehicle tile
         if( here.veh_at( pos_bub() ) ) {
@@ -2481,7 +2481,7 @@ void Character::process_turn()
     if( !is_npc() && ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ||
                        has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         const point_abs_omt pos = ompos.xy();
         if( overmap_time.find( pos ) == overmap_time.end() ) {
             overmap_time[pos] = 1_turns;
@@ -2491,7 +2491,7 @@ void Character::process_turn()
     }
     // Decay time spent in other overmap tiles.
     if( !is_npc() && calendar::once_every( 1_hours ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         const time_point now = calendar::turn;
         time_duration decay_time = 0_days;
         if( has_trait( trait_NOMAD ) ) {
@@ -3710,8 +3710,7 @@ void Character::apply_skill_boost()
 
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
-    const bodypart_id bp_null( "bp_null" );
-    std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+    std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
     int tmp_bash_armor = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         tmp_bash_armor += worn.damage_resist( damage_bash, bp );
@@ -7463,7 +7462,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::signal_nemesis()
 {
-    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_omt ompos = pos_abs_omt();
     const tripoint_abs_sm smpos = project_to<coords::sm>( ompos );
     overmap_buffer.signal_nemesis( smpos );
 }
@@ -9912,8 +9911,8 @@ Character::moncam_cache_t Character::get_active_moncams() const
     for( monster const &mon : g->all_monsters() ) {
         for( const std::pair<const mtype_id, int> &moncam : get_moncams() ) {
             if( mon.type->id == moncam.first && mon.friendly != 0 &&
-                rl_dist( get_avatar().get_location(), mon.get_location() ) < moncam.second ) {
-                ret.insert( { &mon, mon.get_location() } );
+                rl_dist( get_avatar().pos_abs(), mon.pos_abs() ) < moncam.second ) {
+                ret.insert( { &mon, mon.pos_abs() } );
             }
         }
     }

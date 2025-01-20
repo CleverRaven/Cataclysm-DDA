@@ -19,6 +19,13 @@ For the official way to build CataclysmDDA, see:
 `cmake` >= 3.20.0<br/>
 `vcpkg` from [vcpkg.io](https://vcpkg.io/en/getting-started.html)
 `msgfmt` (optional) as part of Git Bash or msys2 in the default install paths.
+
+On Linux (for `libxcrypt`):
+`autoconf`
+`automake`
+`libtool`
+`pkg-config`
+
 # 2 Configure
 
 ## Presets

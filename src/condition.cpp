@@ -1078,7 +1078,7 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     return [location, is_npc]( const_dialogue const & d ) {
-        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->global_omt_location();
+        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->pos_abs_omt();
         const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
         const std::string &omt_str = omt_ter.id().str();
         std::string location_value = location.evaluate( d );
@@ -1105,7 +1105,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
     return [location, range, is_npc]( const_dialogue const & d ) {
-        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->global_omt_location();
+        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->pos_abs_omt();
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
@@ -1595,7 +1595,7 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
 conditional_t::func f_at_safe_space( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
-        return overmap_buffer.is_safe( d.const_actor( is_npc )->global_omt_location() ) &&
+        return overmap_buffer.is_safe( d.const_actor( is_npc )->pos_abs_omt() ) &&
                d.const_actor( is_npc )->is_safe();
     };
 }
@@ -1749,7 +1749,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                     popup.message( "%s", message );
                 }
                 avatar dummy;
-                dummy.set_location( get_avatar().get_location() );
+                dummy.set_pos_abs_only( get_avatar().pos_abs() );
                 target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
                 if( !traj.empty() ) {
                     loc = traj.back();

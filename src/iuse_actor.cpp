@@ -1304,7 +1304,7 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
         return std::nullopt;
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
-                                   p->global_omt_location() ) );
+                                   p->pos_abs_omt() ) );
     // Clear highlight on previously revealed OMTs before revealing new ones
     p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {
@@ -2425,7 +2425,8 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint_
         if( p->magic->knows_spell( sp_id ) ) {
             const spell sp = p->magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
-            if( sp.is_max_level( *p ) ) {
+            if( sp.is_max_level( *p ) || ( sp.max_book_level().has_value() &&
+                                           sp.get_level() >= sp.max_book_level() ) ) {
                 entry.ctxt += _( " (Max)" );
                 entry.enabled = false;
             } else {
@@ -3702,8 +3703,8 @@ static bodypart_id pick_part_to_heal(
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
                                   bleed_stop, bite_chance, infect_chance, bandage_power, disinfectant_power );
-        if( healed_part == bodypart_id( "bp_null" ) ) {
-            return bodypart_id( "bp_null" );
+        if( healed_part == bodypart_str_id::NULL_ID() ) {
+            return healed_part;
         }
 
         if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
@@ -3738,7 +3739,7 @@ static bodypart_id pick_part_to_heal(
 bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient, item &it,
         bool force ) const
 {
-    bodypart_id healed = bodypart_id( "bp_null" );
+    bodypart_id healed = bodypart_str_id::NULL_ID();
     const int head_bonus = get_heal_value( healer, bodypart_id( "head" ) );
     const int limb_power = get_heal_value( healer, bodypart_id( "arm_l" ) );
     const int torso_bonus = get_heal_value( healer, bodypart_id( "torso" ) );
@@ -3747,7 +3748,7 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
         patient.add_msg_player_or_npc( m_bad,
                                        _( "Your biology is not compatible with that item." ),
                                        _( "<npcname>'s biology is not compatible with that item." ) );
-        return bodypart_id( "bp_null" ); // canceled
+        return bodypart_str_id::NULL_ID().id(); // canceled
     }
 
     if( healer.is_npc() ) {
@@ -3779,9 +3780,9 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
             healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                         get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                         get_disinfected_level( healer ) );
-            if( healed == bodypart_id( "bp_null" ) ) {
+            if( healed == bodypart_str_id::NULL_ID() ) {
                 add_msg( m_info, _( "Never mind." ) );
-                return bodypart_id( "bp_null" ); // canceled
+                return bodypart_str_id::NULL_ID().id(); // canceled
             }
             return healed;
         } else {

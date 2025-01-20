@@ -72,14 +72,14 @@ tripoint_bub_ms talker_character_const::pos_bub() const
     return me_chr_const->pos_bub();
 }
 
-tripoint_abs_ms talker_character_const::global_pos() const
+tripoint_abs_ms talker_character_const::pos_abs() const
 {
-    return me_chr_const->get_location();
+    return me_chr_const->pos_abs();
 }
 
-tripoint_abs_omt talker_character_const::global_omt_location() const
+tripoint_abs_omt talker_character_const::pos_abs_omt() const
 {
-    return me_chr_const->global_omt_location();
+    return me_chr_const->pos_abs_omt();
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const

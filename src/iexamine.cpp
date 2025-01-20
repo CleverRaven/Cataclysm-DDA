@@ -1476,7 +1476,7 @@ elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint_bub_ms> const 
 void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    tripoint_abs_ms const old_abs_pos = you.get_location();
+    tripoint_abs_ms const old_abs_pos = you.pos_abs();
     tripoint_abs_omt const this_omt = project_to<coords::omt>( here.get_abs( examp ) );
     tripoint_bub_ms const sm_orig = here.get_bub( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint_bub_ms> this_elevator;
@@ -2506,7 +2506,7 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
     }
 
     weather_sum recentWeather = sum_conditions( calendar::turn - 10_minutes, calendar::turn,
-                                you.get_location() );
+                                you.pos_abs() );
 
     // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {

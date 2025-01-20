@@ -153,5 +153,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_map_lights_on",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "afs_lights_on", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
   }
 ]

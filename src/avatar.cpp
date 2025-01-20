@@ -1840,7 +1840,7 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1917,9 +1917,9 @@ bool avatar::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-void avatar::set_location( const tripoint_abs_ms &loc )
+void avatar::set_pos_abs_only( const tripoint_abs_ms &loc )
 {
-    Creature::set_location( loc );
+    Creature::set_pos_abs_only( loc );
 }
 
 npc &avatar::get_shadow_npc()

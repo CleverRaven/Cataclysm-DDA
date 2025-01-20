@@ -1820,7 +1820,7 @@ void npc::import_and_clean( const JsonObject &data )
     queued_effect_on_conditions = defaults.queued_effect_on_conditions;
 
     // space coordinates are irrelevant if importing into a different world
-    set_location( defaults.get_location() );
+    set_pos_abs_only( defaults.pos_abs() );
     omt_path = defaults.omt_path;
     known_traps.clear();
     camps = defaults.camps;

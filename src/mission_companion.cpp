@@ -590,7 +590,7 @@ void talk_function::companion_mission( npc &p )
     mission_data mission_key;
 
     std::string role_id = p.companion_mission_role_id;
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::string title = _( "Outpost Missions" );
     if( role_id == "SCAVENGER" ) {
         title = _( "Junk Shop Missions" );
@@ -1290,7 +1290,7 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
         const std::map<skill_id, int> &required_skills, bool silent_failure )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
                                equipment, required_skills, silent_failure );
 }
@@ -1363,8 +1363,8 @@ int talk_function::caravan_dist( const std::string &dest )
 {
     Character &player_character = get_player_character();
     const tripoint_abs_omt site =
-        overmap_buffer.find_closest( player_character.global_omt_location(), dest, 0, false );
-    int distance = rl_dist( player_character.global_omt_location(), site );
+        overmap_buffer.find_closest( player_character.pos_abs_omt(), dest, 0, false );
+    int distance = rl_dist( player_character.pos_abs_omt(), site );
     return distance;
 }
 
@@ -1580,7 +1580,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     //Now we need to find how many free plots we have to plant in...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                      player_character.global_omt_location(), place, 20, false );
+                                      player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
     for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
@@ -1648,7 +1648,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     Character &player_character = get_player_character();
     //First we need a list of plants that can be harvested...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                      player_character.global_omt_location(), place, 20, false );
+                                      player_character.pos_abs_omt(), place, 20, false );
     tinymap bay;
     item tmp;
     std::vector<itype_id> seed_types;
@@ -1866,7 +1866,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    tripoint_abs_omt loot_location = player_character.global_omt_location();
+    tripoint_abs_omt loot_location = player_character.pos_abs_omt();
     std::set<item> all_returned_items;
 
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
@@ -1974,7 +1974,7 @@ bool talk_function::hospital_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    tripoint_abs_omt loot_location = player_character.global_omt_location();
+    tripoint_abs_omt loot_location = player_character.pos_abs_omt();
     std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         tripoint_abs_omt site = overmap_buffer.find_closest(
@@ -2487,7 +2487,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_
         bool contains )
 {
     std::vector<npc_ptr> available;
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && is_equal( c_mission.miss_id, miss_id ) &&
@@ -2610,7 +2610,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     Character &player_character = get_player_character();
     std::vector<npc_ptr> available;
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.global_omt_location().xy() );
+                                        player_character.pos_abs_omt().xy() );
 
     for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
@@ -2634,7 +2634,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 available.push_back( guy );
             }
         } else {
-            const tripoint_abs_omt guy_omt_pos = guy->global_omt_location();
+            const tripoint_abs_omt guy_omt_pos = guy->pos_abs_omt();
             std::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
@@ -2728,7 +2728,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
 npc_ptr talk_function::companion_choose_return( const npc &p, const mission_id &miss_id,
         const time_point &deadline, const bool ignore_parameters )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     const std::string &role_id = p.companion_mission_role_id;
     return companion_choose_return( omt_pos, role_id, miss_id, deadline, true, ignore_parameters );
 }
@@ -2893,7 +2893,7 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
 {
     Character &player_character = get_player_character();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.global_omt_location().xy() );
+                                        player_character.pos_abs_omt().xy() );
     if( bcp.has_value() && bcp.value()->is_hidden( id ) ) {
         return;
     }

@@ -631,7 +631,7 @@
         "move_cost": 150,
         "cooldown": 2,
         "gun_type": "mossberg_930",
-        "ammo_type": "shot",
+        "ammo_type": "shot_beanbag",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",

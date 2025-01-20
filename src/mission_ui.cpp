@@ -333,7 +333,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     }
     if( miss->has_target() ) {
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
-        const tripoint_abs_omt pos = get_player_character().global_omt_location();
+        const tripoint_abs_omt pos = get_player_character().pos_abs_omt();
         cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
                                       c_white );
         // Below is done instead of a table for the benefit of right-to-left languages
