@@ -40,16 +40,6 @@
           { "type": "rubber", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
-        ],
-        "coverage": 100
       }
     ],
     "melee_damage": { "bash": 1 }
@@ -111,16 +101,6 @@
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
       }
     ],
     "melee_damage": { "bash": 4 }
@@ -174,17 +154,6 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.5 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
-        ],
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
         ],
         "coverage": 100
       }
@@ -249,17 +218,6 @@
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
       }
     ],
     "melee_damage": { "bash": 1 }
@@ -317,16 +275,6 @@
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "encumbrance": 19,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.5 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
         "coverage": 100
       }
     ],
@@ -398,16 +346,6 @@
         ],
         "encumbrance": 11,
         "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
-        "coverage": 100
       }
     ],
     "pocket_data": [
@@ -476,16 +414,6 @@
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "encumbrance": 26,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
         "coverage": 100
       }
     ],

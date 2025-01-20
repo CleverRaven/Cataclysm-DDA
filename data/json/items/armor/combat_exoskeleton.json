@@ -142,14 +142,6 @@
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
         ]
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   },
@@ -248,14 +240,6 @@
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
         ]
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   },
@@ -354,14 +338,6 @@
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
         ]
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   },
@@ -460,14 +436,6 @@
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
         ]
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   },
@@ -556,14 +524,6 @@
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
         ]
-      },
-      {
-        "layers": [ "NORMAL" ],
-        "encumbrance": 0,
-        "coverage": 50,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   }

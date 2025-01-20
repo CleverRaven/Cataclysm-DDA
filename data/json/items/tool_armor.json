@@ -1318,17 +1318,6 @@
           "foot_arch_l"
         ],
         "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
-        ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "volume_encumber_modifier": 0
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -1413,17 +1402,6 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
-        ],
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "volume_encumber_modifier": 0
       }
     ]

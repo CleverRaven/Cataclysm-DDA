@@ -59,16 +59,7 @@
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_sole_r",
-          "foot_sole_l"
-        ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }

@@ -611,16 +611,6 @@
         ],
         "encumbrance": 10,
         "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "coverage": 100
       }
     ]
   },
@@ -670,16 +660,6 @@
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 }
         ],
         "encumbrance": 20,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
         "coverage": 100
       }
     ],
@@ -748,12 +728,6 @@
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
         "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
         "coverage": 80
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "coverage": 100
       }
     ]
   },
