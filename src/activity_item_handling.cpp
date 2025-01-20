@@ -2074,7 +2074,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 return;
             }
 
-            std::vector<zone_data const *> zones;
             bool ignore_contents = false;
 
             // check ignorable zones for ignore_contents enabled
@@ -2104,8 +2103,118 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             }
 
             //nothing to sort?
+            bool unload_mods = false;
+            bool unload_molle = false;
+            // bool unload_sparse_only = false;
+            // int unload_sparse_threshold = 20;
+            bool unload_always = false;
+            bool ignore_favorite = false;
+            bool unload_all = false;
+            bool unload_corpses = false;
+
+            std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
+                    _fac_id( you ) );
+
+            // get most open rules out of all stacked zones
+            for( zone_data const *zone : zones ) {
+                if( !zone->get_enabled() ) {
+                    continue;
+                };
+                unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
+                unload_molle |= options.unload_molle();
+                unload_mods |= options.unload_mods();
+                unload_always |= options.unload_always();
+                ignore_favorite |= zone->get_type() == zone_type_LOOT_IGNORE_FAVORITES;
+
+                unload_all |= zone->get_type() == zone_type_UNLOAD_ALL;
+                unload_corpses |= zone->get_type() == zone_type_STRIP_CORPSES;
+            }
+
             const std::optional<vpart_reference> vp = here.veh_at( src_loc ).cargo();
-            if( ( !vp || vp->items().empty() ) && here.i_at( src_loc ).empty() ) {
+            std::vector<const item *> items;
+            // populate items from the appropriate source
+            if( vp ) {
+                for( const item &it : vp->items() ) {
+                    items.push_back( &it );
+                }
+            } else {
+                for( const item &it : here.i_at( src_loc ) ) {
+                    items.push_back( &it );
+                }
+            }
+            // check if there is valid destination for any item of the tile
+            bool has_items_to_work_on = false;
+
+            for( const item *it : items ) {
+
+                const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
+                                                  MAX_VIEW_DISTANCE, _fac_id( you ) );
+
+
+                if( has_items_to_work_on ) {
+                    break;
+                }
+
+                // skip items that allready sorted
+                if( zone_type_id != zone_type_LOOT_CUSTOM && mgr.has( zone_type_id, src, _fac_id( you ) ) ) {
+                    continue;
+                }
+
+                if( zone_type_id == zone_type_LOOT_CUSTOM &&
+                    mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
+                    continue;
+                }
+
+                if( !it->is_owned_by( you, true ) ) {
+                    continue;
+                }
+
+                // skip unpickable liquid
+                if( !it->made_of_from_type( phase_id::SOLID ) ) {
+                    continue;
+                }
+
+                if( it->is_favorite && ignore_favorite ) {
+                    continue;
+                }
+
+                const std::unordered_set<tripoint_abs_ms> dest_set =
+                    mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, _fac_id( you ) );
+
+                if( unload_all || ( unload_corpses && it->is_corpse() ) ) {
+                    if( dest_set.empty() || unload_always ) {
+                        if( you.rate_action_unload( *it ) == hint_rating::good &&
+                            !it->any_pockets_sealed() ) {
+                            has_items_to_work_on = true;
+                            break;
+                        }
+
+                        // if unloading mods
+                        if( unload_mods ) {
+                            // remove each mod, skip irremovable
+                            for( const item *mod : it->gunmods() ) {
+                                if( mod->is_irremovable() ) {
+                                    continue;
+                                }
+                                has_items_to_work_on = true;
+                                break;
+                            }
+                        }
+
+                        // if unloading molle
+                        if( unload_molle && ! it->get_contents().get_added_pockets().empty() ) {
+                            has_items_to_work_on = true;
+                            break;
+                        }
+                    }
+                }
+                // if item has destination
+                if( !dest_set.empty() ) {
+                    has_items_to_work_on = true;
+                    break;
+                }
+            }
+            if( !has_items_to_work_on ) {
                 continue;
             }
 
