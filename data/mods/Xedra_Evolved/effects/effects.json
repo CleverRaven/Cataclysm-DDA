@@ -54,6 +54,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_reduced_healing",
+    "name": [ "Painful Wounds" ],
+    "desc": [ "Your wounds ache." ],
+    "apply_message": "The cut begins to burn!",
+    "remove_message": "The ache from your wounds finally fades.",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 15 ], "pain_tick": [ 60 ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "wild_hunt_dazed",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
