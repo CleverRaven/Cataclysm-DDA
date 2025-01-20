@@ -266,7 +266,7 @@
         "monster_message": "%1$s makes a gestures with one hand a glow springs up around you!"
       }
     ],
-    "death_drops": "changeling_lord_death_drops",
+    "death_drops": "changeling_wild_hunt_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "FAE_CREATURE", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ],
     "armor": {

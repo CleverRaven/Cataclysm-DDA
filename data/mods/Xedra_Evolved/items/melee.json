@@ -55,6 +55,34 @@
     }
   },
   {
+    "id": "wild_huntsman_hunting_blade",
+    "type": "GENERIC",
+    "name": { "str": "witchwood sword" },
+    "copy-from": "ch_arming_sword",
+    "looks_like": "bokken",
+    "description": "This sword is made all of a single piece of wood and so black any details are lost.  Some kind of shimmering leather is wrapped around the grip.",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "price": "1 kUSD 350 USD",
+    "price_postapoc": "500 USD",
+    "proportional": { "melee_damage": { "stab": 0.9 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "RELIC_PINK" ] },
+    "delete": { "flags": "CONDUCTIVE" },
+    "relative": { "melee_damage": { "biological": 5 } },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "BONUS_BLOCK", "add": 1 },
+            { "value": "ATTACK_SPEED", "add": -10 },
+            { "value": "WEAKPOINT_ACCURACY", "multiply": 1 }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "id": "redcap_club",
     "type": "GENERIC",
     "name": { "str": "redcap club" },
