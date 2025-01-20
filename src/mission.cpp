@@ -353,7 +353,7 @@ void mission::set_target_to_mission_giver()
 {
     const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
-        target = giver->global_omt_location();
+        target = giver->pos_abs_omt();
     } else {
         target = tripoint_abs_omt::invalid;
     }
@@ -488,12 +488,12 @@ bool mission::is_complete( const character_id &_npc_id ) const
     avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint_abs_omt cur_pos = player_character.global_omt_location();
+            const tripoint_abs_omt cur_pos = player_character.pos_abs_omt();
             return rl_dist( cur_pos, target ) <= 1;
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const oter_id cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+            const oter_id cur_ter = overmap_buffer.ter( player_character.pos_abs_omt() );
             return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 

@@ -980,7 +980,7 @@ bool game::start_game()
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
-    overmap_buffer.reveal( u.global_omt_location().xy(),
+    overmap_buffer.reveal( u.pos_abs_omt().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     const int city_size = get_option<int>( "CITY_SIZE" );
@@ -1066,7 +1066,7 @@ bool game::start_game()
                         vpart_reference( *v.v, sp ).items().clear();
                     }
 
-                    auto mons = critter_tracker->find( u.get_location() );
+                    auto mons = critter_tracker->find( u.pos_abs() );
                     if( mons != nullptr ) {
                         critter_tracker->remove( *mons );
                     }
@@ -1082,7 +1082,7 @@ bool game::start_game()
         }
     }
     if( scen->has_flag( "BORDERED" ) ) {
-        const point_abs_omt p_player = get_player_character().global_omt_location().xy();
+        const point_abs_omt p_player = get_player_character().pos_abs_omt().xy();
         point_abs_om om;
         point_om_omt omt;
         std::tie( om, omt ) = project_remain<coords::om>( p_player );
@@ -1139,7 +1139,7 @@ bool game::start_game()
         }
     }
     if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
+        !place_vehicle_nearby( u.starting_vehicle, u.pos_abs_omt().xy(), 1, 30,
                                std::vector<std::string> {} ) ) {
         debugmsg( "could not place starting vehicle" );
     }
@@ -1171,7 +1171,7 @@ bool game::start_game()
             u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
-    tripoint_abs_omt abs_omt = u.global_omt_location();
+    tripoint_abs_omt abs_omt = u.pos_abs_omt();
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
     get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
 
@@ -1263,7 +1263,7 @@ void game::load_npcs()
             continue;
         }
 
-        const tripoint_abs_sm sm_loc = temp->global_sm_location();
+        const tripoint_abs_sm sm_loc = temp->pos_abs_sm();
         // NPCs who are out of bounds before placement would be pushed into bounds
         // This can cause NPCs to teleport around, so we don't want that
         if( !map_bounds.contains( sm_loc.xy() ) ) {
@@ -1363,7 +1363,7 @@ void game::create_starting_npcs()
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : npc_class_id::NULL_ID() );
     // hardcoded, consistent NPC position
     // start_loc::place_player relies on this and must be updated if this is changed
-    tmp->spawn_at_precise( u.get_location() + point::north_west );
+    tmp->spawn_at_precise( u.pos_abs() + point::north_west );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -1373,7 +1373,7 @@ void game::create_starting_npcs()
     tmp->toggle_trait( trait_NPC_STARTING_NPC );
     tmp->set_fac( faction_no_faction );
     //One random starting NPC mission
-    tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->pos_abs_omt(),
                           tmp->getID() ) );
 }
 
@@ -3399,7 +3399,7 @@ void game::reset_npc_dispositions()
         npc_to_add->op_of_u = npc_opinion();
         npc_to_add->set_fac( faction_no_faction );
         npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
-                                     npc_to_add->global_omt_location(),
+                                     npc_to_add->pos_abs_omt(),
                                      npc_to_add->getID() ) );
 
     }
@@ -3745,12 +3745,12 @@ void game::display_faction_epilogues()
 
 struct npc_dist_to_player {
     const tripoint_abs_omt ppos{};
-    npc_dist_to_player() : ppos( get_player_character().global_omt_location() ) { }
+    npc_dist_to_player() : ppos( get_player_character().pos_abs_omt() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
                      const shared_ptr_fast<npc> &b ) const {
-        const tripoint_abs_omt apos = a->global_omt_location();
-        const tripoint_abs_omt bpos = b->global_omt_location();
+        const tripoint_abs_omt apos = a->pos_abs_omt();
+        const tripoint_abs_omt bpos = b->pos_abs_omt();
         return square_dist( ppos.xy(), apos.xy() ) <
                square_dist( ppos.xy(), bpos.xy() );
     }
@@ -3758,7 +3758,7 @@ struct npc_dist_to_player {
 
 void game::disp_NPCs()
 {
-    const tripoint_abs_omt ppos = u.global_omt_location();
+    const tripoint_abs_omt ppos = u.pos_abs_omt();
     const tripoint_bub_ms lpos = u.pos_bub();
     const int scan_range = 120;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
@@ -3789,7 +3789,7 @@ void game::disp_NPCs()
         mvwprintz( w, point( 0, 2 ), c_white, _( "Total NPCs within %d OMTs: %d.  %d are static NPCs." ),
                    scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
-            const tripoint_abs_omt apos = npcs[i]->global_omt_location();
+            const tripoint_abs_omt apos = npcs[i]->pos_abs_omt();
             mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->get_name(),
                        apos.to_string() );
         }
@@ -4638,7 +4638,7 @@ void game::mon_info_update( )
                                       u.controlling_vehicle ) == rule_state::BLACKLISTED;
             } else {
                 need_processing =  MATT_ATTACK == matt || ( MATT_FOLLOW == matt &&
-                                   critter.get_dest() == u.get_location() );
+                                   critter.get_dest() == u.pos_abs() );
             }
             if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
@@ -5069,7 +5069,7 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
     if( critter.is_monster() ) {
-        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.get_location() ) ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos_abs() ) ) {
             if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
                 return std::dynamic_pointer_cast<T>( mon_ptr );
             }
@@ -5367,7 +5367,7 @@ bool game::spawn_hallucination( const tripoint_bub_ms &p )
     // If there's 'spawns' exist for player's current location, then
     // spawn random hallucination monster from 'spawns'-dependent monster group (90% chance)
     // or a completely random hallucination monster (10% chance)
-    const oter_id &terrain_type = overmap_buffer.ter( get_player_character().global_omt_location() );
+    const oter_id &terrain_type = overmap_buffer.ter( get_player_character().pos_abs_omt() );
     const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
     if( !spawns.group.is_null() && !one_in( 9 ) ) {
         hallu = MonsterGroupManager::GetRandomMonsterFromGroup( spawns.group );
@@ -6253,13 +6253,13 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
 {
     Character &player_character = get_player_character();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.global_omt_location().xy() );
+                                        player_character.pos_abs_omt().xy() );
     if( !bcp ) {
         return true; // Nobody to piss off
     }
     basecamp *actual_camp = *bcp;
     if( actual_camp->get_owner()->limited_area_claim &&
-        player_character.global_omt_location() != actual_camp->camp_omt_pos() ) {
+        player_character.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
         return true; // outside of claimed area
     }
     if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
@@ -6330,10 +6330,10 @@ void game::peek()
     tripoint_bub_ms new_pos = u.pos_bub() + *p;
     if( p->z() != 0 ) {
         // Character might peek to a different submap; ensures return location is accurate.
-        const tripoint_abs_ms old_loc = u.get_location();
+        const tripoint_abs_ms old_loc = u.pos_abs();
         vertical_move( p->z(), false, true );
 
-        if( old_loc != u.get_location() ) {
+        if( old_loc != u.pos_abs() ) {
             new_pos = u.pos_bub();
             u.move_to( old_loc );
             m.vertical_shift( old_loc.z() );
@@ -7032,7 +7032,7 @@ void game::zones_manager()
         if( show_all_zones ) {
             zones = mgr.get_zones( zones_faction );
         } else {
-            const tripoint_abs_ms u_abs_pos = u.get_location();
+            const tripoint_abs_ms u_abs_pos = u.pos_abs();
             for( zone_manager::ref_zone_data &ref : mgr.get_zones( zones_faction ) ) {
                 const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
                 if( rl_dist( u_abs_pos, zone_abs_pos ) <= MAX_VIEW_DISTANCE ) {
@@ -7207,7 +7207,7 @@ void game::zones_manager()
 
             int iNum = 0;
 
-            tripoint_abs_ms player_absolute_pos = u.get_location();
+            tripoint_abs_ms player_absolute_pos = u.pos_abs();
 
             //Display saved zones
             for( auto &i : zones ) {
@@ -7465,8 +7465,8 @@ void game::zones_manager()
                     case 4: {
                         if( zone.get_is_personal() ) {
                             const std::optional<std::pair<tripoint_rel_ms, tripoint_rel_ms>> pos = query_personal_position();
-                            if( pos && ( u.get_location() + pos->first != zone.get_start_point() ||
-                                         u.get_location() + pos->second != zone.get_end_point() ) ) {
+                            if( pos && ( u.pos_abs() + pos->first != zone.get_start_point() ||
+                                         u.pos_abs() + pos->second != zone.get_end_point() ) ) {
                                 zone.set_position( { pos->first, pos->second } );
                                 stuff_changed = true;
 
@@ -7511,8 +7511,8 @@ void game::zones_manager()
                                 break; // Nothing changed, don't save
                             }
                             if( zone.get_is_personal() ) {
-                                const tripoint_rel_ms new_start_point_rl = new_start_point - u.get_location();
-                                const tripoint_rel_ms new_end_point_rl = new_end_point - u.get_location();
+                                const tripoint_rel_ms new_start_point_rl = new_start_point - u.pos_abs();
+                                const tripoint_rel_ms new_end_point_rl = new_end_point - u.pos_abs();
                                 zone.set_position( std::make_pair( new_start_point_rl, new_end_point_rl ) );
                             } else {
                                 zone.set_position( std::make_pair( new_start_point, new_end_point ) );
@@ -7546,7 +7546,7 @@ void game::zones_manager()
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
                 //show zone position on overmap;
-                tripoint_abs_omt player_overmap_position = u.global_omt_location();
+                tripoint_abs_omt player_overmap_position = u.pos_abs_omt();
                 tripoint_abs_omt zone_overmap =
                     project_to<coords::omt>( zones[active_index].get().get_center_point() );
 
@@ -9998,7 +9998,7 @@ void game::butcher()
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
                     for( map_stack::iterator &it : corpses ) {
-                        u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*it );
+                        u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*it );
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
@@ -10014,13 +10014,13 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            u.activity.targets.emplace_back( map_cursor( u.get_location() ), &*corpses[indexer_index] );
+            u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), &*corpses[indexer_index] );
         }
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             item *const target = &*disassembly_stacks[indexer_index].first;
-            u.disassemble( item_location( map_cursor( u.get_location() ), target ), true );
+            u.disassemble( item_location( map_cursor( u.pos_abs() ), target ), true );
         }
         break;
         case BUTCHER_SALVAGE: {
@@ -10029,7 +10029,7 @@ void game::butcher()
             } else {
                 // Pick index of first item in the salvage stack
                 item *const target = &*salvage_stacks[indexer_index].first;
-                item_location item_loc( map_cursor( u.get_location() ), target );
+                item_location item_loc( map_cursor( u.pos_abs() ), target );
                 salvage_iuse->try_to_cut_up( u, *salvage_tool, item_loc );
             }
         }
@@ -11257,7 +11257,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
             if( !corpses.empty() ) {
                 u.assign_activity( ACT_BUTCHER, 0, true );
                 for( item *it : corpses ) {
-                    u.activity.targets.emplace_back( map_cursor( u.get_location() ), it );
+                    u.activity.targets.emplace_back( map_cursor( u.pos_abs() ), it );
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
@@ -12585,7 +12585,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // TODO: Remove stair teleport bullshit
     if( rl_dist( u.pos_bub(), old_pos ) <= 1 ) {
         for( monster *m : monsters_following ) {
-            m->set_dest( u.get_location() );
+            m->set_dest( u.pos_abs() );
         }
     }
 
@@ -12861,7 +12861,7 @@ bool game::vertical_shift( const int z_after )
     scent.reset();
 
     const int z_before = u.posz();
-    u.move_to( tripoint_abs_ms( u.get_location().xy(), z_after ) );
+    u.move_to( tripoint_abs_ms( u.pos_abs().xy(), z_after ) );
 
     // Shift the map itself
     m.vertical_shift( z_after );
@@ -12886,7 +12886,7 @@ void game::vertical_notes( int z_before, int z_after )
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    for( const tripoint_abs_omt &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
+    for( const tripoint_abs_omt &p : points_in_radius( u.pos_abs_omt(), REVEAL_RADIUS ) ) {
         const tripoint_abs_omt cursp_before( p.xy(), z_before );
         const tripoint_abs_omt cursp_after( p.xy(), z_after );
 
@@ -13009,7 +13009,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
 
 void game::update_overmap_seen()
 {
-    const tripoint_abs_omt ompos = u.global_omt_location();
+    const tripoint_abs_omt ompos = u.pos_abs_omt();
     const int dist = u.overmap_modified_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
@@ -13144,7 +13144,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
         if( counter >= 10 ) {
             return;
         }
-        const tripoint_abs_omt u_omt = u.global_omt_location();
+        const tripoint_abs_omt u_omt = u.pos_abs_omt();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
         // Only spawn random NPCs on z-level 0
@@ -13182,7 +13182,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     tmp->form_opinion( u );
     tmp->mission = NPC_MISSION_NULL;
     tmp->long_term_goal_action();
-    tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
+    tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->pos_abs_omt(),
                           tmp->getID() ) );
     // This will make the new NPC active- if its nearby to the player
     load_npcs();

@@ -93,11 +93,11 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 
     avatar &dummy = get_avatar();
     clear_avatar();
-    tripoint_abs_ms player_initial_pos = dummy.get_location();
+    tripoint_abs_ms player_initial_pos = dummy.pos_abs();
 
     const auto setup_and_remove_fields = [&]( const bool & with_light ) {
         CAPTURE( with_light );
-        CHECK( dummy.get_location() == player_initial_pos );
+        CHECK( dummy.pos_abs() == player_initial_pos );
 
         // create fd_fatigue of each intensity near player
         tripoint_abs_ms p1 = player_initial_pos + tripoint::east * 10;
@@ -186,14 +186,14 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
            "The tear in reality pulls you in as it closes and ejects you violently!" );
 
     // check that the player got teleported
-    CHECK( dummy.get_location() != player_initial_pos );
+    CHECK( dummy.pos_abs() != player_initial_pos );
 
     // remove 3 fields again but without lighting this time
     clear_avatar();
     clear_map();
     Messages::clear_messages();
 
-    player_initial_pos = dummy.get_location();
+    player_initial_pos = dummy.pos_abs();
     setup_and_remove_fields( false );
     capture_removal_messages();
 

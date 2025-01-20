@@ -901,7 +901,7 @@ void zone_manager::cache_data( bool update_avatar )
 {
     area_cache.clear();
     avatar &player_character = get_avatar();
-    tripoint_abs_ms cached_shift = player_character.get_location();
+    tripoint_abs_ms cached_shift = player_character.pos_abs();
     for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
@@ -943,7 +943,7 @@ void zone_manager::reset_disabled()
 void zone_manager::cache_avatar_location()
 {
     avatar &player_character = get_avatar();
-    tripoint_abs_ms cached_shift = player_character.get_location();
+    tripoint_abs_ms cached_shift = player_character.pos_abs();
     for( zone_data &elem : zones ) {
         // update the current cached locations for each personal zone
         if( elem.get_is_personal() ) {

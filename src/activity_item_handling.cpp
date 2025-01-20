@@ -400,7 +400,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         }
 
         if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
-            const tripoint_abs_omt your_pos = you.global_omt_location();
+            const tripoint_abs_omt your_pos = you.pos_abs_omt();
             if( !overmap_buffer.has_note( your_pos ) ) {
                 overmap_buffer.add_note( your_pos, it.display_name() );
             } else {
@@ -1512,7 +1512,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
         combined_spots.push_back( elem );
     }
     for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
-             you.get_location(), distance, you.is_npc(), _fac_id( you ) ) ) {
+             you.pos_abs(), distance, you.is_npc(), _fac_id( you ) ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
@@ -2019,7 +2019,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     int &num_processed = act.values[ 0 ];
 
     map &here = get_map();
-    const tripoint_abs_ms abspos = you.get_location();
+    const tripoint_abs_ms abspos = you.pos_abs();
     zone_manager &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();

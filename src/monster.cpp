@@ -325,7 +325,7 @@ monster::monster( const mtype_id &id ) : monster()
 
 monster::monster( const mtype_id &id, const tripoint_bub_ms &p ) : monster( id )
 {
-    set_pos_only( p );
+    set_pos_bub_only( p );
     unset_dest();
 }
 
@@ -338,17 +338,17 @@ monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = defau
 void monster::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
-    if( old_pos == get_location() ) {
+    if( old_pos == pos_abs() ) {
         return;
     }
-    g->update_zombie_pos( *this, old_pos, get_location() );
+    g->update_zombie_pos( *this, old_pos, pos_abs() );
     if( has_effect( effect_ridden ) && mounted_player &&
-        mounted_player->get_location() != get_location() ) {
+        mounted_player->pos_abs() != pos_abs() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
         mounted_player->forced_dismount();
     }
-    if( has_dest() && get_location() == get_dest() ) {
+    if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
     }
 }
@@ -741,13 +741,13 @@ void monster::try_biosignature()
 
 void monster::spawn( const tripoint_bub_ms &p )
 {
-    set_pos_only( p );
+    set_pos_bub_only( p );
     unset_dest();
 }
 
 void monster::spawn( const tripoint_abs_ms &loc )
 {
-    set_location( loc );
+    set_pos_abs_only( loc );
     unset_dest();
 }
 
@@ -1488,7 +1488,7 @@ std::vector<material_id> monster::get_no_absorb_material() const
 
 void monster::set_patrol_route( const std::vector<point_rel_ms> &patrol_pts_rel_ms )
 {
-    const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( global_omt_location() );
+    const tripoint_abs_ms base_abs_ms = project_to<coords::ms>( pos_abs_omt() );
     for( const point_rel_ms &patrol_pt : patrol_pts_rel_ms ) {
         patrol_route.push_back( base_abs_ms + patrol_pt );
     }
@@ -1508,7 +1508,7 @@ bool monster::has_dest() const
 
 tripoint_abs_ms monster::get_dest() const
 {
-    return goal ? *goal : get_location();
+    return goal ? *goal : pos_abs();
 }
 
 void monster::set_dest( const tripoint_abs_ms &p )
@@ -1767,7 +1767,7 @@ monster_attitude monster::attitude( const Character *u ) const
     }
 
     if( has_flag( mon_flag_KEEP_DISTANCE ) &&
-        rl_dist( get_location(), get_dest() ) < type->tracking_distance ) {
+        rl_dist( pos_abs(), get_dest() ) < type->tracking_distance ) {
         return MATT_FLEE;
     }
 
@@ -3910,7 +3910,7 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         // Move towards a point on the opposite side of us from the target.
         // TODO: make the destination scale with the sound and handle
         // the case when (x,y) is the same by picking a random direction
-        tripoint_abs_ms away = get_location() + ( get_location() - target );
+        tripoint_abs_ms away = pos_abs() + ( pos_abs() - target );
         away.z() = posz();
         wander_to( away, wander_turns );
     }

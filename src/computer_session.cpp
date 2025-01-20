@@ -684,7 +684,7 @@ void computer_session::action_maps()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
@@ -696,7 +696,7 @@ void computer_session::action_map_sewer()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -715,7 +715,7 @@ void computer_session::action_map_subway()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -1806,9 +1806,9 @@ void computer_session::action_emerg_ref_center()
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
                    "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ),
-                rl_dist( player_character.global_omt_location(), mission_target ),
+                rl_dist( player_character.pos_abs_omt(), mission_target ),
                 direction_name_short(
-                    direction_from( player_character.global_omt_location(), mission_target ) ) );
+                    direction_from( player_character.pos_abs_omt(), mission_target ) ) );
 
     query_any( _( "Press any key to continue…" ) );
     reset_terminal();

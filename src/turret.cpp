@@ -649,7 +649,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             return shots;
         }
 
-        target.second = auto_target->get_location();
+        target.second = auto_target->pos_abs();
 
     } else {
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).

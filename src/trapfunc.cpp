@@ -1504,7 +1504,7 @@ bool trapfunc::map_regen( const tripoint_bub_ms &p, Creature *c, item * )
         if( you ) {
             map &here = get_map();
             you->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
-            tripoint_abs_omt omt_pos = you->global_omt_location();
+            tripoint_abs_omt omt_pos = you->pos_abs_omt();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( regen_mapgen, omt_pos, {},

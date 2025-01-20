@@ -1663,7 +1663,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
     if( jump_direction == 7 ) {
         heading = tripoint_rel_ms::south_east;
     }
-    const tripoint_abs_ms newpos = you.get_location() + heading;
+    const tripoint_abs_ms newpos = you.pos_abs() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
     if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
@@ -7068,7 +7068,7 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
         // Check first and only if possible attempt it with player char
         // This suppresses warnings unless it is an item the player wears
         if( actor->valid_to_cut_up( nullptr, it ) ) {
-            item_location item_loc( map_cursor( who.get_location() ), &it );
+            item_location item_loc( map_cursor( who.pos_abs() ), &it );
             actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }
@@ -7227,7 +7227,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
 
     map &here = get_map();
-    const tripoint_abs_ms abspos = you.get_location();
+    const tripoint_abs_ms abspos = you.pos_abs();
     zone_manager &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();

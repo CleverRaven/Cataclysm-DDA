@@ -60,8 +60,8 @@ class talker_character_const: virtual public const_talker
         int posz() const override;
         tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
+        tripoint_abs_ms pos_abs() const override;
+        tripoint_abs_omt pos_abs_omt() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
         int get_hp_max( const bodypart_id &bp ) const override;
         units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;

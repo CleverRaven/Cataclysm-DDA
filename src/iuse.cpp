@@ -2593,7 +2593,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoi
         return std::nullopt;
     }
     // Report direction.
-    const tripoint_abs_sm player_pos = p->global_sm_location();
+    const tripoint_abs_sm player_pos = p->pos_abs_sm();
     direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return 1;
@@ -7957,9 +7957,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
+        const oter_id &cur_om_ter = overmap_buffer.ter( p->pos_abs_omt() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
+                              p->pos_abs(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -8059,7 +8059,7 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, const tri
         p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
         return std::nullopt;
     }
-    tripoint_abs_ms target = p->get_location() + delta * ( 4 * SEEX );
+    tripoint_abs_ms target = p->pos_abs() + delta * ( 4 * SEEX );
     hologram->friendly = -1;
     hologram->add_effect( effect_docile, 1_hours );
     hologram->wandf = -30;

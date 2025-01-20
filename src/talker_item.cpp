@@ -46,14 +46,14 @@ tripoint_bub_ms talker_item_const::pos_bub() const
     return me_it_const->pos_bub();
 }
 
-tripoint_abs_ms talker_item_const::global_pos() const
+tripoint_abs_ms talker_item_const::pos_abs() const
 {
     return get_map().get_abs( me_it_const->pos_bub() );
 }
 
-tripoint_abs_omt talker_item_const::global_omt_location() const
+tripoint_abs_omt talker_item_const::pos_abs_omt() const
 {
-    return get_player_character().global_omt_location();
+    return get_player_character().pos_abs_omt();
 }
 
 std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
