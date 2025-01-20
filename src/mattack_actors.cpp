@@ -128,7 +128,7 @@ bool leap_actor::call( monster &z ) const
     std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
-    const float best_float = rl_dist( z.get_location(), target_abs );
+    const float best_float = rl_dist( z.pos_abs(), target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target distance %.1f", best_float );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         add_msg_debug( debugmode::DF_MATTACK, "Best float outside of considered range" );
@@ -589,7 +589,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
         } else {
             // Monsters don't have limb scores, no need to target limbs
-            target->add_effect( grab_data.grab_effect, 1_days, body_part_bp_null, true, eff_grab_strength );
+            target->add_effect( grab_data.grab_effect, 1_days, bodypart_str_id::NULL_ID().id(), true,
+                                eff_grab_strength );
             z.add_effect( effect_grabbing, 1_days, true, 1 );
         }
     }

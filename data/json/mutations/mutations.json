@@ -1600,15 +1600,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_ASSASSIN_CONVICT",
-    "name": { "str": "Assassin Convict" },
-    "points": 0,
-    "description": "You have a target to kill.  Search it, find it, and eliminate whatever it is now.",
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
     "id": "ASTHMA",
     "name": { "str": "Asthmatic" },
     "points": -4,
@@ -7848,6 +7839,7 @@
     "prereqs2": [ "BENDY2", "SLIME_HANDS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],

@@ -362,7 +362,7 @@ void talk_function::goto_location( npc &p )
     tripoint_abs_omt destination;
     Character &player_character = get_player_character();
     for( auto elem : player_character.camps ) {
-        if( elem == p.global_omt_location() ) {
+        if( elem == p.pos_abs_omt() ) {
             continue;
         }
         if( overmap_buffer.seen( elem ) == om_vision_level::unseen ) {
@@ -380,7 +380,7 @@ void talk_function::goto_location( npc &p )
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
-    selection_menu.addentry( i++, p.global_omt_location() != player_character.global_omt_location(),
+    selection_menu.addentry( i++, p.pos_abs_omt() != player_character.pos_abs_omt(),
                              MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i++, !player_character.omt_path.empty(), MENU_AUTOASSIGN,
                              _( "My destination" ) );
@@ -392,7 +392,7 @@ void talk_function::goto_location( npc &p )
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {
-        destination = player_character.global_omt_location();
+        destination = player_character.pos_abs_omt();
     } else if( index == static_cast<int>( camps.size() ) + 1 ) {
         // This looks nuts, but omt_path is emplaced in reverse order. So the front of the vector is our destination
         destination = player_character.omt_path.front();
@@ -401,7 +401,7 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
-    p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
+    p.omt_path = overmap_buffer.get_travel_path( p.pos_abs_omt(), p.goal,
                  overmap_path_params::for_npc() ).points;
     if( destination == tripoint_abs_omt() || destination.is_invalid() ||
         p.omt_path.empty() ) {
@@ -411,7 +411,7 @@ void talk_function::goto_location( npc &p )
         return;
     }
     g->follower_path_to_show = &p; // Necessary for overmap display in tiles version...
-    ui::omap::display_npc_path( p.global_omt_location(), p.omt_path );
+    ui::omap::display_npc_path( p.pos_abs_omt(), p.omt_path );
     g->follower_path_to_show = nullptr;
     int tiles_to_travel = p.omt_path.size();
     time_duration ETA = time_between_npc_OM_moves * tiles_to_travel;
@@ -448,7 +448,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::abandon_camp( npc &p )
 {
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.pos_abs_omt().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->abandon_camp();
@@ -457,7 +457,7 @@ void talk_function::abandon_camp( npc &p )
 
 void talk_function::assign_camp( npc &p )
 {
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.pos_abs_omt().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         p.set_attitude( NPCATT_NULL );
@@ -1274,7 +1274,7 @@ npc *pick_follower()
 
 void talk_function::distribute_food_auto( npc &p )
 {
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.pos_abs_omt().xy() );
     if( !bcp ) {
         debugmsg( "distribute_food_auto called without a basecamp, aborting." );
         return;
@@ -1286,7 +1286,7 @@ void talk_function::distribute_food_auto( npc &p )
     }
 
     zone_manager &mgr = zone_manager::get_manager();
-    const tripoint_abs_ms &npc_abs_loc = p.get_location();
+    const tripoint_abs_ms &npc_abs_loc = p.pos_abs();
     // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
     const tripoint_abs_ms top_left = npc_abs_loc + point::north_west;
     const tripoint_abs_ms bottom_right = npc_abs_loc + point::south_east;

@@ -132,8 +132,6 @@ static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
-static const attack_vector_id attack_vector_vector_null( "vector_null" );
-
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
@@ -2317,8 +2315,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
-                             sub_body_part_sub_limb_debug, &mon, bp );
+        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_id::NULL_ID(),
+                             sub_bodypart_str_id::NULL_ID(), &mon, bp );
         damage_instance dealt_damage = base_damage;
         dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
         // TODO: Modify DPS calculation to consider weakpoints.
@@ -2344,8 +2342,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_vector_null,
-                                 sub_body_part_sub_limb_debug, &mon, bp );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_id::NULL_ID(),
+                                 sub_bodypart_str_id::NULL_ID(), &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -5621,11 +5619,11 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug, nullptr, bp );
+        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_id::NULL_ID(),
+                                          sub_bodypart_str_id::NULL_ID(), nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug, nullptr, bp );
+        player_character.roll_all_damage( true, crit, true, *this, attack_vector_id::NULL_ID(),
+                                          sub_bodypart_str_id::NULL_ID(), nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -6427,8 +6425,11 @@ nc_color item::color_in_inventory( const Character *const ch ) const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
+            std::optional<int> max_book_level = sp_id->get_max_book_level();
             if( player_character.magic->knows_spell( sp_id ) &&
-                !player_character.magic->get_spell( sp_id ).is_max_level( player_character ) ) {
+                !player_character.magic->get_spell( sp_id ).is_max_level( player_character ) &&
+                !( max_book_level.has_value() &&
+                   player_character.magic->get_spell( sp_id ).get_level() >= max_book_level.value() ) ) {
                 ret = c_yellow;
             }
             if( !player_character.magic->knows_spell( sp_id ) &&
@@ -7117,7 +7118,7 @@ std::string item::display_name( unsigned int quantity ) const
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         tripoint_abs_omt map_pos_omt =
-            get_var( "reveal_map_center_omt", player_character.global_omt_location() );
+            get_var( "reveal_map_center_omt", player_character.pos_abs_omt() );
         tripoint_abs_sm map_pos =
             project_to<coords::sm>( map_pos_omt );
         const city *c = overmap_buffer.closest_city( map_pos ).city;

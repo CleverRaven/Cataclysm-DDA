@@ -35,7 +35,8 @@
         "afs_habitat_structure",
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
-        "afs_habblock_1_paramter_palette"
+        "afs_habblock_1_paramter_palette",
+        "afs_light_param_palette"
       ],
       "furniture": { "1": "f_washer", "2": "f_dryer", "3": "f_atm" },
       "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
@@ -124,7 +125,8 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_habblock_1_paramter_palette"
+        "afs_habblock_1_paramter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": { " ": "t_open_air", "1": "t_afs_door_metal_elocked" },
       "place_monster": [
@@ -190,8 +192,7 @@
       "variant": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "afs_habblock_1_slot1_cafe_a1", "afs_habblock_1_slot1_diner_a1" ] }
-      },
-      "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } }
+      }
     }
   },
   {

@@ -37,6 +37,7 @@
     <LinkToolExe>lld-link.exe</LinkToolExe>
     <!-- vcpkg passes dependecy libs via a glob pattern which lld-link doesn't accept. We have to manually enumerate the deps now. -->
     <VcpkgAutoLink>false</VcpkgAutoLink>
+    <!-- debug versions of libs often (but not always) use `d` suffix, as a convention. E.g. "SDL2-staticd.lib" -->
     <VcpkgLibSuffix></VcpkgLibSuffix>
     <VcpkgLibSuffix Condition="$(Configuration.StartsWith(Debug))">d</VcpkgLibSuffix>
   </PropertyGroup>
@@ -120,7 +121,7 @@
         pdcurses.lib;
         SDL2_image-static$(VcpkgLibSuffix).lib;
         SDL2_mixer-static$(VcpkgLibSuffix).lib;
-        SDL2_ttf$(VcpkgLibSuffix).lib;
+        SDL2_ttf.lib;
         SDL2-static$(VcpkgLibSuffix).lib;
         syn123.lib;
         turbojpeg.lib;

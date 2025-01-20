@@ -118,13 +118,20 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            { "u_has_trait": "THRESH_IERDE" },
+            { "u_has_trait": "IERDE_SINK_INTO_EARTH" },
+            { "math": [ "u_sum_traits_of_category_char_has('IERDE') >= 15" ] }
+          ]
+        },
         {
           "or": [
             "u_is_outside",
             {
               "and": [
                 { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
+                { "not": { "u_is_on_terrain": "t_rock" } },
                 { "not": { "u_is_on_terrain": "t_rock_floor" } },
                 { "not": { "u_is_on_terrain": "t_rock_smooth" } },
                 { "not": { "u_is_on_terrain": "t_rock_wall_half" } },

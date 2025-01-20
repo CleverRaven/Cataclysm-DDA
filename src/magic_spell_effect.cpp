@@ -585,7 +585,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = roll_remainder( val.amount / multishot );
                     }
                     for( int i = 0; i < multishot; ++i ) {
-                        cr->deal_projectile_attack( cr, atk, true );
+                        cr->deal_projectile_attack( cr, atk, atk.missed_by, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     int amount_of_bp = target_bdpts.size();
@@ -603,7 +603,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         }
                     }
                 } else {
-                    cr->deal_projectile_attack( &caster, atk, true );
+                    cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
                 }
             }
 
@@ -613,7 +613,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
                     }
                 }
-                cr->deal_projectile_attack( &caster, atk, true );
+                cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
@@ -651,7 +651,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
             }
         } else {
-            cr->add_damage_over_time( sp.damage_over_time( { body_part_bp_null }, caster ) );
+            cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id::NULL_ID().id() }, caster ) );
         }
     }
 }
@@ -1479,7 +1479,7 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint_bub_ms
         // revealing the map only makes sense for the avatar
         return;
     }
-    const tripoint_abs_omt center = you->global_omt_location();
+    const tripoint_abs_omt center = you->pos_abs_omt();
     overmap_buffer.reveal( center.xy(), sp.aoe( caster ), center.z() );
 }
 

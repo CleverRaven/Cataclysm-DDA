@@ -546,6 +546,14 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zoabosaurus_scorched",
+    "name": { "str": "scorched moabosaurus zombie" },
+    "copy-from": "mon_zamarasaurus_scorched",
+    "looks_like": "mon_zoabosaurus",
+    "fungalize_into": "mon_zoabosaurus_fungus"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zaplocanthosaurus_scorched",
     "name": { "str": "scorched haplocanthosaurus zombie" },
     "copy-from": "mon_zapatosaurus_scorched",

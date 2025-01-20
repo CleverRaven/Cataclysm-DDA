@@ -7,7 +7,7 @@
     "mission": 3,
     "chat": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
     "name_suffix": "Portmaster",
-    "faction": "no_faction"
+    "faction": "UICA"
   },
   {
     "type": "npc_class",
@@ -20,8 +20,7 @@
     "worn_override": "NC_UICA_PORT_CREW_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
-    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
-    "shopkeeper_price_rules": [ { "group": "afs_general_armory", "fixed_adj": 0 }, { "group": "augustmoon_shop_money", "fixed_adj": 0 } ]
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ]
   },
   {
     "type": "item_group",

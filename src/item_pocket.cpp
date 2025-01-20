@@ -1775,7 +1775,7 @@ static void move_to_parent_pocket_recursive( const tripoint_bub_ms &pos, item &i
         carrier->add_msg_player_or_npc( m_bad, _( "Your %s falls to the ground." ),
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
-        add_msg_if_player_sees( tripoint_bub_ms( pos ), m_bad, _( "The %s falls to the ground." ),
+        add_msg_if_player_sees( pos, m_bad, _( "The %s falls to the ground." ),
                                 it.display_name() );
     }
     here.add_item_or_charges( pos, it );

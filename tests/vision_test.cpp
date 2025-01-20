@@ -996,9 +996,9 @@ TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
 
     auto wiggle_slime = [&]() {
         // vehicle camera should still work even if only the moncam moved
-        slime->Creature::move_to( slime->get_location() + tripoint::east );
+        slime->Creature::move_to( slime->pos_abs() + tripoint::east );
         get_map().build_map_cache( slime->posz() );
-        slime->Creature::move_to( slime->get_location() - tripoint::east );
+        slime->Creature::move_to( slime->pos_abs() - tripoint::east );
         get_map().build_map_cache( slime->posz() );
     };
 
@@ -1165,7 +1165,7 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
 {
     // oob crash from game::place_player_overmap() or game::start_game(), simplified
     clear_avatar();
-    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point::south_east, false,
+    get_map().load( project_to<coords::sm>( get_avatar().pos_abs() ) + point::south_east, false,
                     false );
     get_avatar().sees( tripoint_bub_ms::zero ); // CRASH?
 

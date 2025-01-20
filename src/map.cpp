@@ -472,9 +472,9 @@ void map::add_vehicle_to_cache( vehicle *veh )
         }
         const tripoint_bub_ms p = veh->bub_part_pos( vpr.part() );
         level_cache &ch = get_cache( p.z() );
-        ch.set_veh_cached_parts( p.raw(), *veh, static_cast<int>( vpr.part_index() ) );
+        ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
-            ch.set_veh_exists_at( p.raw(), true );
+            ch.set_veh_exists_at( p, true );
             set_transparency_cache_dirty( p );
         }
     }
@@ -490,9 +490,9 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &p
     level_cache *ch = get_cache_lazy( pt.z() );
     if( ch ) {
         if( inbounds( pt ) ) {
-            ch->set_veh_exists_at( pt.raw(), false );
+            ch->set_veh_exists_at( pt, false );
         }
-        ch->clear_veh_from_veh_cached_parts( pt.raw(), veh );
+        ch->clear_veh_from_veh_cached_parts( pt, veh );
     }
 }
 
@@ -541,7 +541,7 @@ void map::reset_vehicles_sm_pos()
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
-                        elem->sm_pos = grid.raw();
+                        elem->sm_pos = rebase_bub( grid );
                         add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
@@ -576,12 +576,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         return std::unique_ptr<vehicle>();
     }
 
-    int z = veh->sm_pos.z;
+    int z = veh->sm_pos.z();
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
-                  veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%s",
+                  veh->name, veh->sm_pos.to_string() );
         // Try to fix by moving the vehicle here
-        z = veh->sm_pos.z = abs_sub.z();
+        z = veh->sm_pos.z() = abs_sub.z();
     }
 
     // Unboard all passengers before detaching
@@ -592,10 +592,10 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x,
-                  veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
+                  veh->sm_pos.to_string() );
         return std::unique_ptr<vehicle>();
     }
 
@@ -621,8 +621,8 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
-              veh->sm_pos.y, veh->sm_pos.z );
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%s", veh->name,
+              veh->sm_pos.to_string() );
     return std::unique_ptr<vehicle>();
 }
 
@@ -646,7 +646,7 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
-    const tripoint_abs_ms player_pos = get_player_character().get_location();
+    const tripoint_abs_ms player_pos = get_player_character().pos_abs();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache *cache_lazy = get_cache_lazy( zlev );
         if( !cache_lazy ) {
@@ -780,7 +780,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     // Ensured by the splitting above
     cata_assert( vertical == ( dp.xy() == point_rel_ms::zero ) );
 
-    const int target_z = dp.z() + veh.sm_pos.z;
+    const int target_z = dp.z() + veh.sm_pos.z();
     // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
     // and causing `get_cache_ref( zlev + 1 );` call in map::build_sunlight_cache overflowing
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT - 1 ) {
@@ -1007,7 +1007,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+    const bool vertical = veh.sm_pos.z() != veh2.sm_pos.z();
 
     if( c.part < 0 || c.part >= static_cast<int>( veh.part_count() ) ) {
         debugmsg( "invalid c.part %d", c.part );
@@ -1298,7 +1298,7 @@ VehicleList map::get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_
                 }
                 for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
-                    elem->sm_pos.z = cz;
+                    elem->sm_pos.z() = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
                     w.pos = w.v->pos_bub();
@@ -1334,12 +1334,12 @@ const vehicle *map::veh_at_internal( const tripoint_bub_ms &p, int &part_num ) c
 {
     // This function is called A LOT. Move as much out of here as possible.
     const level_cache &ch = get_cache( p.z() );
-    if( !ch.get_veh_in_active_range() || !ch.get_veh_exists_at( p.raw() ) ) {
+    if( !ch.get_veh_in_active_range() || !ch.get_veh_exists_at( p ) ) {
         part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
-    std::pair<vehicle *, int> ret = ch.get_veh_cached_parts( p.raw() );
+    std::pair<vehicle *, int> ret = ch.get_veh_cached_parts( p );
     if( ret.first ) {
         part_num = ret.second;
         return ret.first;
@@ -4409,7 +4409,8 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
 {
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
-    for( const damage_unit &dam : proj.impact ) {
+    damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
+    for( const damage_unit &dam : impact ) {
         dmg_by_type[dam.type] +=
             dam.amount * dam.damage_multiplier * dam.unconditional_damage_mult +
             dam.res_pen * dam.res_mult * dam.unconditional_res_mult;
@@ -4469,7 +4470,8 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-                if( incendiary && x_in_y( 1, 10 ) ) { // 10% chance
+                if( incendiary && x_in_y( initial_damage, 100 ) ) {
+                    // 1% chance for 1 damage
                     add_field( p, fd_fire, 1 );
                 }
                 if( ignite ) {
@@ -4532,10 +4534,10 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
 
     // Rescale the damage
     if( dam <= 0 ) {
-        proj.impact.damage_units.clear();
+        impact.clear();
         return;
     } else if( dam < initial_damage ) {
-        proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
+        impact.mult_damage( dam / static_cast<double>( initial_damage ) );
     }
 
     // for now, shooting furniture or terrain protects any items
@@ -5323,8 +5325,8 @@ void map::make_active( item_location &loc )
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.add( *iter, l ) ) {
-        tripoint_abs_sm const smloc( abs_sub.x() + loc.position().x / SEEX,
-                                     abs_sub.y() + loc.position().y / SEEY, loc.position().z );
+        tripoint_abs_sm const smloc( abs_sub.x() + loc.pos_bub().x() / SEEX,
+                                     abs_sub.y() + loc.pos_bub().y() / SEEY, loc.pos_bub().z() );
         submaps_with_active_items_dirty.insert( smloc );
         if( this != &get_map() && get_map().inbounds( smloc ) ) {
             get_map().make_active( smloc );
@@ -6004,7 +6006,7 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
 
     for( const tripoint_bub_ms &p : reachable_pts ) {
         if( accessible_items( p ) ) {
-            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p.raw(), filter, in_tools );
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter, in_tools );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -8158,7 +8160,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid.raw(), z};
+                veh->sm_pos = { grid, z};
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8686,9 +8688,9 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
                   from.z() );
         return;
     }
-    setsubmap( get_nonant( tripoint_rel_sm( to ) ), smap );
+    setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->sm_pos = to.raw();
+        it->sm_pos = rebase_bub( to );
     }
 }
 
@@ -9504,7 +9506,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                                    mcache.end(), std::inserter( diff, diff.end() ) );
     camera_cache_dirty |= !diff.empty();
     // Initial value is illegal player position.
-    const tripoint_abs_ms p = get_player_character().get_location();
+    const tripoint_abs_ms p = get_player_character().pos_abs();
     int const sr = u.unimpaired_range();
     static tripoint_abs_ms player_prev_pos;
     static int player_prev_range( 0 );

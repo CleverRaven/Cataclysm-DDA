@@ -74,8 +74,6 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const attack_vector_id attack_vector_vector_null( "vector_null" );
-
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_shock( "bio_shock" );
@@ -699,7 +697,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
             !( t.has_flag( json_flag_CANNOT_MOVE ) &&
                t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -733,12 +731,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Pick our attack
         // Unarmed needs a defined technique
         if( has_force_technique ) {
-            attack = std::make_tuple( force_technique, attack_vector_vector_null,
-                                      sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( force_technique, attack_vector_id::NULL_ID(),
+                                      sub_bodypart_str_id::NULL_ID() );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( tec_none, attack_vector_id::NULL_ID(), sub_bodypart_str_id::NULL_ID() );
         }
         // Unpack our data
         matec_id attack_id;
@@ -747,7 +745,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         std::tie( attack_id, vector_id, contact_area ) = attack;
 
         // If no weapon is selected, use highest layer of clothing for attack vector instead.
-        if( contact_area != sub_body_part_sub_limb_debug ) {
+        if( contact_area != sub_bodypart_str_id::NULL_ID() ) {
             // todo: simplify this by using item_location everywhere
             // so only cur_weapon = worn.current_unarmed_weapon remains
             // Check if our vector allows armor-derived damage
@@ -944,7 +942,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
+        t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), 0.0f, &dp );
     }
     return true;
 }
@@ -1420,9 +1418,8 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
         }
     }
 
-    return random_entry( possible,
-                         std::make_tuple( tec_none, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug ) );
+    return random_entry( possible, std::make_tuple( tec_none, attack_vector_id::NULL_ID(),
+                         sub_bodypart_str_id::NULL_ID() ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         Character::evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,

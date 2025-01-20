@@ -210,10 +210,10 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-    tripoint_abs_ms before = get_avatar().get_location();
+    tripoint_abs_ms before = get_avatar().pos_abs();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
     effect_on_condition_EOC_teleport_test->activate( newDialog );
-    tripoint_abs_ms after = get_avatar().get_location();
+    tripoint_abs_ms after = get_avatar().pos_abs();
 
     CHECK( before + tripoint::south_east == after );
 }
@@ -313,7 +313,7 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     constexpr time_duration delay = 30_seconds;
     clear_avatar();
     clear_map();
-    tripoint_abs_ms const start = get_avatar().get_location();
+    tripoint_abs_ms const start = get_avatar().pos_abs();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
     check_ter_in_radius( start, eoc_range, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_RADIUS->activate( newDialog );
@@ -345,8 +345,8 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     REQUIRE( dest.has_value() );
     npc.setpos( { dest.value().xy(), get_avatar().posz() } );
 
-    tripoint_abs_ms const start = get_avatar().get_location();
-    tripoint_abs_ms const end = npc.get_location();
+    tripoint_abs_ms const start = get_avatar().pos_abs();
+    tripoint_abs_ms const end = npc.pos_abs();
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( npc ) );
     check_ter_in_line( start, end, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_LINE->activate( newDialog );
@@ -995,7 +995,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     clear_avatar();
     clear_map();
 
-    tripoint_abs_ms pos_before = get_avatar().get_location();
+    tripoint_abs_ms pos_before = get_avatar().pos_abs();
     tripoint_abs_ms pos_after = pos_before + tripoint::south_east;
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
@@ -1326,7 +1326,7 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     clear_map();
 
     map &m = get_map();
-    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint_abs_ms start = get_avatar().pos_abs();
     const tripoint_bub_ms tgt = m.get_bub( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
@@ -1353,7 +1353,7 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     map &m = get_map();
     g->place_player( tripoint_bub_ms::zero );
 
-    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint_abs_ms start = get_avatar().pos_abs();
     const tripoint_bub_ms tgt = m.get_bub( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
@@ -1511,12 +1511,12 @@ TEST_CASE( "EOC_run_eocs", "[eoc]" )
     clear_map();
     clear_npcs();
     npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "thug" );
-    tripoint_abs_ms mon_loc = u.get_location() + tripoint::west;
+    tripoint_abs_ms mon_loc = u.pos_abs() + tripoint::west;
     monster *zombie = g->place_critter_at( mon_zombie, get_map().get_bub( mon_loc ) );
     REQUIRE( zombie != nullptr );
 
     item hammer( itype_hammer );
-    item_location hammer_loc( map_cursor{ guy.get_location() }, &hammer );
+    item_location hammer_loc( map_cursor{ guy.pos_abs() }, &hammer );
     dialogue d2( get_talker_for( guy ), get_talker_for( hammer_loc ) );
     talker *alpha_talker = d2.actor( false );
     talker *beta_talker = d2.actor( true );

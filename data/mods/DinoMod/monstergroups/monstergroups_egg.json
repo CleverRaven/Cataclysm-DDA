@@ -67,6 +67,9 @@
     "//": "North American dinos not theropods largest",
     "type": "monstergroup",
     "monsters": [
+      { "monster": "mon_moabosaurus_hatchling", "weight": 10 },
+      { "monster": "mon_haplocanthosaurus_hatchling", "weight": 10 },
+      { "monster": "mon_amargasaurus_hatchling", "weight": 10 },
       { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
       { "monster": "mon_brontosaurus_hatchling", "weight": 10 },
       { "monster": "mon_diplodocus_hatchling", "weight": 20 },
