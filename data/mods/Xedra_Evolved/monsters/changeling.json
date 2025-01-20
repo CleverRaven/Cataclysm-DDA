@@ -217,7 +217,7 @@
   {
     "id": "mon_wild_huntsman",
     "type": "MONSTER",
-    "name": { "str": "Wild Huntsman" },
+    "name": { "str": "Wild Huntsman", "str_pl": "Wild Huntsmen" },
     "description": "Shrouded in an obscuring cloak, this fae warrior is crowned with an impressive rack of antlers spreading through rents in its gossamer hood.  Two burning blue eyes are all that is visible of its features.  In one mailed hand, it holds a sword made of wood as black as ebony.",
     "default_faction": "changeling",
     "bodytype": "human",
@@ -262,7 +262,8 @@
         "type": "spell",
         "spell_data": { "id": "wild_hunt_illumination_spell" },
         "cooldown": 45,
-        "condition": { "not": { "npc_has_effect": "wild_hunt_illumination_spell" } }
+        "condition": { "not": { "npc_has_effect": "wild_hunt_illumination_spell" } },
+        "monster_message": "%1$s makes a gestures with one hand a glow springs up around you!"
       }
     ],
     "death_drops": "changeling_lord_death_drops",
@@ -318,7 +319,15 @@
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 10 } ]
       },
-      { "id": "bite_grab", "cooldown": 10 }
+      { "id": "bite_grab", "cooldown": 10 },
+      {
+        "id": "wild_hunt_hound_baying",
+        "type": "spell",
+        "spell_data": { "id": "wild_hunt_hound_baying" },
+        "cooldown": 60,
+        "condition": { "not": { "npc_has_effect": "wild_hunt_illumination_spell" } },
+        "monster_message": "%1$s lets out a deep baying!"
+      }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
