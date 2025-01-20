@@ -886,7 +886,7 @@
     "description": "A wooden wheel.",
     "damage_modifier": 50,
     "breaks_into": [
-	  { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 0, 4 ] },
       { "item": "nail", "charges": [ 2, 14 ] },
       { "item": "scrap", "count": [ 1, 4 ] }
     ],
