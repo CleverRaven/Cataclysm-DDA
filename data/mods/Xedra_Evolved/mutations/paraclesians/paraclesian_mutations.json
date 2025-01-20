@@ -480,7 +480,7 @@
     "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
     "prereqs": [
       "ARVORE_EYES",
-      "HOMULLUS_SKIN_1",
+      "HOMULLUS_EYES",
       "IERDE_EYES",
       "SALAMANDER_EYES",
       "SYLPH_EYES",
