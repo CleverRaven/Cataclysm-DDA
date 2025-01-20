@@ -108,7 +108,7 @@ static void test_throwing_player_versus(
         mon.set_moves( 0 );
 
         dealt_projectile_attack atk = you.throw_item( mon.pos_bub(), it );
-        data.hits.add( atk.hit_critter != nullptr );
+        data.hits.add( atk.last_hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
         if( data.hits.n() >= min_throws ) {

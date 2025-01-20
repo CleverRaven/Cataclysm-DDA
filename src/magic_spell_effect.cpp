@@ -585,7 +585,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = roll_remainder( val.amount / multishot );
                     }
                     for( int i = 0; i < multishot; ++i ) {
-                        cr->deal_projectile_attack( cr, atk, true );
+                        cr->deal_projectile_attack( cr, atk, atk.missed_by, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     int amount_of_bp = target_bdpts.size();
@@ -603,7 +603,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         }
                     }
                 } else {
-                    cr->deal_projectile_attack( &caster, atk, true );
+                    cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
                 }
             }
 
@@ -613,7 +613,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
                     }
                 }
-                cr->deal_projectile_attack( &caster, atk, true );
+                cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
