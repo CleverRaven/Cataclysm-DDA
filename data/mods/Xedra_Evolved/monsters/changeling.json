@@ -248,7 +248,7 @@
         "id": "wild_huntsman_sword",
         "cooldown": 1,
         "move_cost": 80,
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_penetration": 5, "damage_multiplier": 1.4 } ],
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_penetration": 5 }, { "damage_type": "biological", "amount": 5 } ],
         "condition": { "test_eoc": "is_disarmed" },
         "hit_dmg_u": "%1$s slashes your %2$s with its sword!",
         "hit_dmg_npc": "%1$s slashes <npcname>'s %2$s with its sword!",
