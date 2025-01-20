@@ -40,8 +40,12 @@
       { "id": "ierde_stomp_ground_smash_spawn_rubble", "hit_self": false }
     ],
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 45) + 200) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_duration": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 45) + 200) * (scaling_factor(u_val('strength') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ]
+    },
     "min_aoe": {
       "math": [ "min( ( ( (u_spell_level('ierde_stomp_ground_smash_spell') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
     },
