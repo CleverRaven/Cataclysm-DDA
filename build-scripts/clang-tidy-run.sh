@@ -94,6 +94,9 @@ fi
 
 printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
 
+# (temporary create ./files_changed and then clean up it later. This is a terrible hack, and I'm not proud)
+if [ ! -f ./files_changed ] ; then touch ./files_changed ; CLEANUP_FILES_CHANGED="yes" ; fi
+
 # We might need to analyze only a subset of the files if they have been split
 # into multiple jobs for efficiency. The paths from `compile_commands.json` can
 # be absolute but the paths from `get_affected_files.py` are relative, so both
@@ -110,6 +113,7 @@ case "$CATA_CLANG_TIDY_SUBSET" in
         tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' | grep -vf ./files_changed || [[ $? == 1 ]])
         ;;
 esac
+if [ "${CLEANUP_FILES_CHANGED}" == "yes" ] ; then rm -f ./files_changed ; fi
 
 printf "full list of files to analyze (they might get shuffled around in practice):\n%s\n" "$tidyable_cpp_files"
 
