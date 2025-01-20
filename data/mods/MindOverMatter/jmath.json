@@ -15,13 +15,13 @@
     "type": "jmath_function",
     "id": "psionic_power_experience_formula_channeling",
     "num_args": 1,
-    "return": "60 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+    "return": "(u_val('focus') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
     "id": "psionic_power_experience_formula",
     "num_args": 1,
-    "return": "(_0 / 100) * 60 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+    "return": "(_0 / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
