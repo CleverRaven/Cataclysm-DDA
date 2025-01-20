@@ -72,6 +72,7 @@
     "name": { "str": "labbit kit" },
     "morale": 1,
     "description": "A tiny rabbit kit, spawned from a rabbit genetically modified to eat the lichen of Salus IV.  It's coat is a vibrant crimson that will turn a rust orange when it reaches adulthood.  This one seems well-acclimated to the presence of nearby humans.",
+    "upgrades": { "age_grow": 20, "into": "afs_mon_rabbit_domestic" },
     "delete": { "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ] }
   },
   {
