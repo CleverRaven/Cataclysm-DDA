@@ -2578,6 +2578,7 @@ const itype *Item_factory::add_runtime( const itype_id &id, translation name,
     def->name = std::move( name );
     def->description = std::move( description );
     m_runtimes[ id ].reset( def );
+    m_runtimes_dirty = true;
     return def;
 }
 
@@ -4741,6 +4742,7 @@ void Item_factory::clear()
 
     m_templates.clear();
     m_runtimes.clear();
+    m_runtimes_dirty = true;
 
     item_blacklist.clear();
 
@@ -5293,21 +5295,25 @@ bool Item_factory::has_template( const itype_id &id ) const
     return m_templates.count( id ) || m_runtimes.count( id );
 }
 
-std::vector<const itype *> Item_factory::all() const
+const std::vector<const itype *> &Item_factory::all() const
 {
     cata_assert( frozen );
+    // if (!m_runtimes_dirty) then runtimes haven't changed.
+    // Since frozen == true, m_templates haven't changed either.
+    if( m_runtimes_dirty ) {
+        templates_all_cache.clear();
+        templates_all_cache.reserve( m_templates.size() + m_runtimes.size() );
 
-    std::vector<const itype *> res;
-    res.reserve( m_templates.size() + m_runtimes.size() );
-
-    for( const auto &e : m_templates ) {
-        res.push_back( &e.second );
+        for( const auto &e : m_templates ) {
+            templates_all_cache.push_back( &e.second );
+        }
+        for( const auto &e : m_runtimes ) {
+            templates_all_cache.push_back( e.second.get() );
+        }
+        m_runtimes_dirty = false;
     }
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
-    }
 
-    return res;
+    return templates_all_cache;
 }
 
 std::vector<const itype *> Item_factory::get_runtime_types() const
@@ -5326,7 +5332,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
 {
     std::vector<const itype *> res;
 
-    std::vector<const itype *> opts = item_controller->all();
+    const std::vector<const itype *> &opts = item_controller->all();
 
     std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
     [&func]( const itype * e ) {

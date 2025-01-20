@@ -261,7 +261,7 @@ class Item_factory
         void load_item_blacklist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
-        std::vector<const itype *> all() const;
+        const std::vector<const itype *> &all() const;
 
         /** Get item types created at runtime. */
         std::vector<const itype *> get_runtime_types() const;
@@ -280,6 +280,9 @@ class Item_factory
         std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
+        /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
+        mutable bool m_runtimes_dirty = true;
+        mutable std::vector<const itype *> templates_all_cache;
 
         using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
