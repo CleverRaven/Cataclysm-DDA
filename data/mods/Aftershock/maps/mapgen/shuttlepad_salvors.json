@@ -72,7 +72,7 @@
         "Ë": { "item": "afs_crate_civ_rand" },
         "ß": { "item": "afs_crate_civ_rand" },
         "ñ": { "item": "afs_crate_civ_rand" },
-        "Φ": { "item": "afs_uica_military_locker", "repeat": [ 1,3 ], "chance": 70 },
+        "Φ": { "item": "afs_uica_military_locker", "repeat": [ 1, 3 ], "chance": 70 },
         "φ": { "item": "afs_tools_structural_repair", "repeat": [ 3, 7 ], "chance": 60 },
         "Ύ": { "item": "afs_tools_vehicle_repair", "repeat": [ 3, 7 ], "chance": 60 },
         "Υ": { "item": "afs_tools_robot_maintenance", "repeat": [ 5, 8 ], "chance": 60 },
