@@ -62,6 +62,7 @@
       { "monster": "mon_sarahsaurus", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_anchisaurus", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_issi", "weight": 1, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_moabosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_haplocanthosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_apatosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brontosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },

@@ -363,13 +363,15 @@
     "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
   },
   {
+    "id": "mon_moabosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_hatchling",
+    "upgrades": { "age_grow": 45, "into": "mon_moabosaurus_juvenile" }
+  },
+  {
     "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "long neck hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "weight": "4 kg",
-    "volume": "4 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_amargasaurus_hatchling",
     "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
