@@ -47,7 +47,9 @@
       "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ]
     },
     "min_aoe": {
-      "math": [ "min( ( ( (u_spell_level('ierde_stomp_ground_smash_spell') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
+      "math": [
+        "min( ( ( (u_spell_level('ierde_stomp_ground_smash_spell') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)"
+      ]
     },
     "max_aoe": 15,
     "magic_type": "xe_fey_magick",
