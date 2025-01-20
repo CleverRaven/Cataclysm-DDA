@@ -844,10 +844,7 @@
     "durability": 30,
     "description": "A wooden wheel.",
     "damage_modifier": 24,
-    "breaks_into": [
-      { "item": "2x4", "count": [ 0, 3 ] },
-      { "item": "nail", "charges": [ 2, 9 ] }
-    ],
+    "breaks_into": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "nail", "charges": [ 2, 9 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
