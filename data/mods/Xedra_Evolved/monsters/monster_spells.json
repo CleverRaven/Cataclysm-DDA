@@ -573,5 +573,20 @@
     "min_range": 1,
     "max_range": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "id": "wild_hunt_illumination_spell",
+    "type": "SPELL",
+    "name": { "str": "Witchfire monster", "//~": "NO_I18N" },
+    "description": { "str": "Illuminate the target so the hounds can get them.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_wild_hunt_illumination",
+    "shape": "blast",
+    "min_duration": 6000,
+    "max_duration": 18000,
+    "min_range": 30,
+    "max_range": 30
   }
 ]

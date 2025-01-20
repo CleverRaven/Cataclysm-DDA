@@ -44,6 +44,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_wild_hunt_illumination",
+    "name": [ "Witchfire" ],
+    "desc": [ "You are surrounded by an eldritch glow." ],
+    "apply_message": "",
+    "remove_message": "The glow around you fades.",
+    "base_mods": { "dodge_mod": [ -2 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "vamp_blood_weave",
     "removes_effects": [ "infected", "bite", "bleed" ],
     "rating": "good",
