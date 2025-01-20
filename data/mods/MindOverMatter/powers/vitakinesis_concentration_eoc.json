@@ -585,9 +585,7 @@
       { "math": [ "u_latest_channeled_power_difficulty = 10" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_vitakin_return_from_death_kcal = u_calories()" ] },
-      {
-        "math": [ "u_spell_exp('vita_return_from_death')", "+=", "psionic_power_experience_formula()" ]
-      },
+      { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
