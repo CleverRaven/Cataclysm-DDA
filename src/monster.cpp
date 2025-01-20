@@ -2980,7 +2980,6 @@ void monster::die( Creature *nkiller )
         const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.get_abs( pos_bub() ) );
         // Do it for overmap above/below too
         for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
-            // TODO: fix point types
             for( mongroup *&mgp : overmap_buffer.groups_at( p ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;

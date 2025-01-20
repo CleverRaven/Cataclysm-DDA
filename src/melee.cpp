@@ -1786,25 +1786,25 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                     t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms b = t.pos_bub();
-        point new_;
+        point_bub_ms new_;
 
         if( b.x() > posx() ) {
-            new_.x = posx() - 1;
+            new_.x() = posx() - 1;
         } else if( b.x() < posx() ) {
-            new_.x = posx() + 1;
+            new_.x() = posx() + 1;
         } else {
-            new_.x = b.x();
+            new_.x() = b.x();
         }
 
         if( b.y() > posy() ) {
-            new_.y = posy() - 1;
+            new_.y() = posy() - 1;
         } else if( b.y() < posy() ) {
-            new_.y = posy() + 1;
+            new_.y() = posy() + 1;
         } else {
-            new_.y = b.y();
+            new_.y() = b.y();
         }
 
-        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z()};
+        const tripoint_bub_ms &dest{ new_, b.z()};
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1813,9 +1813,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                        t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
-        const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
-                               rng( -technique.knockback_spread, technique.knockback_spread ) );
-        tripoint_bub_ms kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
+        const point_rel_ms kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
+                                      rng( -technique.knockback_spread, technique.knockback_spread ) );
+        tripoint_bub_ms kb_point( posx() + kb_offset.x(), posy() + kb_offset.y(), posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }

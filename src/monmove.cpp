@@ -296,11 +296,6 @@ bool monster::can_reach_to( const tripoint_bub_ms &p ) const
     return true;
 }
 
-bool monster::can_move_to( const tripoint &p ) const
-{
-    return monster::can_move_to( tripoint_bub_ms( p ) );
-}
-
 bool monster::can_move_to( const tripoint_bub_ms &p ) const
 {
     return can_reach_to( p ) && will_move_to( p );
@@ -2104,13 +2099,13 @@ bool monster::push_to( const tripoint_bub_ms &p, const int boost, const size_t d
     add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
-        const point d( rng( -1, 1 ), rng( -1, 1 ) );
-        if( d.x == 0 && d.y == 0 ) {
+        const point_rel_ms d( rng( -1, 1 ), rng( -1, 1 ) );
+        if( d.x() == 0 && d.y() == 0 ) {
             continue;
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = std::abs( d.x - dir.x() ) + std::abs( d.y - dir.y() );
+        const int direction_penalty = std::abs( d.x() - dir.x() ) + std::abs( d.y() - dir.y() );
         if( direction_penalty > 2 ) {
             continue;
         }
