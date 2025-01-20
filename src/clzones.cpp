@@ -635,6 +635,21 @@ std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
     return iter->first;
 }
 
+std::optional<int> zone_manager::query_priority( int current_priority ) const
+{
+    string_input_popup popup;
+    int got = popup
+              .title( _( "Zone priority:" ) )
+              .width( 55 )
+              .text( std::to_string( current_priority ) )
+              .query_int();
+    if( popup.canceled() ) {
+        return {};
+    } else {
+        return got;
+    }
+}
+
 bool zone_data::set_name()
 {
     const auto maybe_name = zone_manager::get_manager().query_name( name );
@@ -667,6 +682,20 @@ bool zone_data::set_type()
     }
     // False positive from memory leak detection on shared_ptr_fast
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return false;
+}
+
+bool zone_data::set_priority()
+{
+    const auto maybe_priority = zone_manager::get_manager().query_priority( priority );
+    if( maybe_priority.has_value() ) {
+        auto new_priority = maybe_priority.value();
+        if( priority != new_priority ) {
+            zone_manager::get_manager().zone_edited( *this );
+            priority = new_priority;
+            return true;
+        }
+    }
     return false;
 }
 
@@ -1678,6 +1707,7 @@ void zone_data::serialize( JsonOut &json ) const
         json.member( "end", end );
     }
     json.member( "is_displayed", is_displayed );
+    json.member( "priority", priority );
     options->serialize( json );
     json.end_object();
 }
@@ -1745,6 +1775,11 @@ void zone_data::deserialize( const JsonObject &data )
         data.read( "is_displayed", is_displayed );
     } else {
         is_displayed = false;
+    }
+    if( data.has_member( "priority" ) ) {
+        data.read( "priority", priority );
+    } else {
+        priority = 0;
     }
     auto new_options = zone_options::create( type );
     new_options->deserialize( data );

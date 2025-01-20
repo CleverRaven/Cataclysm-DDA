@@ -364,6 +364,7 @@ class zone_data
         tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
         bool is_displayed;
+        int priority;
 
     public:
         zone_data() {
@@ -380,13 +381,15 @@ class zone_data
             cached_shift = tripoint_abs_ms::zero;
             options = nullptr;
             is_displayed = false;
+            priority = 0;
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint_abs_ms &_start, const tripoint_abs_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
-                   bool _is_displayed = false ) {
+                   bool _is_displayed = false,
+                   int _priority = 0 ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -397,6 +400,7 @@ class zone_data
             start = _start;
             end = _end;
             is_displayed = _is_displayed;
+            priority = _priority;
 
             // ensure that supplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
@@ -410,7 +414,8 @@ class zone_data
                    bool _invert, const bool _enabled,
                    const tripoint_rel_ms &_start, const tripoint_rel_ms &_end,
                    const shared_ptr_fast<zone_options> &_options = nullptr,
-                   bool _is_displayed = false ) {
+                   bool _is_displayed = false,
+                   int _priority = 0 ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -421,6 +426,7 @@ class zone_data
             personal_start = _start;
             personal_end = _end;
             is_displayed = _is_displayed;
+            priority = _priority;
 
             // ensure that supplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
@@ -434,6 +440,8 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
+        // returns true if priority is changed
+        bool set_priority();
         // We need to be able to suppress the display of zones when the movement is part of a map rotation, as the underlying
         // field is automatically rotated by the map rotation itself.
         // One version for personal zones and one for the rest
@@ -491,6 +499,10 @@ class zone_data
 
         bool get_is_displayed() const {
             return is_displayed;
+        }
+
+        int get_priority() const {
+            return priority;
         }
 
         bool get_is_vehicle() const {
@@ -648,6 +660,7 @@ class zone_manager
                                           const faction_id &fac = your_fac ) const;
         std::optional<std::string> query_name( const std::string &default_name = "" ) const;
         std::optional<zone_type_id> query_type( bool personal = false ) const;
+        std::optional<int> query_priority( int current_priority ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
