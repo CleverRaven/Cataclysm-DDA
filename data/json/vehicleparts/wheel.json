@@ -767,6 +767,166 @@
     "damage_reduction": { "all": 20 }
   },
   {
+    "id": "wheel_wood_caster",
+    "type": "vehicle_part",
+    "name": { "str": "wooden casters" },
+    "item": "wheel_wood_caster",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "durability": 50,
+    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart, but these ones are made out of wood.",
+    "damage_modifier": 50,
+    "folded_volume": "1500 ml",
+    "breaks_into": [
+      { "item": "nuts_bolts", "count": [ 0, 4 ] }
+    ],
+    "rolling_resistance": 35.0,
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_wood_8i",
+    "type": "vehicle_part",
+    "name": { "str": "8\" wooden cart wheel" },
+    "item": "wheel_wood_8i",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 30,
+    "description": "A wooden wheel.",
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 2 ] },
+      { "item": "nail", "charges": [ 2, 6 ] }
+	],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "rolling_resistance": 2.15,
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 16,
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "all": 14 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_wood_8i_b",
+    "copy-from": "wheel_wood_8i",
+    "type": "vehicle_part",
+    "name": { "str": "banded 8\" wooden cart wheel" },
+    "item": "wheel_wood_8i_b",
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 2 ] },
+      { "item": "nail", "charges": [ 2, 9 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "rolling_resistance": 2.05,
+    "proportional": { "durability": 2, "damage_modifier": 2 },
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "id": "wheel_wood_12i",
+    "type": "vehicle_part",
+    "name": { "str": "12\" wooden cart wheel" },
+    "item": "wheel_wood_12i",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 30,
+    "description": "A wooden wheel.",
+    "damage_modifier": 24,
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 3 ] },
+      { "item": "nail", "charges": [ 2, 9 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "rolling_resistance": 2.15,
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 32,
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "all": 14 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_wood_12i_b",
+    "copy-from": "wheel_wood_12i",
+    "type": "vehicle_part",
+    "name": { "str": "banded 12\" wooden cart wheel" },
+    "item": "wheel_wood_12i_b",
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 3 ] },
+      { "item": "nail", "charges": [ 2, 15 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "rolling_resistance": 2.05,
+    "proportional": { "durability": 2, "damage_modifier": 2 },
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "id": "wheel_wood_16i",
+    "type": "vehicle_part",
+    "name": { "str": "16\" wooden cart wheel" },
+    "item": "wheel_wood_16i",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 30,
+    "description": "A wooden wheel.",
+    "damage_modifier": 50,
+    "breaks_into": [
+	  { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 2, 14 ] },
+      { "item": "scrap", "count": [ 1, 4 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "rolling_resistance": 2.15,
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 48,
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "damage_reduction": { "all": 14 },
+    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_wood_16i_b",
+    "copy-from": "wheel_wood_16i",
+    "type": "vehicle_part",
+    "name": { "str": "banded 16\" wooden cart wheel" },
+    "item": "wheel_wood_16i_b",
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 2, 20 ] },
+      { "item": "scrap", "count": [ 1, 4 ] }
+    ],
+    "rolling_resistance": 2.05,
+    "proportional": { "durability": 2, "damage_modifier": 2 },
+    "damage_reduction": { "all": 20 }
+  }
+  {
     "type": "vehicle_part",
     "id": "wheel_mount_concrete_mix",
     "name": { "str": "concrete mixer wheel mounts" },
