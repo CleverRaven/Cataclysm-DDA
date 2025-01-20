@@ -925,7 +925,7 @@
     "rolling_resistance": 2.05,
     "proportional": { "durability": 2, "damage_modifier": 2 },
     "damage_reduction": { "all": 20 }
-  }
+  },
   {
     "type": "vehicle_part",
     "id": "wheel_mount_concrete_mix",
