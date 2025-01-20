@@ -343,7 +343,9 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
     "shape": "blast",
-    "min_damage": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 1.5) + 20) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 1.5) + 20) * (scaling_factor(u_val('strength') ) )" ]
+    },
     "max_damage": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 5) + 50) * (scaling_factor(u_val('strength') ) )" ] },
     "min_aoe": {
       "math": [ "min( (( (u_spell_level('ierde_stomp_ground_smash') * 0.7) + 5) * (scaling_factor(u_val('strength') ) )), 15)" ]
