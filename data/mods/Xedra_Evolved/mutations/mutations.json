@@ -942,7 +942,7 @@
   {
     "type": "mutation",
     "id": "FAE_ENMITY",
-    "name": { "str": "False Homullus" },
+    "name": { "str": "Fae Enmity" },
     "points": -10,
     "description": "The Fair Folk can sense the stolen power within you and their vengeance will be terrible.",
     "purifiable": false,
