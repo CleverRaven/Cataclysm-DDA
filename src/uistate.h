@@ -166,6 +166,8 @@ class uistatedata
         // V Menu Stuff
         int list_item_sort = 0;
         std::set<itype_id> read_items;
+        std::string monster_filter; // NOLINT(cata-serialize)
+        std::string terfurn_filter; // NOLINT(cata-serialize)
 
         // These three aren't serialized because deserialize can extraect them
         // from the history

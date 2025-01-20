@@ -2487,7 +2487,7 @@
   },
   {
     "type": "keybinding",
-    "name": "List all items around the player",
+    "name": "List nearby items, monsters, terrain and furniture",
     "category": "DEFAULTMODE",
     "id": "listitems",
     "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
@@ -3297,21 +3297,21 @@
   {
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_UP",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Scroll item info up",
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Scroll item info down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "COMPARE",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Compare",
     "bindings": [
       { "input_method": "keyboard_char", "key": "I" },
@@ -3324,7 +3324,7 @@
   {
     "type": "keybinding",
     "id": "EXAMINE",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Examine",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
@@ -3335,7 +3335,7 @@
   {
     "type": "keybinding",
     "id": "PRIORITY_INCREASE",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Increase priority",
     "bindings": [
       { "input_method": "keyboard_any", "key": "=" },
@@ -3346,14 +3346,14 @@
   {
     "type": "keybinding",
     "id": "PRIORITY_DECREASE",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Decrease priority",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
     "id": "SORT",
-    "category": "LIST_ITEMS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Change sort order",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
@@ -3364,28 +3364,28 @@
   {
     "type": "keybinding",
     "id": "SAFEMODE_BLACKLIST_ADD",
-    "category": "LIST_MONSTERS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Add to safe mode blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",
     "id": "SAFEMODE_BLACKLIST_REMOVE",
-    "category": "LIST_MONSTERS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Remove from safe mode blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
   },
   {
     "type": "keybinding",
     "id": "look",
-    "category": "LIST_MONSTERS",
+    "category": "LIST_SURROUNDINGS",
     "name": "Look around",
     "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {
     "type": "keybinding",
     "id": "fire",
-    "category": "LIST_MONSTERS",
+    "category": "LIST_SURROUNDINGS",
     "name": { "ctxt": "verb", "str": "Fire" },
     "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
   },
@@ -3393,7 +3393,7 @@
     "type": "keybinding",
     "id": "LIST_ITEMS",
     "category": "LOOK",
-    "name": "List items and monsters",
+    "name": "List nearby items, monsters, terrain and furniture",
     "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
   },
   {
