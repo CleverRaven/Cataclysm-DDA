@@ -4,14 +4,18 @@
     "type": "magic_type",
     "energy_source": "STAMINA",
     "cannot_cast_flags": "NO_PSIONICS",
-    "cannot_cast_message": "You can't channel any of the powers you know!"
+    "cannot_cast_message": "You can't channel any of the powers you know!",
+    "failure_cost_percent": 0.5,
+    "failure_exp_percent": 0.3,
+    "max_book_level": 0,
+    "casting_xp_formula_id": "psionic_power_experience_formula_channeling"
   },
   {
     "id": "classless_toggleable_concentration_end",
     "type": "SPELL",
     "name": "[Ψ]Stop Concentrating",
     "description": "End your concentration on all of your maintained powers.\n\nChanneling this power <color_green>always succeeds</color>.",
-    "message": "You stop concentrating.",
+    "message": "You stop concentrating on your powers.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
