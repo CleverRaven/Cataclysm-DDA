@@ -44,7 +44,7 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_AUGUSTMOON_GENETECH_TRADER",
-    "faction": "UICA"
+    "faction": "mercurial"
   },
   {
     "id": [ "TALK_AUGUSTMOON_GENETECH_TRADER", "TALK_AUGUSTMOON_GENETECH_WORKS" ],
