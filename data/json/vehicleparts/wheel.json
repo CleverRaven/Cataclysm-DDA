@@ -792,50 +792,9 @@
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
-    "id": "wheel_wood_8i",
-    "type": "vehicle_part",
-    "name": { "str": "8\" wooden cart wheel" },
-    "item": "wheel_wood_8i",
-    "location": "under",
-    "categories": [ "movement" ],
-    "color": "brown",
-    "broken_color": "brown",
-    "durability": 30,
-    "description": "A wooden wheel.",
-    "damage_modifier": 50,
-    "breaks_into": [ { "item": "2x4", "count": [ 0, 2 ] }, { "item": "nail", "charges": [ 2, 6 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "rolling_resistance": 2.15,
-    "wheel_offroad_rating": 0.1,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
-    "contact_area": 16,
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "damage_reduction": { "all": 14 },
-    "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "wheel_wood_8i_b",
-    "copy-from": "wheel_wood_8i",
-    "type": "vehicle_part",
-    "name": { "str": "banded 8\" wooden cart wheel" },
-    "item": "wheel_wood_8i_b",
-    "breaks_into": [
-      { "item": "2x4", "count": [ 0, 2 ] },
-      { "item": "nail", "charges": [ 2, 9 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "rolling_resistance": 2.05,
-    "proportional": { "durability": 2, "damage_modifier": 2 },
-    "damage_reduction": { "all": 20 }
-  },
-  {
     "id": "wheel_wood_12i",
     "type": "vehicle_part",
-    "name": { "str": "12\" wooden cart wheel" },
+    "name": { "str": "wooden wheelbarrow wheel" },
     "item": "wheel_wood_12i",
     "location": "under",
     "categories": [ "movement" ],
@@ -854,7 +813,7 @@
     "wheel_offroad_rating": 0.1,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 32,
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "flags": [ "WHEEL", "STABLE", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "all": 14 },
     "variants": [ { "symbols": "|", "symbols_broken": "x" } ]
   },
@@ -862,7 +821,7 @@
     "id": "wheel_wood_12i_b",
     "copy-from": "wheel_wood_12i",
     "type": "vehicle_part",
-    "name": { "str": "banded 12\" wooden cart wheel" },
+    "name": { "str": "banded wooden wheelbarrow wheel" },
     "item": "wheel_wood_12i_b",
     "breaks_into": [
       { "item": "2x4", "count": [ 0, 3 ] },
@@ -876,7 +835,7 @@
   {
     "id": "wheel_wood_16i",
     "type": "vehicle_part",
-    "name": { "str": "16\" wooden cart wheel" },
+    "name": { "str": "small wooden cart wheel" },
     "item": "wheel_wood_16i",
     "location": "under",
     "categories": [ "movement" ],
@@ -907,7 +866,7 @@
     "id": "wheel_wood_16i_b",
     "copy-from": "wheel_wood_16i",
     "type": "vehicle_part",
-    "name": { "str": "banded 16\" wooden cart wheel" },
+    "name": { "str": "banded small wooden cart wheel" },
     "item": "wheel_wood_16i_b",
     "breaks_into": [
       { "item": "2x4", "count": [ 0, 4 ] },
