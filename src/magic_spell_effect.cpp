@@ -258,9 +258,9 @@ static std::set<tripoint_bub_ms> spell_effect_cone_range_override(
             tripoint potential;
             calc_ray_end( angle, range, source.raw(), potential );
             if( params.ignore_walls ) {
-                targets.emplace( tripoint_bub_ms( potential ) );
+                targets.emplace( potential );
             } else {
-                end_points.emplace( tripoint_bub_ms( potential ) );
+                end_points.emplace( potential );
             }
         }
     }
