@@ -28,7 +28,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 5, 13 ], "y": [ 5, 13 ] } ],
-      "palettes": [ "gun_store_palette_occupied" ]
+      "palettes": [ "gunstore_palette_occupied" ]
     }
   },
   {
@@ -60,7 +60,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "nested": { "0": { "chunks": [ [ "gunstore_barricaded_safes_a", 50 ], [ "gunstore_barricaded_handloading_a", 50 ] ] } },
-      "palettes": [ "gun_store_palette_unlooted" ],
+      "palettes": [ "gunstore_palette_unlooted" ],
       "place_loot": [ { "group": "SUS_gunstore_optics_display", "x": 10, "y": 8, "repeat": [ 10, 20 ] } ]
     }
   },
@@ -93,7 +93,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 16 ], "y": [ 4, 16 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looter" ],
+      "palettes": [ "gunstore_palette_looted" ],
       "nested": {
         "0": { "chunks": [ [ "gunstore_looted_safes_a", 50 ], [ "gunstore_looted_handloading_a", 50 ] ] },
         "1": { "chunks": [ [ "gunstore_looted_storage_a", 1 ], [ "gunstore_unlooted_storage_a", 1 ] ] },
@@ -131,7 +131,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 16 ], "y": [ 4, 16 ], "repeat": [ 1, 2 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looter" ],
+      "palettes": [ "gunstore_palette_looted" ],
       "nested": {
         "0": { "chunks": [ [ "gunstore_looted_safes_a", 50 ], [ "gunstore_looted_handloading_a", 50 ] ] },
         "g": { "chunks": [ [ "no_items_concrete_floor", 50 ], [ "null", 50 ] ] },
@@ -146,6 +146,159 @@
         "K": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 30 ] ] },
         "!": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 30 ] ] },
         "S": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 30 ] ] },
+        ".": { "chunks": [ [ "gunstore_looted_floor", 10 ], [ "null", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "gunstore_occupied_b",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CCCCCCCCCCCCCC       ",
+        "#:#:####+##::####### ",
+        ".....IdGGGUUUUG....# ",
+        ".....IdA....G.....GI ",
+        ".....Id...t.......U+.",
+        ".....Id...t.....333I.",
+        ".....Id.........3.dI.",
+        ".....Id.....t...d.i:.",
+        ".EEE.Id...ttt...d.i:.",
+        "IIDIIII.........3.iI.",
+        ".UUU.......t....c.dI.",
+        ".....I..iiii....3.dI.",
+        "IDIDII..iiii...IIIII.",
+        "&.I.&I.........D../I.",
+        "qoI.qIdddddddddI..aI.",
+        "IIIIIIIIIIIIIIII..nI.",
+        "q.IttnnnA/Igggii..nI.",
+        "&.D..AA...D......./I+",
+        "###l....n.Ia.......D.",
+        "wC+A..fpppIgGGa.i.aI.",
+        "wC###################"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 6, 20 ], "y": [ 7, 20 ] } ],
+      "palettes": [ "gunstore_palette_occupied" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "gunstore_barricaded_b",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CCCCCCCCCCCCCC       ",
+        "#:#:####+##::####### ",
+        "..A..It............# ",
+        ".EE..It............I ",
+        ".....It..JJJJ......+.",
+        "EE.EEIO..JJJJ...333I.",
+        "AA.AAIo.........3.HI.",
+        "EE.EEIo..iiii...H.i:.",
+        "AA.AAIo..iiii...H.i:.",
+        "IIDIIII.........3.iI.",
+        ".........iiii...c.gI.",
+        ".....I...iiii...3.gI.",
+        "IDIDII.........IIIII.",
+        "&.I.&I.........D...I.",
+        "q.I.qIggggghhhhI...I.",
+        "IIIIIIIIIIIIIIII...I.",
+        "q.I..nnnA.IBBBF....I.",
+        "&.D..AA...D........I+",
+        "###l....n.I........D.",
+        "wC+...fpppIBBBBBBBBI.",
+        "wC###################"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gunstore_palette_unlooted" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "gunstore_looted_b",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                     ",
+        "#:#:####+##::####### ",
+        "..A..It............# ",
+        ".EE..It............I ",
+        ".....It..JJJJ......+.",
+        "EE.EEIO..JJJJ...333I.",
+        "AA.AAIo.........3.HI.",
+        "EE.EEIo..iiii...H.i:.",
+        "AA.AAIo..iiii...H.i:.",
+        "IIDIIII.........3.iI.",
+        ".........iiii...c.gI.",
+        ".....I...iiii...3.gI.",
+        "IDIDII.........IIIII.",
+        "&.I.&I.........D...I.",
+        "q.I.qIggggghhhhI...I.",
+        "IIIIIIIIIIIIIIII...I.",
+        "q.I..nnnA.IBBBF....I.",
+        "&.D..AA...D........I+",
+        "###l....n.I........D.",
+        "w +...fpppIBBBBBBBBI.",
+        "w ###################"
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 7, 20 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gunstore_palette_looted" ],
+      "nested": {
+        ".": { "chunks": [ [ "gunstore_looted_floor", 4 ], [ "null", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "gunstore_ransacked_b",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                     ",
+        "#:#:####+##::####### ",
+        "..A..It............# ",
+        ".EE..It............I ",
+        ".....It..JJJJ......+.",
+        "EE.EEIO..JJJJ...333I.",
+        "AA.AAIo.........3.HI.",
+        "EE.EEIo..iiii...H.i:.",
+        "AA.AAIo..iiii...H.i:.",
+        "IIDIIII.........3.iI.",
+        ".........iiii...c.gI.",
+        ".....I...iiii...3.gI.",
+        "IDIDII.........IIIII.",
+        "&.I.&I.........D...I.",
+        "q.I.qIggggghhhhI...I.",
+        "IIIIIIIIIIIIIIII...I.",
+        "q.I..nnnA.IBBBF....I.",
+        "&.D..AA...D........I+",
+        "###l....n.I........D.",
+        "w +...fpppIBBBBBBBBI.",
+        "w ###################"
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 7, 20 ], "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "gunstore_palette_looted" ],
+      "nested": {
+        "g": { "chunks": [ [ "no_items_concrete_floor", 50 ], [ "null", 50 ] ] },
+        "h": { "chunks": [ [ "no_items_concrete_floor", 50 ], [ "null", 50 ] ] },
+        "H": { "chunks": [ [ "no_items_concrete_floor", 50 ], [ "null", 50 ] ] },
+        "i": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 15 ] ] },
+        "J": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 20 ] ] },
+        "t": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 30 ] ] },
+        "O": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 20 ] ] },
+        "o": { "chunks": [ [ "destroyed_furniture_concrete_floor", 10 ], [ "no_items_concrete_floor", 60 ], [ "null", 35 ] ] },
         ".": { "chunks": [ [ "gunstore_looted_floor", 10 ], [ "null", 20 ] ] }
       }
     }
@@ -184,7 +337,7 @@
         ".44."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_unlooted" ]
+      "palettes": [ "gunstore_palette_unlooted" ]
     }
   },
   {
@@ -201,7 +354,7 @@
         ".33."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_unlooted" ],
+      "palettes": [ "gunstore_palette_unlooted" ],
       "place_item": [ { "item": "press", "x": 1, "y": 3 }, { "item": "press", "x": 2, "y": 3 } ]
     }
   },
@@ -219,7 +372,7 @@
         ".44."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looter" ]
+      "palettes": [ "gunstore_palette_looted" ]
     }
   },
   {
@@ -236,7 +389,7 @@
         ".33."
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looter" ],
+      "palettes": [ "gunstore_palette_looted" ],
       "place_item": [ { "item": "press", "x": [ 1, 2 ], "y": 3, "chance": 20 } ]
     }
   },
@@ -254,7 +407,7 @@
         "II+I"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_looter" ]
+      "palettes": [ "gunstore_palette_looted" ]
     }
   },
   {
@@ -271,7 +424,7 @@
         "II+I"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_unlooted" ]
+      "palettes": [ "gunstore_palette_unlooted" ]
     }
   },
   {
@@ -294,40 +447,6 @@
       "rows": [ "#" ],
       "terrain": { "#": "t_thconc_floor" },
       "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "gunstore_barricaded_b",
-    "object": {
-      "mapgensize": [ 21, 21 ],
-      "rotation": [ 0, 3 ],
-      "rows": [
-        "CCCCCCCCCCCCCC       ",
-        "#:#:####+##::####### ",
-        "..A..It............# ",
-        ".EE..It............I ",
-        ".....It...JJ.......+.",
-        "EE.EEIK...JJ....333I.",
-        "AA.AAIo.........3.HI.",
-        "EE.EEIo...JJ....H.i:.",
-        "AA.AAIo...JJ....H.i:.",
-        "IIDIIII.........3.iI.",
-        "..........ii ...c.gI.",
-        ".....I....ii....3.gI.",
-        "IDIDII.........IIIII.",
-        "&.I.&I.........D...I.",
-        "q.I.qIggggghhhhI...I.",
-        "IIIIIIIIIIIIIIII...I.",
-        "q.I.......IBBB.....I.",
-        "&.D.......D........I+",
-        "###.......I........D.",
-        "wC+.......IBBBBBBBBI.",
-        "wC###################"
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "gun_store_palette_unlooted" ]
     }
   }
 ]
