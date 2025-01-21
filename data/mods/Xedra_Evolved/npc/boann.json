@@ -44,8 +44,15 @@
       { "item": "stockings_gossamer", "prob": 100 },
       { "item": "gloves_light_gossamer", "prob": 100 },
       { "item": "gown_gossamer", "prob": 100 },
-      { "item": "slippers_gossamer", "prob": 100 }
+      { "item": "slippers_gossamer", "prob": 100 },
+      { "item": "sapphire_silver_tiara", "prob": 100 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOANN_WEAPON",
+    "subtype": "collection",
+    "entries": [ { "item": "boann_unique_weapon_sword", "prob": 100 } ]
   },
   {
     "type": "talk_topic",
