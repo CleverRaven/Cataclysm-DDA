@@ -77,7 +77,7 @@
     "weight": "7800 g",
     "volume": "14 L",
     "price": "75 USD",
-    "material": [ "cotton", "plastic" ],
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "cyan",
@@ -176,7 +176,7 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "SKINTIGHT", "SOFT" ]
   },
   {
     "id": "afs_combat_cryo_on",

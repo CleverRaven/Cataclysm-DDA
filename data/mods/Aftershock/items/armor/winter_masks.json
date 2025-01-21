@@ -44,7 +44,8 @@
       "SWIM_GOGGLES",
       "RECHARGE",
       "NO_RELOAD",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SOFT"
     ],
     "melee_damage": { "bash": 7 }
   },
@@ -108,7 +109,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
     "melee_damage": { "bash": 7 }
   },
   {
