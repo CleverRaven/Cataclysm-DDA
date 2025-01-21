@@ -332,7 +332,7 @@ static void check_spawning_in_container( const itype_id &item_type )
             return it.typeId() == test_item.typeId();
         } ) );
     } else if( test_item.is_software() ) {
-        REQUIRE( container_item.is_software_storage() );
+        REQUIRE( container_item.is_estorage() );
         const std::vector<const item *> softwares = container_item.softwares();
         CHECK( !softwares.empty() );
         for( const item *itm : softwares ) {
@@ -1034,7 +1034,7 @@ TEST_CASE( "item_single_type_contents", "[item]" )
         item usb_drive( itype_usb_drive );
         item software_hacking( itype_software_hacking );
         REQUIRE( usb_drive.get_category_of_contents().id == item_category_tools );
-        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::SOFTWARE ).success() );
+        REQUIRE( usb_drive.put_in( software_hacking, pocket_type::E_FILE_STORAGE ).success() );
         CHECK( usb_drive.get_category_of_contents().id == item_category_tools );
     }
 }

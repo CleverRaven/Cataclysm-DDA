@@ -1355,7 +1355,7 @@ class ereader_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_ebook_storage();
+            return loc->is_estorage();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1463,7 +1463,7 @@ class read_inventory_preset: public pickup_inventory_preset
             const item_location p_loc = loc.parent_item();
 
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
-                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
+                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_estorage() ||
                      !p_loc->uses_energy() ||
                      p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }

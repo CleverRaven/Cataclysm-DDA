@@ -2178,7 +2178,7 @@ bool Character::consume_software_container( const itype_id &software_id )
         if( !it.get_item() ) {
             continue;
         }
-        if( it.get_item()->is_software_storage() ) {
+        if( it.get_item()->is_estorage() ) {
             for( const item *soft : it.get_item()->softwares() ) {
                 if( soft->typeId() == software_id ) {
                     it.remove_item();
