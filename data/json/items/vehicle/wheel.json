@@ -770,7 +770,7 @@
     "volume": "1500 ml",
     "longest_side": "110 mm",
     "price": "20 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "to_hit": -1,
     "material": [ "wood" ],
     "symbol": "]",
