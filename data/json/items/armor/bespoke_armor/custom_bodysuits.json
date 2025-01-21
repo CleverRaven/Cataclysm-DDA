@@ -139,7 +139,7 @@
     "id": "lsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "light Kevlar jumpsuit" },
+    "name": { "str": "light survivor jumpsuit" },
     "description": "A lightweight, hand-built combination armor made of Kevlar with a moisture-wicking core and additional padding in many places.  Protects from the elements as well as from harm.",
     "weight": "5200 g",
     "volume": "10500 ml",
@@ -189,7 +189,7 @@
   {
     "id": "xl_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "light Kevlar jumpsuit" },
+    "name": { "str": "light survivor jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -197,7 +197,7 @@
   {
     "id": "xs_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "light Kevlar jumpsuit" },
+    "name": { "str": "light survivor jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -206,13 +206,13 @@
     "id": "survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Kevlar jumpsuit" },
-    "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and substantial padding in many places.  Protects from the elements as well as from harm.",
-    "weight": "7500 g",
+    "name": { "str": "survivor jumpsuit" },
+    "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and substantial padding in many places, as well as incorporating a NIJ Level II ballistic vest.  Protects from the elements as well as from harm.",
+    "weight": "8500 g",
     "volume": "11500 ml",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "50 USD",
-    "material": [ "kevlar", "lycra", "nylon" ],
+    "material": [ "kevlar", "lycra", "nylon", "kevlar_layered" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -226,9 +226,20 @@
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 }
         ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 12, 12 ]
+      },
+	  {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.7 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ]
       }
     ],
     "pocket_data": [
@@ -258,7 +269,7 @@
   {
     "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "Kevlar jumpsuit" },
+    "name": { "str": "survivor jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -266,7 +277,7 @@
   {
     "id": "xssurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "Kevlar jumpsuit" },
+    "name": { "str": "survivor jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -275,14 +286,14 @@
     "id": "hsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "steel-plated Kevlar jumpsuit" },
-    "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
+    "name": { "str": "steel-reinforced survivor jumpsuit" },
+    "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core, a integrated NIJ Level II ballistic vest, and mild chainmail covering the arms and legs.  Protects from the elements as well as from harm.",
     "weight": "9500 g",
     "volume": "12 L",
     "price": "2 kUSD",
     "price_postapoc": "70 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "kevlar", "qt_steel", "lycra", "nylon" ],
+    "material": [ "kevlar", "lc_steel_chain", "lycra", "nylon", "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -292,12 +303,22 @@
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
-          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 },
-          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
         ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 17, 17 ]
+        "encumbrance": [ 18, 18 ]
+      },
+	  {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 90, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ]
       }
     ],
     "pocket_data": [
@@ -312,7 +333,7 @@
   {
     "id": "xl_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "steel-plated Kevlar jumpsuit" },
+    "name": { "str": "steel-reinforced survivor jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -320,7 +341,7 @@
   {
     "id": "xs_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "steel-plated Kevlar jumpsuit" },
+    "name": { "str": "steel-reinforced survivor jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -678,14 +699,14 @@
     "id": "fsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Kevlar firesuit" },
-    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of Kevlar.  Protects from fire as well as from harm.",
+    "name": { "str": "survivor firesuit" },
+    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex under layers of Kevlar and nylon, with a NIJ Level II vest protecting your torso from minor ballistic threats, at the cost of less kevlar.  Protects from fire, the elements, as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "nomex", "kevlar" ],
+    "material": [ "nomex", "kevlar", "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
@@ -694,11 +715,22 @@
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
-          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+		  { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 24, 24 ]
+      },
+	  {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 19, 19 ]
+        "encumbrance": [ 18, 18 ]
       }
     ],
     "pocket_data": [
@@ -713,7 +745,7 @@
   {
     "id": "xs_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "Kevlar firesuit" },
+    "name": { "str": "survivor firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -721,7 +753,7 @@
   {
     "id": "xl_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "Kevlar firesuit" },
+    "name": { "str": "survivor firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
