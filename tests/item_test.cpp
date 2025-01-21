@@ -69,7 +69,6 @@ static const itype_id itype_rocuronium( "rocuronium" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 static const itype_id itype_single_malt_whiskey( "single_malt_whiskey" );
 static const itype_id itype_software_hacking( "software_hacking" );
-static const itype_id itype_software_useless( "software_useless" );
 static const itype_id itype_test_armguard( "test_armguard" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_consolidate( "test_consolidate" );
@@ -356,7 +355,6 @@ TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
     check_spawning_in_container( itype_rocuronium );
     check_spawning_in_container( itype_chem_muriatic_acid );
     check_spawning_in_container( itype_chem_black_powder );
-    check_spawning_in_container( itype_software_useless );
 }
 
 TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
