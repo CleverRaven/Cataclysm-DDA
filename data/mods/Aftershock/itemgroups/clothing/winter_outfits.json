@@ -39,7 +39,7 @@
     "id": "afs_wintersuit_science_advanced",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_magellan_g", "prob": 2 }, { "group": "afs_mutant_magellan_g", "prob": 1 } ]
+    "items": [ { "group": "afs_magellan_g", "prob": 2 } ]
   },
   {
     "id": "afs_frontier_cryo_g",
