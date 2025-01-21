@@ -350,7 +350,7 @@
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "fur Kevlar jumpsuit" },
+    "name": { "str": "fur survivor jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and fur.  Protects from the elements as well as from harm.",
     "weight": "8400 g",
     "volume": "14 L",
@@ -386,7 +386,7 @@
   {
     "id": "xl_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "fur Kevlar jumpsuit" },
+    "name": { "str": "fur survivor jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -394,7 +394,7 @@
   {
     "id": "xs_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "fur Kevlar jumpsuit" },
+    "name": { "str": "fur survivor jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -402,7 +402,7 @@
   {
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "faux fur Kevlar jumpsuit" },
+    "name": { "str": "faux fur survivor jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
     "material": [ "kevlar", "faux_fur", "lycra" ],
@@ -424,7 +424,7 @@
   {
     "id": "xs_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "faux fur Kevlar jumpsuit" },
+    "name": { "str": "faux fur survivor jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -432,7 +432,7 @@
   {
     "id": "xl_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "faux fur Kevlar jumpsuit" },
+    "name": { "str": "faux fur survivor jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
