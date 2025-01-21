@@ -2353,7 +2353,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             }
 
             // don't steal disassembly in progress
-            if( thisitem.has_var( "activity_var" ) ){
+            if( thisitem.has_var( "activity_var" ) ) {
                 continue;
             }
             // don't steal crafts in progress
