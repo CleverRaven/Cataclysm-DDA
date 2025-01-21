@@ -196,6 +196,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &exam
     } else if( allow_hacking && iexamine::can_hack( you ) &&
                query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
         iexamine::try_start_hacking( you, examp );
+    } else if( !allow_hacking && iexamine::can_hack( you ) ) {
+        add_msg( _( "This card-reader cannot be hacked." ) );
     }
 }
 
