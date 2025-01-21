@@ -606,9 +606,8 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     if( data.iZoneIndex != -1 ) {
         const zone_data &zone = zones.get_zones()[data.iZoneIndex].get();
         sZoneName = zone.get_name();
-        // TODO: fix point types
         tripointZone = project_to<coords::omt>(
-                           tripoint_abs_ms( zone.get_center_point() ) );
+                           zone.get_center_point() );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
@@ -635,9 +634,8 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     if( blink && uistate.place_special ) {
         for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             // Preview should only yield the terrains on the zero z-level
-            cata_assert( s_ter.p.z == 0 );
+            cata_assert( s_ter.p.z() == 0 );
 
-            // TODO: fix point types
             const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
             const oter_id oter = s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
