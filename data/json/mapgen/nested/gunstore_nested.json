@@ -252,9 +252,7 @@
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 7, 20 ] } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunstore_palette_looted" ],
-      "nested": {
-        ".": { "chunks": [ [ "gunstore_looted_floor", 4 ], [ "null", 20 ] ] }
-      }
+      "nested": { ".": { "chunks": [ [ "gunstore_looted_floor", 4 ], [ "null", 20 ] ] } }
     }
   },
   {
