@@ -3826,7 +3826,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                             spell_being_cast.xp() );
                 }
                 if( act->get_value( 2 ) != 0 ) {
-                    spell_being_cast.consume_spell_cost( *you );
+                    spell_being_cast.consume_spell_cost( *you, false );
                 }
                 dialogue d( get_talker_for( you ), nullptr );
                 std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
@@ -3855,7 +3855,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                spell_being_cast.consume_spell_cost( *you );
+                spell_being_cast.consume_spell_cost( *you, true );
             }
             if( level_override == -1 ) {
                 if( !spell_being_cast.is_max_level( *you ) ) {
