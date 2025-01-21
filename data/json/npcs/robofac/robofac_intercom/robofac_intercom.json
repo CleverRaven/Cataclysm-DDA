@@ -597,12 +597,7 @@
         "text": "Actually I was just joking. Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
         "trial": { "type": "LIE", "difficulty": 80 },
-        "failure": {
-          "effect": [
-            { "u_add_faction_trust": -3 },
-            { "u_add_effect": "robofac_surveillance", "duration": "30 days" }
-          ]
-        }
+        "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
       },
       {
         "text": "Some mercenaries I met mentioned this place, said its a good place to find some work and possibly some valuable post-apocalyptic gear.",
