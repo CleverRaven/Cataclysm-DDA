@@ -88,7 +88,7 @@ class item_location::impl
         virtual item_pocket *parent_pocket() const {
             return nullptr;
         }
-        virtual tripoint position() const = 0;
+        virtual tripoint_bub_ms pos_bub() const = 0;
         virtual Character *carrier() const = 0;
         virtual const vehicle_cursor *veh_cursor() const {
             return nullptr;
@@ -142,9 +142,9 @@ class item_location::impl::nowhere : public item_location::impl
             return type::invalid;
         }
 
-        tripoint position() const override {
+        tripoint_bub_ms pos_bub() const override {
             debugmsg( "invalid use of nowhere item_location" );
-            return tripoint_min;
+            return tripoint_bub_ms::min;
         }
 
         Character *carrier() const override {
@@ -209,7 +209,7 @@ class item_location::impl::item_on_map : public item_location::impl
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "map" );
-            js.member( "pos", position() );
+            js.member( "pos", pos_bub() );
             js.member( "idx", find_index( cur, target() ) );
             js.end_object();
         }
@@ -222,8 +222,8 @@ class item_location::impl::item_on_map : public item_location::impl
             return type::map;
         }
 
-        tripoint position() const override {
-            return cur.pos().raw();
+        tripoint_bub_ms pos_bub() const override {
+            return cur.pos();
         }
 
         Character *carrier() const override {
@@ -233,7 +233,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
+                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos() );
             }
             return res;
         }
@@ -348,11 +348,11 @@ class item_location::impl::item_on_person : public item_location::impl
             return type::character;
         }
 
-        tripoint position() const override {
+        tripoint_bub_ms pos_bub() const override {
             if( !ensure_who_unpacked() ) {
-                return tripoint_zero;
+                return tripoint_bub_ms::zero;
             }
-            return who->pos();
+            return who->pos_bub();
         }
 
         Character *carrier() const override {
@@ -468,7 +468,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "vehicle" );
-            js.member( "pos", position() );
+            js.member( "pos", pos_bub() );
             js.member( "part", cur.part );
             if( target() != &cur.veh.part( cur.part ).base ) {
                 js.member( "idx", find_index( cur, target() ) );
@@ -484,8 +484,8 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return type::vehicle;
         }
 
-        tripoint position() const override {
-            return cur.veh.bub_part_pos( cur.part ).raw();
+        tripoint_bub_ms pos_bub() const override {
+            return cur.veh.bub_part_pos( cur.part );
         }
 
         Character *carrier() const override {
@@ -508,7 +508,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
+                res += " " + direction_suffix( ch->pos_bub(), part_pos.pos_bub() );
             }
             return res;
         }
@@ -659,8 +659,8 @@ class item_location::impl::item_in_container : public item_location::impl
             return container.where_recursive();
         }
 
-        tripoint position() const override {
-            return container.position();
+        tripoint_bub_ms pos_bub() const override {
+            return container.pos_bub();
         }
 
         void remove_item() override {
@@ -819,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint_bub_ms pos = tripoint_bub_ms_min;
+    tripoint_bub_ms pos = tripoint_bub_ms::invalid;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );
@@ -836,7 +836,7 @@ void item_location::deserialize( const JsonObject &obj )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -1007,7 +1007,7 @@ bool item_location::eventually_contains( item_location loc ) const
 
 void item_location::overflow()
 {
-    get_item()->overflow( position(), *this );
+    get_item()->overflow( pos_bub(), *this );
 }
 
 item_location::type item_location::where() const
@@ -1020,15 +1020,9 @@ item_location::type item_location::where_recursive() const
     return ptr->where_recursive();
 }
 
-tripoint item_location::position() const
-{
-    return ptr->position();
-}
-
 tripoint_bub_ms item_location::pos_bub() const
 {
-    // TODO: fix point types
-    return tripoint_bub_ms( ptr->position() );
+    return ptr->pos_bub();
 }
 
 std::string item_location::describe( const Character *ch ) const

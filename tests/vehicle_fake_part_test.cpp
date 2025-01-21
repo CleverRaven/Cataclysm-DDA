@@ -215,7 +215,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
             tripoint_bub_ms fake_front_right_headlight = veh->mount_to_tripoint( fake_r_hl );
             // we're travelling south east, so placing it SE of the fake headlight mirror
             // will impact it on next move
-            tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint_south_east;
+            tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint::south_east;
             here.furn_set( obstacle_point.xy(), furn_id( "f_boulder_large" ) );
 
             int part_count = veh->parts_at_relative( point_rel_ms( 2, 2 ), true, false ).size();
@@ -398,7 +398,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
     }
     REQUIRE( fakes_tested == 4 );
 
-    tripoint prev_player_pos = you.pos();
+    tripoint_bub_ms prev_player_pos = you.pos_bub();
     // Then open them all back up.
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
@@ -412,14 +412,15 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
             continue;
         }
         CAPTURE( prev_player_pos );
-        CAPTURE( you.pos() );
+        CAPTURE( you.pos_bub() );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( vp.pos() );
+        you.setpos( vp.pos_bub() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         // Move to the location of the fake part and repeat the assetion
-        you.setpos( fake_door.pos() );
+        you.setpos( fake_door.pos_bub() );
+        you.setpos( fake_door.pos_bub() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         you.setpos( prev_player_pos );

@@ -111,6 +111,7 @@ static const efftype_id effect_weary_7( "weary_7" );
 static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
 
+static const itype_id itype_bone( "bone" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
@@ -317,15 +318,9 @@ void suffer::while_underwater( Character &you )
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
-        if( you.has_bionic( bio_gills ) ) {
-            if( you.get_power_level() >= bio_gills->power_trigger ) {
-                you.oxygen += 5;
-                you.mod_power_level( -bio_gills->power_trigger );
-            } else {
-                you.add_msg_if_player( m_bad,
-                                       _( "You don't have enough bionic power for activation of your Respirator, so you're drowning!" ) );
-                you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-            }
+        if( you.has_bionic( bio_gills ) && you.get_power_level() >= bio_gills->power_trigger ) {
+            you.oxygen += 5;
+            you.mod_power_level( -bio_gills->power_trigger );
         } else {
             you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
             you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
@@ -606,7 +601,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
         inventory map_inv;
-        map_inv.form_from_map( you.pos(), 2, &you );
+        map_inv.form_from_map( you.pos_bub(), 2, &you );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                           map_inv.has_charges( itype_oxygen_tank, 1 ) ||
@@ -690,7 +685,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
 void suffer::in_sunlight( Character &you )
 {
-    const tripoint position = you.pos();
+    const tripoint_bub_ms position = you.pos_bub();
 
     if( !g->is_in_sunlight( position ) ) {
         return;
@@ -707,7 +702,8 @@ void suffer::in_sunlight( Character &you )
         const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
-        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature(
+                                          position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -1037,7 +1033,7 @@ void suffer::from_other_mutations( Character &you )
     const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        here.spawn_item( position, "bone", 1 );
+        here.spawn_item( position, itype_bone, 1 );
     }
 
     if( you.has_trait( trait_WINGS_INSECT_active ) ) {
@@ -1643,7 +1639,8 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
-                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                sounds::sound( you.pos_bub(), 5000, sounds::sound_t::movement,
+                               _( "A horribly loud grinding sound!" ),
                                true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad,
@@ -1684,7 +1681,7 @@ void Character::suffer()
         process_bionic( bio );
     }
 
-    for( const trait_id &mut_id : get_mutations() ) {
+    for( const trait_id &mut_id : get_functioning_mutations() ) {
         if( calendar::once_every( 1_seconds ) &&
             enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
                                              0 ) != 0 ) {

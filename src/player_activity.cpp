@@ -66,7 +66,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min )
+    placement( tripoint::min )
 {
     if( type != ACT_NULL ) {
         for( const distraction_type dt : type->default_ignored_distractions() ) {
@@ -185,7 +185,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
         if( type == ACT_BUILD ) {
             partial_con *pc =
-                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
+                get_map().partial_con_at( get_map().get_bub( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;

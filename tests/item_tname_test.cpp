@@ -22,13 +22,39 @@ static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
 static const item_category_id item_category_veh_parts( "veh_parts" );
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_bag_garbage( "bag_garbage" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_carrot( "carrot" );
+static const itype_id itype_coffee_pod( "coffee_pod" );
+static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_hk_mp5( "hk_mp5" );
+static const itype_id itype_holster( "holster" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_juniper( "juniper" );
+static const itype_id itype_katana( "katana" );
+static const itype_id itype_longshirt( "longshirt" );
+static const itype_id itype_milkshake( "milkshake" );
+static const itype_id itype_mushroom( "mushroom" );
+static const itype_id itype_pants( "pants" );
+static const itype_id itype_pepper( "pepper" );
+static const itype_id itype_pine_nuts( "pine_nuts" );
+static const itype_id itype_protein_bar_evac( "protein_bar_evac" );
 static const itype_id itype_purse( "purse" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_salt( "salt" );
+static const itype_id itype_sauerkraut( "sauerkraut" );
+static const itype_id itype_sheet_cotton( "sheet_cotton" );
+static const itype_id itype_software_medical( "software_medical" );
+static const itype_id itype_test_baseball( "test_baseball" );
+static const itype_id itype_test_load_bearing_vest( "test_load_bearing_vest" );
 static const itype_id itype_test_rock( "test_rock" );
+static const itype_id itype_usb_drive( "usb_drive" );
+static const itype_id itype_wheel( "wheel" );
+static const itype_id itype_wheel_armor( "wheel_armor" );
+static const itype_id itype_wheel_wide( "wheel_wide" );
 
 static const skill_id skill_survival( "survival" );
 
@@ -57,7 +83,7 @@ TEST_CASE( "food_with_hidden_effects", "[item][tname][hidden]" )
     player_character.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
-        item coffee = item( "coffee_pod" );
+        item coffee = item( itype_coffee_pod );
         REQUIRE( coffee.is_food() );
         REQUIRE( coffee.has_flag( flag_HIDDEN_POISON ) );
 
@@ -81,7 +107,7 @@ TEST_CASE( "food_with_hidden_effects", "[item][tname][hidden]" )
     }
 
     GIVEN( "food with hidden hallucinogen" ) {
-        item mushroom = item( "mushroom" );
+        item mushroom = item( itype_mushroom );
         mushroom.set_flag( flag_HIDDEN_HALLU );
         REQUIRE( mushroom.is_food() );
         REQUIRE( mushroom.has_flag( flag_HIDDEN_HALLU ) );
@@ -109,7 +135,7 @@ TEST_CASE( "food_with_hidden_effects", "[item][tname][hidden]" )
 TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 {
     GIVEN( "food that can melt" ) {
-        item shake( "milkshake" );
+        item shake( itype_milkshake );
         REQUIRE( shake.is_food() );
         REQUIRE( shake.has_flag( flag_MELTS ) );
 
@@ -140,7 +166,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
     }
 
     GIVEN( "food that cannot melt" ) {
-        item nut( "pine_nuts" );
+        item nut( itype_pine_nuts );
         REQUIRE( nut.is_food() );
         REQUIRE_FALSE( nut.has_flag( flag_MELTS ) );
 
@@ -204,7 +230,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
     }
 
     GIVEN( "an item that is not food or a corpse" ) {
-        item hammer( "hammer" );
+        item hammer( itype_hammer );
         REQUIRE_FALSE( hammer.is_food() );
         REQUIRE_FALSE( hammer.is_corpse() );
 
@@ -239,7 +265,7 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 
 TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
-    item sheet_cotton( "sheet_cotton" );
+    item sheet_cotton( itype_sheet_cotton );
     sheet_cotton.set_flag( flag_WET );
     REQUIRE( sheet_cotton.has_flag( flag_WET ) );
 
@@ -248,7 +274,7 @@ TEST_CASE( "wet_item", "[item][tname][wet]" )
 
 TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
-    item sheet_cotton( "sheet_cotton" );
+    item sheet_cotton( itype_sheet_cotton );
     sheet_cotton.set_flag( flag_FILTHY );
     REQUIRE( sheet_cotton.is_filthy() );
 
@@ -257,7 +283,7 @@ TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 
 TEST_CASE( "diamond_item", "[item][tname][diamond]" )
 {
-    item katana( "katana" );
+    item katana( itype_katana );
     katana.set_flag( flag_DIAMOND );
     REQUIRE( katana.has_flag( flag_DIAMOND ) );
 
@@ -266,9 +292,9 @@ TEST_CASE( "diamond_item", "[item][tname][diamond]" )
 
 TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )
 {
-    item wheel17 = item( "wheel" );
-    item wheel24 = item( "wheel_wide" );
-    item wheel32 = item( "wheel_armor" );
+    item wheel17 = item( itype_wheel );
+    item wheel24 = item( itype_wheel_wide );
+    item wheel32 = item( itype_wheel_armor );
 
     REQUIRE( wheel17.type->wheel->diameter == 17 );
     REQUIRE( wheel24.type->wheel->diameter == 24 );
@@ -282,8 +308,8 @@ TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )
 TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 {
     GIVEN( "some clothing" ) {
-        item shirt( "longshirt" );
-        item deg_test( "test_baseball" );
+        item shirt( itype_longshirt );
+        item deg_test( itype_test_baseball );
         REQUIRE( shirt.is_armor() );
         REQUIRE( deg_test.type->category_force == item_category_veh_parts );
 
@@ -411,8 +437,8 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 
     GIVEN( "ITEM_HEALTH option set to 'desc'" ) {
         override_option opt( "ITEM_HEALTH", "descriptions" );
-        item shirt( "longshirt" );
-        item corpse( "corpse" );
+        item shirt( itype_longshirt );
+        item corpse( itype_corpse );
         REQUIRE( shirt.is_armor() );
         int dam25 = shirt.max_damage() / 4;
 
@@ -510,7 +536,7 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 
     GIVEN( "ITEM_HEALTH option set to 'both'" ) {
         override_option opt( "ITEM_HEALTH", "both" );
-        item shirt( "longshirt" );
+        item shirt( itype_longshirt );
         REQUIRE( shirt.is_armor() );
         int dam25 = shirt.max_damage() / 4;
 
@@ -581,7 +607,7 @@ TEST_CASE( "item_health_or_damage_bar", "[item][tname][health][damage]" )
 TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 {
     GIVEN( "a gun with potential fouling" ) {
-        item gun( "hk_mp5" );
+        item gun( itype_hk_mp5 );
 
         Character &player_character = get_player_character();
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
@@ -642,8 +668,8 @@ TEST_CASE( "weapon_fouling", "[item][tname][fouling][dirt]" )
 // make sure ordering still works with pockets
 TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
 {
-    item addition_vest( "test_load_bearing_vest" );
-    addition_vest.get_contents().add_pocket( item( "holster" ) );
+    item addition_vest( itype_test_load_bearing_vest );
+    addition_vest.get_contents().add_pocket( item( itype_holster ) );
 
     CHECK( addition_vest.tname( 1 ) ==
            "<color_c_green>++</color>\u00A0load bearing vest+1" );
@@ -793,8 +819,8 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     }
 
     SECTION( "non-standard pocket: software" ) {
-        item usb_drive( "usb_drive" );
-        item medisoft( "software_medical" );
+        item usb_drive( itype_usb_drive );
+        item medisoft( itype_software_medical );
         std::string const medisoft_nested_tname = colorize( medisoft.tname(),
                 medisoft.color_in_inventory() );
         REQUIRE( usb_drive.is_software_storage() );
@@ -808,13 +834,13 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     type_only.set( tname::segments::TYPE );
     SECTION( "aggregated food stats" ) {
         avatar &u = get_avatar();
-        item salt( "salt" );
+        item salt( itype_salt );
         std::string const cat_food_str = salt.get_category_shallow().name_noun( 2 );
-        item pepper( "pepper" );
-        item juniper( "juniper" );
-        item ration( "protein_bar_evac" );
-        item carrot( "carrot" );
-        item sauerkraut( "sauerkraut" );
+        item pepper( itype_pepper );
+        item juniper( itype_juniper );
+        item ration( itype_protein_bar_evac );
+        item carrot( itype_carrot );
+        item sauerkraut( itype_sauerkraut );
         item bag( itype_bag_plastic );
         std::string const carrots_tname = carrot.tname( 2, type_only );
 
@@ -899,11 +925,11 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     }
 
     SECTION( "aggregated clothing stats" ) {
-        item pants( "pants" );
+        item pants( itype_pants );
         pants.clear_itype_variant();
         pants.set_flag( flag_FIT );
         bool same_item = GENERATE( true, false );
-        item second_item( same_item ? "pants" : "jeans" );
+        item second_item( same_item ? itype_pants : itype_jeans );
         second_item.clear_itype_variant();
         second_item.set_flag( flag_FIT );
         REQUIRE( ( pants.has_flag( flag_VARSIZE ) && second_item.has_flag( flag_VARSIZE ) ) );
@@ -951,7 +977,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
 #ifdef LOCALIZE
 TEST_CASE( "tname_i18n_order", "[item][tname][translations]" )
 {
-    item backpack( "backpack" );
+    item backpack( itype_backpack );
     backpack.burnt = 1;
     backpack.set_flag( flag_FILTHY );
     REQUIRE( backpack.tname() == "<color_c_green>++</color> burnt backpack (filthy)" );
@@ -961,6 +987,6 @@ TEST_CASE( "tname_i18n_order", "[item][tname][translations]" )
     CHECK( backpack.tname() ==
            "<color_c_green>++</color> backpack (burnt) (filthy)" );
 
-    set_language_from_options();
+    set_language( "en" );
 }
 #endif

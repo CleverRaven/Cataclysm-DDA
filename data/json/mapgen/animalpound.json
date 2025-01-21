@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_ANIMALPOUND_CATS",
+    "id": "GROUP_ANIMALPOUND_CATS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 580 },
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALPOUND_DOGS",
+    "id": "GROUP_ANIMALPOUND_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_dog", "weight": 250, "cost_multiplier": 0 },
@@ -36,7 +36,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -65,7 +64,7 @@
         "'~~~~~~~~~~~~~~~~~~~~ff~",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "place_vehicles": [ { "vehicle": "animalshelter", "x": 18, "y": 2, "chance": 25, "rotation": 270 } ],
       "terrain": {
         " ": "t_pavement",
@@ -79,14 +78,14 @@
         "=": "t_chainfence",
         "-": "t_chainfence",
         "a": "t_chaingate_l",
-        "l": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "k": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "Q": "t_linoleum_white",
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "k": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "'": "t_region_groundcover_urban",
         "4": "t_gutter_downspout",
         "~": "t_sidewalk"
@@ -158,7 +157,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalpound_roof" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

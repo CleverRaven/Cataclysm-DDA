@@ -1,5 +1,12 @@
 [
   {
+    "id": "aftershock_psionics",
+    "type": "magic_type",
+    "energy_source": "STAMINA",
+    "cannot_cast_flags": "NO_PSIONICS",
+    "cannot_cast_message": "You can't channel any of the powers you know!"
+  },
+  {
     "id": "afs_classless_toggleable_concentration_end",
     "type": "SPELL",
     "name": "[Ψ]Stop Concentrating",
@@ -13,7 +20,7 @@
     "effect_str": "EOC_AFS_END_PSI_POWERS_MAINTAINED",
     "shape": "blast",
     "max_level": 1,
-    "energy_source": "STAMINA",
+    "magic_type": "aftershock_psionics",
     "base_energy_cost": 0,
     "base_casting_time": 0
   }

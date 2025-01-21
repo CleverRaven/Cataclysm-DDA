@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -43,7 +44,7 @@ static int moves_to_destination( const std::string &monster_type,
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( get_map().getglobal( end ) );
+    test_monster.set_dest( get_map().get_abs( end ) );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;
@@ -54,7 +55,7 @@ static int moves_to_destination( const std::string &monster_type,
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             moves_spent += moves_before - test_monster.get_moves();
-            if( test_monster.get_location() == test_monster.get_dest() ) {
+            if( test_monster.pos_abs() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
             }
@@ -102,7 +103,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         return true;
     } );
 
-    const tripoint center{ 65, 65, 0 };
+    const tripoint_bub_ms center{ 65, 65, 0 };
     test_player.setpos( center );
     test_player.set_moves( 0 );
     // Give the player a head start.
@@ -111,7 +112,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     monster &test_monster = spawn_test_monster( monster_type, monster_start );
     // Get it riled up and give it a goal.
     test_monster.anger = 100;
-    test_monster.set_dest( test_player.get_location() );
+    test_monster.set_dest( test_player.pos_abs() );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     const int target_speed = 100;
@@ -120,39 +121,39 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
         while( test_player.get_moves() >= 0 ) {
-            test_player.setpos( test_player.pos() + direction_of_flight );
-            if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.pos().x >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
-                test_player.pos().y >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
-                tripoint offset = center - test_player.pos();
+            test_player.setpos( test_player.pos_bub() + direction_of_flight );
+            if( test_player.posx() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
+                tripoint_rel_ms offset = center - test_player.pos_bub();
                 test_player.setpos( center );
-                test_monster.setpos( test_monster.pos() + offset );
+                test_monster.setpos( test_monster.pos_bub() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
             const int move_cost = get_map().combined_movecost(
                                       test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
-                                test_player.pos()
+                                test_player.pos_bub().raw()
                                } );
             test_player.mod_moves( -move_cost );
         }
         get_map().clear_traps();
-        test_monster.set_dest( test_player.get_location() );
+        test_monster.set_dest( test_player.pos_abs() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.get_moves() >= 0 ) {
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             tracker.push_back( {'m', moves_before - test_monster.get_moves(),
-                                rl_dist( test_monster.pos(), test_player.pos() ),
-                                test_monster.pos()
+                                rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
+                                test_monster.pos_bub().raw()
                                } );
-            if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
+            if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) == 1 ) {
                 INFO( tracker );
                 clear_map();
                 return turn;
-            } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 20 ) {
+            } else if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) > 20 ) {
                 INFO( tracker );
                 clear_map();
                 return -turn;
@@ -169,14 +170,14 @@ static void check_shamble_speed( const std::string &monster_type,
                                  const tripoint_bub_ms &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = get_normalized_angle( point_zero, destination.xy().raw() );
+    const float slope = get_normalized_angle( point::zero, destination.xy().raw() );
     const float diagonal_multiplier = 1.0 + ( get_option<bool>( "CIRCLEDIST" ) ?
                                       ( slope * 0.41 ) : 0.0 );
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
     move_statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
-        move_stats.add( moves_to_destination( monster_type, tripoint_bub_ms_zero, destination ) );
+        move_stats.add( moves_to_destination( monster_type, tripoint_bub_ms::zero, destination ) );
         if( ( move_stats.avg() / ( 10000.0 * diagonal_multiplier ) ) ==
             Approx( 1.0 ).epsilon( 0.02 ) ) {
             break;
@@ -256,8 +257,9 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
 
     if( write_data ) {
         std::ofstream data;
-        data.open( fs::u8path( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) +
-                               monster_type ) );
+        data.open( std::filesystem::u8path( "slope_test_data_" + std::string( (
+                                                trigdist ? "trig_" : "square_" ) ) +
+                                            monster_type ) );
         for( const auto &stat_pair : turns_at_angle ) {
             data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
@@ -269,11 +271,11 @@ static void monster_check()
 {
     const float diagonal_multiplier = ( get_option<bool>( "CIRCLEDIST" ) ? 1.41 : 1.0 );
     // Have a monster walk some distance in a direction and measure how long it takes.
-    float vert_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {100, 0, 0} );
+    float vert_move = moves_to_destination( "mon_pig", tripoint_bub_ms::zero, {100, 0, 0} );
     CHECK( ( vert_move / 10000.0 ) == Approx( 1.0 ) );
-    int horiz_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {0, 100, 0} );
+    int horiz_move = moves_to_destination( "mon_pig", tripoint_bub_ms::zero, {0, 100, 0} );
     CHECK( ( horiz_move / 10000.0 ) == Approx( 1.0 ) );
-    int diag_move = moves_to_destination( "mon_pig", tripoint_bub_ms_zero, {100, 100, 0} );
+    int diag_move = moves_to_destination( "mon_pig", tripoint_bub_ms::zero, {100, 100, 0} );
     CHECK( ( diag_move / ( 10000.0 * diagonal_multiplier ) ) == Approx( 1.0 ).epsilon( 0.05 ) );
 
     check_shamble_speed( "mon_pig", {100, 0, 0} );
@@ -298,10 +300,10 @@ static void monster_check()
 
     // Verify that a walking player can escape from a zombie, but is caught by a zombie dog.
     INFO( "Trigdist is " << ( get_option<bool>( "CIRCLEDIST" ) ? "on" : "off" ) );
-    CHECK( can_catch_player( "mon_zombie", tripoint_east ) < 0 );
-    CHECK( can_catch_player( "mon_zombie", tripoint_south_east ) < 0 );
-    CHECK( can_catch_player( "mon_zombie_dog", tripoint_east ) > 0 );
-    CHECK( can_catch_player( "mon_zombie_dog", tripoint_south_east ) > 0 );
+    CHECK( can_catch_player( "mon_zombie", tripoint::east ) < 0 );
+    CHECK( can_catch_player( "mon_zombie", tripoint::south_east ) < 0 );
+    CHECK( can_catch_player( "mon_zombie_dog", tripoint::east ) > 0 );
+    CHECK( can_catch_player( "mon_zombie_dog", tripoint::south_east ) > 0 );
 }
 
 TEST_CASE( "check_mon_id" )
@@ -321,7 +323,7 @@ TEST_CASE( "check_mon_id" )
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
-    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
+    restore_on_out_of_scope restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -331,7 +333,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
-    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
+    restore_on_out_of_scope restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -343,7 +345,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
+    restore_on_out_of_scope restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
@@ -352,7 +354,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
+    restore_on_out_of_scope restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
@@ -399,7 +401,7 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
 TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 {
     const std::string monster_type = "mon_zombie";
-    monster &test_monster = spawn_test_monster( monster_type, tripoint_bub_ms_zero );
+    monster &test_monster = spawn_test_monster( monster_type, tripoint_bub_ms::zero );
 
     REQUIRE( test_monster.get_size() == creature_size::medium );
 
@@ -409,7 +411,7 @@ TEST_CASE( "limit_mod_size_bonus", "[monster]" )
     clear_creatures();
 
     const std::string monster_type2 = "mon_feral_human_pipe";
-    monster &test_monster2 = spawn_test_monster( monster_type2, tripoint_bub_ms_zero );
+    monster &test_monster2 = spawn_test_monster( monster_type2, tripoint_bub_ms::zero );
 
     REQUIRE( test_monster2.get_size() == creature_size::medium );
 
@@ -421,7 +423,7 @@ TEST_CASE( "monsters_spawn_eggs", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_eggs", loc );
     bool test_monster_spawns_eggs = false;
     int amount_of_iteration = 0;
@@ -443,7 +445,7 @@ TEST_CASE( "monsters_spawn_egg_itemgroups", "[monster][reproduction]" )
 {
     clear_map();
     map &here = get_map();
-    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_egg_group", loc );
     bool test_monster_spawns_egg_group = false;
     int amount_of_iteration = 0;
@@ -465,7 +467,7 @@ TEST_CASE( "monsters_spawn_babies", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
-    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon", loc );
     bool test_monster_spawns_babies = false;
     int amount_of_iteration = 0;
@@ -488,7 +490,7 @@ TEST_CASE( "monsters_spawn_baby_groups", "[monster][reproduction]" )
 {
     clear_map();
     creature_tracker &creatures = get_creature_tracker();
-    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint_east;
+    tripoint_bub_ms loc = get_avatar().pos_bub() + tripoint::east;
     monster &test_monster = spawn_test_monster( "mon_dummy_reproducer_mon_group", loc );
     bool test_monster_spawns_baby_mongroup = false;
     int amount_of_iteration = 0;

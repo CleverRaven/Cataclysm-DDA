@@ -51,7 +51,7 @@ bool can_hack( Character &you );
 
 bool try_start_hacking( Character &you, const tripoint_bub_ms &examp );
 
-void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );
+void egg_sack_generic( Character &you, const tripoint_bub_ms &examp, const mtype_id &montype );
 
 void none( Character &you, const tripoint_bub_ms &examp );
 
@@ -64,9 +64,10 @@ void gaspump( Character &you, const tripoint_bub_ms &examp );
 void atm( Character &you, const tripoint_bub_ms &examp );
 void vending( Character &you, const tripoint_bub_ms &examp );
 void elevator( Character &you, const tripoint_bub_ms &examp );
+void genemill( Character &you, const tripoint_bub_ms &examp );
 void nanofab( Character &you, const tripoint_bub_ms &examp );
 void controls_gate( Character &you, const tripoint_bub_ms &examp );
-void cardreader( Character &you, const tripoint &examp );
+void cardreader( Character &you, const tripoint_bub_ms &examp );
 void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
@@ -93,11 +94,11 @@ void pedestal_wyrm( Character &you, const tripoint_bub_ms &examp );
 void pedestal_temple( Character &you, const tripoint_bub_ms &examp );
 void door_peephole( Character &you, const tripoint_bub_ms &examp );
 void fswitch( Character &you, const tripoint_bub_ms &examp );
-void flower_tulip( Character &you, const tripoint &examp );
-void flower_spurge( Character &you, const tripoint &examp );
+void flower_tulip( Character &you, const tripoint_bub_ms &examp );
+void flower_spurge( Character &you, const tripoint_bub_ms &examp );
 void flower_poppy( Character &you, const tripoint_bub_ms &examp );
 void flower_cactus( Character &you, const tripoint_bub_ms &examp );
-void flower_bluebell( Character &you, const tripoint &examp );
+void flower_bluebell( Character &you, const tripoint_bub_ms &examp );
 void flower_dahlia( Character &you, const tripoint_bub_ms &examp );
 void flower_marloss( Character &you, const tripoint_bub_ms &examp );
 void fungus( Character &you, const tripoint_bub_ms &examp );
@@ -109,8 +110,6 @@ void tree_maple_tapped( Character &you, const tripoint_bub_ms &examp );
 void shrub_marloss( Character &you, const tripoint_bub_ms &examp );
 void tree_marloss( Character &you, const tripoint_bub_ms &examp );
 void shrub_wildveggies( Character &you, const tripoint_bub_ms &examp );
-// TODO: Get rid of untyped overload.
-void part_con( Character &you, const tripoint &examp );
 void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint_bub_ms &examp );
 void finite_water_source( Character &, const tripoint_bub_ms &examp );
@@ -136,9 +135,9 @@ void ledge( Character &you, const tripoint_bub_ms &examp );
 void autodoc( Character &you, const tripoint_bub_ms &examp );
 void attunement_altar( Character &you, const tripoint_bub_ms &examp );
 void translocator( Character &you, const tripoint_bub_ms &examp );
-void on_smoke_out( const tripoint &examp,
+void on_smoke_out( const tripoint_bub_ms &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( Character &, const tripoint &examp );
+void mill_finalize( Character &, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
 void open_safe( Character &you, const tripoint_bub_ms &examp );
@@ -179,7 +178,7 @@ void practice_survival_while_foraging( Character &who );
 namespace iexamine_helper
 {
 bool drink_nectar( Character &you );
-void handle_harvest( Character &you, const std::string &itemid, bool force_drop );
+void handle_harvest( Character &you, const itype_id &itemid, bool force_drop );
 } // namespace iexamine_helper
 
 using iexamine_examine_function = void ( * )( Character &, const tripoint_bub_ms & );

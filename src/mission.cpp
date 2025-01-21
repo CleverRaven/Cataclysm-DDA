@@ -42,7 +42,6 @@
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_run( "run" );
-static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
 
@@ -259,6 +258,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         return false;
     }
     bool mission_transfered = false;
+    std::vector<int> mission_ids_to_remove;
     for( const int mission_id : mon_fused->mission_ids ) {
         const mission *const found_mission = mission::find( mission_id );
         if( !found_mission ) {
@@ -269,9 +269,12 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
-            mon_fused->mission_ids.erase( mission_id );
+            mission_ids_to_remove.push_back( mission_id );
             mission_transfered = true;
         }
+    }
+    for( const int mission_id : mission_ids_to_remove ) {
+        mon_fused->mission_ids.erase( mission_id );
     }
     return mission_transfered;
 }
@@ -350,9 +353,9 @@ void mission::set_target_to_mission_giver()
 {
     const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
-        target = giver->global_omt_location();
+        target = giver->pos_abs_omt();
     } else {
-        target = overmap::invalid_tripoint;
+        target = tripoint_abs_omt::invalid;
     }
 }
 
@@ -404,7 +407,7 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_null, specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
@@ -464,6 +467,7 @@ void mission::wrap_up()
                 }
             }
         }
+        break;
         default:
             //Suppress warnings
             break;
@@ -484,12 +488,12 @@ bool mission::is_complete( const character_id &_npc_id ) const
     avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint_abs_omt cur_pos = player_character.global_omt_location();
+            const tripoint_abs_omt cur_pos = player_character.pos_abs_omt();
             return rl_dist( cur_pos, target ) <= 1;
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const oter_id cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+            const oter_id cur_ter = overmap_buffer.ter( player_character.pos_abs_omt() );
             return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 
@@ -504,7 +508,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_null, specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
@@ -714,7 +718,7 @@ std::string mission::get_description() const
 
 bool mission::has_target() const
 {
-    return target != overmap::invalid_tripoint;
+    return !target.is_invalid();
 }
 
 const tripoint_abs_omt &mission::get_target() const
@@ -890,7 +894,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_abs_omt( tripoint_min );
+    target = tripoint_abs_omt::invalid;
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

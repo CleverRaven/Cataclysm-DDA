@@ -89,7 +89,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: green zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -98,7 +98,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: ocher zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at ocher zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -107,7 +107,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: blue zone badge" },
     "description": "An employee badge for a maintenance worker.  The reverse side describes the protocol for using it; this could grant access at blue zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -146,7 +146,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: yellow zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at yellow zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -155,7 +155,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: magenta zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at magenta zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -164,7 +164,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: black zone badge" },
     "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at black zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -173,7 +173,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: light green zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at light green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -182,7 +182,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: pink zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at pink zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -191,7 +191,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: cyan zone badge" },
     "description": "An employee badge for a research scientist.  The reverse side describes the protocol for using it; this could grant access at cyan zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -200,7 +200,7 @@
     "copy-from": "id_science",
     "name": { "str": "Doctor: red zone badge" },
     "description": "An employee badge for a medical doctor.  The reverse side describes the protocol for using it; this could grant access at red zone card readers.",
-    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ]
+    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -219,7 +219,7 @@
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  Instructions on the back explain that this will grant you access to the LIXA experiment floor.",
-    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -233,7 +233,7 @@
     "looks_like": "id_science",
     "name": { "str": "defaced LIXA ID badge" },
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  It is heavily scratched, and there is a line on the back in black marker.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -247,7 +247,14 @@
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge: Dr. Najma Saed", "str_pl": "LIXA ID badges: Dr. Najma Saed" },
     "description": "An ID badge for the LIXA facility.  The photo is of a pleasantly smiling woman in a hijab.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "LIXA_SCIENCE_CARD_3", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [
+      "LIXA_SCIENCE_CARD",
+      "LIXA_SCIENCE_CARD_2",
+      "LIXA_SCIENCE_CARD_3",
+      "PRESERVE_SPAWN_OMT",
+      "HINT_THE_LOCATION",
+      "CREDIT_CARD_SHAPED"
+    ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -261,7 +268,14 @@
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge: Dr. Jason Mitchell", "str_pl": "LIXA ID badges: Dr. Jason Mitchell" },
     "description": "An ID badge for the LIXA facility.  The photo is of a confidently smiling young man.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "LIXA_SCIENCE_CARD_3", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [
+      "LIXA_SCIENCE_CARD",
+      "LIXA_SCIENCE_CARD_2",
+      "LIXA_SCIENCE_CARD_3",
+      "PRESERVE_SPAWN_OMT",
+      "HINT_THE_LOCATION",
+      "CREDIT_CARD_SHAPED"
+    ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -275,7 +289,14 @@
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge: Dr. Kai-Mei Luo", "str_pl": "LIXA ID badges: Dr. Kai-Mei Luo" },
     "description": "An ID badge for the LIXA facility.  The photo is of an awkwardly smiling woman, who blinked during the picture.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "LIXA_SCIENCE_CARD_3", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [
+      "LIXA_SCIENCE_CARD",
+      "LIXA_SCIENCE_CARD_2",
+      "LIXA_SCIENCE_CARD_3",
+      "PRESERVE_SPAWN_OMT",
+      "HINT_THE_LOCATION",
+      "CREDIT_CARD_SHAPED"
+    ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -289,7 +310,14 @@
     "looks_like": "id_science",
     "name": { "str": "LIXA ID badge: Dr. Richard Raimes", "str_pl": "LIXA ID badges: Dr. Richard Raimes" },
     "description": "An ID badge for the LIXA facility.  The photo is of a gently smiling older man, with kind eyes.",
-    "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "LIXA_SCIENCE_CARD_3", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [
+      "LIXA_SCIENCE_CARD",
+      "LIXA_SCIENCE_CARD_2",
+      "LIXA_SCIENCE_CARD_3",
+      "PRESERVE_SPAWN_OMT",
+      "HINT_THE_LOCATION",
+      "CREDIT_CARD_SHAPED"
+    ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",
@@ -303,7 +331,7 @@
     "looks_like": "id_LIXA_mil",
     "name": { "str": "LIXA military police badge" },
     "description": "An id card bearing the name, rank, and serial number of a soldier stationed at LIXA.",
-    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "weight": "3 g",

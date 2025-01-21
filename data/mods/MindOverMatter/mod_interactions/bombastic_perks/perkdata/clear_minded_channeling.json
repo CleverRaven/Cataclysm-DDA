@@ -7,11 +7,9 @@
     "condition": {
       "and": [
         { "u_has_trait": "perk_clear_minded_channeling" },
-        {
-          "or": [ { "math": [ "u_pain()", "==", "0" ] }, { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "0" ] } ]
-        }
+        { "or": [ { "math": [ "u_pain() == 0" ] }, { "math": [ "u_vitamin('vitamin_maintained_powers') == 0" ] } ] }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "-0.33" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = -0.33" ] } ]
   }
 ]

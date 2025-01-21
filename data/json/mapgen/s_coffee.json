@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +31,7 @@
         "S###################3##S",
         "S4SSSSSSSSSSSSSSSSSSSSSS"
       ],
-      "palettes": [ "commercial", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "commercial", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "M": "t_region_groundcover_urban",
@@ -41,24 +40,24 @@
         ",": "t_pavement_y",
         "S": "t_sidewalk",
         " ": "t_floor",
-        "!": "t_linoleum_white",
-        "-": "t_linoleum_white",
-        "%": "t_linoleum_white",
-        ";": "t_linoleum_white",
-        "=": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "C": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "(": "t_linoleum_white",
-        "G": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "U": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "c": "t_linoleum_white",
-        "f": "t_linoleum_white",
-        "l": "t_linoleum_white",
-        "w": "t_linoleum_white",
-        "x": "t_linoleum_white",
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "=": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "(": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "f": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "w": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "+": "t_door_c",
         "3": [ "t_door_locked", "t_door_locked_alarm" ],
         "I": "t_door_locked_interior",
@@ -124,7 +123,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee_roof" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -170,10 +168,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee_1" ],
-    "weight": 250,
     "object": {
       "//": "Default fill is floor but some tables are outside",
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "_______,,,,,,,ss--------",
         "______________ss-pppppp-",
@@ -200,7 +197,7 @@
         "#P==|==P|llSO==rrrrrSce#",
         "##############L#########"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "-": "t_region_shrub_decorative",
         "%": "t_wall_glass",
@@ -217,7 +214,7 @@
         "p": "t_concrete",
         "t": "t_concrete",
         "h": "t_concrete",
-        "=": "t_linoleum_white",
+        "=": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "s": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
@@ -264,7 +261,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_restaurant_coffee_roof_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -305,7 +301,6 @@
     "method": "json",
     "om_terrain": "s_restaurant_coffee_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "rows": [
         "              sss       ",
@@ -333,7 +328,7 @@
         "           pppppppppS   ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "fill_ter": "t_floor",
       "furniture": {
         "A": "f_chair",
@@ -359,9 +354,9 @@
         "b": "t_door_metal_pickable",
         "d": "t_concrete",
         "p": "t_concrete",
-        "'": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "s": "t_sidewalk",
         "w": "t_window_boarded_noglass",
         "4": "t_gutter_downspout",
@@ -393,7 +388,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_restaurant_coffee_roof_2",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

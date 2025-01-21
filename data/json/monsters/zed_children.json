@@ -25,7 +25,7 @@
       "//": "default zombie children clothing (always), additional items from child_items_pockets (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
-    "fungalize_into": "mon_zombie_child_fungus",
+    "fungalize_into": "mon_zombie_child_dusted",
     "upgrades": { "half_life": 30, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "extend": { "weakpoint_sets": [ "wps_humanoid_child_body", "wps_humanoid_head_big" ], "families": [ "prof_wp_child" ] },
     "delete": { "flags": [ "PUSH_MON" ] }
@@ -53,7 +53,7 @@
     "copy-from": "mon_zombie_child_base",
     "categories": [ "CLASSIC" ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
-    "extend": { "flags": [ "GUILT_CHILD" ] }
+    "extend": { "flags": [ "GUILT_CHILD", "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_creepy",
@@ -171,7 +171,7 @@
         "monster_message": "Ripping and tearing, a small beast burrows free of the wretch's abdomen!"
       }
     ],
-    "fungalize_into": "mon_fungal_wretch",
+    "fungalize_into": "mon_zombie_wretch_dusted",
     "upgrades": false,
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   }

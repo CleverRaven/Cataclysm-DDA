@@ -71,9 +71,15 @@ class mission_ui_impl : public cataimgui::window
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
 
-        size_t window_width = str_width_to_pixels( TERMX ) / 2;
-        size_t window_height = str_height_to_pixels( TERMY ) / 2;
-        size_t table_column_width = window_width / 2;
+        float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                         ImGui::GetMainViewport()->Size.x / 2,
+                                         ImGui::GetMainViewport()->Size.x );
+        float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                          ImGui::GetMainViewport()->Size.y / 2,
+                                          ImGui::GetMainViewport()->Size.y );
+        float table_column_width = window_width / 2;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -131,19 +137,21 @@ void mission_ui_impl::draw_controls()
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         --switch_tab;
     } else if( last_action == "PAGE_UP" ) {
         ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+        s = cataimgui::scroll::page_up;
     } else if( last_action == "PAGE_DOWN" ) {
         ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
+        s = cataimgui::scroll::page_down;
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -225,6 +233,8 @@ void mission_ui_impl::draw_controls()
         draw_selected_description( umissions, selected_mission );
         ImGui::EndTable();
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,
@@ -323,7 +333,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     }
     if( miss->has_target() ) {
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
-        const tripoint_abs_omt pos = get_player_character().global_omt_location();
+        const tripoint_abs_omt pos = get_player_character().pos_abs_omt();
         cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
                                       c_white );
         // Below is done instead of a table for the benefit of right-to-left languages

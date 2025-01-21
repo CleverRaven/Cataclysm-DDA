@@ -73,27 +73,29 @@ void display_editor();
  * Interactive point choosing; used as the map screen.
  * The map is initially center at the players position.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message = "", bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
  * The map is initially center at the players x and y
  * location and the given z level.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
-tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false );
+tripoint_abs_omt choose_point( const std::string &message, int z, bool show_debug_info = false,
+                               const int distance = INT_MAX );
 
 /**
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
- * invalid_point if canceled with Escape (or similar key).
+ * point::invalid if canceled with Escape (or similar key).
  */
 tripoint_abs_omt choose_point( const std::string &message, const tripoint_abs_omt &origin,
-                               bool show_debug_info = false );
+                               bool show_debug_info = false, const int distance = INT_MAX );
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
@@ -121,6 +123,8 @@ struct overmap_draw_data_t {
     bool fast_traveling = false;
     // message to display while using the map
     std::string message;
+    // if there is a distance limit to pick the OMT
+    int distance = INT_MAX;
 
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
@@ -154,6 +158,7 @@ extern tiles_redraw_info redraw_info;
 
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
 std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note );
+bool is_generated_omt( const point_abs_omt &omp );
 
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

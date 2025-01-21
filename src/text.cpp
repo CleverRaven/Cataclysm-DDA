@@ -223,16 +223,16 @@ static void TextEx( const std::string_view str, float wrap_width, uint32_t color
             // a paragraph, undo just that small extra spacing.
             ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
             drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
-        }
-
-        if( color ) {
-            ImGui::PushStyleColor( ImGuiCol_Text, color );
-        }
-        ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
-        // see above
-        ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
-        if( color ) {
-            ImGui::PopStyleColor();
+        } else {
+            if( color ) {
+                ImGui::PushStyleColor( ImGuiCol_Text, color );
+            }
+            ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
+            // see above
+            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            if( color ) {
+                ImGui::PopStyleColor();
+            }
         }
 
         if( textStart == drawEnd || drawEnd == textEnd ) {
@@ -296,13 +296,19 @@ void TextColoredParagraph( nc_color default_color, const std::string_view str,
     std::vector<uint32_t> colors = std::vector<uint32_t>( 1, u32_from_color( default_color ) );
     while( std::string::npos != ( e = str.find( '<', s ) ) ) {
         TextEx( str.substr( s, e - s ), wrap_width, colors.back() );
-        size_t ce = str.find( '>', e );
+        size_t ce = str.find_first_of( "<>", e + 1 );
         if( std::string::npos != ce ) {
-            std::string_view tagname = str.substr( e, ce - e + 1 );
+            // back up by one if we find the start of another tag instead of the end of this one
+            // an annoying example from help.json: "<color_light_green>^>v<</color>"
+            if( str[ ce ] == '<' ) {
+                ce -= 1;
+            }
+            size_t len = ce - e + 1;
+            std::string_view tagname = str.substr( e, len );
             if( "<num>" == tagname && value.has_value() ) {
                 TextSegmentEx( value.value(), wrap_width, true );
             } else {
-                color_tag_parse_result tag = get_color_from_tag( str.substr( e, ce - e + 1 ) );
+                color_tag_parse_result tag = get_color_from_tag( tagname );
                 switch( tag.type ) {
                     case color_tag_parse_result::open_color_tag:
                         colors.push_back( u32_from_color( tag.color ) );

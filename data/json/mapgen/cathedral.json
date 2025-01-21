@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_b_NW", "cathedral_b_NE" ], [ "cathedral_b_SW", "cathedral_b_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -56,8 +55,14 @@
         "                                |||<|           ",
         "                                  |||           "
       ],
-      "palettes": [ "cathedral" ],
-      "terrain": { ",": "t_linoleum_gray", " ": "t_soil", "n": "t_thconc_floor", "@": "t_thconc_floor", "_": "t_thconc_floor" },
+      "palettes": [ "parametrized_linoleum_palette", "cathedral" ],
+      "terrain": {
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        " ": "t_soil",
+        "n": "t_thconc_floor",
+        "@": "t_thconc_floor",
+        "_": "t_thconc_floor"
+      },
       "place_item": [ { "item": "small_relic", "x": 21, "y": 36 } ],
       "place_monsters": [
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 },
@@ -72,7 +77,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_1_NW", "cathedral_1_NE" ], [ "cathedral_1_SW", "cathedral_1_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -155,7 +159,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_2_NW", "cathedral_2_NE" ], [ "cathedral_2_SW", "cathedral_2_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -230,7 +233,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_3_NW", "cathedral_3_NE" ], [ "cathedral_3_SW", "cathedral_3_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -315,7 +317,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_4_NW", "cathedral_4_NE" ], [ "cathedral_5_NW", "cathedral_5_NE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -376,7 +377,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedral_6_NW", "cathedral_6_NE" ], [ "cathedral_7_NW", "cathedral_7_NE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

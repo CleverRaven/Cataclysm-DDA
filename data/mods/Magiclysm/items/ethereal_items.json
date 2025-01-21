@@ -224,7 +224,8 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
-    "melee_damage": { "cut": 30 }
+    "melee_damage": { "cut": 30 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
   },
   {
     "id": "flarewhip",
@@ -284,7 +285,8 @@
       "ZERO_WEIGHT",
       "UNRESTRICTED"
     ],
-    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 5 } ] } ] }
   },
   {
     "id": "bonespear",
@@ -309,7 +311,8 @@
     "weight": "2175 g",
     "volume": "2500 ml",
     "longest_side": "183 cm",
-    "melee_damage": { "bash": 16, "stab": 36 }
+    "melee_damage": { "bash": 16, "stab": 36 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
   },
   {
     "id": "druid_recurve",
@@ -719,28 +722,6 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "id": "aura_caustic",
-    "type": "ARMOR",
-    "name": "acid aura",
-    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
-  },
-  {
     "id": "aura_werewolf",
     "type": "ARMOR",
     "name": "werewolf aura",
@@ -755,7 +736,9 @@
     "relic_data": {
       "passive_effects": [
         {
-          "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+          "intermittent_activation": {
+            "effects": [ { "frequency": "2 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
+          }
         },
         {
           "has": "WORN",
@@ -875,11 +858,11 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
     "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
-        "encumbrance": 0,
+        "encumbrance": 8,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -1335,60 +1318,10 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],
-    "capacity": 1250,
+    "capacity": 1,
     "looks_like": "spiral_stone",
-    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "IS_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_2",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_3",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_4",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 8000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_5",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16000 } } ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
-    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
-  },
-  {
-    "id": "technomancer_summoned_ups_6",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
-    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
-    "copy-from": "technomancer_summoned_ups",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   },
@@ -1472,11 +1405,11 @@
           "condition": "ALWAYS",
           "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
           "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
+          "incoming_damage_mod": [ { "type": "heat", "multiply": 0.6 } ],
           "values": [
             { "value": "DEXTERITY", "add": -1 },
             { "value": "STRENGTH", "add": 1 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
-            { "value": "ARMOR_HEAT", "multiply": 0.6 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }
           ]
         }
       ]
@@ -1848,12 +1781,12 @@
     "id": "EOC_DRUID_EAT_THE_GOODBERRY",
     "//": "Will not unbreak your limbs, but heals you.",
     "effect": [
-      { "if": { "math": [ "u_hp('head')", ">", "0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('torso')", ">", "0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_l')", ">", "0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('arm_r')", ">", "0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_l')", ">", "0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
-      { "if": { "math": [ "u_hp('leg_r')", ">", "0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
     ]
   }
 ]

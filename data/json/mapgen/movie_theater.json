@@ -2,7 +2,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [
       [ "movietheater_0_0", "movietheater_1_0", "movietheater_2_0" ],
       [ "movietheater_0_1", "movietheater_1_1", "movietheater_2_1" ],
@@ -161,7 +160,6 @@
   {
     "method": "json",
     "type": "mapgen",
-    "weight": 100,
     "om_terrain": [
       [ "movietheater_roof_0_0", "movietheater_roof_1_0", "movietheater_roof_2_0" ],
       [ "movietheater_roof_0_1", "movietheater_roof_1_1", "movietheater_roof_2_1" ],
@@ -189,8 +187,8 @@
         "-...........................................%...........AAAAA.AAAAA.%..-",
         "-...........................................%...ЯЯ..................%..-",
         "-...........................................%...ЯЯ...################..-",
-        "-...........................................%........#WWWW______#pHH#..-",
-        "-...........................................%........+__________#_HH#..-",
+        "-...........................................%........#WWWW______#p_H#..-",
+        "-...........................................%........+__________#___#..-",
         "-...........................................%........#WWWW______+__p#..-",
         "-...........................................%........#__________#####..-",
         "-...........................................%........#__________#__v#..-",
@@ -244,7 +242,7 @@
         "------------------------------------------------------------------------"
       ],
       "palettes": [ "roof_palette", "parametrized_walls_palette" ],
-      "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Я": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "liquids": { "Я": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "terrain": {
         "_": "t_thconc_floor",
         "+": "t_door_metal_c",
@@ -257,7 +255,10 @@
         "X": "t_flat_roof",
         "=": "t_flat_roof"
       },
-      "furniture": { "H": "f_generator_broken", "p": "f_machinery_old" },
+      "furniture": {
+        "H": [ [ "f_generator_broken", 25 ], [ "f_diesel_generator", 5 ], [ "f_12000_gasoline_generator", 5 ] ],
+        "p": "f_machinery_old"
+      },
       "items": { "C": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] } }
     }
   },

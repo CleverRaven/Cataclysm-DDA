@@ -60,9 +60,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
-#if defined(MACOSX) || defined(__CYGWIN__)
-#   include <unistd.h> // getpid()
-#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -75,7 +72,7 @@
 
 class ui_adaptor;
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
 #   else
@@ -143,30 +140,30 @@ namespace
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif
-
-#if !defined(_WIN32)
-extern "C" void sigint_handler( int /* s */ )
+void exit_handler( int s )
 {
-    if( g->uquit != QUIT_EXIT_PENDING ) {
-        g->uquit = QUIT_EXIT;
-    }
-}
-#endif
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
+    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+        deinitDebug();
 
-void exit_handler( int /* s */ )
-{
-    deinitDebug();
+        int exit_status = 0;
+        g.reset();
 
-    g.reset();
-
-    catacurses::endwin();
+        catacurses::endwin();
 
 #if defined(__ANDROID__)
-    // Avoid capturing SIGABRT on exit on Android in crash report
-    // Can be removed once the SIGABRT on exit problem is fixed
-    signal( SIGABRT, SIG_DFL );
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
 #endif
 
+        imclient.reset();
+        exit( exit_status );
+    }
+    inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
@@ -738,7 +735,7 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
-#if defined(TILES)
+#if defined(TILES) || defined(SDL_SOUND)
     SDL_version compiled;
     SDL_VERSION( &compiled );
     DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
@@ -827,7 +824,7 @@ int main( int argc, const char *argv[] )
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
-    sigIntHandler.sa_handler = sigint_handler;
+    sigIntHandler.sa_handler = exit_handler;
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
@@ -851,21 +848,15 @@ int main( int argc, const char *argv[] )
 
     main_menu::queued_world_to_load = std::move( cli.world );
 
-    get_help().load();
-
     while( true ) {
         main_menu menu;
-        try {
-            if( !menu.opening_screen() ) {
-                break;
-            }
-
-            shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-            get_event_bus().send<event_type::game_begin>( getVersionString() );
-            while( !do_turn() ) { }
-        } catch( game::exit_exception const &/* ex */ ) {
+        if( !menu.opening_screen() ) {
             break;
         }
+
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
+        while( !do_turn() ) {}
     }
 
     exit_handler( -999 );

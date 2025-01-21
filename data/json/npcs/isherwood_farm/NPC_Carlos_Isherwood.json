@@ -302,12 +302,12 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE2",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", "<=", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", ">", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
       },
       {
         "text": "Where can I find Chris?",
@@ -371,7 +371,7 @@
         },
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
         { "npc_add_var": "carlos_has_anvil", "value": "yes" },
-        { "math": [ "timer_carlos_has_anvil", "=", "time('now')" ] }
+        { "math": [ "timer_carlos_has_anvil = time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
@@ -390,7 +390,6 @@
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 20,
         "min_distance": 2
       },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }

@@ -2142,16 +2142,17 @@
     "name": { "str": "desk fan" },
     "description": "A small fan, used to propel air around a room.",
     "color": "light_gray",
-    "price": "10 USD",
+    "price": "25 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "FRAGILE_MELEE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
-    "weight": "2857 g",
-    "volume": "1 L",
+    "weight": "1588 g",
+    "volume": "19265 ml",
+    "//": "Based on https://www.amazon.com/dp/B000U9WXEC, although the volume calculated from package dimensions has been multiplied by 0.5 because there really is not a reasonable way to calculate fan volume without the numbers going into extremes",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
@@ -2911,13 +2912,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "pillow" },
-    "description": "A pillow to rest your head on when sleeping.",
+    "description": "A pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "514 g",
+    "weight": "1210 g",
     "container": "pillowcase",
-    "volume": "40 L",
+    "volume": "9 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2927,13 +2928,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "makeshift pillow" },
-    "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…",
+    "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "paper" ],
-    "weight": "514 g",
+    "weight": "1210 g",
     "container": "pillowcase",
-    "volume": "40 L",
+    "volume": "11 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2943,90 +2944,90 @@
     "symbol": "[",
     "color": "white",
     "name": { "str": "body pillow" },
-    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.",
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
-    "weight": "774 g",
-    "volume": "70 L",
+    "weight": "2317 g",
+    "volume": "50 L",
     "flags": [ "SLEEP_AID" ],
     "variant_type": "generic",
     "variants": [
       {
         "id": "bodypillow_generic",
         "name": { "str": "anime body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_azurlane",
         "name": { "str": "ship body pillow" },
-        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty."
+        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_gfl",
         "name": { "str": "gun body pillow" },
-        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive."
+        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_boston",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  This seems to be official merch, and the art on both sides is quite tame.",
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  This seems to be official merch, and the art on both sides is quite tame.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
         "weight": 2
       },
       {
         "id": "bodypillow_boston_lewd",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her."
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_survivor",
         "name": { "str": "survivor body pillow" },
-        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar."
+        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_furry",
         "name": { "str": "fox body pillow" },
-        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_vocaloid",
         "name": { "str": "vocaloid body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_goth",
         "name": { "str": "goth body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram."
+        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_yandere",
         "name": { "str": "yandere body pillow" },
-        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back."
+        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_tomboy",
         "name": { "str": "tomboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides."
+        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_femboy",
         "name": { "str": "femboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides."
+        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_tsundere",
         "name": { "str": "tsundere body pillow" },
-        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!"
+        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_vtuber",
         "name": { "str": "VTuber body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_makeshift",
         "name": { "str": "makeshift body pillow" },
-        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
         "weight": 0
       }
     ],
@@ -3038,13 +3039,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "down-filled pillow" },
-    "description": "A fluffy pillow to rest your head on when sleeping.",
+    "description": "A fluffy pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "514 g",
+    "weight": "1260 g",
     "container": "pillowcase",
-    "volume": "40 L",
+    "volume": "10 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -3773,7 +3774,7 @@
     "name": { "str": "duct tape wallet" },
     "description": "A wallet made entirely out of duct tape.",
     "material": [ "plastic" ],
-    "flags": [ "NO_REPAIR" ]
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "wallet_leather",

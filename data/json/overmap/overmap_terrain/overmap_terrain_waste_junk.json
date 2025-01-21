@@ -5,8 +5,7 @@
     "vision_levels": "underground_dirt",
     "name": "sewer",
     "color": "green",
-    "see_cost": "full_high",
-    "extras": "sewer"
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",

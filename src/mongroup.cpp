@@ -84,6 +84,10 @@ void mongroup::clear()
     monsters.clear();
 }
 
+/**
+ * The average speed of the monsters in the group.
+ * If monsters vector is empty, the average speed of the group is calculated.
+ */
 float mongroup::avg_speed() const
 {
     float avg_speed = 0.0f;
@@ -95,7 +99,7 @@ float mongroup::avg_speed() const
                 // TODO: recursively derive average speed from subgroups
                 avg_speed += elem.frequency * 100;
             } else {
-                avg_speed += elem.frequency * elem.name.obj().speed;
+                avg_speed += elem.frequency * elem.mtype->speed;
             }
             remaining_frequency -= elem.frequency;
         }
@@ -243,7 +247,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
         } else {
             if( use_pack_size ) {
                 for( int i = 0; i < pack_size; i++ ) {
-                    spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                    spawn_details.emplace_back( entry.mtype, pack_size, entry.data );
                     // And if a quantity pointer with remaining value was passed, will modify the external
                     // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
                     if( quantity ) {
@@ -251,7 +255,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
                     }
                 }
             } else {
-                spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                spawn_details.emplace_back( entry.mtype, pack_size, entry.data );
                 // And if a quantity pointer with remaining value was passed, will modify the external
                 // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
                 if( quantity ) {
@@ -284,7 +288,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
 bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
 {
     for( const MonsterGroupEntry &m : monsters ) {
-        if( m.name == mtypeid ) {
+        if( m.mtype == mtypeid ) {
             return true;
         }
     }
@@ -317,7 +321,7 @@ const mongroup_id &MonsterGroupManager::Monster2Group( const mtype_id &monster )
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
-            return g.second.name;
+            return g.second.id;
         }
     }
     return mongroup_id::NULL_ID();
@@ -343,7 +347,7 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
                 monsters.insert( monsters.end(), submons.begin(), submons.end() );
             }
         } else {
-            monsters.push_back( elem.name );
+            monsters.push_back( elem.mtype );
         }
     }
     return monsters;
@@ -362,7 +366,7 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
         // Initialize the group with a null-monster, it's ignored while spawning,
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
-        g.name = group;
+        g.id = group;
         g.defaultMonster = mtype_id::NULL_ID();
         return g;
     } else {
@@ -439,7 +443,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if( !c->is_group() && MonsterGroupManager::monster_is_blacklisted( c->name ) ) {
+            if( !c->is_group() && MonsterGroupManager::monster_is_blacklisted( c->mtype ) ) {
                 c = mg.monsters.erase( c );
             } else {
                 ++c;
@@ -464,10 +468,18 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     int freq_total = 0;
     std::pair<mtype_id, int> max_freq( { mon_null, 0 } );
 
-    g.name = mongroup_id( jo.get_string( "name" ) );
+    //TODO: Remove after 0.I
+    if( !jo.has_string( "id" ) && jo.has_string( "name" ) ) {
+        g.id = mongroup_id( jo.get_string( "name" ) );
+        debugmsg( R"((safely ignorable) monstergroup %s's "name" member should be renamed "id" before 0.I stable, you can use /tools/json-tools/monstergroup_name_to_id.py to automate this change)",
+                  g.id.c_str() );
+    } else {
+        g.id = mongroup_id( jo.get_string( "id" ) );
+    }
+
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
-    if( monsterGroupMap.count( g.name ) != 0 && !jo.get_bool( "override", false ) ) {
-        g = monsterGroupMap[g.name];
+    if( monsterGroupMap.count( g.id ) != 0 && !jo.get_bool( "override", false ) ) {
+        g = monsterGroupMap[g.id];
         extending = true;
     }
     bool explicit_def_null = false;
@@ -568,7 +580,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
         g.freq_total = total;
     }
 
-    monsterGroupMap[g.name] = g;
+    monsterGroupMap[g.id] = g;
 }
 
 bool MonsterGroupManager::is_animal( const mongroup_id &group_name )
@@ -598,8 +610,8 @@ static void check_group_def( const mongroup_id &g )
             } else {
                 check_group_def( m.group );
             }
-        } else if( !m.name.is_valid() ) {
-            debugmsg( "monster group %s contains unknown monster %s", g.c_str(), m.name.c_str() );
+        } else if( !m.mtype.is_valid() ) {
+            debugmsg( "monster group %s contains unknown monster %s", g.c_str(), m.mtype.c_str() );
         }
     }
 }
@@ -607,29 +619,16 @@ static void check_group_def( const mongroup_id &g )
 void MonsterGroupManager::check_group_definitions()
 {
     for( const auto &e : monsterGroupMap ) {
-        const MonsterGroup &mg = e.second;
-        for( const MonsterGroupEntry &mge : mg.monsters ) {
-            if( mge.is_group() ) {
-                if( !mge.group.is_valid() ) {
-                    debugmsg( "monster group %s contains unknown subgroup %s", mg.name.c_str(), mge.group.c_str() );
-                } else {
-                    check_group_def( mge.group );
-                }
-            } else if( !mge.name.is_valid() ) {
-                // mon_null should not be valid here
-                debugmsg( "monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str() );
-            }
-        }
+        check_group_def( e.first );
     }
 }
 
-const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
+const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group )
 {
-    const MonsterGroup &group = group_name.obj();
-    int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
+    int spawn_chance = rng( 1, group->event_adjusted_freq_total() );
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
-    for( const MonsterGroupEntry &monster_type : group.monsters ) {
+    for( const MonsterGroupEntry &monster_type : group->monsters ) {
         if( monster_type.event != holiday::none && ( !can_spawn_events ||
                 monster_type.event != get_holiday_from_time() ) ) {
             continue;
@@ -638,11 +637,11 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
             if( monster_type.is_group() ) {
                 return GetRandomMonsterFromGroup( monster_type.group );
             }
-            return monster_type.name;
+            return monster_type.mtype;
         } else {
             spawn_chance -= monster_type.frequency;
         }
     }
 
-    return group.defaultMonster;
+    return group->defaultMonster;
 }

@@ -392,7 +392,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
             if( has_target ) {
                 turret_data turret = turret_query( *t );
                 npc &cpu = t->get_targeting_npc( *this );
-                shots += turret.fire( cpu, get_map().bub_from_abs( t->target.second ) );
+                shots += turret.fire( cpu, get_map().get_bub( t->target.second ) );
                 t->reset_target( bub_part_pos( *t ) );
             }
         }
@@ -433,7 +433,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         // Set target for any turret in range
         for( vehicle_part *t : turrets ) {
             if( turret_query( *t ).in_range( target ) ) {
-                t->target.second = get_map().getglobal( target );
+                t->target.second = get_map().get_abs( target );
             }
         }
 
@@ -460,12 +460,12 @@ std::vector<vehicle_part *> vehicle::find_all_ready_turrets( bool manual, bool a
 void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ).raw() );
+            locations.push_back( bub_part_pos( p ) );
         }
     }
 
@@ -515,12 +515,12 @@ void vehicle::turrets_set_targeting()
 void vehicle::turrets_set_mode()
 {
     std::vector<vehicle_part *> turrets;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ).raw() );
+            locations.push_back( bub_part_pos( p ) );
         }
     }
 
@@ -649,11 +649,11 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             return shots;
         }
 
-        target.second = auto_target->get_location();
+        target.second = auto_target->pos_abs();
 
     } else {
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
-        if( pos != get_map().bub_from_abs( target.first ) ) {
+        if( pos != get_map().get_bub( target.first ) ) {
             target.second = target.first;
             debugmsg( "%s moved after aiming but before it could fire.", cpu.get_name() );
             return shots;
@@ -661,7 +661,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // Get the turret's target and reset it
-    tripoint_bub_ms targ( get_map().bub_from_abs( target.second ) );
+    tripoint_bub_ms targ( get_map().get_bub( target.second ) );
     pt.reset_target( pos );
 
     shots = gun.fire( cpu, targ );

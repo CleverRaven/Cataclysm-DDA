@@ -62,7 +62,7 @@ item_location mdeath::normal( monster &z )
 
     if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) ) {
-            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
+            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos_bub() ) );
         }
 
         //Currently it is possible to get multiple messages that a monster died.
@@ -212,7 +212,7 @@ item_location mdeath::splatter( monster &z )
 void mdeath::disappear( monster &z )
 {
     if( !z.type->has_flag( mon_flag_SILENT_DISAPPEAR ) ) {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s disappears." ), z.name() );
     }
 }
 
@@ -222,13 +222,15 @@ void mdeath::broken( monster &z )
     if( z.no_corpse_quiet ) {
         return;
     }
+
+    //FIXME Remove hardcoded id manipulation
     std::string item_id = z.type->id.str();
     if( item_id.compare( 0, 4, "mon_" ) == 0 ) {
         item_id.erase( 0, 4 );
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-    item broken_mon( item_id, calendar::turn );
+    item broken_mon( itype_id( item_id ), calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
@@ -274,9 +276,9 @@ void mdeath::broken( monster &z )
 
     // TODO: make mdeath::splatter work for robots
     if( broken_mon.damage() >= broken_mon.max_damage() ) {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s is destroyed!" ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s is destroyed!" ), z.name() );
     } else {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s collapses!" ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 

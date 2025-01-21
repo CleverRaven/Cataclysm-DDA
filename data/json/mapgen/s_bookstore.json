@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_bookstore" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,14 +31,14 @@
         "  ^ #####O#####     ^   ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "^": "t_region_tree_nut",
         "+": "t_door_c",
-        "'": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "S": "t_linoleum_white",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ":": "t_door_glass_c",
         "O": "t_window",
         "4": "t_gutter_downspout",
@@ -100,7 +99,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_bookstore_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -204,7 +202,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_bookstore_1" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -233,15 +230,15 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "-": "t_floor",
         " ": "t_region_groundcover_urban",
         "+": "t_door_c",
         ".": "t_floor",
-        "'": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         ">": "t_stairs_up",
@@ -291,7 +288,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_bookstore_roof_1",
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -402,7 +398,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_bookstore_2" ],
-    "weight": 3000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -431,14 +426,14 @@
         "              o         ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "+": [ "t_door_c", "t_door_locked" ],
         ".": "t_floor",
-        "t": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "'": "t_linoleum_white",
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "O": "t_window",
         "S": "t_sidewalk",
         "^": "t_region_tree_nut",
@@ -519,7 +514,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_bookstore_roof_2",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

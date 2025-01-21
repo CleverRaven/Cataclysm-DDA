@@ -29,6 +29,14 @@ character_modifier_limb_speed_movecost_mod( "limb_speed_movecost_mod" );
 
 static const efftype_id effect_downed( "downed" );
 
+static const itype_id itype_roller_blades( "roller_blades" );
+static const itype_id itype_roller_shoes_on( "roller_shoes_on" );
+static const itype_id itype_rollerskates( "rollerskates" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_test_briefcase( "test_briefcase" );
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
@@ -47,7 +55,7 @@ TEST_CASE( "being_knocked_down_triples_movement_cost", "[move_cost][downed]" )
     clear_avatar();
 
     // Put on sneakers to normalize run cost to 100
-    ava.wear_item( item( "sneakers" ) );
+    ava.wear_item( item( itype_sneakers ) );
     REQUIRE( ava.run_cost( 100 ) == 100 );
 
     ava.add_effect( effect_downed, 1_turns );
@@ -78,7 +86,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 
     SECTION( "wearing sneakers" ) {
         ava.clear_worn();
-        ava.wear_item( item( "sneakers" ) );
+        ava.wear_item( item( itype_sneakers ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.0 ) );
         // Sneakers eliminate the no-shoes penalty
@@ -87,7 +95,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 
     SECTION( "wearing swim fins" ) {
         ava.clear_worn();
-        ava.wear_item( item( "swim_fins" ) );
+        ava.wear_item( item( itype_swim_fins ) );
         REQUIRE( ava.is_wearing_shoes() );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
         // Swim fins multiply cost by 1.5
@@ -96,7 +104,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 
     GIVEN( "wearing rollerblades (ROLLER_INLINE)" ) {
         ava.clear_worn();
-        ava.wear_item( item( "roller_blades" ) );
+        ava.wear_item( item( itype_roller_blades ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_INLINE ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
         WHEN( "on pavement and running" ) {
@@ -116,7 +124,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 
     GIVEN( "wearing roller skates (ROLLER_QUAD)" ) {
         ava.clear_worn();
-        ava.wear_item( item( "rollerskates" ) );
+        ava.wear_item( item( itype_rollerskates ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_QUAD ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.11696 ) );
         WHEN( "on pavement and running" ) {
@@ -136,7 +144,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
 
     GIVEN( "wearing heelys (ROLLER_ONE)" ) {
         ava.clear_worn();
-        ava.wear_item( item( "roller_shoes_on" ) );
+        ava.wear_item( item( itype_roller_shoes_on ) );
         REQUIRE( ava.worn_with_flag( flag_ROLLER_ONE ) );
         REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == Approx( 1.0 ) );
         WHEN( "on pavement and running" ) {
@@ -167,7 +175,7 @@ TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
     GIVEN( "no mutations" ) {
         THEN( "wearing sneakers gives baseline 100 movement speed" ) {
             ava.clear_worn();
-            ava.wear_item( item( "sneakers" ) );
+            ava.wear_item( item( itype_sneakers ) );
             CHECK( ava.run_cost( 100 ) == Approx( base_cost ) );
         }
         THEN( "being barefoot gives a +16 movement cost penalty" ) {
@@ -208,7 +216,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         avatar &u = get_avatar();
         clear_avatar();
         clear_map();
-        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( itype_sneakers ) );
         u.set_moves( 0 );
 
         WHEN( "is walking" ) {
@@ -216,7 +224,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -100 );
             }
         }
@@ -225,7 +233,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -200 );
             }
         }
@@ -234,7 +242,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 600 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -600 );
             }
         }
@@ -242,8 +250,8 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character is uninjured and has 30 arm encumbrance" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "sneakers" ) );
-        u.wear_item( item( "test_briefcase" ) );
+        u.wear_item( item( itype_sneakers ) );
+        u.wear_item( item( itype_test_briefcase ) );
         u.set_moves( 0 );
 
         WHEN( "is walking" ) {
@@ -251,7 +259,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -100 );
             }
         }
@@ -260,7 +268,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -200 );
             }
         }
@@ -269,7 +277,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 660 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -660 );
             }
         }
@@ -277,7 +285,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character is uninjured and has 37 encumbrance, all limbs" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "test_hazmat_suit" ) );
+        u.wear_item( item( itype_test_hazmat_suit ) );
         u.set_moves( 0 );
 
         WHEN( "is walking" ) {
@@ -285,7 +293,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 154 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -154 );
             }
         }
@@ -294,7 +302,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 309 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -309 );
             }
         }
@@ -303,7 +311,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 932 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -932 );
             }
         }
@@ -312,7 +320,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has damaged arm and is unencumbered" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( itype_sneakers ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
         u.set_moves( 0 );
 
@@ -321,7 +329,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -100 );
             }
         }
@@ -330,7 +338,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -200 );
             }
         }
@@ -339,7 +347,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 803 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -803 );
             }
         }
@@ -347,8 +355,8 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has damaged arm and 30 arm encumbrance" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "sneakers" ) );
-        u.wear_item( item( "test_briefcase" ) );
+        u.wear_item( item( itype_sneakers ) );
+        u.wear_item( item( itype_test_briefcase ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
         u.set_moves( 0 );
 
@@ -357,7 +365,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -100 );
             }
         }
@@ -366,7 +374,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -200 );
             }
         }
@@ -375,7 +383,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 818 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -818 );
             }
         }
@@ -383,7 +391,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has damaged arm and 37 encumbrance, all limbs" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "test_hazmat_suit" ) );
+        u.wear_item( item( itype_test_hazmat_suit ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
         u.set_moves( 0 );
 
@@ -392,7 +400,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 154 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -154 );
             }
         }
@@ -401,7 +409,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 309 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -309 );
             }
         }
@@ -410,7 +418,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1246 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -1246 );
             }
         }
@@ -419,7 +427,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has 2 broken legs and is unencumbered" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "sneakers" ) );
+        u.wear_item( item( itype_sneakers ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
         u.set_moves( 0 );
@@ -430,7 +438,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1000 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -1000 );
             }
         }
@@ -438,8 +446,8 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has 2 broken legs arm and 30 arm encumbrance" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "sneakers" ) );
-        u.wear_item( item( "test_briefcase" ) );
+        u.wear_item( item( itype_sneakers ) );
+        u.wear_item( item( itype_test_briefcase ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
         u.set_moves( 0 );
@@ -450,7 +458,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1179 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -1179 );
             }
         }
@@ -458,7 +466,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character has 2 broken legs and 37 encumbrance, all limbs" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        u.wear_item( item( "test_hazmat_suit" ) );
+        u.wear_item( item( itype_test_hazmat_suit ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
         u.set_moves( 0 );
@@ -469,7 +477,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1561 );
-                avatar_action::move( u, get_map(), point_south );
+                avatar_action::move( u, get_map(), tripoint_rel_ms::south );
                 CHECK( u.get_moves() == -1561 );
             }
         }

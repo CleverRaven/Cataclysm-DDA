@@ -85,10 +85,7 @@
       {
         "text": "Do you need any help?",
         "switch": true,
-        "trial": {
-          "type": "CONDITION",
-          "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait)", ">=", "time('2 d')" ] }
-        },
+        "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait) >= time('2 d')" ] } },
         "success": { "effect": [ { "npc_lose_var": "time_mission_meteorologist_wait" } ], "topic": "TALK_MISSION_LIST" },
         "failure": { "topic": "TALK_meteorologist_wait" }
       },
@@ -250,7 +247,7 @@
     "difficulty": 0,
     "value": 100,
     "end": {
-      "effect": [ { "math": [ "n_time_mission_meteorologist_wait", "=", "time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
+      "effect": [ { "math": [ "n_time_mission_meteorologist_wait = time('now')" ] }, { "u_spawn_item": "textbook_electronics" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_meteorologist_5",
@@ -298,7 +295,7 @@
       "rejected": "Maybe another time…",
       "advice": "I don't know quite what happened.  Maybe something noticed my drone and tried to bring it down.  Be careful.",
       "inquire": "How's it going?",
-      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
+      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these monsters are everywhere…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }

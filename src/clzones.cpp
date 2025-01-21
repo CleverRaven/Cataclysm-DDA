@@ -54,7 +54,6 @@ static const faction_id faction_your_followers( "your_followers" );
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_null( "null" );
 
 static const zone_type_id zone_type_AUTO_DRINK( "AUTO_DRINK" );
 static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
@@ -308,9 +307,10 @@ plot_options::query_seed_result plot_options::query_seed()
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
-        mgr.get_near( zone_type_LOOT_SEEDS, here.getglobal( player_character.pos_bub() ), 60 );
+        mgr.get_near( zone_type_LOOT_SEEDS, here.get_abs( player_character.pos_bub() ),
+                      MAX_VIEW_DISTANCE );
     for( const tripoint_abs_ms &elem : zone_src_set ) {
-        tripoint_bub_ms elem_loc = here.bub_from_abs( elem );
+        tripoint_bub_ms elem_loc = here.get_bub( elem );
         for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
                 seed_inv.push_back( &it );
@@ -318,7 +318,7 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
+    seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -670,13 +670,19 @@ bool zone_data::set_type()
     return false;
 }
 
-void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
+void zone_data::set_position( const std::pair<tripoint_abs_ms, tripoint_abs_ms> &position,
                               const bool manual, bool update_avatar, bool skip_cache_update, bool suppress_display_update )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
+
+    if( is_personal ) {
+        debugmsg( "Tried moving a personal lootzone to absolute location" );
+        return;
+    }
+
     bool adjust_display = is_displayed && !suppress_display_update;
 
     if( adjust_display ) {
@@ -685,6 +691,37 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
 
     start = position.first;
     end = position.second;
+
+    if( adjust_display ) {
+        toggle_display();
+    }
+
+    if( !skip_cache_update ) {
+        zone_manager::get_manager().cache_data( update_avatar );
+    }
+}
+
+void zone_data::set_position( const std::pair<tripoint_rel_ms, tripoint_rel_ms> &position,
+                              const bool manual, bool update_avatar, bool skip_cache_update, bool suppress_display_update )
+{
+    if( is_vehicle && manual ) {
+        debugmsg( "Tried moving a lootzone bound to a vehicle part" );
+        return;
+    }
+
+    if( !is_personal ) {
+        debugmsg( "Tried moving a normal lootzone to relative location" );
+        return;
+    }
+
+    bool adjust_display = is_displayed && !suppress_display_update;
+
+    if( adjust_display ) {
+        toggle_display();
+    }
+
+    personal_start = position.first;
+    personal_end = position.second;
 
     if( adjust_display ) {
         toggle_display();
@@ -792,28 +829,32 @@ void zone_data::toggle_display()
     // Take care of the situation where parts of overlapping zones were erased by the toggling.
     if( !is_displayed ) {
 
-        const point_abs_ms start = point_abs_ms( std::min( this->start.x, this->end.x ),
-                                   std::min( this->start.y, this->end.y ) );
+        const point_abs_ms start = { std::min( this->start.x(), this->end.x() ),
+                                     std::min( this->start.y(), this->end.y() )
+                                   };
 
-        const point_abs_ms end = point_abs_ms( std::max( this->start.x, this->end.x ),
-                                               std::max( this->start.y, this->end.y ) );
+        const point_abs_ms end = { std::max( this->start.x(), this->end.x() ),
+                                   std::max( this->start.y(), this->end.y() )
+                                 };
 
         const inclusive_rectangle<point_abs_ms> zone_rectangle( start, end );
 
         for( zone_manager::ref_zone_data zone : zone_manager::get_manager().get_zones() ) {
             // Assumes zones are a single Z level only. Also, inclusive_cuboid doesn't have an overlap function...
             if( zone.get().get_is_displayed() && zone.get().get_type() == this->get_type() &&
-                this->start.z == zone.get().get_start_point().z() ) {
+                this->start.z() == zone.get().get_start_point().z() ) {
                 const point_abs_ms candidate_begin = zone.get().get_start_point().xy();
                 const point_abs_ms candidate_stop = zone.get().get_end_point().xy();
 
-                const point_abs_ms candidate_start = point_abs_ms( std::min( candidate_begin.x(),
-                                                     candidate_stop.x() ),
-                                                     std::min( candidate_begin.y(), candidate_stop.y() ) );
+                const point_abs_ms candidate_start = { std::min( candidate_begin.x(),
+                                                       candidate_stop.x() ),
+                                                       std::min( candidate_begin.y(), candidate_stop.y() )
+                                                     };
 
-                const point_abs_ms candidate_end = point_abs_ms( std::max( candidate_begin.x(),
-                                                   candidate_stop.x() ),
-                                                   std::max( candidate_begin.y(), candidate_stop.y() ) );
+                const point_abs_ms candidate_end = { std::max( candidate_begin.x(),
+                                                     candidate_stop.x() ),
+                                                     std::max( candidate_begin.y(), candidate_stop.y() )
+                                                   };
 
                 const inclusive_rectangle<point_abs_ms> candidate_rectangle( candidate_start, candidate_end );
 
@@ -860,7 +901,7 @@ void zone_manager::cache_data( bool update_avatar )
 {
     area_cache.clear();
     avatar &player_character = get_avatar();
-    tripoint_abs_ms cached_shift = player_character.get_location();
+    tripoint_abs_ms cached_shift = player_character.pos_abs();
     for( zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
@@ -902,7 +943,7 @@ void zone_manager::reset_disabled()
 void zone_manager::cache_avatar_location()
 {
     avatar &player_character = get_avatar();
-    tripoint_abs_ms cached_shift = player_character.get_location();
+    tripoint_abs_ms cached_shift = player_character.pos_abs();
     for( zone_data &elem : zones ) {
         // update the current cached locations for each personal zone
         if( elem.get_is_personal() ) {
@@ -945,16 +986,16 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_point_set( const zone_type
     return type_iter->second;
 }
 
-std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
+std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
         int radius, const faction_id &fac ) const
 {
     return get_point_set_loot( where, radius, false, fac );
 }
 
-std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
+std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
         int radius, bool npc_search, const faction_id &fac ) const
 {
-    std::unordered_set<tripoint> res;
+    std::unordered_set<tripoint_bub_ms> res;
     map &here = get_map();
     for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache ) {
         zone_type_id type = zone_data::unhash_type( cache.first );
@@ -962,7 +1003,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
             for( tripoint_abs_ms point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
-                    res.emplace( here.bub_from_abs( point ).raw() );
+                    res.emplace( here.get_bub( point ) );
                 }
             }
         }
@@ -973,7 +1014,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
             for( tripoint_abs_ms point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
-                    res.emplace( here.bub_from_abs( point ).raw() );
+                    res.emplace( here.get_bub( point ) );
                 }
             }
         }
@@ -984,7 +1025,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
             zone_type_id type = zone_data::unhash_type( cache.first );
             if( type == zone_type_NO_NPC_PICKUP ) {
                 for( tripoint_abs_ms point : cache.second ) {
-                    res.erase( here.bub_from_abs( point ).raw() );
+                    res.erase( here.get_bub( point ) );
                 }
             }
         }
@@ -1375,7 +1416,7 @@ const zone_data *zone_manager::get_bottom_zone(
 // which constructor of the key-value pair we use which depends on new_zone being an rvalue or lvalue and constness.
 // If you are passing new_zone from a non-const iterator, be prepared for a move! This
 // may break some iterators like map iterators if you are less specific!
-void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point_rel_ms &mount_point,
         zone_data &new_zone, map *pmap )
 {
     //create a vehicle loot zone
@@ -1388,38 +1429,45 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 }
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
-                        const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal,
+                        const bool invert, const bool enabled, const tripoint_abs_ms &start,
+                        const tripoint_abs_ms &end, const shared_ptr_fast<zone_options> &options,
                         bool silent, map *pmap )
 {
     map &here = pmap == nullptr ? get_map() : *pmap;
-    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
+    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     // only non personal zones can be vehicle zones
-    if( !personal ) {
-        optional_vpart_position const vp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( start ) ) );
-        if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
-            // TODO:Allow for loot zones on vehicles to be larger than 1x1
-            if( start == end &&
-                ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
-                // TODO: refactor zone options for proper validation code
-                if( !silent &&
-                    ( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) ) {
-                    popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
-                    return;
-                }
-
-                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone, pmap );
+    optional_vpart_position const vp = here.veh_at( here.get_bub( start ) );
+    if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
+        // TODO:Allow for loot zones on vehicles to be larger than 1x1
+        if( start == end &&
+            ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
+            // TODO: refactor zone options for proper validation code
+            if( !silent &&
+                ( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) ) {
+                popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }
+
+            create_vehicle_loot_zone( vp->vehicle(), vp->mount_pos(), new_zone, pmap );
+            return;
         }
     }
 
     //Create a regular zone
     zones.push_back( new_zone );
 
-    if( personal ) {
-        num_personal_zones++;
-    }
+    cache_data();
+}
+
+void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
+                        const bool invert, const bool enabled, const tripoint_rel_ms &start,
+                        const tripoint_rel_ms &end, const shared_ptr_fast<zone_options> &options )
+{
+    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
+
+    //Create a regular zone
+    zones.push_back( new_zone );
+    num_personal_zones++;
     cache_data();
 }
 
@@ -1488,8 +1536,8 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
     const point dim( SEEX * 2, SEEY * 2 );
     const tripoint_bub_ms a_start( 0, 0, target_map.get_abs_sub().z() );
     const tripoint_bub_ms a_end( SEEX * 2 - 1, SEEY * 2 - 1, a_start.z() );
-    const tripoint_bub_ms z_start = target_map.bub_from_abs( zone.get_start_point() );
-    const tripoint_bub_ms z_end = target_map.bub_from_abs( zone.get_end_point() );
+    const tripoint_bub_ms z_start = target_map.get_bub( zone.get_start_point() );
+    const tripoint_bub_ms z_end = target_map.get_bub( zone.get_end_point() );
     const inclusive_cuboid<tripoint_bub_ms> boundary( a_start, a_end );
     if( boundary.contains( z_start ) && boundary.contains( z_end ) ) {
         // don't rotate centered squares
@@ -1500,14 +1548,14 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
         point_bub_ms z_l_start = z_start.xy().rotate( turns, dim );
         point_bub_ms z_l_end = z_end.xy().rotate( turns, dim );
         tripoint_abs_ms first =
-            target_map.getglobal( tripoint_bub_ms( std::min( z_l_start.x(), z_l_end.x() ),
-                                  std::min( z_l_start.y(), z_l_end.y() ),
-                                  z_start.z() ) );
+            target_map.get_abs( tripoint_bub_ms( std::min( z_l_start.x(), z_l_end.x() ),
+                                std::min( z_l_start.y(), z_l_end.y() ),
+                                z_start.z() ) );
         tripoint_abs_ms second =
-            target_map.getglobal( tripoint_bub_ms( std::max( z_l_start.x(), z_l_end.x() ),
-                                  std::max( z_l_start.y(), z_l_end.y() ),
-                                  z_end.z() ) );
-        zone.set_position( std::make_pair( first.raw(), second.raw() ), false, true, false, true );
+            target_map.get_abs( tripoint_bub_ms( std::max( z_l_start.x(), z_l_end.x() ),
+                                std::max( z_l_start.y(), z_l_end.y() ),
+                                z_end.z() ) );
+        zone.set_position( std::make_pair( first, second ), false, true, false, true );
     }
 }
 
@@ -1622,8 +1670,13 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
     json.member( "cached_shift", cached_shift );
-    json.member( "start", start );
-    json.member( "end", end );
+    if( is_personal ) {
+        json.member( "start", personal_start );
+        json.member( "end", personal_end );
+    } else {
+        json.member( "start", start );
+        json.member( "end", end );
+    }
     json.member( "is_displayed", is_displayed );
     options->serialize( json );
     json.end_object();
@@ -1664,19 +1717,29 @@ void zone_data::deserialize( const JsonObject &data )
     }
     //Legacy support
     if( data.has_member( "start_x" ) ) {
-        tripoint s;
-        tripoint e;
-        data.read( "start_x", s.x );
-        data.read( "start_y", s.y );
-        data.read( "start_z", s.z );
-        data.read( "end_x", e.x );
-        data.read( "end_y", e.y );
-        data.read( "end_z", e.z );
-        start = s;
-        end = e;
+        tripoint_abs_ms s;
+        tripoint_abs_ms e;
+        data.read( "start_x", s.x() );
+        data.read( "start_y", s.y() );
+        data.read( "start_z", s.z() );
+        data.read( "end_x", e.x() );
+        data.read( "end_y", e.y() );
+        data.read( "end_z", e.z() );
+        if( is_personal ) {
+            personal_start = tripoint_rel_ms( s.raw() );
+            personal_end = tripoint_rel_ms( e.raw() );
+        } else {
+            start = s;
+            end = e;
+        }
     } else {
-        data.read( "start", start );
-        data.read( "end", end );
+        if( is_personal ) {
+            data.read( "start", personal_start );
+            data.read( "end", personal_end );
+        } else {
+            data.read( "start", start );
+            data.read( "end", end );
+        }
     }
     if( data.has_member( "is_displayed" ) ) {
         data.read( "is_displayed", is_displayed );
@@ -1693,9 +1756,9 @@ namespace
 cata_path _savefile( std::string const &suffix, bool player )
 {
     if( player ) {
-        return PATH_INFO::player_base_save_path_path() + string_format( ".zones%s.json", suffix );
+        return PATH_INFO::player_base_save_path() + string_format( ".zones%s.json", suffix );
     } else {
-        return PATH_INFO::world_base_save_path_path() / string_format( "zones%s.json", suffix );
+        return PATH_INFO::world_base_save_path() / string_format( "zones%s.json", suffix );
     }
 }
 } // namespace
@@ -1788,10 +1851,10 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        const tripoint_bub_ms pos = here.bub_from_abs( zone.get_start_point() );
+        const tripoint_bub_ms pos = here.get_bub( zone.get_start_point() );
         if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
             zone.set_is_vehicle( true );
-            vp->vehicle().loot_zones.emplace( vp->mount(), zone );
+            vp->vehicle().loot_zones.emplace( vp->mount_pos(), zone );
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }
@@ -1804,18 +1867,19 @@ void zone_manager::revert_vzones()
     }
 }
 
-void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end,
+                        zone_type_id const &type,
                         faction_id const &fac, std::string const &name, std::string const &filter,
                         map *pmap )
 {
     zone_manager &mgr = zone_manager::get_manager();
     auto options = zone_options::create( type );
-    tripoint const s_ = std::min( start, end );
-    tripoint const e_ = std::max( start, end );
+    tripoint_abs_ms const s_ = std::min( start, end );
+    tripoint_abs_ms const e_ = std::max( start, end );
     if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         if( dynamic_cast<loot_options *>( &*options ) != nullptr ) {
             dynamic_cast<loot_options *>( &*options )->set_mark( filter );
         }
     }
-    mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
+    mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
 }

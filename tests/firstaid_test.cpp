@@ -44,9 +44,9 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point::east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + point_east;
+    dunsel.pos_bub() = dummy.pos_bub() + point::east;
     dummy.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
     item_location bandages = dummy.i_add( item( itype_bandages ) );
@@ -99,9 +99,9 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point::east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + point_east;
+    dunsel.pos_bub() = dummy.pos_bub() + point::east;
     dunsel.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
     item_location bandages = dunsel.i_add( item( itype_bandages ) );
@@ -111,7 +111,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
         dunsel.apply_damage( nullptr, right_arm, 20 );
         WHEN( "npc bandages self" ) {
             // See npc::heal_self()
-            bandages->type->invoke( &dunsel, *bandages, dunsel.pos(), "heal" );
+            bandages->type->invoke( &dunsel, *bandages, dunsel.pos_bub(), "heal" );
             process_activity( dunsel );
             THEN( "Check that bandage was consumed and arm is bandaged" ) {
                 CHECK( start_bandage_count - dunsel.items_with( bandages_filter ).size() == 1 );
@@ -123,7 +123,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
         dunsel.apply_damage( nullptr, right_arm, 20 );
         WHEN( "npc bandages self and is interrupted before finishing" ) {
             // See npc::heal_self()
-            bandages->type->invoke( &dunsel, *bandages, dunsel.pos(), "heal" );
+            bandages->type->invoke( &dunsel, *bandages, dunsel.pos_bub(), "heal" );
             process_activity_interrupt( dunsel, moves / 2 );
             THEN( "Check that bandage was not consumed and arm is not bandaged" ) {
                 CHECK( start_bandage_count - dunsel.items_with( bandages_filter ).size() == 0 );
@@ -135,7 +135,7 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
         dummy.apply_damage( nullptr, right_arm, 20 );
         WHEN( "npc bandages avatar" ) {
             // See npc::heal_player
-            bandages->type->invoke( &dunsel, *bandages, dummy.pos(), "heal" );
+            bandages->type->invoke( &dunsel, *bandages, dummy.pos_bub(), "heal" );
             process_activity( dunsel );
             THEN( "Check that bandage was consumed and avatar's arm is bandaged" ) {
                 CHECK( start_bandage_count - dunsel.items_with( bandages_filter ).size() == 1 );

@@ -56,8 +56,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_1", "ranch_camp_2", "ranch_camp_3" ], [ "ranch_camp_10", "ranch_camp_11", "ranch_camp_12" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -116,8 +115,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_4", "ranch_camp_5", "ranch_camp_6" ], [ "ranch_camp_13", "ranch_camp_14", "ranch_camp_15" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -176,8 +174,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_7", "ranch_camp_8", "ranch_camp_9" ], [ "ranch_camp_16", "ranch_camp_17", "ranch_camp_18" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -237,8 +234,7 @@
       "place_monsters": [ { "monster": "GROUP_DOMESTIC", "x": [ 10, 23 ], "y": [ 3, 23 ], "repeat": [ 4, 6 ], "density": 0.1 } ]
     },
     "om_terrain": [ [ "ranch_camp_19", "ranch_camp_20", "ranch_camp_21" ], [ "ranch_camp_28", "ranch_camp_29", "ranch_camp_30" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -297,8 +293,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_22", "ranch_camp_23", "ranch_camp_24" ], [ "ranch_camp_31", "ranch_camp_32", "ranch_camp_33" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -357,8 +352,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_25", "ranch_camp_26", "ranch_camp_27" ], [ "ranch_camp_34", "ranch_camp_35", "ranch_camp_36" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -417,8 +411,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_37", "ranch_camp_38", "ranch_camp_39" ], [ "ranch_camp_46", "ranch_camp_47", "ranch_camp_48" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -478,8 +471,7 @@
       "place_monsters": [ { "monster": "GROUP_DOMESTIC", "x": [ 3, 23 ], "y": [ 3, 23 ], "repeat": [ 4, 6 ], "density": 0.1 } ]
     },
     "om_terrain": [ [ "ranch_camp_40", "ranch_camp_41", "ranch_camp_42" ], [ "ranch_camp_49", "ranch_camp_50", "ranch_camp_51" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -538,12 +530,16 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_43", "ranch_camp_44", "ranch_camp_45" ], [ "ranch_camp_52", "ranch_camp_53", "ranch_camp_54" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "object": {
+      "faction_owner": [
+        { "id": "tacoma_commune", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "tacoma_commune", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "tacoma_commune", "x": [ 48, 71 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_dirt",
       "rows": [
         "..%.....................................................................",
@@ -629,12 +625,15 @@
       ]
     },
     "om_terrain": [ [ "ranch_camp_55", "ranch_camp_56", "ranch_camp_57" ], [ "ranch_camp_64", "ranch_camp_65", "ranch_camp_66" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "object": {
+      "faction_owner": [
+        { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "tacoma_commune", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "................................................x.............x.........",
@@ -731,8 +730,7 @@
       "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 13, "y": 41, "chance": 100, "rotation": 180 } ]
     },
     "om_terrain": [ [ "ranch_camp_58", "ranch_camp_59", "ranch_camp_60" ], [ "ranch_camp_67", "ranch_camp_68", "ranch_camp_69" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -791,8 +789,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_61", "ranch_camp_62", "ranch_camp_63" ], [ "ranch_camp_70", "ranch_camp_71", "ranch_camp_72" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -827,8 +824,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_73", "ranch_camp_74", "ranch_camp_75" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -863,8 +859,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_76", "ranch_camp_77", "ranch_camp_78" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
@@ -899,8 +894,7 @@
       "palettes": [ "ranch_camp" ]
     },
     "om_terrain": [ [ "ranch_camp_79", "ranch_camp_80", "ranch_camp_81" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
@@ -913,13 +907,13 @@
         "                        ",
         "                        ",
         "    ≷#                  ",
-        "   2222  ............   ",
-        " 222^^222............   ",
-        "22^^^^^^22...........   ",
-        "2^^^^^^^^2...........   ",
-        "22^^^^^^22...........   ",
-        " 222^^222............   ",
-        "   2222  ............   ",
+        "   0000  ............   ",
+        " 000^^000............   ",
+        "00^^^^^^00...........   ",
+        "0^^^^^^^^0...........   ",
+        "00^^^^^^00...........   ",
+        " 000^^000............   ",
+        "   0000  ............   ",
         "         ............   ",
         "                        ",
         "                        ",
@@ -935,7 +929,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
+      "terrain": { ".": "t_shingle_flat_roof", "0": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
     }
   },
   {
@@ -949,13 +943,13 @@
         "                        ",
         "                        ",
         "    ≷#                  ",
-        "   2222                 ",
-        " 222^^222               ",
-        "22^^^^^^22              ",
-        "2^^^^^^^^2              ",
-        "22^^^^^^22              ",
-        " 222^^222               ",
-        "   2222                 ",
+        "   0000                 ",
+        " 000^^000               ",
+        "00^^^^^^00              ",
+        "0^^^^^^^^0              ",
+        "00^^^^^^00              ",
+        " 000^^000               ",
+        "   0000                 ",
         "                        ",
         "                        ",
         "                        ",
@@ -971,7 +965,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "2": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
+      "terrain": { "0": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
     }
   },
   {
@@ -1051,6 +1045,7 @@
     "method": "json",
     "om_terrain": "ranch_camp_68_basement",
     "object": {
+      "faction_owner": [ { "id": "tacoma_commune", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",

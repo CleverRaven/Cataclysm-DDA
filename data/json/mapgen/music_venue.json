@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "music_venue",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,16 +31,16 @@
         "       u--------------u ",
         "                        "
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_c",
         ".": "t_floor",
         "_": "t_thconc_floor",
         "L": "t_thconc_floor",
-        "'": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "&": "t_linoleum_gray",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "W": "t_window_no_curtains",
         " ": "t_region_groundcover_urban",
         "c": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -109,7 +108,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "music_venue_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -153,7 +151,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "music_venue_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -182,16 +179,16 @@
         "           ssssss####   ",
         "                        "
       ],
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_c",
         ".": "t_floor",
         "_": "t_thconc_floor",
         "L": "t_thconc_floor",
-        "'": "t_linoleum_gray",
-        "&": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         " ": "t_region_groundcover_urban",
         "b": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "c": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -255,7 +252,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "music_venue_1_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -297,7 +293,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "music_venue_1_roof_top",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

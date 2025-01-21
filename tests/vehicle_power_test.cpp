@@ -17,6 +17,7 @@
 static const efftype_id effect_blind( "blind" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_test_power_cord_25_loss( "test_power_cord_25_loss" );
 
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
@@ -32,7 +33,7 @@ static void reset_player()
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 }
@@ -49,7 +50,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         const optional_vpart_position target_vp = here.veh_at( target );
         const optional_vpart_position source_vp = here.veh_at( source );
 
-        item cord( "test_power_cord_25_loss" );
+        item cord( itype_test_power_cord_25_loss );
         cord.set_var( "source_x", source.x() );
         cord.set_var( "source_y", source.y() );
         cord.set_var( "source_z", source.z() );
@@ -65,21 +66,21 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
             debugmsg( "source same as target" );
         }
 
-        tripoint_abs_ms target_global = here.getglobal( target );
+        tripoint_abs_ms target_global = here.get_abs( target );
         const vpart_id vpid( cord.typeId().str() );
 
-        point vcoords = source_vp->mount();
+        point_rel_ms vcoords = source_vp->mount_pos();
         vehicle_part source_part( vpid, item( cord ) );
         source_part.target.first = target_global;
         source_part.target.second = target_veh->global_square_location();
         source_veh->install_part( vcoords, std::move( source_part ) );
 
-        vcoords = target_vp->mount();
+        vcoords = target_vp->mount_pos();
         vehicle_part target_part( vpid, item( cord ) );
         tripoint_bub_ms source_global( cord.get_var( "source_x", 0 ),
                                        cord.get_var( "source_y", 0 ),
                                        cord.get_var( "source_z", 0 ) );
-        target_part.target.first = here.getglobal( source_global );
+        target_part.target.first = here.get_abs( source_global );
         target_part.target.second = source_veh->global_square_location();
         target_veh->install_part( vcoords, std::move( target_part ) );
     };
@@ -90,9 +91,9 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         REQUIRE( !here.veh_at( p ).has_value() );
         vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
-        const int frame_part_idx = veh->install_part( point_rel_ms_zero, vpart_frame );
+        const int frame_part_idx = veh->install_part( point_rel_ms::zero, vpart_frame );
         REQUIRE( frame_part_idx != -1 );
-        const int bat_part_idx = veh->install_part( point_rel_ms_zero, vpart_small_storage_battery );
+        const int bat_part_idx = veh->install_part( point_rel_ms::zero, vpart_small_storage_battery );
         REQUIRE( bat_part_idx != -1 );
         veh->refresh();
         here.add_vehicle_to_cache( veh );
@@ -274,6 +275,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 
 TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
 {
+    clear_map();
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
     clear_vehicles();

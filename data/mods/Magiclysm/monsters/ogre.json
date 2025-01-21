@@ -114,14 +114,26 @@
         "type": "spell",
         "spell_data": { "id": "monster_invisibility_spell", "min_level": 10, "hit_self": true },
         "cooldown": 40,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "150" ] }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') < 150" ] }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] }
       },
       { "id": "smash", "throw_strength": 40 },
       [ "EAT_FOOD", 120 ]
     ],
     "fear_triggers": [ "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "MAGIC_USER",
+      "WARM",
+      "EATS",
+      "BASHES",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "FILTHY",
+      "PATH_AVOID_DANGER"
+    ]
   },
   {
     "id": "mon_ogre_twoheaded",

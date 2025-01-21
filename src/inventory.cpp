@@ -482,50 +482,46 @@ static int count_charges_in_list( const ammotype *ammotype, const map_stack &ite
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
+void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
+    map &m = get_map();
+    // Populate a grid of spots that can be reached
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( origin, range, 1,
+                100 );
+        form_from_map( m, reachable_pts, pl, assign_invlet );
+    } else {
+        std::vector<tripoint_bub_ms> reachable_pts;
+        // Fill reachable points with points_in_radius
+        tripoint_range<tripoint_bub_ms> in_radius = m.points_in_radius( origin, range );
+        for( const tripoint_bub_ms &p : in_radius ) {
+            reachable_pts.emplace_back( p );
+        }
+        form_from_map( m, reachable_pts, pl, assign_invlet );
+    }
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                                 const Character *pl, bool assign_invlet )
 {
-    std::vector<tripoint> pts;
+    std::vector<tripoint_bub_ms> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.bub_from_abs( elem ).raw() );
+        pts.push_back( m.get_bub( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
-                               bool assign_invlet,
-                               bool clear_path )
-{
-    // populate a grid of spots that can be reached
-    std::vector<tripoint> reachable_pts = {};
-    // If we need a clear path we care about the reachability of points
-    if( clear_path ) {
-        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
-    } else {
-        // Fill reachable points with points_in_radius
-        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
-        for( const tripoint &p : in_radius ) {
-            reachable_pts.emplace_back( p );
-        }
-    }
-    form_from_map( m, reachable_pts, pl, assign_invlet );
-}
-
-void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                                bool assign_invlet )
 {
     items.clear();
     provisioned_pseudo_tools.clear();
 
-    for( const tripoint &p : pts ) {
+    for( const tripoint_bub_ms &p : pts ) {
         const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
         if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
@@ -969,26 +965,6 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
     }
 
     return ret;
-}
-
-enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
-{
-    enchant_cache temp_cache;
-    for( const std::list<item> &elem : items ) {
-        for( const item &check_item : elem ) {
-            for( const enchant_cache &ench : check_item.get_proc_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench );
-                }
-            }
-            for( const enchantment &ench : check_item.get_defined_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench, owner );
-                }
-            }
-        }
-    }
-    return temp_cache;
 }
 
 int inventory::count_item( const itype_id &item_type ) const

@@ -13,15 +13,19 @@
 #include "units.h"
 
 static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
+static const itype_id itype_hammer_pocket_test( "hammer_pocket_test" );
 static const itype_id itype_jar_glass_sealed( "jar_glass_sealed" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_pickle( "pickle" );
 static const itype_id itype_purse( "purse" );
+static const itype_id itype_test_tool_belt( "test_tool_belt" );
+static const itype_id itype_tongs_pocket_test( "tongs_pocket_test" );
+static const itype_id itype_wrench_pocket_test( "wrench_pocket_test" );
 
 TEST_CASE( "item_contents" )
 {
     clear_map();
-    item tool_belt( "test_tool_belt" );
+    item tool_belt( itype_test_tool_belt );
 
     const units::volume tool_belt_vol = tool_belt.volume();
     const units::mass tool_belt_weight = tool_belt.weight();
@@ -30,10 +34,10 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.weight( true ) == tool_belt.type->weight );
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
 
-    item hammer( "hammer_pocket_test" );
-    item tongs( "tongs_pocket_test" );
-    item wrench( "wrench_pocket_test" );
-    item crowbar( "crowbar_pocket_test" );
+    item hammer( itype_hammer_pocket_test );
+    item tongs( itype_tongs_pocket_test );
+    item wrench( itype_wrench_pocket_test );
+    item crowbar( itype_crowbar_pocket_test );
 
     ret_val<void> i1 = tool_belt.put_in( hammer, pocket_type::CONTAINER );
     ret_val<void> i2 = tool_belt.put_in( tongs, pocket_type::CONTAINER );
@@ -73,9 +77,9 @@ TEST_CASE( "item_contents" )
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
     tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
-    tool_belt.overflow( tripoint_zero );
+    tool_belt.overflow( tripoint_bub_ms::zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.overflow( tripoint_zero );
+    tool_belt.overflow( tripoint_bub_ms::zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
@@ -84,7 +88,7 @@ TEST_CASE( "item_contents" )
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
-    tool_belt.spill_contents( tripoint_zero );
+    tool_belt.spill_contents( tripoint_bub_ms::zero );
     CHECK( tool_belt.empty() );
 }
 
@@ -101,7 +105,7 @@ TEST_CASE( "overflow_on_combine", "[item]" )
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.overflow( origin.raw() );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
@@ -113,7 +117,7 @@ TEST_CASE( "overflow_test", "[item]" )
     item log( itype_log );
     purse.force_insert_item( log, pocket_type::MIGRATION );
     map &here = get_map();
-    purse.overflow( origin.raw() );
+    purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 

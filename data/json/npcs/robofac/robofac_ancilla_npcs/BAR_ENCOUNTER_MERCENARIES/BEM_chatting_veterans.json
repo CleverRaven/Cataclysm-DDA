@@ -55,7 +55,7 @@
       },
       {
         "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
-        "condition": { "math": [ "visited_a_portal_dungeon", "==", "1" ] },
+        "condition": { "math": [ "visited_a_portal_dungeon == 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
@@ -80,12 +80,12 @@
       },
       {
         "text": "Recall that time when you used a tactical nuclear weapon.",
-        "condition": { "math": [ "u_mininuke_activated", ">=", "1" ] },
+        "condition": { "math": [ "u_mininuke_activated >= 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Try to gross each other out with tales of mutant butchery.",
-        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent')", ">=", "50" ] },
+        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent') >= 50" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY"
       },
       {
@@ -95,7 +95,7 @@
       },
       {
         "text": "Tell them the story of how you were trapped in an infinitely looping corridor, fighting the warped remnants of the researchers there and somehow the damned corridor itself.  And at the end of the day, you're not even sure the headache was worth it.",
-        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_lixa_sm_1" } ] },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_LIXA"
       },
       {

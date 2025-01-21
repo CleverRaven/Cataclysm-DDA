@@ -269,7 +269,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                 newit = it;
                 newit.invlet = invlet;
             }
-        // Intentional fallthrough
+            [[fallthrough]];
         case STASH: {
             int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
@@ -390,7 +390,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 }
 
 // Auto pickup items at given location
-void Pickup::autopickup( const tripoint &p )
+void Pickup::autopickup( const tripoint_bub_ms &p )
 {
     map &local = get_map();
 
@@ -406,7 +406,7 @@ void Pickup::autopickup( const tripoint &p )
     }
     Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos_bub() == p ) {
         //Autopickup adjacent
         std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -415,18 +415,17 @@ void Pickup::autopickup( const tripoint &p )
         };
         for( direction &elem : adjacentDir ) {
 
-            tripoint apos = tripoint( displace_XY( elem ), 0 );
-            apos += p;
+            tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
 
-            autopickup( apos );
+            autopickup( p + apos );
         }
     }
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, tripoint_bub_ms( p ) ) ||
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    drop_locations selected_items = auto_pickup::select_items( here, p );
+    drop_locations selected_items = auto_pickup::select_items( here, tripoint_bub_ms( p ) );
     if( selected_items.empty() ) {
         return;
     }
@@ -488,7 +487,7 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.position();
+    src_pos = src_.pos_bub();
     src_container = src_.parent_item();
     src_type = src_.where();
 }

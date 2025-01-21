@@ -53,7 +53,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
-    multi_projectile_effects = other.multi_projectile_effects;
+    multishot = other.multishot;
     shot_spread = other.shot_spread;
     shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;
@@ -179,13 +179,13 @@ void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                 }
             }
             if( ae.aoe_explosion_data.power > 0 ) {
-                explosion_handler::explosion( source, p.raw(), ae.aoe_explosion_data );
+                explosion_handler::explosion( source, p, ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {
-                explosion_handler::flashbang( p.raw() );
+                explosion_handler::flashbang( p );
             }
             if( ae.do_emp_blast ) {
-                explosion_handler::emp_blast( p.raw() );
+                explosion_handler::emp_blast( p );
             }
             if( ae.foamcrete_build ) {
                 foamcrete_build( p );

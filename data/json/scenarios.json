@@ -11,6 +11,16 @@
   },
   {
     "type": "scenario",
+    "id": "refugeecenter",
+    "name": "Refugee Center",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and have made your way to a refugee center.",
+    "allowed_locs": [ "sloc_refugee_center" ],
+    "start_name": "Refugee Center",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
@@ -143,7 +153,6 @@
     "points": 1,
     "description": "You've found a safe place away from the cities and devoid of the living dead.  Looks like you're on your own…",
     "allowed_locs": [
-      "sloc_refugee_center",
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_cabin",
@@ -1353,5 +1362,20 @@
     "requirement": "achievement_kill_10_monsters",
     "map_extra": "mx_laststand",
     "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "a_moonlit_night_start",
+    "name": "A Moonlight Night",
+    "points": 0,
+    "description": "You've been holed up in your basement ever since the Cataclysm happened a little over a week ago, but now you've run out of food and have been forced to go on a supply run on this fateful moonlit night.  You see zombies all around you, but thankfully, most of them can't seem to see as well in moonlight as you do.",
+    "start_name": "In the Middle of Town",
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 23, "day": 72, "season": "spring", "year": 1 },
+    "allowed_locs": [ "sloc_town_in_the_open" ],
+    "eoc": [ "EOC_scenario_clear_weather" ],
+    "requirement": "achievement_survive_one_day",
+    "flags": [ "CITY_START", "LONE_START", "SUR_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
   }
 ]

@@ -410,12 +410,16 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ],
           "values": [
             { "value": "ATTACK_SPEED", "multiply": -0.2 },
             { "value": "FORCEFIELD", "add": 0.1 },
             { "value": "PAIN_REMOVE", "add": 45 }
           ]
+        },
+        {
+          "has": "WORN",
+          "condition": { "not": "u_has_weapon" },
+          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
         }
       ]
     }

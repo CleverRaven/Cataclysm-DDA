@@ -13,6 +13,8 @@
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
             { "math": [ "n_npc_trust()", ">=", "10" ] },
             { "math": [ "n_npc_value()", ">=", "10" ] }
           ]
@@ -33,6 +35,8 @@
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
             {
               "not": { "and": [ { "math": [ "n_npc_trust()", ">=", "10" ] }, { "math": [ "n_npc_value()", ">=", "10" ] } ] }
             },
@@ -54,7 +58,9 @@
         "condition": {
           "and": [
             { "u_has_trait": "LILIN_TRAITS" },
-            { "or": [ { "npc_has_trait": "LILIN_TRAITS" }, { "npc_has_trait": "BLOOD_OF_SAINTS" } ] }
+            { "or": [ { "npc_has_trait": "LILIN_TRAITS" }, { "npc_has_trait": "BLOOD_OF_SAINTS" } ] },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
           ]
         }
       }
@@ -73,7 +79,26 @@
             { "or": [ { "math": [ "n_npc_trust()", "<=", "0" ] }, { "math": [ "n_npc_value()", "<=", "0" ] } ] },
             { "u_has_trait": "LILIN_TRAITS" },
             { "not": { "npc_has_trait": "LILIN_TRAITS" } },
-            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } }
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+            { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can I take a little bit of your energy?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_OWL_FORM",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LILIN_TRAITS" },
+            { "or": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } ] }
           ]
         }
       }
@@ -145,6 +170,16 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_RUACH_DRAIN_OWL_FORM",
+    "//": "separate dialogue to include a more explicit message about why the follower cannot be drained.",
+    "dynamic_line": "(you sense that you won't be able to drain this person's ruach while you are maintaining your owl transformation, so you decide to not ask your question)",
+    "responses": [
+      { "text": "(Ask them about something else)", "topic": "TALK_FRIEND" },
+      { "text": "(Go do something else)", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_LILIN_RUACH_DRAIN_DIALOGUE",
     "//": "Another EOC is required so the game can check if the follower allowed without making all NPCs okay with being drained once every three days.",
@@ -152,7 +187,7 @@
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
-      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS_DIALOGUE" },
       {
         "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },

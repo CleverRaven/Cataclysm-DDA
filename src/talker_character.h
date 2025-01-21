@@ -59,8 +59,9 @@ class talker_character_const: virtual public const_talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
+        tripoint_bub_ms pos_bub() const override;
+        tripoint_abs_ms pos_abs() const override;
+        tripoint_abs_omt pos_abs_omt() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
         int get_hp_max( const bodypart_id &bp ) const override;
         units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
@@ -71,6 +72,7 @@ class talker_character_const: virtual public const_talker
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        int get_speed() const override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &dam ) const override;
         int pain_cur() const override;
@@ -185,11 +187,13 @@ class talker_character_const: virtual public const_talker
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         bool get_is_alive() const override;
+        bool is_warm() const override;
 
         bool can_see() const override;
-        bool can_see_location( const tripoint &pos ) const override;
+        bool can_see_location( const tripoint_bub_ms &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
+        int focus_effective_cur() const override;
         int get_rad() const override;
         int get_stim() const override;
         int get_addiction_intensity( const addiction_id &add_id ) const override;
@@ -199,6 +203,7 @@ class talker_character_const: virtual public const_talker
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
         int get_age() const override;
+        int get_ugliness() const override;
         int get_height() const override;
         int get_bmi_permil() const override;
         int get_weight() const override;
@@ -243,7 +248,7 @@ class talker_character: virtual public talker
             return me_chr;
         }
 
-        void set_pos( tripoint new_pos ) override;
+        void set_pos( tripoint_bub_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         void set_str_max( int value ) override;
@@ -299,6 +304,7 @@ class talker_character: virtual public talker
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void mod_livestyle( int ) override;
         void set_fac_relation( const Character *guy, npc_factions::relationship rule,
                                bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,

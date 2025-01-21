@@ -299,7 +299,7 @@ unsigned make_xyz( const tripoint &p )
 {
     static constexpr double sixteenth_arc = M_PI / 8;
     int vertical_position = ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
-    if( p.xy() == point_zero ) {
+    if( p.xy() == point::zero ) {
         return vertical_position;
     }
     // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
@@ -483,64 +483,64 @@ tripoint displace( direction dir )
 {
     switch( dir ) {
         case direction::NORTHWEST:
-            return tripoint_north_west;
+            return tripoint::north_west;
         case direction::ABOVENORTHWEST:
-            return point_north_west + tripoint_above;
+            return point::north_west + tripoint::above;
         case direction::BELOWNORTHWEST:
-            return point_north_west + tripoint_below;
+            return point::north_west + tripoint::below;
         case direction::NORTH:
-            return tripoint_north;
+            return tripoint::north;
         case direction::ABOVENORTH:
-            return point_north + tripoint_above;
+            return point::north + tripoint::above;
         case direction::BELOWNORTH:
-            return point_north + tripoint_below;
+            return point::north + tripoint::below;
         case direction::NORTHEAST:
-            return tripoint_north_east;
+            return tripoint::north_east;
         case direction::ABOVENORTHEAST:
-            return point_north_east + tripoint_above;
+            return point::north_east + tripoint::above;
         case direction::BELOWNORTHEAST:
-            return point_north_east + tripoint_below;
+            return point::north_east + tripoint::below;
         case direction::WEST:
-            return tripoint_west;
+            return tripoint::west;
         case direction::ABOVEWEST:
-            return point_west + tripoint_above;
+            return point::west + tripoint::above;
         case direction::BELOWWEST:
-            return point_west + tripoint_below;
+            return point::west + tripoint::below;
         case direction::CENTER:
-            return tripoint_zero;
+            return tripoint::zero;
         case direction::ABOVECENTER:
-            return tripoint_above;
+            return tripoint::above;
         case direction::BELOWCENTER:
-            return tripoint_below;
+            return tripoint::below;
         case direction::EAST:
-            return tripoint_east;
+            return tripoint::east;
         case direction::ABOVEEAST:
-            return point_east + tripoint_above;
+            return point::east + tripoint::above;
         case direction::BELOWEAST:
-            return point_east + tripoint_below;
+            return point::east + tripoint::below;
         case direction::SOUTHWEST:
-            return tripoint_south_west;
+            return tripoint::south_west;
         case direction::ABOVESOUTHWEST:
-            return point_south_west + tripoint_above;
+            return point::south_west + tripoint::above;
         case direction::BELOWSOUTHWEST:
-            return point_south_west + tripoint_below;
+            return point::south_west + tripoint::below;
         case direction::SOUTH:
-            return tripoint_south;
+            return tripoint::south;
         case direction::ABOVESOUTH:
-            return point_south + tripoint_above;
+            return point::south + tripoint::above;
         case direction::BELOWSOUTH:
-            return point_south + tripoint_below;
+            return point::south + tripoint::below;
         case direction::SOUTHEAST:
-            return tripoint_south_east;
+            return tripoint::south_east;
         case direction::ABOVESOUTHEAST:
-            return point_south_east + tripoint_above;
+            return point::south_east + tripoint::above;
         case direction::BELOWSOUTHEAST:
-            return point_south_east + tripoint_below;
+            return point::south_east + tripoint::below;
         case direction::last:
             cata_fatal( "Invalid direction" );
     }
 
-    return tripoint_zero;
+    return tripoint::zero;
 }
 
 point displace_XY( const direction dir )
@@ -549,44 +549,44 @@ point displace_XY( const direction dir )
         case direction::NORTHWEST:
         case direction::ABOVENORTHWEST:
         case direction::BELOWNORTHWEST:
-            return point_north_west;
+            return point::north_west;
         case direction::NORTH:
         case direction::ABOVENORTH:
         case direction::BELOWNORTH:
-            return point_north;
+            return point::north;
         case direction::NORTHEAST:
         case direction::ABOVENORTHEAST:
         case direction::BELOWNORTHEAST:
-            return point_north_east;
+            return point::north_east;
         case direction::WEST:
         case direction::ABOVEWEST:
         case direction::BELOWWEST:
-            return point_west;
+            return point::west;
         case direction::CENTER:
         case direction::ABOVECENTER:
         case direction::BELOWCENTER:
-            return point_zero;
+            return point::zero;
         case direction::EAST:
         case direction::ABOVEEAST:
         case direction::BELOWEAST:
-            return point_east;
+            return point::east;
         case direction::SOUTHWEST:
         case direction::ABOVESOUTHWEST:
         case direction::BELOWSOUTHWEST:
-            return point_south_west;
+            return point::south_west;
         case direction::SOUTH:
         case direction::ABOVESOUTH:
         case direction::BELOWSOUTH:
-            return point_south;
+            return point::south;
         case direction::SOUTHEAST:
         case direction::ABOVESOUTHEAST:
         case direction::BELOWSOUTHEAST:
-            return point_south_east;
+            return point::south_east;
         case direction::last:
             cata_fatal( "Invalid direction" );
     }
 
-    return point_zero;
+    return point::zero;
 }
 
 namespace
@@ -673,7 +673,7 @@ std::string direction_arrow( const direction dir )
     return arrow;
 }
 
-std::string direction_suffix( const tripoint &p, const tripoint &q )
+std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
@@ -687,36 +687,37 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to )
 {
-    std::vector<tripoint> adjacent_closer_squares;
+    std::vector<tripoint_bub_ms> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint d( -from + to );
-    const point a( std::abs( d.x ), std::abs( d.y ) );
-    if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+    const tripoint_rel_ms d( to - from );
+    const point a( std::abs( d.x() ), std::abs( d.y() ) );
+    if( d.z() != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x() ), sgn( d.y() ), sgn( d.z() ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
-        if( d.y != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), -1 ) );
+        if( d.y() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
         }
     } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
-        if( d.x != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y() ) ) );
+        if( d.x() != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
         }
-    } else if( d.x != 0 ) {
+    } else if( d.x() != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
     }
 
     return adjacent_closer_squares;
@@ -724,27 +725,41 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     int junk = 0;
-    point center_square = line_to( p1, p2, junk )[0];
-    std::vector<point> adjacent_squares;
+    point_bub_ms center_square = line_to( p1, p2, junk )[0];
+    std::vector<point_bub_ms> adjacent_squares;
     adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
-    if( p1.x == center_square.x ) {
+    if( p1.x() == center_square.x() ) {
         // Horizontally adjacent.
-        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
-        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
-    } else if( p1.y == center_square.y ) {
+        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
+        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
+    } else if( p1.y() == center_square.y() ) {
         // Vertically adjacent.
-        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
-        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.emplace_back( p1.x, center_square.y );
-        adjacent_squares.emplace_back( center_square.x, p1.y );
+        adjacent_squares.emplace_back( p1.x(), center_square.y() );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() );
     }
     return adjacent_squares;
+}
+
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
+{
+    const std::vector<point_bub_ms> tmp = squares_in_direction( rebase_bub( p1 ), rebase_bub( p2 ) );
+    std::vector<point_omt_ms> result;
+    result.reserve( tmp.size() );
+
+    for( const point_bub_ms &point : tmp ) {
+        const point_omt_ms work_around = point_omt_ms( point.raw() );
+        result.emplace_back( work_around );
+    }
+
+    return result;
 }
 
 rl_vec2d rl_vec3d::xy() const
@@ -975,4 +990,36 @@ units::angle coord_to_angle( const tripoint &a, const tripoint &b )
         rad += 2_pi_radians;
     }
     return rad;
+}
+
+FastDistanceApproximation trig_dist_fast( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return FastDistanceApproximation(
+               ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) +
+               ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) +
+               ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) );
+}
+
+FastDistanceApproximation square_dist_fast( const tripoint_bub_ms &loc1,
+        const tripoint_bub_ms &loc2 )
+{
+    const tripoint_rel_ms d = ( loc1 - loc2 ).abs();
+    return FastDistanceApproximation( std::max( { d.x(), d.y(), d.z() } ) );
+}
+
+FastDistanceApproximation rl_dist_fast( const point_bub_ms &a, const point_bub_ms &b )
+{
+    return rl_dist_fast( tripoint_bub_ms( a, 0 ), tripoint_bub_ms( b, 0 ) );
+}
+
+float trig_dist( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 )
+{
+    return std::sqrt( static_cast<double>( ( loc1.x() - loc2.x() ) * ( loc1.x() - loc2.x() ) ) +
+                      ( ( loc1.y() - loc2.y() ) * ( loc1.y() - loc2.y() ) ) +
+                      ( ( loc1.z() - loc2.z() ) * ( loc1.z() - loc2.z() ) ) );
+}
+
+float trig_dist( const point_bub_ms &loc1, const point_bub_ms &loc2 )
+{
+    return trig_dist( tripoint_bub_ms( loc1, 0 ), tripoint_bub_ms( loc2, 0 ) );
 }

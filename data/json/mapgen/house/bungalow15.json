@@ -2,11 +2,10 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow15",
-    "weight": 125,
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
         "standard_domestic_landscaping_palette",
@@ -66,13 +65,15 @@
       },
       "place_loot": [ { "item": "lawnmower", "x": 3, "y": 21, "chance": 25 }, { "item": "television", "x": 10, "y": 9, "chance": 100 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 3, "y": 4, "chance": 30, "fuel": 80, "rotation": 90 } ],
-      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 1 } ]
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 23, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "carcrash_10x10_rand", 5 ] ], "x": [ 7, 12 ], "y": 0 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow15_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],

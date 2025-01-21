@@ -5,14 +5,21 @@
     "name": "Flareup",
     "description": "You channel heat through your hands to severely burn a target you touch.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
+    "flags": [
+      "EVOCATION_SPELL",
+      "RANDOM_DAMAGE",
+      "CONCENTRATE",
+      "SOMATIC",
+      "NO_PROJECTILE",
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "NO_HANDS"
+    ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
-    "min_damage": 20,
-    "damage_increment": 8.0,
-    "max_damage": 300,
+    "min_damage": { "math": [ "(u_spell_level('flareup') * 4.1) + 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('flareup') * 6.9) + 20" ] },
     "min_range": 1,
     "max_range": 1,
     "base_energy_cost": 120,
@@ -23,7 +30,7 @@
     "sound_description": "skin crackling",
     "sound_id": "fire_spell",
     "sound_variant": "strong",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "flarewhip",
@@ -45,7 +52,7 @@
     "base_casting_time": 25,
     "sound_description": "whoosh",
     "sound_id": "fire_spell",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "min_duration": 90000,
     "duration_increment": 6000,
     "max_duration": 300000

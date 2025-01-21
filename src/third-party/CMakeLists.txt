@@ -66,21 +66,24 @@ if (TILES)
                 imgui
                 STATIC
                 imgui/imconfig.h
-                imgui/imgui_internal.h
+                imgui/imgui.cpp
                 imgui/imgui.h
-                imgui/imstb_rectpack.h
-                imgui/imstb_textedit.h
-                imgui/imstb_truetype.h
                 imgui/imgui_demo.cpp
                 imgui/imgui_draw.cpp
                 imgui/imgui_freetype.cpp
-                imgui/imgui_tables.cpp
-                imgui/imgui_widgets.cpp
-                imgui/imgui.cpp
+                imgui/imgui_freetype.h
                 imgui/imgui_impl_sdl2.cpp
                 imgui/imgui_impl_sdl2.h
                 imgui/imgui_impl_sdlrenderer2.cpp
                 imgui/imgui_impl_sdlrenderer2.h
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
+                imgui/imgui_tables.cpp
+                imgui/imgui_widgets.cpp
+                imgui/imstb_rectpack.h
+                imgui/imstb_textedit.h
+                imgui/imstb_truetype.h
                 )
 
         target_include_directories(
@@ -103,8 +106,6 @@ if (TILES)
                 PRIVATE
                 -w
                 )
-
-        target_compile_definitions(imgui PUBLIC IMGUI_DISABLE_OBSOLETE_KEYIO)
 
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
@@ -131,16 +132,15 @@ if (CURSES)
                 imtui
                 STATIC
                 imgui/imconfig.h
-                imgui/imgui_internal.h
+                imgui/imgui.cpp
                 imgui/imgui.h
-                imgui/imstb_rectpack.h
-                imgui/imstb_textedit.h
-                imgui/imstb_truetype.h
                 imgui/imgui_demo.cpp
                 imgui/imgui_draw.cpp
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
                 imgui/imgui_tables.cpp
                 imgui/imgui_widgets.cpp
-                imgui/imgui.cpp
                 imtui/imtui-impl-ncurses.cpp
                 imtui/imtui-impl-ncurses.h
                 imtui/imtui-impl-text.cpp

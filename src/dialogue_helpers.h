@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "debug.h"
 #include "global_vars.h"
+#include "math_parser_type.h"
 #include "translation.h"
 
 class JsonArray;
@@ -55,6 +56,8 @@ struct abstract_str_or_var {
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
     std::string evaluate( const_dialogue const & ) const;
+    abstract_str_or_var() = default;
+    explicit abstract_str_or_var( T str ) : str_val( str ) {};
 };
 
 using str_or_var = abstract_str_or_var<std::string>;
@@ -100,41 +103,12 @@ std::optional<std::string> maybe_read_var_value(
 var_info process_variable( const std::string &type );
 
 struct eoc_math {
-    enum class oper : int {
-        ret = 0,
-        assign,
+    std::shared_ptr<math_exp> exp;
 
-        // these need mhs
-        plus_assign,
-        minus_assign,
-        mult_assign,
-        div_assign,
-        mod_assign,
-        increase,
-        decrease,
+    void from_json( const JsonObject &jo, std::string_view member, math_type_t type_ );
 
-        equal,
-        not_equal,
-        less,
-        equal_or_less,
-        greater,
-        equal_or_greater,
-
-        invalid,
-    };
-    enum class type_t : int {
-        ret = 0,
-        compare,
-        assign,
-    };
-    std::shared_ptr<math_exp> lhs;
-    std::shared_ptr<math_exp> mhs;
-    std::shared_ptr<math_exp> rhs;
-    eoc_math::oper action = oper::invalid;
-
-    void from_json( const JsonObject &jo, std::string_view member, type_t type_ );
-    double act( dialogue &d ) const;
-    void _validate_type( JsonArray const &objects, type_t type_ ) const;
+    template<typename D>
+    double act( D &d ) const;
 };
 
 struct dbl_or_var_part {

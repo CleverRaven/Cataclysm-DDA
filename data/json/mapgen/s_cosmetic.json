@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_cosmetic" ],
-    "weight": 100,
     "object": {
       "rows": [
         "__....................._",
@@ -31,12 +30,12 @@
         "..L****+***********I j#_",
         "..#####################_"
       ],
-      "fill_ter": "t_linoleum_white",
-      "palettes": [ "parametrized_carpets_palette", "parametrized_walls_palette" ],
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "j": "t_linoleum_white",
-        "T": "t_linoleum_white",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "j": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "*": "t_thconc_floor",
         "k": "t_thconc_floor",
         "+": "t_door_c",
@@ -78,7 +77,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_cosmetic_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

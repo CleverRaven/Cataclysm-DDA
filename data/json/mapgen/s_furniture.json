@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "furniture" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,15 +31,15 @@
         " #...fg.ECHH<m&|S#sssss ",
         " #################sssss "
       ],
-      "palettes": [ "commercial", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "commercial", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "s": "t_concrete",
         "+": "t_door_c",
-        "T": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "'": "t_linoleum_white",
-        "é": "t_linoleum_white",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "é": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "D": "t_door_locked",
         "g": "t_wall_glass",
         "<": "t_ladder_up",

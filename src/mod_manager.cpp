@@ -155,6 +155,10 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
+    if( !dir_exist( PATH_INFO::user_moddir() ) ) {
+        assure_dir_exist( PATH_INFO::user_moddir() );
+    }
+
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
     load_mods_from( PATH_INFO::user_moddir_path() );
@@ -394,7 +398,7 @@ void mod_manager::load_mod_info( const cata_path &info_file_path )
 
 cata_path mod_manager::get_mods_list_file( const WORLD *world )
 {
-    return world->folder_path_path() / "mods.json";
+    return world->folder_path() / "mods.json";
 }
 
 void mod_manager::save_mods_list( const WORLD *world ) const

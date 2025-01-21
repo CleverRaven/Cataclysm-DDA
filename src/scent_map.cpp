@@ -68,7 +68,8 @@ void scent_map::decay()
     }
 }
 
-void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
+void scent_map::draw( const catacurses::window &win, const int div,
+                      const tripoint_bub_ms &center ) const
 {
     cata_assert( div != 0 );
     const point max( getmaxx( win ), getmaxy( win ) );
@@ -80,48 +81,50 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
     }
 }
 
-void scent_map::shift( const point &sm_shift )
+void scent_map::shift( const point_rel_ms &sm_shift )
 {
-    scent_array<int> new_scent;
-    for( size_t x = 0; x < MAPSIZE_X; ++x ) {
-        for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
-            const point p = point( x, y ) + sm_shift;
-            new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
+    // Set up iteration such that we ensure data has been moved before
+    // it's overwritten.
+    const int x_start = sm_shift.x() >= 0 ? 0 : MAPSIZE_X - 1;
+    const int x_stop = sm_shift.x() >= 0 ? MAPSIZE_X : -1;
+    const int x_step = sm_shift.x() >= 0 ? 1 : -1;
+    const int y_start = sm_shift.y() >= 0 ? 0 : MAPSIZE_Y - 1;
+    const int y_stop = sm_shift.y() >= 0 ? MAPSIZE_Y : -1;
+    const int y_step = sm_shift.y() >= 0 ? 1 : -1;
+
+    for( int x = x_start; x != x_stop; x += x_step ) {
+        for( int y = y_start; y != y_stop; y += y_step ) {
+            const point_bub_ms p = point_bub_ms( x, y ) + sm_shift;
+            grscent[x][y] = inbounds( p ) ? grscent[p.x()][p.y()] : 0;
         }
     }
-    grscent = new_scent;
 }
 
-int scent_map::get( const tripoint &p ) const
+int scent_map::get( const tripoint_bub_ms &p ) const
 {
-    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+    if( inbounds( p ) && grscent[p.x()][p.y()] > 0 ) {
         return get_unsafe( p );
     }
     return 0;
 }
 
-int scent_map::get( const tripoint_bub_ms &p ) const
-{
-    return scent_map::get( p.raw() );
-}
-
-void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
+void scent_map::set( const tripoint_bub_ms &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
         set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &type )
+void scent_map::set_unsafe( const tripoint_bub_ms &p, int value, const scenttype_id &type )
 {
-    grscent[p.x][p.y] = value;
+    grscent[p.x()][p.y()] = value;
     if( !type.is_empty() ) {
         typescent = type;
     }
 }
-int scent_map::get_unsafe( const tripoint &p ) const
+int scent_map::get_unsafe( const tripoint_bub_ms &p ) const
 {
-    return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z() - p.z );
+    return grscent[p.x()][p.y()] - std::abs( get_map().get_abs_sub().z() - p.z() );
 }
 
 scenttype_id scent_map::get_type() const
@@ -129,47 +132,47 @@ scenttype_id scent_map::get_type() const
     return typescent;
 }
 
-scenttype_id scent_map::get_type( const tripoint &p ) const
+scenttype_id scent_map::get_type( const tripoint_bub_ms &p ) const
 {
     scenttype_id id;
-    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+    if( inbounds( p ) && grscent[p.x()][p.y()] > 0 ) {
         id = typescent;
     }
     return id;
 }
 
-bool scent_map::inbounds( const tripoint &p ) const
+bool scent_map::inbounds( const tripoint_bub_ms &p ) const
 {
     // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
     const int levz = get_map().get_abs_sub().z();
-    const bool scent_map_z_level_inbounds = ( p.z == levz ) ||
-                                            ( std::abs( p.z - levz ) == SCENT_MAP_Z_REACH &&
-                                                    get_map().valid_move( p, tripoint( p.xy(), levz ), false, true ) );
+    const bool scent_map_z_level_inbounds = ( p.z() == levz ) ||
+                                            ( std::abs( p.z() - levz ) == SCENT_MAP_Z_REACH &&
+                                                    get_map().valid_move( p, tripoint_bub_ms( p.xy(), levz ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
     return inbounds( p.xy() );
 }
 
-bool scent_map::inbounds( const point &p ) const
+bool scent_map::inbounds( const point_bub_ms &p ) const
 {
-    static constexpr point scent_map_boundary_min{};
-    static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
+    static constexpr point_bub_ms scent_map_boundary_min{};
+    static constexpr point_bub_ms scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    static constexpr half_open_rectangle<point> scent_map_boundaries(
+    static constexpr half_open_rectangle<point_bub_ms> scent_map_boundaries(
         scent_map_boundary_min, scent_map_boundary_max );
 
     return scent_map_boundaries.contains( p );
 }
 
-void scent_map::update( const tripoint &center, map &m )
+void scent_map::update( const tripoint_bub_ms &center, map &m )
 {
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
     if( !player_last_position || center != *player_last_position ) {
-        player_last_position.emplace( center );
+        player_last_position = center;
         player_last_moved = calendar::turn;
     } else if( player_last_moved + 1000_turns < calendar::turn ) {
         return;
@@ -188,10 +191,10 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<bool> reduces_scent;
 
     // for loop constants
-    const int scentmap_minx = center.x - SCENT_RADIUS;
-    const int scentmap_maxx = center.x + SCENT_RADIUS;
-    const int scentmap_miny = center.y - SCENT_RADIUS;
-    const int scentmap_maxy = center.y + SCENT_RADIUS;
+    const int scentmap_minx = center.x() - SCENT_RADIUS;
+    const int scentmap_maxx = center.x() + SCENT_RADIUS;
+    const int scentmap_miny = center.y() - SCENT_RADIUS;
+    const int scentmap_maxy = center.y() + SCENT_RADIUS;
 
     // decrease this to reduce gas spread. Keep it under 125 for
     // stability. This is essentially a decimal number * 1000.

@@ -35,10 +35,15 @@
         "afs_habitat_structure",
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
-        "afs_habblock_1_paramter_palette"
+        "afs_habblock_1_paramter_palette",
+        "afs_light_param_palette"
       ],
       "furniture": { "1": "f_washer", "2": "f_dryer", "3": "f_atm" },
       "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
+      "place_monster": [
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 },
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 }
+      ],
       "place_nested": [
         { "chunks": [ { "param": "variant", "fallback": "afs_habblock_1_slot1_cafe_a1" } ], "x": 0, "y": 0 },
         {
@@ -120,9 +125,14 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_habblock_1_paramter_palette"
+        "afs_habblock_1_paramter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": { " ": "t_open_air", "1": "t_afs_door_metal_elocked" },
+      "place_monster": [
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 23 ], "y": [ 12, 20 ], "pack_size": [ 1, 3 ], "chance": 20 },
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 45 ], "y": [ 5, 23 ], "pack_size": [ 1, 3 ], "chance": 20 }
+      ],
       "place_nested": [
         {
           "chunks": [
@@ -182,8 +192,7 @@
       "variant": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "afs_habblock_1_slot1_cafe_a1", "afs_habblock_1_slot1_diner_a1" ] }
-      },
-      "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } }
+      }
     }
   },
   {
@@ -368,7 +377,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { ";": "t_linoleum_white_olight_inactive" },
-      "furniture": { "$": "f_safe_l", "á": "f_rack", "â": "f_rack" },
+      "furniture": { "$": "f_e_safe_l", "á": "f_rack", "â": "f_rack" },
       "items": {
         "$": { "item": "afs_cash_safe" },
         "á": { "item": "afs_old_food_storage", "chance": 40, "repeat": [ 1, 3 ] },
@@ -452,7 +461,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { ";": "t_linoleum_white_olight_inactive", "1": "t_afs_door_metal_elocked" },
-      "furniture": { "$": "f_safe_l", "á": "f_rack", "â": "f_reinforced_displaycase" },
+      "furniture": { "$": "f_e_safe_l", "á": "f_rack", "â": "f_reinforced_displaycase" },
       "items": {
         "$": { "item": "afs_cash_safe" },
         "á": { "item": "afs_tools_robot_maintenance", "chance": 40, "repeat": [ 1, 2 ] },
@@ -500,7 +509,7 @@
         "ä": "f_reinforced_displaycase",
         "é": "f_rack",
         "ê": "f_rack",
-        "$": "f_safe_l"
+        "$": "f_e_safe_l"
       },
       "items": {
         "á": { "item": "afs_any_ballistic_ammo", "chance": 60, "repeat": [ 3, 6 ] },
@@ -546,7 +555,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { "/": "t_wall_prefab_metal", ":": "t_door_c", ";": "t_linoleum_white_olight_inactive" },
-      "furniture": { "1": "f_clothing_rail", "2": "f_mannequin", "$": "f_safe_l" },
+      "furniture": { "1": "f_clothing_rail", "2": "f_mannequin", "$": "f_e_safe_l" },
       "items": {
         "r": { "item": "afs_colonist_outfit", "chance": 60, "repeat": [ 1, 2 ] },
         "m": { "item": "afs_colonist_outfit" },
@@ -588,7 +597,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { ";": "t_linoleum_white_olight_inactive" },
-      "furniture": { "á": "f_rack", "$": "f_safe_l" },
+      "furniture": { "á": "f_rack", "$": "f_e_safe_l" },
       "items": { "á": { "item": "afs_tools_structural_repair", "chance": 60, "repeat": [ 1, 3 ] }, "$": { "item": "afs_cash_safe" } }
     }
   },
@@ -626,7 +635,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { "/": "t_wall_prefab_metal", ";": "t_linoleum_white_olight_inactive", "1": "t_afs_door_metal_elocked" },
-      "furniture": { "$": "f_safe_l", "á": "f_rack", "â": "f_rack" },
+      "furniture": { "$": "f_e_safe_l", "á": "f_rack", "â": "f_rack" },
       "items": {
         "á": { "item": "softdrugs", "chance": 80, "repeat": [ 2, 6 ] },
         "â": { "item": "drugs_rare", "chance": 80, "repeat": [ 1, 4 ] },

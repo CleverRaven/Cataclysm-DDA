@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "Cemetery_1a", "Cemetery_1b" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -32,6 +31,7 @@
         " ||||||||||||||||||||!||||||||||||||||||||||||| ",
         "                                                "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         "!": "t_gutter_downspout",
         "#": "t_dirtmound",
@@ -42,10 +42,10 @@
         "7": "t_region_tree_shade",
         "P": "t_pit_shallow",
         "_": "t_concrete",
-        "T": "t_linoleum_white",
-        "a": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "'": "t_linoleum_white",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "D": "t_floor",
         "c": "t_floor",
         ".": "t_floor",
@@ -82,7 +82,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "Cemetery_1a_roof",
-    "weight": 100,
     "object": {
       "rows": [
         "                        ",

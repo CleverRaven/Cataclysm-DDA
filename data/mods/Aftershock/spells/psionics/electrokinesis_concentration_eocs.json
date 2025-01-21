@@ -32,7 +32,7 @@
     "id": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_see_electricity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
@@ -131,7 +131,7 @@
     "id": "EOC_AFS_ELECTROKIN_HACKING_INTERFACE_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_hacking_interface')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },
@@ -227,15 +227,15 @@
           }
         ]
       },
-      { "math": [ "u_afs_electrokin_personal_battery_count", "=", "0" ] },
+      { "math": [ "u_afs_electrokin_personal_battery_count = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
-            "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count", "++" ] } ]
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count++" ] } ]
           }
         ]
       },
@@ -254,10 +254,10 @@
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",
-            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
-                "if": { "math": [ "u_afs_electrokin_personal_battery_count", ">", "0" ] },
+                "if": { "math": [ "u_afs_electrokin_personal_battery_count > 0" ] },
                 "then": {
                   "math": [
                     "n_afs_electrokin_charging_value_counter",
@@ -270,26 +270,26 @@
           },
           {
             "id": "EOC_AFS_LECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",
-            "condition": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "1" ] },
+            "condition": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
             "effect": [
               {
-                "if": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "5" ] },
+                "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 5" ] },
                 "then": [ { "math": [ "n_val('power')", "+=", "5" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "5" ] } ],
                 "else": [
                   {
-                    "if": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "4" ] },
+                    "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 4" ] },
                     "then": [ { "math": [ "n_val('power')", "+=", "4" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "4" ] } ],
                     "else": [
                       {
-                        "if": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "3" ] },
+                        "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 3" ] },
                         "then": [ { "math": [ "n_val('power')", "+=", "3" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "3" ] } ],
                         "else": [
                           {
-                            "if": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "2" ] },
+                            "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 2" ] },
                             "then": [ { "math": [ "n_val('power')", "+=", "2" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "2" ] } ],
                             "else": [
                               {
-                                "if": { "math": [ "n_afs_electrokin_charging_value_counter", ">=", "1" ] },
+                                "if": { "math": [ "n_afs_electrokin_charging_value_counter >= 1" ] },
                                 "then": [ { "math": [ "n_val('power')", "+=", "1" ] }, { "math": [ "n_afs_electrokin_charging_value_counter", "-=", "1" ] } ]
                               }
                             ]
@@ -311,7 +311,7 @@
     "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_MAINTENANCE",
     "condition": { "u_has_effect": "effect_afs_electrokin_personal_battery" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       {
         "math": [ "u_spell_exp('afs_electrokinetic_personal_battery')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
       },

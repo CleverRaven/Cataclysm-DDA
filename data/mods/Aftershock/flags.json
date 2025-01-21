@@ -10,6 +10,11 @@
     "info": "This item is an access card for ancient police locations."
   },
   {
+    "id": "OLD_MERCURIAL_CARD",
+    "type": "json_flag",
+    "info": "This item is an access card for ancient Mercurial locations."
+  },
+  {
     "id": "HEAVY_TOOL",
     "type": "json_flag"
   },
@@ -17,6 +22,16 @@
     "id": "TEEPSHIELD",
     "type": "json_flag",
     "info": "You are immune to telepathy."
+  },
+  {
+    "id": "TELEKIN_SHIELD",
+    "type": "json_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "TELEKIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telekinetic damage"
   },
   {
     "id": "SHIELD_GENERATOR",

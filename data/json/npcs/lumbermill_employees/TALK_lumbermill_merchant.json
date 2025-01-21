@@ -11,7 +11,7 @@
       {
         "text": "Nice to meet you.",
         "condition": { "math": [ "!has_var(n_dialogue_first_meeting_talked_to_merchant)" ] },
-        "effect": { "math": [ "n_dialogue_first_meeting_talked_to_merchant", "=", "yes" ] },
+        "effect": { "math": [ "n_dialogue_first_meeting_talked_to_merchant = yes" ] },
         "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
       },
       {

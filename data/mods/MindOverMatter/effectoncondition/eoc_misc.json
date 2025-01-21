@@ -3,8 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
-    "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
-    "effect": [ { "math": [ "telepathically_stole_recently", "=", "0" ] } ]
+    "condition": { "math": [ "telepathically_stole_recently >= 1" ] },
+    "deactivate_condition": { "not": { "u_has_trait": "TELEPATH" } },
+    "effect": [ { "math": [ "telepathically_stole_recently = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -28,7 +29,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "math": [ "_success", "!=", "false" ] }
+        { "math": [ "_success != false" ] }
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(100 * _difficulty)" ] } ]
@@ -55,7 +56,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "math": [ "_success", "==", "false" ] }
+        { "math": [ "_success == false" ] }
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "(25 * _difficulty)" ] } ]
@@ -106,7 +107,7 @@
             { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [
@@ -182,10 +183,22 @@
             { "compare_string": [ "dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
-            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+            { "compare_string": [ "downed", { "context_val": "effect" } ] },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 5" ] }
+              ]
+            },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 11" ] }
+              ]
+            }
           ]
         },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
     "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]
@@ -209,8 +222,7 @@
     "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_VIRAL_TO_CONJUNCTIVITIS_VIRAL",
     "condition": { "u_has_effect": "pre_conjunctivitis_viral" },
     "effect": [
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": [ "pre_conjunctivitis_viral", "pre_conjunctivitis_bacterial" ] },
       {
         "u_add_effect": "conjunctivitis_viral",
         "duration": { "math": [ "rand(259200) + 432000" ] },
@@ -223,8 +235,7 @@
     "id": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_BACTERIAL_TO_CONJUNCTIVITIS_BACTERIAL",
     "condition": { "u_has_effect": "pre_conjunctivitis_bacterial" },
     "effect": [
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": [ "pre_conjunctivitis_viral", "pre_conjunctivitis_bacterial" ] },
       {
         "u_add_effect": "conjunctivitis_bacterial",
         "duration": { "math": [ "rand(259200) + 432000" ] },

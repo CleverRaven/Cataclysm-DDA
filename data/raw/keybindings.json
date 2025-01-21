@@ -1688,6 +1688,17 @@
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Randomize trait",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Randomize scenario",
     "bindings": [
@@ -2606,10 +2617,22 @@
   },
   {
     "type": "keybinding",
+    "name": "Throw wielded item",
+    "category": "DEFAULTMODE",
+    "id": "throw_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Blind throw item",
     "category": "LOOK",
     "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind throw wielded item",
+    "category": "LOOK",
+    "id": "throw_blind_wielded"
   },
   {
     "type": "keybinding",
@@ -3257,6 +3280,12 @@
     "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "recast_spell",
+    "name": "Repeat last supernatural ability",
+    "category": "DEFAULTMODE"
   },
   {
     "type": "keybinding",
@@ -3981,6 +4010,13 @@
     "category": "ADVANCED_INVENTORY",
     "name": "Examine items in container",
     "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UNLOAD_CONTAINER",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Unload item from container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "keyboard_any", "key": "U" } ]
   },
   {
     "type": "keybinding",
@@ -4860,6 +4896,48 @@
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "s" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_GENERAL_INFO_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle general info group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_BUFFS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle buffs group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TECHNIQUES_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle techniques group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_WEAPONS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle weapons group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",

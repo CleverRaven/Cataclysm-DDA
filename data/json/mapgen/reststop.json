@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "s_restparking_1", "s_restparking_2" ], [ "s_reststop_1", "s_reststop_2" ] ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -7,7 +7,6 @@
 #include "ballistics.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -37,9 +36,8 @@ static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> 
 
     dealt_projectile_attack attack;
 
-    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(),
-                                &get_player_character(),
-                                nullptr );
+    projectile_attack( attack, test_proj, range[0], range[2], dispersion_sources(),
+                       &get_player_character(), nullptr );
 
     return attack.end_point;
 }
@@ -57,9 +55,9 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     // First, set up a test area - three tiles in a row
     // One on either side clear, with a chainlink fence in the middle
     std::vector<tripoint_bub_ms> range = {
-        tripoint_bub_ms_zero,
-        tripoint_bub_ms_zero + tripoint_rel_ms_east,
-        tripoint_bub_ms_zero + tripoint_rel_ms_east * 2
+        tripoint_bub_ms::zero,
+        tripoint_bub_ms::zero + tripoint_rel_ms::east,
+        tripoint_bub_ms::zero + tripoint_rel_ms::east * 2
     };
     for( const tripoint_bub_ms &pt : range ) {
         REQUIRE( here.inbounds( pt ) );

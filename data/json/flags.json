@@ -592,6 +592,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -663,6 +668,11 @@
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
     "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
+  },
+  {
+    "id": "HINT_THE_LOCATION",
+    "type": "json_flag",
+    "//": "Same as PRESERVE_SPAWN_OMT, but aslo shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -1045,6 +1055,11 @@
     "id": "WONT_TRAIN_MARKSMANSHIP",
     "type": "json_flag",
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
+    "id": "GENE_TECH",
+    "type": "json_flag",
+    "//": "Used in Aftershock gene editing."
   },
   {
     "id": "NANOFAB_REPAIR",
@@ -1544,10 +1559,6 @@
     "id": "MORPHIC",
     "type": "json_flag",
     "info": "This is <info>naturally sized to the body</info>."
-  },
-  {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
   },
   {
     "id": "IS_ARMOR",
@@ -2169,8 +2180,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
@@ -2612,5 +2623,33 @@
     "id": "CRAFT_IN_DARKNESS",
     "type": "json_flag",
     "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
+  },
+  {
+    "id": "CANNOT_GAIN_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
   }
 ]

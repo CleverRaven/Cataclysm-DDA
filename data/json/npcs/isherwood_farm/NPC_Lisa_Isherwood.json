@@ -91,14 +91,14 @@
         "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa >= time('1 h')" ] } ]
         }
       },
       {
         "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", "<", "time('1 h')" ] } ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa < time('1 h')" ] } ]
         }
       },
       {
@@ -176,7 +176,7 @@
     "responses": [
       {
         "text": "Great.  I'll see you there.",
-        "effect": { "math": [ "isherwood_lisa_coming", "=", "1" ] },
+        "effect": { "math": [ "isherwood_lisa_coming = 1" ] },
         "//": "This is temporary.  Lisa should join Chris at the tower with an EOC spawn.",
         "topic": "TALK_DONE"
       }

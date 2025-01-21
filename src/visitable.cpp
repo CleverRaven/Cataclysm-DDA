@@ -274,7 +274,7 @@ int Character::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
@@ -288,7 +288,7 @@ int Character::max_quality( const quality_id &qual, int radius ) const
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint_zero, radius, true )
+                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 
@@ -353,7 +353,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
@@ -506,9 +506,9 @@ VisitResponse map_cursor::visit_items(
         // pos returns the pos_bub location of the target relative to the reality bubble
         // even though the location isn't actually inside of it. Thus, we're loading a map
         // around that location to do our work.
-        tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
+        tripoint_abs_ms abs_pos = get_map().get_abs( pos() );
         here.load( project_to<coords::omt>( abs_pos ), false );
-        tripoint_omt_ms p = here.omt_from_abs( abs_pos );
+        tripoint_omt_ms p = here.get_omt( abs_pos );
         return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }

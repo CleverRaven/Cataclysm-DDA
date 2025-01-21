@@ -22,8 +22,8 @@
 minesweeper_game::minesweeper_game()
 {
     min = point( 8, 8 );
-    max = point_zero;
-    offset = point_zero;
+    max = point::zero;
+    offset = point::zero;
 }
 
 void minesweeper_game::new_level()
@@ -141,7 +141,7 @@ int minesweeper_game::start_game()
         w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                iCenter );
         w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                            iCenter + point_south_east );
+                                            iCenter + point::south_east );
         max = point( FULL_SCREEN_WIDTH - 4, FULL_SCREEN_HEIGHT - 4 );
         ui.position_from_window( w_minesweeper_border );
     } );
@@ -308,8 +308,8 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            const point new_( vec->xy().raw() + point( iPlayerX, iPlayerY ) );
             if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
                 iPlayerX = new_.x;
                 iPlayerY = new_.y;

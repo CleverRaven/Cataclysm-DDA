@@ -37,6 +37,7 @@
     <LinkToolExe>lld-link.exe</LinkToolExe>
     <!-- vcpkg passes dependecy libs via a glob pattern which lld-link doesn't accept. We have to manually enumerate the deps now. -->
     <VcpkgAutoLink>false</VcpkgAutoLink>
+    <!-- debug versions of libs often (but not always) use `d` suffix, as a convention. E.g. "SDL2-staticd.lib" -->
     <VcpkgLibSuffix></VcpkgLibSuffix>
     <VcpkgLibSuffix Condition="$(Configuration.StartsWith(Debug))">d</VcpkgLibSuffix>
   </PropertyGroup>
@@ -104,9 +105,9 @@
         $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\lib;%(AdditionalLibraryDirectories)
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>
-        brotlicommon-static.lib;
-        brotlidec-static.lib;
-        brotlienc-static.lib;
+        brotlicommon.lib;
+        brotlidec.lib;
+        brotlienc.lib;
         bz2$(VcpkgLibSuffix).lib;
         FLAC.lib;
         FLAC++.lib;

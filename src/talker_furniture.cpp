@@ -15,32 +15,37 @@ std::string talker_furniture_const::disp_name() const
 
 int talker_furniture_const::posx() const
 {
-    return me_comp->loc.x;
+    return me_comp->loc.x();
 }
 
 int talker_furniture_const::posy() const
 {
-    return me_comp->loc.y;
+    return me_comp->loc.y();
 }
 
 int talker_furniture_const::posz() const
 {
-    return me_comp->loc.z;
+    return me_comp->loc.z();
 }
 
 tripoint talker_furniture_const::pos() const
 {
+    return me_comp->loc.raw();
+}
+
+tripoint_bub_ms talker_furniture_const::pos_bub() const
+{
     return me_comp->loc;
 }
 
-tripoint_abs_ms talker_furniture_const::global_pos() const
+tripoint_abs_ms talker_furniture_const::pos_abs() const
 {
-    return get_map().getglobal( me_comp->loc );
+    return get_map().get_abs( me_comp->loc );
 }
 
-tripoint_abs_omt talker_furniture_const::global_omt_location() const
+tripoint_abs_omt talker_furniture_const::pos_abs_omt() const
 {
-    return get_player_character().global_omt_location();
+    return get_player_character().pos_abs_omt();
 }
 
 std::optional<std::string> talker_furniture_const::maybe_get_value( const std::string &var_name )

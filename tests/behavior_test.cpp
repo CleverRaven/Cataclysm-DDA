@@ -24,10 +24,16 @@
 #include "weather.h"
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_frame( "frame" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_pencil( "pencil" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water( "water" );
+
+static const nested_mapgen_id nested_mapgen_test_seedling( "test_seedling" );
 
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
@@ -166,11 +172,11 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
-        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos() ) ) == Approx( 0 ) );
+        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos_bub() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.worn.wear_item( test_npc, item( "backpack" ), false, false );
+        test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
         item_location sweater = test_npc.i_add( item( itype_sweater ) );
         CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
@@ -228,7 +234,18 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
     SECTION( "Special Attack EAT_CROP" ) {
         test_monster.set_special( "EAT_CROP", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
+
+        // Gross but I couldn't figure out how to place a sealed item without manual mapgen and the mapgen helper version doesn't let you specify rel_ms and adding that as a defaulted arg breaks the templated manual_mapgen()...
+        const tripoint_abs_ms abs_pos = here.get_abs( monster_location );
+        tripoint_abs_omt pos;
+        point_omt_ms pos_rel;
+        std::tie( pos, pos_rel ) = project_remain<coords::omt>( abs_pos );
+        tinymap tm;
+        tm.load( pos, true );
+        mapgendata md( pos, *tm.cast_to_map(), 0.0f, calendar::turn, nullptr );
+        const auto &ptr = nested_mapgens[nested_mapgen_test_seedling].funcs().pick();
+        ( *ptr )->nest( md, tripoint_rel_ms( rebase_rel( pos_rel ), 0 ), "test" );
+
         CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
         test_monster.set_special( "EAT_CROP", 1 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
@@ -258,7 +275,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.add_item( test_monster.pos_bub(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_frame ) );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
 
         mattack::absorb_items( &test_monster );
@@ -277,7 +294,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
         test_monster.set_special( "ABSORB_ITEMS", 0 );
-        here.add_item( test_monster.pos_bub(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_frame ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
@@ -313,8 +330,8 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
-        item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
+        item corpse( itype_corpse );
+        corpse.force_insert_item( item( itype_pencil ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -333,7 +350,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_hp( new_hp );
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
-        here.add_item( test_monster.pos_bub(), item( "corpse" ) );
+        here.add_item( test_monster.pos_bub(), item( itype_corpse ) );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
@@ -371,8 +388,8 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
-        item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
+        item corpse( itype_corpse );
+        corpse.force_insert_item( item( itype_pencil ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );

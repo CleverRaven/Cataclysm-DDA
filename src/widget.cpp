@@ -100,6 +100,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "log_power_balance";
         case widget_var::morale_level:
             return "morale_level";
+        case widget_var::custom:
+            return "custom";
         // Compass
         case widget_var::compass_text:
             return "compass_text";
@@ -391,6 +393,57 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
+void widget_custom_var::deserialize( const JsonObject &jo )
+{
+    if( jo.has_member( "value" ) ) {
+        value = get_dbl_or_var_part( jo.get_member( "value" ), "value" );
+    } else {
+        jo.throw_error( "missing mandatory member \"value\"" );
+    }
+
+    if( jo.has_array( "range" ) ) {
+        JsonArray range = jo.get_array( "range" );
+        switch( range.size() ) {
+            case 2:
+                min = get_dbl_or_var_part( range.next_value(), "range" );
+                norm = std::make_pair( dbl_or_var_part( INT_MIN ), dbl_or_var_part( INT_MAX ) );
+                max = get_dbl_or_var_part( range.next_value(), "range" );
+                break;
+            case 3:
+                min = get_dbl_or_var_part( range.next_value(), "range" );
+                norm.first = norm.second = get_dbl_or_var_part( range.next_value(), "range" );
+                max = get_dbl_or_var_part( range.next_value(), "range" );
+                break;
+            case 4:
+                min = get_dbl_or_var_part( range.next_value(), "range" );
+                norm.first = get_dbl_or_var_part( range.next_value(), "range" );
+                norm.second = get_dbl_or_var_part( range.next_value(), "range" );
+                max = get_dbl_or_var_part( range.next_value(), "range" );
+                break;
+            default:
+                jo.throw_error( "invalid number of elements in \"range\", must have 2~4" );
+                break;
+        }
+    } else {
+        jo.throw_error( "missing mandatory member \"range\"" );
+    }
+}
+
+void widget_custom_var::set_widget_var_range( const avatar &ava, widget &wgt ) const
+{
+    const_dialogue d( get_const_talker_for( ava ), nullptr );
+    wgt._var_min = static_cast<int>( min.evaluate( d ) );
+    wgt._var_max = static_cast<int>( max.evaluate( d ) );
+    wgt._var_norm.first = static_cast<int>( norm.first.evaluate( d ) );
+    wgt._var_norm.second = static_cast<int>( norm.second.evaluate( d ) );
+}
+
+int widget_custom_var::get_var_value( const avatar &ava ) const
+{
+    const_dialogue d( get_const_talker_for( ava ), nullptr );
+    return static_cast<int>( value.evaluate( d ) );
+}
+
 void widget::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
@@ -426,6 +479,10 @@ void widget::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
+    }
+
+    if( _var == widget_var::custom ) {
+        mandatory( jo, was_loaded, "custom_var", _custom_var );
     }
 
     if( jo.has_string( "bodypart" ) ) {
@@ -689,6 +746,9 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = ava.weary_threshold();
             break;
+        case widget_var::custom:
+            _custom_var.set_widget_var_range( ava, *this );
+            break;
 
         // Base stats
         // Normal is the base stat value only; min and max are -3 and +3 from base
@@ -866,6 +926,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::carry_weight:
             value = ( 100 * ava.weight_carried() ) / ava.weight_capacity();
+            break;
+        case widget_var::custom:
+            value = _custom_var.get_var_value( ava );
             break;
 
         // TODO
@@ -1178,14 +1241,14 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::pain_text_color( ava );
             break;
         case widget_var::overmap_loc_text:
-            desc.first = display::overmap_position_text( ava.global_omt_location() );
+            desc.first = display::overmap_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::overmap_text:
             desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = display::current_position_text( ava.global_omt_location() );
+            desc.first = display::current_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

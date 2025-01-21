@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NEAR_FIRE_CHECK",
-    "condition": { "not": { "and": [ { "u_has_effect": "sleep" }, { "math": [ "u_salamander_near_fire", "==", "0" ] } ] } },
+    "condition": { "not": { "and": [ { "u_has_effect": "sleep" }, { "math": [ "u_salamander_near_fire == 0" ] } ] } },
     "effect": [
       {
         "run_eocs": [
@@ -17,7 +17,7 @@
                 { "u_is_in_field": "fd_fire" }
               ]
             },
-            "effect": [ { "math": [ "u_salamander_near_fire", "=", "1" ] } ],
+            "effect": [ { "math": [ "u_salamander_near_fire = 1" ] } ],
             "false_effect": [
               {
                 "run_eocs": [
@@ -27,8 +27,8 @@
                       { "u_location_variable": { "context_val": "salamander_near_fire" }, "field": "fd_fire", "target_max_radius": 5 },
                       {
                         "if": { "map_field_id": "fd_fire", "loc": { "context_val": "salamander_near_fire" } },
-                        "then": { "math": [ "u_salamander_near_fire", "=", "1" ] },
-                        "else": { "math": [ "u_salamander_near_fire", "=", "0" ] }
+                        "then": { "math": [ "u_salamander_near_fire = 1" ] },
+                        "else": { "math": [ "u_salamander_near_fire = 0" ] }
                       }
                     ]
                   }
@@ -90,8 +90,8 @@
         { "u_has_item": "oil_lamp_clay_on" },
         { "u_has_item": "cigar_lit" },
         { "u_has_item": "cig_lit" },
-        { "math": [ "u_salamander_near_fire", "==", "1" ] },
-        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
+        { "math": [ "u_salamander_near_fire == 1" ] },
+        { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
       ]
     },
     "effect": [
@@ -192,7 +192,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
-    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -207,7 +207,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_FIRE_FOOSTEPS",
-    "condition": { "math": [ "u_val('mana')", ">=", "4" ] },
+    "condition": { "math": [ "u_val('mana') >= 4" ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "4" ] },
       { "u_add_effect": "effect_hidden_flame_immunity", "duration": "2 s" },
@@ -218,7 +218,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_HEALTH_FOR_MANA",
-    "condition": { "math": [ "u_val('mana')", "<", "u_val('mana_max')" ] },
+    "condition": { "math": [ "u_val('mana') < u_val('mana_max')" ] },
     "effect": [
       { "math": [ "u_val('mana')", "+=", "1000" ] },
       { "u_add_effect": "effect_salamander_burning_damage", "duration": "30 s", "target_part": "torso" },
@@ -252,7 +252,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_SMOKE_FORM_ASCEND",
-    "condition": { "or": [ { "math": [ "u_salamander_near_fire", "==", "1" ] }, { "u_is_in_field": "fd_salamander_heat" } ] },
+    "condition": { "or": [ { "math": [ "u_salamander_near_fire == 1" ] }, { "u_is_in_field": "fd_salamander_heat" } ] },
     "effect": [ { "run_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_ASCEND_OUTSIDE_CHECK" ] } ],
     "false_effect": [ { "u_message": "You must be in warm air to ascend!", "type": "bad" } ]
   },
@@ -272,8 +272,8 @@
     "id": "EOC_SALAMANDER_BERSERK_STANCE_ON",
     "condition": { "not": { "u_has_effect": "effect_salamander_berserk_stance" } },
     "effect": [
-      { "math": [ "u_salamander_pain_value", "=", "u_pain()" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
+      { "math": [ "u_salamander_pain_value = u_pain()" ] },
+      { "math": [ "u_pain() = 0" ] },
       { "u_add_effect": "effect_salamander_berserk_stance", "duration": "24 hours" }
     ],
     "false_effect": [ { "u_message": "You are already under the effects of Wildfire Soul!", "type": "mixed" } ]

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": [ "cs_car_dealership" ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,14 +31,14 @@
         " $DD$$~$$$$$$$$$$$$$$$$ ",
         " $$$$                   "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "_": "t_pavement",
         "y": "t_pavement_y",
         ".": "t_floor",
-        "T": "t_linoleum_gray",
-        "'": "t_linoleum_gray",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "l": "t_door_locked_interior",
         "+": "t_door_c",
         "$": "t_chainfence",

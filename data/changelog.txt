@@ -186,6 +186,19 @@ No lit cigs in inventory anymore, only in hands or in mouth
 Assign bodysuit_lycra a fallback sprite
 Safe crackers guess combinations more accurately
 Fleeing NPCs will now attack player that got too close
+Increase helicopter autotravel speed
+items with POST_UP use_action can be put up on walls 
+Items salvaged from cutting will now be placed in vehicle, if you're cutting them in vehicle
+tile layering supports item variants
+Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
+Query the player on whether they really want to cut up other people's stuff
+Relaxing with Alonso is now fun
+Prompt before oxytorch activity if you don't have enough gas
+Ability to hide/unhide revealed wall wiring by examining it
+Special vision enchantment for Antennae mutation
+Add keybind to throw your wielded item
+audio now works on curses mode, not just tiles mode
+Render WORN overlays for ablative pockets
 
 
 ## Content:
@@ -392,6 +405,25 @@ Make field stone a bit more common, which can now also be turned into rocks. Plu
 Allow Motorbike Battery Appliances
 Allow using a heavy training dummy where a light one will suffice
 Buckwheat can no longer be foraged but may still be found where seeds spawn
+Walls now have a chance of having graffiti on them
+Houses sometimes have alarms
+The walls of most buildings vary more
+New scenario: Moonlit Night
+Added chokeberries and spicebush
+Wildlife foods adjust morale
+Add dormant zombies to more locations
+Add tupelo and nannyberry,  hobblebush and autumn olive trees
+New exodii rifle
+Remade the 3x3 hospital
+Some houses are under construction
+Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
+fungalize stages for rest of zombies
+Basic beach decorations
+Changed lore primer to accommodate eyebot removal.
+Add an new plasma gun for sale by the Exodii
+Added a small kindergarten
+Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
+Add the menorah and small candles to put in it
 
 
 ## Interface:
@@ -511,6 +543,32 @@ Crafting GUI Search: cancel the search with ESC
 use the monospaced font for the ascii art on the end screen
 Increased available space for skills chapter in description tab of character creation menu
 ImGui inherits theme colors
+Sidebar widget to show faction territory
+Revert horizontal separator color back to dark gray
+shorten `memorize` hint in crafting GUI search
+some little improvements to the AIM drop menu
+Allow fine user customization of ImGui colors
+Migrate scores window to imgui
+Audit `satiety`
+Add filter for body part coverage to the crafting GUI
+Add filter for clothing layer to the crafting GUI, AIM, inventory etc.
+Crafting GUI: Filter recipes by what can fit into the result (longest_side, volume, mass)
+Migrate popups in pocket settings menu to ImGui
+Migrate martial arts details window to imgui
+Add sorting by price to weight ratio
+Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
+Migrate compare item menu to imgui
+Various misc improvements to camp crafting flow and feedback
+Better skill requirement UI for martial arts
+Scale spell window to spell list and terminal size
+Add recast last spell (Repeat last supernatural ability)
+Specify which parts you can connect to in extension cord prompt
+Make font-hinting user-configurable
+Set minimum sizes for missions menu UI
+Fix compact aim window
+Fix NPC rules window scaling for small terminal sizes
+Add history to Construction Search
+load all of the user’s chosen font files as fallbacks for ImGui to use
 
 
 ## Mods:
@@ -833,6 +891,73 @@ Make the cryptid mission assigning less likely to hang
 Aftershock: Disable portal storms in Exoplanet
 Martial Mastery: Add three new defensive perks.
 [Magiclysm] Fix demonic possession causing starvation penalties
+[Xedra Evolved] More Ierde powers
+Add more Lilin traits and features
+Reviewed Magiclysm Monsters and added proficiency families and weakpoints when missing.
+Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
+[MoM] Add the PATIENT MOSAIC research room to skyscraper lab
+[MoM] Parameterize PHAVIAN skyscraper lab
+[MoM] Add the Gamma Sterilization photokinetic power
+[Magiclysm] Fix soul afterburner granting infinite moves
+[MoM] Update creature mindsight to be variable, apply to Eater
+[Xedra Evolved] Add Lilit ruach gauge using custom variable functionality
+[Magiclysm] Add the mana-shackled challenge trait
+[Xedra Evolved] Arvore Cleanup
+[Innawoods] Removes man-made trash from stream loot spawns.
+[DinoMod] smell audit
+Mods can add categories to the help menu
+[MoM] Danger Sense senses danger
+Martial Mastery: Insight is cleared when using other martial arts
+[MoM] Change id of Sense Minds sensing effect to use new tileset sprite
+[MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
+[Xedra Evolved] Add new time related powers for each default dream class
+Aftershock: Replace exosuit forcefield with backpack generator
+[MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
+Aftershock: Shield bionics deploy Riemman shields
+[Xedra Evolved] Add more wilderness spooky messages
+[Xedra Evolved] Add Exhalation of Ashes spell to salamanders
+[MoM] Psi passives turn off if you can't use psionics
+[Magiclysm/Xedra Evolved] Animals can't do that
+[XE] Gracken Stomach Traits
+[Magiclysm/Innawood] Revamp goblin/orc drops to separate itemgroups, make them fit Innawood
+[Magiclysm] The Forge of Wonders puts no value on food or drink, minimal value on guns and ammo (except the pirates)
+[Magiclysm/Innawood] Allow troll caves to spawn innawood
+[Magiclysm] Rock trolls actually turn to stone
+[Xedra Evolved] Add Time Related Monsters
+[Magiclysm] Progressive Difficulty reduction the more spells of that school you know
+[Magiclysm/Innawood] Blacklist iron and plastic golems Innawood
+[Magiclysm] Add feral technomancers
+[Sky Island] Progressive autodoc improvement
+[Xedra Evolved] Add time magic class / scenario
+[Magiclysm] Spells cost 1/5 of their normal cost on spell failure
+[Magiclysm] The Great Damage Randomization and Normalization
+[Magiclysm] Add technomantic augmentation clinic
+[Magiclysm] Add the aenor, a giant heron riding mount
+[Magiclysm] Stop workshop elves and their workshop from spawning
+[Magiclysm] Add zombie dwarves to mines
+Removes superceded sees_player_retro mod
+[Magiclysm] Obsolete shambling mound, give shaman the Keeper of the Glades summon
+[Magicylysm] Forge of Wonders Redesigned
+[Magiclysm] Add Witchsight Animist spell and Witchfinder Eye CBM
+[MoM] Ephemeral riftwalkers can use Breach
+[Magiclysm] Forge values denarii but no one else does
+[DinoMod] shonisaurus
+Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
+[Magiclysm] Add a couple more CBMs
+[MOM] Add a couple Teleporter Powers
+[innawood] Add Makeshift hand-crank charger and magnetite ore.
+[Magiclysm] Demon spider rework
+[MoM] Melded Teleporter Force
+[MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
+[Magiclysm] Goblins and wargs are best friends
+Aftershock: Create an alternate EMP mechanic that disables items only temporarily.
+[MoM] Add Water-Walking Telekinetic power
+[Magiclysm] Use EoCs to allow Magiclysm fantasy species to gain mutation paths/purify themselves
+Changes a straight damage on archery bracers to weakpoint accuracy.
+Xedra Evolved: Salamander Eruption
+Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
+[Aftershock] Add the Geist (telekinetic) esper profession and powers
+[MoM] Autolearn matrix elixir recipes
 
 
 ## Balance:
@@ -950,6 +1075,26 @@ Nerf atlatls, a lot.
 Martial arts manuals spawn in libraries and houses
 Lower Stream Item Spawns
 Audit Lead Acid Batteries breaks_into
+Add missing longest_side
+Mining solid rock now results in a lot more rock and very rarely, you can find a bit of limestone while digging in soil
+No Hope: Reduce spawn chance of broken cyborgs in bionic basements
+Food price scales with freshness
+Aftershock: Reduce spawn chance of broken cyborgs in bionic basements
+Dry stone walls now need to be climbed over
+Change spear techniques from impaling strike to penetrating strike
+Changed Survivor Hood Materials and Added Filtration to Cowls
+Rework faction camp mission travel calculations
+Long sticks can now be found in the forest trash group, too
+Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
+Washing kits are now craftable in the dark
+wp_skill makes you avoid strongpoints
+Zombified humans are still humans for butchery purposes
+Zombie Humanity Audit
+Combine crit hit and wp hit and tweak damage calculation for ranged attack
+Thermal electric gear power draw reduction + medium battery for TE suit
+make charcoal kiln place-able
+Set disassembly range to crafting range: 6
+Mutating with an installed bionic that conflicts results in damage
 
 
 ## Bugfixes:
@@ -1288,6 +1433,60 @@ Fix duplicate an in exterminatron description
 [Xedra Evolved] Add dinomod check for lilit kcal drain
 remove debug message in add_profession_items()
 Fix nunez bullet trailer appearing out of nowhere
+[Xedra Evolved] Gracken can't learn dream magick either
+Enable Other Anvils for Isherwood Quest
+Fix mining using a pickaxe always causes an error
+Rural church no longer spawns water heaters in walls
+Resolve Milling Issues/Errors
+NECC mapgen wrong symbol fix
+Evac shelter no longer has dirt walls
+Fix camp expansion recipes not being available
+drying_rate test displays weather, clears map
+Decreased volume of pillows but made them a little bit heavier
+fix archery_damage_test CI occasional failure
+Fix `bio_blindfold` not working correctly after a save & load cycle
+Make wood axe usable for great axe proficiency practice instead of hand axe proficiency practice
+Don't run item::on_pickup when the item is wielded
+Autodrive doesn't stop due to driving over sludge etc
+better margin of error for test shot_custom_damage_type
+Fix format mismatches in tripoint item vars
+Fix crashing in CURSES without ASCII title art
+Fix penetrating strike
+ALLOWS_TALONS is about talons for feet, not for hands
+Fix headlamp to accept medium batteries akin to a flashlight
+Toggle bionics/deactivate mutations causes bonus stats ignored until next turn
+Several tweaks for using musical instruments
+clear basecamps for tests in clear_map()
+Fix mana-using mutations
+Fixed crash that occurs after loading save and tying to move.
+Make Quenching/Tempered Steel recipes more consistent
+fix limb drying rate and related test data
+crash on keybind reset in UILIST
+Fix broken macOS build due removed folder
+Fix an EOC that was looping infinitely and starting more loops as you travel
+Allow attacking with CANNOT_MOVE flag
+Killing hostile NPCs won't give "Killed innocent" morale debuff anymore
+Fixes displaying of stats for ablative armor
+Fixes SegFault w/ flashlights & attached power
+Peeking out of elevated windows no longer causes you to fall
+Heat radiance now can spread through gas-permeable tiles like chain link fence
+Fix title menu tileset layering error
+color tags texts drawn in item info
+make ammo_effect_WIDE actually work
+Fixes item prefixes (XL/XS) sometimes not being shown in crafting menu
+Fix vehicle not moving when being remotely controlled
+Fix crash when zone-harvesting crops with bad data
+kickboxing and boxing technique conditions
+Innawoods - Fixes trails spawning manmade stuff
+Correct recipe for water purifying to use correct quantity of water
+Items in transparent pockets on the map illuminate surroundings
+Mark some specific furnitures/terrains examine as always allowed in faction territory
+NPC should not wield integrated armor
+Allow commercial fertilizer to be used by zone manager
+[innawood] Crafted batteries are fully charged
+Fix infinite bounce
+Prevent segfault when search gives no hits
+Fix mutation spells learned don't lose when mutation lost
 
 
 ## Performance:
@@ -1325,6 +1524,11 @@ Backport Don't unnecessarily copy items in a tight loop in get_uncraft_component
 Reduce unnecessary/duplicate checks for dangerous tiles
 Cache the absolute map square position of the first submap
 Cache mutation trait flags
+Cache item info for crafting GUI full-text search
+Vehicles are slightly more efficient
+vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
+AIM cache filter function once
+Cache item info, reducing time of crafting filter `d:` to ~32%
 
 
 ## Infrastructure:
@@ -1425,6 +1629,35 @@ Roof palette has more built-in nests
 obsolete unused generic NPC classes
 abstractify basic walls
 u_/npc_forget_recipe can use categories and subcategories in place of individual ids
+Add std::string wrappers for ImGui::InputText* methods
+Adds a guide to the development process
+Allow variable objects and math expressions to be used as widget variables
+fill_ter accepts parameters
+Merge commits from 0-H-Branch into master and update appstream file
+Traps can directly trigger EoCs as their action
+Replace point constants with static class members
+Upgrade ImGui to version to 1.91.5
+less verbose reading of layering.json
+Imgui input popups
+Retired mingw cross compile build
+Script for updating Translate Complex Dialogue mod
+Falling is no longer handled by traps
+Allow more customizable XP costs for spell leveling
+Improve test coverage of mod combinations with mod_interactions
+Tests now run in a guaranteed order (lexicographic) by default (can be overriden with cli argument)
+Streamline Vertical Movement While Levitating and Flying
+Make enchantment mutations work again
+Added Imgui demo screen (and style editor) to the debug menu
+clang-tidy output is a bit more readable on windows
+migrate map-size related constants to new file, unmagic related constants
+Debug recipes for tests: first
+Make clang-tidy feedback on GitHub much more responsive
+Item price and price_postapoc must be denominated (cents/USD/kUSD). Integer values no longer used
+NPC snippets overhaul
+Refactor `ammo_effect_BOUNCE`
+Add magic_type to deduplicate shared spell fields and reduce hardcoding
+Add ability to debug spawn item groups and specify amount of repeats when testing
+Bump minimum supported macOS version to 10.15 (macOS Catalina)
 
 ## Build:
 Support Mac arm64 build
@@ -1451,6 +1684,11 @@ Fix CMake build after adding freetype
 Fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
 Fixed broken Android build due to missing FreeType library
 Allow the game to build on OSX
+Fix mac builds post freetype dependency addition
+Add imgui_stdlib to CMake
+Fixes potential artifact poisoning route in CI
+Update vcpkg commit to new mainline, remove portfile override
+Improve ccache performance with age based eviction instead of coarse size limits.
 
 
 ## I18N and A11Y:
@@ -1472,6 +1710,10 @@ Obsolete strings now have a comment with an explanation
 Make Portugal Portugues appear in Options
 [AFS] Add NO_I18N/PREFIX_XL
 [Magiclysm] NO_I18N, dont extract monster/fake spells
+[Xedra Evolved] NO_I18N, dont extract monster/fake spells
+Restructure the template file
+[MoM] Dont extract monster/fake spells/effects for translation
+Miscellaneous NO_I18N additions
 
 
 # 0.G (Gaiman)

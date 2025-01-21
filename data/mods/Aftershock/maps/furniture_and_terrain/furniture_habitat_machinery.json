@@ -60,7 +60,7 @@
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
     "examine_action": "keg",
-    "keg_capacity": 20,
+    "keg_capacity": "5 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,

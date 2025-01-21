@@ -16,6 +16,13 @@ static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
 
+static const itype_id itype_test_fire_ax_mostly_steel( "test_fire_ax_mostly_steel" );
+static const itype_id itype_test_fire_ax_mostly_wood( "test_fire_ax_mostly_wood" );
+static const itype_id itype_test_glass_pipe_mostly_glass( "test_glass_pipe_mostly_glass" );
+static const itype_id itype_test_glass_pipe_mostly_steel( "test_glass_pipe_mostly_steel" );
+static const itype_id itype_test_shears_mostly_plastic( "test_shears_mostly_plastic" );
+static const itype_id itype_test_shears_mostly_steel( "test_shears_mostly_steel" );
+
 static const material_id material_glass( "glass" );
 static const material_id material_lycra( "lycra" );
 static const material_id material_lycra_resist_override_stab( "lycra_resist_override_stab" );
@@ -24,7 +31,7 @@ static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
 static constexpr int num_iters = 1000;
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms target_pos( HALF_MAPSIZE_X - 10, HALF_MAPSIZE_Y, 0 );
 
 static void check_near( const std::string &subject, float prob, const float expected,
@@ -40,8 +47,8 @@ static void check_near( const std::string &subject, float prob, const float expe
 
 TEST_CASE( "Resistance_vs_material_portions", "[material]" )
 {
-    const item mostly_steel( "test_shears_mostly_steel" );
-    const item mostly_plastic( "test_shears_mostly_plastic" );
+    const item mostly_steel( itype_test_shears_mostly_steel );
+    const item mostly_plastic( itype_test_shears_mostly_plastic );
 
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
@@ -57,8 +64,8 @@ TEST_CASE( "Resistance_vs_material_portions", "[material]" )
 
 TEST_CASE( "Portioned_material_flammability", "[material]" )
 {
-    const item mostly_steel( "test_fire_ax_mostly_steel" );
-    const item mostly_wood( "test_fire_ax_mostly_wood" );
+    const item mostly_steel( itype_test_fire_ax_mostly_steel );
+    const item mostly_wood( itype_test_fire_ax_mostly_wood );
 
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_wood.get_base_material().id == material_wood );
@@ -77,8 +84,8 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
 {
     clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    item mostly_glass( "test_glass_pipe_mostly_glass" );
-    item mostly_steel( "test_glass_pipe_mostly_steel" );
+    item mostly_glass( itype_test_glass_pipe_mostly_glass );
+    item mostly_steel( itype_test_glass_pipe_mostly_steel );
 
     REQUIRE( mostly_glass.get_base_material().id == material_glass );
     REQUIRE( mostly_steel.get_base_material().id == material_steel );

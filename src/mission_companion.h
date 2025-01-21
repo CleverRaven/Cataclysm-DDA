@@ -103,7 +103,7 @@ struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
     mapgen_arguments mapgen_args;
-    std::optional<point> dir;
+    std::optional<point_rel_omt> dir;
 
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue & );

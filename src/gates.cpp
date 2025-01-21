@@ -402,7 +402,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
         // TODO: make the npc angry?
         npc_or_player->hitall( bash_dmg, 0, nullptr );
-        g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+        g->knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
         if( creatures.creature_at<Character>( p, false ) != nullptr ) {
@@ -431,7 +431,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
-            g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+            g->knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
             if( creatures.creature_at( p ) ) {
                 return false;
             }
@@ -467,8 +467,8 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
     }
 
-    m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point( x, y ) ) ) {
+    m.ter_set( point_bub_ms( x, y ), door_type );
+    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point_bub_ms( x, y ) ) ) {
         map_stack items = m.i_at( point_bub_ms( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( phase_id::LIQUID ) ) {

@@ -17,9 +17,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PERK_BURNING_BRIGHT_ATTUNEMENT_MAINTAINED",
     "recurrence": [ "5 seconds", "15 seconds" ],
-    "condition": {
-      "and": [ { "u_has_trait": "perk_burning_bright" }, { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "0" ] } ]
-    },
+    "condition": { "and": [ { "u_has_trait": "perk_burning_bright" }, { "math": [ "u_vitamin('vitamin_maintained_powers') == 0" ] } ] },
     "deactivate_condition": { "not": { "u_has_trait": "perk_burning_bright" } },
     "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "1" ] } ]
   }

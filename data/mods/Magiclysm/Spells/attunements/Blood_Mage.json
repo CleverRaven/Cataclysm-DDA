@@ -22,7 +22,7 @@
     "difficulty": 6,
     "max_level": 35,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "demon_possession_aura",
@@ -75,6 +75,7 @@
     "max_level": 35,
     "base_casting_time": 800,
     "base_energy_cost": 5,
+    "magic_type": "magiclysm_generic_magic",
     "energy_source": "HP"
   },
   {
@@ -83,7 +84,7 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
-      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [

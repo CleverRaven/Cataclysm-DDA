@@ -128,7 +128,7 @@ void memorial_logger::add( const std::string_view male_msg,
 
     const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
                              oter_id() :
-                             overmap_buffer.ter( player_character.global_omt_location() );
+                             overmap_buffer.ter( player_character.pos_abs_omt() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
     const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
@@ -219,7 +219,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     }
 
     const std::string locdesc =
-        overmap_buffer.get_description_at( u.global_sm_location() );
+        overmap_buffer.get_description_at( u.pos_abs_sm() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -328,10 +328,10 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.get_functioning_mutations() ) {
         file << indent << u.mutation_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.get_functioning_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;

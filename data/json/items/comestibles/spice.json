@@ -23,9 +23,10 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
     "description": "Flamin' hot sauce.  It'd be a bad idea to drink it on its own.  You should probably wash your hands after handling it, too.",
-    "weight": "6 g",
+    "weight": "5 g",
     "charges": 50,
     "volume": "250 ml",
+    "material": [ "veggy", "water" ],
     "//": "hot sauces are very salty, hence the negative quench",
     "quench": -2,
     "calories": 5,
@@ -58,6 +59,25 @@
     "name": { "str_sp": "black pepper" },
     "description": "Ground black spice berries with a pungent aroma.",
     "color": "dark_gray"
+  },
+  {
+    "id": "spicebush_berries",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spicebush berries" },
+    "description": "Small, red berries with a pungent aroma.  It is said they are comparable to allspice, but also boasting their own flavor profile.",
+    "smoking_result": "spicebush_berries_smoked",
+    "spoils_in": "4 days",
+    "extend": { "flags": [ "SMOKABLE" ] },
+    "color": "red"
+  },
+  {
+    "id": "spicebush_berries_smoked",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "dry spicebush berries" },
+    "description": "These formerly red berries now have a stronger aroma after being dehydrated.",
+    "color": "brown"
   },
   {
     "id": "salt",
@@ -145,6 +165,7 @@
     "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
+    "material": [ "water" ],
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",

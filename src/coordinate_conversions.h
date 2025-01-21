@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_COORDINATE_CONVERSIONS_H
 #define CATA_SRC_COORDINATE_CONVERSIONS_H
 
-#include "game_constants.h"
+#include "map_scale_constants.h"
 #include "point.h"
 
 /**
@@ -10,7 +10,7 @@
  * migrating to the new functions defined in coordinates.h.
  *
  * For documentation on coordinate systems in general see
- * doc/POINTS_COORDINATES.md.
+ * doc/c++/POINTS_COORDINATES.md.
  *
 
  * Functions ending with _remain return the translated coordinates and

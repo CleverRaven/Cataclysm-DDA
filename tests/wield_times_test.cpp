@@ -15,15 +15,20 @@
 #include "type_id.h"
 
 static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bag_plastic( "bag_plastic" );
 static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_metal_tank( "metal_tank" );
+static const itype_id itype_pants_cargo( "pants_cargo" );
+static const itype_id itype_sheath( "sheath" );
 
 static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const int expected_moves )
 {
     guy.remove_weapon();
     guy.clear_worn();
     item spawned_item( item_name, calendar::turn, 1 );
-    item backpack( "backpack" );
+    item backpack( itype_backpack );
     REQUIRE( backpack.can_contain( spawned_item ).success() );
     auto item_iter = guy.worn.wear_item( guy, backpack, false, false );
 
@@ -49,7 +54,7 @@ static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
 {
     item &spawned_item = get_map().add_item_or_charges( guy.pos_bub(), item( item_name, calendar::turn,
                          1 ) );
-    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.pos_abs() ), &spawned_item );
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
 
@@ -58,11 +63,11 @@ TEST_CASE( "Wield_time_test", "[wield]" )
     clear_map();
 
     SECTION( "A knife in a sheath in cargo pants in a plastic bag in a backpack" ) {
-        item backpack( "backpack" );
-        item plastic_bag( "bag_plastic" );
-        item cargo_pants( "pants_cargo" );
-        item sheath( "sheath" );
-        item knife( "knife_hunting" );
+        item backpack( itype_backpack );
+        item plastic_bag( itype_bag_plastic );
+        item cargo_pants( itype_pants_cargo );
+        item sheath( itype_sheath );
+        item knife( itype_knife_hunting );
 
         avatar guy;
         guy.set_body();

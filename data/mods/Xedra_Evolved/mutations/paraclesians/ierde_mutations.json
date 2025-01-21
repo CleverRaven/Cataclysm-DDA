@@ -359,7 +359,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -391,7 +391,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -432,7 +432,20 @@
     "category": [ "IERDE" ],
     "activated_is_setup": false,
     "active": true,
-    "activated_eocs": [ "EOC_IERDE_SINK_INTO_EARTH_activate" ]
+    "activated_eocs": [ "EOC_IERDE_SINK_INTO_EARTH_activate" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DIGGABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle down to rest on the living earth.", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "id": "t_rock" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "Encased within the living earth, you drift off to sleep.", "rating": "good" }
+      }
+    ],
+    "enchantments": [ { "condition": { "u_is_on_terrain": "t_rock" }, "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 300 } ] } ]
   },
   {
     "type": "mutation",
@@ -489,6 +502,25 @@
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_STR_BONUS_1", "IERDE_STR_BONUS_2", "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_ROOTED_IN_PLACE",
+    "name": { "str": "The Root of the Mountain" },
+    "points": 8,
+    "description": "When standing on the living earth or underground, the Ierde can root themselves in place.  While doing so, they cannot move, but they are immune to being stunned, dazed, or downed, and gain additional armor.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "You merge with the ground beneath your feet.",
+    "activated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_activated" ],
+    "deactivated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_deactivated" ]
   },
   {
     "type": "mutation",
@@ -653,8 +685,15 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
-    "category": [ "IERDE" ]
+    "description": "The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 5000,
+    "activation_msg": "Your feelings calcify.",
+    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
   },
   {
     "type": "mutation",

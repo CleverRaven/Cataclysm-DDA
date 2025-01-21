@@ -795,7 +795,7 @@
     "id": "record_weather",
     "type": "BOOK",
     "name": { "str_sp": "national weather transcripts" },
-    "description": "Old weather records are about as interesting as a rock.",
+    "description": "Old weather records that are about as interesting as a rock.",
     "weight": "454 g",
     "volume": "1750 ml",
     "price": "5 USD",
@@ -1084,7 +1084,7 @@
     "weight": "120 g",
     "volume": "300 ml",
     "time": "10 m",
-    "relative": { "price": -251, "chapters": -26, "fun": 1 }
+    "relative": { "price": "-251 cent", "chapters": -26, "fun": 1 }
   },
   {
     "id": "occult_bobliographon",

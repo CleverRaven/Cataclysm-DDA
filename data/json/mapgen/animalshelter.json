@@ -78,7 +78,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALSHELTER_DOGS",
+    "id": "GROUP_ANIMALSHELTER_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_dog", "weight": 200, "cost_multiplier": 0 },
@@ -87,7 +87,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALSHELTER_OTHER",
+    "id": "GROUP_ANIMALSHELTER_OTHER",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 5 },
@@ -129,7 +129,7 @@
         "         f=''''''G'G*=*'",
         "         '============G'"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_pavement",
         ",": "t_pavement_y",
@@ -146,12 +146,12 @@
         "G": "t_region_groundcover",
         "M": "t_door_metal_pickable",
         "i": "t_door_locked_interior",
-        "l": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "?": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "f": "t_region_groundcover_barren",
         "R": "t_region_groundcover_barren",
         "Q": "t_region_groundcover_barren",
@@ -265,7 +265,7 @@
         "         f=''''''G'G*=*'",
         "         '============G'"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "place_npcs": [ { "class": "NPC_animal_shelter_survivor", "x": 12, "y": [ 9, 12 ] } ],
       "place_zones": [
         { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 1, 23 ], "y": [ 1, 3 ] },
@@ -289,12 +289,12 @@
         "G": "t_region_groundcover",
         "M": "t_door_metal_pickable",
         "i": "t_door_locked_interior",
-        "l": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "?": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "f": "t_region_groundcover_barren",
         "R": "t_region_groundcover_barren",
         "Q": "t_region_groundcover_barren",
@@ -377,7 +377,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalshelter_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

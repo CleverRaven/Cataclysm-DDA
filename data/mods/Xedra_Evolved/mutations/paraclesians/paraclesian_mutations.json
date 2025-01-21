@@ -480,7 +480,7 @@
     "changes_to": [ "PARACLESIAN_FAE_SIGHT_2" ],
     "prereqs": [
       "ARVORE_EYES",
-      "HOMULLUS_SKIN_1",
+      "HOMULLUS_EYES",
       "IERDE_EYES",
       "SALAMANDER_EYES",
       "SYLPH_EYES",
@@ -768,6 +768,6 @@
     "recurrence": "10 m",
     "condition": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
     "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] } },
-    "effect": [ { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_vitamin('mutagen_human') = 0" ] } ]
   }
 ]

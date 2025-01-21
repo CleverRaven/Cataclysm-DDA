@@ -1,129 +1,59 @@
 [
   {
     "id": "mon_mi_go_biokinetic",
+    "copy-from": "mon_mi_go_myrmidon",
     "type": "MONSTER",
     "name": { "str": "mi-go juggernaut" },
     "description": "This creature resembles the smaller mi-go like a grizzly bear resembles a human.  Its enormous, thick body is covered in an iridescent segmented carapace, like a scarab crossed with an isopod.  It boasts several pairs of deadly looking claws and other appendages, and it moves with a strange, slow grace, like an otherworldly dancer.  Sometimes, it moves so quickly that its movements are only a blur.",
-    "default_faction": "mi-go",
     "looks_like": "mon_mi_go_myrmidon",
     "bodytype": "migo",
     "species": [ "MIGO" ],
-    "volume": "875 L",
-    "weight": "260 kg",
-    "hp": 610,
-    "speed": 95,
-    "material": [ "mi-go_flesh" ],
-    "symbol": "&",
-    "color": "light_gray",
-    "aggression": 20,
-    "morale": 50,
-    "melee_skill": 10,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "dodge": 6,
-    "bleed_rate": 25,
-    "vision_day": 50,
-    "vision_night": 25,
-    "harvest": "mi-go",
-    "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
-    "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [
-      [ "PARROT", 100 ],
-      { "id": "stretch_attack", "cooldown": { "math": [ "10 + rand(20)" ] } },
-      {
-        "id": "longswipe",
-        "cooldown": { "math": [ "12 + rand(24)" ] },
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 7, "armor_multiplier": 0.6 } ]
-      },
-      { "id": "cut_throat", "cooldown": { "math": [ "6 + rand(12)" ] } },
-      {
-        "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.4 } ],
-        "cooldown": { "math": [ "10 + rand(20)" ] }
-      },
-      {
-        "type": "leap",
-        "cooldown": { "math": [ "2 + rand(4)" ] },
-        "move_cost": 50,
-        "allow_no_target": true,
-        "max_range": 7,
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "message": "%1$s moves so quickly your eyes can barely follow it!"
-      },
-      {
-        "id": "psi_juggernaut_speed_boost",
-        "type": "spell",
-        "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
-        "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "%1$s moves so quickly it's nothing but a blur!"
-      },
-      {
-        "id": "psi_juggernaut_heightened_reflexes",
-        "type": "spell",
-        "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
-        "cooldown": 1,
-        "condition": {
-          "and": [
-            { "not": { "u_has_flag": "NO_PSIONICS" } },
-            { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
-          ]
+    "proportional": { "speed": 1.2 },
+    "relative": { "dodge": 2, "armor": { "bash": 3, "cut": 3, "bullet": 4 } },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "leap",
+          "cooldown": { "math": [ "2 + rand(4)" ] },
+          "move_cost": 50,
+          "allow_no_target": true,
+          "max_range": 7,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "message": "%1$s moves so quickly your eyes can barely follow it!"
         },
-        "monster_message": "%1$s begins moving much more quickly."
-      }
-    ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "HAS_MIND",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER",
-      "STUN_IMMUNE"
-    ],
+        {
+          "id": "psi_juggernaut_speed_boost",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
+          "cooldown": { "math": [ "9 + rand(18)" ] },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "monster_message": "%1$s moves so quickly it's nothing but a blur!"
+        },
+        {
+          "id": "psi_juggernaut_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+            ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
+        }
+      ],
+      "flags": [ "STUN_IMMUNE" ]
+    },
     "armor": { "bash": 22, "cut": 30, "bullet": 26, "electric": 6 }
   },
   {
     "id": "mon_mi_go_photokinetic",
+    "copy-from": "mon_mi_go_slaver",
     "type": "MONSTER",
     "name": { "str": "mi-go lightbringer" },
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
-    "default_faction": "mi-go",
     "looks_like": "mon_mi_go_slaver",
-    "bodytype": "migo",
-    "species": [ "MIGO" ],
-    "volume": "92500 ml",
-    "weight": "120 kg",
-    "hp": 240,
-    "speed": 120,
-    "material": [ "mi-go_flesh" ],
-    "symbol": "&",
-    "color": "pink",
-    "aggression": 20,
-    "morale": 35,
-    "melee_skill": 7,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "dodge": 4,
-    "bleed_rate": 50,
-    "vision_day": 50,
-    "vision_night": 20,
-    "harvest": "mi-go",
-    "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
-    "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
       {
@@ -137,7 +67,7 @@
         "spell_data": { "id": "photokinetic_illumination_migo", "min_level": 5 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
         "id": "psi_mi-go_laser",
@@ -145,7 +75,7 @@
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 7 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
         "id": "psi_mi-go_radiation",
@@ -153,57 +83,17 @@
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
         "cooldown": { "math": [ "12 + rand(24)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       }
-    ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "HAS_MIND",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER"
-    ],
-    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
+    ]
   },
   {
     "id": "mon_mi_go_telepath",
+    "copy-from": "mon_mi_go_slaver",
     "type": "MONSTER",
     "name": { "str": "mi-go mindrender" },
     "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.",
-    "default_faction": "mi-go",
     "looks_like": "mon_mi_go_slaver",
-    "bodytype": "migo",
-    "species": [ "MIGO" ],
-    "volume": "92500 ml",
-    "weight": "120 kg",
-    "hp": 240,
-    "speed": 120,
-    "material": [ "mi-go_flesh" ],
-    "symbol": "&",
-    "color": "pink",
-    "aggression": 20,
-    "morale": 35,
-    "melee_skill": 7,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "dodge": 4,
-    "bleed_rate": 50,
-    "vision_day": 50,
-    "vision_night": 20,
-    "harvest": "mi-go",
-    "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
-    "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
       {
@@ -212,55 +102,63 @@
         "cooldown": { "math": [ "10 + rand(20)" ] }
       },
       {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "mind_blast_monster",
-        "move_cost": 80,
-        "cooldown": { "math": [ "7 + rand(14)" ] },
-        "accuracy": 5,
-        "range": 10,
-        "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 15, "armor_penetration": 0 } ],
-        "dodgeable": false,
-        "blockable": false,
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "hit_dmg_u": "%1$s looks at you and your mind reels!",
-        "hit_dmg_npc": "%1$s looks at <npcname> and they flinch as if struck!",
-        "miss_msg_u": "%s looks at you but nothing happens!",
-        "miss_msg_npc": "%s looks at <npcname> but nothing happens!"
+        "id": "psi_mi-go_telepath1_blast",
+        "type": "spell",
+        "spell_data": { "id": "telepathic_blast_monster", "min_level": 6 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
         "id": "psi_mi-go_hallucinations",
         "type": "spell",
         "spell_data": { "id": "telepathic_hallucinations_monster", "min_level": 10 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-        "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
       },
       {
         "id": "psi_mi-go_blinding",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "ROBOT_FLYING" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "WORM" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "SLIME" } }
+          ]
+        },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       }
     ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "HAS_MIND",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER",
-      "CAN_OPEN_DOORS",
-      "PRIORITIZE_TARGETS",
-      "CORNERED_FIGHTER",
-      "TEEP_IMMUNE"
-    ],
-    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
   }
 ]

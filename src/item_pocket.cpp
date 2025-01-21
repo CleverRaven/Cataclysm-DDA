@@ -35,6 +35,8 @@
 #include "units.h"
 #include "units_utility.h"
 
+static const itype_id itype_water( "water" );
+
 namespace io
 {
 // *INDENT-OFF*
@@ -452,7 +454,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // should not be static, since after reloading some members of the item objects,
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
-        item( "water", calendar::turn_zero, 1 ),
+        item( itype_water, calendar::turn_zero, 1 ),
     };
     if( !data->watertight ) {
         return false;
@@ -785,7 +787,7 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     if( guy.is_npc() ) {
-        spill_contents( guy.pos() );
+        spill_contents( guy.pos_bub() );
         return;
     }
 
@@ -887,7 +889,7 @@ std::string item_pocket::translated_sealed_prefix() const
     }
 }
 
-bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
+bool item_pocket::detonate( const tripoint_bub_ms &pos, std::vector<item> &drops )
 {
     const auto new_end = std::remove_if( contents.begin(), contents.end(), [&pos, &drops]( item & it ) {
         return it.detonate( pos, drops );
@@ -900,26 +902,6 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
-                           float insulation, temperature_flag flag, bool watertight_container )
-{
-    bool processed = false;
-    float spoil_multiplier = 1.0f;
-    for( auto it = contents.begin(); it != contents.end(); ) {
-        if( _sealed ) {
-            spoil_multiplier = 0.0f;
-        }
-        if( it->process( here, carrier, pos, type.insulation_factor * insulation, flag,
-                         spoil_multiplier, watertight_container ) ) {
-            it->spill_contents( pos );
-            it = contents.erase( it );
-            processed = true;
-        } else {
-            ++it;
-        }
-    }
-    return processed;
-}
 
 void item_pocket::remove_all_ammo( Character &guy )
 {
@@ -1266,42 +1248,34 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
-        std::vector<std::pair<item const *, int>> counted_contents;
+        std::vector<std::pair<const item *, int>> counted_contents = get_item_duplicate_counts(
+                all_items_top() );
         bool contents_header = false;
-        for( const item &contents_item : contents ) {
+
+        for( std::pair<item const *, int> content : counted_contents ) {
+            const item *contents_item = content.first;
+            const int count = content.second;
+
             if( !contents_header ) {
                 info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
                 contents_header = true;
             }
 
-            const translation &desc = contents_item.type->description;
+            const translation &desc = contents_item->type->description;
 
-            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
-                info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
-            } else {
-                bool found = false;
-                for( std::pair<item const *, int> &content : counted_contents ) {
-                    if( content.first->display_stacked_with( contents_item ) ) {
-                        content.second += 1;
-                        found = true;
-                    }
-                }
-                if( !found ) {
-                    std::pair<item const *, int> new_content( &contents_item, 1 );
-                    counted_contents.push_back( new_content );
-                }
-            }
-        }
-        for( std::pair<item const *, int> content : counted_contents ) {
-            if( content.second > 1 ) {
+            if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   space + std::to_string( content.second ) + " " + colorize( content.first->display_name(
-                                               content.second ), content.first->color_in_inventory() ) );
+                                   colorize( space + contents_item->display_name(), contents_item->color_in_inventory() ) );
+                info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item->volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", space + colorize( content.first->display_name(),
-                                   content.first->color_in_inventory() ) );
+                if( count > 1 ) {
+                    info.emplace_back( "DESCRIPTION",
+                                       space + std::to_string( count ) + " " + colorize( contents_item->display_name(
+                                                   count ), contents_item->color_in_inventory() ) );
+                } else {
+                    info.emplace_back( "DESCRIPTION",
+                                       space + colorize( contents_item->display_name(), contents_item->color_in_inventory() ) );
+                }
             }
         }
     }
@@ -1776,7 +1750,7 @@ std::optional<item> item_pocket::remove_item( const item_location &it )
     return remove_item( *it );
 }
 
-static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
+static void move_to_parent_pocket_recursive( const tripoint_bub_ms &pos, item &it,
         const item_location &loc, Character *carrier )
 {
     if( loc ) {
@@ -1801,12 +1775,13 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
         carrier->add_msg_player_or_npc( m_bad, _( "Your %s falls to the ground." ),
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
-        add_msg_if_player_sees( pos, m_bad, _( "The %s falls to the ground." ), it.display_name() );
+        add_msg_if_player_sees( pos, m_bad, _( "The %s falls to the ground." ),
+                                it.display_name() );
     }
     here.add_item_or_charges( pos, it );
 }
 
-void item_pocket::overflow( const tripoint &pos, const item_location &loc )
+void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
@@ -1930,7 +1905,7 @@ void item_pocket::on_contents_changed()
     restack();
 }
 
-bool item_pocket::spill_contents( const tripoint &pos )
+bool item_pocket::spill_contents( const tripoint_bub_ms &pos )
 {
     if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::CABLE ) ) {
@@ -1985,7 +1960,8 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
+void item_pocket::process( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                           float insulation,
                            temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
@@ -2001,7 +1977,7 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
     }
 }
 
-void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
+void item_pocket::leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
                         item_pocket *pocke )
 {
     std::vector<item *> erases;
@@ -2435,7 +2411,7 @@ void item_pocket::load_presets()
     std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

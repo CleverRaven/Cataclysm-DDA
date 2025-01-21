@@ -33,18 +33,18 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_residential" ],
+      "palettes": [ "parametrized_linoleum_palette", "basement_residential" ],
       "terrain": {
         "x": "t_door_locked_interior",
-        "I": "t_linoleum_gray",
-        "0": "t_linoleum_gray",
-        "l": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
+        "I": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "A": "t_floor",
-        "O": "t_linoleum_gray",
-        "p": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
-        "n": "t_linoleum_gray",
+        "O": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "p": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "n": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "Y": "t_floor"
       },
       "furniture": {

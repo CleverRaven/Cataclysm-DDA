@@ -14,13 +14,13 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Sonia_Chloe",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Sonia_Feeling" },
       {
         "text": "Is everyone treating you fairly?",
         "topic": "TALK_GODCO_Sonia_Godco",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Now that your guitar is fixed, could you play something for me?",
@@ -39,7 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Sonia glances at you harshly, then turns away.  \"Come back later, I'm busy right now.\"",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ],
@@ -61,7 +61,7 @@
         "text": "Hey Sonia.  What's up?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
           ]
         },
@@ -71,7 +71,7 @@
         "text": "Hey Sonia.  What's up?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_sonia" } ] }
           ]
         },
@@ -80,13 +80,9 @@
       {
         "text": "Hey Sonia.  <end_talking_leave>",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
-      {
-        "text": "Alright, see you later.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
-      }
+      { "text": "Alright, see you later.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {
@@ -107,7 +103,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia_Instrument",
-    "dynamic_line": "You're <swear> right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot.  Those pesky <zombies> forced me to harm my sweet, sweet guitar, but I retaliated and bashed their heads in!  I lost a part of me that day, but the guitar's alright.  Just a bit rusted from all that blood and gore, that's all.",
+    "dynamic_line": "You're damn right.  I like its scars, makes it look like it has a history, you know?  We've been through a lot.  Those pesky <zombies> forced me to harm my sweet, sweet guitar, but I retaliated and bashed their heads in!  I lost a part of me that day, but the guitar's alright.  Just a bit rusted from all that blood and gore, that's all.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

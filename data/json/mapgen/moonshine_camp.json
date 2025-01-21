@@ -169,7 +169,6 @@
     "method": "json",
     "om_terrain": "moonshine_still_1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -247,7 +246,6 @@
     "method": "json",
     "om_terrain": "moonshine_still_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

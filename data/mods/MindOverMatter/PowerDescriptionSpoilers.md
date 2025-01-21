@@ -88,7 +88,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 5 minutes to 15 minutes, plus 45 seconds to 120 seconds per level<br />
 *Stamina Cost*: 4500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 275 moves, minus 15 moves per level to a minimum of 50.<br />
-*Effects*: Reduces encumbrance on every body part, improving every 4 levels.  Other than -2 at level 0 through 3, encumbrance reduction is equal to power threshold level: -4 from levels 4 to 7, -8 from levels 8 to 11, and so on.<br />
+*Effects*: Reduces encumbrance on every body part, starting at -2 and improving by -2 every 2 levels, to a maximum of -32 at level 30.<br />
 *Prerequisites*: Overcome Pain 4,  Heightened Reflexes 6 *or* Flexibility 9, Burst of Speed 10 *or* Combat Dance 4 *or* Physical Enhancement 10.<br />
 
 ## Hammerhand (C) 
@@ -175,7 +175,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Reveal the location of all enemies within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
 *Prerequisites*: None<br />
 
 ## Discern Weakness
@@ -575,6 +575,15 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
 *Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
 
+## Gamma Sterilization (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 10 seconds per item of food sterilized<br />
+*Stamina Cost*: 7500, minus 200 per level to a minimum of 4000<br />
+*Channeling Time*: 15 seconds<br />
+*Effects*: Irradiate food, killing bacteria and helping to preserve it for far longer. The psion may irradiate as much food as they can carry, but it takes longer the greater amount of food they wish to irradiate (40g per second time). Every 10 to 15 seconds spent irradiating costs the psion 1 to 3 calories.<br />
+*Prerequisites*: Lucent Barrier 7, Chameleoflage 4, Illuminate 9 *or* Photon Beam 5 *or* Star Flash 3<br />
+
 ## Veil of Light (C)
 *Difficulty*: 6<br />
 *Target*: Self<br />
@@ -811,6 +820,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Water Walking (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 50<br />
+*Effects*: Lift yourself up just enough to allow surface tension to support your weight, allowing you to walk on water.  You can also walk across sludge without being slowed by it.<br />
+*Prerequisites*: Slowfall 6, Momentum Alteration 6<br />
+
 ## Lifting Field (C)
 *Difficulty*: 4<br />
 *Target*: Self<br />
@@ -872,7 +890,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
 *Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Slowfall 9, Force Shove 12 *or* Lift Vehicle 5<br />
+*Prerequisites*: Slowfall 9, Force Shove 12 *or* Water Walking 8<br />
 
 # Megakinesis
 *Difficulty*: 8<br />
@@ -1132,7 +1150,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: One attuned location<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
-*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
 *Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
 *Prerequisites*: Farstep 10, Extended Stride 10 <br />
 
@@ -1206,10 +1224,10 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Enervating Touch 
 *Difficulty*: 3<br />
 *Target*: One enemy within range 1<br />
-*Duration*: 4 seconds to 30 seconds, plus 0.5 seconds to 1.5 seconds per power level<br />
+*Duration*: 18 seconds to 1 minute and 1 second, plus 29 seconds to 1 minute and 18 seconds per power level<br />
 *Stamina Cost*: 2000, minus 65 per level to a minimum of 950<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
-*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 5% chance per second to cause 1 biological damage, +1% chance per power level to a maximum of a 33% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
+*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 3% chance per second to cause 1 biological damage, +0.2% chance per power level to a maximum of a 10% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
 ## Detoxification
@@ -1255,7 +1273,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 8000<br />
 *Channeling Time*: 5 seconds<br />
 *Effects*: Sink deep into meditation and greatly increase healing speed. While meditating, the psion heals 4 times faster, plus 0.75 times per power level. In addition, broken limbs heal 2 times faster, plus 0.25 times per power level.<br />
-*Prerequisites*: Damage Balancing 6, Allay Infection 5<br />
+*Prerequisites*: Leukocyte Accumulation 6, Allay Infection 5<br />
 
 ## Lacerating Touch 
 *Difficulty*: 6<br />
@@ -1291,7 +1309,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000<br />
 *Channeling Time*: 5 seconds<br />
 *Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
-*Prerequisites*: Allay Infection 12, Damage Balancing 8 *or* Immunostimulus 12<br />
+*Prerequisites*: Allay Infection 12, Leukocyte Accumulation 8 *or* Immunostimulus 12<br />
 
 ## Anabolic Rejuvenation (C)
 *Difficulty*: 9<br />
@@ -1300,7 +1318,16 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000, minus 150 per level to a minimum of 6500<br />
 *Channeling Time*: 10 seconds<br />
 *Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 20 to 35 seconds, minus 0.5 seconds per power level to a minimum of 3 to 7 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 60 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
-*Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
+*Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Leukocyte Accumulation 10 *or* Detoxification 7 *or* Blood Purge 5<br />
+
+## Degenerating Touch 
+*Difficulty*: 9<br />
+*Target*: One enemy within range 1<br />
+*Duration*: 30 seconds minus 1 seccond per power level to 75 seconds minus two seconds per power level to a minimum of 15 seconds<br />
+*Stamina Cost*: 8500, minus 250 per level to a minimum of 4500<br />
+*Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
+*Effects*: Invert the target's healing processes, causing massive cellular breakdown and necrosis, doing 25 to 55 biological damage plus 17 to 32 biological damage per power level. This damage is evenly divided over the power's duration. In addition, the target has any regeneration or healing reduced to 0 and suffers a 33% speed penalty for the power's duration.<br />
+*Prerequisites*: Enervating Touch 16 *or* Lacerating Touch 8, Banish Illness 6, Anabolic Rejuvenation 5 *or* Immunostimulus 15<br />
 
 ## Accelerated Resuscitation (C)
 *Difficulty*: 10<br />

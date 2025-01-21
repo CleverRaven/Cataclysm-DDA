@@ -43,6 +43,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
+static const itype_id itype_M24( "M24" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -203,16 +206,13 @@ TEST_CASE( "snippet-tag-test" )
     // Actually used tags
     static const std::set<std::string> npc_talk_tags = {
         {
-            "<name_b>", "<thirsty>", "<swear!>",
-            "<sad>", "<greet>", "<no>",
-            "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
-            "<wait>", "<no_faction>", "<name_g>",
-            "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<really>",
-            "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_it>", "<swear>", "<lets_talk>",
-            "<hands_up>", "<move>", "<hungry>",
-            "<fuck_you>",
+            "<name_b>", "<name_g>", "<hungry>", "<thirsty>",
+            "<general_danger>", "<kill_npc>", "<combat_noise_warning>",
+            "<fire_in_the_hole>", "<hello>", "<swear!>",
+            "<lets_talk>", "<freaking>", "<acknowledged>",
+            "<wait>", "<keep_up>", "<im_leaving_you>",
+            "<done_conversation_section>", "<end_talking_bye>",
+            "<end_talking_later>", "<end_talking_leave>",
         }
     };
 
@@ -252,7 +252,7 @@ static constexpr char setup[height][width + 1] = {
     "    #####        ",
 };
 
-static void check_npc_movement( const tripoint &origin )
+static void check_npc_movement( const tripoint_bub_ms &origin )
 {
     INFO( "Should not crash from infinite recursion" );
     creature_tracker &creatures = get_creature_tracker();
@@ -265,7 +265,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'M':
                 case 'B':
                 case 'C':
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     REQUIRE( guy != nullptr );
                     guy->move();
@@ -278,7 +278,7 @@ static void check_npc_movement( const tripoint &origin )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'A' ) {
-                tripoint p = origin + point( x, y );
+                tripoint_bub_ms p = origin + point( x, y );
                 npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( !guy->has_effect( effect_bouldering ) );
@@ -290,7 +290,7 @@ static void check_npc_movement( const tripoint &origin )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             if( setup[y][x] == 'R' ) {
-                tripoint p = origin + point( x, y );
+                tripoint_bub_ms p = origin + point( x, y );
                 npc *guy = creatures.creature_at<npc>( p );
                 REQUIRE( guy != nullptr );
                 CHECK( guy->has_effect( effect_bouldering ) );
@@ -305,7 +305,7 @@ static void check_npc_movement( const tripoint &origin )
                 case 'W':
                 case 'M':
                     CAPTURE( setup[y][x] );
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy != nullptr );
                     break;
@@ -319,7 +319,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'B':
                 case 'C':
-                    tripoint p = origin + point( x, y );
+                    tripoint_bub_ms p = origin + point( x, y );
                     npc *guy = creatures.creature_at<npc>( p );
                     CHECK( guy == nullptr );
                     break;
@@ -333,7 +333,7 @@ static npc *make_companion( const tripoint_bub_ms &npc_pos )
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
-    guy->spawn_at_precise( get_map().getglobal( npc_pos ) );
+    guy->spawn_at_precise( get_map().get_abs( npc_pos ) );
     overmap_buffer.insert_npc( guy );
     g->load_npcs();
     guy->companion_mission_role_id.clear();
@@ -352,7 +352,7 @@ TEST_CASE( "npc-board-player-vehicle" )
     for( std::pair<const std::string, npc_boarding_test_data> &given : test_data::npc_boarding_data ) {
         GIVEN( given.first ) {
             npc_boarding_test_data &data = given.second;
-            g->place_player( data.player_pos.raw() );
+            g->place_player( data.player_pos );
             clear_map();
             map &here = get_map();
             Character &pc = get_player_character();
@@ -435,7 +435,7 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
 
-    g->place_player( tripoint( 60, 60, 0 ) );
+    g->place_player( { 60, 60, 0 } );
 
     clear_map();
 
@@ -473,8 +473,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_rel_ms_zero, vpart_frame );
-                veh->install_part( point_rel_ms_zero, vpart_seat );
+                veh->install_part( point_rel_ms::zero, vpart_frame );
+                veh->install_part( point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -488,7 +488,7 @@ TEST_CASE( "npc-movement" )
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
                 REQUIRE( !guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( get_map().getglobal( p ) );
+                guy->spawn_at_precise( get_map().get_abs( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.
@@ -533,16 +533,16 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "NPCs escape dangerous terrain by pushing other NPCs" ) {
-        check_npc_movement( player_character.pos() );
+        check_npc_movement( player_character.pos_bub() );
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        const tripoint origin = player_character.pos();
+        const tripoint_bub_ms origin = player_character.pos_bub();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
                 if( setup[y][x] == 'V' ) {
-                    g->place_player( player_character.pos() + point( x, y ) );
+                    g->place_player( player_character.pos_bub() + point( x, y ) );
                     break;
                 }
             }
@@ -561,8 +561,8 @@ TEST_CASE( "npc_can_target_player" )
     set_time_to_day();
 
     Character &player_character = get_player_character();
-    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
 
@@ -591,12 +591,12 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
-    arm_shooter( hostile, "M24" );
+    arm_shooter( hostile, itype_M24 );
     // Give them an excuse to use it by making them aware the player (an enemy) exists
-    arm_shooter( player_character, "M24" );
+    arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
@@ -627,7 +627,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
-    item backpack( "debug_backpack" );
+    item backpack( itype_debug_backpack );
     hostile.wear_item( backpack );
     // Give them a TON of junk
     for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
@@ -638,7 +638,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
         hostile.i_add( some_gun_item );
     }
     // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
-    arm_shooter( player_character, "M24" );
+    arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );

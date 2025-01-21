@@ -19,6 +19,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "mutation.h"
 #include "options.h"
 #include "point.h"
 #include "recipe.h"
@@ -28,6 +29,7 @@
 #include "type_id.h"
 #include "units.h"
 
+static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -289,9 +291,9 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_zero ) );
-        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
+        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
+        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
         if( dist < 1 ) {
@@ -433,6 +435,7 @@ std::string vars( item const &it, unsigned int /* quantity */,
         }
         ret += string_format( " (%s)", item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
     }
+
     if( it.already_used_by_player( get_avatar() ) ) {
         ret += _( " (used)" );
     }
@@ -440,6 +443,23 @@ std::string vars( item const &it, unsigned int /* quantity */,
         ret += _( " (plugged in)" );
     }
     return ret;
+}
+
+
+std::string traits( item const &it, unsigned int /* quantity */,
+                    segment_bitset const &/* segments */ )
+{
+    std::string ret;
+    if( it.has_flag( flag_GENE_TECH ) && it.template_traits.size() == 1 ) {
+        if( it.has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
+            ret += string_format( _( " (SINGLE USE %s)" ), it.template_traits.front()->name() );
+        } else {
+            ret += string_format( " (%s)", it.template_traits.front()->name() );
+        }
+    }
+    return ret;
+
 }
 
 std::string segment_broken( item const &it, unsigned int /* quantity */,
@@ -523,7 +543,7 @@ std::string weapon_mods( item const &it, unsigned int /* quantity */,
         modtext += _( "pistol " );
     }
     if( it.has_flag( flag_DIAMOND ) ) {
-        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
+        modtext += pgettext( "Adjective, as in diamond katana", "diamond " );
     }
     return modtext;
 }
@@ -581,6 +601,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::BROKEN ) ] = segment_broken;
     arr[static_cast<size_t>( tname::segments::CBM_STATUS ) ] = cbm_status;
     arr[static_cast<size_t>( tname::segments::UPS ) ] = ups;
+    arr[static_cast<size_t>( tname::segments::TRAITS ) ] = traits;
     arr[static_cast<size_t>( tname::segments::TAGS ) ] = tags;
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;

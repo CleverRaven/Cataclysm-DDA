@@ -1,19 +1,18 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "default": "mon_dog",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
-      { "monster": "mon_quail", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] }
+      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "id": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
     "monsters": [
@@ -21,7 +20,6 @@
       { "monster": "mon_capybara", "weight": 10 },
       { "monster": "mon_guinea_pig", "weight": 10 },
       { "monster": "mon_bushdog", "weight": 10 },
-      { "monster": "mon_quail", "weight": 10 },
       { "monster": "mon_camel", "weight": 10 },
       { "monster": "mon_boa", "weight": 10 },
       { "monster": "mon_anaconda", "weight": 10 }
@@ -29,7 +27,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY",
+    "id": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_cellar_giant",
     "monsters": [

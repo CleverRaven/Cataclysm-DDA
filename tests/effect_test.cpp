@@ -34,6 +34,8 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
+static const itype_id itype_test_vitfood( "test_vitfood" );
+
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
@@ -90,7 +92,8 @@ TEST_CASE( "effect_initialization_test", "[effect][init]" )
 TEST_CASE( "effect_duration", "[effect][duration]" )
 {
     // "debugged" and "intensified" effects come from JSON effect data (data/mods/TEST_DATA/effects.json)
-    effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_turns, body_part_bp_null,
+    effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_turns,
+                         bodypart_str_id::NULL_ID(),
                          false, 1, calendar::turn );
 
     // Current duration from effect initialization
@@ -119,7 +122,8 @@ TEST_CASE( "effect_duration", "[effect][duration]" )
     // 1000 rounded up, and it has "max_intensity": 3 meaning the highest its intensity will go is 3 at
     // a duration of 3000 or higher.
     SECTION( "set_duration modifies intensity if effect is duration-based" ) {
-        effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns, body_part_bp_null,
+        effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns,
+                            bodypart_str_id::NULL_ID(),
                             false, 1, calendar::turn );
         REQUIRE( eff_intense.get_int_dur_factor() == 1_minutes );
 
@@ -163,7 +167,8 @@ TEST_CASE( "effect_duration", "[effect][duration]" )
 //
 TEST_CASE( "effect_intensity", "[effect][intensity]" )
 {
-    effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 3_turns, body_part_bp_null,
+    effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 3_turns,
+                         bodypart_str_id::NULL_ID(),
                          false, 1, calendar::turn );
 
     REQUIRE( eff_debugged.get_intensity() == 1 );
@@ -190,7 +195,7 @@ TEST_CASE( "effect_intensity", "[effect][intensity]" )
 TEST_CASE( "effect_intensity_removal", "[effect][intensity]" )
 {
     effect eff_test_int_remove( effect_source::empty(), &effect_test_int_remove.obj(), 3_turns,
-                                body_part_bp_null,
+                                bodypart_str_id::NULL_ID(),
                                 false, 1, calendar::turn );
 
     REQUIRE( eff_test_int_remove.get_intensity() == 1 );
@@ -205,7 +210,8 @@ TEST_CASE( "effect_intensity_removal", "[effect][intensity]" )
 
 TEST_CASE( "max_effective_intensity", "[effect][max][intensity]" )
 {
-    effect eff_maxed( effect_source::empty(), &effect_max_effected.obj(), 3_turns, body_part_bp_null,
+    effect eff_maxed( effect_source::empty(), &effect_max_effected.obj(), 3_turns,
+                      bodypart_str_id::NULL_ID(),
                       false, 1, calendar::turn );
 
     REQUIRE( eff_maxed.get_intensity() == 1 );
@@ -249,7 +255,8 @@ TEST_CASE( "effect_decay", "[effect][decay]" )
     std::vector<bodypart_id> rem_bps;
 
     SECTION( "decay reduces effect duration by 1 turn and triggers intensity decay" ) {
-        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 2_turns, body_part_bp_null,
+        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 2_turns,
+                             bodypart_str_id::NULL_ID(),
                              false, 5, calendar::turn );
         // Ensure it will last 2 turns, and is not permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
@@ -281,7 +288,8 @@ TEST_CASE( "effect_decay", "[effect][decay]" )
     }
 
     SECTION( "decay does not reduce paused/permanent effect duration" ) {
-        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 2_turns, body_part_bp_null,
+        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 2_turns,
+                             bodypart_str_id::NULL_ID(),
                              true, 1, calendar::turn );
         // Ensure it will last 2 turns, and is permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
@@ -295,7 +303,8 @@ TEST_CASE( "effect_decay", "[effect][decay]" )
     }
 
     SECTION( "intensity decay triggers on the appropriate turns" ) {
-        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_hours, body_part_bp_null,
+        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_hours,
+                             bodypart_str_id::NULL_ID(),
                              false, 10, calendar::turn );
         // Ensure it has a decay tick  of 2 turns and a decay step of -1, and int removal is allwed
         // Also check max duration
@@ -359,7 +368,7 @@ TEST_CASE( "effect_decay", "[effect][decay]" )
 
     SECTION( "int_decay_remove == false protects an effect from removal" ) {
         effect eff_test_int_remove( effect_source::empty(), &effect_test_int_remove.obj(), 3_turns,
-                                    body_part_bp_null,
+                                    bodypart_str_id::NULL_ID(),
                                     false, 3, calendar::turn );
         // Ensure it has the -2 int decay step, is protected from removal and has a decay tick of 1
         REQUIRE( eff_test_int_remove.get_int_decay_step() == -2 );
@@ -454,7 +463,7 @@ TEST_CASE( "effect_display_and_speed_name_may_vary_with_intensity",
         // "name": [ "Whoa", "Wut?", "Wow!" ]
         // "max_intensity": 3
         effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns,
-                            body_part_bp_null, false, 1, calendar::turn );
+                            bodypart_str_id::NULL_ID(), false, 1, calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
         // use_name_ints is true if there are names for each intensity
@@ -487,7 +496,7 @@ TEST_CASE( "effect_display_and_speed_name_may_vary_with_intensity",
         // "name": [ "Debugged" ]
         // "speed_name": "Optimized"
         effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_minutes,
-                             body_part_bp_null, false, 1, calendar::turn );
+                             bodypart_str_id::NULL_ID(), false, 1, calendar::turn );
 
         THEN( "disp_name has the name, and current intensity if > 1" ) {
             eff_debugged.set_intensity( 1 );
@@ -570,7 +579,8 @@ TEST_CASE( "effect_body_part", "[effect][bodypart]" )
 TEST_CASE( "effect_modifiers", "[effect][modifier]" )
 {
     SECTION( "base_mods apply equally for any intensity" ) {
-        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_minutes, body_part_bp_null,
+        effect eff_debugged( effect_source::empty(), &effect_debugged.obj(), 1_minutes,
+                             bodypart_str_id::NULL_ID(),
                              false, 1, calendar::turn );
 
         CHECK( eff_debugged.get_mod( "STR" ) == 1 );
@@ -584,7 +594,8 @@ TEST_CASE( "effect_modifiers", "[effect][modifier]" )
 
     // Scaling mods - vary based on intensity
     SECTION( "scaling_mods vary based on intensity" ) {
-        effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns, body_part_bp_null,
+        effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns,
+                            bodypart_str_id::NULL_ID(),
                             false, 1, calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
@@ -633,7 +644,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         WHEN( "when player cuts monster" ) {
             REQUIRE( test_monster.get_hp() == test_monster.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
-                test_monster.deal_damage( player.as_character(), body_part_bp_null, cut_damage );
+                test_monster.deal_damage( player.as_character(), bodypart_str_id::NULL_ID(), cut_damage );
                 const effect &bleed = test_monster.get_effect( effect_bleed );
                 CHECK( test_monster.get_hp() < test_monster.get_hp_max() );
                 CHECK( !bleed.is_null() );
@@ -643,7 +654,8 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
         WHEN( "when player cuts npc" ) {
 
-            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point_south_west, "thug" );
+            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point::south_west, "thug" );
+            test_npc.clear_worn(); // Ensure the victim doesn't generate with too much protection.
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
@@ -656,8 +668,9 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point_south, "thug" );
-        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point_south_east, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "bandit" );
+        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
+        npc_dst.clear_worn(); // Ensure the victim doesn't generate with too much protection.
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
@@ -692,7 +705,7 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
     subject.add_effect( vitamin_effect );
 
     // A food rich in in vitamin x - we need 2 of them, for with/without the effect
-    item food1( "test_vitfood" );
+    item food1( itype_test_vitfood );
     item food2( food1 );
 
     // Make sure they have none of these vitamins at the start
@@ -742,7 +755,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     // Place a hundred debug monsters, our subjects
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!
@@ -766,7 +779,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     int alive = 0;
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             alive += creatures.creature_at<Creature>( cursor ) != nullptr;
         }

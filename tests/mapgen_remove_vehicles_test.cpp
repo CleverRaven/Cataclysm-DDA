@@ -44,9 +44,9 @@ void remote_add_test_vehicle( map &m )
     wipe_map_terrain( &m );
     m.clear_traps();
     REQUIRE( m.get_vehicles().empty() );
-    add_test_vehicle( m, tripoint_bub_ms_zero );
+    add_test_vehicle( m, tripoint_bub_ms::zero );
     REQUIRE( m.get_vehicles().size() == 1 );
-    REQUIRE( m.veh_at( tripoint_bub_ms_zero ).has_value() );
+    REQUIRE( m.veh_at( tripoint_bub_ms::zero ).has_value() );
 }
 
 template<typename F, typename ID>
@@ -54,12 +54,12 @@ void local_test( vehicle *veh, tripoint_bub_ms const &test_loc, F const &fmg, ID
 {
     map &here = get_map();
     tripoint_abs_omt const this_test_omt =
-        project_to<coords::omt>( get_map().getglobal( test_loc ) );
-    tripoint_bub_ms const this_test_loc = test_loc + point_east;
+        project_to<coords::omt>( get_map().get_abs( test_loc ) );
+    tripoint_bub_ms const this_test_loc = test_loc + point::east;
     vehicle *const veh2 = add_test_vehicle( here, this_test_loc );
     REQUIRE( here.veh_at( this_test_loc ).has_value() );
     REQUIRE( here.get_vehicles().size() == 2 );
-    REQUIRE( veh->pos_bub() == veh2->pos_bub() - point_east );
+    REQUIRE( veh->pos_bub() == veh2->pos_bub() - point::east );
     REQUIRE( veh->sm_pos == veh2->sm_pos );
 
     manual_mapgen( this_test_omt, fmg, id );
@@ -72,7 +72,7 @@ void remote_test( vehicle *veh, tripoint_bub_ms const &test_loc, F const &fmg, I
 {
     map &here = get_map();
     tripoint_abs_omt const this_test_omt =
-        project_to<coords::omt>( here.getglobal( test_loc ) ) + tripoint{ 20, 20, 0 };
+        project_to<coords::omt>( here.get_abs( test_loc ) ) + tripoint{ 20, 20, 0 };
     manual_mapgen( this_test_omt, fmg, id, remote_add_test_vehicle );
     REQUIRE( here.get_vehicles().size() == 1 );
     check_vehicle_still_works( *veh );
@@ -122,8 +122,8 @@ TEST_CASE( "mapgen_remove_vehicles" )
 
     SECTION( "update place then nested remove all on main map" ) {
         tripoint_abs_omt const this_test_omt =
-            project_to<coords::omt>( get_map().getglobal( test_loc ) );
-        tripoint_bub_ms const this_test_loc = get_map().bub_from_abs( project_to<coords::ms>
+            project_to<coords::omt>( get_map().get_abs( test_loc ) );
+        tripoint_bub_ms const this_test_loc = get_map().get_bub( project_to<coords::ms>
                                               ( this_test_omt ) );
         manual_mapgen( this_test_omt, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
         REQUIRE( here.get_vehicles().size() == 2 );

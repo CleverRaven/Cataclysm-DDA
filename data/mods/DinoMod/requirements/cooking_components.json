@@ -25,6 +25,7 @@
         [ "egg_qianzhousaurus", 1 ],
         [ "egg_nanuqsaurus", 1 ],
         [ "egg_daspletosaurus", 1 ],
+        [ "egg_nedcolbertia", 1 ],
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
         [ "egg_ornithomimus", 1 ],
@@ -105,6 +106,7 @@
         [ "egg_stegoceras", 1 ],
         [ "egg_aquilops", 1 ],
         [ "egg_nanosaurus", 1 ],
+        [ "egg_fona", 1 ],
         [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]

@@ -15,6 +15,13 @@
 
 static const efftype_id effect_tapeworm( "tapeworm" );
 
+static const itype_id itype_beansnrice( "beansnrice" );
+static const itype_id itype_debug_nutrition( "debug_nutrition" );
+static const itype_id itype_debug_orange( "debug_orange" );
+static const itype_id itype_debug_vitamins( "debug_vitamins" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
+static const itype_id itype_veggy( "veggy" );
+
 static const trait_id trait_HUNGER3( "HUNGER3" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
@@ -102,7 +109,7 @@ static void eat_all_nutrients( Character &you )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
-    item f( "debug_nutrition" );
+    item f( itype_debug_nutrition );
     you.consume( f );
 }
 
@@ -197,7 +204,7 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
     REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
     REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
-    item f( "debug_orange" );
+    item f( itype_debug_orange );
 
     // check that 100% of daily vit C is by default 96 units
     CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
@@ -227,7 +234,7 @@ TEST_CASE( "vitamin_multivitamin", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
     REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
     REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
-    item f( "debug_vitamins" );
+    item f( itype_debug_vitamins );
 
     subject.consume( f );
 
@@ -263,7 +270,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     REQUIRE( subject.get_health_tally() == 0 );
 
-    item f( "debug_vitamins" );
+    item f( itype_debug_vitamins );
 
     subject.consume( f );
 
@@ -338,6 +345,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     const bool print_tests = false;
     avatar &dummy = get_avatar();
     reset_time();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
     if( print_tests ) {
@@ -413,9 +421,9 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 270 );
     CHECK( hunger_time >= 240 );
-    item f( "meat_cooked" );
+    item f( itype_meat_cooked );
     dummy.consume( f );
-    f = item( "meat_cooked" );
+    f = item( itype_meat_cooked );
     dummy.consume( f );
     dummy.set_thirst( 0 );
     dummy.update_body();
@@ -428,9 +436,9 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 210 );
-    f = item( "beansnrice" );
+    f = item( itype_beansnrice );
     dummy.consume( f );
-    f = item( "beansnrice" );
+    f = item( itype_beansnrice );
     dummy.consume( f );
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
@@ -445,7 +453,7 @@ TEST_CASE( "hunger" )
         printf( "eat 16 veggy\n" );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = item( "veggy" );
+        f = item( itype_veggy );
         dummy.consume( f );
     }
     dummy.update_body();
@@ -464,7 +472,7 @@ TEST_CASE( "hunger" )
         dummy.mutate_towards( trait_HUNGER3 );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = item( "veggy" );
+        f = item( itype_veggy );
         dummy.consume( f );
     }
     dummy.update_body();

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,13 +31,13 @@
         ".##################+###,",
         "..............,U<U,,U,,,"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         " ": "t_floor",
-        "S": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "_": "t_linoleum_white",
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "'": "t_pavement",
         "U": "t_sidewalk",
         ",": "t_sidewalk",
@@ -150,7 +149,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_1" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -179,12 +177,12 @@
         ".########+#############.",
         "......'U''''<U'........."
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
-        "_": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "&": "t_linoleum_gray",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         " ": "t_thconc_floor",
         "'": "t_concrete",
         "^": "t_door_c",
@@ -294,7 +292,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_pf" ],
-    "weight": 50,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -323,14 +320,14 @@
         "........A...............",
         "........................"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         ",": "t_concrete",
         " ": "t_thconc_floor",
-        "%": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "_": "t_linoleum_white",
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ">": "t_stairs_down",
         "'": "t_pavement",
         "`": "t_pavement_y",

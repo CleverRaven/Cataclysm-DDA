@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -130,7 +129,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage_1" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -242,7 +240,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage_2" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -347,10 +344,10 @@
         " -....fxxx..........f.- ",
         " -....###########+##### ",
         " -....#yiii|'rr''''|ST# ",
-        " -....WI'''W'''''''|''# ",
-        " -....WIh''W'''CC''|+|# ",
-        " -....WI'''+''C'C''''C# ",
-        " -....#''''W'''''''Y''# ",
+        " -....OI'''O'''''''|''# ",
+        " -....OIh''O'''CC''|+|# ",
+        " -....OI'''+''C'C''''C# ",
+        " -....#''''O'''''''Y''# ",
         " -...4#tsst|'rrrrr''''# ",
         " -....#############|+|# ",
         " -................#>''# ",
@@ -361,7 +358,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette", "parametrized_walls_palette" ],
-      "terrain": { "+": "t_door_locked", "'": "t_thconc_floor", "W": "t_window_domestic", "i": "t_thconc_floor" },
+      "terrain": { "+": "t_door_locked", "'": "t_thconc_floor", "O": "t_window_domestic", "i": "t_thconc_floor" },
       "furniture": {
         "I": "f_desk",
         "h": "f_chair",
