@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gun" ],
+    "om_terrain": [ "s_gun_a" ],
     "weight": 99999,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -46,21 +46,21 @@
       "nested": {
         "0": {
           "chunks": [
-            [ "gunstore_barricaded_a", 0 ],
-            [ "gunstore_occupied_a", 0 ],
-            [ "gunstore_looted_a", 0 ],
-            [ "gunstore_ransacked_a", 1 ]
+            [ "gunstore_barricaded_a", 15 ],
+            [ "gunstore_occupied_a", 5 ],
+            [ "gunstore_looted_a", 60 ],
+            [ "gunstore_ransacked_a", 20 ]
           ]
         }
       },
       "place_item": [ { "item": "american_flag", "x": 11, "y": 3, "chance": 100 } ],
-      "place_loot": [ { "group": "cash_register_random", "x":  13, "y": [ 7, 9 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 13, "y": [ 7, 9 ] } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "s_gun_roof",
+    "om_terrain": "s_gun_a_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -119,42 +119,52 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gun_1" ],
-    "//": "Home defense gun store",
+    "om_terrain": [ [ "s_gun_b_store", "s_gun_b_range" ] ],
     "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ",'''''''''''''''''''''',",
-        ",'@@@@@@@/'''''@@@@@@@',",
-        ",'##:::##''''''##:::##',",
-        ",'#^...?:'''''':?...^#',",
-        ",'#..a..:'''''':..a..#',",
-        ",'#.nnn.:'''''':.nnn.#',",
-        ",'#.....#::++::#.....#',",
-        ",'#..................#',",
-        ",'#..................#',",
-        ",'#....KKK....YYY....#',",
-        ",'#....vvv....YYY....#',",
-        "''#^................^#',",
-        "'##....LLL....LLL....#',",
-        "'$#....LLL....LLL....#',",
-        "'##..................#',",
-        "''#..................#',",
-        ",'#|D|D|ZZ||||ZZ||D||#',",
-        ",'#&.|.|FFFFFFFF|..aE#',",
-        ",'#..|.D........D..aE#',",
-        ",'#qr|<|FFFFFFFF|ll.r#;,",
-        ",'#################+##',",
-        ",'''''''''''''''''''''',",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,"
+        ",,,,,,',,,,,,,,,,,,,,',,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,',,,,,,,,,,,,,/',,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,0'''''''''''''''''',,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,#                   #,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,#                   ########################,,",
+        ",,#                    MMMMMMMMMMMMMMMMMMMMMM#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                        I                M#,,",
+        ",,#                        3              T M#,,",
+        ",,#                     M  I                M#,,",
+        ",,#                     M  3              T M#,,",
+        ",,%''                   MMMMMMMMMMMMMMMMMMMMM#,,",
+        ",,%''#########################################,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "gun_store_palette" ],
-      "terrain": { ";": "t_sidewalk" },
+      "palettes": [ "gun_store_palette_unlooted" ],
+      "nested": { "0": { "chunks": [ [ "gunstore_barricaded_b", 15 ] ] } },
+      "terrain": {
+        "'": "t_sidewalk",
+        "/": "t_region_groundcover_urban",
+        ",": "t_region_groundcover_urban",
+        "#": "t_brick_wall",
+        "(": "t_chaingate_c",
+        "%": "t_chainfence",
+        ".": "t_thconc_floor_no_roof"
+      },
+      "furniture": { "/": "f_flagpole" },
+      "place_item": [ { "item": "american_flag", "x": 20, "y": 1, "chance": 100 } ],
       "place_loot": [
-        { "group": "cash_register_random", "x": [ 4, 6 ], "y": 5 },
-        { "group": "cash_register_random", "x": [ 17, 19 ], "y": 5 }
+        { "group": "cash_register_random", "x": [ 19 ], "y": 13 },
+        { "group": "cash_register_random", "x": [ 19, 21 ], "y": 7 }
       ]
     }
   },

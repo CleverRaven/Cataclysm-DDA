@@ -136,15 +136,6 @@
     ]
   },
   {
-    "id": "SUS_gunstore_cleaning",
-    "type": "item_group",
-    "container-item": "box_small",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for items related to firearm cleaning and maintenance.  Gun oils, cleaning kits, etc.",
-    "subtype": "collection",
-    "entries": [ { "item": "cotton_ball", "count": [ 10, 20 ] }, { "item": "pipe_cleaner" } ]
-  },
-  {
     "id": "SUS_gunstore_optics_packaged",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",

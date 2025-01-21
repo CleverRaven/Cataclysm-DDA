@@ -365,8 +365,9 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "s_gun",
-      "s_gun_1",
+      "s_gun_a",
+      "s_gun_b_range",
+      "s_gun_b_store",
       "s_gun_2",
       "s_gun_3",
       "s_gun_3_looted",
@@ -384,7 +385,7 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "s_gun_roof",
+      "s_gun_a_roof",
       "s_gun_roof_1",
       "s_gun_upper_roof_1",
       "s_gun_roof_3",

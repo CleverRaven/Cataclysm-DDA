@@ -277,16 +277,21 @@
     "type": "oter_id_migration",
     "//": "migrated in 0.I",
     "oter_ids": {
-      "s_gun_looted": "s_gun",
-      "s_gun_looted_north": "s_gun_north",
-      "s_gun_looted_east": "s_gun_east",
-      "s_gun_looted_south": "s_gun_south",
-      "s_gun_looted_west": "s_gun_west"
+      "s_gun_looted": "s_gun_a",
+      "s_gun_looted_north": "s_gun_a_north",
+      "s_gun_looted_east": "s_gun_a_east",
+      "s_gun_looted_south": "s_gun_a_south",
+      "s_gun_looted_west": "s_gun_a_west",
+      "s_gun_1": "s_gun_a",
+      "s_gun_1_north": "s_gun_a_north",
+      "s_gun_1_east": "s_gun_a_east",
+      "s_gun_1_south": "s_gun_a_south",
+      "s_gun_1_west": "s_gun_a_west"
     }
   },
   {
     "type": "overmap_special_migration",
     "id": "s_gun_looted",
-    "new_id": "s_gun"
+    "new_id": "s_gun_a"
   }
 ]

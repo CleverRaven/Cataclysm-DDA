@@ -263,6 +263,7 @@
       "C": "t_sidewalk",
       ".": "t_thconc_floor",
       "x": "t_thconc_floor_no_roof",
+      "M": "t_concrete_wall",
       "j": "t_carpet_concrete_red",
       ";": "t_gutter_downspout",
       "Z": "t_bars",
@@ -390,15 +391,6 @@
         "repeat": 15,
         "chance": 35
       },
-      "R": {
-        "item": {
-          "//": "counters used for shooting at the gun range, chance of spawning any loaded common firearm as well as spent brass",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display", "prob": 25 }, { "group": "casings", "prob": 50 } ]
-        },
-        "repeat": 3,
-        "chance": 80
-      },
       "r": {
         "item": { "//": "contents of trashcans in store", "subtype": "collection", "entries": [ { "group": "trash" } ] },
         "repeat": 5,
@@ -520,11 +512,6 @@
         "repeat": 3,
         "chance": 20
       },
-      "f": {
-        "item": { "//": "rec room fridge", "subtype": "collection", "entries": [ { "group": "fridgesnacks" } ] },
-        "repeat": 10,
-        "chance": 35
-      },
       "g": { "item": "guns_rifle_common_display", "repeat": [ 0, 1 ], "chance": 30 },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 0, 1 ], "chance": 30 },
       "h": { "item": "guns_shotgun_common_display", "repeat": [ 0, 1 ], "chance": 30 },
@@ -548,7 +535,7 @@
           "entries": [ { "group": "book_gunref", "prob": 50 }, { "group": "book_gunmags", "prob": 80 } ]
         },
         "repeat": 4,
-        "chance": 60
+        "chance": 40
       },
       "l": { "item": { "subtype": "collection", "entries": [ { "group": "unisex_coat_rack" } ] }, "repeat": 4, "chance": 75 },
       "N": {
@@ -583,15 +570,6 @@
         },
         "repeat": 15,
         "chance": 35
-      },
-      "R": {
-        "item": {
-          "//": "counters used for shooting at the gun range, chance of spawning any loaded common firearm as well as spent brass",
-          "subtype": "collection",
-          "entries": [ { "group": "guns_common_display", "prob": 25 }, { "group": "casings", "prob": 50 } ]
-        },
-        "repeat": 3,
-        "chance": 80
       },
       "r": {
         "item": { "//": "contents of trashcans in store", "subtype": "collection", "entries": [ { "group": "trash" } ] },
