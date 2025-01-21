@@ -21,6 +21,7 @@
   {
     "//": "A group for any generic-flavour basic civillian eva gear",
     "id": "afs_wintersuit_generic_basic",
+    "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_mutant_frontier_cryo_g", "prob": 5 } ]
   },
