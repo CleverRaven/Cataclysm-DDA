@@ -2795,6 +2795,7 @@ class Character : public Creature, public visitable
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
+        int get_effective_focus() const;
         void mod_focus( int amount ) {
             focus_pool += amount * 1000;
             focus_pool = std::max( focus_pool, 0 );

@@ -10074,7 +10074,7 @@ std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &fla
     return traits;
 }
 
-float Character::adjust_for_focus( float amount ) const
+int Character::get_effective_focus() const
 {
     int effective_focus = get_focus();
     effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
@@ -10082,8 +10082,12 @@ float Character::adjust_for_focus( float amount ) const
     effective_focus *= 1.0 + ( 0.01f * ( get_int() -
                                          get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                                get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" ) );
-    effective_focus = std::max( effective_focus, 1 );
-    return amount * ( effective_focus / 100.0f );
+    return std::max( effective_focus, 1 );
+}
+
+float Character::adjust_for_focus( float amount ) const
+{
+    return amount * ( get_effective_focus() / 100.0f );
 }
 
 std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const

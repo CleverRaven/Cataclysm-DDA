@@ -1410,6 +1410,7 @@ These can be read or written to with `val()`.
 | `sleepiness` | ✅ | Current sleepiness level. |
 | `fine_detail_vision_mod` | ❌ | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind). |
 | `focus` | ✅ | Current focus level. |
+| `focus_effective` | ❌ | Effective focus level, modified by focus enchants. |
 | `friendly` | ✅ | Current friendly level. Only works for monsters. |
 | `grab_strength` | ❌ | Grab strength as defined in the monster definition. Only works for monsters |
 | `height` | ✅ | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320. |

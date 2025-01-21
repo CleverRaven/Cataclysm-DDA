@@ -551,6 +551,9 @@ class const_talker
         virtual int focus_cur() const {
             return 0;
         }
+        virtual int focus_effective_cur() const {
+            return 0;
+        }
         virtual int get_pkill() const {
             return 0;
         }
