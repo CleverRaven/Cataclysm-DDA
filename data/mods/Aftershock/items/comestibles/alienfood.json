@@ -5,7 +5,6 @@
     "name": { "str": "clump of lichen", "str_pl": "clumps of lichen" },
     "weight": "120 g",
     "color": "red",
-    "use_action": [ "BLECH" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 400,
@@ -16,7 +15,9 @@
     "volume": "26 ml",
     "fun": -8,
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "RAW" ]
+    "flags": [ "RAW" ],
+    "use_action": [ "BLECH", "PETFOOD" ],
+    "petfood": [ "ALIEN_LICHEN" ]
   },
   {
     "id": "yum_lichen_extra",
