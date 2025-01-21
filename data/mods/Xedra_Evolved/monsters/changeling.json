@@ -299,7 +299,7 @@
     "symbol": "D",
     "color": "light_gray",
     "looks_like": "mon_direwolf",
-    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "scents_tracked": [ "sc_human", "sc_fetid", "sc_fae", "sc_vampire" ],
     "aggression": 30,
     "morale": 70,
     "melee_skill": 7,
