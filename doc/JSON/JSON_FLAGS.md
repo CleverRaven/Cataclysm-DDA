@@ -1402,6 +1402,7 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 ### Profession
 
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
+- ```SKIP_DEFAULT_BACKGROUND``` This profession will not add the default background package of hobbies (`adult_basic_background`).
 
 
 ### Starting Location

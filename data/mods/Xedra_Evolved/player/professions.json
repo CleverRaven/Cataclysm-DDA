@@ -220,6 +220,7 @@
     "points": 7,
     "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "flags": [ "SKIP_DEFAULT_BACKGROUND" ],
     "items": {
       "both": {
         "entries": [
@@ -597,7 +598,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -624,7 +625,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -651,7 +652,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -678,7 +679,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -705,7 +706,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -732,7 +733,7 @@
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
