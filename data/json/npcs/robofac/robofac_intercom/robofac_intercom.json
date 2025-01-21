@@ -603,12 +603,7 @@
         "text": "Some mercenaries I met mentioned this place, said its a good place to find some work and possibly some valuable post-apocalyptic gear.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
         "trial": { "type": "LIE", "difficulty": 90 },
-        "failure": {
-          "effect": [
-            { "u_add_faction_trust": -3 },
-            { "u_add_effect": "robofac_surveillance", "duration": "30 days" }
-          ]
-        }
+        "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
       },
       {
         "text": "You guys aren't as slick as you think. You think no one's gonna notice a pristine looking meteorological station in the middle of nowhere with not a potted plant out of place?",
