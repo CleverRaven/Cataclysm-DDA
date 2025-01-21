@@ -169,41 +169,6 @@
     }
   },
   {
-    "id": "afs_frontier_cryo_mutant",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_frontier_cryo",
-    "repairs_like": "afs_frontier_cryo",
-    "name": { "str": "mutant frontier cryo suit" },
-    "description": "A sturdy suit meant to protect against the freezing cold, made from a pair of jumpsuits that have been woven around a heavy insulation layer and crisscrossed with the thermal tubing of a heat regulation unit.  The thick insulation allows the suit to function with unrivaled efficiency, but also makes all types of movement difficult.\n\nPeculiar modifications indicate this suit has been made to acoomdate genitically augmented individuals.",
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate your %s.",
-      "target": "afs_frontier_cryo_mutant_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
-  },
-  {
-    "id": "afs_frontier_cryo_mutant_on",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_frontier_cryo_on",
-    "repairs_like": "afs_frontier_cryo",
-    "name": { "str": "mutant frontier cryo suit (on)", "str_pl": "mutant frontier cryo suits (on)" },
-    "revert_to": "afs_frontier_cryo_mutant",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
-      "target": "afs_frontier_cryo_mutant"
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
-  },
-  {
     "id": "afs_combat_cryo",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -268,41 +233,6 @@
     }
   },
   {
-    "id": "afs_combat_cryo_mutant",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_combat_cryo",
-    "repairs_like": "afs_frontier_cryo",
-    "name": { "str": "mutant combat cryo suit" },
-    "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.\n\nPeculiar modifications indicate this suit has been made to acoomdate genitically augmented individuals.",
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate your %s.",
-      "target": "afs_combat_cryo_mutant_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
-  },
-  {
-    "id": "afs_combat_cryo_mutant_on",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_combat_cryo_on",
-    "repairs_like": "afs_frontier_cryo",
-    "name": { "str": "mutant combat cryo suit (on)", "str_pl": "mutant combat cryo suits (on)" },
-    "revert_to": "afs_combat_cryo_mutant",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
-      "target": "afs_combat_cryo_mutant"
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
-  },
-  {
     "id": "afs_cryopod_bodyglove",
     "type": "TOOL_ARMOR",
     "category": "clothing",
@@ -365,40 +295,5 @@
       "target": "afs_cryopod_bodyglove"
     },
     "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "PADDED", "THERMOMETER", "HYGROMETER" ]
-  },
-  {
-    "id": "afs_cryopod_bodyglove_mutant",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_cryopod_bodyglove",
-    "repairs_like": "afs_cryopod_bodyglove",
-    "name": { "str": "mutant cryopod bodyglove" },
-    "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  Use it to activate its climate control functionality.\n\nPeculiar modifications indicate this suit has been made to acoomdate genitically augmented individuals.",
-    "use_action": {
-      "type": "transform",
-      "msg": "You activate your %s.",
-      "target": "afs_cryopod_bodyglove_mutant_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
-  },
-  {
-    "id": "afs_cryopod_bodyglove_mutant_on",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_cryopod_bodyglove_on",
-    "repairs_like": "afs_cryopod_bodyglove",
-    "name": { "str": "mutant cryopod bodyglove (on)", "str_pl": "mutant cryopod bodygloves (on)" },
-    "revert_to": "afs_cryopod_bodyglove_mutant",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
-      "target": "afs_cryopod_bodyglove_mutant"
-    },
-    "//": "If we add digitgrade legs as a possible Genetech trait, this suit should be modified to include compatibility for that.",
-    "extend": { "flags": [ "ALLOWS_TAIL" ] }
   }
 ]
