@@ -230,7 +230,7 @@
         "coverage": 100,
         "encumbrance": [ 12, 12 ]
       },
-	  {
+      {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.7 },
@@ -309,7 +309,7 @@
         "coverage": 100,
         "encumbrance": [ 18, 18 ]
       },
-	  {
+      {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 },
@@ -716,13 +716,13 @@
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-		  { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": [ 24, 24 ]
       },
-	  {
+      {
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.3 },
