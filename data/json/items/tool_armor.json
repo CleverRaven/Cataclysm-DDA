@@ -1124,7 +1124,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "tick_action": [ "EPIC_MUSIC" ],
     "pocket_data": [
       {
