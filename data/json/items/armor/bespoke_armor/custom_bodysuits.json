@@ -260,7 +260,7 @@
         "description": "Pants pocket."
       }
     ],
-    "warmth": 25,
+    "warmth": 20,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
