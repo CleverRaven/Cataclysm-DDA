@@ -6033,9 +6033,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                        ? string_format( "<good>%s</good>", e->nname( 1 ) )
                                        : e->nname( 1 ) );
         }
-        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) );
-        info.back().sName += ".";
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
+                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
