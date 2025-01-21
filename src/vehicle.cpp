@@ -4620,9 +4620,7 @@ bool vehicle::would_repair_prevent_flyable( const vehicle_part &vp, const Charac
     if( flyable && !rotors.empty() ) {
         if( vp.info().has_flag( "SIMPLE_PART" ) ||
             vp.info().has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) {
-            vpart_position vppos = vpart_position( const_cast<vehicle &>( *this ),
-                                                   index_of_part( const_cast<vehicle_part *>( &vp ) ) );
-            return !vppos.is_inside();
+            return false;
         } else {
             return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
         }
