@@ -1861,9 +1861,8 @@ class item : public visitable
         /**
          * Check if item is a holster and currently capable of storing obj.
          * @param obj object that we want to holster.
-         * @param ignore only check item is compatible and ignore any existing contents.
          */
-        bool can_holster( const item &obj, bool ignore = false ) const;
+        bool can_holster( const item &obj ) const;
 
         /**
          * Callback when a character starts wearing the item. The item is already in the worn

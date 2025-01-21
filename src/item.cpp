@@ -13009,7 +13009,7 @@ void item::mark_as_used_by_player( const Character &p )
     used_by_ids += string_format( "%d;", p.getID().get_value() );
 }
 
-bool item::can_holster( const item &obj, bool ) const
+bool item::can_holster( const item &obj ) const
 {
     if( !type->can_use( "holster" ) ) {
         return false; // item is not a holster
