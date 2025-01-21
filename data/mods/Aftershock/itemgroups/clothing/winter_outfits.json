@@ -19,18 +19,25 @@
     ]
   },
   {
-    "//": "A group for any generic-flavour basic civillian eva gear",
+    "//": "A group for any generic-flavour basic civillian EVA gear",
     "id": "afs_wintersuit_generic_basic",
     "type": "item_group",
     "subtype": "distribution",
     "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_mutant_frontier_cryo_g", "prob": 5 } ]
   },
   {
+    "//": "A group for any generic-flavor combat EVA Gear",
+    "id": "afs_wintersuit_generic_combat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_combat_gryo_g", "prob": 80 }, { "group": "afs_mutant_combat_gryo_g", "prob": 20 } ]
+  },
+  {
     "//": "A group for any police-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_police_advanced",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_combat_gryo_g", "prob": 2 }, { "group": "afs_mutant_combat_gryo_g", "prob": 2 } ]
+    "items": [ { "group": "afs_wintersuit_generic_combat", "prob": 2 } ]
   },
   {
     "//": "A group for any science-flavour advanced civilian piece of clothing",
