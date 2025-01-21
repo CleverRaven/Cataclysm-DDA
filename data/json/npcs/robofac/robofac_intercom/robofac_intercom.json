@@ -591,10 +591,10 @@
   {
     "id": "TALK_ROBOFAC_WHO_SENT_YOU",
     "type": "talk_topic",
-    "dynamic_line": "We are listening...\n\nYou detect a slight elevation in their voice, with a start you realise they are nervous.",
+    "dynamic_line": "We are listening…\n\nYou detect a slight elevation in their voice, with a start you realise they are nervous.",
     "responses": [
       {
-        "text": "Actually I was just joking. Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",
+        "text": "Actually I was just joking.  Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
         "trial": { "type": "LIE", "difficulty": 80 },
         "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
@@ -606,7 +606,7 @@
         "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
       },
       {
-        "text": "You guys aren't as slick as you think. You think no one's gonna notice a pristine looking meteorological station in the middle of nowhere with not a potted plant out of place?",
+        "text": "You guys aren't as slick as you think.  You think no one's gonna notice a pristine looking meteorological station in the middle of nowhere with not a potted plant out of place?",
         "topic": "TALK_ROBOFAC_EXODII_EXISTENCE"
       }
     ]
@@ -643,7 +643,7 @@
     "responses": [
       { "text": "Not really.", "topic": "TALK_ROBOFAC_EXODII_MORE_INFO" },
       {
-        "text": "Not much actually but I do know they have pretty sweet looking technology as I saw them having advanced machinery everywhere. Nothing like I've ever seen.",
+        "text": "Not much actually but I do know they have pretty sweet looking technology as I saw them having advanced machinery everywhere.  Nothing like I've ever seen.",
         "topic": "TALK_ROBOFAC_EXODII_MORE_INFO"
       }
     ]
@@ -651,11 +651,11 @@
   {
     "id": "TALK_ROBOFAC_EXODII_MORE_INFO",
     "type": "talk_topic",
-    "dynamic_line": "We need more information on these folks, we will be making covert visual contact ourselves but for obvious reasons we can't get inside information without alerting these guys. That's where you come in...we want you to gather as much information on these people without raising any suspicions and bring it back to us. Most importantly find who they are and why are they here.",
+    "dynamic_line": "We need more information on these folks, we will be making covert visual contact ourselves but for obvious reasons we can't get inside information without alerting these guys. That's where you come in…we want you to gather as much information on these people without raising any suspicions and bring it back to us.  Most importantly find who they are and why are they here.",
     "responses": [
-      { "text": "Right. I'll be back with the juicy details.", "topic": "TALK_DONE" },
+      { "text": "Right.  I'll be back with the juicy details.", "topic": "TALK_DONE" },
       {
-        "text": "I don't know man sounds kind of dangerous. What can I expect in return?",
+        "text": "I don't know man sounds kind of dangerous.  What can I expect in return?",
         "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD"
       },
       {
@@ -679,7 +679,7 @@
     "responses": [
       { "text": "Alright listen up.", "topic": "TALK_GIVE_ROBOFAC_EXODII_INFO" },
       { "text": "Information doesn't come cheap my friend.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
-      { "text": "I've said more than I ought to have. I'm leaving.", "topic": "TALK_DONE" }
+      { "text": "I've said more than I ought to have.  I'm leaving.", "topic": "TALK_DONE", "effect": { "u_add_faction_trust": -1 } }
     ]
   },
   {
@@ -689,24 +689,24 @@
     "speaker_effect": { "effect": [ { "u_add_var": "u_give_robofac_exodii_info", "value": "yes" } ] },
     "responses": [
       {
-        "text": "They are a race of inter-dimensional beings who call themseleves the Exodii. I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "effect": { "u_add_faction_trust": 1 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort. I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. While their choice for personal defense was more along the lines of ancient gear like spears and swords. They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
         "effect": { "u_add_faction_trust": 2 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii. I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic. They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
         "effect": { "u_add_faction_trust": 2 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort. I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. However their choice for personal defense was more along the lines of ancient gear like spears and swords. They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic. They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": {
           "and": [
@@ -721,11 +721,11 @@
   {
     "id": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
     "type": "talk_topic",
-    "dynamic_line": "Thank you for bringing this information to us...",
+    "dynamic_line": "Thank you for bringing this information to us…",
     "responses": [
       { "text": "Let's talk reward.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
       {
-        "text": "No problem, if you ask me to choose between us and cyborg tyrants, you best believe I ain't betraying my race. It's unnatural you know? Please let me know if there is anything else I can do for you guys.",
+        "text": "No problem, if you ask me to choose between us and cyborg tyrants, you best believe I ain't betraying my race.  It's unnatural you know? Please let me know if there is anything else I can do for you guys.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
         "effect": [ { "u_add_faction_trust": 2 } ]
       }
@@ -747,7 +747,7 @@
         }
       },
       {
-        "text": "That's too little for a whole lot of risk. I'll pass on this.",
+        "text": "That's too little for a whole lot of risk.  I'll pass on this.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -783,10 +783,10 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_INTRO_3",
     "type": "talk_topic",
-    "dynamic_line": "Ah its you. Mind giving your fellow American information regarding possible terrorist aliens?",
+    "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist aliens?",
     "responses": [
       {
-        "text": "You know what? I've changed my mind. I'll do your dirty work. Give me some time to chat up these folks",
+        "text": "You know what? I've changed my mind.  I'll do your dirty work. Give me some time to chat up these folks",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -796,11 +796,11 @@
         }
       },
       {
-        "text": "Please... I stopped being an American the moment the government left us to fend for ourselves.",
+        "text": "Please… I stopped being an American the moment the government left us to fend for ourselves.",
         "topic": "TALK_DONE"
       },
       {
-        "text": "Fine. I'll tell you about these inter-dimensional beings.",
+        "text": "Fine.  I'll tell you about these inter-dimensional beings.",
         "topic": "TALK_ROBOFAC_ABOUT_EXODII_2",
         "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] }
       }
@@ -809,7 +809,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_INTRO_4",
     "type": "talk_topic",
-    "dynamic_line": "There is something else that has come up on our side which requires some field agents. Would you like to hear about it?",
+    "dynamic_line": "There is something else that has come up on our side which requires some field agents.  Would you like to hear about it?",
     "responses": [
       { "text": "Sounds like you have work for me? Count me in.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
       { "text": "Maybe not right now.", "topic": "TALK_DONE" }
