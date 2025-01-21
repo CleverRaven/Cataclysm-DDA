@@ -223,12 +223,10 @@
     "effect_str": "effect_homullus_add_learning_focus",
     "shape": "blast",
     "min_duration": {
-      "math": [ "( 90000 + (u_spell_level('homullus_invisible_to_humans_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
+      "math": [ "( 90000 + (u_spell_level('homullus_add_learning_focus_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
     },
     "max_duration": {
-      "math": [
-        "( 180000 + (u_spell_level('homullus_invisible_to_humans_spell') * 25000) ) * scaling_factor(u_val('intelligence') )"
-      ]
+      "math": [ "( 180000 + (u_spell_level('homullus_add_learning_focus_spell') * 25000) ) * scaling_factor(u_val('intelligence') )" ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 850,
