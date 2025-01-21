@@ -188,6 +188,8 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
+static const flag_id json_flag_IRREPLACEABLE_CONSUMABLE( "IRREPLACEABLE_CONSUMABLE" );
+
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
@@ -7195,6 +7197,11 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         // with no value (it's *everywhere*), but valuable items retain most of their value.
         // https://github.com/CleverRaven/Cataclysm-DDA/issues/49469
         price = std::max( price - PRICE_FILTHY_MALUS, 0 );
+    }
+
+    if( flag_id_irreplaceable_consumeable() ) {
+        // irreplaceable items are worth more by how many seasons from the cataclysm player is
+        price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ) / calendar::season_length();
     }
 
     for( fault_id fault : faults ) {
