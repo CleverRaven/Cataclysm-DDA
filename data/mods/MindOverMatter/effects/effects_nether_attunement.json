@@ -88,6 +88,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_nether_attunement_biokinetic_inversion",
+    "name": [ "Metabolic Inversion" ],
+    "desc": [ "You getting pretty hungry and thirsty." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_in_the_nether_warning_timer",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
