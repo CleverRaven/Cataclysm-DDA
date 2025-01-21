@@ -282,7 +282,7 @@ There are sure other ways, more technical, like mutating your arm into a crab cl
 
 In summary, the main things that stop us from introducing limb loss are, at first, a lack of NPC intelligence so they can help you if you experienced this loss, and second, a lot of our stuff is missing being tied to limb scores (something that you should have decreased because you have no limb). This is the main reason all limb stuff currently exists in a separate mod and is not part of the game.
 
-NB: This talks specifically about average human experience; mutants are less limited to this (tho a mouse or bear mutant would lose the limb in pretty similar fashion).
+NB: This talks specifically about average human experience; mutants are less limited to this (though a mouse or bear mutant would lose the limb in pretty similar fashion).
 
 NB2: Please do not try to make it via EoC.
 
