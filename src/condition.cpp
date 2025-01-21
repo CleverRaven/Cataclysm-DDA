@@ -2299,6 +2299,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "sleepiness", &const_talker::get_sleepiness },
     { "fine_detail_vision_mod", &const_talker::get_fine_detail_vision_mod },
     { "focus", &const_talker::focus_cur },
+    { "focus_effective", &const_talker::focus_effective_cur },
     { "friendly", &const_talker::get_friendly },
     { "grab_strength", &const_talker::get_grab_strength },
     { "height", &const_talker::get_height },
