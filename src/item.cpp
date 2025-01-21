@@ -10421,19 +10421,19 @@ ret_val<void> item::can_contain_directly( const item &it ) const
 }
 
 ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
-                                 const bool ignore_pkt_settings, const bool is_pick_up_inv,
+                                 const bool ignore_pkt_settings, const bool ignore_non_container_pocket,
                                  const item_location &parent_it,
                                  units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     int copies = 1;
     return can_contain( it, copies, nested, ignore_rigidity,
-                        ignore_pkt_settings, is_pick_up_inv, parent_it,
+                        ignore_pkt_settings, ignore_non_container_pocket, parent_it,
                         remaining_parent_volume, allow_nested );
 }
 
 ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const bool is_pick_up_inv, const item_location &parent_it,
+                                 const bool ignore_non_container_pocket, const item_location &parent_it,
                                  units::volume remaining_parent_volume,
                                  const bool allow_nested ) const
 {
@@ -10479,7 +10479,7 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                     continue;
                 }
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
-                                                     ignore_pkt_settings, is_pick_up_inv, parent_it,
+                                                     ignore_pkt_settings, ignore_non_container_pocket, parent_it,
                                                      pkt->remaining_volume() );
                 if( copies_remaining <= 0 ) {
                     return ret;
@@ -10488,10 +10488,11 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
         }
     }
 
-    return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv ) :
-           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv,
-                                 remaining_parent_volume );
+    return nested && !ignore_rigidity
+           ? contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings,
+                                         ignore_non_container_pocket )
+           : contents.can_contain( it, copies_remaining, ignore_pkt_settings, ignore_non_container_pocket,
+                                   remaining_parent_volume );
 }
 
 ret_val<void> item::can_contain( const itype &tp ) const

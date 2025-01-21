@@ -1731,6 +1731,7 @@ class item : public visitable
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
          * @param remaining_parent_volume the ammount of space in the parent pocket,
          * @param allow_nested whether nested pockets should be checked
          * needed to make sure we dont try to nest items which can't fit in the nested pockets
@@ -1739,14 +1740,14 @@ class item : public visitable
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;

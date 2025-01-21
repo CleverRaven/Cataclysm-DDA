@@ -1808,10 +1808,11 @@ void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
 }
 
 bool outfit::can_pickVolume( const item &it, const bool ignore_pkt_settings,
-                             const bool is_pick_up_inv ) const
+                             const bool ignore_non_container_pocket ) const
 {
     for( const item &w : worn ) {
-        if( w.can_contain( it, false, false, ignore_pkt_settings, is_pick_up_inv ).success() ) {
+        if( w.can_contain( it, false, false, ignore_pkt_settings, ignore_non_container_pocket
+                         ).success() ) {
             return true;
         }
     }
