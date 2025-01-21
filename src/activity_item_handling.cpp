@@ -2357,8 +2357,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
             // don't steal crafts in progress
-            if( std::find(crafting_items.begin(), crafting_items.end(), it->first) !=crafting_items.end() ) {
-                continue; 
+            if( std::find( crafting_items.begin(), crafting_items.end(), it->first ) != crafting_items.end() ) {
+                continue;
             }
 
 
