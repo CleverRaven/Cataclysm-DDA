@@ -689,24 +689,24 @@
     "speaker_effect": { "effect": [ { "u_add_var": "u_give_robofac_exodii_info", "value": "yes" } ] },
     "responses": [
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "effect": { "u_add_faction_trust": 1 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
         "effect": { "u_add_faction_trust": 2 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
         "effect": { "u_add_faction_trust": 2 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  I observed they were using bionic enhancements and automated machinery to do their fighting and heavy lifting. However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting. However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": {
           "and": [
