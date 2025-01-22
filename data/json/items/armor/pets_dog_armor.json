@@ -9,7 +9,7 @@
     "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement, that protects from the shoulders to the abdomen.  You could put this on a friendly dog.",
     "price": "300 USD",
     "price_postapoc": "10 USD",
-    "material": [ "kevlar_layered" ],
+    "material": [ { "type": "kevlar_layered", "portion": 100 } ],
     "weight": "2150 g",
     "volume": "4500 ml",
     "flags": [ "IS_PET_ARMOR" ],
@@ -57,7 +57,7 @@
     "description": "A makeshift canine harness of biosilicified chitin fitted to a thin mesh, protecting from the neck to the flank.  You could put this on a friendly dog.  Acid-resistant but brittle.",
     "price": "500 USD",
     "price_postapoc": "25 USD",
-    "material": [ "acidchitin" ],
+    "material": [ { "type": "acidchitin", "portion": 100 } ],
     "weight": "5362 g",
     "environmental_protection": 7
   },
@@ -69,7 +69,7 @@
     "description": "A makeshift canine harness of chitin fitted to a thin mesh, protecting from the neck to the flank.  You could put this on a friendly dog.",
     "price": "350 USD",
     "price_postapoc": "20 USD",
-    "material": [ "chitin" ],
+    "material": [ { "type": "chitin", "portion": 100 } ],
     "environmental_protection": 4
   },
   {
@@ -97,7 +97,7 @@
     "description": "A neck to hip harness made from leather that can be attached to a canine for protection.  You could put this on a friendly dog.",
     "price": "175 USD",
     "price_postapoc": "17 USD 50 cent",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "weight": "2145 g",
     "extend": { "flags": [ "NO_SALVAGE" ] }
   },
@@ -109,7 +109,7 @@
     "description": "Decorative bones affixed to a leather dog harness for that true post-apocalyptic style, including a skull bone headpiece!  You could put this on a friendly dog.",
     "price": "190 USD",
     "price_postapoc": "19 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "weight": "2645 g"
   },
   {

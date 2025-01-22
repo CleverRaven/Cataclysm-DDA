@@ -9,7 +9,7 @@
     "volume": "22 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -24,7 +24,7 @@
     "volume": "22000 ml",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": "0",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -36,7 +36,7 @@
     "color": "red_green",
     "name": { "str": "alien fern branch", "str_pl": "alien fern branches" },
     "description": "A branching trunk of leaves from a massive fern, about two feet long and a couple of feet across in diameter when including the leaves.  Maybe one day you'll think of something to make with a giant fern.",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
     "weight": "80 g",
     "volume": "5 L",
@@ -54,7 +54,7 @@
     "weight": "500 kg",
     "volume": "700 L",
     "price": "10 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -197,7 +197,7 @@
     "volume": "800 L",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray"
   },
@@ -211,7 +211,7 @@
     "volume": "800 L",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "#",
     "color": "white"
   },
@@ -225,7 +225,7 @@
     "volume": "800 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray"
   },
@@ -239,7 +239,7 @@
     "volume": "800 L",
     "price": "20 USD",
     "price_postapoc": "80 cent",
-    "material": [ "tin" ],
+    "material": [ { "type": "tin", "portion": 100 } ],
     "symbol": "#",
     "color": "white"
   },
@@ -253,7 +253,7 @@
     "volume": "800 L",
     "price": "80 USD",
     "price_postapoc": "3 USD",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "#",
     "color": "light_green"
   },
@@ -267,7 +267,7 @@
     "volume": "800 L",
     "price": "10 USD",
     "price_postapoc": "20 cent",
-    "material": [ "zinc" ],
+    "material": [ { "type": "zinc", "portion": 100 } ],
     "symbol": "#",
     "color": "white"
   },
@@ -281,7 +281,7 @@
     "volume": "800 L",
     "price": "90 USD",
     "price_postapoc": "4 USD",
-    "material": [ "lead" ],
+    "material": [ { "type": "lead", "portion": 100 } ],
     "symbol": "#",
     "color": "dark_gray"
   },

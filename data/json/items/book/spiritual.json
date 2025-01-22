@@ -1097,7 +1097,7 @@
     "volume": "250 ml",
     "price": "5 USD 50 cent",
     "price_postapoc": "50 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",

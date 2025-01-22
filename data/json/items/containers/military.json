@@ -311,7 +311,7 @@
         "max_item_length": "437mm"
       }
     ],
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "8",
     "color": "black",
     "variant_type": "gun",
@@ -349,7 +349,7 @@
         "max_contains_weight": "200 kg"
       }
     ],
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "black",
     "variant_type": "gun",
@@ -397,7 +397,7 @@
     "category": "container",
     "symbol": "#",
     "color": "brown",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "14 g",
     "volume": "105 ml",
     "pocket_data": [
@@ -485,7 +485,7 @@
     "category": "container",
     "symbol": "#",
     "color": "brown",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "34 g",
     "volume": "175 ml",
     "pocket_data": [
@@ -536,7 +536,7 @@
     "category": "container",
     "symbol": "#",
     "color": "brown",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "28 g",
     "volume": "235 ml",
     "pocket_data": [
@@ -636,7 +636,7 @@
     "category": "container",
     "symbol": "#",
     "color": "brown",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "44 g",
     "volume": "480 ml",
     "longest_side": "14 cm",

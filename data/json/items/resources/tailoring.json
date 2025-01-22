@@ -9,7 +9,7 @@
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "5 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
@@ -24,7 +24,7 @@
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "5 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -38,7 +38,7 @@
     "category": "spare_parts",
     "description": "Primitive yarn made from coarse plant fibers like straw or grass.  Too thick to sew with, but could be woven into a crude sheet of fabric.",
     "price": "10 cent",
-    "material": [ "dry_plant" ],
+    "material": [ { "type": "dry_plant", "portion": 100 } ],
     "weight": "100 g",
     "volume": "250 ml"
   },
@@ -49,7 +49,7 @@
     "name": { "str_sp": "cotton scraps" },
     "description": "A handful of oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some thread if you really want.",
     "volume": "1 ml",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -63,7 +63,7 @@
     "volume": "7 ml",
     "price": "0 cent",
     "price_postapoc": "5 cent",
-    "material": [ "faux_fur" ]
+    "material": [ { "type": "faux_fur", "portion": 100 } ]
   },
   {
     "id": "scrap_felt",
@@ -72,7 +72,7 @@
     "name": { "str_sp": "felt scraps" },
     "description": "A handful of oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but they can be recycled into some wool fiber if you really want.",
     "volume": "5 ml",
-    "material": [ "wool" ]
+    "material": [ { "type": "wool", "portion": 100 } ]
   },
   {
     "id": "scrap_fur",
@@ -83,7 +83,7 @@
     "price": "0 cent",
     "weight": "3 g",
     "volume": "15 ml",
-    "material": [ "fur" ]
+    "material": [ { "type": "fur", "portion": 100 } ]
   },
   {
     "id": "scrap_kevlar",
@@ -95,7 +95,7 @@
     "weight": "810 mg",
     "price": "1 cent",
     "price_postapoc": "10 cent",
-    "material": [ "kevlar" ]
+    "material": [ { "type": "kevlar", "portion": 100 } ]
   },
   {
     "id": "scrap_leather",
@@ -105,7 +105,7 @@
     "description": "A handful of oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
     "volume": "6 ml",
-    "material": [ "leather" ]
+    "material": [ { "type": "leather", "portion": 100 } ]
   },
   {
     "id": "scrap_lycra",
@@ -115,7 +115,7 @@
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
     "volume": "4 ml",
-    "material": [ "lycra" ]
+    "material": [ { "type": "lycra", "portion": 100 } ]
   },
   {
     "id": "scrap_neoprene",
@@ -125,7 +125,7 @@
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
     "volume": "6 ml",
-    "material": [ "neoprene" ]
+    "material": [ { "type": "neoprene", "portion": 100 } ]
   },
   {
     "id": "scrap_nylon",
@@ -135,7 +135,7 @@
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": "0 cent",
     "volume": "3 ml",
-    "material": [ "nylon" ]
+    "material": [ { "type": "nylon", "portion": 100 } ]
   },
   {
     "id": "scrap_nomex",
@@ -146,7 +146,7 @@
     "price": "5 cent",
     "volume": "2 ml",
     "price_postapoc": "8 cent",
-    "material": [ "nomex" ]
+    "material": [ { "type": "nomex", "portion": 100 } ]
   },
   {
     "id": "scrap_carpet",
@@ -170,7 +170,7 @@
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "wool" ],
+    "material": [ { "type": "wool", "portion": 100 } ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -199,7 +199,7 @@
     "price_postapoc": "10 cent",
     "description": "A small bolt of garishly-colored faux fur, roughly six inches square.  Can be made into patchwork faux fur sheets or used to repair faux fur fabric.",
     "flags": [ "NO_SALVAGE" ],
-    "material": [ "faux_fur" ]
+    "material": [ { "type": "faux_fur", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -210,7 +210,7 @@
     "description": "A roughly six-inch square patch of leather, could be used to repair clothing and make smaller leather crafts.",
     "price": "20 USD",
     "price_postapoc": "25 cent",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "25 g",
     "volume": "23 ml",
@@ -225,7 +225,7 @@
     "description": "A small, six-inch square patch of felt.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "wool" ],
+    "material": [ { "type": "wool", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
     "volume": "18 ml",
@@ -241,7 +241,7 @@
     "description": "A six-inch square patch of Nomex fire-resistant fabric.",
     "price": "40 USD",
     "price_postapoc": "20 cent",
-    "material": [ "nomex" ],
+    "material": [ { "type": "nomex", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "4 g",
     "volume": "9 ml"
@@ -255,7 +255,7 @@
     "description": "A rolled-up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
     "price": "2 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "40 g",
     "volume": "125 ml",
@@ -270,7 +270,7 @@
     "description": "A folded 12-inch by 24-inch sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "weight": "296 g",
     "volume": "186 ml",
     "category": "spare_parts"
@@ -281,7 +281,7 @@
     "name": { "str": "leather sheet" },
     "description": "A 12-inch by 24-inch sheet of leather.  Can be cut up or used as is.",
     "category": "spare_parts",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "weight": "296 g",
     "volume": "300 ml",
     "price": "25 USD",
@@ -320,7 +320,7 @@
     "description": "A folded sheet of fur made from carefully tanned animal pelt.  Can be cut up or used as is.",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "material": [ "fur" ],
+    "material": [ { "type": "fur", "portion": 100 } ],
     "weight": "372 g",
     "volume": "465 ml",
     "category": "spare_parts"
@@ -334,7 +334,7 @@
     "description": "A 12-inch by 24-inch sheet of fur sewn together from patches.  Can be cut up or used as is.",
     "price": "25 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "fur" ],
+    "material": [ { "type": "fur", "portion": 100 } ],
     "weight": "372 g",
     "volume": "465 ml",
     "category": "spare_parts"
@@ -352,7 +352,7 @@
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 },
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -377,7 +377,7 @@
     "//": "Based on 2000gsm faux fur",
     "price": "50 USD",
     "price_postapoc": "20 cent",
-    "material": [ "faux_fur" ],
+    "material": [ { "type": "faux_fur", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -402,7 +402,7 @@
     "//": "based on 150GSM felt",
     "price": "25 USD",
     "price_postapoc": "20 cent",
-    "material": [ "wool" ],
+    "material": [ { "type": "wool", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -427,7 +427,7 @@
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "9 USD",
     "price_postapoc": "50 cent",
-    "material": [ "kevlar" ],
+    "material": [ { "type": "kevlar", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -442,7 +442,7 @@
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "9 USD",
     "price_postapoc": "50 cent",
-    "material": [ "kevlar" ],
+    "material": [ { "type": "kevlar", "portion": 100 } ],
     "looks_like": "sheet_kevlar",
     "symbol": "=",
     "color": "dark_gray"
@@ -458,7 +458,7 @@
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "1 USD",
     "price_postapoc": "5 cent",
-    "material": [ "kevlar" ],
+    "material": [ { "type": "kevlar", "portion": 100 } ],
     "symbol": ",",
     "color": "dark_gray"
   },
@@ -473,7 +473,7 @@
     "//": "180 GSM fabric",
     "price": "50 USD",
     "price_postapoc": "25 cent",
-    "material": [ "lycra" ],
+    "material": [ { "type": "lycra", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -488,7 +488,7 @@
     "//": "12 inch by 24 inch sheets, 16 layers thick. Values actually nearly identically matched panels available for purchase.",
     "price": "150 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "kevlar_layered" ],
+    "material": [ { "type": "kevlar_layered", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
     "color": "green"
@@ -504,7 +504,7 @@
     "//": "same as above but adding superglue. IRL this is how they are made, though using 2 part resin instead.",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "kevlar_rigid" ],
+    "material": [ { "type": "kevlar_rigid", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
     "color": "green"
@@ -530,7 +530,7 @@
     "//": "110GSM, 1mm thick neoprene",
     "price": "50 USD",
     "price_postapoc": "35 cent",
-    "material": [ "neoprene" ],
+    "material": [ { "type": "neoprene", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -555,7 +555,7 @@
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": "150 USD",
     "price_postapoc": "40 cent",
-    "material": [ "nomex" ],
+    "material": [ { "type": "nomex", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -581,7 +581,7 @@
     "//1": "1x2' sheet is 1858 cm^2 and at 288 gsm gives listed weight; density of 1.14g/cm^3 suggests about .25 mm thickness per sheet",
     "price": "50 USD",
     "price_postapoc": "20 cent",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -621,7 +621,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Very durable Kevlar thread that would be particularly useful for making ballistic armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would require some specialized machinery.",
-    "material": [ "kevlar" ],
+    "material": [ { "type": "kevlar", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
@@ -641,7 +641,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too, in most cases.",
-    "material": [ "nomex" ],
+    "material": [ { "type": "nomex", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
@@ -661,7 +661,7 @@
     "//": "Usually lightweight 10-12 oz denim.",
     "price": "12 USD 50 cent",
     "price_postapoc": "50 cent",
-    "material": [ "denim" ],
+    "material": [ { "type": "denim", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -675,7 +675,7 @@
     "volume": "2 ml",
     "price": "1 cent",
     "price_postapoc": "5 cent",
-    "material": [ "denim" ],
+    "material": [ { "type": "denim", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -688,7 +688,7 @@
     "description": "A small, 6 inch square patch of blue denim.  It could be used to repair items made of denim or stitched into patchwork sheets for tailoring projects.",
     "price": "4 USD",
     "price_postapoc": "12 cent",
-    "material": [ "denim" ],
+    "material": [ { "type": "denim", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "11 g",
     "volume": "13 ml",
@@ -703,7 +703,7 @@
     "weight": "80 g",
     "volume": "95 ml",
     "price_postapoc": "50 cent",
-    "material": [ "denim" ],
+    "material": [ { "type": "denim", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -719,7 +719,7 @@
     "//1": "1x2' sheet is 1858 cm^2 and at 406 gsm gives listed weight; density of 1.6g/cm^3 suggests about .254 mm thickness per sheet - rounded down to .250",
     "price": "12 USD 50 cent",
     "price_postapoc": "50 cent",
-    "material": [ "canvas" ],
+    "material": [ { "type": "canvas", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -734,7 +734,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Some tough canvas-weight thread, sturdier than ordinary thread.  You could meticulously weave this into a sheet of canvas cloth.  It would also be useful for stitching such sheets together, though it's fine to use for normal tailoring projects too.",
-    "material": [ "canvas" ],
+    "material": [ { "type": "canvas", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
@@ -753,7 +753,7 @@
     "volume": "2 ml",
     "price": "1 cent",
     "price_postapoc": "5 cent",
-    "material": [ "canvas" ],
+    "material": [ { "type": "canvas", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -767,7 +767,7 @@
     "price": "4 USD",
     "price_postapoc": "12 cent",
     "//": "Roughly 406 GSM cotton, with a size of 6 inches square",
-    "material": [ "canvas" ],
+    "material": [ { "type": "canvas", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "9500 mg",
     "volume": "6 ml",
@@ -784,7 +784,7 @@
     "weight": "76 g",
     "volume": "48 ml",
     "price_postapoc": "50 cent",
-    "material": [ "canvas" ],
+    "material": [ { "type": "canvas", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray"
   },

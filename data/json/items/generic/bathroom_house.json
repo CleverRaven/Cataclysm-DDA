@@ -10,7 +10,7 @@
     "price_postapoc": "0 cent",
     "weight": "100 g",
     "volume": "100 ml",
-    "material": [ "plastic" ]
+    "material": [ { "type": "plastic", "portion": 100 } ]
   },
   {
     "id": "soap_holder",
@@ -162,7 +162,7 @@
     "//": "Makes a decent trade commodity.",
     "weight": "10 g",
     "volume": "50 ml",
-    "material": [ "plastic" ]
+    "material": [ { "type": "plastic", "portion": 100 } ]
   },
   {
     "id": "hairbrush",
@@ -251,7 +251,7 @@
     "price_postapoc": "10 cent",
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": [ "plastic" ]
+    "material": [ { "type": "plastic", "portion": 100 } ]
   },
   {
     "id": "toilet_paper",
@@ -265,7 +265,7 @@
     "price_postapoc": "1 USD 80 cent",
     "volume": "250 ml",
     "weight": "227 g",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "tpaper1",
@@ -337,7 +337,7 @@
     "type": "GENERIC",
     "description": "A stainless-steel comb with spiral grooved teeth designed to remove pesky parasites from hair.  Even just thinking about it makes you itch.",
     "symbol": "c",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "9 g",
     "volume": "20 ml",
     "longest_side": "10 cm",
@@ -350,7 +350,7 @@
     "description": "A plastic floating bath toy.",
     "symbol": "w",
     "color": "yellow",
-    "material": [ "rubber" ],
+    "material": [ { "type": "rubber", "portion": 100 } ],
     "copy-from": "base_toiletries",
     "weight": "55 mg",
     "volume": "53 ml",
@@ -367,7 +367,7 @@
     "type": "GENERIC",
     "description": "A plastic electric toothbrush.",
     "symbol": "/",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "copy-from": "base_toiletries",
     "weight": "140 g",
     "volume": "107 ml",
@@ -405,7 +405,7 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_cyan",
     "snippet_category": [
@@ -424,7 +424,7 @@
     "type": "GENERIC",
     "description": "A standard set of prosthetic teeth.  Pretty useless to anyone aside from its owner.",
     "symbol": "c",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "color": "pink",
     "weight": "124 mg",
     "volume": "5 ml",

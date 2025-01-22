@@ -9,7 +9,7 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "thermo_resin" ],
+    "material": [ { "type": "thermo_resin", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -24,7 +24,7 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "epoxy" ],
+    "material": [ { "type": "epoxy", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -39,7 +39,7 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "hard_plastic_transp" ],
+    "material": [ { "type": "hard_plastic_transp", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -54,7 +54,7 @@
     "volume": "10 L",
     "price": "231 USD 50 cent",
     "price_postapoc": "2 USD 30 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "color": "light_blue",
     "ammo_type": "components"
@@ -69,7 +69,7 @@
     "volume": "5 L",
     "price": "115 USD 75 cent",
     "price_postapoc": "1 USD 16 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "color": "light_blue",
     "ammo_type": "components"
@@ -85,7 +85,7 @@
     "//": "Based on a density around 1.05 grams/mL, like PLA and ABS, + 100% for being rigid and probably oddly-shaped.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -101,7 +101,7 @@
     "//": ".25mm thick, 288GSM",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -117,7 +117,7 @@
     "//": "180GSM, .63mm thick",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "lycra" ],
+    "material": [ { "type": "lycra", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -133,7 +133,7 @@
     "//": "Roughly 1.6 square meters of 1 mil (0.0254 mm) thick HDPE plastic, density 0.94 g/cm3, like a strong garbage bag is made of.",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": ")",
     "color": "light_blue",
@@ -150,7 +150,7 @@
     "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "2 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ",",
     "flags": [ "NO_SALVAGE" ]
   },
@@ -166,7 +166,7 @@
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "stack_size": 20,
     "count": 20,
@@ -184,7 +184,7 @@
     "longest_side": "122 cm",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "material": [ "hard_plastic_transp" ],
+    "material": [ { "type": "hard_plastic_transp", "portion": 100 } ],
     "symbol": ")",
     "color": "light_blue"
   },
@@ -200,7 +200,7 @@
     "//": "Assuming a 17x6x0.2 cm polycarbonate sheet with a density of 1200 kg/m.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
-    "material": [ "hard_plastic_transp" ],
+    "material": [ { "type": "hard_plastic_transp", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -233,7 +233,7 @@
     "//": "Numbers sourced from measuring the filter housing of a size 1 PMK 2 gas mask and assuming a polycarbonate density of 1200 kg/m for a 4.5x3.5 cm cylinder.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "hard_plastic_transp" ],
+    "material": [ { "type": "hard_plastic_transp", "portion": 100 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

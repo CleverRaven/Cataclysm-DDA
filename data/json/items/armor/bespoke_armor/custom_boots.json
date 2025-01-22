@@ -560,7 +560,7 @@
     "volume": "850 ml",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "rubber" ],
+    "material": [ { "type": "rubber", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "swim_fins",
     "color": "dark_gray",

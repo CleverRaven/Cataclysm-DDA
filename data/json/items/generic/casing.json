@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": { "str": "casing from ammunition cartridge", "//~": "NO_I18N" },
     "stackable": true,
-    "material": [ "brass" ],
+    "material": [ { "type": "brass", "portion": 100 } ],
     "symbol": "=",
     "color": "yellow"
   },
@@ -205,7 +205,7 @@
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a less-lethal projectile.",
     "weight": "50 g",
     "volume": "55ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
@@ -218,7 +218,7 @@
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold an HEDP grenade.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "58ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
@@ -231,7 +231,7 @@
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a buckshot load.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "59ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -244,7 +244,7 @@
     "description": "A large casing from a spent 40x46mm cartridge, which used to hold a tear gas canister.",
     "weight": "50 g",
     "volume": "45ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -257,7 +257,7 @@
     "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with ten .22 LR bullets to fire them simultaneously.",
     "weight": "50 g",
     "volume": "59ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -270,7 +270,7 @@
     "description": "An empty 40x46mm hornet's nest casing, able to be reloaded with four .410 shells to fire them simultaneously.",
     "weight": "50 g",
     "volume": "59ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -283,7 +283,7 @@
     "description": "A large casing from a spent 40x53mm cartridge.  Suitable for reloading with buckshot, slug or flechette loads.",
     "weight": "50 g",
     "volume": "64ml",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -525,7 +525,7 @@
     "name": { "str": "152mm ATGM tube" },
     "color": "dark_gray",
     "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "9500 g",
     "volume": "7500 ml"
   },
@@ -538,7 +538,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "color": "red"
   },
@@ -551,7 +551,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "looks_like": "shot_hull",
     "color": "red"

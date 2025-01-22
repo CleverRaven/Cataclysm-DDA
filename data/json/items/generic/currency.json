@@ -13,7 +13,7 @@
     "color": "white",
     "symbol": "$",
     "flags": [ "BANK_NOTE_SHAPED" ],
-    "material": [ "paper" ]
+    "material": [ { "type": "paper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -29,7 +29,7 @@
     "color": "yellow",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "gold" ]
+    "material": [ { "type": "gold", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -44,7 +44,7 @@
     "color": "brown",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "copper" ]
+    "material": [ { "type": "copper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -59,7 +59,7 @@
     "color": "white",
     "symbol": "$",
     "flags": [ "BANK_NOTE_SHAPED" ],
-    "material": [ "paper" ]
+    "material": [ { "type": "paper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -74,7 +74,7 @@
     "color": "white",
     "symbol": "$",
     "flags": [ "CREDIT_CARD_SHAPED" ],
-    "material": [ "paper" ]
+    "material": [ { "type": "paper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -86,7 +86,7 @@
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "brown",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -102,7 +102,7 @@
     "volume": "1 ml",
     "price": "5 cent",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -118,7 +118,7 @@
     "volume": "1 ml",
     "price": "10 cent",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -134,7 +134,7 @@
     "volume": "1 ml",
     "price": "25 cent",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -150,7 +150,7 @@
     "volume": "1 ml",
     "price": "50 cent",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -166,7 +166,7 @@
     "volume": "1 ml",
     "price": "1 USD",
     "price_postapoc": "1 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
@@ -182,7 +182,7 @@
     "volume": "1 ml",
     "price": "23 USD",
     "price_postapoc": "3 USD 10 cent",
-    "material": [ "silver" ],
+    "material": [ { "type": "silver", "portion": 100 } ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "COIN_SHAPED" ],
@@ -198,7 +198,7 @@
     "volume": "1 ml",
     "price": "1 kUSD 750 USD",
     "price_postapoc": "6 USD",
-    "material": [ "gold" ],
+    "material": [ { "type": "gold", "portion": 100 } ],
     "symbol": "o",
     "color": "yellow",
     "flags": [ "COIN_SHAPED" ],
@@ -214,7 +214,7 @@
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "$",
     "color": "dark_gray",
     "pocket_data": [
@@ -236,7 +236,7 @@
     "volume": "1 ml",
     "price": "1 USD",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "$",
     "color": "green",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
@@ -330,7 +330,7 @@
     "volume": "113 ml",
     "color": "green",
     "symbol": "$",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "price": "100 USD",
     "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_STRAP_SHAPED" ]
@@ -432,7 +432,7 @@
     "volume": "1129 ml",
     "color": "green",
     "symbol": "$",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "price": "1 kUSD",
     "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY" ]
@@ -536,6 +536,6 @@
     "longest_side": "32 mm",
     "color": "light_gray",
     "symbol": "o",
-    "material": [ "tin" ]
+    "material": [ { "type": "tin", "portion": 100 } ]
   }
 ]

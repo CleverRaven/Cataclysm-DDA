@@ -78,7 +78,7 @@
     "volume": "10800 ml",
     "price": "300 USD",
     "price_postapoc": "35 USD",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "blue",

@@ -23,7 +23,7 @@
     "longest_side": "45 cm",
     "price": "40 USD",
     "price_postapoc": "2 USD",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "rope_6",
     "color": "light_gray",

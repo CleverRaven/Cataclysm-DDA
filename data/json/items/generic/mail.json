@@ -11,7 +11,7 @@
     "longest_side": "241 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -36,7 +36,7 @@
     "longest_side": "297 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "`",
     "color": "white",
     "variant_type": "generic",
@@ -119,7 +119,7 @@
     "longest_side": "152 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "`",
     "color": "white"
   },
@@ -135,7 +135,7 @@
     "longest_side": "80 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -189,7 +189,7 @@
     "longest_side": "177 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "variant_type": "generic",
     "variants": [
       {

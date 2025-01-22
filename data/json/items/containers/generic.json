@@ -9,7 +9,7 @@
     "weight": "50 g",
     "volume": "50 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "50 kg", "moves": 400 } ],
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "NO_RELOAD" ]
@@ -38,7 +38,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_trashcan" },
     "symbol": ")",
     "color": "light_gray"
@@ -68,7 +68,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 2 ] ],
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -83,7 +83,7 @@
     "volume": "35 ml",
     "price": "50 cent",
     "price_postapoc": "1 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -173,7 +173,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "use_action": [ "CHANGE_OUTFIT" ],
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -198,7 +198,7 @@
     "volume": "210 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 ml", "max_contains_weight": "400 g" } ]
@@ -214,7 +214,7 @@
     "volume": "25 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "%",
     "color": "red",
     "pocket_data": [

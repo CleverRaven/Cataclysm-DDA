@@ -8,7 +8,7 @@
     "volume": "2250 ml",
     "price": "150 USD",
     "price_postapoc": "25 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",

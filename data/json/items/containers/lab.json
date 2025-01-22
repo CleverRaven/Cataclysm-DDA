@@ -12,7 +12,7 @@
     "//2": "https://www.auer-packaging.com/gb/en/Euro-containers-with-hinge-lid/ED-3217-HG.html",
     "price": "12 USD 75 cent",
     "price_postapoc": "5 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "#",
     "color": "dark_gray",
     "pocket_data": [

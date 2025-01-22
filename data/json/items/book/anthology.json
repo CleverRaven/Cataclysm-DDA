@@ -10,7 +10,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -21,7 +21,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -32,7 +32,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -43,7 +43,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -54,7 +54,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -65,7 +65,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {
@@ -79,7 +79,7 @@
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_antho_tpl"
   },
   {

@@ -9,7 +9,7 @@
     "description": "The dismantled stovetop of an electric oven.  Some electric components are still attached, but the heating elements have been pulled off.",
     "price": "1 USD",
     "price_postapoc": "5 cent",
-    "material": [ "budget_steel" ],
+    "material": [ { "type": "budget_steel", "portion": 100 } ],
     "weight": "5 kg",
     "volume": "20 L",
     "longest_side": "60 cm"
@@ -24,7 +24,7 @@
     "description": "A large, hefty steel box that was once the main body of an electric oven.  Most of the parts have been stripped.  It could be further disassembled into base materials.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "material": [ "budget_steel" ],
+    "material": [ { "type": "budget_steel", "portion": 100 } ],
     "weight": "25 kg",
     "volume": "250 L",
     "longest_side": "69 cm"
@@ -69,7 +69,7 @@
     "description": "A simple sheet metal drawer that goes in the bottom of an electric oven.",
     "price": "50 cent",
     "price_postapoc": "1 cent",
-    "material": [ "budget_steel" ],
+    "material": [ { "type": "budget_steel", "portion": 100 } ],
     "weight": "5 kg",
     "volume": "20 L",
     "longest_side": "69 cm"

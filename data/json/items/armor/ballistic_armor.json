@@ -260,7 +260,7 @@
     "//": "ESAPI Medium are 24.13cm x 31.75cm and 2.5cm thick",
     "price": "600 USD",
     "price_postapoc": "1 USD",
-    "material": [ "ceramic" ],
+    "material": [ { "type": "ceramic", "portion": 100 } ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 25,
@@ -376,7 +376,7 @@
     "volume": "150 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "material": [ "budget_steel" ],
+    "material": [ { "type": "budget_steel", "portion": 100 } ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
@@ -473,7 +473,7 @@
     "longest_side": "21 cm",
     "price": "944 USD",
     "price_postapoc": "8 USD",
-    "material": [ "thermo_resin" ],
+    "material": [ { "type": "thermo_resin", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "material_thickness": 14,
@@ -500,7 +500,7 @@
     "longest_side": "20 cm",
     "price": "600 USD",
     "price_postapoc": "1 USD",
-    "material": [ "ceramic" ],
+    "material": [ { "type": "ceramic", "portion": 100 } ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 25,
@@ -523,7 +523,7 @@
     "longest_side": "20 cm",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "material": [ "budget_steel" ],
+    "material": [ { "type": "budget_steel", "portion": 100 } ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
@@ -617,7 +617,7 @@
     "price": "0 cent",
     "price_postapoc": "1 cent",
     "looks_like": "esapi_plate",
-    "material": [ "damaged_ceramic" ]
+    "material": [ { "type": "damaged_ceramic", "portion": 100 } ]
   },
   {
     "id": "destroyed_medium_ceramic_plate",
@@ -628,7 +628,7 @@
     "price": "0 cent",
     "price_postapoc": "1 cent",
     "looks_like": "esbi_plate",
-    "material": [ "damaged_ceramic" ]
+    "material": [ { "type": "damaged_ceramic", "portion": 100 } ]
   },
   {
     "id": "ballistic_vest_heavy",

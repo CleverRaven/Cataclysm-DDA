@@ -9,7 +9,7 @@
     "volume": "10 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
@@ -24,7 +24,7 @@
     "volume": "20 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 20,
@@ -39,7 +39,7 @@
     "weight": "8 g",
     "price": "3 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ]
+    "material": [ { "type": "steel", "portion": 100 } ]
   },
   {
     "id": "button_bronze",
@@ -50,7 +50,7 @@
     "weight": "10 g",
     "price": "3 USD",
     "price_postapoc": "0 cent",
-    "material": [ "bronze" ]
+    "material": [ { "type": "bronze", "portion": 100 } ]
   },
   {
     "id": "button_wood",
@@ -58,7 +58,7 @@
     "type": "AMMO",
     "name": { "str": "wooden button" },
     "description": "A crude wooden button, usually found on very old clothing.",
-    "material": [ "wood" ]
+    "material": [ { "type": "wood", "portion": 100 } ]
   },
   {
     "id": "snapfastener_steel",
@@ -77,7 +77,7 @@
     "volume": "2 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

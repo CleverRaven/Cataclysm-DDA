@@ -10,7 +10,7 @@
     "//": "Values based roughly on a male human femur.",
     "symbol": "%",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "comestible_type": "FOOD",
     "category": "spare_parts",
     "price": "0 cent",
@@ -33,7 +33,7 @@
     "//1": "Values based roughly on an adult female African elephant femur.",
     "symbol": "I",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "//2": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
@@ -83,7 +83,7 @@
     "price_postapoc": "2 cent",
     "calories": 35,
     "vitamins": [ [ "calcium", "5294 mg" ], [ "meat_allergen", 1 ] ],
-    "material": [ "powder" ],
+    "material": [ { "type": "powder", "portion": 100 } ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10
@@ -106,7 +106,7 @@
     "name": { "str": "bone skewer" },
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
     "category": "other",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
@@ -127,7 +127,7 @@
     "color": "white",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",

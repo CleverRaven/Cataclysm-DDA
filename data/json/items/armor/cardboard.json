@@ -101,7 +101,7 @@
     "volume": "100 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "cardboard" ],
+    "material": [ { "type": "cardboard", "portion": 100 } ],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "brown_yellow",

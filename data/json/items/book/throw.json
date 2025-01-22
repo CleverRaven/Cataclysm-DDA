@@ -31,7 +31,7 @@
     "volume": "250 ml",
     "price": "4 USD 80 cent",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
