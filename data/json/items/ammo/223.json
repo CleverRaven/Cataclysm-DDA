@@ -11,7 +11,7 @@
     "price": "2 USD 80 cent",
     "price_postapoc": "9 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "lead", "powder" ],
+    "material": [ { "type": "brass", "portion": 33 }, { "type": "lead", "portion": 33 }, { "type": "powder", "portion": 33 } ],
     "symbol": "=",
     "color": "yellow",
     "count": 30,
@@ -95,7 +95,12 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": { "str_sp": "5.56 NATO M855" },
-    "material": [ "steel", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "steel", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Originally designed for the M249 FN Minimi, M855 was designed to penetrate steel helmets and light cover at range, sacrificing terminal performance and accuracy in the process.  The limited yaw and fragmentation is worsened with shorter-barreled carbines shooting this round, and optimization of barrel twist for stabilization of the tracer variant of M855 has resulted in lackluster accuracy overall.",
     "ascii_picture": "556",
     "price": "2 USD 90 cent",

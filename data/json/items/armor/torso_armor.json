@@ -1330,7 +1330,11 @@
     "volume": "7 L",
     "price": "110 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "thermo_resin", "cotton", "plastic_pad" ],
+    "material": [
+      { "type": "thermo_resin", "portion": 33 },
+      { "type": "cotton", "portion": 33 },
+      { "type": "plastic_pad", "portion": 33 }
+    ],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",

@@ -22,7 +22,7 @@
     "name": { "str": "alpha sample" },
     "description": "A slurry of superiority.",
     "looks_like": "medical_sample",
-    "material": [ "hflesh", "hblood", "bone" ]
+    "material": [ { "type": "hflesh", "portion": 33 }, { "type": "hblood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -42,7 +42,12 @@
     "name": { "str": "beast sample" },
     "description": "A slurry of might.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "blood", "bone", "fur" ]
+    "material": [
+      { "type": "flesh", "portion": 25 },
+      { "type": "blood", "portion": 25 },
+      { "type": "bone", "portion": 25 },
+      { "type": "fur", "portion": 25 }
+    ]
   },
   {
     "type": "GENERIC",
@@ -82,7 +87,7 @@
     "name": { "str": "chimera sample" },
     "description": "A slurry of adaptation.",
     "looks_like": "medical_sample",
-    "material": [ "gutskin", "bone", "fur" ]
+    "material": [ { "type": "gutskin", "portion": 33 }, { "type": "bone", "portion": 33 }, { "type": "fur", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -162,7 +167,7 @@
     "name": { "str": "lupine sample" },
     "description": "A slurry of community.",
     "looks_like": "medical_sample",
-    "material": [ "fur", "flesh", "blood" ]
+    "material": [ { "type": "fur", "portion": 33 }, { "type": "flesh", "portion": 33 }, { "type": "blood", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -261,7 +266,7 @@
     "name": { "str": "ursine sample" },
     "description": "A slurry of toughness.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "fur", "gutskin" ]
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "fur", "portion": 33 }, { "type": "gutskin", "portion": 33 } ]
   },
   {
     "type": "GENERIC",

@@ -19,7 +19,11 @@
     "description": "A heavy, mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly cow.",
     "price": "600 USD",
     "price_postapoc": "60 USD",
-    "material": [ "cotton", "leather", "kevlar_layered" ],
+    "material": [
+      { "type": "cotton", "portion": 33 },
+      { "type": "leather", "portion": 33 },
+      { "type": "kevlar_layered", "portion": 33 }
+    ],
     "weight": "35 kg",
     "volume": "180 L",
     "material_thickness": 12

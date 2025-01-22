@@ -5,7 +5,11 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "psychoreactive catalyst" },
     "description": "A thick liquid, mixed with ground matrix crystal and ready to be catalyzed.  In total darkness, it glows very faintly.",
-    "material": [ "alien_liquid", "nether_crystal", "water" ],
+    "material": [
+      { "type": "alien_liquid", "portion": 33 },
+      { "type": "nether_crystal", "portion": 33 },
+      { "type": "water", "portion": 33 }
+    ],
     "weight": "30 g",
     "volume": "25 ml",
     "charges": 1,

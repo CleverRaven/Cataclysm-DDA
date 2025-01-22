@@ -10,7 +10,7 @@
     "description": "A crossbow fit with an automatic spanning mechanism that allows for the rapid firing of up to 4 bolts.\n\nIn an age long past, these weapons were issued to expeditions sent to contain a cursing plague in the northern reaches.",
     "price": "890 USD",
     "price_postapoc": "80 USD",
-    "material": [ "wood", "bone", "steel" ],
+    "material": [ { "type": "wood", "portion": 33 }, { "type": "bone", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE", "RELOAD_ONE", "NEVER_JAMS", "NO_UNLOAD", "NO_TURRET", "NON_FOULING" ],
     "modes": [ [ "DEFAULT", "standard", 1 ], [ "AUTO", "repeat fire", 2 ] ],
     "skill": "rifle",
@@ -97,7 +97,12 @@
     "copy-from": "armor_lc_plate",
     "name": { "str": "envoy's armor" },
     "description": "A suit of armor worn down by an endless journey.  Only its sturdiest parts remain now.",
-    "material": [ "qt_steel", "qt_steel_chain", "leather", "wool" ],
+    "material": [
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "qt_steel_chain", "portion": 25 },
+      { "type": "leather", "portion": 25 },
+      { "type": "wool", "portion": 25 }
+    ],
     "armor": [
       {
         "material": [

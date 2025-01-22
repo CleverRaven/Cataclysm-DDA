@@ -252,7 +252,7 @@
     "name": { "str_sp": "PBJ toast" },
     "copy-from": "toast",
     "description": "A slice of toast with peanut butter and jelly on top, with added butter for flavor.",
-    "material": [ "fruit", "milk", "wheat" ],
+    "material": [ { "type": "fruit", "portion": 33 }, { "type": "milk", "portion": 33 }, { "type": "wheat", "portion": 33 } ],
     "primary_material": "wheat",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
     "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]

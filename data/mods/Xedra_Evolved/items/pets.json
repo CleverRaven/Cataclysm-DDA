@@ -28,7 +28,7 @@
     "price": "0 cent",
     "price_postapoc": "10 USD",
     "to_hit": -1,
-    "material": [ "moon_tears", "fae_fur", "gold" ],
+    "material": [ { "type": "moon_tears", "portion": 33 }, { "type": "fae_fur", "portion": 33 }, { "type": "gold", "portion": 33 } ],
     "symbol": "M",
     "color": "yellow",
     "flags": [ "TACK" ],

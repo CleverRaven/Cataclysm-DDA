@@ -7,7 +7,7 @@
     "weight": "8 g",
     "volume": "144 ml",
     "price": "11 USD 25 cent",
-    "material": [ "plastic", "powder", "steel" ],
+    "material": [ { "type": "plastic", "portion": 33 }, { "type": "powder", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "symbol": "=",
     "color": "green",
     "count": 100,

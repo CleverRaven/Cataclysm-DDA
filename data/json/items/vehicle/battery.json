@@ -75,7 +75,7 @@
     "weight": "400 g",
     "color": "light_gray",
     "symbol": ":",
-    "material": [ "plastic", "steel", "copper" ],
+    "material": [ { "type": "plastic", "portion": 33 }, { "type": "steel", "portion": 33 }, { "type": "copper", "portion": 33 } ],
     "volume": "300 ml",
     "category": "veh_parts",
     "price": "10 USD",

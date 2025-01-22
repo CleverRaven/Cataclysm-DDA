@@ -101,7 +101,12 @@
     "volume": "439 ml",
     "longest_side": "88 mm",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "plastic", "lead", "powder" ],
+    "material": [
+      { "type": "brass", "portion": 25 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "symbol": "=",
     "color": "red",
     "count": 20,

@@ -193,7 +193,7 @@
     "barrel_length": "110 mm",
     "price": "75 USD",
     "price_postapoc": "20 USD",
-    "material": [ "plastic", "steel", "zinc" ],
+    "material": [ { "type": "plastic", "portion": 33 }, { "type": "steel", "portion": 33 }, { "type": "zinc", "portion": 33 } ],
     "color": "dark_gray",
     "ammo": [ "40" ],
     "dispersion": 480,

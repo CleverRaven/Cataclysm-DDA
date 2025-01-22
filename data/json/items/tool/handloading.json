@@ -24,7 +24,7 @@
     "longest_side": "30 cm",
     "price": "6 USD",
     "price_postapoc": "15 USD",
-    "material": [ "wood", "plastic", "brass" ],
+    "material": [ { "type": "wood", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "brass", "portion": 33 } ],
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID" ],

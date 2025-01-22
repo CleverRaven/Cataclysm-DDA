@@ -13,7 +13,7 @@
     "price": "500 USD",
     "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "357sig" ],

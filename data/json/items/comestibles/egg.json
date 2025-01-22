@@ -1118,7 +1118,7 @@
     "description": "A fluffy beaten egg pancaked over with cheese and vegetables inside.",
     "price": "5 USD",
     "price_postapoc": "70 cent",
-    "material": [ "egg", "milk", "veggy" ],
+    "material": [ { "type": "egg", "portion": 33 }, { "type": "milk", "portion": 33 }, { "type": "veggy", "portion": 33 } ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -1133,7 +1133,12 @@
     "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omelets.",
     "price": "5 USD",
     "price_postapoc": "70 cent",
-    "material": [ "egg", "milk", "veggy", "flesh" ],
+    "material": [
+      { "type": "egg", "portion": 25 },
+      { "type": "milk", "portion": 25 },
+      { "type": "veggy", "portion": 25 },
+      { "type": "flesh", "portion": 25 }
+    ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },

@@ -96,7 +96,12 @@
     "description": "This is a prototype Compact Advanced Sterling Radioisotope Generator, intended to power an exosuit indefinitely.  The layered shielding saves space but is quite heavy, and while labeled 'Compact', this only just fits on the exosuit frame.  Due to the complexities of manufacturing, it cannot be repaired, only replaced.",
     "weight": "50 kg",
     "volume": "25 L",
-    "material": [ "qt_steel", "plastic", "graphene_weave", "nanoprinted_alloy" ],
+    "material": [
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "graphene_weave", "portion": 25 },
+      { "type": "nanoprinted_alloy", "portion": 25 }
+    ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "dark_gray",

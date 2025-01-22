@@ -201,7 +201,7 @@
     "volume": "2 L",
     "price": "60 USD",
     "price_postapoc": "15 USD",
-    "material": [ "paper", "cardboard", "leather" ],
+    "material": [ { "type": "paper", "portion": 33 }, { "type": "cardboard", "portion": 33 }, { "type": "leather", "portion": 33 } ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "dark_gray",

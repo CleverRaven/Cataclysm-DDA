@@ -157,7 +157,7 @@
     "symbol": "=",
     "color": "green",
     "description": "Harness the power of radiation in your own home!  It looks similar to a D-cell battery, but actually contains folded layers of radioactive material inside.  It can produce electricity for several years at a steady voltage… but it's barely enough to power a small LED, and these batteries were worth hundreds of dollars.  Mostly they're a good way to brag to your neighbors that you have a nuclear power source in your house.",
-    "material": [ "steel", "plastic", "lead" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "lead", "portion": 33 } ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "250 ml",
     "weight": "160 g"

@@ -10,7 +10,7 @@
     "volume": "5 L",
     "longest_side": "1500 mm",
     "to_hit": -1,
-    "material": [ "copper", "qt_steel", "superalloy" ],
+    "material": [ { "type": "copper", "portion": 33 }, { "type": "qt_steel", "portion": 33 }, { "type": "superalloy", "portion": 33 } ],
     "ammo": [ "metal_rail" ],
     "skill": "rifle",
     "min_strength": 18,

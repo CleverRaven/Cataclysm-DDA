@@ -145,7 +145,7 @@
     "volume": "10500 ml",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "50 USD",
-    "material": [ "kevlar", "lycra", "nylon" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "lycra", "portion": 33 }, { "type": "nylon", "portion": 33 } ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "symbol": "[",
     "looks_like": "survivor_jumpsuit",
@@ -212,7 +212,7 @@
     "volume": "11500 ml",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "50 USD",
-    "material": [ "kevlar", "lycra", "nylon" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "lycra", "portion": 33 }, { "type": "nylon", "portion": 33 } ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -282,7 +282,12 @@
     "price": "2 kUSD",
     "price_postapoc": "70 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "kevlar", "qt_steel", "lycra", "nylon" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "lycra", "portion": 25 },
+      { "type": "nylon", "portion": 25 }
+    ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -336,7 +341,7 @@
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "kevlar", "fur", "lycra" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "fur", "portion": 33 }, { "type": "lycra", "portion": 33 } ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -384,7 +389,7 @@
     "name": { "str": "faux fur Kevlar jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
-    "material": [ "kevlar", "faux_fur", "lycra" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "faux_fur", "portion": 33 }, { "type": "lycra", "portion": 33 } ],
     "armor": [
       {
         "material": [
@@ -597,7 +602,7 @@
     "weight": "14905 g",
     "volume": "15000 ml",
     "price_postapoc": "50 USD",
-    "material": [ "neoprene", "nylon", "kevlar" ],
+    "material": [ { "type": "neoprene", "portion": 33 }, { "type": "nylon", "portion": 33 }, { "type": "kevlar", "portion": 33 } ],
     "symbol": "[",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "looks_like": "wetsuit",

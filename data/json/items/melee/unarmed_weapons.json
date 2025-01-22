@@ -232,7 +232,7 @@
     "price": "11 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ "steel", "leather", "cotton" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "leather", "portion": 33 }, { "type": "cotton", "portion": 33 } ],
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_gray",

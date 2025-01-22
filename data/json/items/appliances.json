@@ -312,7 +312,7 @@
     "weight": "8100 g",
     "color": "cyan",
     "symbol": "]",
-    "material": [ "wood", "plastic", "steel" ],
+    "material": [ { "type": "wood", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "volume": "65 L",
     "price": "50 USD",
     "price_postapoc": "2 USD",

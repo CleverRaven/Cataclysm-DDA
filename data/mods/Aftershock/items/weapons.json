@@ -284,7 +284,7 @@
     "name": { "str": "Aztlani bow" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system currently disabled, firing it will require truly superhuman strength.  It can be activated to toggle it drawing assist functionality.",
     "price": "500 USD",
-    "material": [ "superalloy", "qt_steel", "wood" ],
+    "material": [ { "type": "superalloy", "portion": 33 }, { "type": "qt_steel", "portion": 33 }, { "type": "wood", "portion": 33 } ],
     "min_strength": 40,
     "price_postapoc": "400 USD",
     "armor_data": {
@@ -341,7 +341,7 @@
     "description": "An ornate, single-handed sword used by Aztlani hunters to finish injured game.  Made from gleaming composite alloy, its tip and frontal blade have been sharpened to a monomolecular point, while its back features a serrated saw edge.",
     "price": "1 kUSD",
     "price_postapoc": "4 kUSD 500 USD",
-    "material": [ "superalloy", "qt_steel", "wood" ],
+    "material": [ { "type": "superalloy", "portion": 33 }, { "type": "qt_steel", "portion": 33 }, { "type": "wood", "portion": 33 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1360 g",

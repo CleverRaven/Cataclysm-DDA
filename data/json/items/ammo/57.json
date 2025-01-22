@@ -11,7 +11,12 @@
     "price": "3 USD 50 cent",
     "price_postapoc": "16 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "steel", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 40,

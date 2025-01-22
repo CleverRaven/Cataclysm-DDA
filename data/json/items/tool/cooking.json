@@ -11,7 +11,12 @@
     "longest_side": "20 cm",
     "price": "1 kUSD",
     "price_postapoc": "30 USD",
-    "material": [ "plastic", "aluminum", "lead", "steel" ],
+    "material": [
+      { "type": "plastic", "portion": 25 },
+      { "type": "aluminum", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "steel", "portion": 25 }
+    ],
     "qualities": [ [ "BOIL", 1 ] ],
     "ammo": [ "battery" ],
     "symbol": ",",

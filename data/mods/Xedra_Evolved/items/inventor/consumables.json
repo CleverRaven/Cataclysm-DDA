@@ -25,7 +25,16 @@
     "fun": 60,
     "quench": 24,
     "calories": 900,
-    "material": [ "wheat", "flesh", "tomato", "veggy", "egg", "milk", "junk", "fruit" ],
+    "material": [
+      { "type": "wheat", "portion": 12 },
+      { "type": "flesh", "portion": 12 },
+      { "type": "tomato", "portion": 12 },
+      { "type": "veggy", "portion": 12 },
+      { "type": "egg", "portion": 12 },
+      { "type": "milk", "portion": 12 },
+      { "type": "junk", "portion": 12 },
+      { "type": "fruit", "portion": 12 }
+    ],
     "flags": [ "INVENTOR_CRAFTED" ],
     "color": "yellow",
     "weight": "950 g",

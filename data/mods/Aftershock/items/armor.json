@@ -10,7 +10,7 @@
     "price": "10000 kUSD",
     "//2": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
     "price_postapoc": "1 kUSD",
-    "material": [ "glass", "superalloy", "platinum" ],
+    "material": [ { "type": "glass", "portion": 33 }, { "type": "superalloy", "portion": 33 }, { "type": "platinum", "portion": 33 } ],
     "symbol": "[",
     "color": "cyan",
     "looks_like": "molle_pack",

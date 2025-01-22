@@ -2802,7 +2802,14 @@
     "volume": "14 L",
     "price": "1 kUSD 175 USD",
     "price_postapoc": "20 USD",
-    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra", "vinyl" ],
+    "material": [
+      { "type": "nomex", "portion": 16 },
+      { "type": "kevlar", "portion": 16 },
+      { "type": "hc_steel", "portion": 16 },
+      { "type": "thermo_resin", "portion": 16 },
+      { "type": "lycra", "portion": 16 },
+      { "type": "vinyl", "portion": 16 }
+    ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
@@ -3283,7 +3290,12 @@
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
-    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "material": [
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "qt_steel_chain", "portion": 25 },
+      { "type": "lycra", "portion": 25 },
+      { "type": "kevlar", "portion": 25 }
+    ],
     "ammo": "battery",
     "armor": [
       {
@@ -3352,7 +3364,12 @@
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
-    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "material": [
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "qt_steel_chain", "portion": 25 },
+      { "type": "lycra", "portion": 25 },
+      { "type": "kevlar", "portion": 25 }
+    ],
     "ammo": "battery",
     "armor": [
       {
@@ -3421,7 +3438,12 @@
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
-    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "material": [
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "qt_steel_chain", "portion": 25 },
+      { "type": "lycra", "portion": 25 },
+      { "type": "kevlar", "portion": 25 }
+    ],
     "ammo": "battery",
     "armor": [
       {
@@ -3492,7 +3514,7 @@
     "weight": "17200 g",
     "volume": "7000 ml",
     "description": "A full body multilayered chainmail outfit.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
-    "material": [ "qt_steel_chain", "lycra", "kevlar" ],
+    "material": [ { "type": "qt_steel_chain", "portion": 33 }, { "type": "lycra", "portion": 33 }, { "type": "kevlar", "portion": 33 } ],
     "armor": [
       {
         "material": [

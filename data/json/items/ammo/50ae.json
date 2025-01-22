@@ -8,7 +8,7 @@
     "volume": "102 ml",
     "price": "40 USD",
     "price_postapoc": "40 USD",
-    "material": [ "brass", "lead", "powder" ],
+    "material": [ { "type": "brass", "portion": 33 }, { "type": "lead", "portion": 33 }, { "type": "powder", "portion": 33 } ],
     "symbol": "=",
     "color": "red",
     "count": 20,

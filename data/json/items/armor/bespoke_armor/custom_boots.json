@@ -10,7 +10,7 @@
     "price": "240 USD",
     "price_postapoc": "50 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar", "nomex", "leather" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "nomex", "portion": 33 }, { "type": "leather", "portion": 33 } ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "green",
@@ -81,7 +81,12 @@
     "price": "240 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar", "nomex", "leather", "steel" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "nomex", "portion": 25 },
+      { "type": "leather", "portion": 25 },
+      { "type": "steel", "portion": 25 }
+    ],
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -147,7 +152,13 @@
     "name": { "str": "pair of faux fur winter survivor boots", "str_pl": "pairs of faux fur winter survivor boots" },
     "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "copy-from": "boots_wsurvivor",
-    "material": [ "leather", "leather", "nomex", "faux_fur", "steel" ],
+    "material": [
+      { "type": "leather", "portion": 20 },
+      { "type": "leather", "portion": 20 },
+      { "type": "nomex", "portion": 20 },
+      { "type": "faux_fur", "portion": 20 },
+      { "type": "steel", "portion": 20 }
+    ],
     "symbol": "[",
     "warmth": 50,
     "looks_like": "boots_fur",
@@ -217,7 +228,13 @@
     "price": "240 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar", "leather", "nomex", "fur", "steel" ],
+    "material": [
+      { "type": "kevlar", "portion": 20 },
+      { "type": "leather", "portion": 20 },
+      { "type": "nomex", "portion": 20 },
+      { "type": "fur", "portion": 20 },
+      { "type": "steel", "portion": 20 }
+    ],
     "symbol": "[",
     "looks_like": "boots_fur",
     "color": "light_gray",
@@ -291,7 +308,12 @@
     "price": "240 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "neoprene", "portion": 25 },
+      { "type": "rubber", "portion": 25 },
+      { "type": "nylon", "portion": 25 }
+    ],
     "symbol": "[",
     "looks_like": "boots_bunker",
     "color": "dark_gray",
@@ -371,7 +393,12 @@
     "volume": "1200 ml",
     "price": "240 USD",
     "price_postapoc": "60 USD",
-    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "neoprene", "portion": 25 },
+      { "type": "rubber", "portion": 25 },
+      { "type": "nylon", "portion": 25 }
+    ],
     "symbol": "[",
     "looks_like": "boots_h20survivor",
     "color": "dark_gray",
@@ -450,7 +477,12 @@
     "price": "240 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar", "neoprene", "rubber", "nylon" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "neoprene", "portion": 25 },
+      { "type": "rubber", "portion": 25 },
+      { "type": "nylon", "portion": 25 }
+    ],
     "symbol": "[",
     "looks_like": "boots_h20survivor",
     "color": "dark_gray",

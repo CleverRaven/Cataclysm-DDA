@@ -90,7 +90,7 @@
     "color": "dark_gray",
     "description": "A lead weighted dart for throwing at enemies, like the Romans used.",
     "//": "These are plumbatae, but that's probably not a well known word.",
-    "material": [ "wood", "iron", "lead" ],
+    "material": [ { "type": "wood", "portion": 33 }, { "type": "iron", "portion": 33 }, { "type": "lead", "portion": 33 } ],
     "volume": "500 ml",
     "weight": "300 g",
     "longest_side": "30 cm",

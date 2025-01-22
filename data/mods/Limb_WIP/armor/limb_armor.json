@@ -299,7 +299,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": 1,
-    "material": [ "superalloy", "rubber", "qt_steel" ],
+    "material": [ { "type": "superalloy", "portion": 33 }, { "type": "rubber", "portion": 33 }, { "type": "qt_steel", "portion": 33 } ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 0,

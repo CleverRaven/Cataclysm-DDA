@@ -25,7 +25,7 @@
     "volume": "7 L",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "wood", "copper", "steel" ],
+    "material": [ { "type": "wood", "portion": 33 }, { "type": "copper", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -65,7 +65,7 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "7 USD 50 cent",
-    "material": [ "steel", "copper", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "copper", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": ";",
     "ammo": [ "battery" ],
     "pocket_data": [

@@ -21,7 +21,7 @@
     "id": "seat_leather",
     "name": { "str": "leather bucket seat" },
     "description": "A soft car seat covered with leather.",
-    "material": [ "leather", "nylon", "steel" ],
+    "material": [ { "type": "leather", "portion": 33 }, { "type": "nylon", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent"
   },
@@ -47,7 +47,7 @@
     "id": "seat_bench_leather",
     "name": { "str": "leather bench seat" },
     "description": "A wide, flat seat like you'd find in the back of a sedan, upholstered with leather.",
-    "material": [ "leather", "nylon", "steel" ],
+    "material": [ { "type": "leather", "portion": 33 }, { "type": "nylon", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent"
   },

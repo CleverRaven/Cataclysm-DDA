@@ -46,7 +46,7 @@
     "name": { "str": "chicken noodle entree" },
     "calories": 231,
     "description": "The chicken noodle entree from an MRE.",
-    "material": [ "flesh", "veggy", "wheat" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "veggy", "portion": 33 }, { "type": "wheat", "portion": 33 } ],
     "fun": 1,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -166,7 +166,7 @@
     "name": { "str": "ratatouille entree" },
     "calories": 248,
     "description": "The ratatouille entree from an MRE.",
-    "material": [ "veggy", "tomato", "wheat" ],
+    "material": [ { "type": "veggy", "portion": 33 }, { "type": "tomato", "portion": 33 }, { "type": "wheat", "portion": 33 } ],
     "fun": 0,
     "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -177,7 +177,7 @@
     "name": { "str": "cheese tortellini entree" },
     "calories": 251,
     "description": "The cheese tortellini entree from an MRE.",
-    "material": [ "tomato", "veggy", "milk" ],
+    "material": [ { "type": "tomato", "portion": 33 }, { "type": "veggy", "portion": 33 }, { "type": "milk", "portion": 33 } ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -187,7 +187,7 @@
     "name": { "str": "mushroom fettuccine entree" },
     "calories": 239,
     "description": "The mushroom fettuccine entree from an MRE.",
-    "material": [ "mushroom", "veggy", "wheat" ],
+    "material": [ { "type": "mushroom", "portion": 33 }, { "type": "veggy", "portion": 33 }, { "type": "wheat", "portion": 33 } ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
@@ -197,7 +197,12 @@
     "name": { "str": "Mexican chicken stew entree" },
     "calories": 214,
     "description": "The Mexican chicken stew entree from an MRE.",
-    "material": [ "tomato", "veggy", "flesh", "bean" ],
+    "material": [
+      { "type": "tomato", "portion": 25 },
+      { "type": "veggy", "portion": 25 },
+      { "type": "flesh", "portion": 25 },
+      { "type": "bean", "portion": 25 }
+    ],
     "fun": 1,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -208,7 +213,7 @@
     "name": { "str": "chicken burrito bowl entree" },
     "calories": 264,
     "description": "The chicken burrito bowl entree from an MRE.",
-    "material": [ "flesh", "veggy", "bean" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "veggy", "portion": 33 }, { "type": "bean", "portion": 33 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -295,7 +300,7 @@
     "name": { "str": "chicken pesto & pasta entree" },
     "calories": 264,
     "description": "The chicken pesto & pasta entree from an MRE.",
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "wheat", "portion": 33 }, { "type": "veggy", "portion": 33 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -318,7 +323,7 @@
     "calories": 254,
     "description": "The dreaded four fingers of death.  It seems to be several decades old.",
     "price": "8 USD 50 cent",
-    "material": [ "flesh", "junk", "bean" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "junk", "portion": 33 }, { "type": "bean", "portion": 33 } ],
     "fun": -6,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
@@ -341,7 +346,7 @@
     "name": { "str": "pepperoni pizza entree" },
     "calories": 291,
     "description": "The pizza entree from an MRE, featuring pepperoni slices and cheese.",
-    "material": [ "flesh", "wheat", "milk" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "wheat", "portion": 33 }, { "type": "milk", "portion": 33 } ],
     "fun": 3,
     "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },

@@ -2892,7 +2892,11 @@
     "volume": "100 L",
     "price": "70 kUSD",
     "price_postapoc": "300 USD",
-    "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
+    "material": [
+      { "type": "qt_steel", "portion": 33 },
+      { "type": "ceramic", "portion": 33 },
+      { "type": "kevlar_rigid", "portion": 33 }
+    ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
@@ -4420,7 +4424,12 @@
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  Designed to protect its wearer during extradimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Use it to turn it on.",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "150 USD",
-    "material": [ "carbide", "qt_steel", "lvl4ballisticglass", "superalloy" ],
+    "material": [
+      { "type": "carbide", "portion": 25 },
+      { "type": "qt_steel", "portion": 25 },
+      { "type": "lvl4ballisticglass", "portion": 25 },
+      { "type": "superalloy", "portion": 25 }
+    ],
     "weight": "9500 g",
     "volume": "4500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],

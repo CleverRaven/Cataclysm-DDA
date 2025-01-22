@@ -7,7 +7,7 @@
     "name": { "str": "ierde sample" },
     "description": "A sample of rare earths.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -17,7 +17,7 @@
     "name": { "str": "arvore sample" },
     "description": "A sample of verdant plant life.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -27,7 +27,7 @@
     "name": { "str": "salamander sample" },
     "description": "A sample of fiery passion.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -37,7 +37,7 @@
     "name": { "str": "undine sample" },
     "description": "A sample of deep waters.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -47,7 +47,7 @@
     "name": { "str": "homullus sample" },
     "description": "A sample of lifelike dolls.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   },
   {
     "type": "GENERIC",
@@ -57,6 +57,6 @@
     "name": { "str": "sylph sample" },
     "description": "A sample of untamed air.",
     "looks_like": "medical_sample",
-    "material": [ "fae_flesh", "fae_blood", "bone" ]
+    "material": [ { "type": "fae_flesh", "portion": 33 }, { "type": "fae_blood", "portion": 33 }, { "type": "bone", "portion": 33 } ]
   }
 ]

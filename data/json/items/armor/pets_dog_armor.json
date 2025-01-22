@@ -121,7 +121,7 @@
     "description": "A thin plastic covering designed to keep a dog dry in the rain.  You could put this on a friendly dog.",
     "price": "100 USD",
     "price_postapoc": "10 USD",
-    "material": [ "neoprene", "plastic", "rubber" ],
+    "material": [ { "type": "neoprene", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "rubber", "portion": 33 } ],
     "weight": "1960 g",
     "material_thickness": 0.1,
     "environmental_protection": 10,

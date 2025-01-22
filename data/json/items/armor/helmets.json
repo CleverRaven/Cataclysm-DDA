@@ -271,7 +271,7 @@
     "//": "assuming this is an antique and not a cheap replica",
     "price_postapoc": "12 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "hc_steel", "plastic", "leather" ],
+    "material": [ { "type": "hc_steel", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "leather", "portion": 33 } ],
     "repairs_with": [ "hc_steel" ],
     "symbol": "[",
     "looks_like": "helmet_army",
@@ -1240,7 +1240,12 @@
     "price": "325 USD",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "plastic", "hard_plastic_transp", "epoxy", "plastic_pad" ],
+    "material": [
+      { "type": "plastic", "portion": 25 },
+      { "type": "hard_plastic_transp", "portion": 25 },
+      { "type": "epoxy", "portion": 25 },
+      { "type": "plastic_pad", "portion": 25 }
+    ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
@@ -1401,7 +1406,7 @@
     "price": "70 USD",
     "price_postapoc": "3 USD",
     "techniques": [ "WBLOCK_1" ],
-    "material": [ "plastic", "epoxy", "plastic_pad" ],
+    "material": [ { "type": "plastic", "portion": 33 }, { "type": "epoxy", "portion": 33 }, { "type": "plastic_pad", "portion": 33 } ],
     "symbol": "[",
     "looks_like": "helmet_bike",
     "non_functional": "helmet_riding_peakless",

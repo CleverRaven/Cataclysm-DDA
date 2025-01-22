@@ -118,7 +118,7 @@
     "price": "15 kUSD 90 USD",
     "price_postapoc": "180 USD",
     "warmth": 65,
-    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "plastic_pad", "portion": 33 }, { "type": "nomex", "portion": 33 } ],
     "symbol": "[",
     "color": "light_green",
     "environmental_protection": 2,
@@ -163,7 +163,7 @@
     "price": "4 kUSD 101 USD 60 cent",
     "price_postapoc": "59 USD",
     "warmth": 40,
-    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "material": [ { "type": "kevlar", "portion": 33 }, { "type": "plastic_pad", "portion": 33 }, { "type": "nomex", "portion": 33 } ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
@@ -222,7 +222,12 @@
     "//": "Based on the plate from the MED-ENG EOD 9N.  People don't seem willing to buy the EOD 10 to shoot at and MED-ENG ain't telling us how not-bullet proof the suit is.",
     "price": "3 kUSD 613 USD",
     "price_postapoc": "20 USD",
-    "material": [ "kevlar", "plastic_pad", "thermo_resin", "qt_steel" ],
+    "material": [
+      { "type": "kevlar", "portion": 25 },
+      { "type": "plastic_pad", "portion": 25 },
+      { "type": "thermo_resin", "portion": 25 },
+      { "type": "qt_steel", "portion": 25 }
+    ],
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 5,
@@ -1359,7 +1364,11 @@
     "volume": "9 L",
     "price_postapoc": "15 USD",
     "symbol": "[",
-    "material": [ "nylon", "kevlar_layered", "lc_steel" ],
+    "material": [
+      { "type": "nylon", "portion": 33 },
+      { "type": "kevlar_layered", "portion": 33 },
+      { "type": "lc_steel", "portion": 33 }
+    ],
     "color": "light_gray",
     "warmth": 20,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE", "PREFIX_XL" ],
@@ -1391,7 +1400,11 @@
     "price": "1600 USD",
     "price_postapoc": "30 USD",
     "symbol": "[",
-    "material": [ "nylon", "kevlar_layered", "qt_steel" ],
+    "material": [
+      { "type": "nylon", "portion": 33 },
+      { "type": "kevlar_layered", "portion": 33 },
+      { "type": "qt_steel", "portion": 33 }
+    ],
     "color": "light_gray",
     "warmth": 20,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE", "PREFIX_XL" ],

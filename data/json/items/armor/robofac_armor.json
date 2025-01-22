@@ -123,7 +123,7 @@
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  This one features a hardened skeleton of ceramic plates running up and over the shoulders, and a portion of the front has been raised upwards from the rest.  Lifting the fabric reveals a large disc-shaped device installed into the garment, featureless except for a prominent switch and Hub 01's logo in LED.  In addition to the poncho's usual complement of storage, a battery compartment has been added that wires into this device, featuring very specialized connectors and, perhaps a little disconcertingly, radiation shielding.",
     "weight": "2000 g",
     "volume": "4250 ml",
-    "material": [ "nylon", "kevlar", "ceramic" ],
+    "material": [ { "type": "nylon", "portion": 33 }, { "type": "kevlar", "portion": 33 }, { "type": "ceramic", "portion": 33 } ],
     "pocket_data": [
       {
         "description": "Watertight internal reservoir.",

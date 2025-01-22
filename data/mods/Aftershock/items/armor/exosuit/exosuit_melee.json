@@ -13,7 +13,7 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
-    "material": [ "qt_steel", "titanium", "kevlar" ],
+    "material": [ { "type": "qt_steel", "portion": 33 }, { "type": "titanium", "portion": 33 }, { "type": "kevlar", "portion": 33 } ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "BELT_CLIP" ],
     "use_action": [

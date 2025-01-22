@@ -19,7 +19,7 @@
     "description": "A heavy mattress-like armor of cloth, leather, and thick linings of Kevlar, originally used as horse protection for bullfighting, but adapted for the noblest of beasts.  You could put this on a friendly bear.",
     "price": "500 USD",
     "price_postapoc": "50 USD",
-    "material": [ "cotton", "leather", "kevlar" ],
+    "material": [ { "type": "cotton", "portion": 33 }, { "type": "leather", "portion": 33 }, { "type": "kevlar", "portion": 33 } ],
     "weight": "30 kg",
     "volume": "150 L",
     "material_thickness": 10

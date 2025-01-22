@@ -95,7 +95,7 @@
     "color": "light_gray",
     "name": { "str": "Earthshaper cestus", "str_pl": "Earthshaper cesti" },
     "description": "A stone battle glove with carved runes encasing the hand, protecting it while increasing striking power.  There is an Earthshaper rune embedded in the palm.",
-    "material": [ "stone", "leather", "steel" ],
+    "material": [ { "type": "stone", "portion": 33 }, { "type": "leather", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "volume": "500 ml",
     "weight": "873 g",
     "to_hit": 1,

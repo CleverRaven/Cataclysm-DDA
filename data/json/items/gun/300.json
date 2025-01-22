@@ -114,7 +114,7 @@
     "barrel_length": "660 mm",
     "price": "2 kUSD 539 USD",
     "price_postapoc": "55 USD",
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": "-",
     "color": "black",
     "ammo": [ "300" ],

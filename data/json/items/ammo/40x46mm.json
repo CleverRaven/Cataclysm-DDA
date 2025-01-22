@@ -208,7 +208,12 @@
     "weight": "114 g",
     "price": "15 USD",
     "price_postapoc": "24 USD",
-    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "aluminum", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "damage": { "damage_type": "bullet", "amount": 100 },
     "shot_damage": { "damage_type": "bullet", "amount": 10 },
     "projectile_count": 10,
@@ -225,7 +230,12 @@
     "weight": "245 g",
     "price": "7 USD 10 cent",
     "price_postapoc": "32 USD 40 cent",
-    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "aluminum", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "//": "5in bbl, therefore 4x23 damage per 410 bbti.  The launcher's bbl can't contribute to velocity, so the bbl length that really matters is the adapter's.",
     "damage": { "damage_type": "bullet", "amount": 92 },
     "shot_damage": { "damage_type": "bullet", "amount": 10 },
@@ -243,7 +253,12 @@
     "weight": "245 g",
     "price": "7 USD 10 cent",
     "price_postapoc": "32 USD 40 cent",
-    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "aluminum", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "//": "5in bbl, therefore 4x22 damage per 410 bbti.  The launcher's bbl can't contribute to velocity, so the bbl length that really matters is the adapter's.",
     "damage": { "damage_type": "bullet", "amount": 88 },
     "shot_damage": { "damage_type": "bullet", "amount": 22 },
@@ -261,7 +276,12 @@
     "weight": "245 g",
     "price": "7 USD 10 cent",
     "price_postapoc": "32 USD 40 cent",
-    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "material": [
+      { "type": "aluminum", "portion": 25 },
+      { "type": "brass", "portion": 25 },
+      { "type": "lead", "portion": 25 },
+      { "type": "powder", "portion": 25 }
+    ],
     "//": "5in bbl, therefore 4x21 damage per  410 bbti.  The launcher's bbl can't contribute to velocity, so the bbl length that really matters is the adapter's.",
     "damage": { "damage_type": "bullet", "amount": 84 },
     "shot_damage": { "damage_type": "bullet", "amount": 0.2 },

@@ -1022,7 +1022,11 @@
     "weight": "800 kg",
     "hp": 200,
     "speed": 350,
-    "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
+    "material": [
+      { "type": "qt_steel", "portion": 33 },
+      { "type": "nanoprinted_alloy", "portion": 33 },
+      { "type": "kevlar", "portion": 33 }
+    ],
     "symbol": "H",
     "color": "light_gray",
     "aggression": -50,
@@ -1067,7 +1071,11 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": -3,
-    "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
+    "material": [
+      { "type": "qt_steel", "portion": 33 },
+      { "type": "nanoprinted_alloy", "portion": 33 },
+      { "type": "kevlar", "portion": 33 }
+    ],
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "LEAK_DAM", "RADIOACTIVE" ],

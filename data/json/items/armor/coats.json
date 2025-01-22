@@ -9,7 +9,7 @@
     "volume": "5 L",
     "price": "910 USD",
     "price_postapoc": "15 USD",
-    "material": [ "nomex", "kevlar", "lycra" ],
+    "material": [ { "type": "nomex", "portion": 33 }, { "type": "kevlar", "portion": 33 }, { "type": "lycra", "portion": 33 } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",

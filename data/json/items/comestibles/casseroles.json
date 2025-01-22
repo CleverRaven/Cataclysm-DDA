@@ -35,7 +35,7 @@
     "description": "This cheesy spinach casserole is cheesy, packed with hearty spinach, and totally delicious.",
     "price": "50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "veggy", "milk", "egg" ],
+    "material": [ { "type": "veggy", "portion": 33 }, { "type": "milk", "portion": 33 }, { "type": "egg", "portion": 33 } ],
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -55,7 +55,7 @@
     "description": "Fish noodle casserole is a casserole primarily made with pasta and canned tuna, with canned peas and corn sometimes added.",
     "price": "50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "wheat", "portion": 33 }, { "type": "veggy", "portion": 33 } ],
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -75,7 +75,7 @@
     "description": "A classic New England casserole made with butter, lobster, and crackers, in roughly that order.",
     "price": "60 cent",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "flesh", "wheat", "milk" ],
+    "material": [ { "type": "flesh", "portion": 33 }, { "type": "wheat", "portion": 33 }, { "type": "milk", "portion": 33 } ],
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },

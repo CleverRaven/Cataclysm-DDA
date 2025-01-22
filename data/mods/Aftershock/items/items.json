@@ -233,7 +233,7 @@
     "weight": "14 kg",
     "volume": "1 L",
     "price": "10 kUSD",
-    "material": [ "copper", "lead", "steel" ],
+    "material": [ { "type": "copper", "portion": 33 }, { "type": "lead", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "category": "spare_parts"
   },
   {

@@ -337,7 +337,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "category": "weapons",
-    "material": [ "leather", "flesh", "bone" ],
+    "material": [ { "type": "leather", "portion": 33 }, { "type": "flesh", "portion": 33 }, { "type": "bone", "portion": 33 } ],
     "weight": "225 g",
     "volume": "700 ml",
     "symbol": "t",
@@ -362,7 +362,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "summon_zougar", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "category": "weapons",
-    "material": [ "fur", "flesh", "bone" ],
+    "material": [ { "type": "fur", "portion": 33 }, { "type": "flesh", "portion": 33 }, { "type": "bone", "portion": 33 } ],
     "copy-from": "animist_doll_skeleton",
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },

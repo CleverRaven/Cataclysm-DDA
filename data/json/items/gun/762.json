@@ -369,7 +369,7 @@
     "price": "2 kUSD 155 USD",
     "price_postapoc": "30 USD",
     "to_hit": -1,
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "color": "black",
     "ammo": [ "762" ],
     "dispersion": 140,

@@ -9,7 +9,12 @@
     "volume": "3600 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "leather", "flesh", "bone", "chitin" ],
+    "material": [
+      { "type": "leather", "portion": 25 },
+      { "type": "flesh", "portion": 25 },
+      { "type": "bone", "portion": 25 },
+      { "type": "chitin", "portion": 25 }
+    ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 10,

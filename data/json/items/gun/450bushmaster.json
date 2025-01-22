@@ -13,7 +13,7 @@
     "price": "669 USD",
     "price_postapoc": "20 USD",
     "to_hit": -1,
-    "material": [ "aluminum", "steel", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 33 }, { "type": "steel", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "color": "brown",
     "ammo": [ "450" ],
     "dispersion": 120,

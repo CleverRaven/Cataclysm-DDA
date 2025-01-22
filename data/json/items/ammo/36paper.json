@@ -9,7 +9,7 @@
     "volume": "11 ml",
     "price": "4 USD",
     "price_postapoc": "10 USD",
-    "material": [ "paper", "powder", "lead" ],
+    "material": [ { "type": "paper", "portion": 33 }, { "type": "powder", "portion": 33 }, { "type": "lead", "portion": 33 } ],
     "symbol": "=",
     "color": "white",
     "count": 25,

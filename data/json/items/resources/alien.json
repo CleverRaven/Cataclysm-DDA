@@ -80,7 +80,7 @@
     "weight": "20 kg",
     "volume": "10 L",
     "price": "100 USD",
-    "material": [ "plastic", "aluminum", "steel" ],
+    "material": [ { "type": "plastic", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "steel", "portion": 33 } ],
     "category": "spare_parts"
   },
   {
@@ -295,7 +295,7 @@
     "description": "A collection of hand-soldered wires leading to plugs and what looks like an exotic micro controller.  The plugs look like they could be attached to you, assuming you have an SNI (Standard Neurobionic Interface).",
     "price": "20 USD",
     "price_postapoc": "20 USD",
-    "material": [ "aluminum", "plastic", "copper" ],
+    "material": [ { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "copper", "portion": 33 } ],
     "weight": "250 g",
     "volume": "1 L"
   },
@@ -309,7 +309,7 @@
     "description": "A collection of mismatched pipes, wires, and a central device that looks like an exotic micro controller.  Almost looks like it could be used for some form of central cooling.",
     "price": "20 USD",
     "price_postapoc": "20 USD",
-    "material": [ "aluminum", "plastic", "copper" ],
+    "material": [ { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 }, { "type": "copper", "portion": 33 } ],
     "weight": "500 g",
     "volume": "1 L"
   },

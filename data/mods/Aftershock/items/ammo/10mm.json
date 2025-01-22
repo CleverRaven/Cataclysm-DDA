@@ -48,7 +48,7 @@
     "weight": "7 g",
     "volume": "115 ml",
     "price": "1 USD 50 cent",
-    "material": [ "superalloy", "powder", "plastic" ],
+    "material": [ { "type": "superalloy", "portion": 33 }, { "type": "powder", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": "=",
     "color": "pink",
     "count": 42,

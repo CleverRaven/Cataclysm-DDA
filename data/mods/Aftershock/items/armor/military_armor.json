@@ -9,7 +9,11 @@
     "weight": "7 kg",
     "volume": "8 L",
     "symbol": "[",
-    "material": [ "nylon", "nanoprinted_alloy", "vacuum_carbide" ],
+    "material": [
+      { "type": "nylon", "portion": 33 },
+      { "type": "nanoprinted_alloy", "portion": 33 },
+      { "type": "vacuum_carbide", "portion": 33 }
+    ],
     "flags": [ "OVERSIZE", "FRAGILE", "OUTER", "WATER_FRIENDLY" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "armor": [

@@ -87,7 +87,7 @@
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables, a left one and a right one.",
-    "material": [ "steel", "copper", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "copper", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": "□",
     "color": "light_gray",
     "volume": "8 L",

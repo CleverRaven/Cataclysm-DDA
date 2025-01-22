@@ -11,7 +11,12 @@
     "price": "3 USD 50 cent",
     "price_postapoc": "16 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "plastic", "powder", "lead" ],
+    "material": [
+      { "type": "brass", "portion": 25 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "powder", "portion": 25 },
+      { "type": "lead", "portion": 25 }
+    ],
     "symbol": "=",
     "color": "red",
     "count": 20,
@@ -124,7 +129,12 @@
     "projectile_count": 132,
     "shot_spread": 300,
     "proportional": { "price": 0.5, "price_postapoc": 0.5 },
-    "material": [ "brass", "plastic", "powder", "steel" ],
+    "material": [
+      { "type": "brass", "portion": 25 },
+      { "type": "plastic", "portion": 25 },
+      { "type": "powder", "portion": 25 },
+      { "type": "steel", "portion": 25 }
+    ],
     "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": -4 } },
     "effects": [ "COOKOFF", "SHOT", "NOGIB" ]
   },

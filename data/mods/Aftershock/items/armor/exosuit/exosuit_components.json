@@ -9,7 +9,11 @@
     "volume": "250 ml",
     "price": "10 USD",
     "ammo_type": "exo_connector",
-    "material": [ "nanoprinted_alloy", "copper", "plastic" ],
+    "material": [
+      { "type": "nanoprinted_alloy", "portion": 33 },
+      { "type": "copper", "portion": 33 },
+      { "type": "plastic", "portion": 33 }
+    ],
     "symbol": "#",
     "color": "dark_gray"
   }

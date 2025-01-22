@@ -5,7 +5,11 @@
     "type": "TOOL",
     "name": { "str": "everglow matrix flashlight (off)", "str_pl": "everglow matrix flashlights (off)" },
     "description": "A household flashlight enhanced with matrix technology.  It is slightly dimmer but will last significantly longer.",
-    "material": [ "plastic", "aluminum", "nether_crystal" ],
+    "material": [
+      { "type": "plastic", "portion": 33 },
+      { "type": "aluminum", "portion": 33 },
+      { "type": "nether_crystal", "portion": 33 }
+    ],
     "symbol": ";",
     "color": "blue",
     "weight": "280 g",
@@ -59,7 +63,11 @@
     "price": "1 kUSD 750 USD",
     "price_postapoc": "40 USD",
     "melee_damage": { "bash": 8 },
-    "material": [ "plastic", "aluminum", "nether_crystal" ],
+    "material": [
+      { "type": "plastic", "portion": 33 },
+      { "type": "aluminum", "portion": 33 },
+      { "type": "nether_crystal", "portion": 33 }
+    ],
     "symbol": ",",
     "color": "red",
     "use_action": {

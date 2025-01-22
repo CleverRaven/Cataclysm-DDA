@@ -125,7 +125,7 @@
     "//": "47mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
     "price": "545 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "38" ],

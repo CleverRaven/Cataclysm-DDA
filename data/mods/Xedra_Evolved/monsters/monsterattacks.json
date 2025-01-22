@@ -99,7 +99,7 @@
     "color": "dark_gray",
     "name": { "str_sp": "renfield Remington", "//~": "NO_I18N" },
     "description": { "str": "A fake shotgun for renfields (because monster aiming is too lethal).", "//~": "NO_I18N" },
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": [ { "type": "steel", "portion": 33 }, { "type": "aluminum", "portion": 33 }, { "type": "plastic", "portion": 33 } ],
     "skill": "shotgun",
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "NO_UNLOAD", "RELOAD_AND_SHOOT" ],
     "ammo": [ "shot" ],
