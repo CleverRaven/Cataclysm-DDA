@@ -679,7 +679,11 @@
     "responses": [
       { "text": "Alright listen up.", "topic": "TALK_GIVE_ROBOFAC_EXODII_INFO" },
       { "text": "Information doesn't come cheap my friend.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
-      { "text": "I've said more than I ought to have.  I'm leaving.", "topic": "TALK_DONE", "effect": { "u_add_faction_trust": -1 } }
+      {
+        "text": "I've said more than I ought to have.  I'm leaving.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_faction_trust": -1 }
+      }
     ]
   },
   {
