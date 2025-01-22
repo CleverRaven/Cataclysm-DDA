@@ -21,7 +21,15 @@
       { "trait": "natural_hair_color_blond" },
       { "trait": "SKIN_DARK" },
       { "trait": "FAERIECREATURE" },
-      { "trait": "IRON_ALLERGY" }
+      { "trait": "THRESH_FAIR_FOLK_NOBLE" },
+      { "trait": "IRON_ALLERGY" },
+      { "trait": "CHANGELING_MAGIC" },
+      { "trait": "DISIMMUNE" },
+      { "trait": "PARACLESIAN_FAE_SIGHT_2" },
+      { "trait": "PARACLESIAN_INT_PER_2" },
+      { "trait": "PARACLESIAN_STR_DEX_2" },
+      { "trait": "CHANGELING_NOBLE_MOVEMENT_BUFFS" },
+      { "trait": "CHANGELING_NOBLE_BURNING_WEAPON" }
     ],
     "bonus_dex": { "rng": [ 4, 10 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
