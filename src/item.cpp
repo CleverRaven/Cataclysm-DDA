@@ -8851,7 +8851,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && !type->book->generic );
 }
 
 bool item::efiles_all_browsed() const
@@ -10770,22 +10770,34 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const Character &u ) const
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    return get_var( var, get_chapters() );
+    const itype_id &type = typeId();
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        return get_var( var, get_chapters() );
+    }
+    const std::map<itype_id, int> &book_chapters = u.book_chapters;
+    auto find_chapters = book_chapters.find( type );
+    if( find_chapters == book_chapters.end() ) {
+        return get_chapters();
+    }
+    return find_chapters->second;
 }
 
-void item::mark_chapter_as_read( const Character &u )
+void item::mark_chapter_as_read( Character &u )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    if( type->book && type->book->chapters == 0 ) {
-        // books without chapters will always have remaining chapters == 0, so we don't need to store them
-        erase_var( var );
+    // books without chapters will always have remaining chapters == 0, so we don't need to store them
+    if( is_book() && get_chapters() == 0 ) {
         return;
     }
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
-    set_var( var, remain );
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+        set_var( var, remain );
+        return;
+    }
+    u.book_chapters[typeId()] = std::max( 0, get_remaining_chapters( u ) - 1 );
 }
 
 std::set<recipe_id> item::get_saved_recipes() const
