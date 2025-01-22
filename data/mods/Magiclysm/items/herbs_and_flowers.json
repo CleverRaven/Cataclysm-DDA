@@ -12,7 +12,7 @@
     "calories": 100,
     "description": "A fractal corolla winds inward in mathematical harmony, reflecting beauty in its ideal form.",
     "price_postapoc": "6 USD",
-    "material": "veggy",
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "50 ml",
     "weight": "50 g",
     "fun": 2,
@@ -45,7 +45,7 @@
     "price_postapoc": "7 USD",
     "volume": "5 ml",
     "weight": "5 g",
-    "material": "veggy"
+    "material": [ { "type": "veggy", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -55,7 +55,7 @@
     "//": "armor' and 'summon' related",
     "price_postapoc": "4 USD",
     "flags": [ "NONCONDUCTIVE" ],
-    "material": "veggy",
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": "o",
     "color": "light_blue",
     "weight": "2 g",

@@ -298,7 +298,7 @@
     "color": "blue_green",
     "volume": "92500 ml",
     "weight": "120000 g",
-    "material": "flesh",
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "aggression": -10,
     "morale": 60,
     "speed": 150,

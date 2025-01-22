@@ -324,7 +324,7 @@
     "name": { "str": "krar" },
     "description": "A wooden krar, similar to a harp.",
     "copy-from": "krar_golden",
-    "material": "wood",
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "2500 g"
   },
   {

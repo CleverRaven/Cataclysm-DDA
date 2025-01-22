@@ -4845,7 +4845,7 @@
     "price_postapoc": "10 cent",
     "weight": "42 g",
     "volume": "30 ml",
-    "material": "bone",
+    "material": [ { "type": "bone", "portion": 100 } ],
     "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
     "variants": [
       {

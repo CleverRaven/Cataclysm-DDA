@@ -11,7 +11,7 @@
     "color": "blue_white",
     "volume": "550 L",
     "weight": "500 kg",
-    "material": "flesh",
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "aggression": 0,
     "aggro_character": false,
     "hp": 250,

@@ -71,6 +71,6 @@
     "price_postapoc": "7 USD",
     "volume": "5 ml",
     "weight": "5 g",
-    "material": "veggy"
+    "material": [ { "type": "veggy", "portion": 100 } ]
   }
 ]

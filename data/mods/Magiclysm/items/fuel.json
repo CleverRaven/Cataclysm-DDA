@@ -26,7 +26,7 @@
     "weight": "1048 mg",
     "volume": "1 ml",
     "symbol": "~",
-    "material": "blood_tainted",
+    "material": [ { "type": "blood_tainted", "portion": 100 } ],
     "category": "fuel",
     "ammo_type": "blood_tainted"
   },

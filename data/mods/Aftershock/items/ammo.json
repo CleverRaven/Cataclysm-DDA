@@ -41,7 +41,7 @@
     "symbol": "=",
     "color": "green",
     "description": "Your very own Project Excalibur.  Better get to defending America with it.",
-    "material": "steel",
+    "material": [ { "type": "steel", "portion": 100 } ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "xray_laser_barrel",
