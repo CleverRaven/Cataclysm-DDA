@@ -23,7 +23,7 @@
     "name": { "str_sp": "piano" },
     "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys are linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
     "weight": "300 kg",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "volume": "1000 L",
     "price": "5 kUSD",
     "price_postapoc": "15 USD",

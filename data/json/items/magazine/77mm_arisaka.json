@@ -12,7 +12,7 @@
     "longest_side": "65 mm",
     "price": "3 USD 99 cent",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "77mm_arisaka" ],

@@ -6,7 +6,7 @@
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
     "volume": "0 ml",
     "price": "0 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "armor_data": {

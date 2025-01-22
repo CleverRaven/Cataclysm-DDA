@@ -95,7 +95,7 @@
     "volume": "1500 ml",
     "price": "500 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -109,7 +109,7 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -193,7 +193,7 @@
     "volume": "40000 ml",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -206,7 +206,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {

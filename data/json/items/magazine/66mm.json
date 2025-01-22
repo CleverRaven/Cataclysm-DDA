@@ -11,7 +11,7 @@
     "longest_side": "20 cm",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "m235" ],

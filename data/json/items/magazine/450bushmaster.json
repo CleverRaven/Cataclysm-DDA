@@ -9,7 +9,7 @@
     "longest_side": "190 mm",
     "price": "29 USD 99 cent",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "450" ],

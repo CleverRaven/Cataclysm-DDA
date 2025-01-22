@@ -8,7 +8,7 @@
     "looks_like": "f_foot_locker_aluminum",
     "symbol": "O",
     "color": "white",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "weight": "3721 g",
     "volume": "69 L",
     "longest_side": "69 cm",
@@ -36,7 +36,7 @@
     "copy-from": "foot_locker_aluminum",
     "looks_like": "f_foot_locker",
     "color": "light_gray",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "6487 g",
     "pocket_data": [
       {

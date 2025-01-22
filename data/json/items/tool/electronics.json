@@ -321,7 +321,7 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],

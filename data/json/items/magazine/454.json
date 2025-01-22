@@ -10,7 +10,7 @@
     "volume": "25 ml",
     "price": "22 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "454", "45colt", "410shot" ],

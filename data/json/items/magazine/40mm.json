@@ -10,7 +10,7 @@
     "weight": "200 g",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "40x53mm" ],

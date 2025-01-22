@@ -10,7 +10,7 @@
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
-    "material": [ "animal" ],
+    "material": [ { "type": "animal", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
@@ -36,7 +36,7 @@
     "description": "A fluffy white seed.  While it looks like the common cotton, it is too weak and short to be turned into clothing.",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "volume": "250 ml"
   },
   {
@@ -50,7 +50,7 @@
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
-    "material": [ "muscle" ],
+    "material": [ { "type": "muscle", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
@@ -64,7 +64,7 @@
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
-    "material": [ "wind" ],
+    "material": [ { "type": "wind", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
@@ -78,7 +78,7 @@
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
-    "material": [ "sunlight" ],
+    "material": [ { "type": "sunlight", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
@@ -92,7 +92,7 @@
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
-    "material": [ "metabolism" ],
+    "material": [ { "type": "metabolism", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
@@ -128,7 +128,7 @@
     "weight": "15 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },
@@ -184,7 +184,7 @@
     "weight": "1 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "4 ml",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -197,7 +197,7 @@
     "weight": "1 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "4 ml",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -238,7 +238,7 @@
     "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if that still meant anything…",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "TINDER" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -252,7 +252,7 @@
     "weight": "40 g",
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "volume": "100 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
@@ -265,7 +265,7 @@
     "weight": "30 g",
     "color": "green",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "100 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
@@ -276,7 +276,7 @@
     "color": "light_gray",
     "name": { "str": "withered plant" },
     "description": "A dead plant.  Good for starting fires or making crude tailoring crafts.",
-    "material": [ "dry_plant" ],
+    "material": [ { "type": "dry_plant", "portion": 100 } ],
     "weight": "20 g",
     "volume": "250 ml",
     "flags": [ "TRADER_AVOID", "TINDER" ]
@@ -290,7 +290,7 @@
     "weight": "10 g",
     "color": "green",
     "symbol": ",",
-    "material": [ "dry_plant" ],
+    "material": [ { "type": "dry_plant", "portion": 100 } ],
     "volume": "10 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
@@ -303,7 +303,7 @@
     "weight": "200 g",
     "color": "green",
     "symbol": ",",
-    "material": [ "dry_plant" ],
+    "material": [ { "type": "dry_plant", "portion": 100 } ],
     "volume": "200 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
@@ -318,7 +318,7 @@
     "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "26 mg",
     "volume": "1 ml",
     "ammo_type": "superglue",
@@ -337,7 +337,7 @@
     "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": "18 USD",
     "price_postapoc": "80 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "52 g",
     "volume": "250 ml",
     "flags": [ "UNRECOVERABLE" ]
@@ -352,7 +352,7 @@
     "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
     "price": "18 USD",
     "price_postapoc": "50 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "weight": "45 g",
     "volume": "150 ml",
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
@@ -364,7 +364,7 @@
     "color": "green",
     "name": { "str": "fertilizer" },
     "description": "A token representing fertilization of a plant.",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "flags": [ "ZERO_WEIGHT" ]
   },
   {
@@ -376,7 +376,7 @@
     "weight": "3628 g",
     "color": "dark_gray",
     "symbol": "/",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "techniques": [ "WRAP" ],
     "volume": "1 L",
     "price": "80 USD",
@@ -396,7 +396,7 @@
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "material": [ "chitin" ],
+    "material": [ { "type": "chitin", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
@@ -412,7 +412,7 @@
     "snippet_category": "endochitin_desc",
     "description": "A piece of an insect's endoskeleton.",
     "price": "0 cent",
-    "material": [ "chitin" ],
+    "material": [ { "type": "chitin", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
@@ -427,7 +427,7 @@
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "A cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "spoils_in": "8 hours",
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
@@ -444,7 +444,7 @@
     "name": { "str": "ballast organs", "str_pl": "clusters of ballast organs" },
     "description": "A cluster of hydrostatic organs, each about the size of a baseball, retrieved from inside a kraken mutant.  Some of them seem to be lighter than air, and some seem to weigh as much as air.",
     "price": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml"
@@ -455,7 +455,7 @@
     "copy-from": "chitin_piece",
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
-    "material": [ "acidchitin" ],
+    "material": [ { "type": "acidchitin", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -468,7 +468,7 @@
     "volume": "500 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": ",",
     "color": "white"
   },
@@ -482,7 +482,7 @@
     "volume": "1000 ml",
     "price": "200 USD",
     "price_postapoc": "2 USD",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": ",",
     "color": "white"
   },
@@ -496,7 +496,7 @@
     "volume": "1150 ml",
     "price": "2 kUSD",
     "price_postapoc": "25 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "symbol": ",",
     "color": "brown"
   },
@@ -510,7 +510,7 @@
     "volume": "1 L",
     "price": "2 kUSD",
     "price_postapoc": "10 USD",
-    "material": [ "wool" ],
+    "material": [ { "type": "wool", "portion": 100 } ],
     "symbol": ",",
     "color": "white"
   },
@@ -526,7 +526,7 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "5 USD",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "symbol": ",",
     "color": "white"
   },
@@ -542,7 +542,7 @@
     "longest_side": "122 cm",
     "price": "100 USD",
     "price_postapoc": "1 USD",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "H",
     "color": "brown"
   },
@@ -558,7 +558,7 @@
     "longest_side": "80 cm",
     "price": "750 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "H",
     "color": "light_gray"
   },
@@ -574,7 +574,7 @@
     "longest_side": "60 cm",
     "price": "380 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "H",
     "color": "dark_gray"
   },
@@ -590,7 +590,7 @@
     "longest_side": "60 cm",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "symbol": "H",
     "color": "light_red"
   },
@@ -606,7 +606,7 @@
     "longest_side": "130 cm",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "H",
     "color": "brown"
   },
@@ -622,7 +622,7 @@
     "longest_side": "260 cm",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "H",
     "color": "brown"
   },
@@ -638,7 +638,7 @@
     "longest_side": "140 cm",
     "price": "200 USD",
     "price_postapoc": "12 USD 50 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "H",
     "color": "brown"
   },
@@ -652,7 +652,7 @@
     "description": "An acrylic cube cast around a small black crystal.  It's tepid to the touch.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "weight": "100 g",
     "volume": "250 ml"
   },
@@ -665,7 +665,7 @@
     "description": "An unopened biollante flower, brilliant purple in color.  It may still have its sap-producing organ intact.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "weight": "60 g",
     "volume": "250 ml"
   },
@@ -677,7 +677,7 @@
     "name": { "str": "empty canister" },
     "category": "container",
     "description": "An empty canister, which may have once held tear gas or other substances.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "40 g",
     "volume": "263 ml",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -703,7 +703,7 @@
     "description": "A fist-sized eyeball with a cross-shaped pupil.  It seems to be made of stone, but doesn't look like it was carved.",
     "price": "2 kUSD",
     "price_postapoc": "10 USD",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "weight": "700 g",
     "volume": "250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -720,7 +720,7 @@
     "description": "A rock the size of your fist.  It is covered with intricate spirals; it is impossible to tell whether they are carved, naturally formed, or some kind of fossil.",
     "price": "200 USD",
     "price_postapoc": "10 USD",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "weight": "493 g",
     "volume": "250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -811,7 +811,7 @@
     "description": "Evacuation plans, disaster risk projections, personnel lists, and last-minute communications from just before the end, all scrubbed from FEMA servers and stored in an external HDD.",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "30 g",
     "volume": "250 ml"
   },
@@ -827,7 +827,7 @@
     "volume": "1 ml",
     "color": "white",
     "symbol": "r",
-    "material": [ "paper" ]
+    "material": [ { "type": "paper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -841,7 +841,7 @@
     "volume": "1 ml",
     "color": "white",
     "symbol": "r",
-    "material": [ "paper" ]
+    "material": [ { "type": "paper", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -853,7 +853,7 @@
     "category": "other",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "material": [ "brass" ],
+    "material": [ { "type": "brass", "portion": 100 } ],
     "weight": "180 g",
     "volume": "100 ml",
     "longest_side": "28 cm",
@@ -879,7 +879,7 @@
     "name": { "str": "gold chalice" },
     "description": "A gold chalice.",
     "category": "other",
-    "material": [ "gold" ],
+    "material": [ { "type": "gold", "portion": 100 } ],
     "weight": "200 g",
     "volume": "330 ml",
     "longest_side": "12 cm",
@@ -899,7 +899,7 @@
     "category": "spare_parts",
     "price": "280 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "553 g",
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
@@ -918,7 +918,7 @@
     "category": "spare_parts",
     "price": "280 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "1 kg",
     "volume": "1500 ml",
     "qualities": [ [ "BUTCHER", -38 ] ],
@@ -935,7 +935,7 @@
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "349 g",
     "volume": "250 ml",
     "longest_side": "204 mm",
@@ -953,7 +953,7 @@
     "category": "tools",
     "price": "5 cent",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "11 g",
     "volume": "50 ml",
     "qualities": [ [ "TREE_TAP", 1 ] ]
@@ -965,7 +965,7 @@
     "color": "brown",
     "name": { "str": "makeshift tree spile" },
     "description": "A carved piece of wood which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "qualities": [ [ "TREE_TAP", 1 ] ]
   },
   {
@@ -978,7 +978,7 @@
     "description": "Strange lights perpetually glimmer within the sharpened internals of this glass globule.",
     "price": "44 cent",
     "price_postapoc": "50 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "flags": [ "LIGHT_8" ],
     "volume": "50 ml"
   },
@@ -992,7 +992,7 @@
     "volume": "3 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "cotton_patchwork",
     "color": "brown"
@@ -1007,7 +1007,7 @@
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "151 g",
     "volume": "100 ml"
   },
@@ -1021,7 +1021,7 @@
     "category": "spare_parts",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "1 g",
     "volume": "3 ml"
   },
@@ -1035,7 +1035,7 @@
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "material": [ "lc_steel" ],
+    "material": [ { "type": "lc_steel", "portion": 100 } ],
     "weight": "151 g",
     "volume": "100 ml"
   },
@@ -1045,7 +1045,7 @@
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
     "description": "A length of thin, stiff wire made of medium steel.  Its balance between strength and flexibility makes it suitable for steel ropes and cables.",
-    "material": [ "mc_steel" ]
+    "material": [ { "type": "mc_steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -1053,7 +1053,7 @@
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
     "description": "A length of strong wire made of high carbon steel.  Often used in industrial machinery and springs.",
-    "material": [ "hc_steel" ]
+    "material": [ { "type": "hc_steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -1061,7 +1061,7 @@
     "copy-from": "lc_wire",
     "name": { "str": "hardened steel wire" },
     "description": "A length of thin, relatively stiff steel wire, made of hardened steel.",
-    "material": [ "ch_steel" ]
+    "material": [ { "type": "ch_steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -1069,7 +1069,7 @@
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
     "description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and the wire in musical instruments.",
-    "material": [ "qt_steel" ]
+    "material": [ { "type": "qt_steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -1080,7 +1080,7 @@
     "description": "A length of stiff wire, covered in sharp barbs.",
     "price": "200 USD",
     "price_postapoc": "2 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "302 g",
     "volume": "500 ml",
     "flags": [ "HURT_WHEN_WIELDED" ]
@@ -1098,7 +1098,7 @@
     "volume": "6 ml",
     "price": "7 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ]
+    "material": [ { "type": "steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -1110,7 +1110,7 @@
     "category": "spare_parts",
     "price": "75 USD",
     "price_postapoc": "25 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "1245 g",
     "volume": "159 ml",
     "longest_side": "80 cm",
@@ -1162,7 +1162,7 @@
     "name": { "str": "burnt out torch", "str_pl": "burnt out torches" },
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "510 g",
     "volume": "1042 ml",
     "longest_side": "122 cm",
@@ -1178,7 +1178,7 @@
     "color": "red",
     "name": { "str": "dead flare" },
     "description": "A spent magnesium flare.  It is essentially trash.",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "39 g",
     "volume": "250 ml"
@@ -1193,7 +1193,7 @@
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "weight": "3 kg",
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1255,7 +1255,7 @@
     "description": "A heating element, like the ones used in hotplates or kettles.  Consists of nichrome wire surrounded by electrical insulator and placed inside a steel casing.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1269,7 +1269,7 @@
     "description": "A primitive heating element made from thin coiled steel wire.  It will degrade much quicker with use than normal heating elements, but it'll do for some applications.",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1283,7 +1283,7 @@
     "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1296,7 +1296,7 @@
     "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "//": "weight and volume assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
     "weight": "54431 g",
     "volume": "240 L",
@@ -1313,7 +1313,7 @@
     "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.  Large enough for a whole family.",
     "price": "0 cent",
     "price_postapoc": "20 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "//": "weight and volume assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
     "weight": "80 kg",
     "volume": "406 L",
@@ -1346,7 +1346,7 @@
     "description": "An appliance used to wash laundry, not of much use without power and water.  Can be placed as an appliance.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "66 kg",
     "volume": "500 L",
     "longest_side": "116 cm",
@@ -1371,7 +1371,7 @@
     "description": "An appliance used to clean dishes, not of much use without power and water.  Can be placed as an appliance.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "41 kg",
     "volume": "300 L",
     "longest_side": "84 cm",
@@ -1603,7 +1603,7 @@
     "volume": "125 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -1617,7 +1617,7 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -1631,7 +1631,7 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -1662,7 +1662,7 @@
     "description": "A piece of paper.  Can be used to start fires.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TINDER", "PAPER_SHAPED" ],
     "volume": "6 ml",
     "longest_side": "297 mm",
@@ -1680,7 +1680,7 @@
     "description": "A book binder.  With a pen and some paper you could copy some recipes from books into it.",
     "weight": "200 g",
     "volume": "640 ml",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
@@ -1815,7 +1815,7 @@
     "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "52 kg",
     "volume": "50500 ml",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -1832,7 +1832,7 @@
     "description": "A central processor unit, useful in advanced electronics crafting.",
     "price": "120 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "56 g",
     "volume": "250 ml"
   },
@@ -1846,7 +1846,7 @@
     "description": "A stick of memory.  Useful in advanced electronics crafting.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
     "volume": "18 ml"
@@ -1875,7 +1875,7 @@
     "description": "A circuit designed to amplify the strength of a signal.  Useful in lots of electronics recipes.",
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "114 g",
     "volume": "250 ml"
   },
@@ -1919,7 +1919,7 @@
     "description": "A large backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": "100 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "13 kg",
     "volume": "15 L",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -1935,7 +1935,7 @@
     "description": "A small backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": "240 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "500 g",
     "volume": "250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -1951,7 +1951,7 @@
     "description": "A high-quality glass lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "1 USD",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "1 g",
     "volume": "2 ml",
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
@@ -1967,7 +1967,7 @@
     "description": "A small, high-quality glass lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": "60 USD",
     "price_postapoc": "50 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "1 g",
     "volume": "1 ml"
   },
@@ -1981,7 +1981,7 @@
     "description": "A pair of small, darkened glass lenses, like the ones used in sunglasses.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "30 g",
     "volume": "2 ml"
   },
@@ -2073,7 +2073,7 @@
     "description": "A simple thin copper shaft.  Useful in lots of electronics recipes.",
     "price": "80 USD",
     "price_postapoc": "10 cent",
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "weight": "68 g",
     "volume": "250 ml"
   },
@@ -2101,7 +2101,7 @@
     "description": "A printed card that supports and electrically connects electronic components on a non-conductive substrate.",
     "price": "50 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "26 g",
     "volume": "15 ml"
   },
@@ -2115,7 +2115,7 @@
     "description": "A random collection of resistors, capacitors, and diodes which have been stripped from printed circuits.",
     "price": "30 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "weight": "14 g",
     "volume": "5 ml"
   },
@@ -2166,7 +2166,7 @@
     "description": "A ceramic armor plate, specifically engineered for use as armor.  Not suitable for human use.",
     "price": "80 USD",
     "price_postapoc": "1 USD",
-    "material": [ "ceramic" ],
+    "material": [ { "type": "ceramic", "portion": 100 } ],
     "weight": "362 g",
     "volume": "500 ml",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
@@ -2181,7 +2181,7 @@
     "description": "A filled fishbowl, the tag says 'to Ed' and the fish's name, 'Hoss'.  The fish appears to have tiny antlers.",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "8 kg",
     "volume": "8500 ml",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
@@ -2225,7 +2225,7 @@
     "description": "A small assortment of gears and other clockwork gubbins.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "50 g",
     "volume": "50 ml"
   },
@@ -2241,7 +2241,7 @@
     "color": "white",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "ascii_picture": "memory_card",
     "flags": [ "MC_MOBILE" ],
     "pocket_data": [
@@ -2300,7 +2300,7 @@
     "description": "A small hand mirror.",
     "price": "150 USD",
     "price_postapoc": "10 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "300 g",
     "volume": "750 ml",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
@@ -2317,7 +2317,7 @@
     "category": "other",
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "115 kg",
     "volume": "20 L",
@@ -2331,7 +2331,7 @@
     "color": "green",
     "name": { "str": "pine bough" },
     "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "220 g",
     "volume": "500 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
@@ -2343,7 +2343,7 @@
     "color": "brown",
     "name": { "str": "pinecone" },
     "description": "A spiny pod from a pine tree.",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
     "weight": "200 g",
     "volume": "250 ml",
@@ -2464,7 +2464,7 @@
     "weight": "30 g",
     "color": "light_red",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "5 ml",
     "price": "2 USD",
     "price_postapoc": "50 cent"
@@ -2477,7 +2477,7 @@
     "weight": "450 g",
     "color": "yellow",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "1500 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent"
@@ -2490,7 +2490,7 @@
     "weight": "10 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent"
@@ -2503,7 +2503,7 @@
     "weight": "20 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent"
@@ -2516,7 +2516,7 @@
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent"
@@ -2545,7 +2545,7 @@
     "weight": "1 g",
     "color": "green",
     "symbol": "[",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
     "volume": "1 ml",
     "price": "0 cent",
@@ -2561,7 +2561,7 @@
     "description": "A fresh piece of clay.  Useful for some crafting recipes.",
     "price": "5 USD 31 cent",
     "price_postapoc": "10 cent",
-    "material": [ "freshclay" ],
+    "material": [ { "type": "freshclay", "portion": 100 } ],
     "weight": "530 g",
     "volume": "250 ml"
   },
@@ -2594,7 +2594,7 @@
     "container": "bag_canvas",
     "price": "50 USD",
     "price_postapoc": "25 cent",
-    "material": [ "powder_nonflam" ],
+    "material": [ { "type": "powder_nonflam", "portion": 100 } ],
     "weight": "2340 g",
     "volume": "1 L"
   },
@@ -2609,7 +2609,7 @@
     "container": "bag_canvas",
     "price": "20 USD",
     "price_postapoc": "15 cent",
-    "material": [ "powder_nonflam" ],
+    "material": [ { "type": "powder_nonflam", "portion": 100 } ],
     "weight": "2340 g",
     "volume": "1 L"
   },
@@ -2623,7 +2623,7 @@
     "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "soil" ],
+    "material": [ { "type": "soil", "portion": 100 } ],
     "weight": "1750 g",
     "volume": "2250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -2647,7 +2647,7 @@
     "looks_like": "brick",
     "name": { "str": "adobe brick" },
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
-    "material": [ "soil" ],
+    "material": [ { "type": "soil", "portion": 100 } ],
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
     "volume": "2250 ml",
@@ -2668,7 +2668,7 @@
     "container": "bag_canvas",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "material": [ "soil" ],
+    "material": [ { "type": "soil", "portion": 100 } ],
     "weight": "2340 g",
     "volume": "1 L"
   },
@@ -2684,7 +2684,7 @@
     },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "200 g",
     "volume": "250 ml"
   },
@@ -2718,7 +2718,7 @@
     "description": "A root taken from a sassafras tree.  Used in the production of certain sweet beverages.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "85 g",
     "volume": "109 ml"
   },
@@ -2732,7 +2732,7 @@
     "description": "A sparkling diamond.",
     "price": "10 kUSD",
     "price_postapoc": "50 cent",
-    "material": [ "diamond" ],
+    "material": [ { "type": "diamond", "portion": 100 } ],
     "weight": "200 mg",
     "volume": "6 ml"
   },
@@ -2746,7 +2746,7 @@
     "description": "A sparkling garnet.",
     "price": "8 kUSD",
     "price_postapoc": "30 cent",
-    "material": [ "gemstone" ],
+    "material": [ { "type": "gemstone", "portion": 100 } ],
     "weight": "200 mg",
     "volume": "6 ml"
   },
@@ -2901,7 +2901,7 @@
     "description": "An old straw doll, made to look like a woman in a dress.",
     "price": "1 USD",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TINDER" ],
     "weight": "80 g",
     "volume": "500 ml"
@@ -2915,7 +2915,7 @@
     "description": "A pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "weight": "1210 g",
     "container": "pillowcase",
     "volume": "9 L",
@@ -2931,7 +2931,7 @@
     "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "1210 g",
     "container": "pillowcase",
     "volume": "11 L",
@@ -2947,7 +2947,7 @@
     "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "weight": "2317 g",
     "volume": "50 L",
     "flags": [ "SLEEP_AID" ],
@@ -3042,7 +3042,7 @@
     "description": "A fluffy pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "weight": "1260 g",
     "container": "pillowcase",
     "volume": "10 L",
@@ -3088,7 +3088,7 @@
         "type": "transform"
       }
     ],
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "armor_data": {
       "warmth": 6,
       "armor": [
@@ -3136,7 +3136,7 @@
         "type": "transform"
       }
     ],
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "armor_data": {
       "warmth": 3,
       "armor": [
@@ -3184,7 +3184,7 @@
         "type": "transform"
       }
     ],
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "armor_data": {
       "warmth": 3,
       "armor": [
@@ -3219,7 +3219,7 @@
     "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "weight": "420 g",
     "volume": "1 L"
   },
@@ -3233,7 +3233,7 @@
     "looks_like": "wild_herbs",
     "price": "3 USD",
     "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "weight": "100 g",
     "volume": "250 ml"
   },
@@ -3246,7 +3246,7 @@
     "description": { "str": "A generic plastic card item template with numbers based off a credit card.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "5 g",
     "volume": "5 ml",
     "longest_side": "84 mm",
@@ -3331,7 +3331,7 @@
     "description": "A small neoprene patch.  Can be used to repair neoprene clothing.",
     "price": "10 USD",
     "price_postapoc": "5 cent",
-    "material": [ "neoprene" ],
+    "material": [ { "type": "neoprene", "portion": 100 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
     "volume": "23 ml",
@@ -3345,7 +3345,7 @@
     "symbol": ",",
     "color": "white",
     "category": "spare_parts",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "weight": "10 g",
     "volume": "250 ml",
     "price": "5 USD",
@@ -3361,7 +3361,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "stack_size": 50,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ".",
     "flags": [ "HURT_WHEN_WIELDED" ],
     "color": "white",
@@ -3377,7 +3377,7 @@
     "volume": "2500 ml",
     "price": "6 USD",
     "price_postapoc": "10 cent",
-    "material": [ "clay" ],
+    "material": [ { "type": "clay", "portion": 100 } ],
     "symbol": ")",
     "color": "brown",
     "melee_damage": { "bash": 1 }
@@ -3392,7 +3392,7 @@
     "volume": "2500 ml",
     "price": "3 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "green",
     "melee_damage": { "bash": 1 }
@@ -3408,7 +3408,7 @@
     "price": "1 USD",
     "price_postapoc": "0 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "jar_3l_glass_sealed",
@@ -3424,7 +3424,7 @@
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "black",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -3440,7 +3440,7 @@
     "volume": "2 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "black",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -3456,7 +3456,7 @@
     "price": "30 USD",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "}",
     "color": "light_cyan",
     "melee_damage": { "bash": 3 }
@@ -3471,7 +3471,7 @@
     "description": "An armor plate made of very thick steel, specifically engineered for use in a bullet-resistant vest.",
     "price": "100 USD",
     "price_postapoc": "1 USD",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "weight": "1500 g",
     "volume": "500 ml",
     "melee_damage": { "bash": 6 }
@@ -3486,7 +3486,7 @@
     "description": "A steel armor plate, specifically engineered for use in a bullet-resistant vest.",
     "price": "90 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "1000 g",
     "volume": "500 ml",
     "melee_damage": { "bash": 5 }
@@ -3501,7 +3501,7 @@
     "description": "A small lock, with its key still inserted.",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "5 g",
     "volume": "20 ml",
     "melee_damage": { "bash": 1 }
@@ -3544,7 +3544,7 @@
     "description": "A bumper-mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
     "price": "35 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "5 kg",
     "volume": "5 L",
     "melee_damage": { "bash": 8 }
@@ -3693,7 +3693,7 @@
     "volume": "10 ml",
     "price": "1 USD",
     "price_postapoc": "1 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
@@ -3732,7 +3732,7 @@
     "weight": "60 g",
     "price": "1 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -3773,7 +3773,7 @@
     "copy-from": "wallet",
     "name": { "str": "duct tape wallet" },
     "description": "A wallet made entirely out of duct tape.",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
@@ -3782,7 +3782,7 @@
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
     "description": "A wallet made of leather.",
-    "material": [ "leather" ]
+    "material": [ { "type": "leather", "portion": 100 } ]
   },
   {
     "id": "wallet_large",
@@ -3790,7 +3790,7 @@
     "copy-from": "wallet",
     "name": { "str": "large wallet" },
     "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "volume": "285 ml",
     "weight": "80 g",
     "pocket_data": [
@@ -3830,7 +3830,7 @@
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
-    "material": [ "leather" ]
+    "material": [ { "type": "leather", "portion": 100 } ]
   },
   {
     "id": "wallet_travel",
@@ -3869,7 +3869,7 @@
     "description": "A flat, clear plastic sleeve for identification documents, laminated cards, and other small items.  It has a neck strap attached.",
     "price": "10 cent",
     "price_postapoc": "1 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "POWERARMOR_COMPATIBLE", "PADDED" ],
     "weight": "250 g",
     "volume": "250 ml",
@@ -4016,7 +4016,7 @@
     "volume": "136080 ml",
     "price": "2 kUSD",
     "price_postapoc": "10 USD",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green"
@@ -4028,7 +4028,7 @@
     "description": "This is a heavy and bulky 40x48 inch palette.",
     "weight": "28 kg",
     "volume": "194400 ml",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "#",
     "color": "brown"
   },
@@ -4042,7 +4042,7 @@
     "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  Use the construction menu (* by default) to embed it into the ground for training.",
     "price": "150 USD",
     "price_postapoc": "6 USD",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "weight": "50 kg",
     "volume": "80 L",
     "melee_damage": { "bash": 12 }

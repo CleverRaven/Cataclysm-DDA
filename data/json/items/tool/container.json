@@ -10,7 +10,7 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -36,7 +36,7 @@
     "volume": "50 ml",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

@@ -40,7 +40,7 @@
     "description": "A small, delicate golden comb.  It was once carefully engraved, but time has smoothed its designs to illegibility.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "gold" ],
+    "material": [ { "type": "gold", "portion": 100 } ],
     "weight": "650 g",
     "volume": "40 ml"
   },
@@ -55,7 +55,7 @@
     "description": "A smooth ring of steel, heavy under the weight of numerous keys.  The designs of the keys change over time, but none will fit any keyhole you have ever found.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "2000 g",
     "volume": "750 ml"
   },
@@ -70,7 +70,7 @@
     "description": "A small cube of smooth rock.  A uniform grid of nine squares is engraved in each of its faces.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "weight": "510 g",
     "volume": "185 ml"
   },
@@ -96,7 +96,7 @@
     "description": "A small digital stopwatch, looking slightly old by today's standards.  Its digital display prints ever-changing gibberish.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "165 g",
     "volume": "165 ml"
   },

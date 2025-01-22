@@ -8,7 +8,7 @@
     "description": { "str": "This item needs a description defined, and is copied from abstract mutagen sample.", "//~": "NO_I18N" },
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "NO_SALVAGE", "MUTAGEN_SAMPLE" ],
     "weight": "114 g",
     "volume": "250 ml",
@@ -57,7 +57,7 @@
     "name": { "str": "bird sample" },
     "description": "A slurry of freedom.",
     "looks_like": "medical_sample",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -206,7 +206,7 @@
     "name": { "str": "raptor sample" },
     "description": "A slurry of evolution.",
     "looks_like": "medical_sample",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -236,7 +236,7 @@
     "name": { "str": "slime sample" },
     "description": "A slurry of sharing.",
     "looks_like": "medical_sample",
-    "material": [ "slime" ]
+    "material": [ { "type": "slime", "portion": 100 } ]
   },
   {
     "type": "GENERIC",

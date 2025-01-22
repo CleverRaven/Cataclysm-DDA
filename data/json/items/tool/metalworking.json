@@ -11,7 +11,7 @@
     "longest_side": "40 mm",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "bronze" ],
+    "material": [ { "type": "bronze", "portion": 100 } ],
     "symbol": "=",
     "color": "yellow"
   },
@@ -25,7 +25,7 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -41,7 +41,7 @@
     "price": "600 USD",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "bronze" ],
+    "material": [ { "type": "bronze", "portion": 100 } ],
     "symbol": ";",
     "color": "yellow",
     "flags": [ "DURABLE_MELEE" ],
@@ -57,7 +57,7 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -75,7 +75,7 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -110,7 +110,7 @@
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "price": "200 USD",
     "price_postapoc": "30 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal", "coal" ],
@@ -130,7 +130,7 @@
     "volume": "201 L",
     "price": "160 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 L", "max_contains_weight": "500 kg" } ],
     "symbol": ";",
     "color": "dark_gray",
@@ -146,7 +146,7 @@
     "price": "16 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ], [ "CHISEL_WOOD", 3 ] ],
@@ -161,7 +161,7 @@
     "description": "A short, stout metalworking chisel made of bronze.  It's used in some metalworking fabrication recipes.  Bronze chisels spark less than their steel counterparts, but are less durable.",
     "weight": "735 g",
     "price": "20 USD",
-    "material": [ "bronze" ],
+    "material": [ { "type": "bronze", "portion": 100 } ],
     "qualities": [ [ "CHISEL", 2 ], [ "CHISEL_WOOD", 2 ] ]
   },
   {
@@ -173,7 +173,7 @@
     "volume": "2 L",
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
-    "material": [ "ceramic" ],
+    "material": [ { "type": "ceramic", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "pocket_data": [
@@ -199,7 +199,7 @@
     "volume": "2500 ml",
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "clay" ],
+    "material": [ { "type": "clay", "portion": 100 } ],
     "symbol": ";",
     "color": "brown",
     "pocket_data": [
@@ -243,7 +243,7 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -258,7 +258,7 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "material": [ "lc_steel" ],
+    "material": [ { "type": "lc_steel", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -268,28 +268,28 @@
     "type": "TOOL",
     "copy-from": "lc_link_sheet",
     "name": { "str": "medium steel chainmail sheet" },
-    "material": [ "mc_steel" ]
+    "material": [ { "type": "mc_steel", "portion": 100 } ]
   },
   {
     "id": "hc_link_sheet",
     "type": "TOOL",
     "copy-from": "lc_link_sheet",
     "name": { "str": "high steel chainmail sheet" },
-    "material": [ "hc_steel" ]
+    "material": [ { "type": "hc_steel", "portion": 100 } ]
   },
   {
     "id": "ch_link_sheet",
     "type": "TOOL",
     "copy-from": "lc_link_sheet",
     "name": { "str": "hardened steel chainmail sheet" },
-    "material": [ "ch_steel" ]
+    "material": [ { "type": "ch_steel", "portion": 100 } ]
   },
   {
     "id": "qt_link_sheet",
     "type": "TOOL",
     "copy-from": "lc_link_sheet",
     "name": { "str": "tempered steel chainmail sheet" },
-    "material": [ "qt_steel" ]
+    "material": [ { "type": "qt_steel", "portion": 100 } ]
   },
   {
     "id": "swage",
@@ -301,7 +301,7 @@
     "price": "160 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -312,7 +312,7 @@
     "type": "TOOL",
     "copy-from": "hotcut",
     "name": { "str": "hotcut" },
-    "material": [ "bronze" ]
+    "material": [ { "type": "bronze", "portion": 100 } ]
   },
   {
     "id": "hotcut",
@@ -324,7 +324,7 @@
     "price": "16 USD",
     "price_postapoc": "2 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -340,7 +340,7 @@
     "price": "24 USD",
     "price_postapoc": "2 USD",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "DURABLE_MELEE" ],
@@ -356,7 +356,7 @@
     "longest_side": "30 cm",
     "price": "13 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
@@ -369,7 +369,7 @@
     "type": "TOOL",
     "copy-from": "metalworking_tongs",
     "name": { "str": "pair of flatjaw bronze tongs", "str_pl": "pairs of flatjaw bronze tongs" },
-    "material": [ "bronze" ]
+    "material": [ { "type": "bronze", "portion": 100 } ]
   },
   {
     "id": "metalworking_tongs",
@@ -381,7 +381,7 @@
     "longest_side": "44 cm",
     "price": "39 USD",
     "price_postapoc": "3 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
@@ -429,7 +429,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "]",
     "color": "light_cyan",
     "melee_damage": { "bash": 5 }
@@ -494,7 +494,7 @@
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "price": "4 USD",
     "price_postapoc": "15 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "color": "dark_gray",
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
@@ -545,7 +545,7 @@
     "price": "800 USD",
     "price_postapoc": "100 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "propane" ],

@@ -40,7 +40,7 @@
     "longest_side": "35 cm",
     "price": "10 USD",
     "price_postapoc": "20 USD",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ],

@@ -10,7 +10,7 @@
     "price": "157 USD",
     "price_postapoc": "2 USD 50 cent",
     "install_time": "8 m",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "symbol": ":",
     "color": "green",
     "location": "loading port",

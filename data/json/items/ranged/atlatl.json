@@ -11,7 +11,7 @@
     "price": "45 USD",
     "price_postapoc": "7 USD 50 cent",
     "longest_side": "60 cm",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
       "RELOAD_AND_SHOOT",
@@ -91,7 +91,7 @@
     "longest_side": "90 cm",
     "symbol": "/",
     "color": "green",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "ammo_type": "atlatl",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
     "dispersion": 200,

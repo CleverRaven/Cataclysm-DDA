@@ -6,7 +6,7 @@
     "description": "A universal mount for weapons intended to be installed as turrets.",
     "color": "cyan",
     "symbol": "X",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "veh_parts",
     "weight": "10000 g",
     "volume": "2500 ml",

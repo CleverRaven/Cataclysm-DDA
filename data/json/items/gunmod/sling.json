@@ -10,7 +10,7 @@
     "price": "4 USD 80 cent",
     "price_postapoc": "10 cent",
     "install_time": "20 s",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": ":",
     "color": "green",
     "location": "sling",
@@ -36,7 +36,7 @@
     "copy-from": "shoulder_strap_simple",
     "price": "35 USD",
     "price_postapoc": "20 cent",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "use_action": {
       "type": "transform",
       "msg": "You shift the weapon to the front of your body.",

@@ -10,7 +10,7 @@
     "volume": "2 L",
     "price": "35 USD",
     "price_postapoc": "5 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "category": "weapons",

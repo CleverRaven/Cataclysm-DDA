@@ -10,7 +10,7 @@
     "volume": "5 ml",
     "price": "2 cent",
     "container": "bag_plastic_small",
-    "material": [ "powder" ],
+    "material": [ { "type": "powder", "portion": 100 } ],
     "symbol": "%",
     "freezing_point": -274
   }

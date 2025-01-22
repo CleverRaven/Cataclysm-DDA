@@ -19,7 +19,7 @@
     "longest_side": "106 mm",
     "price": "13 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "762x25" ],

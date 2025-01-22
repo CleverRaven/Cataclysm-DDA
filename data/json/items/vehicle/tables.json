@@ -8,7 +8,7 @@
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "red",
     "symbol": "0",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "13500 ml",
     "longest_side": "110 cm",

@@ -15,7 +15,7 @@
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "yellow",
     "symbol": "]",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "volume": "12500 ml",
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",

@@ -190,7 +190,7 @@
     "category": "spare_parts",
     "price": "20 cent",
     "price_postapoc": "5 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "349 g",
     "volume": "250 ml",
     "flags": [ "HURT_WHEN_WIELDED" ],

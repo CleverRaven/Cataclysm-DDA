@@ -354,7 +354,7 @@
     "type": "TOOL",
     "name": { "str": "exercise machine" },
     "copy-from": "fake_crafting_tool",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "T",
     "color": "dark_gray"
   },

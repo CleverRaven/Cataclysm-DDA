@@ -8,7 +8,7 @@
     "volume": "20 L",
     "price": "400 USD",
     "price_postapoc": "20 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "&",
     "color": "light_cyan"
   },

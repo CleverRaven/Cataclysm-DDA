@@ -39,7 +39,7 @@
     "name": { "str": "desiccated corpse" },
     "description": "A badly mangled human body.  A giant puncture wound is visible on its upper chest, and something has drained most of the moisture from the carcass, leaving it desiccated and making it impossible to determine the body's age.",
     "category": "corpses",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "price": "0 cent",
     "volume": "27 L",
     "weight": "32 kg",
@@ -51,7 +51,7 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A lifeless human body.",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -60,7 +60,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a middle-aged man.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -71,7 +71,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -81,7 +81,7 @@
     "description": "A dead body of a little boy.",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_child",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -91,7 +91,7 @@
     "description": "A dead body of a little girl.",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_child",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -101,7 +101,7 @@
     "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_child",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -111,7 +111,7 @@
     "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_child",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "child_gunned_01",
@@ -133,7 +133,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -142,7 +142,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body, coated in congealed blood.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -151,7 +151,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a frightful grimace on its face.  He appears to have been horribly mangled prior to his death.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -161,7 +161,7 @@
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse_generic_human",
     "source_monster": "mon_human_scorched",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -170,7 +170,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a gaping stab wound in its back.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "snippet_category": [
       { "id": "generic_stabbed_01", "text": "A dead body with a gaping stab wound in its back." },
       {
@@ -200,7 +200,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -211,7 +211,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "40 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -222,7 +222,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "57 L",
     "weight": "78 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -233,7 +233,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "generic_gunned_01",
@@ -274,7 +274,7 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "generic_infected_01",
@@ -303,7 +303,7 @@
     "description": "Waxen skin drapes the remnants of an unknowable death.",
     "looks_like": "corpse_generic_human",
     "category": "corpses",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "price": "0 cent",
     "volume": "30 L",
     "weight": "32 kg",

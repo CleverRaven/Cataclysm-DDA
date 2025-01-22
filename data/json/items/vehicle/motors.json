@@ -7,7 +7,7 @@
     "weight": "46 kg",
     "color": "light_cyan",
     "symbol": ",",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "volume": "30 L",
     "category": "veh_parts",
     "price": "120 USD",

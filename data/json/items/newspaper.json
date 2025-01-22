@@ -10,7 +10,7 @@
     "description": "A scrap of paper.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -26,7 +26,7 @@
     "description": "A creased holiday card.  It appears to be a Valentine's Day card from before the Cataclysm.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -42,7 +42,7 @@
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED", "PAPER_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
@@ -58,7 +58,7 @@
     "description": "A piece of paper.  Something's written on it, scrawled in simple, messy handwriting.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "12 mg",
     "volume": "1 ml"
@@ -311,7 +311,7 @@
     "looks_like": "survnote",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -327,7 +327,7 @@
     "description": "A colorfully-printed score card.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "CREDIT_CARD_SHAPED", "PAPER_SHAPED" ],
     "weight": "1 g",
     "volume": "2 ml"
@@ -342,7 +342,7 @@
     "description": "A snippet from a newspaper, celebrating the achievements of the one enshrined.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "1 g",
     "volume": "1 ml"
@@ -358,7 +358,7 @@
     "description": "A single sheet of newspaper broadsheet.  It is possibly one of the last issues printed before New England was overwhelmed.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -374,7 +374,7 @@
     "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you have NO idea how it lasted this long.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -390,7 +390,7 @@
     "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -406,7 +406,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -422,7 +422,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -438,7 +438,7 @@
     "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information is terribly trivial or out of date, but one thing catches your eye briefly.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml"
@@ -455,7 +455,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "looks_like": "survnote",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "10 ml"
@@ -468,7 +468,7 @@
     "description": "Welcome to your Emergency Survival Shelter.  We hope your stay here will be short and comfortable.  Provided are an emergency blanket, high-visibility jacket, gas mask, and food and water rations for one day, as well as an emergency lighter and flashlight.  There are further supplies in the communal cabinets should the facility be over its intended capacity.  These resources are checked and updated by FEMA on a regular basis, but if you find some items missing, please contact a FEMA supervisor at your earliest convenience.\n\nPlease wait in the shelter until an official evacuation transport arrives to take you to your homes or, in the event of a major disaster, to the nearest evacuation gathering point.\n\nIn the event that you have been evacuated under violent circumstances, FEMA recommends taking cover in the shelter's basement until help arrives.  Remember: if you leave the shelter, we cannot find you to take you to safety.",
     "weight": "5 g",
     "volume": "15 ml",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "looks_like": "newest_newspaper",
     "color": "white",
     "symbol": "?",
@@ -485,7 +485,7 @@
     "description": "An official poster notifying the public of a missing person, and requesting that anyone with information contact the listed phone number.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
@@ -501,7 +501,7 @@
     "description": "An official poster notifying the public of a missing child, and requesting that anyone with information contact the listed phone number.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
@@ -517,7 +517,7 @@
     "description": "A handmade poster notifying passersby about someone's missing dog, and requesting that anyone with information contact the listed phone number.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
@@ -533,7 +533,7 @@
     "description": "A handmade poster notifying passersby about someone's missing cat, and requesting that anyone with information contact the listed phone number.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml"
@@ -547,7 +547,7 @@
     "description": "Posters promoting movies that were in theaters when the Cataclysm hit.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "PAPER_SHAPED" ],
     "weight": "6 g",
     "volume": "12 ml",
@@ -607,7 +607,7 @@
     "volume": "1 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
   },
   {

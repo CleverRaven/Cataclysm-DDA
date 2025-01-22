@@ -221,7 +221,7 @@
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  Instructions on the back explain that this will grant you access to the LIXA experiment floor.",
     "flags": [ "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -235,7 +235,7 @@
     "description": "An ID badge for the LIXA facility, with a photo of an awkwardly smiling scientist on the front.  It is heavily scratched, and there is a line on the back in black marker.",
     "flags": [ "LIXA_SCIENCE_CARD", "LIXA_SCIENCE_CARD_2", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -256,7 +256,7 @@
       "CREDIT_CARD_SHAPED"
     ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -277,7 +277,7 @@
       "CREDIT_CARD_SHAPED"
     ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -298,7 +298,7 @@
       "CREDIT_CARD_SHAPED"
     ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -319,7 +319,7 @@
       "CREDIT_CARD_SHAPED"
     ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"
@@ -333,7 +333,7 @@
     "description": "An id card bearing the name, rank, and serial number of a soldier stationed at LIXA.",
     "flags": [ "LIXA_MILITARY_CARD", "LIXA_SCIENCE_CARD", "PRESERVE_SPAWN_OMT", "HINT_THE_LOCATION", "CREDIT_CARD_SHAPED" ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml",
     "category": "keys"

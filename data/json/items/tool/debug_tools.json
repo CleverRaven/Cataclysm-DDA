@@ -7,7 +7,7 @@
     "description": "This debug tool will tell you about light",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "DBG_LUX_METER" ]
@@ -20,7 +20,7 @@
     "description": "Deals 1 full bar of damage to an item you wield.",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -54,7 +54,7 @@
     "description": "Deals damage to items you pick.",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {

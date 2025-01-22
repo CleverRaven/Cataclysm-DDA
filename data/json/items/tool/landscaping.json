@@ -11,7 +11,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
@@ -29,7 +29,7 @@
     "price": "20 cent",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
@@ -89,7 +89,7 @@
     "volume": "4 L",
     "longest_side": "120 cm",
     "price": "1 USD",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 2 ] ],
@@ -175,7 +175,7 @@
     "longest_side": "150 cm",
     "price": "30 USD",
     "price_postapoc": "5 cent",
-    "material": [ "plastic" ]
+    "material": [ { "type": "plastic", "portion": 100 } ]
   },
   {
     "id": "shovel",

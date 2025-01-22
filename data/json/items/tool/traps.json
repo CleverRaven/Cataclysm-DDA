@@ -9,7 +9,7 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -59,7 +59,7 @@
     "price": "50 USD",
     "price_postapoc": "15 USD",
     "to_hit": -4,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -85,7 +85,7 @@
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "to_hit": -3,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": ";",
     "color": "brown",
     "flags": [ "SINGLE_USE" ],
@@ -132,7 +132,7 @@
     "volume": "250 ml",
     "price": "50 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ";",
     "color": "light_cyan",
     "use_action": {
@@ -156,7 +156,7 @@
     "price": "9 USD",
     "price_postapoc": "1 USD",
     "to_hit": -4,
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -180,7 +180,7 @@
     "price": "1 USD",
     "price_postapoc": "50 cent",
     "to_hit": -4,
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -227,7 +227,7 @@
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -252,7 +252,7 @@
     "volume": "1750 ml",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -276,7 +276,7 @@
     "price": "3 USD",
     "price_postapoc": "10 cent",
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -300,7 +300,7 @@
     "price": "1 USD",
     "price_postapoc": "50 cent",
     "to_hit": -4,
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {

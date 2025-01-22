@@ -11,7 +11,7 @@
     "longest_side": "128 mm",
     "price": "67 USD 50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "357mag" ],

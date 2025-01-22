@@ -9,7 +9,7 @@
     "volume": "2 L",
     "price": "50 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "chemical_spray" ],
