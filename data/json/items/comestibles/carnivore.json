@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "meat/fish", "//~": "NO_I18N" },
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "%",
     "color": "red",
     "parasites": 32,
@@ -192,7 +192,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "human stomach" },
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "delete": { "flags": [ "PREDATOR_FUN" ] },
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
@@ -210,7 +210,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "A chunk of raw fat, harvested from a human body.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -221,7 +221,7 @@
     "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": "5 USD",
     "//": "*May* have been commercially traded.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -238,7 +238,7 @@
     "cooks_like": "human_cooked",
     "name": { "str_sp": "human flesh" },
     "description": "A chunk of raw meat, butchered from a human body.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "human_flesh_vitamin", 1 ], [ "meat_allergen", 1 ] ],
     "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
@@ -291,7 +291,7 @@
     "weight": "262 g",
     "volume": "250 ml",
     "parasites": 0,
-    "material": "blood",
+    "material": [ { "type": "blood", "portion": 100 } ],
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
@@ -392,7 +392,7 @@
     "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
     "description": "A tiny scrap of raw human flesh.",
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "human_flesh_vitamin", 1 ], [ "meat_allergen", 1 ] ],
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "id": "demihuman_meat_scrap",
@@ -428,7 +428,7 @@
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ { "type": "blood", "portion": 100 } ],
     "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
@@ -452,7 +452,7 @@
     "cooks_like": "mutant_human_cooked",
     "name": { "str_sp": "mutant humanoid meat" },
     "description": "Raw meat butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [
       [ "vitC", 2 ],
       [ "calcium", 1 ],
@@ -474,7 +474,7 @@
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "hblood",
+    "material": [ { "type": "hblood", "portion": 100 } ],
     "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] },
@@ -557,7 +557,7 @@
     "color": "black",
     "looks_like": "feces_manure",
     "description": "Eugh.  This is a mess of dirt, excreta, connective tissue, and bits of matter like hair and claws, leftover from the butchering process.  Eating it isn't even worth thinking about.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "spoils_in": "8 hours",
     "fun": -18,
     "use_action": [ "POISON" ],
@@ -716,7 +716,7 @@
     "volume": "50 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 5,
@@ -735,7 +735,7 @@
     "volume": "50 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 6,
@@ -995,7 +995,7 @@
     "looks_like": "lung",
     "name": { "str": "piece of raw human lung", "str_pl": "pieces of raw human lung" },
     "description": "A portion of lung from a human.  It's spongy and pink, and spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1062,7 +1062,7 @@
     "looks_like": "heart",
     "name": { "str": "piece of raw human heart", "str_pl": "pieces of raw human heart" },
     "description": "A portion of heart from a human.  It's tough but not that chewy, and it spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1154,7 +1154,7 @@
     "looks_like": "liver",
     "name": { "str": "piece of raw human liver", "str_pl": "pieces of raw human liver" },
     "description": "A piece of liver from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1219,7 +1219,7 @@
     "copy-from": "bone_marrow",
     "name": { "str": "portion of raw human bone marrow", "str_pl": "portions of raw human bone marrow" },
     "description": "Soft, spongy marrow tissue from a human bone.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1246,7 +1246,7 @@
     "copy-from": "mutant_marrow",
     "name": { "str": "portion of raw mutant human bone marrow", "str_pl": "portions of raw mutant human bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated creature that was unsettlingly humanoid in appearance.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1270,7 +1270,7 @@
     "looks_like": "brain",
     "name": { "str": "piece of raw human brain", "str_pl": "pieces of raw human brain" },
     "description": "A chunk of brain from a human.  Eating this may cause kuru, but you probably won't live long enough to care about that anyway.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1335,7 +1335,7 @@
     "looks_like": "kidney",
     "name": { "str": "piece of raw human kidney", "str_pl": "pieces of raw human kidney" },
     "description": "A chunk of kidney from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1400,7 +1400,7 @@
     "looks_like": "sweetbread",
     "name": { "str": "piece of raw human sweetbread", "str_pl": "pieces of raw human sweetbread" },
     "description": "A piece of the thymus or pancreas of a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1437,7 +1437,7 @@
     "price_postapoc": "10 cent",
     "description": "Blood extracted from a human being.",
     "price": "0 cent",
-    "material": [ "hblood" ],
+    "material": [ { "type": "hblood", "portion": 100 } ],
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
@@ -1458,7 +1458,7 @@
     "calories": 1923,
     "description": "A chunk of raw fat.  You could eat it as-is, but it is better used as an ingredient in other foods or projects.",
     "price": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "parasites": 32,
     "fun": -20,
@@ -1479,7 +1479,7 @@
     "price": "125 cent",
     "price_postapoc": "2 USD",
     "//": "*May* have been commercially traded.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "62 ml",
     "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
@@ -1524,7 +1524,7 @@
     "copy-from": "mutant_fat",
     "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Raw fat butchered from a heavily-mutated humanoid.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1533,7 +1533,7 @@
     "name": { "str_sp": "mutant humanoid tallow" },
     "copy-from": "mutant_tallow",
     "description": "A smooth white block of cleaned and rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1558,7 +1558,7 @@
     "description": "A piece of meat that's obviously unhealthy.  You could eat it, but it will poison you.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
@@ -1574,7 +1574,7 @@
     "snippet_category": "arm_zed_desc",
     "color": "red",
     "symbol": "%",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "weight": "3767 g",
     "volume": "4500 ml",
     "comestible_type": "FOOD",
@@ -1596,7 +1596,7 @@
     "snippet_category": "leg_zed_desc",
     "color": "red",
     "symbol": "%",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "weight": "11071 g",
     "volume": "12 L",
     "comestible_type": "FOOD",
@@ -1620,7 +1620,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ { "type": "blood", "portion": 100 } ],
     "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
@@ -1640,7 +1640,7 @@
     "description": "A wet, green chunk of spongy goop extracted from a rotten bone.  You could eat it, but it will poison you.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "50 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "RAW" ],
@@ -1662,7 +1662,7 @@
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "RAW" ],
@@ -1684,7 +1684,7 @@
     "price": "1 cent",
     "price_postapoc": "12 cent",
     "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "62 ml",
     "fun": -18,
     "vitamins": [ [ "meat_allergen", 1 ] ]
@@ -1704,7 +1704,7 @@
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled large human stomach" },
     "description": "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1720,7 +1720,7 @@
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": "3 USD 75 cent",
     "price_postapoc": "10 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -3,
@@ -1732,7 +1732,7 @@
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled human stomach" },
     "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1751,7 +1751,7 @@
     "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "20 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "fun": -12,
     "vitamins": [ [ "meat_allergen", 1 ] ]
@@ -1787,7 +1787,7 @@
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw human skin" },
     "description": "A carefully folded raw skin harvested from a human.  Despite some dubious historical accounts, the usefulness of human skin is limited, and can't be made into leather.  The skin is still edible, if you're that desperate.",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1796,7 +1796,7 @@
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw demihuman skin" },
     "description": "A carefully folded raw skin harvested from a demihuman.  Despite being from a human-enough body, the leather has this distinct unnatural and alien feeling to it, and would be a very poor substitute for leather.  The skin is still edible, if you're that desperate.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -1816,7 +1816,7 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "1 USD",
-    "material": [ "fur", "flesh" ],
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "fun": -24,
     "vitamins": [ [ "meat_allergen", 1 ] ]
@@ -1837,7 +1837,7 @@
     "copy-from": "raw_fur",
     "name": { "str_sp": "raw human pelt" },
     "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "material": [ "fur", "hflesh" ],
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "hflesh", "portion": 50 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
@@ -1854,7 +1854,7 @@
     "description": "A thick mass of flesh superficially resembling a mammalian heart.  It's the size of your fist and covered in dimpled grooves.",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "500 ml",
     "fun": -25,
     "vitamins": [ [ "mutagen_beast", 250 ], [ "meat_allergen", 1 ] ],
@@ -1873,7 +1873,7 @@
     "description": "A thick, hulking mass of flesh that's easily the size of your head, superficially resembling a mammalian heart and covered in ribbed grooves.  It's still full of whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies…",
     "price": "65 USD",
     "price_postapoc": "5 USD",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "1 L",
     "fun": -25,
     "vitamins": [ [ "mutagen_beast", 300 ], [ "meat_allergen", 1 ] ],
@@ -1892,7 +1892,7 @@
     "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
     "price": "10 USD",
     "price_postapoc": "25 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "use_action": [ "POISON" ],
     "volume": "250 ml",
     "fun": -30,
@@ -1951,7 +1951,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "demihuman stomach" },
     "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -1970,7 +1970,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "chunk of demihuman fat", "str_pl": "chunks of demihuman fat" },
     "description": "Raw fat harvested from a demihuman body.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -1982,7 +1982,7 @@
     "description": "A smooth white block of cleaned and rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": "5 USD",
     "//": "*May* have been commercially traded.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -2001,7 +2001,7 @@
     "cooks_like": "demihuman_cooked",
     "name": { "str_sp": "demihuman flesh" },
     "description": "Raw meat butchered from a demihuman body.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -2017,7 +2017,7 @@
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ { "type": "blood", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "charges": 1,
     "phase": "liquid",
@@ -2042,7 +2042,7 @@
     "name": { "str": "boiled demihuman stomach" },
     "calories": 240,
     "description": "A boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -2052,7 +2052,7 @@
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled demihuman stomach" },
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -2090,7 +2090,7 @@
     "description": "A piece of mi-go meat that's obviously alien, given its pink color, odd odor, and strange texture.  It would not be advisable to try to eat it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "mi-go_flesh" ],
+    "material": [ { "type": "mi-go_flesh", "portion": 100 } ],
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ]
@@ -2104,7 +2104,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
-    "material": "mi-go_blood",
+    "material": [ { "type": "mi-go_blood", "portion": 100 } ],
     "charges": 1,
     "phase": "liquid"
   },
@@ -2122,7 +2122,7 @@
     "description": "An unrecognized structural element from inside a mi-go.  It's strong and springy, somewhat like cartilage, but a bit stiffer.  It's also a deep green color, and might possibly serve a scaffolding role, like bone.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "mi-go_bone" ],
+    "material": [ { "type": "mi-go_bone", "portion": 100 } ],
     "volume": "250 ml",
     "fun": -10
   },

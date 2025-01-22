@@ -17,7 +17,7 @@
     "fun": 20,
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "milk" ],
+    "material": [ { "type": "milk", "portion": 100 } ],
     "phase": "liquid",
     "charges": 1,
     "vitamins": [ [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
@@ -34,7 +34,7 @@
     "healthy": -1,
     "price": "2 USD 75 cent",
     "price_postapoc": "1 USD",
-    "material": [ "milk", "junk" ],
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "junk", "portion": 50 } ],
     "primary_material": "milk",
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -59,7 +59,7 @@
     "healthy": -1,
     "price": "4 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "milk", "junk" ],
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "junk", "portion": 50 } ],
     "primary_material": "milk",
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -79,7 +79,7 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
-    "material": [ "water", "fruit" ],
+    "material": [ { "type": "water", "portion": 50 }, { "type": "fruit", "portion": 50 } ],
     "primary_material": "water",
     "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ]
   },
@@ -160,7 +160,7 @@
     "description": "A summer treat of chopped ice and sweet flavoring!",
     "price": "3 USD 50 cent",
     "price_postapoc": "50 cent",
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "//": "had to make it a liquid, its not perfect but the alternative is barehanding loose ice soaked in liquid with no containers",
     "phase": "liquid",
     "flags": [ "MELTS" ],
@@ -257,7 +257,7 @@
     "description": "Combining snow cones and alcohol, what could go wrong?",
     "price": "3 USD 50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "water", "alcohol" ],
+    "material": [ { "type": "water", "portion": 50 }, { "type": "alcohol", "portion": 50 } ],
     "phase": "liquid",
     "flags": [ "MELTS", "NO_AUTO_CONSUME" ],
     "vitamins": [  ]
@@ -279,7 +279,7 @@
     "healthy": -1,
     "price": "2 USD 50 cent",
     "price_postapoc": "3 USD",
-    "material": [ "milk" ],
+    "material": [ { "type": "milk", "portion": 100 } ],
     "primary_material": "ice_cream",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
@@ -296,7 +296,7 @@
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "primary_material": "ice_cream",
-    "material": [ "milk", "junk" ],
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "junk", "portion": 50 } ],
     "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -333,7 +333,7 @@
     "calories": 330,
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "junk" ]
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "junk", "portion": 50 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -347,7 +347,7 @@
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "fruit" ]
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "fruit", "portion": 50 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -361,7 +361,7 @@
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "egg" ]
+    "material": [ { "type": "milk", "portion": 50 }, { "type": "egg", "portion": 50 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -375,7 +375,7 @@
     "weight": "80 g",
     "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ { "type": "milk", "portion": 100 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -391,7 +391,7 @@
     "price_postapoc": "1 USD",
     "weight": "106 g",
     "vitamins": [ [ "fruit_allergen", 1 ] ],
-    "material": [ "water", "fruit" ]
+    "material": [ { "type": "water", "portion": 50 }, { "type": "fruit", "portion": 50 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -406,6 +406,6 @@
     "weight": "90 g",
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ { "type": "milk", "portion": 100 } ]
   }
 ]

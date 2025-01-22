@@ -26,7 +26,7 @@
     "weight": "5 g",
     "charges": 50,
     "volume": "250 ml",
-    "material": [ "veggy", "water" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "water", "portion": 50 } ],
     "//": "hot sauces are very salty, hence the negative quench",
     "quench": -2,
     "calories": 5,
@@ -85,7 +85,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
-    "material": [ "salt" ],
+    "material": [ { "type": "salt", "portion": 100 } ],
     "color": "white"
   },
   {
@@ -102,7 +102,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
-    "material": [ "salt" ],
+    "material": [ { "type": "salt", "portion": 100 } ],
     "color": "brown"
   },
   {
@@ -117,7 +117,7 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": "5 cent",
     "price_postapoc": "4 cent",
-    "material": [ "sugar" ],
+    "material": [ { "type": "sugar", "portion": 100 } ],
     "volume": "6 ml",
     "calories": 19,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
@@ -148,7 +148,7 @@
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and fireweed.",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "fun": -1,
@@ -165,7 +165,7 @@
     "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "calories": 17,
     "comestible_type": "DRINK",
     "container": "bottle_glass",
@@ -187,7 +187,7 @@
     "weight": "40 g",
     "color": "magenta",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -207,7 +207,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
-    "material": [ "powder" ],
+    "material": [ { "type": "powder", "portion": 100 } ],
     "calories": 0
   }
 ]

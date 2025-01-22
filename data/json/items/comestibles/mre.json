@@ -24,7 +24,7 @@
     "name": { "str": "chili & beans entree" },
     "calories": 289,
     "description": "The chili & beans entree from an MRE.",
-    "material": [ "veggy", "bean" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "bean", "portion": 50 } ],
     "fun": -2,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -35,7 +35,7 @@
     "name": { "str": "BBQ beef entree" },
     "calories": 293,
     "description": "The BBQ beef entree from an MRE.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "fun": 2,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -57,7 +57,7 @@
     "name": { "str": "spaghetti entree" },
     "calories": 280,
     "description": "The spaghetti entree from an MRE.",
-    "material": [ "flesh", "wheat" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "wheat", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -68,7 +68,7 @@
     "name": { "str": "chicken chunks entree" },
     "calories": 238,
     "description": "The chicken chunks entree from an MRE, with an included beef stick.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
@@ -78,7 +78,7 @@
     "name": { "str": "beef taco entree" },
     "calories": 273,
     "description": "The beef taco entree from an MRE.",
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -89,7 +89,7 @@
     "name": { "str": "beef brisket entree" },
     "calories": 289,
     "description": "The beef brisket entree from an MRE.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "fun": 1,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -100,7 +100,7 @@
     "name": { "str": "meatballs & marinara entree" },
     "calories": 311,
     "description": "The meatballs & marinara entree from an MRE.",
-    "material": [ "flesh", "tomato" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "tomato", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -111,7 +111,7 @@
     "name": { "str": "beef stew entree" },
     "calories": 211,
     "description": "The beef stew entree from an MRE.",
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -122,7 +122,7 @@
     "name": { "str": "chili & macaroni entree" },
     "calories": 280,
     "description": "The chili & macaroni entree from an MRE.",
-    "material": [ "wheat", "veggy" ],
+    "material": [ { "type": "wheat", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 1,
     "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -133,7 +133,7 @@
     "name": { "str": "vegetarian taco entree" },
     "calories": 231,
     "description": "The vegetarian taco entree from an MRE.",
-    "material": [ "veggy", "tomato" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "tomato", "portion": 50 } ],
     "fun": -2,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -144,7 +144,7 @@
     "name": { "str": "macaroni & marinara entree" },
     "calories": 223,
     "description": "The macaroni & marinara entree from an MRE.",
-    "material": [ "tomato", "veggy" ],
+    "material": [ { "type": "tomato", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
@@ -155,7 +155,7 @@
     "name": { "str": "spinach fettuccine entree" },
     "calories": 219,
     "description": "The creamy spinach fettuccine entree from an MRE.",
-    "material": [ "veggy", "milk" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "milk", "portion": 50 } ],
     "fun": -2,
     "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -224,7 +224,7 @@
     "name": { "str": "maple sausage entree" },
     "calories": 218,
     "description": "The maple sausage entree from an MRE.",
-    "material": [ "flesh", "junk" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "junk", "portion": 50 } ],
     "fun": 1,
     "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
@@ -235,7 +235,7 @@
     "name": { "str": "ravioli entree" },
     "calories": 293,
     "description": "The ravioli entree from an MRE.",
-    "material": [ "flesh", "wheat" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "wheat", "portion": 50 } ],
     "fun": 0,
     "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
@@ -246,7 +246,7 @@
     "name": { "str": "pepper jack beef entree" },
     "calories": 148,
     "description": "The pepper jack beef entree from an MRE.",
-    "material": [ "flesh", "milk" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "milk", "portion": 50 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -256,7 +256,7 @@
     "name": { "str": "hash browns & bacon entree" },
     "calories": 249,
     "description": "The hash browns & bacon entree from an MRE.",
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 2,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -267,7 +267,7 @@
     "name": { "str": "lemon pepper tuna entree" },
     "calories": 136,
     "description": "The lemon pepper tuna entree from an MRE.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "fun": 2,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -278,7 +278,7 @@
     "name": { "str": "lobster seafood medley entree" },
     "calories": 130,
     "description": "The lobster seafood medley entree from an MRE.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "fun": 3,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -289,7 +289,7 @@
     "name": { "str": "Asian beef & vegetables entree" },
     "calories": 247,
     "description": "The Asian beef & vegetables entree from an MRE.",
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "fun": 1,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -311,7 +311,7 @@
     "name": { "str": "southwest beef & beans entree" },
     "calories": 262,
     "description": "The southwest beef & beans entree from an MRE.",
-    "material": [ "flesh", "bean" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "bean", "portion": 50 } ],
     "fun": 2,
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
@@ -335,7 +335,7 @@
     "calories": 261,
     "description": "The pizza entree from an MRE, now in vegetarian form.",
     "price": "8 USD 50 cent",
-    "material": [ "wheat", "milk" ],
+    "material": [ { "type": "wheat", "portion": 50 }, { "type": "milk", "portion": 50 } ],
     "fun": 1,
     "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -374,7 +374,7 @@
     "copy-from": "mre_side",
     "name": { "str_sp": "potatoes, Au Gratin" },
     "description": "Golden-fried potatoes.",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -383,7 +383,7 @@
     "copy-from": "mre_side",
     "name": { "str": "fried rice (small portion)", "str_pl": "fried rice (small portions)" },
     "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -392,7 +392,7 @@
     "copy-from": "mre_side",
     "name": { "str_sp": "zapplesauce" },
     "description": "Golden, jelly-like food with the flavor of apples.",
-    "material": [ "fruit" ],
+    "material": [ { "type": "fruit", "portion": 100 } ],
     "fun": 5,
     "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
@@ -402,7 +402,7 @@
     "copy-from": "mre_side",
     "name": { "str_sp": "black beans in sauce" },
     "description": "A savory and flavorful combination of black beans and sauce.",
-    "material": [ "bean" ],
+    "material": [ { "type": "bean", "portion": 100 } ],
     "calories": 130,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },

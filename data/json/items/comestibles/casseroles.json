@@ -15,7 +15,7 @@
     "description": "It's cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it's not too heavy for the apocalypse.",
     "price": "50 cent",
     "price_postapoc": "1 USD",
-    "material": [ "veggy", "milk" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "milk", "portion": 50 } ],
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
@@ -95,7 +95,7 @@
     "description": "A good portion of tasty eggplant parmigiana.",
     "price": "1 USD",
     "price_postapoc": "3 USD",
-    "material": [ "veggy", "milk" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "milk", "portion": 50 } ],
     "primary_material": "veggy",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],

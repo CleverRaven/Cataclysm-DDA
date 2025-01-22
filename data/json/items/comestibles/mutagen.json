@@ -21,7 +21,7 @@
     "addiction_type": "mutagen",
     "flags": [ "NO_INGEST", "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "freezing_point": -8
   },
   {
@@ -868,7 +868,7 @@
     "color": "white",
     "healthy": -30,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "freezing_point": -8,
     "tool": "syringe",
     "use_action": {
@@ -889,7 +889,7 @@
     "volume": "10ml",
     "price": "12 kUSD",
     "price_postapoc": "30 USD",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "!",
     "color": "magenta",
     "healthy": -6,
@@ -913,7 +913,7 @@
     "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "volume": "250 ml",
     "fun": -60,
     "vitamins": [ [ "mutagenic_slurry", 15 ], [ "meat_allergen", 1 ] ]
@@ -934,7 +934,7 @@
     "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "volume": "4500 ml",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
@@ -955,7 +955,7 @@
     "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "volume": "12 L",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ], [ "meat_allergen", 1 ] ]
