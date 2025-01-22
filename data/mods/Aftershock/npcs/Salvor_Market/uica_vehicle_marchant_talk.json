@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_trait": "BKGR_EARTH",
-      "yes": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.  \nOh hello, do you need something?",
-      "no": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.  \nDo you need something salvor?"
+      "yes": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.\nOh hello, do you need something?",
+      "no": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.\nDo you need something salvor?"
     },
     "responses": [
       {
@@ -128,7 +128,7 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_EXPLAIN" ],
     "type": "talk_topic",
-    "dynamic_line": "&Right!  Sorry, this is the vehicle bay,  and I run the place.  Mostly I just fix up the patrol vehicles.  But I am also in charge of maintaining our stock of vehicle parts.  As such: I've been authorized to trade with salvors in order to get what we need, and can offer you some of our excess stock or chits in exchange.  I'll give you a nice price, just: Don't tell my boss.  And one more thing, I've got something really special for sale, if you're interested.",
+    "dynamic_line": "&Right!  Sorry, this is the vehicle bay, and I run the place.  Mostly I just fix up the patrol vehicles.  But I am also in charge of maintaining our stock of vehicle parts.  As such: I've been authorized to trade with salvors in order to get what we need, and can offer you some of our excess stock or chits in exchange.  I'll give you a nice price, just: Don't tell my boss.  And one more thing, I've got something really special for sale, if you're interested.",
     "responses": [
       {
         "text": "Can you show me your stock?",
@@ -150,7 +150,7 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION" ],
     "type": "talk_topic",
-    "dynamic_line": "This is the vehicle bay, and I run the place. Please don't touch anything unless you're buying.  I fix up the patrol vehicles and maintain our stock of spare parts.  As such: I've been authorized to trade with outsiders in order to get what we need, and can offer you some of our excess stock or chits in exchange.",
+    "dynamic_line": "This is the vehicle bay, and I run the place.  Please don't touch anything unless you're buying.  I fix up the patrol vehicles and maintain our stock of spare parts.  As such: I've been authorized to trade with outsiders in order to get what we need, and can offer you some of our excess stock or chits in exchange.",
     "responses": [
       {
         "text": "Can you show me your stock?",
@@ -224,7 +224,7 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_ALT" ],
     "type": "talk_topic",
-    "dynamic_line": "<npc_name> sighs.  \nYes it is, are you interested?",
+    "dynamic_line": "<npc_name> sighs.\nYes it is, are you interested?",
     "responses": [
       { "text": "How much do want for it again?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_2" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
