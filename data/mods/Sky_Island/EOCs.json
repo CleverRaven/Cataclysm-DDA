@@ -164,6 +164,8 @@
       { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_GROUP" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_MULTI" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_HORDE" },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED1", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED2", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED3", "success": false },
