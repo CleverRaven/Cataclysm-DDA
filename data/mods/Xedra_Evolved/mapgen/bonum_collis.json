@@ -33,7 +33,15 @@
       ],
       "terrain": {
         " ": "t_floor",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        ".": [
+          [ "t_grass", 30 ],
+          [ "t_grass_long", 12 ],
+          [ "t_dirt", "6" ],
+          [ "t_shrub", "6" ],
+          "t_shrub_goblin_fruit_spring",
+          "t_shrub_goblin_fruit_summer",
+          "t_shrub_goblin_fruit_autumn"
+        ],
         "%": [ [ "t_grass", 5 ], "t_dirt" ],
         "/": "t_rock_floor",
         "|": "t_rock_green",
