@@ -282,11 +282,8 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tux" },
-          { "item": "dress_shoes" },
-          { "item": "socks" },
+          { "item": "afs_bolero", "variant": "designer" },
           { "item": "gold_watch" },
-          { "item": "undershirt" },
           { "item": "afs_10mm_smart_template" },
           { "item": "cash_card", "charges": 100000000 },
           { "item": "cash_card", "charges": 100000000 },
@@ -294,14 +291,33 @@
             "item": "afs_silvergram_pistol",
             "ammo-item": "afs_10mm_smart",
             "charges": 22,
-            "container-item": "holster"
+            "container-item": "shoulder_holster"
           },
           { "item": "afs_silvergram_22mag", "ammo-item": "afs_10mm_smart", "charges": 22 },
           { "item": "afs_wraitheon_smartphone" }
         ]
       },
-      "male": { "entries": [ { "item": "briefs" }, { "item": "collarpin" }, { "item": "diamond_ring" } ] },
-      "female": { "entries": [ { "item": "panties" }, { "item": "bra" }, { "item": "hairpin" }, { "item": "pearl_collar" } ] }
+      "male": {
+        "entries": [
+          { "item": "briefs" },
+          { "item": "afs_lx_shirt" },
+          { "item": "pants", "variant": "pants_white" },
+          { "item": "socks" },
+          { "item": "undershirt" },
+          { "item": "collarpin" },
+          { "item": "diamond_ring" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "panties" },
+          { "item": "bra" },
+          { "item": "dance_shoes" },
+          { "item": "diamond_ring" },
+          { "item": "hairpin" },
+          { "item": "afs_lx_dress" }
+        ]
+      }
     }
   },
   {
