@@ -14,14 +14,7 @@
     },
     "city": {
       "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
-      "shops": {
-        "s_hunting": 300,
-        "s_gun_a": 350,
-        "s_gun_b": 150,
-        "mil_surplus": 20,
-        "mil_surplus_1": 20,
-        "mil_surplus_2": 20
-      }
+      "shops": { "s_hunting": 300, "s_gun_a": 350, "s_gun_b": 150, "mil_surplus": 20, "mil_surplus_1": 20, "mil_surplus_2": 20 }
     },
     "weather": {
       "base_temperature": 5.5,

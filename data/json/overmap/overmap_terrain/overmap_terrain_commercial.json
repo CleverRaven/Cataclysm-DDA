@@ -364,11 +364,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun_a",
-      "s_gun_b_range",
-      "s_gun_b_store"
-    ],
+    "id": [ "s_gun_a", "s_gun_b_range", "s_gun_b_store" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_gun_a",
     "name": "gun store",
@@ -377,11 +373,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun_a_roof",
-      "s_gun_b_roof",
-      "s_gun_b_range_roof"
-    ],
+    "id": [ "s_gun_a_roof", "s_gun_b_roof", "s_gun_b_range_roof" ],
     "name": "gun store roof",
     "looks_like": "s_gun_roof_a",
     "copy-from": "generic_city_building",

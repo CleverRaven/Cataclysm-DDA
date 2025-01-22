@@ -18,7 +18,11 @@
   {
     "type": "item_group",
     "id": "guns_common_boxed",
-    "items": [ { "group": "guns_pistol_common_boxed", "prob": 50 }, { "group": "guns_rifle_common_boxed", "prob": 50 }, { "group": "guns_shotgun_common_boxed", "prob": 50 } ]
+    "items": [
+      { "group": "guns_pistol_common_boxed", "prob": 50 },
+      { "group": "guns_rifle_common_boxed", "prob": 50 },
+      { "group": "guns_shotgun_common_boxed", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
