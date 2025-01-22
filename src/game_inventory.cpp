@@ -1678,7 +1678,8 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
             bool has_use_check = !unusable_only || !efile_activity_actor::edevice_has_use( loc.get_item() );
             bool browsed_equal_check = browse_equals == loc->is_browsed();
             bool fast_transfer = compat == efile_activity_actor::edevice_compatible::ECOMPAT_FAST;
-            bool compatible_check = browse_equals || //if browsing, no compatibility check
+            bool compatible_check = ( action == EF_BROWSE && browse_equals ) ||
+                                    //if browsing, no compatibility check
                                     ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
                                     compat != efile_activity_actor::edevice_compatible::ECOMPAT_NONE; //otherwise, any compatible edevice
             bool preset_bool = is_tool_has_charge &&

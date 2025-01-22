@@ -111,13 +111,13 @@
   },
   {
     "abstract": "abstract_efile_copiable",
+    "copy-from": "abstract_efile",
     "type": "GENERIC",
     "symbol": "o",
     "name": "abstract copiable electronic file",
     "description": "abstract copiable electronic file",
     "ememory_size": "1 KB",
-    "flags": [ "E_STORABLE", "ZERO_WEIGHT", "NO_DROP", "IRREMOVABLE", "E_COPIABLE" ],
-    "variables": { "browsed": "false" }
+    "extend": { "flags": [ "E_COPIABLE" ] }
   },
   {
     "abstract": "abstract_efile_read",

@@ -8852,7 +8852,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( type->book && type->book->chapters == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
 }
 
 bool item::efiles_all_browsed() const

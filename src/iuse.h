@@ -139,7 +139,6 @@ std::optional<int> magic_8_ball( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> measure_resonance( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> change_outfit( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ebooksave( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ebookread( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> makemound( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mace( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> manage_exosuit( Character *, item *, const tripoint_bub_ms & );
