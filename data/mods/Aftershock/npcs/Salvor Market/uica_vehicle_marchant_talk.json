@@ -257,17 +257,13 @@
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_BKGR_BASTARD" ],
     "type": "talk_topic",
     "dynamic_line": "My former superior officer, the prick.  Always hovering my shoulder like a damn drone.  I won't miss that uptight control freak.  We fought a lot and didn't see things eye to eye.  But this?  I never imagined the fucker would stoop this low.  Hell of a disciplinary action, I'll tell you that much.",
-    "responses": [
-      { "text": "I'm sorry to hear that.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "I'm sorry to hear that.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_MERCURIAL" ],
     "type": "talk_topic",
     "dynamic_line": "The last thing they did was set up their little clinic on the station, and they haven't done jack since.  No communications, no re-colonization efforts, no survey teams.  They hardly even seem to care about going down planetside.  Not like I blame them.  The colony didn't work out before so, why bother?  This place is clearly not worth the effort.",
-    "responses": [
-      { "text": "I guess there are some rocks even Corpos won't touch.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "I guess there are some rocks even Corpos won't touch.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "EOC_UICA_VEHICLE_BUY",
