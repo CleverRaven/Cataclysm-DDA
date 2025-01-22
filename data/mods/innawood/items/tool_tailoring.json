@@ -118,7 +118,7 @@
     "volume": "47 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "fibercloth" ],
+    "material": [ { "type": "fibercloth", "portion": 100 } ],
     "symbol": "=",
     "color": "green"
   },
@@ -132,7 +132,7 @@
     "volume": "6 ml",
     "price": "2 USD",
     "price_postapoc": "2 cent",
-    "material": [ "fibercloth" ],
+    "material": [ { "type": "fibercloth", "portion": 100 } ],
     "symbol": ",",
     "color": "green",
     "use_action": [

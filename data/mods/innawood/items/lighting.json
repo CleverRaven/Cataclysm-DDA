@@ -51,7 +51,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": 1,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "/",
     "color": "brown",
     "initial_charges": 20,

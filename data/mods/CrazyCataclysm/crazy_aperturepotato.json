@@ -27,7 +27,7 @@
     "volume": "500 ml",
     "price": "90 USD",
     "to_hit": -1,
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "%",
     "color": "light_gray",
     "use_action": [ "DOLLCHAT" ]

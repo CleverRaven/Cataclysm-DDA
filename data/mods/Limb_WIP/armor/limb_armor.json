@@ -10,7 +10,7 @@
     "price": "10 USD",
     "price_postapoc": "25 cent",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "[",
     "material_thickness": 2000,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],

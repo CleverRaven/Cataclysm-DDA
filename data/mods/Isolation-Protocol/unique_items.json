@@ -41,7 +41,7 @@
     "volume": "500 ml",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -81,7 +81,7 @@
     "copy-from": "cape_sci_fi",
     "name": { "str": "tattered cloak" },
     "description": "The cloak of an imperial envoy, depicting a star chart in gold thread.  It's terribly worn and frayed.",
-    "material": [ "wool" ]
+    "material": [ { "type": "wool", "portion": 100 } ]
   },
   {
     "id": "iso_old_sword",

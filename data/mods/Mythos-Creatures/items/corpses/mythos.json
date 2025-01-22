@@ -9,7 +9,7 @@
     "weight": "120 kg",
     "name": { "str": "deep one corpse" },
     "description": "The dead body of a deep one.",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -18,7 +18,7 @@
     "name": { "str": "deep one corpse" },
     "description": "A dead body of a male deep one.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -29,7 +29,7 @@
     "looks_like": "corpse_generic_deep_one",
     "volume": "70 L",
     "weight": "90 kg",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -38,7 +38,7 @@
     "name": { "str": "deep one corpse" },
     "description": "The dead body of a deep one, coated in congealed blood.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -47,7 +47,7 @@
     "name": { "str": "deep one corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -56,7 +56,7 @@
     "name": { "str": "deep one corpse" },
     "description": "A dead body of a deep one with a gaping stab wound in its back.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -65,7 +65,7 @@
     "name": { "str": "deep one corpse" },
     "description": "The dead body of a deep one.  Its forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of its head.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -77,7 +77,7 @@
     "//": "Former volume: 46250 L. Adjusted to 1000L so it can actually be placed. TODO(?): Re-add old volume with some sort of flag",
     "volume": "1000 L",
     "weight": "60 kg",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -86,7 +86,7 @@
     "name": { "str": "deep one corpse" },
     "description": "A half-decapitated dead body.  It is unclear what could have caused such a wound.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ]
+    "material": [ { "type": "flesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -95,7 +95,7 @@
     "name": { "str": "deep one corpse" },
     "description": "The dead body of a deep one.  Its forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of its head.",
     "looks_like": "corpse_generic_deep_one",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "generic_gunned_deep_one_01",

@@ -152,7 +152,7 @@ Items are where you really want to read the [JSON/JSON_INFO.md](JSON/JSON_INFO.m
     "weight": "1 g",
     "volume": 0,
     "price": "8 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "*",
     "color": "light_gray"
   }

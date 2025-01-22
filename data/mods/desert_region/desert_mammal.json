@@ -12,7 +12,7 @@
     "weight": "5896700 g",
     "hp": 360,
     "speed": 200,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "E",
     "color": "light_gray",
     "aggression": 5,

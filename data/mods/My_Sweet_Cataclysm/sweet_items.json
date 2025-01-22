@@ -7,7 +7,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "/",
     "color": "pink"
   },
@@ -23,7 +23,7 @@
     "color": "white",
     "looks_like": "wrapper",
     "description": "Bits and pieces of plastic entangled in sticky candy goop.  They spot some bright colors and might have been part of a candy wrapper at some point.  Maybe you could suck the sugar from them, if you're really desperate.",
-    "material": [ "junk" ],
+    "material": [ { "type": "junk", "portion": 100 } ],
     "calories": 10,
     "vitamins": [ [ "junk_allergen", 1 ] ]
   },
@@ -38,7 +38,7 @@
     "color": "white",
     "looks_like": "ruined_candy",
     "description": "A pile of weird sticky sludge.  It looks absolutely disgusting but smells kind of sweet.",
-    "material": [ "junk" ],
+    "material": [ { "type": "junk", "portion": 100 } ],
     "calories": 10,
     "fun": -12,
     "vitamins": [ [ "junk_allergen", 1 ] ]
@@ -53,7 +53,7 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "rock_candy" ],
+    "material": [ { "type": "rock_candy", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -66,7 +66,7 @@
     "color": "white",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "material": [ "junk" ],
+    "material": [ { "type": "junk", "portion": 100 } ],
     "vitamins": [ [ "junk_allergen", 1 ] ]
   }
 ]

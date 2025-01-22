@@ -10,7 +10,7 @@
     "volume": "6250 ml",
     "price": "40 USD",
     "price_postapoc": "5 USD",
-    "material": [ "clay" ],
+    "material": [ { "type": "clay", "portion": 100 } ],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": [ "battery" ],

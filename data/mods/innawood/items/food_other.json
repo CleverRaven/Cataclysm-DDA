@@ -7,7 +7,7 @@
     "weight": "33 g",
     "color": "green",
     "symbol": "~",
-    "material": [ "honey" ],
+    "material": [ { "type": "honey", "portion": 100 } ],
     "quench": 6,
     "calories": 30,
     "charges": 16,

@@ -95,7 +95,7 @@
     "name": { "str": "scroll abstract", "//~": "NO_I18N" },
     "weight": "415 g",
     "volume": "250 ml",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "!",
     "looks_like": "manual_dragon",
     "color": "white",

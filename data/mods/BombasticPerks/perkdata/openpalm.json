@@ -7,7 +7,7 @@
     "description": "You've dealt so many blows your hands are rough with calluses.  The edge of your hand is sharp enough to cut paper.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "material_thickness": 2,
     "symbol": "x",
     "color": "magenta",

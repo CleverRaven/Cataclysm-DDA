@@ -8,7 +8,7 @@
     "description": "An object of uncertain origin, unusually heavy for its size.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "unobtanium" ],
+    "material": [ { "type": "unobtanium", "portion": 100 } ],
     "volume": "150 ml",
     "weight": "2856 g",
     "longest_side": "26 cm",

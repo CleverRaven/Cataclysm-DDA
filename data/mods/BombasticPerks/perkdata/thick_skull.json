@@ -7,7 +7,7 @@
     "description": "You've taken so many hits to the head that your skull's gotten thicker.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "material_thickness": 3,
     "symbol": "x",
     "color": "magenta",

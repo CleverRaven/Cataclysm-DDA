@@ -9,7 +9,7 @@
     "description": "A chunk of iron-rich earth.  Could be refined with a bloomery.",
     "price": "5 USD 31 cent",
     "price_postapoc": "10 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "weight": "1000 g",
     "volume": "235 ml",
     "melee_damage": { "bash": 7 }

@@ -10,7 +10,7 @@
     "price": "1 kUSD 200 USD",
     "price_postapoc": "10 USD",
     "flags": [ "NO_REPAIR" ],
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "symbol": "]",
     "color": "yellow",
     "melee_damage": { "bash": 1 }

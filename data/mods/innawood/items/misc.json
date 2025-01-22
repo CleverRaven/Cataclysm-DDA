@@ -17,7 +17,7 @@
     "weight": "10 g",
     "volume": "35 ml",
     "price_postapoc": "1 USD",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "battery"
@@ -32,7 +32,7 @@
     "weight": "175 g",
     "volume": "525 ml",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "battery"
@@ -47,7 +47,7 @@
     "weight": "450 g",
     "volume": "1500 ml",
     "price_postapoc": "3 USD 75 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "battery"

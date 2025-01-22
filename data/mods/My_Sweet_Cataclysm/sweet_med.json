@@ -8,7 +8,7 @@
     "weight": "375 g",
     "volume": "27 ml",
     "price": "66 cent",
-    "material": [ "sugar" ],
+    "material": [ { "type": "sugar", "portion": 100 } ],
     "symbol": "~",
     "color": "brown",
     "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],

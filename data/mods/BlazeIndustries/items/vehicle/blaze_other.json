@@ -26,7 +26,7 @@
     "volume": "300 L",
     "price": "400 USD",
     "price_postapoc": "100 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "flags": [ "DURABLE_MELEE" ],
     "looks_like": "minifridge",
     "melee_damage": { "bash": 8 }

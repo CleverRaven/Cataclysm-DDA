@@ -11,7 +11,7 @@
     "weight": "81500 g",
     "hp": 50,
     "speed": 100,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "X",
     "color": "white",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],

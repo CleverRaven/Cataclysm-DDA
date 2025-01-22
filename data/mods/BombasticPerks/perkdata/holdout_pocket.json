@@ -8,7 +8,7 @@
     "volume": "10 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "x",
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE" ],

@@ -11,7 +11,7 @@
     "weight": "1814 g",
     "hp": 16,
     "speed": 85,
-    "material": [ "iflesh" ],
+    "material": [ { "type": "iflesh", "portion": 100 } ],
     "symbol": "s",
     "color": "brown",
     "aggression": -50,

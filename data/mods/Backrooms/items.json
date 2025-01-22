@@ -10,7 +10,7 @@
     "volume": "20000 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

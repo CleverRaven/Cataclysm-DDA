@@ -19,7 +19,7 @@
     "weight": "2000000 g",
     "volume": "1000000 ml",
     "looks_like": "spiral_stone",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "9",
     "color": "light_blue",
     "use_action": { "type": "cast_spell", "spell_id": "prim_warp", "no_fail": true, "level": 25 },

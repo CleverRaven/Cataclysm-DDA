@@ -7,7 +7,7 @@
     "volume": "10 L",
     "weight": "7800 g",
     "price": "0 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "ammo_grenade" ],

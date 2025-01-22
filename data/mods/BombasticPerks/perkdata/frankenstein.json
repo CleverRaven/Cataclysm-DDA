@@ -33,7 +33,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -3,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": ";",
     "color": "white_magenta",
     "use_action": {
@@ -61,7 +61,7 @@
     "weight": "200 kg",
     "hp": 150,
     "speed": 130,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "Z",
     "color": "white_magenta",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
