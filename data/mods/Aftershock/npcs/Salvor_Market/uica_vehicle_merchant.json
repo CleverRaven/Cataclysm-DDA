@@ -35,7 +35,9 @@
   {
     "type": "npc",
     "id": "uica_vehicle_merchant",
+    "name_unique": "Artemis Burton",
     "name_suffix": "garage clerk",
+    "gender": "male",
     "class": "NC_UICA_VEHICLE_MERCHANT",
     "attitude": 0,
     "mission": 3,

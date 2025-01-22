@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_trait": "BKGR_EARTH",
-      "yes": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to themself under their breath when you approach.  \nOh hello, do you need something?",
-      "no": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to themself under their breath when you approach.  \nDo you need something salvor?"
+      "yes": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.  \nOh hello, do you need something?",
+      "no": "&The workshop is a chaotic mess of spare parts, tools, and partially assembled components littering every surface.  <npc_name> is muttering to himself under his breath when you approach.  \nDo you need something salvor?"
     },
     "responses": [
       {
