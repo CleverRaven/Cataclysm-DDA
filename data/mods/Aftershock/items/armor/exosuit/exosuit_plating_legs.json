@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of steel.",
     "weight": "13500 g",
     "volume": "6500 ml",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "symbol": "L",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -55,7 +55,7 @@
     "name": { "str": "plastic leg plate (exosuit)", "str_pl": "plastic leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are plates of plastic.",
     "weight": "3375 g",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "non_functional": "damaged_exo_leg_plastic",
     "armor": [
       {
@@ -99,7 +99,7 @@
     "name": { "str": "carbide leg plate (exosuit)", "str_pl": "carbide leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of vacuum-cast carbide.",
     "weight": "20250 g",
-    "material": [ "vacuum_carbide" ],
+    "material": [ { "type": "vacuum_carbide", "portion": 100 } ],
     "non_functional": "damaged_exo_leg_vcc",
     "armor": [
       {

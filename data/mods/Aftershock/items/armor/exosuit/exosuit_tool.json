@@ -8,7 +8,7 @@
     "longest_side": "25 cm",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],

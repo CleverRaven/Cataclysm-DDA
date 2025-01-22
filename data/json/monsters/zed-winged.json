@@ -91,7 +91,7 @@
     "weight": "6 kg",
     "hp": 20,
     "speed": 140,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "z",
     "color": "white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],

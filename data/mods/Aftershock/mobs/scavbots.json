@@ -43,7 +43,7 @@
     "weight": "10500 g",
     "hp": 40,
     "speed": 80,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "x",
     "color": "red_green",
     "aggression": 50,

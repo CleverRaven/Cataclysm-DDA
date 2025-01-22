@@ -6,7 +6,7 @@
     "description": "This is a solid cube that is much heavier than its size suggests.  When you look at it, it pulls your gaze inward until you fall through the sky, showing you a top-down view of your position with the surroundings revealed.",
     "weight": "2 kg",
     "volume": "100 ml",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": "]",
     "relic_data": { "passive_effects": [ { "mutations": [ "DEBUG_CLAIRVOYANCE" ] } ] },
     "color": "light_gray",

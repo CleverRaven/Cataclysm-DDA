@@ -19,7 +19,7 @@
     "volume": "10 L",
     "price": "0 cent",
     "to_hit": -5,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "(",
     "color": "light_red",
     "countdown_interval": "1 seconds",

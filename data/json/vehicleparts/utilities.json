@@ -106,7 +106,7 @@
     "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
     "symbol": "+",
     "color": "dark_gray",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "veh_parts",
     "weight": "500 g",
     "volume": "300 ml",

@@ -8,7 +8,7 @@
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",

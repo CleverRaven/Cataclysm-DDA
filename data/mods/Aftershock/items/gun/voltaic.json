@@ -88,7 +88,7 @@
     "color": "blue",
     "name": { "str": "mine shocker", "//~": "NO_I18N" },
     "description": { "str": "How shocking!", "//~": "NO_I18N" },
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "flags": [ "PSEUDO", "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD", "NO_TURRET" ],
     "skill": "pistol",
     "ammo_effects": [ "LIGHTNING" ],

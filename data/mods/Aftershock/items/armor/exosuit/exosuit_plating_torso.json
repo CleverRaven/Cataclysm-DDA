@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of steel.",
     "weight": "25 kg",
     "volume": "15 L",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
@@ -71,7 +71,7 @@
     "name": { "str": "plastic torso plate (exosuit)", "str_pl": "plastic torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a plate of plastic.",
     "weight": "6250 g",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "non_functional": "damaged_exo_torso_plastic",
     "armor": [
       {
@@ -130,7 +130,7 @@
     "name": { "str": "carbide torso plate (exosuit)", "str_pl": "carbide torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of vacuum-cast carbide.",
     "weight": "50 kg",
-    "material": [ "vacuum_carbide" ],
+    "material": [ { "type": "vacuum_carbide", "portion": 100 } ],
     "non_functional": "damaged_exo_torso_vcc",
     "armor": [
       {
@@ -156,7 +156,7 @@
     "name": { "str": "damaged carbide torso plate (exosuit)", "str_pl": "damaged carbide torso plates (exosuit)" },
     "description": "The remains of a carbide torso plate after taking a strong impact.",
     "weight": "44000 g",
-    "material": [ "vacuum_carbide" ],
+    "material": [ { "type": "vacuum_carbide", "portion": 100 } ],
     "non_functional": "destroyed_exo_torso_vcc",
     "armor": [
       {

@@ -10,7 +10,7 @@
     "description": "A hardpoint for storing a rifle.  Activate to holster/draw a gun.",
     "weight": "500 g",
     "volume": "2 L",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
   },
   {
@@ -24,7 +24,7 @@
     "description": "A metallic scabbard mountable on an exosuit hardpoint.  Can be activated to sheath or draw a sword.",
     "weight": "500 g",
     "volume": "2 L",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ]
   },
   {
@@ -80,7 +80,7 @@
     "description": "A set of pouches that attach to a hardpoint.",
     "weight": "1750 g",
     "volume": "1050 ml",
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 100 } ],
     "flags": [ "WATER_FRIENDLY", "EXO_MEDIUM_GADGET" ]
   },
   {

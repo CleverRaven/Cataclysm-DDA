@@ -924,7 +924,7 @@
     "copy-from": "mon_zombie_base",
     "species": [ "ZOMBIE", "PLANT" ],
     "speed": 50,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "scents_tracked": [ "sc_human", "sc_fetid", "sc_flower" ],
     "melee_skill": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],

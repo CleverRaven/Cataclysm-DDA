@@ -12,7 +12,7 @@
     "to_hit": -3,
     "color": "cyan",
     "symbol": "$",
-    "material": [ "plastic" ]
+    "material": [ { "type": "plastic", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -41,7 +41,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "cotton_patchwork",
     "color": "brown"
@@ -55,7 +55,7 @@
     "category": "spare_parts",
     "description": "A piece of light titanium, usable for crafting or repairs.",
     "price": "10 USD",
-    "material": [ "titanium" ],
+    "material": [ { "type": "titanium", "portion": 100 } ],
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",
@@ -70,7 +70,7 @@
     "weight": "30 g",
     "volume": "250 ml",
     "price": "0 cent",
-    "material": [ "iron" ],
+    "material": [ { "type": "iron", "portion": 100 } ],
     "symbol": "*",
     "color": "light_green",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
@@ -82,7 +82,7 @@
     "name": { "str": "clearcrete chunk" },
     "category": "other",
     "description": "A broken chunk of clearcrete.  Basically a clear rock.",
-    "material": [ "clearcrete" ]
+    "material": [ { "type": "clearcrete", "portion": 100 } ]
   },
   {
     "id": "nuclear_fuel",
@@ -158,7 +158,7 @@
     "price_postapoc": "7 USD 50 cent",
     "count": 100,
     "stack_size": 200,
-    "material": [ "titanium" ],
+    "material": [ { "type": "titanium", "portion": 100 } ],
     "looks_like": "silver_small",
     "symbol": "/",
     "color": "light_gray",
@@ -176,7 +176,7 @@
     "to_hit": -3,
     "symbol": "*",
     "color": "light_gray",
-    "material": [ "titanium" ]
+    "material": [ { "type": "titanium", "portion": 100 } ]
   },
   {
     "id": "afs_titanium_tooth",
@@ -190,7 +190,7 @@
     "to_hit": -3,
     "symbol": "$",
     "color": "light_gray",
-    "material": [ "titanium" ]
+    "material": [ { "type": "titanium", "portion": 100 } ]
   },
   {
     "id": "afs_titanium_watch",
@@ -202,7 +202,7 @@
     "price": "200 USD",
     "price_postapoc": "30 USD",
     "to_hit": -1,
-    "material": [ "titanium" ],
+    "material": [ { "type": "titanium", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
@@ -218,7 +218,7 @@
     "volume": "5 ml",
     "price": "7 USD",
     "price_postapoc": "5 USD",
-    "material": [ "titanium" ],
+    "material": [ { "type": "titanium", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "STURDY" ]
@@ -245,7 +245,7 @@
     "volume": "80 ml",
     "price": "7 USD",
     "price_postapoc": "5 USD",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "STURDY" ]
@@ -259,7 +259,7 @@
     "volume": "750 ml",
     "price": "7 USD",
     "price_postapoc": "5 USD",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],

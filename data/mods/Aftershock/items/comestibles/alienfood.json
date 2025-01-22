@@ -97,7 +97,7 @@
     "comestible_type": "FOOD",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
@@ -117,7 +117,7 @@
     "calories": 1923,
     "description": "Light green fat, smelling absolutely rancid.  You could eat it, but it wouldn't be worth it.",
     "price": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
@@ -142,7 +142,7 @@
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
     "fun": -20,
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +168,7 @@
     "description": "A carefully folded raw skin harvested from a human corpse.  It is stained blue from frostbite.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "20 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -12
@@ -405,7 +405,7 @@
     "comestible_type": "FOOD",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
@@ -425,7 +425,7 @@
     "calories": 1923,
     "description": "Freshly butchered fat from an alien.  You could eat it cooked or raw, but it is more safely used for crafting non edible-products.",
     "price": "0 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
@@ -447,7 +447,7 @@
     "price": "125 cent",
     "price_postapoc": "2 USD",
     "//": "*May* have been commercially traded.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "62 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -18
@@ -471,7 +471,7 @@
     "looks_like": "feces_manure",
     "description": "An unidentifiable pile of organs; you have no idea how you'd prepare them.",
     "snippet_category": "alien_organ",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "spoils_in": "8 hours",
     "healthy": -25,
     "fun": -25,
@@ -496,7 +496,7 @@
     "volume": "25 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "price_postapoc": "125 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "EATEN_HOT" ],
     "fun": 4
   },
@@ -518,7 +518,7 @@
     "volume": "25 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "price_postapoc": "125 cent",
-    "material": [ "hflesh" ],
+    "material": [ { "type": "hflesh", "portion": 100 } ],
     "flags": [ "EATEN_HOT" ],
     "fun": -4
   },
@@ -540,7 +540,7 @@
     "description": "A carefully folded raw skin harvested from an alien animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "20 cent",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "fun": -12
   },

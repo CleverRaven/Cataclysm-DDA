@@ -8,7 +8,7 @@
     "volume": "30 L",
     "price": "6 kUSD",
     "to_hit": -3,
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -34,7 +34,7 @@
     "volume": "250 L",
     "price": "1000 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -61,7 +61,7 @@
     "volume": "250 L",
     "price": "1000 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -86,7 +86,7 @@
     "volume": "92500 ml",
     "price": "1000 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -574,7 +574,7 @@
     "price": "100 USD",
     "price_postapoc": "5 USD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -601,7 +601,7 @@
     "price": "1 kUSD",
     "price_postapoc": "5 USD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -628,7 +628,7 @@
     "price": "350 USD",
     "price_postapoc": "15 USD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {

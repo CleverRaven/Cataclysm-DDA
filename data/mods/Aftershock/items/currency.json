@@ -41,7 +41,7 @@
     "color": "red",
     "symbol": "$",
     "flags": [ "COIN_SHAPED", "NO_UNLOAD", "NO_RELOAD" ],
-    "material": [ "steel" ]
+    "material": [ { "type": "steel", "portion": 100 } ]
   },
   {
     "type": "GENERIC",

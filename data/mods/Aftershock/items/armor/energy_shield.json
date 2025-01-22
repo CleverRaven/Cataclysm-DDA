@@ -8,7 +8,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
-    "material": [ "riemann_space" ],
+    "material": [ { "type": "riemann_space", "portion": 100 } ],
     "environmental_protection": 20,
     "material_thickness": 5.0,
     "max_energy_shield_hp": 1200,

@@ -139,7 +139,7 @@
     "copy-from": "mon_zombie_child_base",
     "diff": 2,
     "hp": 15,
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "color": "white",
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],

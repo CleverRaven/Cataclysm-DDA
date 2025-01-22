@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
     "weight": "13500 g",
     "volume": "6500 ml",
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "armguard_lightplate",
     "color": "light_gray",
@@ -71,7 +71,7 @@
     "name": { "str": "plastic arm plate (exosuit)", "str_pl": "plastic arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are plates of plastic.",
     "weight": "3375 g",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "non_functional": "damaged_exo_arm_plastic",
     "armor": [
       {
@@ -129,7 +129,7 @@
     "name": { "str": "carbide arm plate (exosuit)", "str_pl": "carbide arm plates (exosuit)" },
     "description": "Designed to attach to an exosuit's arms, these are sturdy plates of vacuum-cast carbide.",
     "weight": "20250 g",
-    "material": [ "vacuum_carbide" ],
+    "material": [ { "type": "vacuum_carbide", "portion": 100 } ],
     "non_functional": "damaged_exo_arm_vcc",
     "armor": [
       {

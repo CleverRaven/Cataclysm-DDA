@@ -112,7 +112,7 @@
     "price": "11 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "power_armor": true,

@@ -8,7 +8,7 @@
     "variant_type": "gun",
     "weight": "460 g",
     "volume": "1 L",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": [ "shot" ],

@@ -202,7 +202,7 @@
     "description": "A collection of sketches and CAD designs marked up with pencil.  There are two peoples handwriting.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "3 g",
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]

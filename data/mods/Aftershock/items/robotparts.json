@@ -9,7 +9,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -22,7 +22,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -35,7 +35,7 @@
     "weight": "60000 g",
     "volume": "80000 ml",
     "price": "3 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -48,7 +48,7 @@
     "weight": "150000 g",
     "volume": "575000 ml",
     "price": "10 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -61,7 +61,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -121,7 +121,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts",
     "color": "red_green"
   },
@@ -134,7 +134,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts",
     "color": "red_green"
   },
@@ -149,7 +149,7 @@
     "volume": "20 L",
     "price": "5 kUSD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   }
 ]

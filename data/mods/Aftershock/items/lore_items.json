@@ -10,7 +10,7 @@
     "description": "A creased card with images and a personal message.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "3 g",
     "volume": "5 ml"
   }

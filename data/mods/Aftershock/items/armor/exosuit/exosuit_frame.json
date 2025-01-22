@@ -6,7 +6,7 @@
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "45 kg",
     "volume": "140 L",
-    "material": [ "titanium" ],
+    "material": [ { "type": "titanium", "portion": 100 } ],
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",

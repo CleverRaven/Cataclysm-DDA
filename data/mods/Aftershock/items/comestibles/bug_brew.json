@@ -100,7 +100,7 @@
     "price": "5 USD",
     "price_postapoc": "5 USD",
     "spoils_in": "45 days",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 360,
     "healthy": 3,

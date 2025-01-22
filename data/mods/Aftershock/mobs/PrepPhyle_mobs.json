@@ -43,7 +43,7 @@
     "weight": "1 kg",
     "hp": 15,
     "speed": 65,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "d",
     "color": "light_gray",
     "aggression": -12,

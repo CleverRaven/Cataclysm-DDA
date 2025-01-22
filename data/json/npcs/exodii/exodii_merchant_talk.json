@@ -9,7 +9,7 @@
     "color": "yellow",
     "symbol": ".",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "copper" ],
+    "material": [ { "type": "copper", "portion": 100 } ],
     "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "1 cent"

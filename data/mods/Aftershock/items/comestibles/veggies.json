@@ -18,7 +18,7 @@
     "volume": "125 ml",
     "price": "250 cent",
     "to_hit": -5,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": ";",
     "quench": 2,
     "calories": 800,

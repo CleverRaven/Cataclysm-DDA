@@ -106,7 +106,7 @@
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "install_time": "0 s",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",

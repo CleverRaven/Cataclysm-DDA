@@ -193,7 +193,7 @@
     "color": "green",
     "name": { "str": "Izhevsk PLC-75" },
     "description": "Straight from the bureaus of the old Soviet Union the PLC-75 is the crude and brutal answer to the constraints posed by the design of heavy laser ordnance.  Its use of antiquated flashtube pumped laser technology makes it unwieldy and wholly incompatible with modern equipment, whether this offers any consolation to downrange targets remains a matter of contentious dispute.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
     "range": 55,
     "skill": "launcher",

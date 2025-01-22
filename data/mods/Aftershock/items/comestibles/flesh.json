@@ -28,7 +28,7 @@
     "description": "A thick mass of flesh superficially resembling a mammalian heart.  It's the size of your fist and covered in dimpled grooves.",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "500 ml",
     "fun": -25,
     "vitamins": [ [ "mutagen_beast", 250 ], [ "meat_allergen", 1 ] ],

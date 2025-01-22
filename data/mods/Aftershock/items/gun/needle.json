@@ -50,7 +50,7 @@
     "longest_side": "255 mm",
     "price": "12000 USD",
     "melee_damage": { "bash": 8 },
-    "material": [ "ceramic" ],
+    "material": [ { "type": "ceramic", "portion": 100 } ],
     "symbol": "(",
     "range": 8,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },

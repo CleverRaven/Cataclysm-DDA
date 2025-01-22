@@ -7,7 +7,7 @@
     "description": "A large casing from a spent 25mm cartridge.",
     "weight": "50 g",
     "volume": "45ml",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "symbol": "=",
     "stackable": true,
     "color": "dark_gray"
@@ -21,7 +21,7 @@
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",
     "volume": "5ml",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "color": "light_green"
   }
 ]

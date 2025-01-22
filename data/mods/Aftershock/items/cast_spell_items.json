@@ -7,7 +7,7 @@
     "weight": "100 g",
     "volume": "250 ml",
     "price": "50 USD",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "symbol": "[",
     "color": "light_red",
     "charges_per_use": 1,
@@ -80,7 +80,7 @@
     "description": "An arcane device from the late Hyperspace Era, vaguely resembling a wrist computer made from malleable glass.  It can be activated to quickly deploy a translocator buoy or to teleport to previously activated buoys.",
     "price": "100 kUSD",
     "charges_per_use": 1000,
-    "material": [ "diamond" ],
+    "material": [ { "type": "diamond", "portion": 100 } ],
     "ammo": [ "battery" ],
     "use_action": [
       {

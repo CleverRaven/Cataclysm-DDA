@@ -8,7 +8,7 @@
     "volume": "12 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "material": [ "hydrogen_cell" ],
+    "material": [ { "type": "hydrogen_cell", "portion": 100 } ],
     "symbol": "=",
     "color": "light_blue",
     "phase": "gas",

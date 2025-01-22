@@ -122,7 +122,7 @@
     "symbol": "d",
     "color": "light_gray_yellow",
     "species": [ "ZOMBIE" ],
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
