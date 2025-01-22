@@ -39,12 +39,84 @@
     "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN",
     "condition": "npc_is_character",
-    "effect": [ { "math": [ "n_val('mana')", "-=", "5" ] }, { "npc_message": "The EoC is firing." } ]
+    "effect": [ { "math": [ "n_val('mana')", "-=", "5" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE",
     "condition": "npc_is_character",
-    "effect": [ { "math": [ "n_val('mana')", "-=", "15" ] }, { "npc_message": "The EoC is firing." } ]
+    "effect": [ { "math": [ "n_val('mana')", "-=", "15" ] } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_leyspark",
+    "name": { "str": "leyspark zombie" },
+    "description": "This zombie's ley lines are visibly glowing beneath its skin, casting a blue light on its surroundings.  A stronger burst of light, almost blinding, occasionally flashes from one of the ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer", "delay": "10 s" } ],
+    "relative": { "armor": { "nether": 6 } },
+    "special_attacks": [ [ "PARROT", 400 ], [ "PARROT_AT_DANGER", 0 ], { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 } ],
+    "luminance": 10,
+    "upgrades": { "half_life": 30, "into": "mon_zombie_levinbolt" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_levinbolt",
+    "name": { "str": "levinbolt zombie" },
+    "description": "A strong blue glow surrounds this zombie, frequently letting off bright sparks.  Occasionally, it makes an awkward gesture and a series of magical bolts flash from its fingers into the scenery.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 6 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer", "delay": "4 s" } ],
+    "relative": { "armor": { "nether": 15 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "levinbolt_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "seeker_bolts_levinbolt_spell" },
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s flings its arms out and glowing bolts erupt from them."
+      }
+    ],
+    "luminance": 20,
+    "upgrades": { "half_life": 30, "into": "mon_zombie_manastorm" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_manastorm",
+    "name": { "str": "manastorm zombie" },
+    "description": "This zombie is barely visible behind the bright blue glow and constantly flashes of light.  When it can be seen, its body is covered in a bright tracery of active ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 8 } ],
+    "emit_fields": [ { "emit_id": "emit_glimmer", "delay": "1 s" } ],
+    "relative": { "armor": { "nether": 25, "necrotic": 15 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "levinbolt_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "seeker_bolts_levinbolt_spell" },
+        "cooldown": 15,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s flings its arms out and glowing bolts erupt from them."
+      },
+      {
+        "id": "manastorm_zombie_spell_attack",
+        "type": "spell",
+        "spell_data": { "id": "manastorm_zombie_spell" },
+        "cooldown": 35,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_flag": "GRAB_FILTER" } } ] },
+        "monster_message": "%1$s makes a jerky motion and eldritch blue fire explodes from its arm."
+      }
+    ],
+    "luminance": 40
   }
 ]
