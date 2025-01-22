@@ -219,7 +219,7 @@
     "price_postapoc": "12 USD",
     "ammo_type": "caotel_cell",
     "range": 0,
-    "material": [ "qt_steel" ],
+    "material": [ { "type": "qt_steel", "portion": 100 } ],
     "effects": [ "NEVER_MISFIRES" ],
     "casing": "caotel_cell_spent"
   },

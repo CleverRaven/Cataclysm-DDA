@@ -12,7 +12,7 @@
     "barrel_length": "127 mm",
     "price": "784 USD",
     "price_postapoc": "20 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "38super" ],

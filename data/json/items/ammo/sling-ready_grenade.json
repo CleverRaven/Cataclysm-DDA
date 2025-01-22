@@ -11,7 +11,7 @@
     "price": "5 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "glass", "cotton" ],
+    "material": [ { "type": "glass", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "symbol": "*",
     "color": "light_gray",
     "use_action": {
@@ -45,7 +45,7 @@
     "price": "15 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "*",
     "color": "green",
     "use_action": {
@@ -77,7 +77,7 @@
     "weight": "460 g",
     "volume": "270 ml",
     "price": "7 USD 50 cent",
-    "material": [ "aluminum", "iron" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "iron", "portion": 50 } ],
     "explode_in_fire": true,
     "explosion": { "power": 150, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } },
     "use_action": {
@@ -104,7 +104,7 @@
     "ascii_picture": "sling-ready_homemade_grenade",
     "weight": "900 g",
     "price": "15 USD",
-    "material": [ "aluminum", "iron" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "iron", "portion": 50 } ],
     "explode_in_fire": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } },
     "use_action": {
@@ -131,7 +131,7 @@
     "weight": "600 g",
     "volume": "270 ml",
     "price": "15 USD",
-    "material": [ "aluminum", "iron" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "iron", "portion": 50 } ],
     "explode_in_fire": true,
     "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } },
     "use_action": {
@@ -158,7 +158,7 @@
     "ascii_picture": "sling-ready_homemade_grenade_2",
     "weight": "1200 g",
     "price": "30 USD",
-    "material": [ "aluminum", "iron" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "iron", "portion": 50 } ],
     "explode_in_fire": true,
     "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } },
     "use_action": {

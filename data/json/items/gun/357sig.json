@@ -55,7 +55,7 @@
     "barrel_length": "99 mm",
     "price": "690 USD",
     "price_postapoc": "22 USD 50 cent",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "color": "dark_gray",
     "ammo": [ "357sig" ],
     "dispersion": 480,

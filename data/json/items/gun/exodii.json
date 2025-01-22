@@ -23,7 +23,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": "(",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 350,
@@ -66,7 +66,7 @@
       }
     ],
     "to_hit": 1,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "color": "dark_gray",
     "ammo": [ "273x44", "273x110", "273x44RG" ],
     "dispersion": 250,
@@ -103,7 +103,7 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "273x44" ],
@@ -149,7 +149,7 @@
       }
     ],
     "to_hit": -3,
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "123ln" ],
@@ -198,7 +198,7 @@
       }
     ],
     "to_hit": -1,
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "color": "light_gray",
     "ammo": [ "123ln" ],
     "dispersion": 100,
@@ -344,7 +344,7 @@
     "barrel_length": "2890 mm",
     "price_postapoc": "200 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "ammo": [ "33naval" ],
     "range": 100,
     "dispersion": 130,

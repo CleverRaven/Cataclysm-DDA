@@ -20,7 +20,7 @@
     "price": "430 USD",
     "price_postapoc": "30 USD",
     "to_hit": -1,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "ammo": [ "44paper" ],
     "dispersion": 400,
     "durability": 7,

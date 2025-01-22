@@ -9,7 +9,7 @@
     "volume": "1000 ml",
     "price": "11 USD",
     "price_postapoc": "12 USD",
-    "material": [ "steel", "powder" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "powder", "portion": 50 } ],
     "symbol": "=",
     "color": "white",
     "count": 1,

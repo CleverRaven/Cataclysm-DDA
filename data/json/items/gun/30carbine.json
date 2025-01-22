@@ -13,7 +13,7 @@
     "price": "800 USD",
     "price_postapoc": "35 USD",
     "to_hit": -1,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "symbol": "(",
     "color": "brown",
     "ammo": [ "30carbine" ],

@@ -27,7 +27,7 @@
     "price": "650 USD",
     "price_postapoc": "18 USD 50 cent",
     "to_hit": -1,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "color": "brown",
     "ammo": [ "77mm_arisaka" ],
     "dispersion": 150,

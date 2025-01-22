@@ -9,7 +9,7 @@
     "color": "red",
     "description": "A small paintball for recreational shooting.  Getting shot with one stings a little, but you'd be hard-pressed to kill anything with it.",
     "ascii_picture": "paintball",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "paintball",

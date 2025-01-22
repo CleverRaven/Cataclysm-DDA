@@ -17,7 +17,7 @@
     ],
     "price": "29 kUSD",
     "price_postapoc": "40 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "skill": "launcher",
     "ammo": [ "m235" ],
     "weight": "5220 g",

@@ -54,7 +54,7 @@
     "proportional": { "weight": 0.66 },
     "price": "9 kUSD 700 USD",
     "price_postapoc": "100 USD",
-    "material": [ "aluminum", "carbonfiber" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "carbonfiber", "portion": 50 } ],
     "range": 10,
     "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel", 1 ] ]
   }

@@ -11,7 +11,7 @@
     "color": "dark_gray",
     "description": "An 84x245mm High Explosive anti-personnel cartridge for the Carl Gustaf M3 and other 84mm recoilless rifles.  Designed to be highly effective against personnel.",
     "ascii_picture": "84x246mm_he",
-    "material": [ "steel", "powder" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "powder", "portion": 50 } ],
     "volume": "2084 ml",
     "longest_side": "376 mm",
     "weight": "3200 g",

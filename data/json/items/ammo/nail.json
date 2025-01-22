@@ -6,7 +6,7 @@
     "copy-from": "nail",
     "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon, or used for crafting ammunition.",
     "ascii_picture": "combatnail",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "color": "dark_gray",
     "loudness": 0,
@@ -21,7 +21,7 @@
     "name": { "str": "bronze nail" },
     "copy-from": "nail",
     "description": "A pin-shaped piece of bronze.  It can be used to construct various things with a hammer.",
-    "material": [ "bronze" ]
+    "material": [ { "type": "bronze", "portion": 100 } ]
   },
   {
     "id": "nail",
@@ -34,7 +34,7 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "color": "cyan",
     "count": 100,
@@ -57,7 +57,7 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "color": "cyan",
     "count": 100,

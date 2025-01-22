@@ -10,7 +10,7 @@
     "price": "60 USD",
     "price_postapoc": "80 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "=",
     "color": "blue",
     "count": 20,

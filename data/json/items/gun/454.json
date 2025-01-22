@@ -13,7 +13,7 @@
     "//": "212.725 + 45mm max OAL for 454. Revolvers just built different.",
     "price": "641 USD",
     "price_postapoc": "25 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "454", "410shot", "45colt" ],

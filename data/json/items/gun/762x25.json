@@ -21,7 +21,7 @@
     "barrel_length": "116 mm",
     "price": "1 kUSD",
     "price_postapoc": "12 USD 50 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "ammo": [ "762x25" ],
     "dispersion": 225,
     "durability": 7,

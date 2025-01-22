@@ -12,7 +12,7 @@
     "price": "19 kUSD 200 USD",
     "price_postapoc": "120 USD",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "ammo": [ "12mm" ],
     "skill": "rifle",
     "range": 60,

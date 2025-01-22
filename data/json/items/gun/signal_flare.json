@@ -11,7 +11,7 @@
     "volume": "500 ml",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "(",
     "color": "light_red",
     "ammo": [ "signal_flare" ],

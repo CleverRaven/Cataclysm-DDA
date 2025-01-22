@@ -9,7 +9,7 @@
     "volume": "377 ml",
     "price": "5 USD",
     "price_postapoc": "5 USD",
-    "material": [ "plastic", "powder" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "powder", "portion": 50 } ],
     "symbol": "=",
     "color": "red",
     "count": 4,

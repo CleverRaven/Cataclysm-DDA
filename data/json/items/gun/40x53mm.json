@@ -13,7 +13,7 @@
     "price": "16 kUSD 500 USD",
     "price_postapoc": "50 USD",
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "ammo": [ "40x53mm" ],
     "range": 30,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },

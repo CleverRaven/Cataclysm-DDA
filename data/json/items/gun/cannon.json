@@ -12,7 +12,7 @@
     "price": "350 USD",
     "price_postapoc": "10 USD",
     "to_hit": -4,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "cannon" ],
