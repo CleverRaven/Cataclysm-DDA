@@ -24,7 +24,7 @@
     "description": "This speedloader holds up to eight 12ga shotgun shells, intended for use with the Drotik.",
     "weight": "150 g",
     "volume": "350 ml",
-    "material": [ "superalloy", "plastic" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "o",
     "color": "dark_gray",
     "ammo_type": [ "shot" ],

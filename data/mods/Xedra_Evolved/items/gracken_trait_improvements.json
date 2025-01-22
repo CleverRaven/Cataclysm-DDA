@@ -7,7 +7,7 @@
     "name": { "str": "abstract gracken improvement", "//~": "NO_I18N" },
     "weight": "2041 g",
     "volume": "2500 ml",
-    "material": [ "flesh", "shadowstuff" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "shadowstuff", "portion": 50 } ],
     "symbol": "!",
     "color": "light_gray",
     "price_postapoc": "10 USD",

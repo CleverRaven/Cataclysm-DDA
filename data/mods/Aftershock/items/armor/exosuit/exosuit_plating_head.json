@@ -7,7 +7,7 @@
     "description": "Designed to attach to an exosuit's helmet via carbide brackets, this is a sturdy plate of tempered steel.",
     "weight": "5 kg",
     "volume": "5 L",
-    "material": [ "qt_steel", "vacuum_carbide" ],
+    "material": [ { "type": "qt_steel", "portion": 50 }, { "type": "vacuum_carbide", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
     "color": "light_gray",
@@ -56,7 +56,7 @@
     "name": { "str": "plastic helmet plate (exosuit)", "str_pl": "plastic helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of plastic.",
     "weight": "1250 g",
-    "material": [ "plastic", "vacuum_carbide" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "vacuum_carbide", "portion": 50 } ],
     "looks_like": "power_armor_helmet_basic",
     "non_functional": "damaged_exo_helmet_plastic",
     "armor": [

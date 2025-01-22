@@ -55,7 +55,7 @@
     "description": "A lightweight, battery-powered tool to weld metal pieces together using a plasma-inducted electric arc.  A decent tool, but you think you can do more with some modifications.",
     "weight": "2000 g",
     "volume": "2500 ml",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [
       {
@@ -81,7 +81,7 @@
     "weight": "358 g",
     "volume": "790 ml",
     "longest_side": "25 cm",
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
@@ -162,7 +162,7 @@
     "weight": "300 g",
     "volume": "400 ml",
     "longest_side": "30 cm",
-    "material": [ "aluminum", "steel" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": ";",
     "color": "white",
     "flags": [ "ELECTRONIC", "INVENTOR_CRAFTED", "TRADER_AVOID" ],

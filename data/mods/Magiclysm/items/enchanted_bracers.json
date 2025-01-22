@@ -9,7 +9,7 @@
     "volume": "2500 ml",
     "price": "200 USD",
     "to_hit": -1,
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 10,

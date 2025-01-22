@@ -63,7 +63,7 @@
     "volume": "18000 ml",
     "price": "1 kUSD",
     "price_postapoc": "1 kUSD",
-    "material": [ "nylon", "aluminum" ],
+    "material": [ { "type": "nylon", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",

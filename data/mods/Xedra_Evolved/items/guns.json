@@ -23,7 +23,7 @@
     "longest_side": "195 mm",
     "price": "950 USD",
     "price_postapoc": "30 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "color": "dark_gray",
     "ammo": [ "9x21mm" ],
     "dispersion": 480,

@@ -25,7 +25,7 @@
     "price": "0 cent",
     "price_postapoc": "50 cent",
     "to_hit": -1,
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ";",
     "color": "yellow",
     "melee_damage": { "bash": 6 }
@@ -97,7 +97,7 @@
     "type": "GENERIC",
     "name": { "str": "hazardous waste drum" },
     "description": "A yellow drum meant for the storage of hazardous substances.",
-    "material": [ "steel", "lead" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "lead", "portion": 50 } ],
     "symbol": "0",
     "pocket_data": [
       {
@@ -125,7 +125,7 @@
     "symbol": "u",
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_atomic_butter_churn" },
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "//": "I figured bionic preppers would have a sci-fi solution to some low tech problems.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
     "melee_damage": { "bash": 5 }
@@ -138,7 +138,7 @@
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ] ],
     "symbol": "H",
     "color": "light_cyan",

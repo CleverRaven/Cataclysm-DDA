@@ -81,7 +81,7 @@
     "price": "40 USD",
     "price_postapoc": "7 USD 50 cent",
     "symbol": "[",
-    "material": [ "nylon", "carbide_thermal_weave" ],
+    "material": [ { "type": "nylon", "portion": 50 }, { "type": "carbide_thermal_weave", "portion": 50 } ],
     "color": "light_gray",
     "warmth": 5,
     "flags": [ "FRAGILE", "OUTER", "OVERSIZE", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ],

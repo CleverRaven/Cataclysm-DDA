@@ -9,7 +9,7 @@
     "longest_side": "25 cm",
     "price": "50 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel", "clay" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "clay", "portion": 50 } ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],

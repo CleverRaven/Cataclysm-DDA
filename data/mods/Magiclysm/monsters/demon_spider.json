@@ -13,7 +13,7 @@
     "bodytype": "spider",
     "speed": 150,
     "species": [ "DEMON_SPIDER" ],
-    "material": [ "iflesh", "demon_chitin" ],
+    "material": [ { "type": "iflesh", "portion": 50 }, { "type": "demon_chitin", "portion": 50 } ],
     "harvest": "demon_spider",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PUSH_MON" ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],

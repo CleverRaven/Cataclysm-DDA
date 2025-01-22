@@ -12,7 +12,7 @@
     "barrel_length": "152 mm",
     "price": "875 USD",
     "price_postapoc": "27 USD 50 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "ammo_pistol", "ammo_pistol_magnum" ],

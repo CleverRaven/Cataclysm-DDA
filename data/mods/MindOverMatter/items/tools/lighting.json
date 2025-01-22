@@ -106,7 +106,7 @@
     "description": "A tall floor lamp that provides illumination when plugged into a power outlet.  This lamp is enhanced with matrix technology, making it far more power efficient.",
     "weight": "2500 g",
     "to_hit": -1,
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "volume": "2 L",
     "longest_side": "170 cm",
     "melee_damage": { "bash": 5 },

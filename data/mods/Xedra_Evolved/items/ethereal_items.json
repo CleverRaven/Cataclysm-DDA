@@ -366,7 +366,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -1,
-    "material": [ "veggy", "wood" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "symbol": "o",
     "color": "green",
     "pocket_data": [

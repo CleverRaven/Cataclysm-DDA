@@ -9,7 +9,7 @@
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
-    "material": [ "nomex", "plastic" ],
+    "material": [ { "type": "nomex", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "environmental_protection": 5,
     "armor": [
       {
@@ -40,7 +40,7 @@
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
-    "material": [ "nomex", "kevlar" ],
+    "material": [ { "type": "nomex", "portion": 50 }, { "type": "kevlar", "portion": 50 } ],
     "environmental_protection": 5,
     "armor": [
       {
@@ -79,7 +79,7 @@
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
-    "material": [ "nomex", "nanoprinted_alloy" ],
+    "material": [ { "type": "nomex", "portion": 50 }, { "type": "nanoprinted_alloy", "portion": 50 } ],
     "environmental_protection": 100,
     "armor": [
       {
@@ -110,7 +110,7 @@
     "weight": "610 g",
     "volume": "3500 ml",
     "color": "brown",
-    "material": [ "nomex", "kevlar_rigid" ],
+    "material": [ { "type": "nomex", "portion": 50 }, { "type": "kevlar_rigid", "portion": 50 } ],
     "environmental_protection": 10,
     "armor": [
       {

@@ -142,7 +142,7 @@
     "copy-from": "protein_bar_evac",
     "color": "red",
     "calories": 250,
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "healthy": 3,
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.)",
     "fun": 0,
@@ -158,7 +158,7 @@
     "container": "can_food",
     "color": "red",
     "calories": 450,
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "healthy": 3,
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
@@ -203,7 +203,7 @@
     "volume": "100 ml",
     "weight": "50 g",
     "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
-    "material": [ "flesh", "veggy" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

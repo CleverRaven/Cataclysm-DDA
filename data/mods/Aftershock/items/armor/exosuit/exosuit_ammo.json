@@ -11,7 +11,7 @@
     "type": "AMMO",
     "name": { "str": "mining rod" },
     "description": "A surprisingly heavy rod with a tungsten core, this looks like it could pierce a tank.  When fired from a mining rod launcher, it will briefly map out the area surrounding the impact.",
-    "material": [ "carbide", "superalloy" ],
+    "material": [ { "type": "carbide", "portion": 50 }, { "type": "superalloy", "portion": 50 } ],
     "ammo_type": "metal_rail",
     "color": "light_gray",
     "dispersion": 0,

@@ -10,7 +10,7 @@
     "volume": "750 ml",
     "price": "130 USD",
     "price_postapoc": "50 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "(",
     "color": "yellow",
     "ammo": [ "afs_foam" ],

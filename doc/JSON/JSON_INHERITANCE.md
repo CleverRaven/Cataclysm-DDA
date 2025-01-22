@@ -19,7 +19,7 @@ In the following condensed example, `556` ammo is derived from `223` ammo via `c
     "price": "2 USD 80 cent",
     "price_postapoc": "9 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "lead", "powder" ],
+    "material": [ { "type": "brass", "portion": 50 }, { "type": "lead", "powder", "portion": 50 } ],
     "damage": {
       "damage_type": "bullet",
       "amount": 39,

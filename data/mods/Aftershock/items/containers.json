@@ -43,7 +43,7 @@
     "type": "GENERIC",
     "name": { "str": "foil bag" },
     "description": "A plastic and aluminum foil bag for long term food storage.",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

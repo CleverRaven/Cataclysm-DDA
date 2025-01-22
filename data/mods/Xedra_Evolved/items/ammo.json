@@ -70,7 +70,7 @@
     "price": "2 USD 50 cent",
     "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "material": [ { "type": "brass", "portion": 50 }, { "type": "powder", "portion": 50 } ],
     "symbol": "=",
     "color": "red",
     "count": 50,

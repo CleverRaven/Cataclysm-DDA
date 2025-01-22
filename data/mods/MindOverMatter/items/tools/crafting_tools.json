@@ -10,7 +10,7 @@
     "price": "20 USD",
     "price_postapoc": "50 cent",
     "melee_damage": { "bash": 2 },
-    "material": [ "nether_crystal", "steel" ],
+    "material": [ { "type": "nether_crystal", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "[",
     "color": "white",
     "qualities": [ [ "MATRIX_CHANNEL", 1 ] ]
@@ -26,7 +26,7 @@
     "price": "30 USD",
     "price_postapoc": "40 cent",
     "melee_damage": { "bash": 5 },
-    "material": [ "nether_crystal", "steel" ],
+    "material": [ { "type": "nether_crystal", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "MATRIX_FOCUS", 1 ] ]
@@ -42,7 +42,7 @@
     "price": "30 USD",
     "price_postapoc": "40 cent",
     "melee_damage": { "bash": 5 },
-    "material": [ "nether_crystal", "steel" ],
+    "material": [ { "type": "nether_crystal", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "[",
     "color": "light_gray"
   }

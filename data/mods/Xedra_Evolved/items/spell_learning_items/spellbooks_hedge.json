@@ -101,7 +101,7 @@
     "weight": "721 g",
     "volume": "791 ml",
     "price": "15 USD",
-    "material": [ "paper", "cardboard" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",

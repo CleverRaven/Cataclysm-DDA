@@ -8,7 +8,7 @@
     "volume": "15 L",
     "price": "50 kUSD",
     "price_postapoc": "50 kUSD",
-    "material": [ "steel", "superalloy" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "superalloy", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "rpg",
     "ammo": [ "ammonia_liquid" ],

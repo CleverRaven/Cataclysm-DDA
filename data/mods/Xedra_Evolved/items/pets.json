@@ -10,7 +10,7 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "to_hit": -5,
-    "material": [ "fae_blood", "veggy" ],
+    "material": [ { "type": "fae_blood", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "symbol": ";",
     "color": "yellow",
     "flags": [ "INEDIBLE" ],

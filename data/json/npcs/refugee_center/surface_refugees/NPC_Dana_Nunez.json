@@ -578,7 +578,7 @@
     "weight": "450 g",
     "volume": "680 ml",
     "longest_side": "132 mm",
-    "material": [ "glass", "wheat" ],
+    "material": [ { "type": "glass", "portion": 50 }, { "type": "wheat", "portion": 50 } ],
     "melee_damage": { "bash": 8 }
   },
   {

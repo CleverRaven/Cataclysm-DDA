@@ -269,7 +269,7 @@
     "price_postapoc": "100 USD",
     "melee_damage": { "bash": 8 },
     "ammo_type": "bio_warhead",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "TRADER_AVOID", "WATER_FRIENDLY", "INVENTOR_CRAFTED" ],
     "symbol": "*",
     "color": "light_green"
@@ -397,7 +397,7 @@
     "price_postapoc": "20 USD",
     "to_hit": -1,
     "melee_damage": { "bash": 12 },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "color": "blue",
     "ammo_to_fire": 500,

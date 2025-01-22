@@ -38,7 +38,7 @@
     "description": "A large storage pack, mountable on a hardpoint.",
     "weight": "2250 g",
     "volume": "15 L",
-    "material": [ "kevlar", "plastic" ],
+    "material": [ { "type": "kevlar", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
   },
   {
@@ -52,7 +52,7 @@
     "description": "A medium storage pouch, mountable on a hardpoint.",
     "weight": "275 g",
     "volume": "2500 ml",
-    "material": [ "nylon", "plastic" ],
+    "material": [ { "type": "nylon", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_MEDIUM_GADGET" ]
   },
   {
@@ -66,7 +66,7 @@
     "description": "A small storage pouch, mountable on a hardpoint.",
     "weight": "125 g",
     "volume": "1050 ml",
-    "material": [ "nylon", "plastic" ],
+    "material": [ { "type": "nylon", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_SMALL_GADGET" ]
   },
   {
@@ -101,7 +101,7 @@
     "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
     "weight": "500 g",
     "volume": "2500 ml",
-    "material": [ "plastic", "nylon" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "nylon", "portion": 50 } ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
@@ -136,7 +136,7 @@
     "description": "This module holds a single knife or small blade.  Automatically opens when the exosuit's pilot reaches for it.",
     "weight": "500 g",
     "volume": "2500 ml",
-    "material": [ "plastic", "nylon" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "nylon", "portion": 50 } ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",

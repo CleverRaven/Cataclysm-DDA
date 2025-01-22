@@ -40,7 +40,7 @@
     "volume": "20000 ml",
     "longest_side": "80 cm",
     "to_hit": 1,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "symbol": "@",
     "color": "brown",
     "melee_damage": { "bash": 8 }

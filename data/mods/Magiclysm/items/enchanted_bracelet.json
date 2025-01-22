@@ -6,7 +6,7 @@
     "description": { "str": "A bracelet, completely covered with a large amount of runes from both sides.", "//~": "NO_I18N" },
     "weight": "50 g",
     "volume": "25 ml",
-    "material": [ "platinum", "crystallized_mana" ],
+    "material": [ { "type": "platinum", "portion": 50 }, { "type": "crystallized_mana", "portion": 50 } ],
     "symbol": "[",
     "color": "white",
     "sided": true,

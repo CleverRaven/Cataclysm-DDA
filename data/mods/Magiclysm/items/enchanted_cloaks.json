@@ -225,7 +225,7 @@
     "price": "1 kUSD 500 USD",
     "symbol": "w",
     "color": "green",
-    "material": [ "cotton", "veggy" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "veggy", "portion": 50 } ],
     "armor": [
       { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {

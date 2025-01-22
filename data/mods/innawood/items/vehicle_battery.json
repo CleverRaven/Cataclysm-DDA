@@ -30,7 +30,7 @@
     "volume": "26 L",
     "price": "40 USD",
     "price_postapoc": "5 USD",
-    "material": [ "clay", "wood" ],
+    "material": [ { "type": "clay", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": [ "battery" ],

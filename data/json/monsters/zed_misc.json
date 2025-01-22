@@ -95,7 +95,7 @@
     "diff": 2,
     "hp": 110,
     "speed": 80,
-    "material": [ "flesh", "bone" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "bone", "portion": 50 } ],
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,

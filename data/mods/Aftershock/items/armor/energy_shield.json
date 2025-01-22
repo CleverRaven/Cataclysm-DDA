@@ -48,7 +48,7 @@
     "price": "120 kUSD",
     "price_postapoc": "120 kUSD",
     "ammo": [ "battery" ],
-    "material": [ "nylon", "aluminum" ],
+    "material": [ { "type": "nylon", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "brown",

@@ -12,7 +12,7 @@
     "description": "A thick, hulking mass of plant matter and wood that's easily the size of your head, torn from a triffid heart.",
     "price": "0 USD",
     "price_postapoc": "0 USD",
-    "material": [ "veggy", "wood" ],
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "volume": "1 L",
     "fun": -25
   }

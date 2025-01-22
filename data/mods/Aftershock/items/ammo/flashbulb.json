@@ -8,7 +8,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Pyrotechnic flash lamps designed to emit and focus a millisecond pulse laser through controlled detonation.",
-    "material": [ "steel", "powder" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "powder", "portion": 50 } ],
     "volume": "1250 ml",
     "longest_side": "246 mm",
     "weight": "3200 g",

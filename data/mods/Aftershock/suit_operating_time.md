@@ -45,7 +45,7 @@ Consider the Magellan exosuit, which has the following definition:
     "weight": "7800 g",
     "volume": "14 L",
     "price": "4 kUSD",
-    "material": [ "nomex", "steel" ],
+    "material": [ { "type": "nomex", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "light_gray",

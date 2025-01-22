@@ -8,7 +8,7 @@
     "weight": "1000 g",
     "volume": "1225ml",
     "price": "1 kUSD",
-    "material": [ "iron", "plastic" ],
+    "material": [ { "type": "iron", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": [ "battery" ],

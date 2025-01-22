@@ -8,7 +8,7 @@
     "volume": "50 L",
     "price": "20 USD",
     "price_postapoc": "2 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "#",
     "color": "light_gray",
     "properties": { "creature_size_capacity": "HUGE" },

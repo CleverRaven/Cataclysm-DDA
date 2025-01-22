@@ -69,7 +69,7 @@
     "name": { "str": "greater staff of the magi", "str_pl": "greater staves of the magi" },
     "description": "A beautifully carved staff, made of enchanted wood and mithril.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.  Wielding it greatly increases your mana regeneration.",
     "price": "10 kUSD",
-    "material": [ "wood", "mithril_metal" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "mithril_metal", "portion": 50 } ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],

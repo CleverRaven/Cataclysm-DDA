@@ -63,7 +63,7 @@
     "category": "other",
     "description": "The automaton is now much more broken than it was before.  It resembles a pile of random parts and its internals are fried beyond salvage but could be gutted for materials.",
     "price": "0 USD",
-    "material": [ "steel", "dreamstuff" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "dreamstuff", "portion": 50 } ],
     "volume": "210 L",
     "weight": "195 kg",
     "to_hit": -2,

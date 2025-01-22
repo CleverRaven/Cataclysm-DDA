@@ -139,7 +139,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from demon chitin fitted to a thin mesh.  You could put this on a friendly horse.",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "120 USD",
-    "material": [ "demon_chitin", "steel" ],
+    "material": [ { "type": "demon_chitin", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "weight": "31500 g",
     "volume": "150 L",
     "material_thickness": 6,

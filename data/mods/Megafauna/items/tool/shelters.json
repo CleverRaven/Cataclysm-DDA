@@ -9,7 +9,7 @@
     "longest_side": "90 cm",
     "price": "65 USD",
     "price_postapoc": "5 USD",
-    "material": [ "bone", "leather" ],
+    "material": [ { "type": "bone", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -33,7 +33,7 @@
     "longest_side": "240 cm",
     "price": "125 USD",
     "price_postapoc": "10 USD",
-    "material": [ "bone", "leather" ],
+    "material": [ { "type": "bone", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": ";",
     "color": "brown",
     "use_action": {

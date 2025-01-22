@@ -72,7 +72,7 @@
     "volume": "3600 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "flesh", "enamel" ],
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "enamel", "portion": 50 } ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 5,

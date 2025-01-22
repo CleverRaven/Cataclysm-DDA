@@ -562,7 +562,7 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing alien animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "1 USD",
-    "material": [ "fur", "flesh" ],
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "fun": -24
   }

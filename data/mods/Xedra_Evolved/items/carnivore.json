@@ -31,7 +31,7 @@
     "price": "3 USD 30 cent",
     "price_postapoc": "1 USD",
     "vitamins": [ [ "underhill_essence", 15 ] ],
-    "material": [ "fae_fur", "fae_flesh" ],
+    "material": [ { "type": "fae_fur", "portion": 50 }, { "type": "fae_flesh", "portion": 50 } ],
     "fun": -24
   },
   {

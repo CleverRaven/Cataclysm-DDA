@@ -72,7 +72,7 @@
     "category": "other",
     "description": "A broken mi-go turret.  It's leaking fluids and smells you can't identify.  Could be butchered for parts.",
     "price": "10 USD",
-    "material": [ "alien_resin", "flesh" ],
+    "material": [ { "type": "alien_resin", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "weight": "40750 g",
     "volume": "30 L",
     "to_hit": -3,

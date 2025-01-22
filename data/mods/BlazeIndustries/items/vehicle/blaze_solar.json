@@ -23,7 +23,7 @@
     "description": "A vertical array of three reinforced solar panels set on a chassis rising above one another on a metal pole with rudimentary tracking and motors.  Due to the flimsy nature of the hydraulics and high surface area profile to maximize sunlight, they can't really be installed onto an existing vehicle.  Requires a jumper cable or similar to pull power from.",
     "weight": "80459 g",
     "volume": "20500 ml",
-    "material": [ "glass", "steel" ],
+    "material": [ { "type": "glass", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "color": "light_blue"
   },
   {

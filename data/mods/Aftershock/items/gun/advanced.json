@@ -5,7 +5,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "base robogun", "//~": "NO_I18N" },
     "description": { "str": "This is a pseudo item for monster attacks.  If you see this, it's a bug.", "//~": "NO_I18N" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "color": "magenta",
     "weight": "5 kg",

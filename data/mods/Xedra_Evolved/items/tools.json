@@ -8,7 +8,7 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "material": [ "wood", "steel" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "thread" ],

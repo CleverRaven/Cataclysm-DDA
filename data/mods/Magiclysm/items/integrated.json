@@ -132,7 +132,7 @@
     "volume": "2400 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "black_dragon_hide", "black_dragon_scales" ],
+    "material": [ { "type": "black_dragon_hide", "portion": 50 }, { "type": "black_dragon_scales", "portion": 50 } ],
     "symbol": "x",
     "color": "dark_gray",
     "warmth": 5,

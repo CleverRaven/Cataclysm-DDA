@@ -167,7 +167,7 @@
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "fur", "flesh" ],
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "symbol": ",",
     "color": "brown",
     "use_action": {
@@ -190,7 +190,7 @@
     "description": "A rolled-up fae animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
     "price": "2 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "fae_fur", "fae_flesh" ],
+    "material": [ { "type": "fae_fur", "portion": 50 }, { "type": "fae_flesh", "portion": 50 } ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "372 g",
     "volume": "465 ml",

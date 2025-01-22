@@ -190,7 +190,7 @@
     "description": "A USB thumb drive with the XEDRA logo over a large Ψ symbol printed on it.  You'd bet there's something important on here.",
     "price": "12 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "weight": "4536 mg",
     "volume": "4 ml",
     "longest_side": "5 cm",

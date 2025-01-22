@@ -26,7 +26,7 @@
     "volume": "1 ml",
     "price": "1 USD 60 cent",
     "price_postapoc": "8 USD",
-    "material": [ "superalloy", "steel" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": "=",
     "color": "red",
     "count": 1,

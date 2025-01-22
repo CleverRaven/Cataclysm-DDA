@@ -338,7 +338,7 @@
     "longest_side": "25 cm",
     "price": "30 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ "wood", "steel" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
