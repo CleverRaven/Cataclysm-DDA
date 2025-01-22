@@ -9,7 +9,7 @@
     "volume": "1 L",
     "price": "90 USD",
     "price_postapoc": "50 cent",
-    "material": [ "gutskin" ],
+    "material": [ { "type": "gutskin", "portion": 100 } ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [

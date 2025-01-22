@@ -153,7 +153,7 @@
     "weight": "57 g",
     "hp": 2,
     "speed": 40,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "v",
     "color": "green_yellow",
     "looks_like": "mon_compsognathus",

@@ -145,7 +145,7 @@
     "description": "A very large warm wool sweater with a festive holiday pattern.  You could put this on a friendly bear.",
     "price": "100 USD",
     "price_postapoc": "10 USD",
-    "material": [ "wool" ],
+    "material": [ { "type": "wool", "portion": 100 } ],
     "weight": "3 kg",
     "volume": "20 L",
     "looks_like": "longshirt",

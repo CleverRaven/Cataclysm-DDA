@@ -276,7 +276,7 @@
     "weight": "25 kg",
     "hp": 40,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "v",
     "color": "light_gray",
     "looks_like": "mon_eoraptor",

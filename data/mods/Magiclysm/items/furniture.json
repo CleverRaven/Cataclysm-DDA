@@ -12,7 +12,7 @@
     "longest_side": "150 cm",
     "volume": "200 L",
     "weight": "48 kg",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "to_hit": -3
   },
   {
@@ -26,7 +26,7 @@
     "price_postapoc": "150 USD",
     "longest_side": "60 cm",
     "to_hit": 1,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "/",
     "color": "brown",
     "melee_damage": { "bash": 5 }
@@ -58,7 +58,7 @@
     "longest_side": "95 cm",
     "volume": "30 L",
     "weight": "12 kg",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "to_hit": -3
   }
 ]

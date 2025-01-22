@@ -10,7 +10,7 @@
     "price": "20 USD",
     "to_hit": -1,
     "looks_like": "clay_hydria",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "symbol": ")",
     "color": "red",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
@@ -31,7 +31,7 @@
     "price": "750 USD",
     "to_hit": -4,
     "looks_like": "canning_pot",
-    "material": [ "orichalcum_metal" ],
+    "material": [ { "type": "orichalcum_metal", "portion": 100 } ],
     "symbol": "U",
     "color": "yellow",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
@@ -66,7 +66,7 @@
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": "5 kUSD",
-    "material": [ "powder_nonflam" ],
+    "material": [ { "type": "powder_nonflam", "portion": 100 } ],
     "weight": "2340 g",
     "volume": "1 L",
     "melee_damage": { "bash": 4 }
@@ -147,7 +147,7 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "to_hit": -4,
-    "material": [ "parabolan_wool" ],
+    "material": [ { "type": "parabolan_wool", "portion": 100 } ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -159,7 +159,7 @@
     "name": { "str": "glassteel shard" },
     "category": "other",
     "description": "A broken shard of glassteel covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
-    "material": [ "glassteel" ],
+    "material": [ { "type": "glassteel", "portion": 100 } ],
     "melee_damage": { "cut": 7 }
   },
   {

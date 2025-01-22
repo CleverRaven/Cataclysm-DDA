@@ -7,7 +7,7 @@
     "weight": "475 g",
     "volume": "500 ml",
     "price": "40 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "color": "white"
   },

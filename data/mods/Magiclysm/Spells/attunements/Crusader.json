@@ -10,7 +10,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": 3,
-    "material": [ "concentrated_mana" ],
+    "material": [ { "type": "concentrated_mana", "portion": 100 } ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
@@ -117,7 +117,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "description": "A large sword made of glowing, radiant fire.  It explodes with radiance when striking enemies.",
-    "material": [ "concentrated_mana" ],
+    "material": [ { "type": "concentrated_mana", "portion": 100 } ],
     "weapon_category": [ "LONG_SWORDS", "GREAT_SWORDS" ],
     "techniques": [ "RSTRIKE", "WBLOCK_2", "BRUTAL", "RAPID" ],
     "flags": [

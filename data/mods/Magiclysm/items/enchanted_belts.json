@@ -43,7 +43,7 @@
     "name": { "str_sp": "Megingjörð" },
     "price_postapoc": "9500 USD",
     "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
-    "material": [ "superalloy" ],
+    "material": [ { "type": "superalloy", "portion": 100 } ],
     "material_thickness": 10,
     "environmental_protection": 20,
     "extend": { "flags": [ "PADDED" ] },
@@ -101,7 +101,7 @@
         "volume_multiplier": 0.35
       }
     ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -148,7 +148,7 @@
         "volume_multiplier": 0.2
       }
     ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -192,7 +192,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -240,7 +240,7 @@
     "id": "mbelt_iron_whip",
     "name": { "str": "Belt of The Iron Whip", "str_pl": "Belts of the Iron Whip" },
     "volume": "1 L",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "description": "A braided but flexible belt seemingly made of metal.  You can activate it to transform it into a whip and flay your enemies.",
     "material_thickness": 4,
     "flags": [ "STURDY", "BELTED" ],
@@ -264,7 +264,7 @@
     "weight": "2154 g",
     "volume": "2 L",
     "price": "3 kUSD 500 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
     "use_action": {

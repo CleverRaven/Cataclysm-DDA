@@ -24,7 +24,7 @@
     "armor": { "bash": 6, "stab": 8, "bullet": 18, "heat": -30 },
     "vision_day": 30,
     "vision_night": 5,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "PATH_AVOID_DANGER", "HIT_AND_RUN", "PATH_AVOID_FIRE", "FLAMMABLE", "NOHEAD", "NO_BREATHE" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a pile of moss." },
@@ -55,7 +55,7 @@
     "armor": { "bash": 15, "cut": 5, "stab": 30, "bullet": 40, "heat": -30 },
     "vision_day": 35,
     "vision_night": 5,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "special_attacks": [ { "id": "scratch", "cooldown": 8 } ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "flags": [
@@ -98,7 +98,7 @@
     "//": "Even beyond that it's a spirit, shooting it is like shooting a muddy pile of leaves.",
     "vision_day": 35,
     "vision_night": 6,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "special_attacks": [
       { "id": "smash", "attack_upper": true, "throw_strength": 50, "cooldown": 15 },
       {
@@ -140,7 +140,7 @@
     "vision_day": 30,
     "vision_night": 6,
     "grab_strength": 80,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "//": "3 grabs due to dozens of roots useable as grabbing appendages.",
     "special_attacks": [
       { "id": "smash", "move_cost": 100, "attack_upper": true, "throw_strength": 50, "cooldown": 15 },
@@ -235,7 +235,7 @@
     "weight": "675 kg",
     "hp": 590,
     "speed": 130,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": "K",
     "color": "green",
     "aggression": 5,
@@ -334,7 +334,7 @@
     "bodytype": "human",
     "hp": 100,
     "speed": 85,
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "E",
     "color": "brown",
     "aggression": -20,

@@ -29,7 +29,7 @@
     "color": "white",
     "price": "10 cent",
     "price_postapoc": "10 cent",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -44,7 +44,7 @@
     "color": "white",
     "price": "20 cent",
     "price_postapoc": "20 cent",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -59,7 +59,7 @@
     "color": "white",
     "price": "40 cent",
     "price_postapoc": "40 cent",
-    "material": [ "bone" ]
+    "material": [ { "type": "bone", "portion": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -74,7 +74,7 @@
     "color": "white",
     "price": "10 cent",
     "price_postapoc": "10 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "qualities": [ [ "CUT_FINE", 1 ] ]
   },
   {
@@ -90,7 +90,7 @@
     "color": "white",
     "price": "20 cent",
     "price_postapoc": "20 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
   {
@@ -106,7 +106,7 @@
     "color": "white",
     "price": "40 cent",
     "price_postapoc": "40 cent",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
   },
   {

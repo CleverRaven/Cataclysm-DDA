@@ -10,7 +10,7 @@
     "price": "25 USD",
     "price_postapoc": "1 USD 50 cent",
     "melee_damage": { "bash": 3 },
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "looks_like": "book_nonf_hard_psych_moodalm",
     "color": "white",

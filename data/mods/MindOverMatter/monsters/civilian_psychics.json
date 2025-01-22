@@ -42,7 +42,7 @@
     "default_faction": "human",
     "bodytype": "human",
     "species": [ "HUMAN" ],
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "chat_topics": [ "TALK_CIVILIAN_PANIC" ],
     "volume": "62500 ml",

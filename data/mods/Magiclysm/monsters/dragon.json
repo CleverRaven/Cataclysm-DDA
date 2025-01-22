@@ -78,7 +78,7 @@
     "weight": "65 kg",
     "hp": 180,
     "speed": 150,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "D",
     "color": "black_white",
     "aggression": 100,

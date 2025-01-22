@@ -136,7 +136,7 @@
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "visceral arrow" },
     "color": "green",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "recovery_chance": 86,
     "description": "A disturbing bone arrow with a fragment of a biomancer rune in the arrowhead.  It showers its target in acid.",
     "effects": [ "ACIDBOMB" ]

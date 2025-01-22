@@ -51,7 +51,7 @@
     "name": { "str": "hurled rubble" },
     "description": "Stone at the ready to crush that which isn't part of the blob.",
     "//": "Buffed stats account for the feral clairsentient using Marksman's Eye.",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
       "NEVER_JAMS",
@@ -94,7 +94,7 @@
     "name": { "str": "hurled rubble" },
     "description": "Stone at the ready to crush that which isn't part of the blob.",
     "//": "Buffed stats account for the pattern screamer using One Perfect Shot / Marksman's Eye.",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
       "NEVER_JAMS",

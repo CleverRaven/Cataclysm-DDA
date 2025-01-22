@@ -9,7 +9,7 @@
     "symbol": "~",
     "description": "Blood of a dragon, it radiates warmth and looking at it you see moving patterns form and disappear in it as if looking at an actual fire.",
     "price": "7 USD 50 cent",
-    "material": [ "dragon_blood" ],
+    "material": [ { "type": "dragon_blood", "portion": 100 } ],
     "volume": "1 ml",
     "phase": "liquid",
     "category": "fuel",

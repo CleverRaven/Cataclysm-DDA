@@ -26,7 +26,7 @@
     "volume": "50 L",
     "price": "16 USD",
     "price_postapoc": "1 USD",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "#",
     "color": "brown",
     "properties": { "creature_size_capacity": "HUGE" },

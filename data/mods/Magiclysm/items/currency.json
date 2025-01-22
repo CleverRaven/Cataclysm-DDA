@@ -13,7 +13,7 @@
     "color": "light_gray",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "mithril_metal" ],
+    "material": [ { "type": "mithril_metal", "portion": 100 } ],
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Further deface the coin",

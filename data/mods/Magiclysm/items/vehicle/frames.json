@@ -7,7 +7,7 @@
     "description": "A folding frame made of orichalcum pipes.  Not as light as aluminum, but significantly sturdier.",
     "weight": "10 kg",
     "color": "yellow",
-    "material": [ "orichalcum_metal" ],
+    "material": [ { "type": "orichalcum_metal", "portion": 100 } ],
     "price": "100 USD"
   },
   {
@@ -19,7 +19,7 @@
     "volume": "20 L",
     "weight": "100 kg",
     "color": "yellow",
-    "material": [ "orichalcum_metal" ],
+    "material": [ { "type": "orichalcum_metal", "portion": 100 } ],
     "price": "800 USD"
   },
   {

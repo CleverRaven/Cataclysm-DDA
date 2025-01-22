@@ -10,7 +10,7 @@
     "description": "A bright yellow post-it note.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "12 mg",
     "volume": "1 ml",
@@ -27,7 +27,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "6 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -43,7 +43,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -59,7 +59,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -75,7 +75,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -91,7 +91,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -107,7 +107,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -123,7 +123,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -139,7 +139,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -153,7 +153,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "paper",
     "use_action": {
@@ -173,7 +173,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -189,7 +189,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -205,7 +205,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -221,7 +221,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -237,7 +237,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -253,7 +253,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
@@ -269,7 +269,7 @@
     "price": "600 USD",
     "flags": [ "CREDIT_CARD_SHAPED", "SCIENCE_CARD_VISITOR" ],
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "weight": "5 g",
     "volume": "5 ml",
     "longest_side": "84 mm",

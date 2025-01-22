@@ -409,7 +409,7 @@
     "volume": "500 ml",
     "//": "Price should be 300 but Velzain charges almost double. If this gets moved to another vender bump up price to 300.",
     "price": "152 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "color": "white"
   },
@@ -425,7 +425,7 @@
     "volume": "500 ml",
     "price": "1 USD",
     "flags": [ "TRADER_AVOID" ],
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "color": "white"
   },
@@ -441,7 +441,7 @@
     "volume": "500 ml",
     "price": "1 USD",
     "flags": [ "TRADER_AVOID" ],
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "color": "white"
   }

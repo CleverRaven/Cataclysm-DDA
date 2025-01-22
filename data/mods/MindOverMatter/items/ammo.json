@@ -50,7 +50,7 @@
     "weight": "0 mg",
     "volume": "0 ml",
     "ammo_type": "psionic_charge_power",
-    "material": [ "nether_crystal" ],
+    "material": [ { "type": "nether_crystal", "portion": 100 } ],
     "count": 100
   },
   {

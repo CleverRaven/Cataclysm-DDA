@@ -45,7 +45,7 @@
     "weight": "1 g",
     "volume": "10 ml",
     "price": "8 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "*",
     "color": "light_gray"
   },
@@ -70,7 +70,7 @@
     "longest_side": "23 cm",
     "price": "43 USD 99 cent",
     "price_postapoc": "15 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_nonf_soft_tpl",
     "melee_damage": { "bash": 2 }
   },
@@ -94,7 +94,7 @@
     "longest_side": "23 cm",
     "price": "20 USD 89 cent",
     "price_postapoc": "10 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_nonf_soft_tpl",
     "melee_damage": { "bash": 2 }
   },
@@ -118,7 +118,7 @@
     "longest_side": "23 cm",
     "price": "20 USD 89 cent",
     "price_postapoc": "10 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "copy-from": "book_nonf_soft_tpl",
     "melee_damage": { "bash": 2 }
   },

@@ -33,7 +33,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of demon chitin arm guards", "str_pl": "pairs of demon chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
   },
@@ -51,7 +51,7 @@
     "type": "ARMOR",
     "name": { "str": "demon chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
   },
@@ -69,7 +69,7 @@
     "type": "ARMOR",
     "name": { "str": "demon chitin helmet" },
     "description": "A helmet crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Covers the entire head; fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
   },
@@ -87,7 +87,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of demon chitin gauntlets", "str_pl": "pairs of demon chitin gauntlets" },
     "description": "Gauntlets crafted from the carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
   },
@@ -105,7 +105,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of demon chitin boots", "str_pl": "pairs of demon chitin boots" },
     "description": "Boots crafted from carefully cleaned and pruned red exoskeletons of demon spiders.  Fire-resistant and very durable.",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "proportional": { "weight": 0.6, "encumbrance": 0.9, "price": 10, "warmth": 2 },
     "environmental_protection": 8
   },
@@ -126,7 +126,7 @@
     "description": "A makeshift harness of demon chitin fitted to a thin mesh protecting the neck to flank of canines.  You could put this on a friendly dog.",
     "price": "500 USD",
     "price_postapoc": "50 USD",
-    "material": [ "demon_chitin" ],
+    "material": [ { "type": "demon_chitin", "portion": 100 } ],
     "weight": "1601 g",
     "environmental_protection": 8
   },

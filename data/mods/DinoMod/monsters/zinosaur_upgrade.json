@@ -2748,7 +2748,7 @@
     "default_faction": "zombie",
     "symbol": "Z",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "species": [ "ZOMBIE", "DINOSAUR" ],
     "volume": "400 L",
     "weight": "400 kg",
@@ -3149,7 +3149,7 @@
     "name": { "str_sp": "armored sarahsaurus" },
     "copy-from": "mon_zarahsaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3171,7 +3171,7 @@
     "name": { "str_sp": "armored anchisaurus" },
     "copy-from": "mon_zanchisaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, four-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3193,7 +3193,7 @@
     "name": { "str_sp": "armored issi" },
     "copy-from": "mon_zissi",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3215,7 +3215,7 @@
     "name": { "str_sp": "armored moabosaurus" },
     "copy-from": "mon_zoabosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3237,7 +3237,7 @@
     "name": { "str_sp": "armored haplocanthosaurus" },
     "copy-from": "mon_zaplocanthosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3259,7 +3259,7 @@
     "name": { "str_sp": "armored amargasaurus" },
     "copy-from": "mon_zamargasaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3281,7 +3281,7 @@
     "name": { "str_sp": "armored apatosaurus" },
     "copy-from": "mon_zapatosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3311,7 +3311,7 @@
     "name": { "str_sp": "armored diplodocus" },
     "copy-from": "mon_ziplodocus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3333,7 +3333,7 @@
     "name": { "str_sp": "boneplate barosaurus" },
     "copy-from": "mon_zarosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified barosaurus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3379,7 +3379,7 @@
     "name": { "str_sp": "armored alamosaurus" },
     "copy-from": "mon_zalamosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3401,7 +3401,7 @@
     "name": { "str_sp": "skeletal stegosaurus" },
     "copy-from": "mon_ztegosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3430,7 +3430,7 @@
     "name": { "str_sp": "skeletal hesperosaurus" },
     "copy-from": "mon_zesperosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified hesperosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3459,7 +3459,7 @@
     "name": { "str_sp": "armored gastonia" },
     "copy-from": "mon_zastonia",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3488,7 +3488,7 @@
     "name": { "str_sp": "armored gargoyleosaurus" },
     "copy-from": "mon_zargoyleosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3517,7 +3517,7 @@
     "name": { "str_sp": "armored sauropelta" },
     "copy-from": "mon_zauropelta",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3546,7 +3546,7 @@
     "name": { "str_sp": "armored nodosaurus" },
     "copy-from": "mon_zodosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3575,7 +3575,7 @@
     "name": { "str_sp": "protected panoplosaurus" },
     "copy-from": "mon_zanoplosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3604,7 +3604,7 @@
     "name": { "str_sp": "armored edmontonia" },
     "copy-from": "mon_zedmontonia",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3633,7 +3633,7 @@
     "name": { "str_sp": "skeletal zuul" },
     "copy-from": "mon_zzuul",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser spiked bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3662,7 +3662,7 @@
     "name": { "str_sp": "skeletal dyoplosaurus" },
     "copy-from": "mon_zyoplosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3692,7 +3692,7 @@
     "copy-from": "mon_zankylosaurus",
     "looks_like": "mon_ankylosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3721,7 +3721,7 @@
     "name": { "str_sp": "armored euoplocephalus" },
     "copy-from": "mon_zuoplocephalus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3750,7 +3750,7 @@
     "name": { "str_sp": "boneplate scolosaurus" },
     "copy-from": "mon_zcolosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3779,7 +3779,7 @@
     "name": { "str_sp": "armored camptosaurus" },
     "copy-from": "mon_zamptosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with strong legs, broad shoulders, and a pointed beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3801,7 +3801,7 @@
     "name": { "str_sp": "armored tenontosaurus" },
     "copy-from": "mon_zenontosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This four-legged dinosaur corpse with a beak and large long tail has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3823,7 +3823,7 @@
     "name": { "str_sp": "armored dryosaurus" },
     "copy-from": "mon_zryosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This two-legged dinosaur corpse with a long neck and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3845,7 +3845,7 @@
     "name": { "str": "armored iguanodon" },
     "copy-from": "mon_ziguanodon",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This bulky, four-legged dinosaur corpse with a beak and spiked thumbs has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3867,7 +3867,7 @@
     "name": { "str_sp": "armored eolambia" },
     "copy-from": "mon_zeolambia",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This four-legged dinosaur corpse with a long neck and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3889,7 +3889,7 @@
     "name": { "str_sp": "armored hadrosaurus" },
     "copy-from": "mon_zadrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This bulky, four-legged dinosaur corpse with a beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3911,7 +3911,7 @@
     "name": { "str_sp": "armored maiasaura" },
     "copy-from": "mon_zaiasaura",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a flat beak, thick nose, and small, spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3933,7 +3933,7 @@
     "name": { "str_sp": "armored gryposaurus" },
     "copy-from": "mon_zryposaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a toothless beak and powerful nasal arch has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3955,7 +3955,7 @@
     "name": { "str_sp": "protected prosaurolophus" },
     "copy-from": "mon_zrosaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with hooves, a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3977,7 +3977,7 @@
     "name": { "str_sp": "boneplate saurolophus" },
     "copy-from": "mon_zaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with hooves, a broad beak and a spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3999,7 +3999,7 @@
     "name": { "str_sp": "armored edmontosaurus" },
     "copy-from": "mon_zedmontosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a broad, toothless beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4021,7 +4021,7 @@
     "name": { "str_sp": "armored parasaurolophus" },
     "copy-from": "mon_zarasaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a blunt head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4043,7 +4043,7 @@
     "name": { "str_sp": "boneplate lambeosaurus" },
     "copy-from": "mon_zambeosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a long stiff tail, hooves, a narrow beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4065,7 +4065,7 @@
     "name": { "str_sp": "armored corythosaurus" },
     "copy-from": "mon_zorythosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4087,7 +4087,7 @@
     "name": { "str_sp": "armored hypacrosaurus" },
     "copy-from": "mon_zypacrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4109,7 +4109,7 @@
     "name": { "str_sp": "protected pachycephalosaurus" },
     "copy-from": "mon_zachycephalosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This bipedal dinosaur corpse with a hard-looking, domed head has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4131,7 +4131,7 @@
     "name": { "str_sp": "boneplate leptoceratops" },
     "copy-from": "mon_zeptoceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This dinosaur corpse with a bony crest and sharp beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4153,7 +4153,7 @@
     "name": { "str_sp": "boneplate zuniceratops" },
     "copy-from": "mon_zzuniceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This four-legged dinosaur with a tall thin bony head crest, two long brow horns, and a beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4175,7 +4175,7 @@
     "name": { "str_sp": "boneplate lokiceratops" },
     "copy-from": "mon_zokiceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This four-legged dinosaur with a bony head crest with two horns curving out and down, two long brow horns, and a beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4197,7 +4197,7 @@
     "name": { "str_sp": "shielded styracosaurus" },
     "copy-from": "mon_ztyracosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a spiked frill, a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4219,7 +4219,7 @@
     "name": { "str_sp": "armored centrosaurus" },
     "copy-from": "mon_zentrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4241,7 +4241,7 @@
     "name": { "str_sp": "armored einiosaurus" },
     "copy-from": "mon_zeiniosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and one large horn curving forward towards the beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4263,7 +4263,7 @@
     "name": { "str_sp": "armored achelousaurus" },
     "copy-from": "mon_zachelousaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4285,7 +4285,7 @@
     "name": { "str_sp": "protected pachyrhinosaurus" },
     "copy-from": "mon_zachyrhinosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with massive bony bosses on its nose and brow has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4307,7 +4307,7 @@
     "name": { "str_sp": "boneplate chasmosaurus" },
     "copy-from": "mon_zasmosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4329,7 +4329,7 @@
     "name": { "str_sp": "protected pentaceratops" },
     "copy-from": "mon_zentaceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall bony crest, four long horns, and a short nose horn has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4351,7 +4351,7 @@
     "name": { "str_sp": "armored kosmoceratops" },
     "copy-from": "mon_zosmoceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a bony crest and two wavy side horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4373,7 +4373,7 @@
     "name": { "str_sp": "armored torosaurus" },
     "copy-from": "mon_zorosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and two wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4395,7 +4395,7 @@
     "name": { "str_sp": "armored triceratops" },
     "copy-from": "mon_zriceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": [ { "type": "bone", "portion": 100 } ],
     "description": "This massive, four-legged dinosaur corpse with a tall bony crest and three wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -5312,7 +5312,7 @@
     "diff": 5,
     "color": "light_gray_yellow",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "aggression": 100,
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
@@ -5363,7 +5363,7 @@
     "diff": 5,
     "color": "light_gray_yellow",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "aggression": 100,
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],

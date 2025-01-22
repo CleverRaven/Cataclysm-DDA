@@ -29,7 +29,7 @@
     "volume": "92500 ml",
     "price": "500 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -56,7 +56,7 @@
     "volume": "250 L",
     "price": "1000 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -110,7 +110,7 @@
     "volume": "92500 ml",
     "price": "1000 kUSD",
     "to_hit": -3,
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -167,7 +167,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -180,7 +180,7 @@
     "weight": "60000 g",
     "volume": "80000 ml",
     "price": "3 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -193,7 +193,7 @@
     "weight": "150000 g",
     "volume": "575000 ml",
     "price": "10 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -205,7 +205,7 @@
     "name": { "str_sp": "Tankbot Main Gun", "//~": "NO_I18N" },
     "description": { "str": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!", "//~": "NO_I18N" },
     "price": "999 kUSD 999 USD 99 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",
@@ -229,7 +229,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": "2 kUSD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -274,7 +274,7 @@
     "volume": "20 L",
     "price": "5 kUSD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "category": "spare_parts"
   },
   {
@@ -288,7 +288,7 @@
     "price": "250 USD",
     "price_postapoc": "12 USD 50 cent",
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
@@ -309,7 +309,7 @@
     "looks_like": "flyer",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "weight": "1 g",
     "volume": "1 ml"
   },
@@ -322,7 +322,7 @@
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "50 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "light_cyan",

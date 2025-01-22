@@ -108,7 +108,7 @@
     "volume": "1750 ml",
     "longest_side": "90 cm",
     "price": "80 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2" ],
@@ -233,7 +233,7 @@
     "description": "One of the traditional items of the ancient elven warrior societies, this bow is enchanted to fire further, hit harder, and last longer than any normal wooden bow of its design could.  Before the Cataclysm they were still made in small quantities for ceremonial purposes but no longer saw battlefield use, since the special forces of Tokoyo, Hy-Brasil, Alfheim, and the other elven nations long ago switched to using firearms.",
     "price": "420 USD",
     "//": "based on a light composite bow.  The actual enchantments are 50% increased range and higher damage and durability, the relic_data is just to make it purple.",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",

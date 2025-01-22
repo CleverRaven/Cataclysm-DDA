@@ -12,7 +12,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -59,7 +59,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -104,7 +104,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -146,7 +146,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -190,7 +190,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -20 } ] } ]
     },
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -230,7 +230,7 @@
     "price": "3 kUSD",
     "price_postapoc": "150 USD",
     "to_hit": -1,
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "boots",
     "color": "brown",

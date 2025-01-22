@@ -27,7 +27,7 @@
     "name": { "str": "feral wizard" },
     "copy-from": "mon_feral_wizard_default",
     "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occasional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "@",
     "color": "magenta",
     "extend": {

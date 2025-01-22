@@ -9,7 +9,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
-    "material": [ "nether_crystal" ],
+    "material": [ { "type": "nether_crystal", "portion": 100 } ],
     "looks_like": "art_crystal",
     "flags": [ "MATRIX_CRYSTAL_BIOKINESIS" ],
     "use_action": {
@@ -27,7 +27,7 @@
     "symbol": "=",
     "volume": "1 ml",
     "weight": "15 g",
-    "material": [ "powder_nonflam" ],
+    "material": [ { "type": "powder_nonflam", "portion": 100 } ],
     "looks_like": "material_quicklime"
   },
   {
@@ -39,7 +39,7 @@
     "symbol": "=",
     "volume": "1 ml",
     "weight": "5 g",
-    "material": [ "powder_nonflam" ],
+    "material": [ { "type": "powder_nonflam", "portion": 100 } ],
     "looks_like": "material_quicklime"
   },
   {
@@ -292,7 +292,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
-    "material": [ "nether_crystal" ],
+    "material": [ { "type": "nether_crystal", "portion": 100 } ],
     "looks_like": "art_crystal",
     "use_action": {
       "type": "effect_on_conditions",
@@ -338,7 +338,7 @@
     "name": { "str": "strange crystal shard" },
     "category": "other",
     "description": "A very heavy chunk of a strange crystalline outcropping.  You could use it as a weapon, but you might want to wear gloves.",
-    "material": [ "nether_crystal" ],
+    "material": [ { "type": "nether_crystal", "portion": 100 } ],
     "weight": "450 g",
     "volume": "30 ml",
     "melee_damage": { "cut": 6 },

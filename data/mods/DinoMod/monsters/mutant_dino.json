@@ -10,7 +10,7 @@
     "symbol": "D",
     "color": "yellow",
     "bodytype": "bear",
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "aggression": -10,
     "morale": 25,
     "melee_skill": 4,

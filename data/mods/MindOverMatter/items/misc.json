@@ -9,7 +9,7 @@
     "volume": "29 ml",
     "price": "13 USD 14 cent",
     "price_postapoc": "2 cent",
-    "material": [ "cardboard" ],
+    "material": [ { "type": "cardboard", "portion": 100 } ],
     "symbol": ",",
     "color": "magenta",
     "flags": [ "NO_REPAIR" ],
@@ -63,7 +63,7 @@
     "name": { "str_sp": "your body" },
     "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
     "looks_like": "corpse_generic_human",
-    "material": [ "hflesh" ]
+    "material": [ { "type": "hflesh", "portion": 100 } ]
   },
   {
     "type": "GENERIC",

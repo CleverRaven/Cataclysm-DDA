@@ -11,7 +11,7 @@
     "weight": "250 kg",
     "hp": 350,
     "speed": 105,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "O",
     "color": "green",
     "aggression": 75,

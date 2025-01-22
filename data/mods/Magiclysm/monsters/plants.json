@@ -10,7 +10,7 @@
     "weight": "120 kg",
     "hp": 60,
     "speed": 80,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": "V",
     "color": "green",
     "aggression": 60,

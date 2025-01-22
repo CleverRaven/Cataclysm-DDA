@@ -7,7 +7,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": "0 cent",
-    "material": [ "concentrated_mana" ],
+    "material": [ { "type": "concentrated_mana", "portion": 100 } ],
     "symbol": "O",
     "color": "blue",
     "flags": [
@@ -45,7 +45,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "ONLY_ONE",
@@ -144,7 +144,7 @@
     "weight": "1566 g",
     "volume": "1500 ml",
     "price": "200 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "min_strength": 7,
     "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "OBSOLETE" ],
@@ -168,7 +168,7 @@
     "price": "36 USD 46 cent",
     "symbol": "o",
     "color": "white",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "SEMITANGIBLE",
@@ -199,7 +199,7 @@
     "symbol": "o",
     "color": "brown",
     "looks_like": "cloak",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "ONLY_ONE",
@@ -232,7 +232,7 @@
     "price": "36 USD 46 cent",
     "symbol": "o",
     "color": "green",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "SEMITANGIBLE",
@@ -262,7 +262,7 @@
     "price": "36 USD 46 cent",
     "symbol": "o",
     "color": "green",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "SEMITANGIBLE",
@@ -291,7 +291,7 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
-    "material": [ "magical_material" ],
+    "material": [ { "type": "magical_material", "portion": 100 } ],
     "flags": [
       "AURA",
       "ONLY_ONE",
