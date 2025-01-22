@@ -226,7 +226,7 @@
     "symbol": "*",
     "color": "light_gray",
     "description": "A handful of rock salt crystals.  Could be refined into table salt.",
-    "material": [ "salt", "stone" ],
+    "material": [ { "type": "salt", "portion": 50 }, { "type": "stone", "portion": 50 } ],
     "volume": "3500 ml",
     "weight": "650 g",
     "melee_damage": { "bash": 1 }
@@ -1338,7 +1338,7 @@
     "type": "COMESTIBLE",
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
-    "material": [ "water", "feces" ],
+    "material": [ { "type": "water", "portion": 50 }, { "type": "feces", "portion": 50 } ],
     "weight": "262 g",
     "color": "green",
     "container": "bottle_plastic",
@@ -1698,7 +1698,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A piece of unshielded radioactive material that used to be a part of some nuclear industry equipment.  You have yet to find some use for it, and you probably shouldn't stand near it.",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "90 ml",
     "weight": "80 g"

@@ -12,7 +12,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "looks_like": "box_small",
-    "material": [ "plastic", "copper" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "symbol": "#",
     "color": "white"
   },
@@ -59,7 +59,7 @@
     "weight": "12 kg",
     "volume": "1000 ml",
     "price": "20 USD",
-    "material": [ "steel", "gold" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "category": "spare_parts"
   }
 ]

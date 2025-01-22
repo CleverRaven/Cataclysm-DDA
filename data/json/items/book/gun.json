@@ -126,7 +126,7 @@
     "volume": "250 ml",
     "price": "40 USD",
     "price_postapoc": "5 USD",
-    "material": [ "paper", "leather" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": "?",
     "color": "green",
     "skill": "gun",

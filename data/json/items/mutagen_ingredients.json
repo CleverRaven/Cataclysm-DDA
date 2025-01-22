@@ -32,7 +32,7 @@
     "name": { "str": "frog sample" },
     "description": "A slurry of simplicity.",
     "looks_like": "medical_sample",
-    "material": [ "slime", "blood" ]
+    "material": [ { "type": "slime", "portion": 50 }, { "type": "blood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -67,7 +67,7 @@
     "name": { "str": "cattle sample" },
     "description": "A slurry of tranquility.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "gutskin" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "gutskin", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -77,7 +77,7 @@
     "name": { "str": "cephalopod sample" },
     "description": "A slurry of curiosity.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "slime" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "slime", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -97,7 +97,7 @@
     "name": { "str": "Elf-A sample" },
     "description": "A slurry of responsibility.",
     "looks_like": "medical_sample",
-    "material": [ "veggy", "hblood" ]
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "hblood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -107,7 +107,7 @@
     "name": { "str": "feline sample" },
     "description": "A slurry of flexibility.",
     "looks_like": "medical_sample",
-    "material": [ "fur", "blood" ]
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "blood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -117,7 +117,7 @@
     "name": { "str": "fish sample" },
     "description": "A slurry of transformation.",
     "looks_like": "medical_sample",
-    "material": [ "blood", "water" ]
+    "material": [ { "type": "blood", "portion": 50 }, { "type": "water", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -127,7 +127,7 @@
     "name": { "str": "snail sample" },
     "description": "A slurry of steadfastness.",
     "looks_like": "medical_sample",
-    "material": [ "chitin", "slime" ]
+    "material": [ { "type": "chitin", "portion": 50 }, { "type": "slime", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -137,7 +137,7 @@
     "name": { "str": "human sample" },
     "description": "A slurry of purity.",
     "looks_like": "medical_sample",
-    "material": [ "hflesh", "hblood" ]
+    "material": [ { "type": "hflesh", "portion": 50 }, { "type": "hblood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -147,7 +147,7 @@
     "name": { "str": "insect sample" },
     "description": "A slurry of stability.",
     "looks_like": "medical_sample",
-    "material": [ "iflesh", "chitin" ]
+    "material": [ { "type": "iflesh", "portion": 50 }, { "type": "chitin", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -157,7 +157,7 @@
     "name": { "str": "lizard sample" },
     "description": "A slurry of healing.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "blood" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "blood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -176,7 +176,7 @@
     "color": "magenta",
     "name": { "str": "medical sample" },
     "description": "A slurry of satisfaction.",
-    "material": [ "hflesh", "iron" ]
+    "material": [ { "type": "hflesh", "portion": 50 }, { "type": "iron", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -186,7 +186,7 @@
     "name": { "str": "mouse sample" },
     "description": "A slurry of experimentation.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "bone" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "bone", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -196,7 +196,7 @@
     "name": { "str": "plant sample" },
     "description": "A slurry of peace.",
     "looks_like": "medical_sample",
-    "material": [ "veggy", "wood" ]
+    "material": [ { "type": "veggy", "portion": 50 }, { "type": "wood", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -216,7 +216,7 @@
     "name": { "str": "rabbit sample" },
     "description": "A slurry of luck.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "fur" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "fur", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -226,7 +226,7 @@
     "name": { "str": "rat sample" },
     "description": "A slurry of survival.",
     "looks_like": "medical_sample",
-    "material": [ "fur", "bone" ]
+    "material": [ { "type": "fur", "portion": 50 }, { "type": "bone", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -246,7 +246,7 @@
     "name": { "str": "spider sample" },
     "description": "A slurry of sustainability.",
     "looks_like": "medical_sample",
-    "material": [ "chitin", "fur" ]
+    "material": [ { "type": "chitin", "portion": 50 }, { "type": "fur", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -256,7 +256,7 @@
     "name": { "str": "troglobite sample" },
     "description": "A slurry of reliability.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "soil" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "soil", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -276,7 +276,7 @@
     "name": { "str": "crustacean sample" },
     "description": "A slurry of toughness.",
     "looks_like": "medical_sample",
-    "material": [ "flesh", "chitin" ]
+    "material": [ { "type": "flesh", "portion": 50 }, { "type": "chitin", "portion": 50 } ]
   },
   {
     "type": "GENERIC",
@@ -286,6 +286,6 @@
     "name": { "str": "chiropteran sample" },
     "description": "A slurry of silence.",
     "looks_like": "medical_sample",
-    "material": [ "bone", "blood" ]
+    "material": [ { "type": "bone", "portion": 50 }, { "type": "blood", "portion": 50 } ]
   }
 ]

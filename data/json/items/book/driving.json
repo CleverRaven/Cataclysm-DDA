@@ -165,7 +165,7 @@
     "volume": "500 ml",
     "price": "22 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "paper", "cardboard" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",

@@ -6,7 +6,7 @@
     "description": { "str": "This is a template for robot module.  If found in a game it is a bug.", "//~": "NO_I18N" },
     "symbol": "%",
     "color": "cyan",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "weight": "250 g",
     "volume": "500 ml",
     "price": "320 USD",
@@ -123,7 +123,7 @@
     "volume": "500 ml",
     "price": "400 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -137,7 +137,7 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -151,7 +151,7 @@
     "volume": "5 L",
     "price": "1 kUSD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -165,7 +165,7 @@
     "volume": "30 L",
     "price": "6 kUSD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -179,7 +179,7 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -220,7 +220,7 @@
     "volume": "40000 ml",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   }
 ]

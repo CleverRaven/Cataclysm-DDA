@@ -880,7 +880,7 @@
     "name": { "str": "fidget spinner" },
     "description": "A fidget spinner.  An artifact from when the times were simpler.",
     "category": "other",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "weight": "75 g",
     "volume": "185 ml",
     "longest_side": "10 cm",

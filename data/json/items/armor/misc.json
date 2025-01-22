@@ -126,7 +126,7 @@
     "volume": "2 L",
     "price": "325 USD",
     "price_postapoc": "20 USD",
-    "material": [ "cotton", "fur" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "fur", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "sleeping_bag",
     "color": "brown",

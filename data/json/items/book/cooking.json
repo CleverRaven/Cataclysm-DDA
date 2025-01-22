@@ -217,7 +217,7 @@
     "volume": "1250 ml",
     "price": "19 USD 50 cent",
     "price_postapoc": "20 USD",
-    "material": [ "paper", "leather" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",

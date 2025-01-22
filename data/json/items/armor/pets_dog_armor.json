@@ -84,7 +84,7 @@
     },
     "price": "250 USD",
     "price_postapoc": "35 USD",
-    "material": [ "iron", "budget_steel" ],
+    "material": [ { "type": "iron", "portion": 50 }, { "type": "budget_steel", "portion": 50 } ],
     "weight": "6434 g",
     "material_thickness": 0.5
   },

@@ -1232,7 +1232,7 @@
     "volume": "798 ml",
     "price": "50 cent",
     "price_postapoc": "5 USD",
-    "material": [ "wood", "cardboard" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],

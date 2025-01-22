@@ -135,7 +135,7 @@
     "volume": "500 ml",
     "price": "22 USD",
     "price_postapoc": "12 USD 50 cent",
-    "material": [ "paper", "cardboard" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "looks_like": "book_archery",
     "symbol": "?",
     "color": "green",

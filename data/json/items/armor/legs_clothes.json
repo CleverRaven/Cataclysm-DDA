@@ -1474,7 +1474,7 @@
     "volume": "4 L",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "material": [ "cotton", "fur" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "fur", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
@@ -1521,7 +1521,7 @@
     "copy-from": "pants_fur",
     "name": { "str_sp": "faux fur pants" },
     "description": "A pair of long cotton pants lined with warm imitation fur.",
-    "material": [ "faux_fur", "cotton" ],
+    "material": [ { "type": "faux_fur", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "warmth": 70
   },
   {
@@ -1746,7 +1746,7 @@
     "volume": "3 L",
     "price": "200 USD",
     "price_postapoc": "1 USD",
-    "material": [ "cotton", "faux_fur" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "faux_fur", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "red",

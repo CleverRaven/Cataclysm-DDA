@@ -8,7 +8,7 @@
     "volume": "1 L",
     "price": "25 USD",
     "price_postapoc": "4 USD",
-    "material": [ "lycra", "rubber" ],
+    "material": [ { "type": "lycra", "portion": 50 }, { "type": "rubber", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "union_suit",
     "color": "white",

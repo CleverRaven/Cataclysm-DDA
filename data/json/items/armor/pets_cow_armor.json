@@ -67,7 +67,7 @@
     "description": "A heavy covering of chainmail, suitably made for cows as protection.  You could put this on a friendly cow.",
     "price": "500 USD",
     "price_postapoc": "120 USD",
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "weight": "50 kg",
     "volume": "180 L",
     "material_thickness": 7
@@ -81,7 +81,7 @@
     "description": "A full barding for cows consisting of boiled leather and cloth undercovering.  This caparison depicts a battle between a monstrous dragon and regal griffin.  You could put this on a friendly cow.",
     "price": "350 USD",
     "price_postapoc": "35 USD",
-    "material": [ "cotton", "leather" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "weight": "18 kg",
     "volume": "180 L",
     "material_thickness": 7
@@ -109,7 +109,7 @@
     "description": "A thin plastic covering designed to keep a cow dry in the rain.  You could put this on a friendly cow.",
     "price": "180 USD",
     "price_postapoc": "18 USD",
-    "material": [ "neoprene", "plastic" ],
+    "material": [ { "type": "neoprene", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "weight": "17 kg",
     "volume": "180 L",
     "material_thickness": 4
@@ -123,7 +123,7 @@
     "description": "A heavy covering of strategically-placed iron plates and leather, suitably made for cows as protection.  You could put this on a friendly cow.",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "material": [ "iron", "leather" ],
+    "material": [ { "type": "iron", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "weight": "35 kg",
     "volume": "180 L",
     "material_thickness": 5
@@ -137,7 +137,7 @@
     "description": "A heavy covering of steel plate and leather, suitably made for cows as protection.  You could put this on a friendly cow.",
     "price": "700 USD",
     "price_postapoc": "180 USD",
-    "material": [ "steel", "leather" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "weight": "60 kg",
     "volume": "180 L",
     "material_thickness": 5
@@ -151,7 +151,7 @@
     "description": "A heavy covering of strategically-placed bronze plates and leather, suitably made for cows as protection.  You could put this on a friendly cow.",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "material": [ "bronze", "leather" ],
+    "material": [ { "type": "bronze", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "weight": "35 kg",
     "volume": "180 L",
     "material_thickness": 5

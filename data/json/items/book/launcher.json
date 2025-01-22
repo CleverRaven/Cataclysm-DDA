@@ -106,7 +106,7 @@
     "volume": "919 ml",
     "price": "20 USD",
     "price_postapoc": "20 USD",
-    "material": [ "paper", "cardboard" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "symbol": "?",
     "color": "green",
     "skill": "launcher",

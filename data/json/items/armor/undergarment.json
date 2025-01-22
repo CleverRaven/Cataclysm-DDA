@@ -165,7 +165,7 @@
     "volume": "250 ml",
     "price": "35 USD",
     "price_postapoc": "1 USD 50 cent",
-    "material": [ "lycra", "cotton" ],
+    "material": [ { "type": "lycra", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "bikini_top",
     "color": "dark_gray",

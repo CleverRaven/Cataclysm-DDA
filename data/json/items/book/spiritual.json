@@ -1142,7 +1142,7 @@
     "volume": "1 L",
     "price": "5 USD 50 cent",
     "price_postapoc": "5 USD 50 cent",
-    "material": [ "paper", "cardboard" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "cardboard", "portion": 50 } ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
@@ -1368,7 +1368,7 @@
     "description": "A grass-cover English edition of the Moʻolelo, a collection of traditional Hawaiian stories, texts and oral traditions, that have been compiled, translated, and documented in written form.  This book also includes information on the deities and entities of the traditional religion of Hawaii, alongside rituals and practices.",
     "weight": "550 g",
     "volume": "1 L",
-    "material": [ "paper", "dry_plant" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "dry_plant", "portion": 50 } ],
     "copy-from": "holybook_abstract"
   },
   {
@@ -1903,7 +1903,7 @@
     "price": "40 kUSD",
     "price_postapoc": "2 USD",
     "longest_side": "48 cm",
-    "material": [ "leather", "wood" ],
+    "material": [ { "type": "leather", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "copy-from": "holybook_abstract"
   },
   {

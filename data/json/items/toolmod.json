@@ -5,7 +5,7 @@
     "name": { "str": "base toolmod", "//~": "NO_I18N" },
     "weight": "142 g",
     "volume": "250 ml",
-    "material": [ "plastic", "ceramic" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "ceramic", "portion": 50 } ],
     "symbol": ";",
     "color": "dark_gray",
     "price": "1 USD",

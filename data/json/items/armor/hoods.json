@@ -8,7 +8,7 @@
     "volume": "1500 ml",
     "price": "45 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton", "plastic" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "white",

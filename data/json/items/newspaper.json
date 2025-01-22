@@ -622,7 +622,7 @@
     "volume": "650 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper", "wood" ],
+    "material": [ { "type": "paper", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "flags": [ "TRADER_AVOID" ],
     "variants": [
       {
