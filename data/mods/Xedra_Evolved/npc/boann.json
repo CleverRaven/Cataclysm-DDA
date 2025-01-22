@@ -51,7 +51,7 @@
       { "item": "loincloth_gossamer", "prob": 100 },
       { "item": "stockings_gossamer", "prob": 100 },
       { "item": "gloves_light_gossamer", "prob": 100 },
-      { "item": "gown_gossamer", "prob": 100 },
+      { "item": "gown_gossamer_boann_unique", "prob": 100 },
       { "item": "slippers_gossamer", "prob": 100 },
       { "item": "sapphire_silver_tiara", "prob": 100 }
     ]
