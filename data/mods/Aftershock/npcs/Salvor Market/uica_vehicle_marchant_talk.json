@@ -166,12 +166,12 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_EARTH_2" ],
     "type": "talk_topic",
-    "dynamic_line": "I'll cut you a deal.  Let's say 80,000 USD and it's all yours.",
+    "dynamic_line": "I'll cut you a deal.  Let's say 30,000 USD and it's all yours.",
     "responses": [
       {
         "text": "I'll take it",
         "topic": "TALK_DONE",
-        "effect": { "u_spend_cash": 8000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
+        "effect": { "u_spend_cash": 3000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
       },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
@@ -223,12 +223,12 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_BUY_VEHICLE_PASS_2" ],
     "type": "talk_topic",
-    "dynamic_line": "100,000 USD and it's all yours.",
+    "dynamic_line": "40,000 USD and it's all yours.",
     "responses": [
       {
         "text": "I'll take it",
         "topic": "TALK_DONE",
-        "effect": { "u_spend_cash": 10000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
+        "effect": { "u_spend_cash": 4000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
       },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
