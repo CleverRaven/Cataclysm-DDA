@@ -426,7 +426,6 @@ Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
 adds three new lore log snippets for the player to find in smartphones or laptops
-Move refugee center start from isolationist to its own scenario
 
 
 ## Interface:
@@ -964,28 +963,12 @@ Adds craftable appliances for setting up improvised shelters and bases on the Ex
 [Aftershock] Add the Geist (telekinetic) esper profession and powers
 [MoM] Autolearn matrix elixir recipes
 [Xedra Evolved] Add `fey_magick` magic type
-[Xedra Evolved] Homullus murder fae ban comes into play earlier
-[Xedra] Make translocator furnitures examinable in faction territory
 [Magiclysm] Biomancy is disturbing
-[Xedra Evolved] Increase mana cost on Arvore mana-using traits
 [MoM] Add null grenades
-[Magiclysm] Rename 'Introduction to the Divine' to 'The Limits of Magical Recovery'
 Add a new mutation system for aftershock based on gene templates controllably granting traits.
 [Aftershock] Add human++ genemods
 [Aftershock] Add UICA Shuttlebases to the Exo-Planet
-XE Gracken Legs 1st tier
-[MoM] Concentrating on powers at higher Nether Attunement has a chance of backlash
-[Magiclysm] Remove duplicate religious professions
-[MoM] Update and simplify Nether Attunement backlash EoC
-[MoM] Astral form can walk on water
-[Magiclysm] Forge merchants start with denarii
-[MoM] Concentration level/proficiencies affect your odds of backlash during concentration
 [Aftershock] Add Gene Clinics Mapgen
-[MoM] Switch mi-go psions to copy-from, giver the mindrender a power-based telepathic attack
-[Aftershock] Bugfix Outfitter to always have at least one full EVA suit
-[Aftershock] Audit nearly all Aftershock maps to consistently use the new light status parameter palette.
-[XEDRA] Adjust dream magic XP requirements to jmath
-[Aftershock] Update Robot Monster groups
 
 
 ## Balance:
@@ -1515,15 +1498,6 @@ Allow commercial fertilizer to be used by zone manager
 Fix infinite bounce
 Prevent segfault when search gives no hits
 Fix mutation spells learned don't lose when mutation lost
-[MoM] Fix Mind-sight goggles special vision sprite
-Fire action works with all shoulder straps
-[MoM] Fix Leukocyte Accumulation class
-[Xedra Evolved] Fix treesung baselard recipe
-[Magiclysm] Fix werewolf aura
-[MoM] Fix Research Facility having an oldlab underneath
-check charges when trying to move item with AIM
-[Xedra Evolved] Fix Paraclesian summon spells
-Fix font mistake on zh_CN and zh_TW
 
 
 ## Performance:
@@ -1700,7 +1674,6 @@ Reuse built clang-tidy plugin across github action shards
 Remove ghc/filesystem polyfill
 Create user mods dir automatically
 monstergroup name field changed to id
-The doc folder has been restructured for easier navigation
 
 ## Build:
 Support Mac arm64 build
