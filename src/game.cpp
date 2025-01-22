@@ -6854,51 +6854,39 @@ bool game::is_zones_manager_open() const
 }
 
 static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
-                                     bool show_all_zones )
+                                     bool show_all_zones, const input_context &ctxt, const int width )
 {
     werase( w_info );
 
-    int tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<P>ersonal" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
+    std::vector<std::string> keybinding_tips;
+    std::vector<std::string> act_descs;
+    std::string show_zones_text = show_all_zones ? "Showing all zones" : "Hiding distant zones";
+    std::string zone_faction = string_format( _( "Shown faction: %s" ), faction.str() );
+    const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
+        act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
+    };
 
-    tmpx = 1;
-    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                    _( "<T>-Toggle zone display" ) );
-
-    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
-                            _( "<Z>-Enable personal" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
-                    _( "<X>-Disable personal" ) );
-
-    tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
-
-    tmpx = 1;
-    std::string all_zones = _( "<S>how all" );
-    std::string distant_zones = _( "Hide distant" );
-    std::array<nc_color, 2> selection_color = { c_dark_gray, c_dark_gray };
-    selection_color[int( !show_all_zones )] = c_yellow;
-
-    nc_color current_color = selection_color[0];
-    tmpx += shortcut_print( w_info, point( tmpx, 5 ), current_color, c_light_green, all_zones );
-    current_color = c_white;
-    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, " / " );
-    tmpx += 3;
-    current_color = selection_color[1];
-    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, distant_zones );
-    tmpx += utf8_width( distant_zones ) + 2;
-
-    shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
-
+    add_action_desc( "ADD_ZONE", pgettext( "zones manager", "Add" ) );
+    add_action_desc( "ADD_PERSONAL_ZONE", pgettext( "zones manager", "Personal" ) );
+    add_action_desc( "REMOVE_ZONE", pgettext( "zones manager", "Remove" ) );
+    add_action_desc( "ENABLE_ZONE", pgettext( "zones manager", "Enable" ) );
+    add_action_desc( "DISABLE_ZONE", pgettext( "zones manager", "Disable" ) );
+    add_action_desc( "TOGGLE_ZONE_DISPLAY", pgettext( "zones manager", "Toggle zone display" ) );
+    add_action_desc( "ENABLE_PERSONAL_ZONES", pgettext( "zones manager", "Enable personal" ) );
+    add_action_desc( "DISABLE_PERSONAL_ZONES", pgettext( "zones manager", "Disable personal" ) );
+    add_action_desc( "MOVE_ZONE_UP", pgettext( "zones manager", "Move up" ) );
+    add_action_desc( "MOVE_ZONE_DOWN", pgettext( "zones manager", "Move down" ) );
+    add_action_desc( "CONFIRM", pgettext( "zones manager", "Edit" ) );
+    add_action_desc( "SHOW_ALL_ZONES", pgettext( "zones manager", show_zones_text.c_str() ) );
+    add_action_desc( "SHOW_ZONE_ON_MAP", pgettext( "zones manager", "Map" ) );
     if( debug_mode ) {
-        shortcut_print( w_info, point( 1, 6 ), c_light_red, c_light_green,
-                        string_format( _( "Shown <F>action: %s" ), faction.str() ) );
+        add_action_desc( "CHANGE_FACTION", pgettext( "zones manager", zone_faction.c_str() ) );
+    }
+    keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
+                                  width - 2 );
+    for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
+        nc_color dummy = c_white;
+        print_colored_text( w_info, point( 1, 1 + i ), dummy, c_white, keybinding_tips[i] );
     }
 
     wnoutrefresh( w_info );
@@ -7191,7 +7179,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones );
+        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones, ctxt, width );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -7526,7 +7514,7 @@ void game::zones_manager()
                 }
 
                 blink = false;
-            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
                 if( active_index < zone_cnt - 1 ) {
                     mgr.swap( zones[active_index], zones[active_index + 1] );
                     zones = get_zones();
@@ -7535,7 +7523,7 @@ void game::zones_manager()
                 blink = false;
                 stuff_changed = true;
 
-            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
                 if( active_index > 0 ) {
                     mgr.swap( zones[active_index], zones[active_index - 1] );
                     zones = get_zones();
