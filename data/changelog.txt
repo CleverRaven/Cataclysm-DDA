@@ -199,6 +199,7 @@ Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
 audio now works on curses mode, not just tiles mode
 Render WORN overlays for ablative pockets
+Add unloading hotkey to AIM menu
 
 
 ## Content:
@@ -424,6 +425,7 @@ Add an new plasma gun for sale by the Exodii
 Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
+adds three new lore log snippets for the player to find in smartphones or laptops
 
 
 ## Interface:
@@ -569,6 +571,8 @@ Fix compact aim window
 Fix NPC rules window scaling for small terminal sizes
 Add history to Construction Search
 load all of the user’s chosen font files as fallbacks for ImGui to use
+Extended description window (x->e) shows potential deconstruction and bash yields
+Focus the default selection in query popups
 
 
 ## Mods:
@@ -958,6 +962,13 @@ Xedra Evolved: Salamander Eruption
 Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
 [Aftershock] Add the Geist (telekinetic) esper profession and powers
 [MoM] Autolearn matrix elixir recipes
+[Xedra Evolved] Add `fey_magick` magic type
+[Magiclysm] Biomancy is disturbing
+[MoM] Add null grenades
+Add a new mutation system for aftershock based on gene templates controllably granting traits.
+[Aftershock] Add human++ genemods
+[Aftershock] Add UICA Shuttlebases to the Exo-Planet
+[Aftershock] Add Gene Clinics Mapgen
 
 
 ## Balance:
@@ -1658,6 +1669,11 @@ Refactor `ammo_effect_BOUNCE`
 Add magic_type to deduplicate shared spell fields and reduce hardcoding
 Add ability to debug spawn item groups and specify amount of repeats when testing
 Bump minimum supported macOS version to 10.15 (macOS Catalina)
+Make vcpkg manifest versioned
+Reuse built clang-tidy plugin across github action shards
+Remove ghc/filesystem polyfill
+Create user mods dir automatically
+monstergroup name field changed to id
 
 ## Build:
 Support Mac arm64 build
@@ -1689,6 +1705,7 @@ Add imgui_stdlib to CMake
 Fixes potential artifact poisoning route in CI
 Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
+Fix CMake Linux VCPKG build
 
 
 ## I18N and A11Y:

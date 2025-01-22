@@ -121,7 +121,6 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
  */
 static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 {
-    // TODO: fix point types
     const tripoint_abs_omt city_center_omt =
         project_to<coords::omt>( cref.abs_sm_pos );
     std::vector<tripoint_abs_omt> valid;

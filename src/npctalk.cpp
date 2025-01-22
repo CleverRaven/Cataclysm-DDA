@@ -3582,7 +3582,7 @@ void receive_item( const itype_id &item_id, int count, const itype_id &container
                    const dialogue &d, bool suppress_message,
                    const std::vector<std::string> &flags,
                    bool add_talker = true,
-                   const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
+                   const tripoint_abs_ms &p = tripoint_abs_ms::zero, bool force_equip = false )
 {
     item new_item = item( item_id, calendar::turn );
     for( const std::string &flag : flags ) {
@@ -3638,7 +3638,7 @@ void receive_item( const itype_id &item_id, int count, const itype_id &container
 
 void receive_item_group( const item_group_id &group_id, const dialogue &d, bool suppress_message,
                          const std::vector<std::string> &flags, bool add_talker = true,
-                         const tripoint_abs_ms &p = tripoint_abs_ms(), bool force_equip = false )
+                         const tripoint_abs_ms &p = tripoint_abs_ms::zero, bool force_equip = false )
 {
     item_group::ItemList new_items;
     new_items = item_group::items_from( group_id, calendar::turn );
@@ -4277,8 +4277,9 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ), dov_y_adjust.evaluate( d ), 0 );
 
         if( z_override ) {
-            target_pos = tripoint_abs_ms( target_pos.xy(),
-                                          dov_z_adjust.evaluate( d ) );
+            target_pos = { target_pos.xy(),
+                           dov_z_adjust.evaluate( d )
+                         };
         } else {
             target_pos = target_pos + tripoint( 0, 0,
                                                 dov_z_adjust.evaluate( d ) );
@@ -4315,7 +4316,7 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
         }
 
         if( z_override ) {
-            target_pos = tripoint_abs_ms( target_pos.xy(), dov_z_adjust.evaluate( d ) );
+            target_pos = { target_pos.xy(), dov_z_adjust.evaluate( d ) };
         } else {
             target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
         }
@@ -6245,7 +6246,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
         for( const tripoint_bub_ms &pos : here.points_in_radius( center, max_radius ) ) {
             if( rl_dist( center, pos ) >= min_radius && here.inbounds( pos ) ) {
                 for( item &it : here.i_at( pos ) ) {
-                    items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
+                    items.emplace_back( map_cursor( pos ), &it );
                 }
             }
         }
