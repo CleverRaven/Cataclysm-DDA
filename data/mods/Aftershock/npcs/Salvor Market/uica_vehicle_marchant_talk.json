@@ -74,6 +74,12 @@
           "and": [ { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } }, { "u_has_trait": "BKGR_EARTH" } ]
         }
       },
+      {
+        "//": "If you have met them you can ask them about why they are on Salus",
+        "text": "So, why did you come to Salus IV?",
+        "topic": "TALK_UICA_VEHICLE_MERCHANT_WHY_HERE",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] }
+      },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
     ]
   },
@@ -235,6 +241,32 @@
         "effect": { "u_spend_cash": 4000000, "true_eocs": "EOC_UICA_VEHICLE_BUY" }
       },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_WHY_HERE" ],
+    "type": "talk_topic",
+    "dynamic_line": "It wasn't my choice, obviously.  That fucking bastard back in Alpha Centauri had me transferred to this frozen hell.  Pulled strings with the staff in command.  I signed on to help put Earth back where it belongs: on top.  Not freeze my arse off fixing barely held-together scrap in the middle of fucking nowhere.  Mercurial doesn't even give a shit about this place.  I don't know why the UICA even bothers to station us here.  If you ask me this planet should have stayed abandoned.",
+    "responses": [
+      { "text": "Who's the bastard?", "topic": "TALK_UICA_VEHICLE_MERCHANT_BKGR_BASTARD" },
+      { "text": "What makes you think Mercurial doesn't care?", "topic": "TALK_UICA_VEHICLE_MERCHANT_MERCURIAL" },
+      { "text": "Sorry I asked.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_BKGR_BASTARD" ],
+    "type": "talk_topic",
+    "dynamic_line": "My former superior officer, the prick.  Always hovering my shoulder like a damn drone.  I won't miss that uptight control freak.  We fought a lot and didn't see things eye to eye.  But this?  I never imagined the fucker would stoop this low.  Hell of a disciplinary action, I'll tell you that much.",
+    "responses": [
+      { "text": "I'm sorry to hear that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_UICA_VEHICLE_MERCHANT_MERCURIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": "The last thing they did was set up their little clinic on the station, and they haven't done jack since.  No communications, no re-colonization efforts, no survey teams.  They hardly even seem to care about going down planetside.  Not like I blame them.  The colony didn't work out before so, why bother?  This place is clearly not worth the effort.",
+    "responses": [
+      { "text": "I guess there are some rocks even Corpos won't touch.", "topic": "TALK_DONE" }
     ]
   },
   {
