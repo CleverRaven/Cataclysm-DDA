@@ -6866,9 +6866,8 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
 
     std::vector<std::string> keybinding_tips;
     std::vector<std::string> act_descs;
-    
-    std::string show_zones_text = show_all_zones ? "Hide distant zones" : "Show all zones";
-    std::string zone_faction = string_format( _( "Shown faction: %s" ), faction.str() ); 
+    std::string show_zones_text = show_all_zones ? "Showing all zones" : "Hiding distant zones";
+    std::string zone_faction = string_format( _( "Shown faction: %s" ), faction.str() );
     const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
         act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
     };
@@ -6877,7 +6876,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     add_action_desc( "ADD_PERSONAL_ZONE", pgettext( "zones manager", "Personal" ) );
     add_action_desc( "REMOVE_ZONE", pgettext( "zones manager", "Remove" ) );
     add_action_desc( "ENABLE_ZONE", pgettext( "zones manager", "Enable" ) );
-    add_action_desc( "DISABLE_ZONE", pgettext( "zones manager", "Disable zone" ) );
+    add_action_desc( "DISABLE_ZONE", pgettext( "zones manager", "Disable" ) );
     add_action_desc( "TOGGLE_ZONE_DISPLAY", pgettext( "zones manager", "Toggle zone display" ) );
     add_action_desc( "ENABLE_PERSONAL_ZONES", pgettext( "zones manager", "Enable personal" ) );
     add_action_desc( "DISABLE_PERSONAL_ZONES", pgettext( "zones manager", "Disable personal" ) );
@@ -6891,7 +6890,6 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     }
     keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
                                   width - 2 );
-    
     for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
         nc_color dummy = c_white;
         print_colored_text( w_info, point( 1, 1 + i ), dummy, c_white, keybinding_tips[i] );
@@ -7522,7 +7520,7 @@ void game::zones_manager()
                 }
 
                 blink = false;
-            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
                 if( active_index < zone_cnt - 1 ) {
                     mgr.swap( zones[active_index], zones[active_index + 1] );
                     zones = get_zones();
@@ -7531,7 +7529,7 @@ void game::zones_manager()
                 blink = false;
                 stuff_changed = true;
 
-            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
                 if( active_index > 0 ) {
                     mgr.swap( zones[active_index], zones[active_index - 1] );
                     zones = get_zones();
