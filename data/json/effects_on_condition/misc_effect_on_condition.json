@@ -155,7 +155,14 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "u_at_om_location": "sewer" },
+    "condition": {
+      "or": [
+        { "u_at_om_location": "sewer" },
+        { "u_at_om_location": "pump_station_3" },
+        { "u_at_om_location": "pump_station_4" },
+        { "u_at_om_location": "pump_station_5" }
+      ]
+    },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {
