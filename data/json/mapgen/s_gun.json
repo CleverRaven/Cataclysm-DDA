@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_gun_a" ],
-    "weight": 99999,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -120,7 +119,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "s_gun_b_store", "s_gun_b_range" ] ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
