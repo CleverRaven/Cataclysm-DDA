@@ -70,7 +70,7 @@
     "type": "start_location",
     "id": "sloc_gun_store",
     "name": "Gun Store",
-    "terrain": [ "s_gunstore_looted" ]
+    "terrain": [ "s_gun_a" ]
   },
   {
     "type": "start_location",

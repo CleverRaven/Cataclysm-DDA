@@ -152,9 +152,8 @@
     "type": "overmap_special",
     "id": "s_gunstore_looted",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_looted_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "s_gun_a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gun_a_roof_north" }
     ],
     "locations": [ "field" ],
     "city_distance": [ 40, -1 ],
