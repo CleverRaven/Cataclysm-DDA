@@ -397,7 +397,7 @@
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": "550 USD",
     "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -483,7 +483,7 @@
     "description": "A traditionally-constructed bow made from wood, bone, and sinew.  It has a rather high draw weight.",
     "price": "320 USD",
     "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066lb arrow.",
-    "material": [ "wood", "bone" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "bone", "portion": 50 } ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -594,7 +594,7 @@
     "description": "A modern fiberglass bow that can be used effectively by those of somewhat above-average strength.",
     "price": "380 USD",
     "//": "60in Fiberglass recurved bow at 26in draw, 80lb draw, 54J, 0.403 slugs with 30g arrow.",
-    "material": [ "steel", "fiberglass" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "fiberglass", "portion": 50 } ],
     "flags": [
       "FIRE_TWOHAND",
       "RELOAD_AND_SHOOT",
@@ -651,7 +651,7 @@
     "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage.",
     "price": "380 USD",
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
-    "material": [ "steel", "fiberglass" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "fiberglass", "portion": 50 } ],
     "flags": [
       "FIRE_TWOHAND",
       "FRAGILE_MELEE",
@@ -719,7 +719,7 @@
     "description": "A modern fiberglass bow that has been taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
     "price": "380 USD",
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
-    "material": [ "steel", "fiberglass" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "fiberglass", "portion": 50 } ],
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "60 cm",
@@ -829,7 +829,7 @@
     "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
     "price": "10 USD",
     "ammo": "strange_arrow",
-    "material": [ "wood", "monolith_heavy" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "monolith_heavy", "portion": 50 } ],
     "min_strength": 15,
     "weight": "22 kg",
     "volume": "6250 ml",
@@ -865,7 +865,7 @@
     "description": "An extremely large, powerful compound bow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": "1 kUSD 600 USD",
     "//": "120 lb draw weight, very efficient, 0.5 slugs of momentum with a 30g arrow.",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [
       "FIRE_TWOHAND",
       "FRAGILE_MELEE",

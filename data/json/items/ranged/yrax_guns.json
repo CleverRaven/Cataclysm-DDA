@@ -6,7 +6,7 @@
     "description": "a very small laser weapon",
     "volume": "3 L",
     "price": "0 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "(",
     "looks_like": "v29",
     "color": "magenta",

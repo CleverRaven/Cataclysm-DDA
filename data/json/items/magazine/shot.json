@@ -307,7 +307,7 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_COMPACT" ],
-    "material": [ "lc_steel", "plastic" ],
+    "material": [ { "type": "lc_steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
@@ -358,7 +358,7 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_BULKY" ],
-    "material": [ "lc_steel", "plastic" ],
+    "material": [ { "type": "lc_steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   }

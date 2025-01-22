@@ -100,7 +100,7 @@
     "volume": "4 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic", "cotton" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

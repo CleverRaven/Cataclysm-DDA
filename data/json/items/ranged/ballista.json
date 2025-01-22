@@ -11,7 +11,7 @@
     "longest_side": "200 cm",
     "price": "750 USD",
     "price_postapoc": "25 USD",
-    "material": [ "wood", "steel" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON", "RELOAD_ONE", "MOUNTED_GUN", "DURABLE_MELEE" ],
     "skill": "rifle",
     "min_strength": 8,

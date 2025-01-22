@@ -1090,7 +1090,7 @@
     "volume": "323 ml",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "wood", "leather" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "symbol": "u",
     "color": "brown",
     "pocket_data": [
@@ -1712,7 +1712,7 @@
     "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton", "plastic" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -2199,7 +2199,7 @@
     "longest_side": "132 mm",
     "price": "4 USD",
     "price_postapoc": "10 cent",
-    "material": [ "glass", "rubber" ],
+    "material": [ { "type": "glass", "portion": 50 }, { "type": "rubber", "portion": 50 } ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -3617,7 +3617,7 @@
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "wood", "steel" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -4077,7 +4077,7 @@
     "volume": "1250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "cotton", "neoprene" ],
+    "material": [ { "type": "cotton", "portion": 50 }, { "type": "neoprene", "portion": 50 } ],
     "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
       {
@@ -4211,7 +4211,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -4237,7 +4237,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -4263,7 +4263,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
@@ -4290,7 +4290,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -4316,7 +4316,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -4342,7 +4342,7 @@
         "watertight": true
       }
     ],
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -4592,7 +4592,7 @@
     "price": "20 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "pocket_data": [
@@ -4623,7 +4623,7 @@
     "price": "20 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "pocket_data": [
@@ -4654,7 +4654,7 @@
     "price": "20 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "pocket_data": [
@@ -4685,7 +4685,7 @@
     "price": "60 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -4716,7 +4716,7 @@
     "price": "60 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [

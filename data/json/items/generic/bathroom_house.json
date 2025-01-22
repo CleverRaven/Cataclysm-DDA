@@ -36,7 +36,7 @@
     "price_postapoc": "5 USD",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
@@ -88,7 +88,7 @@
     "//": "Makes a decent trade commodity but can be acquired in bulk.",
     "weight": "10 g",
     "volume": "50 ml",
-    "material": [ "plastic", "cotton" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "snippet_category": [
       {
         "id": "tampon1",
@@ -125,7 +125,7 @@
     "//": "Makes a decent trade commodity but can be acquired in bulk.",
     "weight": "10 g",
     "volume": "50 ml",
-    "material": [ "plastic", "cotton" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "snippet_category": [
       {
         "id": "menstrual_pad1",
@@ -202,7 +202,7 @@
     "weight": "28 g",
     "copy-from": "base_toiletries",
     "symbol": "~",
-    "material": [ "plastic", "cotton" ]
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "cotton", "portion": 50 } ]
   },
   {
     "id": "comb_pocket",
@@ -236,7 +236,7 @@
     "weight": "590 g",
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
-    "material": [ "wood", "rubber" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "rubber", "portion": 50 } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 2 }
   },
@@ -294,7 +294,7 @@
     "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "680 g",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
@@ -314,7 +314,7 @@
     "price_postapoc": "0 cent",
     "volume": "250 ml",
     "weight": "590 g",
-    "material": [ "ceramic", "steel" ],
+    "material": [ { "type": "ceramic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 3 }
   },
@@ -329,7 +329,7 @@
     "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "160 g",
-    "material": [ "steel", "plastic" ]
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ]
   },
   {
     "id": "comb_lice",

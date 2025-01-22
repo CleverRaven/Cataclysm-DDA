@@ -194,7 +194,7 @@
     "price": "75 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "material": [ "aluminum", "cotton" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "use_action": {

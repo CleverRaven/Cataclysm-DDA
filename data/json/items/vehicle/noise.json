@@ -25,7 +25,7 @@
     "weight": "360 g",
     "symbol": ";",
     "color": "light_gray",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "volume": "250 ml",
     "to_hit": -1,
     "category": "veh_parts",

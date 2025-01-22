@@ -34,7 +34,7 @@
     "volume": "44700 ml",
     "//": "73.3044 cm D x 76.962 cm W x 79.248 cm H, 447 L unfolded, assumed folding shave it to 10% of original volume",
     "longest_side": "80 cm",
-    "material": [ "wood", "steel" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "price": "120 USD",
     "copy-from": "v_table",
     "melee_damage": { "bash": 8 }

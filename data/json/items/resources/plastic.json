@@ -216,7 +216,7 @@
     "//": "Stats are completely provisional and formulated on a scientific, \"it feels about right\" basis. I couldn't find any hard numbers on the internet and wasn't particularly in the mood to butcher a gas mask, weigh the component, and find out. If you are, however, feel free to update these values accordingly.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
-    "material": [ "plastic", "rubber" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "rubber", "portion": 50 } ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

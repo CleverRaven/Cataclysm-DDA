@@ -39,7 +39,7 @@
     "description": "The control panel and LCD from a dismantled electric oven.",
     "price": "1 USD",
     "price_postapoc": "5 cent",
-    "material": [ "budget_steel", "glass" ],
+    "material": [ { "type": "budget_steel", "portion": 50 }, { "type": "glass", "portion": 50 } ],
     "weight": "1 kg",
     "volume": "2 L",
     "longest_side": "65 cm"
@@ -54,7 +54,7 @@
     "description": "The removed glass and steel door of an electric oven.",
     "price": "1 USD",
     "price_postapoc": "5 cent",
-    "material": [ "budget_steel", "glass" ],
+    "material": [ { "type": "budget_steel", "portion": 50 }, { "type": "glass", "portion": 50 } ],
     "weight": "10 kg",
     "volume": "20 L",
     "longest_side": "69 cm"

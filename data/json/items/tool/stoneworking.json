@@ -76,7 +76,7 @@
     "description": "Two pieces of wood with a steel nail secured between them with some cordage.  Usually used in flintknapping for indirect percussion and pressure flaking.",
     "category": "tools",
     "price": "10 cent",
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "weight": "150 g",
     "volume": "100 ml",
     "longest_side": "15 cm",

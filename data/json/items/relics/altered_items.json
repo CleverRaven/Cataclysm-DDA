@@ -10,7 +10,7 @@
     "description": "Some kind of prototypical electronic device with exposed wiring.  Some of the wires have bare ends that could be connected together.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "plastic", "copper" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "weight": "32 g",
     "volume": "26 ml"
   },
@@ -25,7 +25,7 @@
     "description": "A vintage, bright-red Bakelite phone of famous Swedish design.  It would look almost normal, if not for the fact that its rotary dial has been replaced with a doorknob.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "iron", "plastic" ],
+    "material": [ { "type": "iron", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "weight": "725 g",
     "volume": "750 ml"
   },

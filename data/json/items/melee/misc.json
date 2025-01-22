@@ -30,7 +30,7 @@
     "price_postapoc": "52 USD",
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
     "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
-    "material": [ "leather", "steel" ],
+    "material": [ { "type": "leather", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ],
     "melee_damage": { "cut": 10 }
   },
@@ -46,7 +46,7 @@
     "price_postapoc": "15 USD",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "//": "Yes, this is smaller than its magazine well. Go with it.",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],

@@ -119,7 +119,7 @@
       "ALLOWS_NATURAL_ATTACKS",
       "TRADER_AVOID"
     ],
-    "material": [ "superalloy", "copper" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
     "armor": [
@@ -174,7 +174,7 @@
       "TRADER_AVOID",
       "USES_BIONIC_POWER"
     ],
-    "material": [ "superalloy", "copper" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "name": { "str_sp": "integrated welder" },
     "description": "Integrated bionic miniature welding tool implanted in your fingers.",
     "use_action": [
@@ -240,7 +240,7 @@
       "TRADER_AVOID",
       "USES_BIONIC_POWER"
     ],
-    "material": [ "superalloy", "copper" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "name": { "str_sp": "integrated multimeter" },
     "description": "Integrated bionic multimeter implanted in your fingers.",
     "use_action": [ { "type": "VOLTMETER" } ]
@@ -269,7 +269,7 @@
       "TRADER_AVOID",
       "USES_BIONIC_POWER"
     ],
-    "material": [ "superalloy", "copper" ],
+    "material": [ { "type": "superalloy", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "name": { "str_sp": "integrated soldering iron" },
     "description": "Integrated soldering iron and screwdriver set.",
     "use_action": [

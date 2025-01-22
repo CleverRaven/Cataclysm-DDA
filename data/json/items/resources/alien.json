@@ -67,7 +67,7 @@
     "weight": "40 kg",
     "volume": "150 L",
     "price": "1 kUSD",
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -93,7 +93,7 @@
     "weight": "10 kg",
     "volume": "10 L",
     "price": "100 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -106,7 +106,7 @@
     "weight": "1 kg",
     "volume": "1 L",
     "price": "10 USD",
-    "material": [ "copper", "steel" ],
+    "material": [ { "type": "copper", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -119,7 +119,7 @@
     "weight": "100 g",
     "volume": "250 ml",
     "price": "100 USD",
-    "material": [ "plastic", "steel" ],
+    "material": [ { "type": "plastic", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -132,7 +132,7 @@
     "weight": "50 g",
     "volume": "100 ml",
     "price": "10 USD",
-    "material": [ "copper", "steel" ],
+    "material": [ { "type": "copper", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -145,7 +145,7 @@
     "weight": "5 kg",
     "volume": "3 L",
     "price": "200 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -158,7 +158,7 @@
     "weight": "2 kg",
     "volume": "500 ml",
     "price": "20 USD",
-    "material": [ "steel", "copper" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "copper", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -171,7 +171,7 @@
     "weight": "5 kg",
     "volume": "1000 ml",
     "price": "20 USD",
-    "material": [ "steel", "lead" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "lead", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -184,7 +184,7 @@
     "weight": "2 kg",
     "volume": "1500 ml",
     "price": "20 USD",
-    "material": [ "copper", "ceramic" ],
+    "material": [ { "type": "copper", "portion": 50 }, { "type": "ceramic", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -323,7 +323,7 @@
     "weight": "300 g",
     "volume": "1 L",
     "price": "10 USD",
-    "material": [ "copper", "steel" ],
+    "material": [ { "type": "copper", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -336,7 +336,7 @@
     "weight": "1 kg",
     "volume": "1 L",
     "price": "10 USD",
-    "material": [ "silver", "steel" ],
+    "material": [ { "type": "silver", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -349,7 +349,7 @@
     "weight": "150 g",
     "volume": "100 ml",
     "price": "10 USD",
-    "material": [ "silver", "gold" ],
+    "material": [ { "type": "silver", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -362,7 +362,7 @@
     "weight": "14 kg",
     "volume": "1 L",
     "price": "10 USD",
-    "material": [ "copper", "gold" ],
+    "material": [ { "type": "copper", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -375,7 +375,7 @@
     "weight": "3 kg",
     "volume": "2 L",
     "price": "10 USD",
-    "material": [ "steel", "gold" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "category": "spare_parts"
   },
   {
@@ -388,7 +388,7 @@
     "weight": "1 kg",
     "volume": "2 L",
     "price": "10 USD",
-    "material": [ "steel", "glass" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "glass", "portion": 50 } ],
     "category": "spare_parts"
   }
 ]

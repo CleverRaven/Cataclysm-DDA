@@ -120,7 +120,7 @@
     "volume": "4 L",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "material": [ "wood", "plastic" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {

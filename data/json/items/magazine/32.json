@@ -30,7 +30,7 @@
     "longest_side": "81 mm",
     "price": "26 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "32" ],

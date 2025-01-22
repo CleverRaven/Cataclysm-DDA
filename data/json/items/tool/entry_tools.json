@@ -63,7 +63,7 @@
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "aluminum", "portion": 50 } ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],

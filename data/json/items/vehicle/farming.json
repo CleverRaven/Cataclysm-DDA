@@ -20,7 +20,7 @@
     "symbol": "8",
     "name": { "str": "seed drill" },
     "description": "An assembly of tubes, spikes, and wheels that, when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "copy-from": "v_scoop_item"
   },
   {
@@ -29,7 +29,7 @@
     "symbol": "/",
     "name": { "str": "reaper" },
     "description": "An assembly of a blade, wheels, and a small lever for engaging/disengaging, used to cut down crops prior to picking them up.",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "copy-from": "v_scoop_item"
   },
   {
@@ -39,7 +39,7 @@
     "name": { "str": "advanced reaper" },
     "description": "An advanced electronic device used to cut down, collect, and store crops.",
     "weight": "25000 g",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "price": "500 USD",
     "price_postapoc": "15 USD",
     "volume": "9 L",
@@ -53,7 +53,7 @@
     "color": "dark_gray",
     "description": "An assembly of tubes, spikes, and wheels that, when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.  This one is equipped with an electronic control system and will avoid damaging itself when used on untilled land.",
     "weight": "32666 g",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "price": "500 USD",
     "price_postapoc": "17 USD 50 cent",
     "volume": "7250 ml",
@@ -67,7 +67,7 @@
     "color": "dark_gray",
     "description": "A heavy assembly of wheels and steel blades that turn up the ground.",
     "weight": "32666 g",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "volume": "7250 ml",
     "copy-from": "v_scoop_item"
   }

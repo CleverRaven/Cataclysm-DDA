@@ -132,7 +132,7 @@
     "to_hit": -1,
     "color": "green",
     "symbol": "]",
-    "material": [ "qt_steel", "ceramic" ],
+    "material": [ { "type": "qt_steel", "portion": 50 }, { "type": "ceramic", "portion": 50 } ],
     "volume": "3 L",
     "category": "veh_parts",
     "price": "160 USD",

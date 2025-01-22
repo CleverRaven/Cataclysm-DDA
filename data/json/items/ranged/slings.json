@@ -61,7 +61,7 @@
     "description": "This staff can launch rocks with a whipping motion that sends them flying much further and faster than throwing them.",
     "price": "1 USD 50 cent",
     "//": "The staff sling,consists of a staff with a short sling at one end. ",
-    "material": [ "wood", "leather" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "leather", "portion": 50 } ],
     "flags": [
       "RELOAD_AND_SHOOT",
       "NEVER_JAMS",
@@ -101,7 +101,7 @@
     "name": { "str": "brace slingshot" },
     "description": "A modern slingshot with a wrist brace, allowing it to fire tiny objects slightly more forcefully than a simple wooden slingshot.",
     "price": "30 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "skill": "archery",

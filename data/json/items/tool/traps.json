@@ -110,7 +110,7 @@
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "to_hit": -4,
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "red",
     "use_action": {
@@ -203,7 +203,7 @@
     "volume": "1750 ml",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "wood", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "use_action": {

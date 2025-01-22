@@ -87,7 +87,7 @@
     "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",
-    "material": [ "wood", "cotton" ],
+    "material": [ { "type": "wood", "portion": 50 }, { "type": "cotton", "portion": 50 } ],
     "volume": "7500 ml",
     "category": "veh_parts",
     "price": "90 USD",

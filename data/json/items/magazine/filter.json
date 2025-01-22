@@ -84,7 +84,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A replaceable oxygen regenerator cartridge for a rebreather.",
-    "material": [ "rubber", "steel" ],
+    "material": [ { "type": "rubber", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "volume": "2000 ml",
     "weight": "1000 g",
     "ammo_type": "rebreather_o2_regenerator",

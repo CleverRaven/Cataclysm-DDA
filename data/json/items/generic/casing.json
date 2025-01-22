@@ -39,7 +39,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
-    "material": [ "powder", "brass" ],
+    "material": [ { "type": "powder", "portion": 50 }, { "type": "brass", "portion": 50 } ],
     "stackable": true,
     "volume": "3 ml",
     "weight": "1 g"
@@ -55,7 +55,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "An unfired, like-new .22 short casing, with the priming compound still intact.",
-    "material": [ "powder", "brass" ],
+    "material": [ { "type": "powder", "portion": 50 }, { "type": "brass", "portion": 50 } ],
     "stackable": true,
     "volume": "2 ml",
     "weight": "1 g"

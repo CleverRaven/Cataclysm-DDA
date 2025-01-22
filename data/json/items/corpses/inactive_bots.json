@@ -9,7 +9,7 @@
     "price": "645 USD",
     "price_postapoc": "30 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "cyan",
     "use_action": {
@@ -35,7 +35,7 @@
     "price": "675 USD",
     "price_postapoc": "30 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "light_gray",
     "use_action": {
@@ -61,7 +61,7 @@
     "price": "595 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "dark_gray",
     "use_action": {
@@ -87,7 +87,7 @@
     "price": "605 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "dark_gray",
     "use_action": {
@@ -113,7 +113,7 @@
     "price": "600 USD",
     "price_postapoc": "10 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "green",
     "use_action": {
@@ -138,7 +138,7 @@
     "volume": "30 L",
     "price": "5 kUSD 5 USD",
     "price_postapoc": "80 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "red",
     "use_action": {
@@ -160,7 +160,7 @@
     "price": "600 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -185,7 +185,7 @@
     "volume": "30 L",
     "price": "5 kUSD",
     "price_postapoc": "50 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -206,7 +206,7 @@
     "volume": "30 L",
     "price": "5 kUSD",
     "price_postapoc": "60 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -227,7 +227,7 @@
     "volume": "60 L",
     "price": "2 kUSD 5 USD",
     "price_postapoc": "20 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "red",
     "use_action": {
@@ -248,7 +248,7 @@
     "volume": "30 L",
     "price": "4 kUSD",
     "price_postapoc": "30 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -408,7 +408,7 @@
     "//": "It is a disgusting mass of rotting flesh and jagged metal pieces, no one will buy it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "steel", "flesh" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -433,7 +433,7 @@
     "//": "It is an affront to humanity, no one will buy it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "steel", "flesh" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "flesh", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -508,7 +508,7 @@
     "volume": "105 L",
     "price": "800 USD",
     "price_postapoc": "100 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -534,7 +534,7 @@
     "weight": "36 kg",
     "price": "800 USD",
     "price_postapoc": "250 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -677,7 +677,7 @@
     "price": "645 USD",
     "price_postapoc": "30 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "cyan",
     "use_action": {
@@ -702,7 +702,7 @@
     "volume": "50 L",
     "price": "645 USD",
     "price_postapoc": "30 USD",
-    "material": [ "steel", "ceramic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "ceramic", "portion": 50 } ],
     "symbol": ",",
     "color": "cyan",
     "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
@@ -717,7 +717,7 @@
     "category": "other",
     "description": "You know this artfully craved piece of gold hued ceramics to be a robot of some kind, but it seems impossible to interact with it.",
     "price": "10 USD",
-    "material": [ "steel", "yrax_quartz" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "yrax_quartz", "portion": 50 } ],
     "volume": "119 L",
     "weight": "221 kg",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
@@ -734,7 +734,7 @@
     "weight": "8282 kg",
     "price": "50 USD",
     "price_postapoc": "50 USD",
-    "material": [ "yrax_quartz", "gold" ],
+    "material": [ { "type": "yrax_quartz", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "color": "yellow",
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "SINGLE_USE" ],
     "use_action": {
@@ -757,7 +757,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
     "melee_damage": { "stab": 23 },
     "weapon_category": [ "SHIVS" ],
-    "material": [ "yrax_quartz", "gold" ],
+    "material": [ { "type": "yrax_quartz", "portion": 50 }, { "type": "gold", "portion": 50 } ],
     "color": "yellow",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
@@ -774,7 +774,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -800,7 +800,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -826,7 +826,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "yellow",
     "use_action": {
@@ -852,7 +852,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "blue",
     "use_action": {
@@ -878,7 +878,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "cyan",
     "use_action": {
@@ -904,7 +904,7 @@
     "price": "600 USD",
     "price_postapoc": "8 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "material": [ "aluminum", "plastic" ],
+    "material": [ { "type": "aluminum", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ",",
     "color": "dark_gray",
     "use_action": {
@@ -930,7 +930,7 @@
     "volume": "30 L",
     "price": "100 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {

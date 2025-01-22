@@ -6,7 +6,7 @@
     "color": "light_gray",
     "name": { "str": "cestus", "str_pl": "cesti" },
     "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defense.",
-    "material": [ "leather", "steel" ],
+    "material": [ { "type": "leather", "portion": 50 }, { "type": "steel", "portion": 50 } ],
     "volume": "100 ml",
     "weight": "300 g",
     "price_postapoc": "2 USD 50 cent",

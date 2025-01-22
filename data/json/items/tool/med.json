@@ -238,7 +238,7 @@
     "volume": "500 ml",
     "price": "1 kUSD",
     "price_postapoc": "15 USD",
-    "material": [ "ceramic", "superalloy" ],
+    "material": [ { "type": "ceramic", "portion": 50 }, { "type": "superalloy", "portion": 50 } ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "ampoule" ],
@@ -277,7 +277,7 @@
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
@@ -333,7 +333,7 @@
     "price": "60 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "plastic" ],
+    "material": [ { "type": "steel", "portion": 50 }, { "type": "plastic", "portion": 50 } ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [
