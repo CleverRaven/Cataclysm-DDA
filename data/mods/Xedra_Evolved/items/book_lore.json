@@ -25,7 +25,7 @@
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
     "volume": "1 ml"
@@ -40,7 +40,7 @@
     "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.  You can barely make out the words 'Blood treatment' followed by a list of ingredients.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
     "volume": "1 ml",
@@ -58,7 +58,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -70,7 +70,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -82,7 +82,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -94,7 +94,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -106,7 +106,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -118,7 +118,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray"
   },
@@ -130,7 +130,7 @@
     "weight": "830 g",
     "volume": "1320 ml",
     "price": "1 USD",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "dark_gray",
@@ -208,7 +208,7 @@
     "description": "The notes you have taken about the cryptid you're hunting.\nAlso known as the mongolian death worm, the Olgoi-khorkhoi is a massive acid-spewing burrowing worm.  Finding acid-resistant gear will prove useful to survive the encounter.  According to most of the credible stories you've read, the lethal poison covering its skin is nothing but exaggerations.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "30 g",
     "volume": "10 ml"
@@ -258,7 +258,7 @@
     "description": "The notes you have taken about the cryptid you're hunting.\nThe man of the Nineteenth Hour is peaceful for most of the day but becomes incredibly violent against those who are still awake when he enters his active phase.  Some stories tell that his presence shields those who are sleeping against everything that could disturb their sleep.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "30 g",
     "volume": "10 ml"

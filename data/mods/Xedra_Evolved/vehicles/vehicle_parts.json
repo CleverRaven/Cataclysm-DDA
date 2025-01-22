@@ -39,7 +39,7 @@
     "weight": "10 g",
     "volume": "10 ml",
     "phase": "solid",
-    "material": [ "mana" ],
+    "material": [ { "type": "mana", "portion": 100 } ],
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "symbol": "?",
     "color": "magenta",

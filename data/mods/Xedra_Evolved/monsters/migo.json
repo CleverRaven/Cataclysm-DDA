@@ -11,7 +11,7 @@
     "weight": "73 kg",
     "hp": 90,
     "speed": 180,
-    "material": [ "mi-go_flesh" ],
+    "material": [ { "type": "mi-go_flesh", "portion": 100 } ],
     "symbol": "W",
     "color": "brown_red",
     "morale": 70,

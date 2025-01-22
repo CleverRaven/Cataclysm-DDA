@@ -13,7 +13,7 @@
     "description": "A chunk of underground fungus.  It's slightly toxic but seems nutritious enough.",
     "price": "6 USD",
     "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "flags": [ "TRADER_AVOID", "RAW" ],
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",

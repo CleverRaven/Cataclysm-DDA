@@ -8,7 +8,7 @@
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "=",
     "color": "light_gray"
   }

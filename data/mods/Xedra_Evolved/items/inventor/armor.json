@@ -613,7 +613,7 @@
     "description": "A huge, respirator-like mask covering the whole head except for the right eye.  Upon activation it protects you lungs from toxic gases as well as improving your breathing and stamina.",
     "weight": "405 g",
     "volume": "1479 ml",
-    "material": [ "aluminum" ],
+    "material": [ { "type": "aluminum", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "ammo": [ "battery" ],

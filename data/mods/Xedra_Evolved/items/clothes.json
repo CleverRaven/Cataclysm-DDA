@@ -110,7 +110,7 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "volume": "1250 ml",
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
@@ -134,7 +134,7 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "volume": "1250 ml",
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 2 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
@@ -161,7 +161,7 @@
     "description": "A thick overshirt of gossamer, shimmering in a rainbow of colors.  This would have made you the king of the Renn Faire.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "valid_mods": [  ],
     "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ],
     "extend": { "flags": [ "FANCY" ] }
@@ -174,7 +174,7 @@
     "description": "A gossamer dress, shimmering in a mix of rainbow colors.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -185,7 +185,7 @@
     "description": "A full-length gossamer gown, like a waterfall of coruscating light.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [ { "encumbrance": 9, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -196,7 +196,7 @@
     "description": "A gossamer cloak meant to be thrown over your body.  It looks like ripples of multicolored light when worn.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "extend": { "flags": [ "FANCY" ] }
   },
@@ -208,7 +208,7 @@
     "description": "A thin gossamer jacket.  Despite its lack of heft, its surprisingly warm.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 3, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
@@ -223,7 +223,7 @@
     "description": "A flowing gossamer robe, like a waterfall of light.  There are a surprising amount of pockets cunningly hidden in the iridescent folds.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
       {
@@ -300,7 +300,7 @@
     "description": "A pair of gossamer gloves.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
     "extend": { "flags": [ "FANCY" ] }
   },
@@ -312,7 +312,7 @@
     "description": "A gossamer covering for your loins, for when you want to feel like you're wearing moonbeams.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -323,7 +323,7 @@
     "description": "A pair of gossamer pants with two pockets.  They shimmer opalescently.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -351,7 +351,7 @@
     "description": "A pair of tight-fitting gossamer pants with no pockets.  They would have been the absolute height of fashion five hundred years ago.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "pocket_data": [  ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
     "extend": { "flags": [ "FANCY" ] }
@@ -364,7 +364,7 @@
     "description": "A loose gossamer skirt, like a waterfall of light.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "pocket_data": [  ],
     "extend": { "flags": [ "FANCY" ] }
   },
@@ -376,7 +376,7 @@
     "description": "A long gossamer skirt that shimmers like a woven rainbow.  It's warmer and more fashionable than a shorter gossamer skirt.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -397,7 +397,7 @@
     "description": "A pair of gossamer stockings that shimmer in a rainbow of muted colors.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       { "encumbrance": 3, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
       {
@@ -420,7 +420,7 @@
     "price": "107 USD",
     "price_postapoc": "5 USD",
     "to_hit": -1,
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "cloak",
     "color": "green",

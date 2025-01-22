@@ -10,7 +10,7 @@
     "volume": "10 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "U",
     "color": "magenta_yellow",
     "use_action": { "type": "learn_spell", "spells": [ "spell_oneiric_hammer" ] }

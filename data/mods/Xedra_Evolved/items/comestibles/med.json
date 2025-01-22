@@ -9,7 +9,7 @@
     "volume": "1 ml",
     "price": "2 cent",
     "price_postapoc": "37 cent",
-    "material": [ "powder" ],
+    "material": [ { "type": "powder", "portion": 100 } ],
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_pill_painkiller",
@@ -65,7 +65,7 @@
     "addiction_type": "mutagen",
     "flags": [ "NO_INGEST", "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "freezing_point": -8,
     "consumption_effect_on_conditions": [ "learn_blood_of_saints" ]
   },

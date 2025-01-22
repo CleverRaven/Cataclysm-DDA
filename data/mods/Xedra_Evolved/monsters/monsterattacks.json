@@ -6,7 +6,7 @@
     "color": "red",
     "name": { "str": "thrown knife" },
     "description": "Shiny reflective throwing knife at the ready.",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
       "NEVER_JAMS",

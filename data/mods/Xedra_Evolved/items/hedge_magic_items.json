@@ -9,7 +9,7 @@
     "symbol": "`",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TINDER", "PAPER_SHAPED", "SINGLE_USE" ],
     "volume": "6 ml",
     "longest_side": "297 mm"
@@ -95,7 +95,7 @@
     "quench": -10,
     "healthy": -2,
     "description": "Use this to fertilize your crops.",
-    "material": [ "powder" ],
+    "material": [ { "type": "powder", "portion": 100 } ],
     "volume": "0 ml",
     "category": "chems",
     "fun": -15

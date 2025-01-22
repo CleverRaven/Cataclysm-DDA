@@ -30,7 +30,7 @@
     "volume": "251 ml",
     "weight": "1 g",
     "price": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "(",
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],

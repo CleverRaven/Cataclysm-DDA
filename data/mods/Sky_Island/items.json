@@ -9,7 +9,7 @@
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "panacea",
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 100 } ],
     "symbol": "!",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "freezing_point": -1000,
@@ -62,7 +62,7 @@
     "description": { "str": "This is a template you shouldn't actually see.", "//~": "NO_I18N" },
     "symbol": "[",
     "color": "light_gray",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "looks_like": "backpack",
     "flags": [
       "NO_SALVAGE",
@@ -85,7 +85,7 @@
       {
         "coverage": 0,
         "covers": [ "torso" ],
-        "material": [ "alien_resin" ],
+        "material": [ { "type": "alien_resin", "portion": 100 } ],
         "material_thickness": 1,
         "environmental_protection": 0
       }
@@ -249,7 +249,7 @@
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "panacea",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": "!",
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
     "freezing_point": -1000,
@@ -265,7 +265,7 @@
     "weight": "15 g",
     "volume": "5 ml",
     "looks_like": "fishing_hook_basic",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": "!",
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
     "color": "red"
@@ -277,7 +277,7 @@
     "description": "A hand-sized cage with a shimmering portal at its aperture.  Despite being shaped more like a cat carrier, the power of warp enables it to capture creatures far bigger than you.  This may be your best bet for bringing animals home to your island sanctuary.  Activate to capture an adjacent animal, or to release a carried animal.",
     "weight": "1000 g",
     "volume": "5 L",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": "#",
     "color": "light_gray",
     "properties": { "creature_size_capacity": "HUGE" },
@@ -292,7 +292,7 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "flags": [ "UNBREAKABLE" ],
     "weight": "100 g",
     "volume": "200 ml"
@@ -304,7 +304,7 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "flags": [ "UNBREAKABLE" ],
     "weight": "100 g",
     "volume": "200 ml"
@@ -316,7 +316,7 @@
     "description": "A small device, so complex you can't entirely tell what it does.  You can see a miniature chair, a bed, some kind of machine, a computer console, a tangle of mechanical arms, all changing from moment to moment.  When used on an existing autodoc mark XI, you can upgrade it to a more advanced XXII model.",
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": "A",
     "color": "pink"
   },
@@ -327,7 +327,7 @@
     "description": "A small device, so complex you can't entirely tell what it does.  You can see a miniature chair, a bed, some kind of machine, a computer console, a tangle of mechanical arms, all changing from moment to moment.  When used on an advanced autodoc mark XXII, you can upgrade it to its most advanced XXXIII form.",
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": "A",
     "color": "pink"
   },
@@ -343,7 +343,7 @@
     "stack_size": 100,
     "looks_like": "seed_wild_herbs",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": ".",
     "color": "light_gray",
     "ammo_type": "components"
@@ -360,7 +360,7 @@
     "stack_size": 50,
     "looks_like": "seed_wild_herbs",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": ".",
     "color": "light_gray",
     "ammo_type": "components"
@@ -377,7 +377,7 @@
     "stack_size": 50,
     "looks_like": "seed_wild_herbs",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": ".",
     "color": "light_gray",
     "ammo_type": "components"
@@ -394,7 +394,7 @@
     "stack_size": 50,
     "looks_like": "seed_wild_herbs",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "symbol": ".",
     "color": "light_gray",
     "ammo_type": "components"
@@ -411,7 +411,7 @@
     "stack_size": 100,
     "looks_like": "spiral_stone",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": ".",
     "color": "magenta",
     "ammo_type": "components"
@@ -428,7 +428,7 @@
     "stack_size": 100,
     "looks_like": "spiral_stone",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": ".",
     "color": "magenta",
     "ammo_type": "components",
@@ -450,7 +450,7 @@
     "stack_size": 100,
     "looks_like": "spiral_stone",
     "flags": [ "UNBREAKABLE" ],
-    "material": [ "alien_resin" ],
+    "material": [ { "type": "alien_resin", "portion": 100 } ],
     "symbol": ".",
     "color": "cyan",
     "ammo_type": "components",
@@ -471,7 +471,7 @@
     "count": 1,
     "stack_size": 100,
     "looks_like": "spiral_stone",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": ",",
     "flags": [ "UNBREAKABLE" ],
     "color": "light_gray",
@@ -492,7 +492,7 @@
     "description": "A bit of warp power, a magnetic stripe keycard from a dangerous place, and a little hope, blended well.  This item is required to begin a Labs expedition, and is consumed when leaving.",
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -504,7 +504,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_islandstatue" },
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -516,7 +516,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinitree1" },
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "y",
     "color": "green"
   },
@@ -528,7 +528,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinitystone" },
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "y",
     "color": "green"
   },
@@ -540,7 +540,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_infinityore" },
     "volume": "5 ml",
     "weight": "5 g",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "y",
     "color": "green"
   }

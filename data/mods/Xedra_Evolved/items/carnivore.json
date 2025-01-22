@@ -76,7 +76,7 @@
     "symbol": "~",
     "description": "Blood, from a specific part of the Nether.  Disgusting!",
     "price": "75 cent",
-    "material": [ "fae_blood" ],
+    "material": [ { "type": "fae_blood", "portion": 100 } ],
     "volume": "250 ml",
     "phase": "liquid",
     "copy-from": "animal_blood"

@@ -20,7 +20,7 @@
     "price_postapoc": "50 cent",
     "to_hit": -1,
     "melee_damage": { "bash": 1 },
-    "material": [ "moon_tears" ],
+    "material": [ { "type": "moon_tears", "portion": 100 } ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -61,7 +61,7 @@
     "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "melee_damage": { "bash": 1 },
-    "material": [ "moon_tears" ],
+    "material": [ { "type": "moon_tears", "portion": 100 } ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [

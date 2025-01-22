@@ -10,7 +10,7 @@
     "weight": "32 kg",
     "hp": 50,
     "speed": 150,
-    "material": [ "flesh" ],
+    "material": [ { "type": "flesh", "portion": 100 } ],
     "symbol": "R",
     "color": "brown",
     "aggression": 0,

@@ -142,7 +142,7 @@
     "default_faction": "factionless",
     "hp": 10,
     "speed": 30,
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "M",
     "color": "white",
     "weight": "10 kg",

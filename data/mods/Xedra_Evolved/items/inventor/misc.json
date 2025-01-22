@@ -125,7 +125,7 @@
     "looks_like": "box_large_metal",
     "description": "An enormous industrial press shaped device, covered in sensors, circuits, and other doodads.  Two inverted teleporters are located on each side of the hammers, poised to perfectly align at the end of a strike.  Doing so will smoothen the overall local barrier between Earth and other realities, filling in any holes at the expense of weakening it in a much wider area.  This is an overall positive effect, allowing you to heal tears that would never naturally close, but expect large temporary side-effects.",
     "longest_side": "1495 mm",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "symbol": "#",
     "volume": "601475 ml",
     "weight": "226 kg",

@@ -130,7 +130,7 @@
     "copy-from": "cloak_fur",
     "price": "345 USD",
     "price_postapoc": "27 USD 50 cent",
-    "material": [ "fae_fur" ],
+    "material": [ { "type": "fae_fur", "portion": 100 } ],
     "color": "brown_red",
     "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "FANCY" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -197,7 +197,7 @@
     "price": "979 USD",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
-    "material": [ "fae_fur" ],
+    "material": [ { "type": "fae_fur", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "trenchcoat_leather",
     "color": "brown",
@@ -242,7 +242,7 @@
     "price": "832 USD 15 cent",
     "price_postapoc": "5 USD",
     "to_hit": -1,
-    "material": [ "fae_fur" ],
+    "material": [ { "type": "fae_fur", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_fur",
     "color": "brown",
@@ -289,7 +289,7 @@
     "copy-from": "duster_fur",
     "price": "1 kUSD 979 USD",
     "price_postapoc": "25 USD",
-    "material": [ "fae_fur" ],
+    "material": [ { "type": "fae_fur", "portion": 100 } ],
     "color": "brown_red",
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
@@ -362,7 +362,7 @@
     "price": "832 USD 15 cent",
     "price_postapoc": "5 USD",
     "to_hit": -1,
-    "material": [ "fae_fur" ],
+    "material": [ { "type": "fae_fur", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "duster_fur",
     "color": "brown",
@@ -456,7 +456,7 @@
     "description": "A padded greatcoat assembled by quilting gossamer and stuffing the layers with more scraps of gossamer.  It shimmers in a soft rainbow of colors.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       {
         "material": [
@@ -498,7 +498,7 @@
     "description": "Thick pants made of gossamer, meant to be worn alongside a gambeson under or without armor.  Stylish and as comfortable as armor can be.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       {
         "material": [
@@ -521,7 +521,7 @@
     "description": "A gossamer coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  The sort of thing a fae knight guarding a crossroads would wear when challenging travelers to duels.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
+    "material": [ { "type": "fae_cotton", "portion": 100 } ],
     "armor": [
       {
         "material": [
@@ -540,7 +540,7 @@
     "id": "mt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
     "description": "Moon tears chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
@@ -572,7 +572,7 @@
     "id": "mt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
     "armor": [
@@ -606,7 +606,7 @@
     "id": "mt_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hands",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "description": "Moon tears chainmail gloves that fully enclose the hand.",
     "armor": [
@@ -638,7 +638,7 @@
     "id": "mt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail coif" },
     "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
@@ -670,7 +670,7 @@
     "id": "mt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
     "description": "Moon tears chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
@@ -704,7 +704,7 @@
     "id": "mt_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail hauberk" },
     "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "armor": [
@@ -736,7 +736,7 @@
     "id": "mt_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail armor" },
     "description": "A fully customized moon tears chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "armor": [
@@ -760,7 +760,7 @@
     "id": "mt_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_suit",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
@@ -769,7 +769,7 @@
     "id": "mt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
-    "material": [ "moon_tears_fine_chain" ],
+    "material": [ { "type": "moon_tears_fine_chain", "portion": 100 } ],
     "name": { "str": "moon tears chainmail vest" },
     "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -803,7 +803,7 @@
     "name": { "str": "dreamforged ballistic plate" },
     "copy-from": "steel_ballistic_plate",
     "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "weight": "1499 g",
     "volume": "749 ml",
     "longest_side": "30 cm",
@@ -823,7 +823,7 @@
     "name": { "str": "small dreamforged ballistic plate" },
     "copy-from": "steel_ballistic_plate",
     "description": "Manually forged ballistic plate, made to fit the common ballistic plate.  Probably not as good as steel one, but lightweight, and additionally hardened with magic.  Smaller in size, and can fit a side pocket of plate carrier.",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "weight": "618 g",
     "volume": "309 ml",
     "longest_side": "20 cm",
@@ -849,7 +849,7 @@
     "weight": "750 g",
     "price": "250 USD",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
     "armor": [
@@ -871,7 +871,7 @@
     "name": { "str": "dreamforged helmet" },
     "description": "Manually forged helmet in the that resemble the shape of modern army helmets.",
     "weight": "467 g",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
@@ -890,7 +890,7 @@
     "weight": "3896 g",
     "volume": "17500 ml",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "armor_lc_lightplate",
     "color": "dark_gray",
@@ -929,7 +929,7 @@
     "weight": "706 g",
     "volume": "5500 ml",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "armguard_lightplate",
     "color": "dark_gray",
@@ -1356,7 +1356,7 @@
     "volume": "6750 ml",
     "price": "14000 USD",
     "price_postapoc": "70 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ { "type": "cotton", "portion": 100 } ],
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_red",

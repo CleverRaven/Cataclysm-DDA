@@ -10,7 +10,7 @@
     "volume": "600 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
@@ -26,7 +26,7 @@
     "volume": "150 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }

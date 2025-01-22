@@ -7,7 +7,7 @@
     "name": "broken sniper bot",
     "category": "other",
     "description": "A broken sniper bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -20,7 +20,7 @@
     "name": "broken shotgun bot",
     "category": "other",
     "description": "A broken shotgun bot.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -33,7 +33,7 @@
     "name": "broken cutthroater",
     "category": "other",
     "description": "A broken cutthroater.  Total scrap, but some stuff is still useful.",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "weight": "40 kg",
     "volume": "150 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
@@ -47,7 +47,7 @@
     "category": "other",
     "description": "A broken Exodii Jotunn walker.  Still looks incredibly intimidating despite being permanently inoperative, due to the sheer size, mass, and protruding weapons.  Could be gutted for parts.",
     "price": "10 USD",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "volume": "410 L",
     "weight": "498 kg",
     "to_hit": -3,
@@ -78,7 +78,7 @@
     "name": { "str": "fae corpse" },
     "description": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down.",
     "looks_like": "corpse_generic_human",
-    "material": [ "fae_flesh" ],
+    "material": [ { "type": "fae_flesh", "portion": 100 } ],
     "snippet_category": [
       {
         "id": "generic_fae_corpse_01",

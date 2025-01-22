@@ -85,7 +85,7 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
     "volume": "100 L",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "X",
     "color": "red"
   },
@@ -96,7 +96,7 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
     "volume": "100 L",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "T",
     "color": "red"
   },
@@ -123,7 +123,7 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
     "volume": "100 L",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "T",
     "color": "red"
   },
@@ -150,7 +150,7 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "70000 g",
     "volume": "100 L",
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "symbol": "T",
     "color": "red"
   },

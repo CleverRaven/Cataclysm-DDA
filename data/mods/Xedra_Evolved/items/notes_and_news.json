@@ -50,7 +50,7 @@
     "description": "A paper plaque.  It has words printed on it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "12 mg",
     "volume": "1 ml"
@@ -66,7 +66,7 @@
     "description": "A paper plaque.  It has words printed on it.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "12 mg",
     "volume": "1 ml"

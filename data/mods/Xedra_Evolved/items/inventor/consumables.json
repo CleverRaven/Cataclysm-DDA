@@ -6,7 +6,7 @@
     "type": "TOOL",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "paper" ],
+    "material": [ { "type": "paper", "portion": 100 } ],
     "symbol": "|",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],

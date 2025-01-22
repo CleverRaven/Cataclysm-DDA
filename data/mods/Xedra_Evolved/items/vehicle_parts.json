@@ -8,7 +8,7 @@
     "volume": "2 L",
     "weight": "10 kg",
     "color": "yellow",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "price": "8 kUSD"
   },
   {
@@ -20,7 +20,7 @@
     "volume": "1 L",
     "weight": "2 kg",
     "color": "green",
-    "material": [ "veggy" ],
+    "material": [ { "type": "veggy", "portion": 100 } ],
     "price": "8 kUSD"
   }
 ]

@@ -10,7 +10,7 @@
     "volume": "150 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
@@ -27,7 +27,7 @@
     "longest_side": "12 cm",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "t",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "dream_dagger" ] }
@@ -44,7 +44,7 @@
     "longest_side": "12 cm",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "C",
     "color": "red_white",
     "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
@@ -60,7 +60,7 @@
     "looks_like": "mirror",
     "price": "150 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "weight": "300 g",
     "volume": "750 ml",
     "to_hit": -3,
@@ -78,7 +78,7 @@
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "[",
     "color": "cyan",
     "material_thickness": 1,
@@ -97,7 +97,7 @@
     "volume": "5 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "*",
     "color": "light_gray",
     "use_action": { "type": "learn_spell", "spells": [ "spell_dreamer_clairvoyance_eff" ] }
@@ -113,7 +113,7 @@
     "volume": "117 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "summon_shifter" ] }
@@ -130,7 +130,7 @@
     "longest_side": "14 cm",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "summon_sapient_light" ] }
@@ -146,7 +146,7 @@
     "volume": "2 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "make_constructed_hammer" ] }
@@ -162,7 +162,7 @@
     "volume": "150 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "summon_duplicator" ] }
@@ -177,7 +177,7 @@
     "volume": "150 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "xedra_dreamer_time_bubble" ] }
@@ -194,7 +194,7 @@
     "weight": "60 g",
     "price": "1 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 100 } ],
     "symbol": ")",
     "color": "dark_gray"
   },
@@ -209,7 +209,7 @@
     "volume": "90 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "summon_ophanim" ] }
@@ -225,7 +225,7 @@
     "volume": "190 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "0",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "summon_winch" ] }
@@ -241,7 +241,7 @@
     "volume": "190 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "cyan",
     "use_action": { "type": "learn_spell", "spells": [ "spell_ethereal_wings" ] }
@@ -256,7 +256,7 @@
     "volume": "190 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "cyan",
     "use_action": { "type": "learn_spell", "spells": [ "xedra_dreamer_generate_accelerated_time" ] }
@@ -272,7 +272,7 @@
     "volume": "190 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "cyan",
     "use_action": { "type": "learn_spell", "spells": [ "spell_karma_arms" ] }
@@ -285,7 +285,7 @@
     "description": "You feel like something took a glance at this place, and it was so menacing that the world itself curled up.",
     "weight": "1 g",
     "volume": "1 ml",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "o",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "spell_stalker_eyes" ] }
@@ -299,7 +299,7 @@
     "description": "A small lizard tail that was ripped off.  Looks like someone's joke.",
     "weight": "3 g",
     "volume": "3 ml",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "~",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "spell_devil_tail" ] }

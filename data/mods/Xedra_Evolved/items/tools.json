@@ -54,7 +54,7 @@
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -68,7 +68,7 @@
     "//": "0.75 for both metal and wooden parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -81,7 +81,7 @@
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -94,7 +94,7 @@
     "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -107,7 +107,7 @@
     "proportional": { "weight": 0.3, "melee_damage": { "bash": 0.25 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "use_action": [ "PICKAXE" ],
     "symbol": ";",
     "color": "light_gray"
@@ -120,7 +120,7 @@
     "description": "A set of light and sturdy dreamforged lockpicks and wrenches.",
     "proportional": { "weight": 0.25 },
     "ascii_picture": "picklocks",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 10 ] ]
@@ -134,7 +134,7 @@
     "proportional": { "weight": 0.25 },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -147,7 +147,7 @@
     "proportional": { "weight": 0.25 },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -160,7 +160,7 @@
     "proportional": { "weight": 0.5 },
     "price": "1000 USD",
     "price_postapoc": "20 USD",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -181,7 +181,7 @@
     "proportional": { "weight": 0.5 },
     "price": "1000 cent",
     "price_postapoc": "100 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "flags": [ "WATCH", "ALARMCLOCK" ],
     "symbol": ";",
     "color": "light_gray",
@@ -200,7 +200,7 @@
     "proportional": { "weight": 0.4, "melee_damage": { "bash": 0.25, "cut": 0.5 } },
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -215,7 +215,7 @@
     "price": "20 USD",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": -5,
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",

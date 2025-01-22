@@ -12,7 +12,7 @@
     "price_postapoc": "1 USD",
     "count": 100,
     "stack_size": 40,
-    "material": [ "platinum" ],
+    "material": [ { "type": "platinum", "portion": 100 } ],
     "symbol": "/",
     "color": "light_gray",
     "ammo_type": "components"

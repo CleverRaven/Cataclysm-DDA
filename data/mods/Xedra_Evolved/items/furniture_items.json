@@ -16,7 +16,7 @@
     "symbol": "F",
     "longest_side": "1700 mm",
     "insulation": 10,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 100 } ],
     "volume": "800 L",
     "weight": "55 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ]

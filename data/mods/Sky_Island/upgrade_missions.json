@@ -39,7 +39,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -110,7 +110,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -175,7 +175,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -240,7 +240,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -306,7 +306,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -373,7 +373,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -438,7 +438,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -505,7 +505,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -571,7 +571,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -638,7 +638,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -704,7 +704,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -770,7 +770,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -838,7 +838,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -914,7 +914,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -979,7 +979,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1037,7 +1037,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1106,7 +1106,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1170,7 +1170,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1238,7 +1238,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1307,7 +1307,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1386,7 +1386,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1453,7 +1453,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1528,7 +1528,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1602,7 +1602,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1670,7 +1670,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1734,7 +1734,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1798,7 +1798,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1872,7 +1872,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -1940,7 +1940,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2006,7 +2006,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2072,7 +2072,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2136,7 +2136,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2198,7 +2198,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2263,7 +2263,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2334,7 +2334,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2397,7 +2397,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2461,7 +2461,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2525,7 +2525,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2594,7 +2594,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2658,7 +2658,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2720,7 +2720,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2785,7 +2785,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2856,7 +2856,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -2937,7 +2937,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3001,7 +3001,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3063,7 +3063,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3128,7 +3128,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3199,7 +3199,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3280,7 +3280,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3349,7 +3349,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3417,7 +3417,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3486,7 +3486,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },
@@ -3559,7 +3559,7 @@
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
-    "material": [ "stone" ],
+    "material": [ { "type": "stone", "portion": 100 } ],
     "symbol": "V",
     "color": "white"
   },

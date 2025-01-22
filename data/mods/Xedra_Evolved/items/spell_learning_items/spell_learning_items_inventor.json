@@ -9,7 +9,7 @@
     "volume": "334 ml",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "*",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
@@ -22,7 +22,7 @@
     "description": "A 3-ft (or about 1 m) jumper cable, wrapped with blue insulating tape.  Both sides lack connectors.",
     "volume": "500 ml",
     "weight": "75 g",
-    "material": [ "forged_dreamstuff" ],
+    "material": [ { "type": "forged_dreamstuff", "portion": 100 } ],
     "symbol": "I",
     "looks_like": "jumper_cable",
     "use_action": { "type": "learn_spell", "spells": [ "cable_whip" ] }

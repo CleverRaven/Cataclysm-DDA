@@ -9,7 +9,7 @@
     "weight": "843 kg",
     "species": [ "CYBORG" ],
     "bodytype": "horse",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 100 } ],
     "speed": 110,
     "attack_cost": 80,
     "symbol": "J",
