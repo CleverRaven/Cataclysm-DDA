@@ -651,7 +651,7 @@
   {
     "id": "TALK_ROBOFAC_EXODII_MORE_INFO",
     "type": "talk_topic",
-    "dynamic_line": "We need more information on these folks, we will be making covert visual contact ourselves but for obvious reasons we can't get inside information without alerting these guys. That's where you come in…we want you to gather as much information on these people without raising any suspicions and bring it back to us.  Most importantly find who they are and why are they here.",
+    "dynamic_line": "We need more information on these folks, we will be making covert visual contact ourselves but for obvious reasons we can't get inside information without alerting these guys.  That's where you come in…we want you to gather as much information on these people without raising any suspicions and bring it back to us.  Most importantly find who they are and why are they here.",
     "responses": [
       { "text": "Right.  I'll be back with the juicy details.", "topic": "TALK_DONE" },
       {
@@ -667,7 +667,7 @@
   {
     "id": "TALK_ROBOFAC_ABOUT_EXODII_2",
     "type": "talk_topic",
-    "dynamic_line": "Inter-dimensional travellers you say? What kind of tech do these beings operate? And how were you able to communicate with them?",
+    "dynamic_line": "Inter-dimensional travellers you say?  What kind of tech do these beings operate?  And how were you able to communicate with them?",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_informed_robofac_of_exodii", "value": "yes" },
@@ -710,7 +710,7 @@
         "effect": { "u_add_faction_trust": 2 }
       },
       {
-        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting. However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
         "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
         "condition": {
           "and": [
@@ -729,7 +729,7 @@
     "responses": [
       { "text": "Let's talk reward.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
       {
-        "text": "No problem, if you ask me to choose between us and cyborg tyrants, you best believe I ain't betraying my race.  It's unnatural you know? Please let me know if there is anything else I can do for you guys.",
+        "text": "No problem, if you ask me to choose between us and cyborg tyrants, you best believe I ain't betraying my race.  It's unnatural you know?  Please let me know if there is anything else I can do for you guys.",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
         "effect": [ { "u_add_faction_trust": 2 } ]
       }
@@ -761,7 +761,7 @@
         }
       },
       {
-        "text": "Deal! Now listen close..",
+        "text": "Deal!  Now listen close.",
         "topic": "TALK_GIVE_ROBOFAC_EXODII_INFO",
         "condition": {
           "and": [
@@ -790,7 +790,7 @@
     "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist aliens?",
     "responses": [
       {
-        "text": "You know what? I've changed my mind.  I'll do your dirty work. Give me some time to chat up these folks",
+        "text": "You know what?  I've changed my mind.  I'll do your dirty work.  Give me some time to chat up these folks.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -815,7 +815,7 @@
     "type": "talk_topic",
     "dynamic_line": "There is something else that has come up on our side which requires some field agents.  Would you like to hear about it?",
     "responses": [
-      { "text": "Sounds like you have work for me? Count me in.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
+      { "text": "Sounds like you have work for me?  Count me in.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
       { "text": "Maybe not right now.", "topic": "TALK_DONE" }
     ]
   },
