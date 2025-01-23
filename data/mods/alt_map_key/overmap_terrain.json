@@ -577,10 +577,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun_a",
-      "s_gun_b"
-    ],
+    "id": [ "s_gun_a", "s_gun_b" ],
     "copy-from": "s_gun_a",
     "name": "gun store",
     "sym": "g",
