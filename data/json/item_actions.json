@@ -706,6 +706,21 @@
   },
   {
     "type": "item_action",
+    "id": "E_FILE_DEVICE",
+    "name": { "str": "Manage files" }
+  },
+  {
+    "type": "item_action",
+    "id": "VIEW_RECIPES",
+    "name": { "str": "View recipes" }
+  },
+  {
+    "type": "item_action",
+    "id": "VIEW_PHOTOS",
+    "name": { "str": "View photos" }
+  },
+  {
+    "type": "item_action",
     "id": "PURIFY_SMART",
     "name": { "str": "Inject" }
   },

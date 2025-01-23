@@ -615,6 +615,7 @@ class inventory_selector
                                   int indent = 0 );
         void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
+        void add_contained_efiles( item_location &container );
         void add_character_items( Character &character );
         void add_character_ebooks( Character &character );
         void add_map_items( const tripoint_bub_ms &target );

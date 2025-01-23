@@ -80,6 +80,7 @@ std::optional<int> call_of_tindalos( Character *, item *, const tripoint_bub_ms 
 std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> efiledevice( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> heat_solid_items( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> heat_all_items( Character *p, item *it, const tripoint_bub_ms & );
@@ -190,6 +191,8 @@ std::optional<int> towel( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> unfold_generic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> unpack_item( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> vibe( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> view_photos( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> view_recipes( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> voltmeter( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> vortex( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> wash_all_items( Character *, item *, const tripoint_bub_ms & );

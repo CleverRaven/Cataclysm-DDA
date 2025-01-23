@@ -723,10 +723,6 @@ class ebooksave_activity_actor : public activity_actor
             return ACT_EBOOKSAVE;
         }
 
-        static int pages_in_book( const itype_id &book ) {
-            // an A4 sheet weights roughly 5 grams
-            return std::max( 1, static_cast<int>( units::to_gram( book->weight ) / 5 ) );
-        };
         static int total_pages( const std::vector<item_location> &books );
         static time_duration required_time( const std::vector<item_location> &books );
         static int required_charges( const std::vector<item_location> &books,
@@ -762,6 +758,204 @@ class ebooksave_activity_actor : public activity_actor
 
         void start_scanning_next_book( player_activity &act );
         void completed_scanning_current_book( player_activity &act, Character &who );
+};
+
+/**
+Handles any e-file processing on an e-device
+*/
+
+enum efile_action : int {
+    EF_BROWSE,
+    EF_READ,
+    EF_MOVE_FROM_THIS,
+    EF_MOVE_ONTO_THIS,
+    EF_COPY_FROM_THIS,
+    EF_COPY_ONTO_THIS,
+    EF_WIPE,
+    EF_INVALID,
+    EF_ACTION_COUNT
+};
+template<>
+struct enum_traits<efile_action> {
+    static constexpr efile_action last = efile_action::EF_ACTION_COUNT;
+};
+enum efile_combo : int {
+    COMBO_MOVE_ONTO_BROWSE,
+    COMBO_NONE,
+    EFILE_COMBO_COUNT
+};
+template<>
+struct enum_traits<efile_combo> {
+    static constexpr efile_combo last = efile_combo::EFILE_COMBO_COUNT;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<efile_action>( efile_action data );
+
+template<>
+std::string enum_to_string<efile_combo>( efile_combo data );
+} // namespace io
+
+/**
+Holds an e-file transfer's devices
+*/
+struct efile_transfer {
+    //the e-device initiating the action -- always usable
+    const item_location &used_edevice;
+    //the e-device receiving the action -- optionally usable
+    const item_location &target_edevice;
+
+    efile_transfer( const item_location &used_edevice, const item_location &target_edevice ) :
+        used_edevice( used_edevice ),
+        target_edevice( target_edevice ) {};
+};
+
+/**
+* This activity handles electronic file browsing/transferring for electronic devices.
+* On a per-turn basis:
+* e-devices are "booted" until success or failure.
+* for each e-device, e-files are processed until success or failure.
+* See related functions: iuse::efiledevice, game_menus::inv::edevice_select/efile_select
+*/
+class efile_activity_actor : public activity_actor
+{
+    public:
+        explicit efile_activity_actor() = default;
+        /**
+        * @param action_type - which sub-activity to do
+        * @param combo_type - which sub-activity to do immediately after action_type
+        * @param used_edevice - the edevice used from iuse::efiledevice
+        * @param target_edevices - all e-devices to perform e-file operation with
+        * @param selected_efiles - if provided, action only uses the given files
+        */
+        explicit efile_activity_actor(
+            const item_location &used_edevice,
+            const std::vector<item_location> &target_edevices,
+            const std::vector<item_location> &selected_efiles,
+            efile_action action_type,
+            efile_combo combo_type
+        ) : used_edevice( used_edevice ),
+            target_edevices( target_edevices ), selected_efiles( selected_efiles ),
+            action_type( action_type ), combo_type( combo_type ) {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_E_FILE( "ACT_E_FILE" );
+            return ACT_E_FILE;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<efile_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+        //TODO: base all of these constants on actual statistics?
+        /** Abstract flat time to look at a file's filename and extension,
+        determine whether it's junk or not, and open it to verify its contents */
+        static constexpr time_duration time_per_browsed_efile = 15_seconds;
+        /** One charge consumed per 4 minutes*/
+        static constexpr time_duration charge_per_transfer_time = 4_minutes;
+        /** One charge consumed per 32 files (8 minutes) */
+        static constexpr time_duration charge_per_browse_time = time_per_browsed_efile * 32;
+        /** Time required to boot an e-device */
+        static constexpr time_duration device_bootup_time = 10_seconds;
+        /** Generic local file transfer speed */
+        static constexpr units::ememory local_etransfer_rate = 200_MB;
+
+        /** Converts `efile_action` enum to human-readable string
+        * @param extended - for move/copy actions, e.g. "move files onto" */
+        static std::string efile_action_name( efile_action action_type, bool past_tense = false,
+                                              bool extended = false );
+        /** Returns if the action automatically excludes the used e-device with its target e-devices */
+        static bool efile_action_exclude_used( efile_action action_type );
+        /** Returns if the action is moving files from an e-device */
+        static bool efile_action_is_from( efile_action action_type );
+        /** Returns if we can skip transfering this file because a copy of it already exists */
+        static bool efile_skip_copy( const efile_transfer &transfer, const item &efile );
+        /** Returns time needed to process the given file with the given transfer */
+        static time_duration efile_processing_time( const item_location &efile,
+                const efile_transfer &transfer,
+                efile_action action_type, Character &who, bool computer_low_skill );
+        /** Returns time needed to process all given e-devices with the given transfer */
+        static time_duration total_processing_time( const item_location &used_edevice,
+                const std::vector<item_location> &currently_processed_edevices,
+                const std::vector<item_location> &selected_efiles,
+                efile_action action_type, Character &who, bool computer_low_skill );
+        /** Returns the effective electronic transfer rate with `external_transfer_rate` factored in */
+        static units::ememory current_etransfer_rate( Character &who, const efile_transfer &transfer,
+                const item_location &efile );
+        /** Returns all e-files on this device that are in the filter_files list
+        @param filter_files list of e-files to use, usually selected_files */
+        static std::vector<item_location> filter_edevice_efiles( const item_location &edevice,
+                const std::vector<item_location> &filter_files );
+        /** Returns the most optimal estorage (if needed) for improving transfer speed given the two edevices provided */
+        static item_location find_external_transfer_estorage( Character &p,
+                const item_location &efile, const item_location &ed1, const item_location &ed2 );
+        /** Returns whether the given edevice can process files (expand later if needed) */
+        static bool edevice_has_use( const item *edevice );
+        enum edevice_compatible {
+            ECOMPAT_NONE,
+            ECOMPAT_SLOW,
+            ECOMPAT_FAST
+        };
+        /** Returns the given edevices' compatibility type based on their itypes and e_port_banned */
+        static edevice_compatible edevices_compatible( const item_location &ed1, const item_location &ed2 );
+        static edevice_compatible edevices_compatible( const item &ed1, const item &ed2 );
+    private:
+        item_location used_edevice;
+        std::vector<item_location> target_edevices;
+        std::vector<item_location> selected_efiles;
+        efile_action action_type = EF_INVALID;
+        efile_combo combo_type = COMBO_NONE;
+        /** contents copy of currently processed e-device */
+        std::vector<item_location> currently_processed_efiles;
+        /** iterator pointing to next e-file to process */
+        std::vector<item_location>::iterator next_efile;
+        /** iterator pointing to next e-device to process */
+        std::vector<item_location>::iterator next_edevice;
+        /** How many e-devices this activity has successfully processed so far. */
+        int processed_edevices = 0;
+        /** How many e-devices this activity has failed to process so far. */
+        int failed_edevices = 0;
+        /** How many e-files this activity has successfully processed so far. */
+        int processed_efiles = 0;
+        /** How many e-files this activity has failed to process so far. */
+        int failed_efiles = 0;
+        /** Have we started processing e-devices? */
+        bool started_processing = false;
+        /** Have we finished processing e-devices? */
+        bool done_processing = false;
+        /** Have we finished booting the current e-device? */
+        bool next_edevice_booted = false;
+        /** actor computer skill < 1 */
+        bool computer_low_skill = false;
+        /** How many turns left on this e-device until it is fully proccessed.
+        If empty, no e-device is currently being processed */
+        std::optional<int> turns_left_on_current_edevice;
+        /** How many turns left on this file until it is fully proccessed. */
+        int turns_left_on_current_efile = 0;
+
+        void start_processing_next_edevice();
+        void start_processing_next_efile( player_activity &/*act*/, Character &who );
+        void failed_processing_current_edevice();
+        void completed_processing_current_edevice();
+        void failed_processing_current_efile( player_activity &act, Character &who );
+        /** Action upon completing processing an e-file (depends on action_type) */
+        void completed_processing_current_efile( player_activity &/*act*/, Character &who );
+
+        item_location &get_currently_processed_edevice();
+        item_location &get_currently_processed_efile();
+        /** Segway to the next player activity for a combo type */
+        void combo_next_activity( Character &who );
+        time_duration charge_time( efile_action action_type );
 };
 
 class migration_cancel_activity_actor : public activity_actor

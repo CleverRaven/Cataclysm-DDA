@@ -362,6 +362,32 @@ class item : public visitable
         bool is_software_storage() const;
 
         bool is_ebook_storage() const;
+        bool is_estorage() const;
+        bool is_estorable() const;
+        bool is_browsed() const;
+        void set_browsed( bool browsed );
+        /** @return if item can be copied as an e-file */
+        bool is_ecopiable() const;
+        /** @return if all contained e - files are browsed, or if this item is browsed */
+        bool efiles_all_browsed() const;
+        /** @return current total electronic memory size of current item */
+        units::ememory ememory_size() const;
+        /** @return total electronic memory size of the first E_FILE_STORAGE pocket */
+        units::ememory total_ememory() const;
+        /** @return total electronic memory size of all contained e-files on this e-device */
+        units::ememory occupied_ememory() const;
+        /** @return remaining electronic memory on this e-device */
+        units::ememory remaining_ememory() const;
+        /** Returns whether the given item location is inside an e-device) */
+        static bool is_efile( const item_location &loc );
+        /** Returns the recipe catalog for this item if it exists, otherwise returns nullptr */
+        item *get_recipe_catalog();
+        const item *get_recipe_catalog() const;
+        /** Returns the photo gallery for this item if it exists, otherwise returns nullptr */
+        item *get_photo_gallery();
+        const item *get_photo_gallery() const;
+        /** @return total number of photos this item holds */
+        int total_photos() const;
 
         /**
          * Checks whether the item's components (and sub-components if deep_search) are food items
@@ -2359,6 +2385,12 @@ class item : public visitable
          * translates the vector of proficiency bonuses into the container. returns an empty object if it's not a book
          */
         book_proficiency_bonuses get_book_proficiency_bonuses() const;
+
+        /**
+        * An approximation based on weight for how any pages the book has in total.
+        * Will be 0 if the item is not a book.
+        */
+        static int pages_in_book( const itype &type );
         /**
          * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
          * has no chapters at all.
@@ -2385,6 +2417,12 @@ class item : public visitable
          * Set recipes stored on the item (laptops, smartphones, sd cards etc).
          */
         void set_saved_recipes( const std::set<recipe_id> &recipes );
+
+        /**
+        * Generate and save recipes based on memory_card_data
+        */
+        void generate_recipes();
+
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
@@ -2658,6 +2696,9 @@ class item : public visitable
         std::vector<const item *> softwares() const;
 
         std::vector<const item *> ebooks() const;
+
+        std::vector<item *> efiles();
+        std::vector<const item *> efiles() const;
 
         std::vector<const item *> cables() const;
 
@@ -3295,6 +3336,8 @@ class item : public visitable
         };
         mutable cat_cache cached_category;
 
+        /** Is this item electronically browsed? */
+        bool browsed;
         /** Additional encumbrance this item, not itype, has. */
         units::volume additional_encumbrance = 0_ml;
 

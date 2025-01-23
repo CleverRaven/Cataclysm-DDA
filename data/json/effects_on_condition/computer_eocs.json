@@ -53,7 +53,7 @@
     "effect": [
       {
         "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "You already noted everything map application on this phone can offer." } ]
+        "then": [ { "u_message": "You already noted everything this map cache can offer." } ]
       },
       {
         "if": { "compare_string": [ "has", { "npc_val": "map_cache" } ] },
@@ -61,12 +61,12 @@
           { "location_variable_adjust": { "npc_val": "spawn_location_omt" }, "z_adjust": 0, "z_override": true },
           { "reveal_map": { "npc_val": "spawn_location_omt" }, "radius": { "math": [ "rng(11, 36)" ] } },
           { "npc_add_var": "map_cache", "value": "read" },
-          { "u_message": "You found some cached map in the map application, and noted it.", "type": "good" }
+          { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
         ]
       },
       {
         "if": { "compare_string": [ "lack", { "npc_val": "map_cache" } ] },
-        "then": [ { "u_message": "Whoever used this phone didn't ever open their map application.  Worthless." } ]
+        "then": [ { "u_message": "Whoever used this device didn't ever open their map application.  Worthless." } ]
       }
     ]
   }

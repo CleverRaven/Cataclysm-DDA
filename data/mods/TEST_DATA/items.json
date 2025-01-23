@@ -5098,5 +5098,47 @@
     "copy-from": "modular_m4_carbine",
     "name": { "str": "debug m4 carbine" },
     "default_mods": [ "retool_ar15_223rem_medium" ]
+  },
+  {
+    "id": "test_laptop",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test laptop" },
+    "copy-from": "laptop"
+  },
+  {
+    "id": "test_eink_tablet_pc",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test e-ink tablet" },
+    "copy-from": "eink_tablet_pc"
+  },
+  {
+    "id": "test_efile_large",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "large test file" },
+    "ememory_size": "500 GB"
+  },
+  {
+    "id": "test_efile_medium",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "medium test file`" },
+    "ememory_size": "24 GB"
+  },
+  {
+    "id": "test_efile_small",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "small test file" },
+    "ememory_size": "1 KB"
+  },
+  {
+    "id": "test_efile_copiable",
+    "type": "GENERIC",
+    "copy-from": "test_book",
+    "name": { "str": "copiable test file" },
+    "ememory_size": "1 MB"
   }
 ]

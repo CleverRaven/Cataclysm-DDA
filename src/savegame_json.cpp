@@ -139,15 +139,23 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_chem_ethanol( "chem_ethanol" );
 static const itype_id fuel_type_gasoline( "gasoline" );
 static const itype_id fuel_type_motor_oil( "motor_oil" );
+static const itype_id itype_camera( "camera" );
+static const itype_id itype_camera_pro( "camera_pro" );
+static const itype_id itype_efile_photos( "efile_photos" );
+static const itype_id itype_efile_recipes( "efile_recipes" );
+static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
 static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
 static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
 static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
 static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
+static const itype_id itype_laptop( "laptop" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
@@ -3126,30 +3134,31 @@ void item::deserialize( const JsonObject &data )
     archive.allow_omitted_members();
     data.copy_visited_members( archive );
 
-    // first half of the if statement is for migration to nested containers. remove after 0.F
-    if( data.has_array( "contents" ) ) {
-        std::list<item> items;
-        data.read( "contents", items );
-        for( const item &it : items ) {
-            migrate_content_item( it );
-        }
-    } else if( data.has_object( "contents" ) ) { // non-empty contents
+    //*** ITEM MIGRATION (remove in O.I) ***
+    if( data.has_object( "contents" ) ) {
         item_contents read_contents;
         data.read( "contents", read_contents );
-
-        contents.read_mods( read_contents );
-        update_modified_pockets();
         contents.combine( read_contents, false, true, false, true );
 
-        if( data.has_object( "contents" ) ) {
-            JsonObject tested = data.get_object( "contents" );
-            tested.allow_omitted_members();
-            if( tested.has_array( "items" ) ) {
-                // migration for nested containers. leave until after 0.F
-                std::list<item> items;
-                tested.read( "items", items );
-                for( const item &it : items ) {
-                    migrate_content_item( it );
+        //migrate SOFTWARE pocket
+        auto pockets_e_legacy = []( item_pocket const & pocket ) {
+            return pocket.is_type( pocket_type::SOFTWARE );
+        };
+        auto pockets_new_efile = []( item_pocket const & pocket ) {
+            return pocket.is_type( pocket_type::E_FILE_STORAGE );
+        };
+        std::vector<item_pocket *> pockets = contents.get_pockets( pockets_new_efile );
+        item_pocket *new_efile_storage = !pockets.empty() ? pockets.front() : nullptr;
+
+        for( item_pocket *pocket : contents.get_pockets( pockets_e_legacy ) ) {
+            for( const item *it : pocket->all_items_top() ) {
+                if( new_efile_storage == nullptr ) {
+                    debugmsg( "efile storage pocket needed for item: %s", tname() );
+                } else {
+                    std::optional<item> removed_item = pocket->remove_item( *it );
+                    if( removed_item ) {
+                        new_efile_storage->add( *removed_item );
+                    }
                 }
             }
         }
@@ -3158,6 +3167,30 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
+    std::set<itype_id> migrated_edevice_itypes = { itype_camera, itype_camera_pro,
+                                                   itype_laptop, itype_eink_tablet_pc, itype_smart_phone, itype_memory_card, itype_usb_drive
+                                                 };
+    if( migrated_edevice_itypes.find( typeId() ) != migrated_edevice_itypes.end() ) {
+        //move recipes to E_FILE_STORAGE
+        item *recipe_catalog = get_recipe_catalog();
+        std::set<recipe_id> recipes = get_saved_recipes();
+        if( !recipes.empty() && recipe_catalog == nullptr ) {
+            item new_recipe_catalog( itype_efile_recipes );
+            new_recipe_catalog.set_saved_recipes( recipes );
+            put_in( new_recipe_catalog, pocket_type::E_FILE_STORAGE );
+        }
+        //move photos to E_FILE_STORAGE
+        std::vector<item::extended_photo_def> extended_photos;
+        read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
+        read_extended_photos( extended_photos, "MC_EXTENDED_PHOTOS", true );
+        read_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS", true );
+        item *photo_gallery = get_photo_gallery();
+        if( !extended_photos.empty() && photo_gallery == nullptr ) {
+            item new_photo_gallery( itype_efile_photos );
+            new_photo_gallery.write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+            put_in( new_photo_gallery, pocket_type::E_FILE_STORAGE );
+        }
+    }
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
         if( possible_itype_variant( typeId().str() ) ) {
             set_itype_variant( typeId().str() );
@@ -3165,16 +3198,7 @@ void item::deserialize( const JsonObject &data )
             select_itype_variant();
         }
     }
-
     update_inherited_flags();
-
-    // 2023-03-26 remove in 0.H, remnants of reinforcing
-    damage_ = std::clamp( damage_, 0, max_damage() );
-    degradation_ = std::clamp( degradation_, 0, max_damage() );
-
-    // 2023-03-26 remove in 0.H, accurizing is obsolete
-    faults.erase( STATIC( fault_id( "fault_gun_unaccurized" ) ) );
-    faults.erase( STATIC( fault_id( "fault_gun_damaged" ) ) );
 }
 
 void item::serialize( JsonOut &json ) const

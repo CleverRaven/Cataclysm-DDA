@@ -1754,6 +1754,7 @@ void Item_factory::init()
     add_iuse( "CRAFT", &iuse::craft );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
+    add_iuse( "E_FILE_DEVICE", &iuse::efiledevice );
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
@@ -1877,6 +1878,8 @@ void Item_factory::init()
     add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "VIEW_PHOTOS", &iuse::view_photos );
+    add_iuse( "VIEW_RECIPES", &iuse::view_recipes );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
@@ -2654,13 +2657,13 @@ void islot_milling::deserialize( const JsonObject &jo )
 static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
 {
     mcd.data_chance = jo.get_float( "data_chance", 1.0f );
-    mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
+    //mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
 
-    mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
-    mcd.photos_amount = jo.get_int( "photos_amount", 0 );
+    //mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
+    //mcd.photos_amount = jo.get_int( "photos_amount", 0 );
 
-    mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
-    mcd.songs_amount = jo.get_int( "songs_amount", 0 );
+    //mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
+    //mcd.songs_amount = jo.get_int( "songs_amount", 0 );
 
     mcd.recipes_chance = jo.get_float( "recipes_chance", 0.0f );
     mcd.recipes_amount = jo.get_int( "recipes_amount", 0 );
@@ -3137,6 +3140,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "power_draw", slot.power_draw, strict, 0_W );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "etransfer_rate", slot.etransfer_rate, strict );
+    assign( jo, "e_port", slot.e_port, strict );
 
     if( slot.def_charges > slot.max_charges ) {
         jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
@@ -3157,6 +3162,12 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
                 "rand_charges",
                 "a rand_charges array with only one entry will be ignored, it needs at least 2 "
                 "entries!" );
+        }
+    }
+
+    if( jo.has_array( "e_ports_banned" ) ) {
+        for( std::string port : jo.get_array( "e_ports_banned" ) ) {
+            slot.e_ports_banned.push_back( port );
         }
     }
 }
@@ -3282,6 +3293,18 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
         def.book->load( jo );
         load_basic_info( jo, def, src );
     }
+}
+
+void Item_factory::load_ememory_size( const JsonObject &jo, itype &def )
+{
+    if( def.book ) {
+        if( def.ememory_size == 0_KB ) {
+            //PDF size varies wildly depending on page:image ratio
+            def.ememory_size = 20_KB * item::pages_in_book( def );
+            return;
+        }
+    }
+    assign( jo, "ememory_size", def.ememory_size );
 }
 
 void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
@@ -4238,6 +4261,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
     assign( jo, "ascii_picture", def.picture_id );
     assign( jo, "repairs_with", def.repairs_with );
+    load_ememory_size( jo, def );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );

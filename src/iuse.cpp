@@ -263,6 +263,7 @@ static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
@@ -276,7 +277,6 @@ static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
-static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mp3( "mp3" );
@@ -5840,6 +5840,160 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint_bu
     return std::nullopt;
 }
 
+std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
+{
+    //restrictions
+    if( p->is_npc() ) {
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    if( p->cant_do_underwater() ) {
+        return std::nullopt;
+    }
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You can't read a computer screen." ) );
+        return std::nullopt;
+    }
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return std::nullopt;
+    }
+
+    item_location used_edevice( *p, it );
+    auto read_edevice = [&p, &used_edevice]( bool edevice_selection ) {
+        avatar *a = p->as_avatar();
+        item_location edevice = used_edevice;
+        if( a ) {
+            if( edevice_selection ) {
+                drop_locations edevices = game_menus::inv::edevice_select( *p, used_edevice, true, false, true,
+                                          efile_action::EF_READ );
+                if( edevices.empty() ) {
+                    return;
+                }
+                edevice = edevices.front().first;
+            }
+            const drop_locations &efiles = game_menus::inv::efile_select( *p, edevice, {},
+                                           efile_action::EF_READ, false );
+            if( !efiles.empty() ) {
+                item_location current_efile = efiles.back().first;
+                a->use( current_efile );
+            } else {
+                popup( _( "This device has no files!" ) );
+            }
+        } else {
+            debugmsg( "NPC attempted to read e-file; not yet supported" );
+        }
+    };
+
+    uilist amenu;
+
+    enum {
+        efd_invalid, efd_browse, efd_read_this, efd_read_external, efd_move_off_this, efd_move_onto_this, efd_combo_bm, efd_copy_onto_this, efd_copy_from_this, efd_wipe
+    };
+
+    amenu.text = _( "Select operation:" );
+    amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
+    amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
+    if( used_edevice->is_browsed() ) {
+        amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
+        amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
+        amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
+        amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
+        amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
+        amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
+    }
+
+    amenu.query();
+    const int choice = amenu.ret;
+
+    efile_action new_action = efile_action::EF_INVALID;
+    efile_combo new_combo = efile_combo::COMBO_NONE;
+
+    switch( choice ) {
+        case efd_combo_bm:
+            new_action = efile_action::EF_BROWSE;
+            new_combo = efile_combo::COMBO_MOVE_ONTO_BROWSE;
+            break;
+        case efd_browse:
+            new_action = efile_action::EF_BROWSE;
+            break;
+        case efd_read_this:
+            read_edevice( false );
+            return std::nullopt;
+            break;
+        case efd_read_external:
+            read_edevice( true );
+            return std::nullopt;
+            break;
+        case efd_move_onto_this:
+            new_action = efile_action::EF_MOVE_ONTO_THIS;
+            break;
+        case efd_move_off_this:
+            new_action = efile_action::EF_MOVE_FROM_THIS;
+            break;
+        case efd_copy_onto_this:
+            new_action = efile_action::EF_COPY_ONTO_THIS;
+            break;
+        case efd_copy_from_this:
+            new_action = efile_action::EF_COPY_FROM_THIS;
+            break;
+        case efd_wipe:
+            new_action = efile_action::EF_WIPE;
+            break;
+        default:
+            return std::nullopt;
+            break;
+    }
+    bool auto_include_used_device = !efile_activity_actor::efile_action_exclude_used( new_action );
+    bool not_browsing = new_action != efile_action::EF_BROWSE;
+
+    //gets nearby storage devices
+    const drop_locations &processed_devices = game_menus::inv::edevice_select( *p, used_edevice,
+            not_browsing, auto_include_used_device, false, new_action );
+    if( processed_devices.empty() ) {
+        return std::nullopt;
+    }
+
+    //convert drop_locations to item_location
+    std::vector<item_location> processed_edevices_locs;
+    for( const drop_location &drop : processed_devices ) {
+        for( int i = 0; i < drop.second; i++ ) {
+            processed_edevices_locs.emplace_back( drop.first );
+        }
+    }
+    //build selected files list
+    std::vector<item_location> selected_efiles;
+    item_location external_transfer_edevice;
+    if( not_browsing ) {
+        drop_locations efiles = game_menus::inv::efile_select( *p, used_edevice, processed_edevices_locs,
+                                new_action, efile_activity_actor::efile_action_is_from( new_action ) );
+        if( efiles.empty() ) {
+            return std::nullopt;
+        }
+        for( const drop_location &drop : efiles ) {
+            selected_efiles.emplace_back( drop.first );
+        }
+    } else {
+        for( item_location edevice : processed_edevices_locs ) {
+            std::vector<item *> efile_ptrs = edevice->efiles();
+            for( item *efile : efile_ptrs ) {
+                selected_efiles.emplace_back( edevice, efile );
+            }
+        }
+    }
+
+    const efile_activity_actor actor( used_edevice, processed_edevices_locs, selected_efiles,
+                                      new_action, new_combo );
+    p->assign_activity( player_activity( actor ) );
+    return std::nullopt;
+}
+
 static std::string colorized_trap_name_at( const tripoint_bub_ms &point )
 {
     const trap &trap = get_map().tr_at( point );
@@ -6643,7 +6797,7 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
 
 std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms & )
 {
-    enum {c_shot, c_photos, c_monsters, c_upload};
+    enum {c_shot, c_view};
 
     // From item processing
     if( !p ) {
@@ -6652,24 +6806,18 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
         return std::nullopt;
     }
 
-    // CAMERA_NPC_PHOTOS is old save variable
-    bool found_extended_photos = !it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ||
-                                 !it->get_var( "CAMERA_EXTENDED_PHOTOS" ).empty();
-    bool found_monster_photos = !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty();
+    bool room_for_photo = it->remaining_ememory() >= itype_efile_photos->ememory_size;
+
+    //find photo gallery file, add if doesn't exist
+    item *edevice_photos = it->get_photo_gallery();
 
     uilist amenu;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 't', _( "Take a photo" ) );
-    if( !found_extended_photos && !found_monster_photos ) {
-        amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
+    if( edevice_photos == nullptr ) {
+        amenu.addentry( c_view, false, 'v', _( "No photos in memory" ) );
     } else {
-        if( found_extended_photos ) {
-            amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
-        }
-        if( found_monster_photos ) {
-            amenu.addentry( c_monsters, true, 'm', _( "Your collection of monsters" ) );
-        }
-        amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
+        amenu.addentry( c_view, true, 'v', _( "View photos" ) );
     }
 
     amenu.query();
@@ -6682,6 +6830,17 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     if( c_shot == choice ) {
+        if( edevice_photos == nullptr ) {
+            if( room_for_photo ) {
+                item new_photos( itype_efile_photos );
+                it->get_contents().insert_item( new_photos, pocket_type::E_FILE_STORAGE );
+                edevice_photos = it->get_photo_gallery();
+            } else {
+                p->add_msg_if_player( _( "Your camera cannot hold any more photos." ) );
+                return std::nullopt;
+            }
+        }
+
         const std::optional<tripoint_bub_ms> aim_point_ = g->look_around();
 
         if( !aim_point_ ) {
@@ -6775,9 +6934,9 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
                 photo.quality = photo_quality;
 
                 try {
-                    it->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
+                    edevice_photos->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
                     extended_photos.push_back( photo );
-                    it->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    edevice_photos->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                 } catch( const JsonError &e ) {
                     debugmsg( "Error when adding new photo (loaded photos = %i): %s", extended_photos.size(),
                               e.c_str() );
@@ -6816,20 +6975,35 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
                     }
                 }
                 if( !monster_vec.empty() ) {
-                    item_save_monsters( *p, *it, monster_vec, photo_quality );
+                    item_save_monsters( *p, *edevice_photos, monster_vec, photo_quality );
                 }
                 return 1;
             }
         }
         return 1;
     }
+    if( c_view == choice ) {
+        view_photos( p, edevice_photos, p->pos_bub() );
+        return 1;
+    }
+    return 1;
+}
+
+std::optional<int> iuse::view_photos( Character *p, item *it, const tripoint_bub_ms & )
+{
+    enum { c_photos, c_monsters };
+
+    uilist amenu;
+    amenu.text = _( "View which photos?" );
+    amenu.addentry( c_photos, true, 'g', _( "General" ) );
+    amenu.addentry( c_monsters, true, 'm', _( "Monsters" ) );
+    amenu.query();
+    const int choice = amenu.ret;
 
     if( c_photos == choice ) {
         show_photo_selection( *p, *it, "CAMERA_EXTENDED_PHOTOS" );
-        return 1;
-    }
-
-    if( c_monsters == choice ) {
+        return std::nullopt;
+    } else if( c_monsters == choice ) {
         if( p->is_blind() ) {
             p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
             return 0;
@@ -6878,52 +7052,23 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
             popup( "%s", descriptions[choice].c_str() );
 
         } while( true );
+        return std::nullopt;
+    }
+    return std::nullopt;
+}
 
-        return 1;
+std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bub_ms & )
+{
+    p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
+
+    uilist rmenu;
+    for( const recipe_id &rid : it->get_saved_recipes() ) {
+        rmenu.addentry( 0, true, 0, rid->result_name( /* decorated = */ true ) );
     }
 
-    if( c_upload == choice ) {
-
-        if( p->is_blind() ) {
-            p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
-            return std::nullopt;
-        }
-
-        p->mod_moves( -to_moves<int>( 2_seconds ) );
-
-        avatar *you = p->as_avatar();
-        item_location loc;
-        if( you != nullptr ) {
-            loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                return it.has_flag( flag_MC_MOBILE );
-            }, *you, _( "Insert memory card" ) );
-        }
-        if( !loc ) {
-            p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-            return 1;
-        }
-        item &mc = *loc;
-
-        if( mc.has_flag( flag_MC_HAS_DATA ) ) {
-            if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
-                return 1;
-            }
-        }
-
-        mc.convert( itype_memory_card );
-        mc.clear_vars();
-        mc.unset_flags();
-        mc.set_flag( flag_MC_HAS_DATA );
-
-        mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
-        mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
-        p->add_msg_if_player( m_info,
-                              _( "You upload your photos and monster collection to the memory card." ) );
-
-        return 1;
-    }
-
-    return 1;
+    rmenu.text = _( "Recipe list:" );
+    rmenu.query();
+    return std::nullopt;
 }
 
 std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint_bub_ms &pos )
@@ -9156,8 +9301,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
                   it->typeId().str() );
         return std::nullopt;
     }
-    if( !it->is_ebook_storage() ) {
-        debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
+    if( !it->is_estorage() ) {
+        debugmsg( "EBOOKSAVE iuse called on item without ESTORAGE pocket_type" );
         return std::nullopt;
     }
 
@@ -9177,6 +9322,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;
     }
+
 
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );

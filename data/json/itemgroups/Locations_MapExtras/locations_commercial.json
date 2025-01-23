@@ -1288,7 +1288,7 @@
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "smart_phone", "prob": 3, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
@@ -1830,10 +1830,10 @@
     "items": [
       [ "usb_drive", 65 ],
       [ "memory_card", 95 ],
-      [ "software_math", 15 ],
-      [ "software_useless", 25 ],
-      [ "software_medical", 5 ],
-      [ "software_hacking", 1 ]
+      { "item": "usb_drive", "contents-item": "software_useless", "prob": 25 },
+      { "item": "usb_drive", "contents-item": "software_math", "prob": 15 },
+      { "item": "usb_drive", "contents-item": "software_medical", "prob": 5 },
+      { "item": "usb_drive", "contents-item": "software_hacking", "prob": 1 }
     ]
   },
   {

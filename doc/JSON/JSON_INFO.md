@@ -4348,6 +4348,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
+"etransfer_rate": "30 MB"  // units::ememory, electronic transfer rate per second supported by this e-device
+"e_port": "USB-A",         // String defining connection type for fast file transfer; NOTE: if you want to use this for general connections, make a more general system, this is *only* for electronic devices that handle files
+"e_port_banned": ["USB-A"],  // String array defining banned connection types; see above
 "variables": {
   "vehicle_name": "Wheelchair",         // this tool is a foldable vehicle, that could bypass the default foldability rules; this is the name of the vehicle that would be unfolded 
   "folded_parts": "folded_parts_syntax" // this is the parts that this vehice has -it uses it's own syntax, different from `"type": "vehicle"`, so better to read the examples in `unfoldable.json`

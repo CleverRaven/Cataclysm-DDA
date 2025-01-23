@@ -690,7 +690,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                     pocket.is_type( pocket_type::MAGAZINE ) ||
                     pocket.is_type( pocket_type::MAGAZINE_WELL ) ||
                     pocket.is_type( pocket_type::SOFTWARE ) ||
-                    pocket.is_type( pocket_type::EBOOK ) ) {
+                    pocket.is_type( pocket_type::EBOOK ) ||
+                    pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
                     ++pocket_index;
                     for( const item *it : pocket.all_items_top() ) {
                         insert_item( *it, pocket.get_pocket_data()->type, ignore_contents );
@@ -1898,6 +1899,32 @@ std::vector<const item *> item_contents::ebooks() const
         }
     }
     return ebooks;
+}
+
+std::vector<item *> item_contents::efiles()
+{
+    std::vector<item *> efiles;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
+            for( item *it : pocket.all_items_top() ) {
+                efiles.emplace_back( it );
+            }
+        }
+    }
+    return efiles;
+}
+
+std::vector<const item *> item_contents::efiles() const
+{
+    std::vector<const item *> efiles;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                efiles.emplace_back( it );
+            }
+        }
+    }
+    return efiles;
 }
 
 std::vector<item *> item_contents::cables()
