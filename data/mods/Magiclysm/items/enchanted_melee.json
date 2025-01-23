@@ -812,6 +812,56 @@
     "melee_damage": { "bash": 34 }
   },
   {
+    "id": "rune_druid_nature_staff",
+    "type": "GENERIC",
+    "copy-from": "q_staff",
+    "name": { "str": "Druidic staff", "str_pl": "Druidic staves" },
+    "//": "Similar to the Magus staff, but not as useful as a melee weapon and with conditional mana regen.",
+    "description": "A staff looking more like a tree branch than a weapon, with runes carved into its full length and a few leaves still sprouting from the top.  It fills you with an invigorating sensation when out in the wilderness.  There are two Druid runes carved into the wood.",
+    "weight": "1600 g",
+    "volume": "1550 ml",
+    "longest_side": "185 cm",
+    "price": "50 USD",
+    "to_hit": 4,
+    "material": [ "wood" ],
+    "symbol": "/",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": {
+            "and": [
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "u_is_on_terrain_with_flag": "YOUNG" }
+                ]
+              },
+              { "not": { "u_near_om_location": "road_curved", "range": 2 } },
+              { "not": { "u_near_om_location": "road_four_way", "range": 2 } },
+              { "not": { "u_near_om_location": "road_tee", "range": 2 } },
+              { "not": { "u_near_om_location": "road_straight", "range": 2 } },
+              { "not": { "u_near_om_location": "road_end", "range": 2 } },
+              { "not": { "u_near_om_location": "road_sw", "range": 2 } },
+              { "not": { "u_near_om_location": "road_ne", "range": 2 } },
+              { "not": { "u_near_om_location": "road_ew", "range": 2 } },
+              { "not": { "u_near_om_location": "road_ns", "range": 2 } },
+              { "not": { "u_near_om_location": "road_nesw", "range": 2 } },
+              { "not": { "u_near_om_location": "road", "range": 2 } }
+            ]
+          },
+          "values": [ { "value": "REGEN_MANA", "multiply": 0.75 } ]
+        }
+      ]
+    },
+    "color": "geen",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 25 }
+  },
+  {
     "id": "rune_kelvinist_weapon",
     "looks_like": "longsword",
     "type": "GENERIC",
