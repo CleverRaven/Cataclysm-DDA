@@ -194,7 +194,7 @@
     "use_action": { "type": "message", "message": "The %s is already destabilized, try throwing it instead.", "name": "Push buttons" },
     "countdown_action": {
       "type": "explosion",
-      "explosion": { "power": 60000, "fire": true, "shrapnel": 0 },
+      "explosion": { "power": 120000, "fire": true, "shrapnel": 0, "max_noise": 25 },
       "fields_type": "fd_fire",
       "fields_radius": 10,
       "fields_min_intensity": 2,
