@@ -905,7 +905,12 @@
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE",
     "//": "Base is 3% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 9.75% chance at 205 attunement, then scaling up 0.45% chance per attunement up to 29.75% chance at max, plus 1/10th the Difficulty squared.",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 125" ] },
+    "condition": {
+      "and": [
+        { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain') >= 125" ] }
+      ]
+    },
     "effect": [
       {
         "if": {
