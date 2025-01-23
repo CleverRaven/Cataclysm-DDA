@@ -787,7 +787,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_INTRO_3",
     "type": "talk_topic",
-    "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist aliens?",
+    "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
     "responses": [
       {
         "text": "You know what?  I've changed my mind.  I'll do your dirty work.  Give me some time to chat up these folks.",
