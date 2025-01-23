@@ -1,0 +1,62 @@
+[
+    {
+      "type": "effect_on_condition",
+      "id": "selkiecheck",
+      "condition": { "u_has_trait": "FAIR_FOLK_COMMONER_SELKIE_SKIN_CRAFTED" },
+      "eoc_type": "RECURRING",
+      "recurrence": 300,
+      "effect": {
+        "run_eocs": [
+          {
+            "id": "selkieheld",
+            "effect": [ { "u_add_trait": "FAIR_FOLK_COMMONER_SELKIE_SKIN_VITALITY" }, { "u_mod_healthy": 5, "cap": 200 } ]
+          }
+        ]
+      },
+      "false_effect": {
+        "run_eocs": [
+          {
+            "id": "selkienotheld",
+            "condition": { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE" },
+            "effect": [ { "u_lose_trait": "FAIR_FOLK_COMMONER_SELKIE_SKIN_VITALITY" }, { "u_mod_healthy": 5, "cap": -200 } ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "learnselkie",
+      "eoc_type": "EVENT",
+      "required_event": "character_wakes_up",
+      "condition": {
+        "and": [
+          { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE" },
+          { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE')>10" ] },
+          { "not": { "u_has_trait": "knownselkieskin" } }
+        ]
+      },
+      "effect": [ { "u_learn_recipe": "selkie_skin_selkie" }, { "u_add_trait": "knownselkieskin" } ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "selkieskinWEARING",
+      "condition": {
+        "and": [
+          { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE" },
+          { "u_has_effect": "selkieskinworn" },
+          { "u_has_item": "selkie_skin" }
+        ]
+      },
+      "eoc_type": "RECURRING",
+      "recurrence": 1,
+      "effect": [ { "u_add_trait": "FANGS" }, { "u_add_trait": "FAT" }, { "u_add_trait": "WHISKERS" } ],
+      "false_effect": {
+        "run_eocs": {
+          "id": "selkieloseseal",
+          "condition": { "u_has_trait": "THRESH_FAIR_FOLK_COMMONER_SELKIE" },
+          "effect": [ { "u_lose_trait": "FANGS" }, { "u_lose_trait": "FAT" }, { "u_lose_trait": "WHISKERS" } ]
+        }
+      }
+    }
+  ]
+  
