@@ -167,7 +167,7 @@
   {
     "id": "mon_civilian_zombiegunner",
     "type": "MONSTER",
-    "name": { "str": "firearmed fighter" },
+    "name": { "str": "armed fighter" },
     "description": "Handgun in hand, this person is determined to make a last stand against the horde.",
     "copy-from": "mon_civilian_panic",
     "chat_topics": [ "TALK_CIVILIAN_GUNNER" ],
@@ -204,7 +204,7 @@
   {
     "id": "mon_civilian_icu",
     "type": "MONSTER",
-    "name": { "str": "hospitalized human" },
+    "name": { "str": "hospitalized person" },
     "description": "This person is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
     "chat_topics": [ "TALK_CIVILIAN_ICU" ],
     "speed": 0,
@@ -218,7 +218,7 @@
   {
     "id": "mon_civilian_parent",
     "type": "MONSTER",
-    "name": { "str": "gawky guardian" },
+    "name": { "str": "terrified parent" },
     "special_attacks": [ [ "PARROT", 0 ] ],
     "description": "Obsessed with finding their offspring, they scour the environment for certain death.",
     "chat_topics": [ "TALK_CIVILIAN_PARENT" ],

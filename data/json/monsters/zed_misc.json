@@ -950,8 +950,7 @@
   {
     "id": "mon_zombie_fursuit",
     "type": "MONSTER",
-    "name": { "str": "malicious mane" },
-    "//": "A pun. 'Mane' being an archaic synonym of zombie, which also refers hair on the back of an animals neck.",
+    "name": { "str": "fursuited zombie" },
     "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
     "copy-from": "mon_zombie",
     "speed": 50,
@@ -961,6 +960,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 },
-    "//1": "The torn fursuit offers slightly more protection."
+    "//": "The torn fursuit offers slightly more protection."
   }
 ]
