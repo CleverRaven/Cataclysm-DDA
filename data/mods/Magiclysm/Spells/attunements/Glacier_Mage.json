@@ -19,7 +19,7 @@
     "aoe_increment": 2.6,
     "base_energy_cost": 400,
     "spell_class": "GLACIER_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "damage_type": "cold",
     "difficulty": 3,
     "max_level": 35,
@@ -43,7 +43,7 @@
     "max_aoe": 120,
     "aoe_increment": 2.6,
     "spell_class": "GLACIER_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "damage_type": "bash",
     "max_level": 35
   },
@@ -69,7 +69,7 @@
     "base_casting_time": 230,
     "base_energy_cost": 285,
     "spell_class": "GLACIER_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 3,
     "sound_description": "a whoosh",
     "damage_type": "cold"

@@ -64,7 +64,7 @@ int talker_character_const::posz() const
 
 tripoint talker_character_const::pos() const
 {
-    return me_chr_const->pos();
+    return me_chr_const->pos_bub().raw();
 }
 
 tripoint_bub_ms talker_character_const::pos_bub() const
@@ -72,14 +72,14 @@ tripoint_bub_ms talker_character_const::pos_bub() const
     return me_chr_const->pos_bub();
 }
 
-tripoint_abs_ms talker_character_const::global_pos() const
+tripoint_abs_ms talker_character_const::pos_abs() const
 {
-    return me_chr_const->get_location();
+    return me_chr_const->pos_abs();
 }
 
-tripoint_abs_omt talker_character_const::global_omt_location() const
+tripoint_abs_omt talker_character_const::pos_abs_omt() const
 {
-    return me_chr_const->global_omt_location();
+    return me_chr_const->pos_abs_omt();
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -928,6 +928,11 @@ int talker_character_const::focus_cur() const
     return me_chr_const->get_focus();
 }
 
+int talker_character_const::focus_effective_cur() const
+{
+    return me_chr_const->get_effective_focus();
+}
+
 void talker_character::mod_focus( int amount )
 {
     me_chr->mod_focus( amount );
@@ -1027,6 +1032,11 @@ void talker_character::set_age( int amount )
 int talker_character_const::get_age() const
 {
     return me_chr_const->age();
+}
+
+int talker_character_const::get_ugliness() const
+{
+    return me_chr_const->ugliness();
 }
 
 int talker_character_const::get_bmi_permil() const

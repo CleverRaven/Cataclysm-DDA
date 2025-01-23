@@ -252,6 +252,9 @@ using speed_description_id = string_id<speed_description>;
 class mood_face;
 using mood_face_id = string_id<mood_face>;
 
+class magic_type;
+using magic_type_id = string_id<magic_type>;
+
 class spell_type;
 using spell_id = string_id<spell_type>;
 

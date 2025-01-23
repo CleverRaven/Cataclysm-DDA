@@ -218,7 +218,7 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
-        void set_location( const tripoint_abs_ms &loc );
+        void set_pos_abs_only( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
@@ -286,8 +286,6 @@ class avatar : public Character
         std::string preferred_aiming_mode;
 
         // checks if the point is blocked based on characters current aiming state
-        // TODO Remove untyped overload
-        bool cant_see( const tripoint &p ) const;
         bool cant_see( const tripoint_bub_ms &p ) const;
 
         // rebuilds the full aim cache for the character if it is dirty

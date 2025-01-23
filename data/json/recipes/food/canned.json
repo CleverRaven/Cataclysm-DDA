@@ -793,11 +793,11 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_glass_sealed",
-    "charges": 8,
+    "charges": 10,
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "liver", 8 ], [ "human_liver", 8 ], [ "demihuman_liver", 8 ] ]
+      [ [ "liver", 10 ], [ "human_liver", 10 ], [ "demihuman_liver", 10 ] ]
     ]
   },
   {
@@ -817,11 +817,11 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_3l_glass_sealed",
-    "charges": 48,
+    "charges": 60,
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ]
+      [ [ "liver", 60 ], [ "human_liver", 60 ], [ "demihuman_liver", 60 ] ]
     ]
   },
   {
@@ -841,11 +841,11 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_glass_sealed",
-    "charges": 8,
+    "charges": 10,
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "heart", 8 ], [ "human_heart", 8 ], [ "demihuman_heart", 8 ] ]
+      [ [ "heart", 10 ], [ "human_heart", 10 ], [ "demihuman_heart", 10 ] ]
     ]
   },
   {
@@ -865,11 +865,11 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_3l_glass_sealed",
-    "charges": 48,
+    "charges": 60,
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "heart", 48 ], [ "human_heart", 48 ], [ "demihuman_heart", 48 ] ]
+      [ [ "heart", 60 ], [ "human_heart", 60 ], [ "demihuman_heart", 60 ] ]
     ]
   },
   {
@@ -1678,7 +1678,7 @@
     "book_learn": [ [ "manual_sealing", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "can_food_big",
-    "charges": 12,
+    "charges": 6,
     "batch_time_factors": [ 83, 5 ],
     "components": [
       [ [ "water_clean", 1 ] ],
@@ -2208,6 +2208,7 @@
     "time": "20 m",
     "book_learn": [ [ "manual_sealing", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "container": "can_food",
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "poultry_raw_any", 2, "LIST" ] ] ],
@@ -2941,13 +2942,13 @@
     "difficulty": 5,
     "time": "20 m",
     "batch_time_factors": [ 83, 5 ],
-    "container": "canister_empty",
+    "container": "can_food",
     "contained": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 4 ], [ "human_liver", 4 ], [ "demihuman_liver", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 5 ], [ "human_liver", 5 ], [ "demihuman_liver", 5 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
-    "charges": 4,
+    "charges": 5,
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2964,10 +2965,10 @@
     "batch_time_factors": [ 83, 5 ],
     "container": "can_medium",
     "contained": true,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 8 ], [ "human_liver", 8 ], [ "demihuman_liver", 8 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 10 ], [ "human_liver", 10 ], [ "demihuman_liver", 10 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
-    "charges": 8,
+    "charges": 10,
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2985,10 +2986,10 @@
     "batch_time_factors": [ 83, 5 ],
     "container": "can_food_big",
     "contained": true,
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ] ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "liver", 60 ], [ "human_liver", 60 ], [ "demihuman_liver", 60 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
-    "charges": 48,
+    "charges": 60,
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]

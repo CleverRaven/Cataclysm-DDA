@@ -10,6 +10,10 @@
 
 static const damage_type_id damage_bash( "bash" );
 
+static const itype_id itype_bat( "bat" );
+static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_machete( "machete" );
+
 static const profession_id profession_unemployed( "unemployed" );
 
 player_difficulty::player_difficulty()
@@ -180,9 +184,9 @@ double player_difficulty::calc_dps_value( const Character &u )
 {
     // check against the big three
     // efficient early weapons you can easily get access to
-    item early_piercing = item( "knife_combat" );
-    item early_cutting = item( "machete" );
-    item early_bashing = item( "bat" );
+    item early_piercing = item( itype_knife_combat );
+    item early_cutting = item( itype_machete );
+    item early_bashing = item( itype_bat );
 
     double baseline = std::max( u.weapon_value( early_piercing ),
                                 u.weapon_value( early_cutting ) );

@@ -12,7 +12,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "trashcan",
@@ -170,8 +170,8 @@
     "weight": "1 kg",
     "volume": "1 L",
     "longest_side": "150 cm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "use_action": [ "CHANGE_OUTFIT" ],
     "material": [ "plastic" ],
     "pocket_data": [
@@ -225,7 +225,6 @@
         "max_contains_weight": "2 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   }
 ]

@@ -407,7 +407,7 @@ class wear_inventory_preset: public armor_inventory_preset
             return loc->is_armor() &&
                    ( !loc.has_parent() || !is_worn_ablative( loc.parent_item(), loc ) ) &&
                    !you.is_worn( *loc ) &&
-                   ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
+                   ( bp != bodypart_str_id::NULL_ID() ? loc->covers( bp ) : true );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -648,7 +648,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
 item_location game_menus::inv::disassemble( Character &you )
 {
     return inv_internal( you, disassemble_inventory_preset( you, you.crafting_inventory() ),
-                         _( "Disassemble item" ), 1,
+                         _( "Disassemble item" ), PICKUP_RANGE,
                          _( "You don't have any items you could disassemble." ) );
 }
 
@@ -1462,7 +1462,8 @@ class read_inventory_preset: public pickup_inventory_preset
 
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
                    ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
-                     p_loc->energy_remaining() >= 1_kJ );
+                     !p_loc->uses_energy() ||
+                     p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2202,7 +2203,7 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
+drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
                                         const std::vector<drop_location> &selection )
 {
     avatar &you = get_avatar();
@@ -2234,16 +2235,6 @@ drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
     }
 
     return pick_s.execute();
-}
-
-drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
-                                        const std::vector<drop_location> &selection )
-{
-    std::optional<tripoint> tmp;
-    if( target.has_value() ) {
-        tmp = target.value().raw();
-    }
-    return game_menus::inv::pickup( tmp, selection );
 }
 
 class smokable_selector_preset : public inventory_selector_preset
@@ -2399,7 +2390,7 @@ bool game_menus::inv::compare_item_menu::show()
     return false;
 }
 
-void game_menus::inv::compare( const std::optional<tripoint> &offset )
+void game_menus::inv::compare( const std::optional<tripoint_rel_ms> &offset )
 {
     avatar &you = get_avatar();
     you.inv->restack( you );
@@ -2411,8 +2402,8 @@ void game_menus::inv::compare( const std::optional<tripoint> &offset )
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset ) {
-        inv_s.add_map_items( you.pos() + *offset );
-        inv_s.add_vehicle_items( you.pos() + *offset );
+        inv_s.add_map_items( you.pos_bub() + *offset );
+        inv_s.add_vehicle_items( you.pos_bub() + *offset );
     } else {
         inv_s.add_nearby_items();
     }

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_DWARF_UPGRADE",
+    "id": "GROUP_ZOMBIE_DWARF_UPGRADE",
     "monsters": [
       { "monster": "mon_zombie_tough", "weight": 110 },
       { "monster": "mon_zombie_grabber", "weight": 30 },
@@ -29,7 +29,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_ELF_UPGRADE",
+    "id": "GROUP_ZOMBIE_ELF_UPGRADE",
     "monsters": [
       { "monster": "mon_zombie_tough", "weight": 25 },
       { "monster": "mon_zombie_grabber", "weight": 25 },
@@ -57,7 +57,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_GOBLIN_UPGRADE",
+    "id": "GROUP_ZOMBIE_GOBLIN_UPGRADE",
     "//": "Child-type zombies that evoke no guilt.",
     "monsters": [
       { "monster": "mon_zombie_anklebiter", "weight": 300 },
@@ -69,7 +69,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE",
+    "id": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE",
     "monsters": [
       { "monster": "mon_zombie_necro", "weight": 30 },
       { "monster": "mon_zombie_necro_boomer", "weight": 20 },
@@ -82,7 +82,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE",
+    "id": "GROUP_ZOMBIE_LIZARDFOLK_UPGRADE",
     "//": "Heavily weighted toward the more feral variants but with some other options too.",
     "monsters": [
       { "monster": "mon_zombie_hunter", "weight": 200 },

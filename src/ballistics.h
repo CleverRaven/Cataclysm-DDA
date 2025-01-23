@@ -40,10 +40,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
  *  dispersion.
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
-dealt_projectile_attack projectile_attack( const projectile &proj_arg,
-        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
-        const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
-        const weakpoint_attack &attack = weakpoint_attack(), bool first = true );
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
+                        const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
+                        const weakpoint_attack &wp_attack = weakpoint_attack() );
 
 /* Used for selecting which part to target in a projectile attack
  * Primarily a template for ease of testing, but can be reused!

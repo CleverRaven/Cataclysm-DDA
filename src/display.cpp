@@ -817,13 +817,13 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
 {
     std::string display_name = _( "None" );
     nc_color display_color = c_white;
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.pos_abs_omt().xy() );
     if( !bcp ) {
         return std::pair( display_name, display_color );
     }
     basecamp *actual_camp = *bcp;
     const faction_id &owner = actual_camp->get_owner();
-    if( owner->limited_area_claim && u.global_omt_location() != actual_camp->camp_omt_pos() ) {
+    if( owner->limited_area_claim && u.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
         return std::pair( display_name, display_color );
     }
     display_name = owner->name;
@@ -1164,7 +1164,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     map &here = get_map();
 
     // Map is roughly centered around this point
-    const tripoint_abs_omt &center_xyz = u.global_omt_location();
+    const tripoint_abs_omt &center_xyz = u.pos_abs_omt();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
     if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
@@ -1239,7 +1239,7 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
 point display::mission_arrow_offset( const avatar &you, int width, int height )
 {
     // FIXME: Use tripoint for curs
-    const point_abs_omt curs = you.global_omt_location().xy();
+    const point_abs_omt curs = you.pos_abs_omt().xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     const point mid( width / 2, height / 2 );
 
@@ -1504,10 +1504,10 @@ std::pair<std::string, nc_color> display::weather_text_color( const Character &u
 
 std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.pos_abs_omt() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
+                                            u.pos_abs(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

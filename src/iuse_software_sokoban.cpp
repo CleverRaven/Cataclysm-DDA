@@ -303,9 +303,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            iDirX = vec->x;
-            iDirY = vec->y;
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            iDirX = vec->x();
+            iDirY = vec->y();
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

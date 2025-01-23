@@ -21,13 +21,16 @@
 
 static const damage_type_id damage_pure( "pure" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
 static const itype_id itype_hand_pump( "hand_pump" );
+static const itype_id itype_jeans( "jeans" );
 
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
+static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
@@ -97,7 +100,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Now it must be broken
     REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
-    const item itm2 = item( "jeans" );
+    const item itm2 = item( itype_jeans );
     REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
 }
 
@@ -179,7 +182,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_map();
     clear_vehicles( &m );
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( veh_preset.vehicle_itype_id );
 
@@ -200,7 +203,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
             complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
 
             // should have no value because avatar has no required tool to unfold
-            REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+            REQUIRE( !m.veh_at( u.pos_abs() ).has_value() );
 
             // the folded item should drop and needs to be deleted from the map
             map_stack map_items = m.i_at( u.pos_bub() );
@@ -216,7 +219,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
-    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     // set damage/degradation on every part
@@ -235,7 +238,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
-    REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+    REQUIRE( !m.veh_at( u.pos_abs() ).has_value() );
 
     // copy the player-folded vehicle item and delete it from the map
     map_stack map_items = m.i_at( u.pos_bub() );
@@ -253,7 +256,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
     clear_spawned_tools( m, u );
 
-    optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
+    optional_vpart_position ovp_unfolded = m.veh_at( u.pos_abs() );
     REQUIRE( ovp_unfolded.has_value() );
 
     // verify the damage/degradation roundtripped via serialization on every part
@@ -321,14 +324,14 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     map &m = get_map();
     Character &u = get_player_character();
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( preset.folded_vehicle_item );
 
     // unfold fresh item factory item
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
 
-    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     // don't actually need point_rel_ms::north but damage_all filters out direct damage
@@ -338,7 +341,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( !ovp.has_value() );
 
     // copy the player-folded vehicle item and delete it from the map
@@ -353,7 +356,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     int part_damage_before = 0;
@@ -366,7 +369,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( !ovp.has_value() );
     map_items = m.i_at( u.pos_bub() );
     REQUIRE( map_items.size() == 1 );
@@ -382,7 +385,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // unfold and check extra damage gets distributed into vehicleparts
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     // add up damage on all parts
@@ -399,7 +402,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    REQUIRE( !m.veh_at( u.get_location() ) );
+    REQUIRE( !m.veh_at( u.pos_abs() ) );
     map_items = m.i_at( u.pos_bub() );
     REQUIRE( map_items.size() == 1 );
     player_folded_veh = map_items.only_item();
@@ -444,8 +447,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     map &m = get_map();
     Character &player_character = get_player_character();
     const int max_displacement = 50;
-    const std::optional<item> stand_lamp1( "test_standing_lamp" );
-    const std::optional<item> stand_lamp2( "test_standing_lamp" );
+    const std::optional<item> stand_lamp1( itype_test_standing_lamp );
+    const std::optional<item> stand_lamp2( itype_test_standing_lamp );
 
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
@@ -474,7 +477,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -482,15 +485,15 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( m.get_abs( app1.pos_bub() ) );
+            CAPTURE( m.get_abs( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -498,8 +501,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( m.get_abs( app1.pos_bub() ) );
+            CAPTURE( m.get_abs( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -517,7 +520,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -525,15 +528,15 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( m.get_abs( app1.pos_bub() ) );
+            CAPTURE( m.get_abs( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -541,8 +544,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( m.get_abs( app1.pos_bub() ) );
+            CAPTURE( m.get_abs( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -743,7 +746,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint::zero );
+    player_character.setpos( tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();

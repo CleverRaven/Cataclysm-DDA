@@ -26,7 +26,7 @@ using FreqDef = std::vector<MonsterGroupEntry>;
 using FreqDef_iter = FreqDef::iterator;
 
 struct MonsterGroupEntry {
-    mtype_id name;
+    mtype_id mtype;
     mongroup_id group;
     int frequency;
     int cost_multiplier;
@@ -44,10 +44,10 @@ struct MonsterGroupEntry {
         return group != mongroup_id();
     }
 
-    MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
+    MonsterGroupEntry( const mtype_id &new_id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends, holiday new_event )
-        : name( id )
+        : mtype( new_id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
@@ -58,10 +58,10 @@ struct MonsterGroupEntry {
         , event( new_event ) {
     }
 
-    MonsterGroupEntry( const mongroup_id &id, int new_freq, int new_cost, int new_pack_min,
+    MonsterGroupEntry( const mongroup_id &new_id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends, holiday new_event )
-        : group( id )
+        : group( new_id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
@@ -74,15 +74,15 @@ struct MonsterGroupEntry {
 };
 
 struct MonsterGroupResult {
-    mtype_id name;
+    mtype_id id;
     int pack_size;
     spawn_data data;
 
-    MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
+    MonsterGroupResult() : id( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size, const spawn_data &new_data )
-        : name( id ), pack_size( new_pack_size ), data( new_data ) {
+    MonsterGroupResult( const mtype_id &new_id, int new_pack_size, const spawn_data &new_data )
+        : id( new_id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
 
@@ -90,7 +90,7 @@ struct MonsterGroupResult {
  * MonsterGroup is a theoretical distribution of monsters to spawn, as opposed to a mongroup which is an instance of group of monsters to be spawned together.
 */
 struct MonsterGroup {
-    mongroup_id name;
+    mongroup_id id;
     mtype_id defaultMonster;
     FreqDef monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;

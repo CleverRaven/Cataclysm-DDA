@@ -120,6 +120,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "spear_wood_simple",
+    "copy-from": "spear_wood_simple",
+    "name": { "str": "wooden spear" },
+    "extend": { "flags": [ "WOODEN_WEAPON" ] }
+  },
+  {
+    "type": "GENERIC",
     "id": "spear_forked",
     "copy-from": "spear_forked",
     "name": { "str": "forked spear" },

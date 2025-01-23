@@ -57,7 +57,7 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 std::string talker_npc_const::distance_to_goal() const
 {
     // TODO: this ignores the z-component
-    int dist = rl_dist( me_npc->global_omt_location(), me_npc->goal );
+    int dist = rl_dist( me_npc->pos_abs_omt(), me_npc->goal );
     std::string response;
     dist *= 100;
     if( dist >= 1300 ) {
@@ -374,7 +374,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = p.chat_snippets().snip_consume_med.translated();
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, to_eat, p.pos() ).value_or( 0 );
+            amount_used = to_eat.type->invoke( &p, to_eat, p.pos_bub() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = p.chat_snippets().snip_consume_nocharge.translated();
                 return REFUSED;

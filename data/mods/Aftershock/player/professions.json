@@ -268,7 +268,7 @@
     "description": "The exiled scion of an unfavorable seat within the Wraitheon board of directors, wealthy beyond measure even in their estrangement.  Sent to the frontier in a last-ditch effort to salvage their reputation, or more likely, to find a silent and politically convenient death.",
     "points": 8,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3" ],
+    "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
@@ -684,6 +684,42 @@
       { "id": "afs_electrokinetic_hacking_interface", "level": 6 },
       { "id": "afs_electrokinetic_personal_battery", "level": 5 },
       { "id": "afs_electrokinetic_recharge_vehicle", "level": 3 }
+    ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" },
+          { "group": "charged_smart_phone" },
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_telekinetic",
+    "name": "Geist",
+    "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
+    "traits": [ "AFS_TELEKINETIC" ],
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 4, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_telekinetic_move_item", "level": 8 },
+      { "id": "afs_telekinetic_move_creature", "level": 6 },
+      { "id": "afs_telekinetic_momentum", "level": 6 },
+      { "id": "afs_telekinetic_wave", "level": 5 },
+      { "id": "afs_telekinetic_hammer", "level": 3 }
     ],
     "proficiencies": [ "prof_concentration_basic" ],
     "items": {

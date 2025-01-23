@@ -258,5 +258,25 @@
     "special_attacks": [ { "id": "stretch_bite", "cooldown": 1, "range": 2 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
     "armor": { "bash": 4, "cut": 2, "necrotic": 75, "poison": 30 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_giant_heron_ridable_zombie",
+    "name": {
+      "//~": "Word is invented: meaning is given as 'white-striders' ",
+      "str": "zombified aenor",
+      "str_pl": "zombified aenóren"
+    },
+    "description": "With bedraggled feathers and rent skin, stumbling as it walks, this formerly-living aenor is in a sad state.",
+    "copy-from": "mon_giant_heron_ridable",
+    "default_faction": "zombie",
+    "species": [ "BIRD", "ZOMBIE" ],
+    "speed": 250,
+    "harvest": "large_bird_flightless_zombie",
+    "extend": { "flags": [ "STUMBLES", "NO_BREATHE", "REVIVES" ] },
+    "special_attacks": [
+      { "id": "impale", "cooldown": 5, "move_cost": 375 },
+      { "id": "mutant_hoof", "cooldown": 6, "dodgeable": true, "move_cost": 350 }
+    ]
   }
 ]

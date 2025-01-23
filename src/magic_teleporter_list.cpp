@@ -63,7 +63,7 @@ void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt,
 
 // returns the first valid teleport location near a teleporter
 // returns map square (global coordinates)
-static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
+static std::optional<tripoint_abs_ms> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
 {
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
@@ -72,7 +72,7 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
     checker.load( omt_pt, true );
     for( const tripoint_omt_ms &p : checker.points_on_zlevel() ) {
         if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
-            return checker.getglobal( p ).raw();
+            return checker.get_abs( p );
         }
     }
     return std::nullopt;
@@ -82,11 +82,11 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
 {
     tinymap omt_dest;
     omt_dest.load( omt_pt, true );
-    std::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
+    std::optional<tripoint_abs_ms> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;
     }
-    tripoint_omt_ms local_dest = omt_dest.omt_from_abs( tripoint_abs_ms( *global_dest ) ) + point( 60,
+    tripoint_omt_ms local_dest = omt_dest.get_omt( *global_dest ) + point( 60,
                                  60 );
     you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
@@ -174,7 +174,7 @@ class teleporter_callback : public uilist_callback
             const int entnum = menu->previewing;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
                 avatar &player_character = get_avatar();
-                int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );
+                int dist = rl_dist( player_character.pos_abs_omt(), index_pairs[entnum] );
                 ImGui::Text( _( "Distance: %d %s" ), dist, index_pairs[entnum].to_string().c_str() );
                 overmap_ui::draw_overmap_chunk_imgui( player_character, index_pairs[entnum], 29, 21 );
             }

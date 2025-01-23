@@ -13,9 +13,15 @@
   },
   {
     "type": "jmath_function",
-    "id": "maintenance_exp_factor",
-    "num_args": 1,
-    "return": "(_0 / 100) * 75 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1)"
+    "id": "psionic_power_experience_formula_channeling",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
+  },
+  {
+    "type": "jmath_function",
+    "id": "psionic_power_experience_formula",
+    "num_args": 0,
+    "return": "(u_val('focus_effective') / 100) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
@@ -33,7 +39,7 @@
     "type": "jmath_function",
     "id": "psionics_contemplation_kcal_cost",
     "num_args": 1,
-    "return": "(1.2 * _0) * rng( 0.3, 1.7)"
+    "return": "(1.2 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
@@ -62,10 +68,16 @@
   },
   {
     "type": "jmath_function",
+    "id": "concentration_nether_attunement_influences",
+    "num_args": 0,
+    "return": "(concentration_calculations() > 1 ? concentration_calculations(): 1) * (u_has_proficiency('prof_concentration_basic') ? 0.9: 1) + (u_has_proficiency('prof_concentration_intermediate') ? 0.9: 1) + (u_has_proficiency('prof_concentration_master') ? 0.8: 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "//": "This equates to about 500 XP per hour of contemplation when at minimum focus",
-    "return": "(u_val('focus') * 0.005) * (_0)"
+    "//": "This equates to about 400 XP per hour of contemplation when at minimum focus, modified by Nether Attunement",
+    "return": "(u_val('focus_effective') * 0.004) * (_0) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",

@@ -57,8 +57,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_EXIT,      // Skip main menu and quit directly to OS
-    QUIT_EXIT_PENDING, // same as above, used temporarily so input_context doesn't get confused
 };
 
 enum safe_mode_type {
@@ -361,6 +359,10 @@ class game
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint_bub_ms> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint_bub_ms> &range );
+        // Differs from the operations above in that it refers to a map that isn't necessarily the main one.
+        // Also, it places the critter at the center position if possible, and any available location with equal weight if not.
+        monster *place_critter_at_or_within( const shared_ptr_fast<monster> &mon, map *here,
+                                             const tripoint_bub_ms &center, const tripoint_range<tripoint_bub_ms> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -498,13 +500,13 @@ class game
         Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
-        // TODO: fix point types (remove the first overload)
-        bool is_empty( const tripoint &p );
         bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint_bub_ms &p );
+        bool is_in_sunlight( map *here, const tripoint_bub_ms &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint_bub_ms &p );
+        bool is_sheltered( map *here, const tripoint_bub_ms &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
@@ -585,8 +587,7 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        // TODO: Get rid of untyped overload.
-        std::unordered_set<tripoint> get_fishable_locations( int distance,
+        std::unordered_set<tripoint_abs_ms> get_fishable_locations_abs( int distance,
                 const tripoint_bub_ms &fish_pos );
         std::unordered_set<tripoint_bub_ms> get_fishable_locations_bub( int distance,
                 const tripoint_bub_ms &fish_pos );
@@ -597,7 +598,8 @@ class game
          * @return Fishable monsters within the specified fishable terrain.
          */
         // TODO: Get rid of untyped overload.
-        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_abs_ms>
+                &fishable_locations );
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_bub_ms>
                 &fishable_locations );
 
@@ -1010,8 +1012,6 @@ class game
         void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
     public:
-        bool query_exit_to_OS();
-        class exit_exception: public std::exception {};
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.
@@ -1321,7 +1321,5 @@ namespace cata_event_dispatch
 // @param m The map the avatar is moving on
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
-
-bool are_we_quitting();
 
 #endif // CATA_SRC_GAME_H

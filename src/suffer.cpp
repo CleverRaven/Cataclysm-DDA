@@ -111,6 +111,7 @@ static const efftype_id effect_weary_7( "weary_7" );
 static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
 
+static const itype_id itype_bone( "bone" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
@@ -1032,7 +1033,7 @@ void suffer::from_other_mutations( Character &you )
     const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        here.spawn_item( position, "bone", 1 );
+        here.spawn_item( position, itype_bone, 1 );
     }
 
     if( you.has_trait( trait_WINGS_INSECT_active ) ) {

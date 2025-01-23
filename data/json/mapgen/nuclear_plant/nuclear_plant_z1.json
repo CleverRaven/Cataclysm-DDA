@@ -347,13 +347,12 @@
       "terrain": {  },
       "furniture": {  },
       "palettes": [ "nuclear_plant_palette" ],
+      "place_furniture": [ { "furn": "f_diesel_generator", "x": 116, "y": 117 }, { "furn": "f_diesel_generator", "x": 235, "y": 91 } ],
       "place_vehicles": [
         { "vehicle": "small_utility_vehicles", "x": 56, "y": 177, "chance": 100, "rotation": 180 },
         { "vehicle": "small_utility_vehicles", "x": 233, "y": 114, "chance": 100, "rotation": 180 },
         { "vehicle": "small_utility_vehicles", "x": 223, "y": 52, "chance": 100, "rotation": 180 },
         { "vehicle": "engine_crane", "x": 119, "y": 159, "chance": 100, "rotation": 180 },
-        { "vehicle": "portable_generator", "x": 116, "y": 117, "chance": 100, "rotation": 0 },
-        { "vehicle": "portable_generator", "x": 235, "y": 91, "chance": 100, "rotation": 0 },
         { "vehicle": "welding_cart", "x": 86, "y": 162, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 353, "y": 157, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 196, "y": 56, "chance": 100, "rotation": 0 }

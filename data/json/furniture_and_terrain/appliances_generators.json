@@ -1,0 +1,71 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "ap_portable_generator",
+    "name": { "str": "portable gasoline generator" },
+    "looks_like": "f_active_backup_generator",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A small, portable generator, one that people buy for a camp.  It just needs to be fueled up, and then turned on.",
+    "//1": "BIZARRE FIELD NAMES HERE! Weird stuff happening! Epower determines how fast it is converted, power determines the ratio of diesel(mL) to battery charges output. In other words, *power* is *fuel efficiency*.",
+    "power": "7 W",
+    "epower": "3000 W",
+    "m2c": 5,
+    "fuel_type": "gasoline",
+    "item": "portable_generator",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "ENGINE", "E_DIESEL_FUEL", "OBSTACLE", "COVERED", "APPLIANCE", "REACTOR", "FLUIDTANK" ],
+    "breaks_into": [ { "item": "portable_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_diesel_generator",
+    "copy-from": "ap_portable_generator",
+    "name": { "str": "diesel generator" },
+    "description": "Big and powerful generator, used for street works.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "7000 W",
+    "item": "diesel_generator",
+    "breaks_into": [ { "item": "military_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_military_generator",
+    "copy-from": "ap_portable_generator",
+    "name": { "str": "military diesel generator" },
+    "description": "Big and powerful generator, painted in camo.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "10000 W",
+    "item": "military_generator",
+    "breaks_into": [ { "item": "military_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_12000_gasoline_generator",
+    "copy-from": "ap_portable_generator",
+    "name": { "str": "powerful gasoline generator" },
+    "description": "Still reasonably portable, this 12000 W gasoline generator can power up an entire house.  It just needs to be plugged in, fueled up, and then turned on.",
+    "power": "8 W",
+    "epower": "12000 W",
+    "item": "12000_gasoline_generator",
+    "breaks_into": [ { "item": "12000_gasoline_generator", "damage": 4 } ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
+  }
+]

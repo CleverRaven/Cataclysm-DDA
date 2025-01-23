@@ -51,14 +51,24 @@ static const itype_id itype_55gal_drum( "55gal_drum" );
 static const itype_id itype_albuterol( "albuterol" );
 static const itype_id itype_antifungal( "antifungal" );
 static const itype_id itype_antiparasitic( "antiparasitic" );
+static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_oxygen( "oxygen" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
+static const itype_id itype_panacea( "panacea" );
+static const itype_id itype_prozac( "prozac" );
 static const itype_id itype_pur_tablets( "pur_tablets" );
+static const itype_id itype_saline( "saline" );
 static const itype_id itype_thorazine( "thorazine" );
+static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifying( "water_purifying" );
+static const itype_id itype_xanax( "xanax" );
 
 static const morale_type morale_wet( "morale_wet" );
 
@@ -72,7 +82,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     dummy.normalize();
 
-    item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
+    item eyedrops( itype_saline, calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
@@ -299,9 +309,8 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
     avatar dummy;
     dummy.normalize();
 
-    item oxygen( "oxygen_tank" );
-    itype_id o2_ammo( "oxygen" );
-    oxygen.ammo_set( o2_ammo );
+    item oxygen( itype_oxygen_tank );
+    oxygen.ammo_set( itype_oxygen );
 
     int charges_before = oxygen.ammo_remaining();
     REQUIRE( charges_before > 0 );
@@ -414,14 +423,14 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_rad() == 0 );
 
     SECTION( "coffee reduces sleepiness, but does not give stimulant effect" ) {
-        item coffee( "coffee", calendar::turn_zero, item::default_charges_tag{} );
+        item coffee( itype_coffee, calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( coffee );
         CHECK( dummy.get_sleepiness() == sleepiness_before - coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
     SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
-        item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
+        item atomic_coffee( itype_atomic_coffee, calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
         CHECK( dummy.get_sleepiness() == sleepiness_before -
                atomic_coffee.get_comestible()->sleepiness_mod );
@@ -434,7 +443,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
     avatar dummy;
     dummy.normalize();
 
-    item towel( "towel", calendar::turn_zero, item::default_charges_tag{} );
+    item towel( itype_towel, calendar::turn_zero, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
@@ -618,7 +627,7 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     avatar dummy;
     dummy.normalize();
 
-    item prozac( "prozac", calendar::turn_zero, item::default_charges_tag{} );
+    item prozac( itype_prozac, calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
@@ -643,7 +652,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     clear_avatar();
     avatar &dummy = get_avatar();
-    item inhaler( "inhaler" );
+    item inhaler( itype_inhaler );
     inhaler.ammo_set( itype_albuterol );
     REQUIRE( inhaler.ammo_remaining() > 0 );
 
@@ -686,7 +695,7 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
     avatar dummy;
     dummy.normalize();
 
-    item panacea( "panacea", calendar::turn_zero, item::default_charges_tag{} );
+    item panacea( itype_panacea, calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_cureall ) );
@@ -701,7 +710,7 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     avatar dummy;
     dummy.normalize();
 
-    item xanax( "xanax", calendar::turn_zero, item::default_charges_tag{} );
+    item xanax( itype_xanax, calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_xanax ) );
@@ -764,7 +773,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
-    const tripoint test_origin( 20, 20, 0 );
+    const tripoint_bub_ms test_origin( 20, 20, 0 );
     dummy.setpos( test_origin );
     // Give the player a backpack to hold the tablets
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -958,7 +967,7 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
     avatar dummy;
     dummy.normalize();
     build_test_map( ter_t_grass );
-    const tripoint test_origin( 20, 20, 0 );
+    const tripoint_bub_ms test_origin( 20, 20, 0 );
     dummy.setpos( test_origin );
 
     SECTION( "Test purifying time" ) {

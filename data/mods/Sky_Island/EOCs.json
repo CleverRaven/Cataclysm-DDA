@@ -87,8 +87,7 @@
       { "u_remove_item_with": "warphome" },
       { "math": [ "raidstotal++" ] },
       { "u_lose_trait": "awayfromhome" },
-      { "u_lose_effect": "warpsickness" },
-      { "u_lose_effect": "warpdisintegration" },
+      { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] },
       {
         "run_eocs": [
           "EOC_clearmissions",
@@ -165,6 +164,8 @@
       { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_GROUP" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO" },
       { "remove_active_mission": "MISSION_BONUS_KILL_MIGO_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_MULTI" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_HORDE" },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED1", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED2", "success": false },
       { "finish_mission": "MISSION_BONUS_SLAUGHTER_ZED3", "success": false },
@@ -360,22 +361,26 @@
       { "math": [ "u_val('rad') = 0" ] },
       { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "formication" },
-      { "u_lose_effect": "blisters" },
-      { "u_lose_effect": "frostbite" },
-      { "u_lose_effect": "frostbite_recovery" },
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "slimed" },
-      { "u_lose_effect": "migo_atmosphere" },
-      { "u_lose_effect": "fetid_goop" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" },
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed"
+        ]
+      },
       {
         "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
       }
@@ -981,53 +986,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_NW",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": -1,
-        "offset_y": -1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": -1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_NE",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": 1,
-        "offset_y": -1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": -1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_SW",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": -1,
-        "offset_y": 1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": 1 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION_SE",
-    "effect": [
-      {
-        "mapgen_update": "mx_skyisland_pond",
-        "om_terrain": "sky_island_core",
-        "search_range": 4,
-        "offset_x": 1,
-        "offset_y": 1
-      }
-    ]
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": 1 } ]
   }
 ]

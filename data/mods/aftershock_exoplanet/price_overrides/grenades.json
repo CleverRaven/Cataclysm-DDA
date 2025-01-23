@@ -1,0 +1,42 @@
+[
+  {
+    "id": "smokebomb",
+    "type": "GENERIC",
+    "name": { "str": "smoke bomb" },
+    "copy-from": "smokebomb",
+    "price": "150 USD",
+    "price_postapoc": "150 USD"
+  },
+  {
+    "id": "grenade_emp",
+    "type": "TOOL",
+    "name": { "str": "EMP grenade" },
+    "copy-from": "grenade_emp",
+    "price": "500 USD",
+    "price_postapoc": "500 USD"
+  },
+  {
+    "id": "grenade",
+    "type": "TOOL",
+    "name": { "str": "grenade" },
+    "copy-from": "grenade",
+    "price": "350 USD",
+    "price_postapoc": "350 USD"
+  },
+  {
+    "id": "grenade_inc",
+    "type": "TOOL",
+    "name": { "str": "incendiary grenade" },
+    "copy-from": "grenade_inc",
+    "price": "450 USD",
+    "price_postapoc": "450 USD"
+  },
+  {
+    "id": "scrambler",
+    "type": "TOOL",
+    "name": { "str": "scrambler grenade" },
+    "copy-from": "scrambler",
+    "price": "800 USD",
+    "price_postapoc": "800 USD"
+  }
+]

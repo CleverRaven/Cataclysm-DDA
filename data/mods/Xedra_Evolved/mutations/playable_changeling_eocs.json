@@ -187,8 +187,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
     "effect": [
-      { "u_lose_effect": "effect_changeling_invisibility" },
-      { "u_lose_effect": "effect_changeling_right_of_passage" },
+      { "u_lose_effect": [ "effect_changeling_invisibility", "effect_changeling_right_of_passage" ] },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
@@ -1699,8 +1698,7 @@
     "condition": { "math": [ "magic_weather_lightning == 1" ] },
     "effect": [
       { "math": [ "u_weather_change_limit = 0" ] },
-      { "u_lose_effect": "effect_controlling_weather" },
-      { "u_lose_effect": "effect_controlling_weather_lightningstorm" }
+      { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
     ]
   },
   {

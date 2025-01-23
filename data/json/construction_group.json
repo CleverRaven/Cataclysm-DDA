@@ -433,6 +433,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_char_kiln",
+    "name": "Place Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
   },
@@ -1839,11 +1844,6 @@
     "type": "construction_group",
     "id": "place_asrg_containment",
     "name": "Place ASRG"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_active_backup_generator",
-    "name": "Place backup generator"
   },
   {
     "type": "construction_group",

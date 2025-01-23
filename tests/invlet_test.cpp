@@ -26,6 +26,9 @@
 
 static const itype_id itype_a( "a" );
 static const itype_id itype_b( "b" );
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_tshirt( "tshirt" );
 
 enum inventory_location {
     GROUND,
@@ -253,11 +256,11 @@ static void pick_up_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.set_moves( 100 );
-    const std::vector<item_location> target_items = { item_location( map_cursor( you.get_location() ), found ) };
+    const std::vector<item_location> target_items = { item_location( map_cursor( you.pos_abs() ), found ) };
     you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos_bub(), false ) );
     you.activity.do_turn( you );
 
@@ -269,7 +272,7 @@ static void wear_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.wear_item( *found, false );
@@ -283,7 +286,7 @@ static void wield_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.wield( *found );
@@ -322,7 +325,7 @@ static item &item_at( Character &you, const std::string &id, const inventory_loc
 {
     switch( loc ) {
         case GROUND: {
-            item *found = retrieve_item( map_cursor( you.get_location() ), id );
+            item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
             REQUIRE( found );
             return *found;
         }
@@ -461,11 +464,11 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos_bub() );
-        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
         // some two items that can be wielded, worn, and picked up
-        item tshirt( "tshirt" );
-        item jeans( "jeans" );
+        item tshirt( itype_tshirt );
+        item jeans( itype_jeans );
 
         set_id( tshirt, "1" );
         set_id( jeans, "2" );
@@ -543,11 +546,11 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos_bub() );
-    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
     // some stackable item that can be wielded and worn
-    item tshirt1( "tshirt" );
-    item tshirt2( "tshirt" );
+    item tshirt1( itype_tshirt );
+    item tshirt2( itype_tshirt );
 
     set_id( tshirt1, "1" );
     set_id( tshirt2, "2" );
@@ -598,8 +601,8 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
     get_map().i_clear( dummy.pos_bub() );
 
     // two items of the same type that do not stack
-    item tshirt1( "tshirt" );
-    item tshirt2( "tshirt" );
+    item tshirt1( itype_tshirt );
+    item tshirt2( itype_tshirt );
     tshirt2.mod_damage( -1 );
 
     set_id( tshirt1, "1" );
@@ -681,11 +684,11 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos_bub() );
-        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
         // some stackable item
-        item tshirt1( "tshirt" );
-        item tshirt2( "tshirt" );
+        item tshirt1( itype_tshirt );
+        item tshirt2( itype_tshirt );
 
         set_id( tshirt1, "1" );
         set_id( tshirt2, "2" );

@@ -238,7 +238,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "GMLODGE2_roof_2", "GMLODGE2_roof_3" ], [ "GMLODGE3_roof_2", "GMLODGE3_roof_3" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

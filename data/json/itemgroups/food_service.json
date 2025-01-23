@@ -278,7 +278,7 @@
     "entries": [
       { "item": "wrapper", "prob": 50 },
       { "item": "wrapper_foil", "prob": 5 },
-      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
+      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "can_drink", "prob": 60 },
       { "item": "flyer", "prob": 30 },
@@ -396,7 +396,7 @@
       [ "cup_plastic", 40 ],
       [ "wrapper", 34 ],
       [ "wrapper_foil", 3 ],
-      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
+      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
       [ "bag_plastic", 20 ],
       [ "bottle_glass", 30 ],
       [ "can_drink", 30 ],
@@ -446,7 +446,7 @@
       { "prob": 15, "group": "tea_raw_bag_plastic_33" },
       { "prob": 10, "group": "tea_green_raw_bag_plastic_33" },
       { "item": "wrapper", "prob": 75 },
-      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
+      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
       { "group": "teabag_box", "prob": 10 }
     ]
   },
@@ -544,7 +544,7 @@
     "entries": [
       { "item": "wrapper", "prob": 17 },
       { "item": "wrapper_foil", "prob": 1 },
-      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
+      { "item": "wrapper_foil", "prob": 5, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
       { "item": "bag_plastic", "prob": 15 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "can_drink", "prob": 10 },
@@ -620,7 +620,7 @@
       { "item": "cup_plastic", "prob": 50 },
       { "item": "wrapper", "prob": 50 },
       { "item": "wrapper_foil", "prob": 5 },
-      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
+      { "item": "wrapper_foil", "prob": 25, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
       { "item": "bag_plastic", "prob": 50 },
       { "item": "cotton_patchwork", "prob": 50 },
       { "item": "syringe", "prob": 5 },

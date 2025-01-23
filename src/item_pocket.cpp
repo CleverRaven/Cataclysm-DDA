@@ -35,6 +35,8 @@
 #include "units.h"
 #include "units_utility.h"
 
+static const itype_id itype_water( "water" );
+
 namespace io
 {
 // *INDENT-OFF*
@@ -452,7 +454,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // should not be static, since after reloading some members of the item objects,
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
-        item( "water", calendar::turn_zero, 1 ),
+        item( itype_water, calendar::turn_zero, 1 ),
     };
     if( !data->watertight ) {
         return false;
@@ -785,7 +787,7 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     if( guy.is_npc() ) {
-        spill_contents( guy.pos() );
+        spill_contents( guy.pos_bub() );
         return;
     }
 
@@ -887,11 +889,10 @@ std::string item_pocket::translated_sealed_prefix() const
     }
 }
 
-bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
+bool item_pocket::detonate( const tripoint_bub_ms &pos, std::vector<item> &drops )
 {
-    const tripoint_bub_ms p{pos}; // TODO: Remove when operation typified.
-    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&p, &drops]( item & it ) {
-        return it.detonate( p, drops );
+    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&pos, &drops]( item & it ) {
+        return it.detonate( pos, drops );
     } );
     if( new_end != contents.end() ) {
         contents.erase( new_end, contents.end() );
@@ -1749,7 +1750,7 @@ std::optional<item> item_pocket::remove_item( const item_location &it )
     return remove_item( *it );
 }
 
-static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
+static void move_to_parent_pocket_recursive( const tripoint_bub_ms &pos, item &it,
         const item_location &loc, Character *carrier )
 {
     if( loc ) {
@@ -1774,13 +1775,13 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
         carrier->add_msg_player_or_npc( m_bad, _( "Your %s falls to the ground." ),
                                         _( "<npcname>'s %s falls to the ground." ), it.display_name() );
     } else {
-        add_msg_if_player_sees( tripoint_bub_ms( pos ), m_bad, _( "The %s falls to the ground." ),
+        add_msg_if_player_sees( pos, m_bad, _( "The %s falls to the ground." ),
                                 it.display_name() );
     }
     here.add_item_or_charges( pos, it );
 }
 
-void item_pocket::overflow( const tripoint &pos, const item_location &loc )
+void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
@@ -1797,7 +1798,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             item_location content_loc( loc, &it );
             content_loc.overflow();
         } else {
-            it.overflow( tripoint_bub_ms( pos ) );
+            it.overflow( pos );
         }
     }
 
@@ -1904,7 +1905,7 @@ void item_pocket::on_contents_changed()
     restack();
 }
 
-bool item_pocket::spill_contents( const tripoint &pos )
+bool item_pocket::spill_contents( const tripoint_bub_ms &pos )
 {
     if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::CABLE ) ) {
@@ -1959,16 +1960,16 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
+void item_pocket::process( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                           float insulation,
                            temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
-    const tripoint_bub_ms p{ pos }; // TODO: Get rid of this when operation typified.
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( here, carrier, p, insulation, flag,
+        if( iter->process( here, carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ),
                            watertight_container || can_contain_liquid( false ) ) ) {
-            iter->spill_contents( p );
+            iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -1976,13 +1977,12 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
     }
 }
 
-void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
+void item_pocket::leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
                         item_pocket *pocke )
 {
-    const tripoint_bub_ms p{pos}; // TODO: Get rid of this once the operation gets typified.
     std::vector<item *> erases;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->leak( here, carrier, p, this ) ) {
+        if( iter->leak( here, carrier, pos, this ) ) {
             if( watertight() ) {
                 ++iter;
                 continue;
@@ -1997,8 +1997,8 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
                 pocke->add( *it );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
-                iter->on_drop( p );
-                here.add_item_or_charges( p, *iter );
+                iter->on_drop( pos );
+                here.add_item_or_charges( pos, *iter );
                 if( carrier != nullptr ) {
                     carrier->invalidate_weight_carried_cache();
                     carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
@@ -2411,7 +2411,7 @@ void item_pocket::load_presets()
     std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

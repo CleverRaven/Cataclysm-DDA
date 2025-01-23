@@ -66,7 +66,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_electronoetic"
       }
     ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes" ] } ],
@@ -82,7 +82,7 @@
             {
               "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
               "distance": 20,
-              "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+              "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense a sapient mind here." } ]
             }
           ]
         }

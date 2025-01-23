@@ -155,7 +155,8 @@ void start_location::finalize()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-static void add_boardable( const tinymap &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const tinymap &m, const tripoint_omt_ms &p,
+                           std::vector<tripoint_omt_ms> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -176,12 +177,12 @@ static void add_boardable( const tinymap &m, const tripoint &p, std::vector<trip
     vec.push_back( p );
 }
 
-static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
+static void board_up( tinymap &m, const tripoint_range<tripoint_omt_ms> &range )
 {
-    std::vector<tripoint> furnitures1;
-    std::vector<tripoint> furnitures2;
-    std::vector<tripoint> boardables;
-    for( const tripoint &p : range ) {
+    std::vector<tripoint_omt_ms> furnitures1;
+    std::vector<tripoint_omt_ms> furnitures2;
+    std::vector<tripoint_omt_ms> boardables;
+    for( const tripoint_omt_ms &p : range ) {
         bool must_board_around = false;
         const ter_id &t = m.ter( p );
         if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
@@ -201,7 +202,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
         if( must_board_around ) {
             // Board up the surroundings of the door/window
-            for( const tripoint &neigh : points_in_radius( p, 1 ) ) {
+            for( const tripoint_omt_ms &neigh : points_in_radius( p, 1 ) ) {
                 if( neigh == p ) {
                     continue;
                 }
@@ -210,7 +211,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
     }
     // Find all furniture that can be used to board up some place
-    for( const tripoint &p : range ) {
+    for( const tripoint_omt_ms &p : range ) {
         if( std::find( boardables.begin(), boardables.end(), p ) != boardables.end() ) {
             continue;
         }
@@ -232,8 +233,8 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         }
     }
     while( ( !furnitures1.empty() || !furnitures2.empty() ) && !boardables.empty() ) {
-        const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
-        const tripoint bp = random_entry_removed( boardables );
+        const tripoint_omt_ms fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
+        const tripoint_omt_ms bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, furn_str_id::NULL_ID() );
         map_stack destination_items = m.i_at( bp );
@@ -250,7 +251,7 @@ void start_location::prepare_map( tinymap &m ) const
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         const tripoint_range <tripoint_omt_ms> temp = m.points_on_zlevel( z );
-        board_up( m, { temp.min().raw(), temp.max().raw() } );
+        board_up( m, { temp.min(), temp.max() } );
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
@@ -378,35 +379,35 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p,
+static int rate_location( map &m, const tripoint_bub_ms &p,
                           const bool must_be_inside, const bool accommodate_npc,
                           const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
-    const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
+    const auto invalid_char_pos = [&]( const tripoint_bub_ms & tp ) -> bool {
         return ( must_be_inside && m.is_outside( tp ) ) ||
         m.impassable( tp ) || m.is_divable( tp ) ||
         m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
     };
 
-    if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
+    if( checked[p.x()][p.y()] > 0 || invalid_char_pos( p ) ||
         ( accommodate_npc && invalid_char_pos( p + point::north_west ) ) ) {
         return 0;
     }
 
     // Vector that will be used as a stack
-    std::vector<tripoint> st;
+    std::vector<tripoint_bub_ms> st;
     st.reserve( MAPSIZE_X * MAPSIZE_Y );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
-        if( checked[add_p.x][add_p.y] >= attempt ) {
+    const auto maybe_add = [&]( const point_bub_ms & add_p, const tripoint_bub_ms & from ) {
+        if( checked[add_p.x()][add_p.y()] >= attempt ) {
             return;
         }
 
-        const tripoint pt( add_p, p.z );
+        const tripoint_bub_ms pt( add_p, p.z() );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( get_avatar(), pt, !m.is_outside( from ), true ) ) {
@@ -417,12 +418,12 @@ static int rate_location( map &m, const tripoint &p,
     int area = 0;
     while( !st.empty() ) {
         area++;
-        const tripoint cur = st.back();
+        const tripoint_bub_ms cur = st.back();
         st.pop_back();
 
-        checked[cur.x][cur.y] = attempt;
-        if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
-            cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
+        checked[cur.x()][cur.y()] = attempt;
+        if( cur.x() == 0 || cur.x() == MAPSIZE_X - 1 ||
+            cur.y() == 0 || cur.y() == MAPSIZE_Y - 1 ||
             m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) {
             return INT_MAX;
         }
@@ -445,7 +446,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    you.set_location( midpoint( project_bounds<coords::ms>( omtstart ) ) );
+    you.set_pos_abs_only( midpoint( project_bounds<coords::ms>( omtstart ) ) );
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -472,7 +473,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
-                best_spot = here.bub_from_abs( zone.get_center_point() );
+                best_spot = here.get_bub( zone.get_center_point() );
                 break;
             }
         }
@@ -483,7 +484,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     int tries = 0;
     const auto check_spot = [&]( const tripoint_bub_ms & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt.raw(), must_be_inside, accommodate_npc, bash, tries,
+        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries,
                                         checked );
         if( best_rate < rate ) {
             best_rate = rate;
@@ -527,14 +528,15 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     tinymap m;
     m.load( omtstart, false );
     m.build_outside_cache( m.get_abs_sub().z() );
-    point player_pos = get_player_character().pos().xy();
-    const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
+    point_bub_ms player_pos = get_player_character().pos_bub().xy();
+    const point_bub_ms u( player_pos.x() % HALF_MAPSIZE_X, player_pos.y() % HALF_MAPSIZE_Y );
     std::vector<tripoint_omt_ms> valid;
     for( const tripoint_omt_ms &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
                m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
-               ( p.x() >= u.x - rad && p.x() <= u.x + rad && p.y() >= u.y - rad && p.y() <= u.y + rad ) ) ) {
+               ( p.x() >= u.x() - rad && p.x() <= u.x() + rad && p.y() >= u.y() - rad &&
+                 p.y() <= u.y() + rad ) ) ) {
             if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
                 m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );

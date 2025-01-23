@@ -27,6 +27,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_flask_hip( "flask_hip" );
@@ -59,8 +60,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     clear_avatar();
     Character &p = get_player_character();
-    p.worn.wear_item( p, item( "backpack" ), false, false );
-    p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    p.worn.wear_item( p, item( itype_backpack ), false, false );
+    p.wear_item( item( itype_backpack ) ); // so we don't drop anything
     clear_map();
     map &here = get_map();
 
@@ -327,7 +328,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         REQUIRE( our + adj == count );
 
         map_selector sel( p.pos_bub(), 1 );
-        map_cursor cur( p.get_location() );
+        map_cursor cur( p.pos_abs() );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );
