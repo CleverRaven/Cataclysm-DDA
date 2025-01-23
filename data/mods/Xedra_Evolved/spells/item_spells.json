@@ -601,5 +601,20 @@
     "energy_source": "NONE",
     "base_energy_cost": 0,
     "base_casting_time": 0
+  },
+  {
+    "id": "boann_unique_weapon_sword_onhit_blind",
+    "type": "SPELL",
+    "name": { "str": "Sidereal Eclipse blind", "//~": "NO_I18N" },
+    "description": { "str": "Targets you hit are blinded.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "blind",
+    "min_duration": 200,
+    "max_duration": 600,
+    "min_range": 1,
+    "max_range": 1
   }
 ]
