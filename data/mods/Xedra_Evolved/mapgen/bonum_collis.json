@@ -36,8 +36,8 @@
         ".": [
           [ "t_grass", 30 ],
           [ "t_grass_long", 12 ],
-          [ "t_dirt", "6" ],
-          [ "t_shrub", "6" ],
+          [ "t_dirt", 6 ],
+          [ "t_shrub", 6 ],
           "t_shrub_goblin_fruit_spring",
           "t_shrub_goblin_fruit_summer",
           "t_shrub_goblin_fruit_autumn"

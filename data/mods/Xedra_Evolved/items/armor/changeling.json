@@ -103,6 +103,7 @@
   {
     "id": "gown_gossamer_boann_unique",
     "type": "ARMOR",
+    "name": { "str": "aegis gown" },
     "copy-from": "gown_gossamer",
     "looks_like": "gown_gossamer",
     "extend": { "flags": [ "RELIC_PINK" ] },

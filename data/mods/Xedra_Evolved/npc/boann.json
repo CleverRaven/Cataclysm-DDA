@@ -25,9 +25,11 @@
       { "trait": "IRON_ALLERGY" },
       { "trait": "CHANGELING_MAGIC" },
       { "trait": "DISIMMUNE" },
+      { "trait": "BEAUTIFUL2" },
       { "trait": "PARACLESIAN_FAE_SIGHT_2" },
       { "trait": "PARACLESIAN_INT_PER_2" },
       { "trait": "PARACLESIAN_STR_DEX_2" },
+      { "trait": "PARACLESIAN_MAKE_GOSSAMER" },
       { "trait": "CHANGELING_NOBLE_MOVEMENT_BUFFS" },
       { "trait": "CHANGELING_NOBLE_BURNING_WEAPON" }
     ],
