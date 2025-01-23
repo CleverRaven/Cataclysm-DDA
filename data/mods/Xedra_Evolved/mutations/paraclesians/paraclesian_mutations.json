@@ -94,7 +94,25 @@
     "allowed_category": [ "ARVORE" ],
     "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ]
+    "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_arvore_attacked_a_triffid" } },
+            {
+              "and": [
+                { "u_has_trait": "ARVORE_VERDANT_HAIR" },
+                { "u_has_any_trait": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ] },
+                { "u_has_any_trait": [ "ARVORE_FLORAL_SCENT", "ARVORE_MIND_CONTROL_POLLEN" ] },
+                { "u_has_any_trait": [ "ARVORE_BLOOD", "ARVORE_BLOOD_2", "ARVORE_BLOOD_3", "ARVORE_BLOOD_4" ] }
+              ]
+            }
+          ]
+        },
+        "mutations": [ "ARVORE_TRIFFID_NEUTRALITY" ]
+      }
+    ]
   },
   {
     "type": "mutation",
