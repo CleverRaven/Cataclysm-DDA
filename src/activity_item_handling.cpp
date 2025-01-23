@@ -2021,6 +2021,20 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     map &here = get_map();
     const tripoint_abs_ms abspos = you.pos_abs();
     zone_manager &mgr = zone_manager::get_manager();
+
+    std::vector<const item *> crafting_items;
+
+    for( const npc &guy : g->all_npcs() ) {
+        if( !guy.activity.targets.empty() ) {
+            for( const item_location &target : guy.activity.targets ) {
+                crafting_items.push_back( target.get_item() );
+            }
+        }
+    }
+    for( const item_location &target : get_player_character().activity.targets ) {
+        crafting_items.push_back( target.get_item() );
+    }
+
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
@@ -2153,6 +2167,16 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
                 if( has_items_to_work_on ) {
                     break;
+                }
+
+                // don't steal disassembly in progress
+                if( it->has_var( "activity_var" ) ) {
+                    continue;
+                }
+
+                // don't steal crafts in progress
+                if( std::find( crafting_items.begin(), crafting_items.end(), it ) != crafting_items.end() ) {
+                    continue;
                 }
 
                 // skip items that allready sorted
@@ -2327,6 +2351,16 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, _fac_id( you ) ) ) {
                 continue;
             }
+
+            // don't steal disassembly in progress
+            if( thisitem.has_var( "activity_var" ) ) {
+                continue;
+            }
+            // don't steal crafts in progress
+            if( std::find( crafting_items.begin(), crafting_items.end(), it->first ) != crafting_items.end() ) {
+                continue;
+            }
+
 
             // Only if it's from a vehicle do we use the vehicle source location information.
             const std::optional<vpart_reference> vpr_src = it->second ? vpr : std::nullopt;
