@@ -542,5 +542,27 @@
     "components": [ [ [ "2x4", 18 ] ], [ [ "nails", 14, "LIST" ] ], [ [ "sheet_metal", 1 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_wood_keg"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exodii_kiln",
+    "group": "build_clay_oven",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 5 ], [ "survival", 2 ] ],
+    "time": "4 h",
+    "qualities": [
+      [ { "id": "SCREW", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 2 } ],
+      [ { "id": "DRILL", "level": 2 } ],
+      [ { "id": "WRENCH", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "exodii_kiln", 1 ] ],
+      [ [ "fire_brick", 10 ] ],
+      [ [ "clay_lump", 15 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_exodii_kiln"
   }
 ]
