@@ -3871,8 +3871,8 @@ void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*
         return;
     }
     const recipe item_recipe = craft->get_making();
-    // recipe items with no components and results can be safely removed
-    if( item_recipe.result() == itype_id::NULL_ID() && craft->components.empty() ) {
+    // recipe items with no components and results/result_eocs can be safely removed
+    if( item_recipe.result() == itype_id::NULL_ID() && item_recipe.result_eocs.empty() && craft->components.empty() ) {
         craft_item.remove_item();
     }
 }
