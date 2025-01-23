@@ -57,7 +57,7 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
     if( part_num != -1 ) {
         act.coords.push_back( get_map().get_abs( veh.bub_part_pos( part_num ) ) );
     } else {
-        act.coords.push_back( veh.global_square_location() );
+        act.coords.push_back( veh.pos_abs() );
     }
     act.str_values.push_back( serialize( liquid ) );
 }

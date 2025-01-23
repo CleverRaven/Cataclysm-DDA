@@ -648,7 +648,7 @@ void vehicle::autopilot_patrol()
     map &here = get_map();
     // if we are close to a waypoint, then return to come back to this function next turn.
     if( autodrive_local_target != tripoint_abs_ms::zero ) {
-        if( rl_dist( global_square_location(), autodrive_local_target ) <= 3 ) {
+        if( rl_dist( pos_abs(), autodrive_local_target ) <= 3 ) {
             autodrive_local_target = tripoint_abs_ms::zero;
             return;
         }
@@ -662,7 +662,7 @@ void vehicle::autopilot_patrol()
     }
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set =
-        mgr.get_near( zone_type_VEHICLE_PATROL, global_square_location(), MAX_VIEW_DISTANCE );
+        mgr.get_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
@@ -690,8 +690,8 @@ void vehicle::autopilot_patrol()
     const tripoint_abs_ms min_tri = x_side ? tripoint_abs_ms( point_along, min.y(), min.z() ) :
                                     tripoint_abs_ms( min.x(), point_along, min.z() );
     tripoint_abs_ms chosen_tri = min_tri;
-    if( rl_dist( max_tri, global_square_location() ) >=
-        rl_dist( min_tri, global_square_location() ) ) {
+    if( rl_dist( max_tri, pos_abs() ) >=
+        rl_dist( min_tri, pos_abs() ) ) {
         chosen_tri = max_tri;
     }
     // TODO: fix point types
@@ -759,7 +759,7 @@ void vehicle::drive_to_local_target( const tripoint_abs_ms &target, bool follow_
     }
     refresh();
     map &here = get_map();
-    tripoint_abs_ms vehpos = global_square_location();
+    tripoint_abs_ms vehpos = pos_abs();
     units::angle angle = get_angle_from_targ( target );
 
     bool stop = precollision_check( angle, here, follow_protocol );
@@ -864,7 +864,7 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
 
 units::angle vehicle::get_angle_from_targ( const tripoint_abs_ms &targ ) const
 {
-    tripoint_abs_ms vehpos = global_square_location();
+    tripoint_abs_ms vehpos = pos_abs();
     rl_vec2d facevec = face_vec();
     point_rel_ms rel_pos_target = targ.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x(), rel_pos_target.y() );
@@ -3611,14 +3611,14 @@ monster *vehicle::get_monster( int p ) const
     return nullptr;
 }
 
-tripoint_abs_ms vehicle::global_square_location() const
+tripoint_abs_ms vehicle::pos_abs() const
 {
     return get_map().get_abs( pos_bub() );
 }
 
-tripoint_abs_omt vehicle::global_omt_location() const
+tripoint_abs_omt vehicle::pos_abs_omt() const
 {
-    return project_to<coords::omt>( global_square_location() );
+    return project_to<coords::omt>( pos_abs() );
 }
 
 tripoint_bub_ms vehicle::pos_bub() const
@@ -3638,7 +3638,7 @@ tripoint_bub_ms vehicle::bub_part_pos( const vehicle_part &pt ) const
 
 void vehicle::set_submap_moved( const tripoint_bub_sm &p )
 {
-    const point_abs_ms old_msp = global_square_location().xy();
+    const point_abs_ms old_msp = pos_abs().xy();
     sm_pos = p;
     if( !tracking_on ) {
         return;
@@ -5311,7 +5311,7 @@ units::power vehicle::total_solar_epower() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type_id wtype = current_weather( global_square_location() );
+    weather_type_id wtype = current_weather( pos_abs() );
     const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
     return epower * intensity;
 }
@@ -5319,7 +5319,7 @@ units::power vehicle::total_solar_epower() const
 units::power vehicle::total_wind_epower() const
 {
     map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
     units::power epower = 0_W;
@@ -6941,7 +6941,7 @@ void vehicle::do_towing_move()
     units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
-    tripoint_abs_ms vehpos = global_square_location();
+    tripoint_abs_ms vehpos = pos_abs();
     int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
         accel_y = reverse ? -1 : 1;
@@ -8200,7 +8200,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      global_square_location() );
+                                      pos_abs() );
     // make some reference objects to use to check for reload
     const item water( itype_water );
     const item water_clean( itype_water_clean );

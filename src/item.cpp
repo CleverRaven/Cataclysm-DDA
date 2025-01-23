@@ -14134,8 +14134,8 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
 
     // Prepare target tripoints for the cable parts that'll be added to the selected/previous vehicles
     const std::pair<tripoint_abs_ms, tripoint_abs_ms> prev_part_target = std::make_pair(
-                veh.global_square_location() + veh.coord_translate( mount ),
-                veh.global_square_location() );
+                veh.pos_abs() + veh.coord_translate( mount ),
+                veh.pos_abs() );
     const std::pair<tripoint_abs_ms, tripoint_abs_ms> sel_part_target = std::make_pair(
                 link().t_abs_pos + prev_veh->coord_translate( link().t_mount ),
                 link().t_abs_pos );
