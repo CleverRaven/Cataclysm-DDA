@@ -2957,17 +2957,24 @@ void monster::die( Creature *nkiller )
             if( !grabbed ) {
                 you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
                                             _( "The last enemy holding <npcname> collapses!" ) );
-                // A loop for safety
+                std::vector<efftype_id> effect_ids; // to avoid dangling references, prepare effect IDs before removing them
                 for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
-                    you->remove_effect( grab.get_id() );
+                    effect_ids.push_back( grab.get_id() );
+                }
+                // A loop for safety
+                for( const efftype_id &effect_id : effect_ids ) {
+                    you->remove_effect( effect_id );
                 }
                 continue;
             }
-            // Iterate through all your grabs to figure out which one this critter held
+            std::vector<std::pair<efftype_id, bodypart_id>> effect_id_pairs;
             for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
-                if( is_grabbing( grab.get_bp().id() ) ) {
-                    const effect_type effid = *grab.get_effect_type();
-                    you->remove_effect( effid.id, grab.get_bp() );
+                effect_id_pairs.push_back( std::make_pair( grab.get_id(), grab.get_bp() ) );
+            }
+            // Iterate through all your grabs to figure out which one this critter held
+            for( const auto &effect_id_pair : effect_id_pairs ) {
+                if( is_grabbing( effect_id_pair.second.id() ) ) {
+                    you->remove_effect( effect_id_pair.first, effect_id_pair.second );
                 }
             }
         }
