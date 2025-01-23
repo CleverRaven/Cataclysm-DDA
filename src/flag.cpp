@@ -152,6 +152,7 @@ const flag_id flag_FROZEN( "FROZEN" );
 const flag_id flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
 const flag_id flag_GAS_DISCOUNT( "GAS_DISCOUNT" );
 const flag_id flag_GAS_PROOF( "GAS_PROOF" );
+const flag_id flag_GENE_TECH( "GENE_TECH" );
 const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );

@@ -74,7 +74,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     tester_rules.clear_overrides(); // just to be sure
     tester_rules.set_flag( rule_to_test );
     REQUIRE( tester_rules.has_flag( rule_to_test ) );
-    const tripoint_abs_omt test_omt_pos = guy->global_omt_location() + point::north;
+    const tripoint_abs_omt test_omt_pos = guy->pos_abs_omt() + point::north;
     manual_mapgen( test_omt_pos, manual_update_mapgen, update_mapgen_id_to_apply );
     return guy;
 }
@@ -157,7 +157,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
     REQUIRE( !test_subject->path.empty() );
 
     // we must force them to actually walk the path for this test
-    test_subject->goto_to_this_pos = here.getglobal( test_subject->path.back() );
+    test_subject->goto_to_this_pos = here.get_abs( test_subject->path.back() );
 
     // copy our path before we lose it
     std::vector<tripoint_bub_ms> path_taken = test_subject->path;

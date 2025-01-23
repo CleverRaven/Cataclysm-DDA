@@ -31,12 +31,7 @@
         " //=//=///    /////===/ ",
         "                        "
       ],
-      "palettes": [
-        "afs_habitat_structure",
-        "afs_habitat_exterior",
-        "afs_habitat_residential_furnishing",
-        "afs_habblock_3_paramter_palette"
-      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "furniture": {
         "5": "f_atm",
         "1": "f_arcade_machine",
@@ -68,8 +63,8 @@
       "fill_ter": "t_metal_floor",
       "rows": [
         "                        ",
-        "                        ",
-        " /////==//    //==///// ",
+        "         ......         ",
+        " /////==//....//==///// ",
         " /&*{/Foj//==//joF/&{1/ ",
         " /{;1/.../%.../.../*;{/ ",
         " /:///.'.:....:.'.///:/ ",
@@ -92,7 +87,7 @@
         " /////==//    //==///// ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_habblock_3_paramter_palette" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": { " ": "t_open_air", "1": "t_linoleum_white", "&": "t_linoleum_white", "*": "t_linoleum_white" },
       "furniture": { "1": "f_shower" },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 21 ], "y": [ 4, 20 ], "pack_size": [ 1, 3 ], "chance": 45 } ],
@@ -131,7 +126,7 @@
         " /////////    /==////// ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_habblock_3_paramter_palette" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": { " ": "t_open_air", "1": "t_linoleum_white", "&": "t_linoleum_white", "*": "t_linoleum_white" },
       "furniture": { "1": "f_shower" },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 21 ], "y": [ 4, 20 ], "pack_size": [ 1, 3 ], "chance": 45 } ],
@@ -149,10 +144,10 @@
         "                        ",
         " [[[[[[[[[    [[[[[[[[[ ",
         " [™™££££™[[[[[[££££™™™[ ",
-        " [™™33££™™™™™££££™33™™[ ",
+        " [™™££££™™™™™££££™££™™[ ",
         " [™™33™££££™™££™™™33™™[ ",
-        " [™£33™™£333333£™™33£™[ ",
-        " [™£33™™™333333££™33™™[ ",
+        " [™£33™™££3333££™™33£™[ ",
+        " [™£33™™™£3333£££™33™™[ ",
         " [££33™£™™££™™™££™33££[ ",
         " [££33£££££™™™££££33™™[ ",
         " [[™™™££££££™££££££™™[[ ",
@@ -175,7 +170,7 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_habblock_3_paramter_palette"
+        "afs_light_param_palette"
       ],
       "terrain": {
         " ": "t_open_air",
@@ -228,10 +223,5 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior" ],
       "terrain": { " ": "t_open_air" }
     }
-  },
-  {
-    "type": "palette",
-    "id": "afs_habblock_3_paramter_palette",
-    "parameters": { "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } } }
   }
 ]

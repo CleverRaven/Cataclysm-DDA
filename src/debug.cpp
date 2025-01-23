@@ -33,7 +33,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "game.h"
 #include "get_version.h"
 #include "input.h"
 #include "loading_ui.h"
@@ -383,15 +382,7 @@ static void debug_error_prompt(
 #endif
     for( bool stop = false; !stop; ) {
         ui_manager::redraw();
-        inp_mngr.set_timeout( 50 );
-        input_event ievent = inp_mngr.get_input_event();
-        if( ievent.type == input_event_t::timeout ) {
-            if( are_we_quitting() ) {
-                g->query_exit_to_OS();
-            }
-            continue;
-        }
-        switch( ievent.get_first_input() ) {
+        switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
             case 'c':
             case 'C':
@@ -716,7 +707,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                 }
             }
             file = std::make_shared<std::ofstream>(
-                       fs::u8path( filename ), std::ios::out | std::ios::app );
+                       std::filesystem::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
             DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();

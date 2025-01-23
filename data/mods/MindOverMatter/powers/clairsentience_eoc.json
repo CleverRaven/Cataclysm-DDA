@@ -201,8 +201,7 @@
     "id": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
     "effect": [
       { "u_remove_item_with": "item_clair_astral_projection_cord" },
-      { "u_lose_effect": "effect_clair_astral_projection" },
-      { "u_lose_effect": "incorporeal" },
+      { "u_lose_effect": [ "effect_clair_astral_projection", "incorporeal" ] },
       { "u_lose_trait": "CLAIR_ASTRAL_PROJECTION_APPEARANCE" },
       { "math": [ "u_spell_level('clair_astral_projection_passwall') = -1" ] },
       { "math": [ "u_spell_level('clair_astral_projection_return') = -1" ] },

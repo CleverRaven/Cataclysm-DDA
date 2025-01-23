@@ -224,7 +224,6 @@
     "method": "json",
     "om_terrain": [ [ "helipad_roof_nw", "helipad_roof_ne" ], [ "helipad_roof_sw", "helipad_roof_se" ] ],
     "type": "mapgen",
-    "weight": 500,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

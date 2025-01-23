@@ -200,7 +200,7 @@ class monster : public Creature
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point_rel_sm &sm_shift );
-        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
+        void set_patrol_route( const std::vector<point_rel_ms> &patrol_pts_rel_ms );
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.
@@ -212,12 +212,12 @@ class monster : public Creature
          * can_move_to() is a wrapper for both of them.
          * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
-        // TODO: Get rid of untyped overload
-        bool can_move_to( const tripoint &p ) const;
         bool can_move_to( const tripoint_bub_ms &p ) const;
         bool can_reach_to( const tripoint_bub_ms &p ) const;
         bool will_move_to( const tripoint_bub_ms &p ) const;
+        bool will_move_to( map *here, const tripoint_bub_ms &p ) const;
         bool know_danger_at( const tripoint_bub_ms &p ) const;
+        bool know_danger_at( map *here, const tripoint_bub_ms &p ) const;
 
         bool will_reach( const point_bub_ms &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point_bub_ms &p ); // How long will it take?
@@ -358,7 +358,7 @@ class monster : public Creature
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill() const;
 
@@ -367,7 +367,7 @@ class monster : public Creature
         bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                     bool print_messages = true,
+                                     const double &missed_by = 0, bool print_messages = true,
                                      const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
                                       int &damage, int &pain ) override;
@@ -623,6 +623,7 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

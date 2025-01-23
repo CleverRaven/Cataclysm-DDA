@@ -835,7 +835,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
 {
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
-    const bool vert_coll = bash_floor || p.z() != sm_pos.z;
+    const bool vert_coll = bash_floor || p.z() != sm_pos.z();
     Creature *critter = get_creature_tracker().creature_at( p, true );
     Character *ph = dynamic_cast<Character *>( critter );
 
@@ -1404,7 +1404,7 @@ bool vehicle::check_heli_ascend( Character &p ) const
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
-    if( sm_pos.z + 1 >= OVERMAP_HEIGHT ) {
+    if( sm_pos.z() + 1 >= OVERMAP_HEIGHT ) {
         return false; // don't allow trying to ascend to max zlevel
     }
     map &here = get_map();
@@ -1850,7 +1850,7 @@ vehicle *vehicle::act_on_map()
             g->setremoteveh( nullptr );
         }
 
-        here.on_vehicle_moved( sm_pos.z );
+        here.on_vehicle_moved( sm_pos.z() );
         // Destroy vehicle (sank to nowhere)
         here.destroy_vehicle( this );
         return nullptr;

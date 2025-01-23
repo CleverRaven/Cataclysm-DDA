@@ -300,7 +300,18 @@
           "f_wintergreen": 200
         },
         "f_region_forest_water": { "f_burdock": 4, "f_japanese_knotweed": 2, "f_lily": 1 },
-        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
+        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 },
+        "f_region_lake_bed": { "f_boulder_small": 8, "f_boulder_medium": 4, "f_boulder_large": 2 },
+        "f_region_ocean_bed": {
+          "f_algae_red": 4,
+          "f_algae_green": 3,
+          "f_kelp_sugar": 1,
+          "f_boulder_small": 8,
+          "f_boulder_medium": 4,
+          "f_boulder_large": 2,
+          "f_sea_anemone": 1,
+          "f_sea_sponge": 1
+        }
       }
     },
     "river_scale": 1.0,

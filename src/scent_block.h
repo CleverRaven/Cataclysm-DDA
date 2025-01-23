@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <array>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "point.h"
 #include "scent_map.h"
 
@@ -25,21 +25,21 @@ struct scent_block {
     };
     data_block<datum> assignment;
 
-    tripoint origin;
+    tripoint_bub_ms origin;
     scent_map &scents;
     int modification_count;
 
-    scent_block( const tripoint &sub, scent_map &scents );
+    scent_block( const tripoint_bub_sm &sub, scent_map &scents );
 
     void commit_modifications();
 
-    point index( const tripoint &p ) const {
-        return -origin.xy() + p.xy();
+    point_rel_ms index( const tripoint_bub_ms &p ) const {
+        return p.xy() - origin.xy();
     }
 
     // We should be working entirely within the range, so don't range check here
     void apply_gas( const tripoint_bub_ms &p, int nintensity = 0 );
-    void apply_slime( const tripoint &p, int intensity );
+    void apply_slime( const tripoint_bub_ms &p, int intensity );
 };
 
 #endif // CATA_SRC_SCENT_BLOCK_H

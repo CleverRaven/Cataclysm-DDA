@@ -18,6 +18,10 @@
 #include "point.h"
 #include "type_id.h"
 
+static const itype_id itype_roller_shoes_on( "roller_shoes_on" );
+static const itype_id itype_test_roller_blades( "test_roller_blades" );
+static const itype_id itype_test_rollerskates( "test_rollerskates" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 
@@ -271,9 +275,9 @@ TEST_CASE( "player_get_dodge_with_effects", "[player][melee][dodge][effect]" )
     }
 
     SECTION( "skating: amateur or pro?" ) {
-        item skates( "test_rollerskates" );
-        item blades( "test_roller_blades" );
-        item heelys( "roller_shoes_on" );
+        item skates( itype_test_rollerskates );
+        item blades( itype_test_roller_blades );
+        item heelys( itype_roller_shoes_on );
 
         REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
         REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );

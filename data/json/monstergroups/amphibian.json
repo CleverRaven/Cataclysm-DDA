@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_TADPOLES_ALL",
+    "id": "GROUP_TADPOLES_ALL",
     "type": "monstergroup",
     "default": "mon_peeper_tadpole",
     "monsters": [
@@ -39,7 +39,7 @@
     ]
   },
   {
-    "name": "GROUP_TADPOLES_SEWER",
+    "id": "GROUP_TADPOLES_SEWER",
     "type": "monstergroup",
     "default": "mon_leo_tadpole",
     "monsters": [
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "name": "GROUP_TADPOLES_RIVER",
+    "id": "GROUP_TADPOLES_RIVER",
     "type": "monstergroup",
     "default": "mon_bullfrog_tadpole",
     "monsters": [
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "name": "GROUP_TADPOLES_SWAMP",
+    "id": "GROUP_TADPOLES_SWAMP",
     "type": "monstergroup",
     "default": "mon_bullfrog_tadpole",
     "monsters": [
@@ -109,7 +109,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_ALL",
+    "id": "GROUP_FROGS_ALL",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
     "monsters": [
@@ -254,7 +254,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_NATURAL",
+    "id": "GROUP_FROGS_NATURAL",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
     "monsters": [
@@ -322,7 +322,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_SEWER",
+    "id": "GROUP_FROGS_SEWER",
     "type": "monstergroup",
     "default": "mon_bullfrog_frog",
     "monsters": [
@@ -426,7 +426,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_FOREST",
+    "id": "GROUP_FROGS_FOREST",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
     "monsters": [
@@ -558,7 +558,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_SWAMP",
+    "id": "GROUP_FROGS_SWAMP",
     "type": "monstergroup",
     "default": "mon_bullfrog_frog",
     "monsters": [
@@ -698,7 +698,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_RIVER",
+    "id": "GROUP_FROGS_RIVER",
     "type": "monstergroup",
     "default": "mon_bullfrog_frog",
     "monsters": [
@@ -759,7 +759,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_ALL",
+    "id": "GROUP_MUTAFROGS_ALL",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
@@ -780,7 +780,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_BIG",
+    "id": "GROUP_MUTAFROGS_BIG",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
@@ -794,7 +794,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_GIANT",
+    "id": "GROUP_MUTAFROGS_GIANT",
     "type": "monstergroup",
     "default": "mon_strange_giganfrog",
     "monsters": [
@@ -805,7 +805,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_MEGA",
+    "id": "GROUP_MUTAFROGS_MEGA",
     "type": "monstergroup",
     "default": "mon_strange_megafrog",
     "monsters": [
@@ -815,7 +815,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_PATTERN",
+    "id": "GROUP_MUTAFROGS_PATTERN",
     "type": "monstergroup",
     "default": "mon_pattern_bigfrog",
     "monsters": [
@@ -824,7 +824,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_STRANGE",
+    "id": "GROUP_MUTAFROGS_STRANGE",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
@@ -834,7 +834,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_FOUL",
+    "id": "GROUP_MUTAFROGS_FOUL",
     "type": "monstergroup",
     "default": "mon_foul_bigfrog",
     "monsters": [
@@ -844,7 +844,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_ODD",
+    "id": "GROUP_MUTAFROGS_ODD",
     "type": "monstergroup",
     "default": "mon_odd_bigfrog",
     "monsters": [
@@ -854,7 +854,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_VOCAL",
+    "id": "GROUP_MUTAFROGS_VOCAL",
     "type": "monstergroup",
     "default": "mon_jumbo_bigfrog",
     "monsters": [
@@ -863,7 +863,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_SEWER",
+    "id": "GROUP_MUTAFROGS_SEWER",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
@@ -874,7 +874,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_FOREST",
+    "id": "GROUP_MUTAFROGS_FOREST",
     "type": "monstergroup",
     "default": "mon_odd_bigfrog",
     "monsters": [
@@ -887,7 +887,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_SWAMP",
+    "id": "GROUP_MUTAFROGS_SWAMP",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [
@@ -900,13 +900,13 @@
     ]
   },
   {
-    "name": "GROUP_MUTAFROGS_RIVER",
+    "id": "GROUP_MUTAFROGS_RIVER",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [ { "group": "GROUP_MUTAFROGS_PATTERN", "weight": 60 }, { "group": "GROUP_MUTAFROGS_STRANGE", "weight": 100 } ]
   },
   {
-    "name": "GROUP_TADPOLE_LEO",
+    "id": "GROUP_TADPOLE_LEO",
     "type": "monstergroup",
     "default": "mon_leo_frog",
     "monsters": [
@@ -916,103 +916,103 @@
     ]
   },
   {
-    "name": "GROUP_TADPOLE_BULLFROG",
+    "id": "GROUP_TADPOLE_BULLFROG",
     "type": "monstergroup",
     "default": "mon_bullfrog_frog",
     "monsters": [ { "monster": "mon_bullfrog_frog", "weight": 90 }, { "monster": "mon_strange_frog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_FOWLER",
+    "id": "GROUP_TADPOLE_FOWLER",
     "type": "monstergroup",
     "default": "mon_fowler_toad",
     "monsters": [ { "monster": "mon_fowler_toad", "weight": 90 }, { "monster": "mon_foul_toad", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_FREEDOM",
+    "id": "GROUP_TADPOLE_FREEDOM",
     "type": "monstergroup",
     "default": "mon_freedom_toad",
     "monsters": [ { "monster": "mon_freedom_toad", "weight": 90 }, { "monster": "mon_odd_toad", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_PEEPER",
+    "id": "GROUP_TADPOLE_PEEPER",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
     "monsters": [ { "monster": "mon_peeper_frog", "weight": 90 }, { "monster": "mon_vocal_frog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_GRAY",
+    "id": "GROUP_TADPOLE_GRAY",
     "type": "monstergroup",
     "default": "mon_gray_frog",
     "monsters": [ { "monster": "mon_gray_frog", "weight": 90 }, { "monster": "mon_shift_frog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_PICKEREL",
+    "id": "GROUP_TADPOLE_PICKEREL",
     "type": "monstergroup",
     "default": "mon_pickerel_frog",
     "monsters": [ { "monster": "mon_pickerel_frog", "weight": 90 }, { "monster": "mon_palette_frog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_TADPOLE_GREEN",
+    "id": "GROUP_TADPOLE_GREEN",
     "type": "monstergroup",
     "default": "mon_green_frog",
     "monsters": [ { "monster": "mon_green_frog", "weight": 99 }, { "monster": "mon_green_worm", "weight": 1 } ]
   },
   {
-    "name": "GROUP_TADPOLE_WOOD",
+    "id": "GROUP_TADPOLE_WOOD",
     "type": "monstergroup",
     "default": "mon_wood_frog",
     "monsters": [ { "monster": "mon_wood_frog", "weight": 99 }, { "monster": "mon_wood_worm", "weight": 1 } ]
   },
   {
-    "name": "GROUP_BIGTAD_VOCAL",
+    "id": "GROUP_BIGTAD_VOCAL",
     "type": "monstergroup",
     "default": "mon_jumbo_bigfrog",
     "monsters": [ { "monster": "mon_jumbo_bigfrog", "weight": 50 }, { "monster": "mon_vocal_bigfrog", "weight": 50 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_PATTERN",
+    "id": "GROUP_FROGS_UPGRADE_PATTERN",
     "type": "monstergroup",
     "default": "mon_pattern_bigfrog",
     "monsters": [ { "monster": "mon_pattern_bigfrog", "weight": 100 }, { "monster": "mon_pattern_giganfrog", "weight": 30 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_STRANGE",
+    "id": "GROUP_FROGS_UPGRADE_STRANGE",
     "type": "monstergroup",
     "default": "mon_strange_bigfrog",
     "monsters": [ { "monster": "mon_strange_bigfrog", "weight": 100 }, { "monster": "mon_strange_giganfrog", "weight": 40 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_STRANGE_MEGA",
+    "id": "GROUP_FROGS_UPGRADE_STRANGE_MEGA",
     "type": "monstergroup",
     "default": "mon_strange_giganfrog",
     "monsters": [ { "monster": "mon_strange_giganfrog", "weight": 100 }, { "monster": "mon_strange_megafrog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_FOUL",
+    "id": "GROUP_FROGS_UPGRADE_FOUL",
     "type": "monstergroup",
     "default": "mon_foul_bigfrog",
     "monsters": [ { "monster": "mon_foul_bigfrog", "weight": 100 }, { "monster": "mon_foul_giganfrog", "weight": 40 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_FOUL_MEGA",
+    "id": "GROUP_FROGS_UPGRADE_FOUL_MEGA",
     "type": "monstergroup",
     "default": "mon_foul_giganfrog",
     "monsters": [ { "monster": "mon_foul_giganfrog", "weight": 100 }, { "monster": "mon_foul_megafrog", "weight": 30 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_ODD",
+    "id": "GROUP_FROGS_UPGRADE_ODD",
     "type": "monstergroup",
     "default": "mon_odd_bigfrog",
     "monsters": [ { "monster": "mon_odd_bigfrog", "weight": 100 }, { "monster": "mon_odd_giganfrog", "weight": 40 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_ODD_MEGA",
+    "id": "GROUP_FROGS_UPGRADE_ODD_MEGA",
     "type": "monstergroup",
     "default": "mon_odd_giganfrog",
     "monsters": [ { "monster": "mon_odd_giganfrog", "weight": 100 }, { "monster": "mon_odd_megafrog", "weight": 10 } ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_VOCAL",
+    "id": "GROUP_FROGS_UPGRADE_VOCAL",
     "type": "monstergroup",
     "default": "mon_vocal_frog",
     "monsters": [
@@ -1022,7 +1022,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_UPGRADE_SHIFT",
+    "id": "GROUP_FROGS_UPGRADE_SHIFT",
     "type": "monstergroup",
     "default": "mon_shift_frog",
     "monsters": [ { "monster": "mon_shift_frog", "weight": 70 }, { "monster": "mon_shift_bigfrog", "weight": 30 } ]

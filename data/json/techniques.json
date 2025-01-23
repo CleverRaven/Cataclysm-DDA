@@ -789,7 +789,8 @@
             { "npc_bodytype": "bear" },
             { "npc_bodytype": "angel" }
           ]
-        }
+        },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
       ]
     },
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar</info> size incapable of flight",
@@ -1757,24 +1758,7 @@
             { "npc_bodytype": "angel" }
           ]
         },
-        {
-          "and": [
-            { "not": { "npc_has_species": "ZOMBIE" } },
-            { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMANATION" } },
-            { "not": { "npc_has_species": "LEECH_PLANT" } },
-            { "not": { "npc_has_species": "MIGO" } },
-            { "not": { "npc_has_species": "SLIME" } },
-            { "not": { "npc_has_species": "FUNGUS" } },
-            { "not": { "npc_has_species": "PLANT" } },
-            { "not": { "npc_has_species": "ROBOT" } },
-            { "not": { "npc_has_species": "CYBORG" } },
-            { "not": { "npc_has_species": "HALLUCINATION" } },
-            { "not": { "npc_has_species": "HORROR" } },
-            { "not": { "npc_has_species": "ABERRATION" } },
-            { "not": { "npc_has_species": "KRAKEN" } }
-          ]
-        }
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
       ]
     },
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar</info> size incapable of flight",

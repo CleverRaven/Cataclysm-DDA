@@ -1,6 +1,132 @@
 [
   {
     "type": "furniture",
+    "id": "f_gene_editor",
+    "name": "Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety of gene templates.",
+    "symbol": "O",
+    "color": "light_blue",
+    "examine_action": "genemill",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gene_editor_inactive",
+    "name": "Deactivated Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Used in gene editing and for general medical purposes, can impart or remove traits using a variety of gene templates.  This one stands lifelessly, its screens black and the hum of machinery replaced by an eerie silence.",
+    "symbol": "O",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gene_editor_gutted",
+    "name": "Ravaged Mercurial Resequencer",
+    "description": "A large bio-sarcophagus and accompanying control machinery.  Panels dangle loosely from their hinges revealing a rat's nest of wires and cabling ripped from the machine.  Useless metal and electronics scraps are strewn about haphazardly on the floor.  It's clear anything of value has long been taken from this machine.",
+    "symbol": "O",
+    "color": "light_blue",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "comfort": 2,
+    "required_str": -1,
+    "looks_like": "t_vat",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "reinforced_glass_pane", "count": [ 1, 2 ] },
+        { "item": "plastic_sheet", "count": [ 10, 15 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 20, 30 ] },
+        { "item": "cotton_patchwork", "count": [ 20, 30 ] },
+        { "item": "afs_material_1", "count": [ 5, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_habitat_kitchenette",
     "name": "habitat kitchenette",
     "symbol": "#",
@@ -448,6 +574,122 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 0, 1 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_c",
+    "name": "safe",
+    "looks_like": "f_safe_c",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  This one isn't actually locked, just closed.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "open": "f_e_safe_o",
+    "examine_action": "open_safe",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_l",
+    "name": "safe",
+    "looks_like": "f_e_safe_c",
+    "symbol": "X",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock.  With a hacking tool and the right skills you might be able to crack it.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_e_safe_o", "duration": "14 seconds" },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_e_safe",
+          "effect": [
+            { "math": [ "_t_delay = time('1 h')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_e_safe_o",
+    "name": "open safe",
+    "looks_like": "f_safe_o",
+    "description": "A small, heavy, and near-unbreachable metal box with an electronic lock, albeit significantly less secure with the door open.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 14,
+    "max_volume": "250 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "close": "f_e_safe_c",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_genetech_mannequin",
+    "name": "Genetech display mannequin",
+    "description": "A life-size painted plastic figure of a person displaying prominent genetic alterations.  Commonly used as part of Mercurial Ad campaigns intended to sell the public on Genetech treatments.",
+    "symbol": "@",
+    "color": "white",
+    "looks_like": "f_mannequin",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 15 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 9, 12 ] } ]
     }
   }
 ]

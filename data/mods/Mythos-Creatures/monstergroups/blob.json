@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_GOO",
+    "id": "GROUP_GOO",
     "//": "Remove shoggoth from group.",
     "override": true,
     "monsters": [

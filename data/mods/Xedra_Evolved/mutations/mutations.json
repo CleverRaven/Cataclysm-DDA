@@ -941,6 +941,24 @@
   },
   {
     "type": "mutation",
+    "id": "FAE_ENMITY",
+    "name": { "str": "Fae Enmity" },
+    "points": -10,
+    "description": "The Fair Folk can sense the stolen power within you and their vengeance will be terrible.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [
+      [ "ARVORE", 100 ],
+      [ "CHANGELING", 100 ],
+      [ "HOMULLUS", 100 ],
+      [ "IERDE", 100 ],
+      [ "SALAMANDER", 100 ],
+      [ "SYLPH", 100 ],
+      [ "UNDINE", 100 ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "FALSE_ARVORE_HATRED",
     "name": { "str": "False Arvore" },
     "points": -4,

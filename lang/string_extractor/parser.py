@@ -167,6 +167,7 @@ parsers = {
     "limb_score": parse_limb_score,
     "loot_zone": parse_loot_zone,
     "magazine": parse_magazine,
+    "magic_type": dummy_parser,
     "map_extra": parse_map_extra,
     "mapgen": parse_mapgen,
     "martial_art": parse_martial_art,

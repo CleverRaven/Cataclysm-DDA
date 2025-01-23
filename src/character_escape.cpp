@@ -159,8 +159,8 @@ void Character::try_remove_heavysnare()
             remove_effect( effect_heavysnare );
             add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
                                    _( "<npcname> frees themselves from the heavy snare!" ) );
-            item rope( "rope_6", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
+            item rope( itype_rope_6, calendar::turn );
+            item snare( itype_snare_trigger, calendar::turn );
             here.add_item_or_charges( pos_bub(), rope );
             here.add_item_or_charges( pos_bub(), snare );
         } else {
@@ -258,7 +258,7 @@ bool Character::try_remove_grab( bool attacking )
                                pd[index]->get_name(), sturdiness, chance );
                 // the item is ripped off your character
                 if( sturdiness < chance ) {
-                    pd[index]->spill_contents( adjacent_tile().raw() );
+                    pd[index]->spill_contents( adjacent_tile() );
                     add_msg_player_or_npc( m_bad,
                                            _( "As you struggle to escape the grab something comes loose and falls to the ground!" ),
                                            _( "As <npcname> struggles to escape the grab something comes loose and falls to the ground!" ) );

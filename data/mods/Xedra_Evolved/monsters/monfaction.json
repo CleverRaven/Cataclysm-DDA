@@ -27,6 +27,7 @@
     "type": "MONSTER_FACTION",
     "name": "ierde",
     "base_faction": "changeling",
+    "friendly": [ "worm" ],
     "neutral": [ "small_animal", "fish" ],
     "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
     "hate": [ "zombie", "sylph" ]
@@ -68,6 +69,12 @@
     "name": "fish",
     "copy-from": "fish",
     "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "copy-from": "worm",
+    "extend": { "neutral": [ "ierde" ] }
   },
   {
     "type": "MONSTER_FACTION",

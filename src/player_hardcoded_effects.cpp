@@ -661,7 +661,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
@@ -1315,7 +1315,7 @@ void Character::hardcoded_effects( effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,

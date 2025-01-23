@@ -100,10 +100,10 @@ class const_talker
         virtual tripoint_bub_ms pos_bub() const {
             return {};
         }
-        virtual tripoint_abs_ms global_pos() const {
+        virtual tripoint_abs_ms pos_abs() const {
             return {};
         }
-        virtual tripoint_abs_omt global_omt_location() const {
+        virtual tripoint_abs_omt pos_abs_omt() const {
             return {};
         }
         virtual std::string distance_to_goal() const {
@@ -551,6 +551,9 @@ class const_talker
         virtual int focus_cur() const {
             return 0;
         }
+        virtual int focus_effective_cur() const {
+            return 0;
+        }
         virtual int get_pkill() const {
             return 0;
         }
@@ -597,6 +600,9 @@ class const_talker
             return 0;
         }
         virtual int get_npc_anger() const {
+            return 0;
+        }
+        virtual int get_ugliness() const {
             return 0;
         }
         virtual int get_bmi_permil() const {

@@ -95,6 +95,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_species": "PLANT" }, "has_beta" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID_2",
+            "condition": {
+              "and": [ { "npc_has_trait": "ARVORE_TRIFFID_NEUTRALITY" }, { "not": { "npc_has_trait": "effect_arvore_attacked_a_triffid" } } ]
+            },
+            "effect": [ { "npc_add_effect": "effect_arvore_attacked_a_triffid", "duration": { "math": [ "10800 + rand(43200)" ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
@@ -545,22 +565,26 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "formication" },
-      { "u_lose_effect": "blisters" },
-      { "u_lose_effect": "frostbite" },
-      { "u_lose_effect": "frostbite_recovery" },
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "slimed" },
-      { "u_lose_effect": "migo_atmosphere" },
-      { "u_lose_effect": "fetid_goop" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" }
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed"
+        ]
+      }
     ]
   },
   {

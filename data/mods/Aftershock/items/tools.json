@@ -35,7 +35,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ]
   },
@@ -216,7 +216,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ]
   },
@@ -662,6 +662,64 @@
     "melee_damage": { "stab": 1 }
   },
   {
+    "id": "afs_bio_deck_jack",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "infolink jack" },
+    "description": "The interface jack of an implanted infolink, coiled within your forearm and accessible through a small port in your wrist.  It can be used to interface and hack into electronic devices.",
+    "weight": "20 g",
+    "volume": "2 ml",
+    "price": "1 USD",
+    "symbol": ",",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
+    "charges_per_use": 1,
+    "qualities": [ [ "HACK", 2 ] ]
+  },
+  {
+    "id": "afs_internal_battery_compartment",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "high-voltage battery compartment" },
+    "description": "A battery slot installed in your upper torso, designed to power bionic implants.  Compatible with the power cartridges used by laser weaponry.",
+    "volume": "750 ml",
+    "weight": "1 g",
+    "price": "0 cent",
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "BIONIC_FUEL_SOURCE",
+      "SOFT",
+      "TRADER_AVOID"
+    ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ]
+  },
+  {
     "id": "diamond_press",
     "type": "GENERIC",
     "category": "tools",
@@ -769,5 +827,77 @@
       }
     ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "afs_battery_charger",
+    "name": { "str": "portable battery charger" },
+    "looks_like": "box_battery_charger",
+    "description": "This small device easily deploys anywhere you need it and will slowly charge all rechargeable batteries placed within it's storage space.",
+    "weight": "3050 g",
+    "color": "cyan",
+    "symbol": "]",
+    "material": [ "plastic", "steel" ],
+    "volume": "10 L",
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
+    "use_action": { "type": "deploy_appliance", "base": "afs_battery_charger" },
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_survival_heater",
+    "name": { "str": "portable survival heater" },
+    "description": "When deployed and powered this device can warm a small room enough to doff your EVA gear.",
+    "looks_like": "large_space_heater",
+    "weight": "1224 g",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "use_action": { "type": "deploy_appliance", "base": "afs_survival_heater" },
+    "color": "red",
+    "symbol": ";",
+    "material": [ "steel" ],
+    "volume": "9464 ml",
+    "category": "veh_parts",
+    "price": "1000 USD",
+    "price_postapoc": "1000 USD",
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_tripod_light",
+    "name": { "str": "portable survival lamp" },
+    "description": "A small folded metal tripod that can be deployed to illuminate an area around itself.",
+    "looks_like": "f_floor_lamp",
+    "weight": "825 g",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "material": [ "plastic", "steel" ],
+    "volume": "871 ml",
+    "longest_side": "43 cm",
+    "symbol": "L",
+    "use_action": { "type": "deploy_appliance", "base": "afs_tripod_light" },
+    "color": "white",
+    "category": "veh_parts",
+    "price": "20 USD",
+    "price_postapoc": "20 USD",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "afs_survival_battery",
+    "copy-from": "storage_battery",
+    "type": "MAGAZINE",
+    "name": { "str": "portable survival battery", "str_pl": "portable survival batteries" },
+    "looks_like": "small_storage_battery",
+    "description": "A storage battery fit for improvised shelters.",
+    "ascii_picture": "small_storage_battery",
+    "weight": "15 kg",
+    "volume": "5 L",
+    "price": "300 USD",
+    "price_postapoc": "300 USD",
+    "capacity": 1000,
+    "use_action": { "type": "deploy_appliance", "base": "afs_survival_battery" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "melee_damage": { "bash": 7 }
   }
 ]

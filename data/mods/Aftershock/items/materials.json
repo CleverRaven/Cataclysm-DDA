@@ -26,6 +26,7 @@
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "soft": true,
     "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 5, "bullet": 2, "afs_plasma": 1, "electric": 0 },
     "repair_difficulty": 10
   },
@@ -51,6 +52,7 @@
     "chip_resist": 25,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
+    "soft": true,
     "cut_dmg_verb": "scratched",
     "breathability": "AVERAGE",
     "//": "mostly meant to be lightweight energy armor.",
@@ -65,6 +67,7 @@
     "chip_resist": 4,
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
+    "soft": true,
     "cut_dmg_verb": "cut",
     "breathability": "GOOD",
     "//": "lightweight high-protection-value armors that degrade easily.",

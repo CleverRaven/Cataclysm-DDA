@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "none" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
     "difficulty": 1,
@@ -20,7 +21,6 @@
     "min_range": 5,
     "max_range": 15,
     "range_increment": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 900,
     "final_energy_cost": 350,
     "energy_increment": -55,
@@ -37,6 +37,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -63,7 +64,6 @@
         "( (u_spell_level('teleport_slow') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 2000,
     "final_energy_cost": 750,
     "energy_increment": -75,
@@ -81,6 +81,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "difficulty": 2,
@@ -93,7 +94,6 @@
       ]
     },
     "max_range": 4,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
     "energy_increment": -65,
@@ -109,6 +109,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -126,7 +127,6 @@
         "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
@@ -147,6 +147,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -164,7 +165,6 @@
         "( (u_spell_level('teleport_stride') * 3700) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((3500 - (u_spell_level('teleport_stride') * 95)), 1750)"
@@ -183,6 +183,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SWAP_POS", "IGNORE_WALLS" ],
     "difficulty": 4,
@@ -195,7 +196,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2750,
     "final_energy_cost": 1500,
     "energy_increment": -85,
@@ -213,6 +213,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -223,13 +224,70 @@
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 1750,
     "energy_increment": -65,
     "base_casting_time": 95,
     "final_casting_time": 25,
     "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_reactive_displacement",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C)",
+    "description": "Maintain a field of unstable space around you, allowing you to effortlessly teleport enemies that strike you further away.  Unfortunately, their attacks will still hurt you as normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_REACTIVE_DISPLACEMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 1000 ) + 2000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_reactive_displacement') * 4000 ) + 20000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 0 : max( ( 3500 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_reactive_displacement_teleport",
+    "type": "SPELL",
+    "name": "[Ψ]Reactive Displacement (C) - Teleport",
+    "description": "The actual teleport effect of reactive displacement.  Having this spell is a bug.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_teleporter_teleporting_damage",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "energy_source": "NONE",
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
@@ -241,6 +299,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -248,7 +307,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 3000,
     "energy_increment": -75,
@@ -544,6 +602,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "difficulty": 6,
@@ -559,7 +618,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 6500,
     "final_energy_cost": 2750,
     "energy_increment": -105,
@@ -576,6 +634,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -599,7 +658,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 4600,
     "energy_increment": -170,
@@ -627,6 +685,67 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "teleport_loci_establishment",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Establishment (C)",
+    "description": "Start concentrating on your current location, allowing you to return here at will with the [Ψ]Loci Technique power.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 2500 ) + 12500 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 5000 ) + 25000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_loci_establishment') * 100 ) ), 1000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_loci_establishment') * 5 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_loci_technique",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Technique",
+    "description": "Transport yourself through the nether to your established loci location.  You must currently be concentrating on your [Ψ]Loci Establishment (C) for this to function.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "shape": "blast",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
@@ -635,6 +754,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
@@ -642,13 +762,73 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_GATEWAY_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 6000,
     "energy_increment": -200,
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_dilated_gateway",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway",
+    "description": "Transport yourself and every adjacent creature to a chosen location.  You must have already attuned an area with [Ψ]Gateway.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_dilated_gateway_SELECTOR",
+    "shape": "blast",
+    "base_energy_cost": 12000,
+    "final_energy_cost": 8000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_others",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Others",
+    "description": "The spell that actually teleports the adjacent targets.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "min_aoe": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
+  },
+  {
+    "id": "teleport_dilated_gateway_teleport_self",
+    "type": "SPELL",
+    "name": "[Ψ]Dilated Gateway - Teleport Self",
+    "description": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's EOC.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
   },
   {
     "id": "teleport_summon",
@@ -659,6 +839,7 @@
     "teachable": false,
     "valid_targets": [ "self", "hostile" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 9,
@@ -673,7 +854,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 9000,
     "final_energy_cost": 4500,
     "energy_increment": -250,
@@ -691,6 +871,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
@@ -703,7 +884,6 @@
     "max_field_intensity": 10,
     "shape": "blast",
     "min_range": 1,
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 5000,
     "energy_increment": -250,

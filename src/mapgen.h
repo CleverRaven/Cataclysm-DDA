@@ -88,7 +88,6 @@ struct jmapgen_int {
         cata_assert( v <= std::numeric_limits<int16_t>::max() );
         cata_assert( v2 <= std::numeric_limits<int16_t>::max() );
     }
-    explicit jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
      */
@@ -197,7 +196,7 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
-    std::vector<point> patrol_points_rel_ms;
+    std::vector<point_rel_ms> patrol_points_rel_ms;
 };
 
 /**
@@ -399,7 +398,8 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( const tripoint_rel_ms &offset, const point &mapsize, const point &tot_size );
+        jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
+                         const point_rel_ms &tot_size );
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
@@ -426,7 +426,7 @@ struct jmapgen_objects {
 
         void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
 
-        void add_placement_coords_to( std::unordered_set<point> & ) const;
+        void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
 
         void apply( const mapgendata &dat, mapgen_phase, const std::string &context ) const;
         void apply( const mapgendata &dat, mapgen_phase, const tripoint_rel_ms &offset,
@@ -445,8 +445,8 @@ struct jmapgen_objects {
         using jmapgen_obj = std::pair<jmapgen_place, shared_ptr_fast<const jmapgen_piece> >;
         std::vector<jmapgen_obj> objects;
         tripoint_rel_ms m_offset;
-        point mapgensize;
-        point total_size;
+        point_rel_ms mapgensize;
+        point_rel_ms total_size;
 };
 
 class mapgen_function_json_base
@@ -459,7 +459,7 @@ class mapgen_function_json_base
         size_t calc_index( const point &p ) const;
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
-        void add_placement_coords_to( std::unordered_set<point> & ) const;
+        void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
 
         const mapgen_parameters &get_parameters() const {
             return parameters;
@@ -487,9 +487,9 @@ class mapgen_function_json_base
         enum_bitset<jmapgen_flags> flags_;
         bool is_ready;
 
-        point mapgensize;
+        point_rel_ms mapgensize;
         tripoint_rel_ms m_offset;
-        point total_size;
+        point_rel_ms total_size;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
@@ -575,7 +575,7 @@ class nested_mapgen
         void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight );
         // Returns a set containing every relative coordinate of a point that
         // might have something placed by this mapgen
-        std::unordered_set<point> all_placement_coords() const;
+        std::unordered_set<point_rel_ms> all_placement_coords() const;
     private:
         weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> funcs_;
 };
@@ -656,18 +656,10 @@ enum room_type {
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
-// TODO: get rid of untyped overload.
-void line( map *m, const ter_id &type, const point &p1, const point &p2, int z );
 void line( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z );
-// TODO: Get rid of untyped overload.
-void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 );
 void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
-// TODO: Get rid of untyped overload.
-void line_furn( map *m, const furn_id &type, const point &p1, const point &p2, int z );
 void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
                 int z );
-// TODO: Get rid of untyped overload.
-void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
 void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );

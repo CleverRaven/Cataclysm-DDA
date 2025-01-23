@@ -60,7 +60,7 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_habblock_2_paramter_palette"
+        "afs_light_param_palette"
       ],
       "terrain": {
         "0": "t_elevator_control",
@@ -172,12 +172,7 @@
         " ////        ////              ////        //// ",
         "                                                "
       ],
-      "palettes": [
-        "afs_habitat_structure",
-        "afs_habitat_exterior",
-        "afs_habitat_residential_furnishing",
-        "afs_habblock_2_paramter_palette"
-      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": {
         " ": "t_open_air",
         "0": "t_elevator_control",
@@ -279,7 +274,7 @@
         "  ={*{&/../{;{{=                ={;{{/../&{*{=  ",
         "  /:////../{*{&/                /{*{&/..////:/  ",
         "  /.Foj/../:////                /:////../Foj./  ",
-        "  /.'../../.Foj/                /.Foj/..:..../  ",
+        "  /.'..:../.Foj/                /.Foj/..:..../  ",
         "  =hyh./../..'./                /h'../../..'.=  ",
         "  =hhh./..:..hh/                /y..á/../hh..=  ",
         "  /á'../../á.yy/                /h...:../yy.á/  ",
@@ -294,12 +289,7 @@
         " ////        ////              ////        //// ",
         "                                                "
       ],
-      "palettes": [
-        "afs_habitat_structure",
-        "afs_habitat_exterior",
-        "afs_habitat_residential_furnishing",
-        "afs_habblock_2_paramter_palette"
-      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": {
         " ": "t_open_air",
         "0": "t_elevator_control",
@@ -376,7 +366,7 @@
         "  ={*{&/../{;{{=                ={;{{/../&{*{=  ",
         "  /:////../{*{&/                /{*{&/..////:/  ",
         "  /.Foj/../:////                /:////../Foj./  ",
-        "  /.'../../.Foj/                /.Foj/..:..../  ",
+        "  /.'..:../.Foj/                /.Foj/..:..../  ",
         "  =hyh./../....=                =h.../../....=  ",
         "  =hhh./..:.'hh=                =y'.á/../hh'.=  ",
         "  /á'../../á.yy/                /h...:../yy.á/  ",
@@ -391,12 +381,7 @@
         " ////        ////              ////        //// ",
         "                                                "
       ],
-      "palettes": [
-        "afs_habitat_structure",
-        "afs_habitat_exterior",
-        "afs_habitat_residential_furnishing",
-        "afs_habblock_2_paramter_palette"
-      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": {
         " ": "t_open_air",
         "0": "t_elevator_control",
@@ -486,12 +471,7 @@
         " ////        ////              [[[[        [[[[ ",
         "                                                "
       ],
-      "palettes": [
-        "afs_habitat_structure",
-        "afs_habitat_exterior",
-        "afs_habitat_residential_furnishing",
-        "afs_habblock_2_paramter_palette"
-      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_light_param_palette" ],
       "terrain": {
         " ": "t_open_air",
         ".": "t_metal_floor_no_roof",
@@ -594,10 +574,5 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior" ],
       "terrain": { " ": "t_open_air", ".": "t_metal_floor_no_roof" }
     }
-  },
-  {
-    "type": "palette",
-    "id": "afs_habblock_2_paramter_palette",
-    "parameters": { "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } } }
   }
 ]

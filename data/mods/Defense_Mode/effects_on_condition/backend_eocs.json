@@ -78,12 +78,7 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "math": [ "revivication_counter >= 1" ] },
     "effect": [
-      { "u_lose_effect": "hypovolemia" },
-      { "u_lose_effect": "redcells_anemia" },
-      { "u_lose_effect": "grabbed" },
-      { "u_lose_effect": "staggered" },
-      { "u_lose_effect": "bite" },
-      { "u_lose_effect": "bleed" },
+      { "u_lose_effect": [ "hypovolemia", "redcells_anemia", "grabbed", "staggered", "bite", "bleed" ] },
       { "math": [ "u_calories() = u_calories()" ] },
       { "math": [ "u_val('pkill') = u_val('pkill')" ] },
       { "math": [ "u_val('stim') = u_val('stim')" ] },

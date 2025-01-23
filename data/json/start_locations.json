@@ -79,7 +79,8 @@
     "type": "start_location",
     "id": "sloc_refugee_center",
     "name": "Refugee Center",
-    "terrain": [ "evac_center_7" ]
+    "terrain": [ "evac_center_18" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",

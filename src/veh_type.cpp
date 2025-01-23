@@ -50,8 +50,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const itype_id fuel_type_animal( "animal" );
 
-static const itype_id itype_null( "null" );
-
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
@@ -634,7 +632,7 @@ void vehicles::parts::finalize()
 
 void vpart_info::finalize()
 {
-    if( engine_info && engine_info->fuel_opts.empty() && fuel_type != itype_null ) {
+    if( engine_info && engine_info->fuel_opts.empty() && !fuel_type.is_null() ) {
         engine_info->fuel_opts.push_back( fuel_type );
     }
 

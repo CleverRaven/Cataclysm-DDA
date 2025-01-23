@@ -49,6 +49,7 @@ static const furn_str_id furn_test_f_prying1( "test_f_prying1" );
 static const itype_id itype_book_binder( "book_binder" );
 static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_oxyacetylene( "oxyacetylene" );
+static const itype_id itype_stethoscope( "stethoscope" );
 static const itype_id itype_tent_kit( "tent_kit" );
 static const itype_id itype_test_2x4( "test_2x4" );
 static const itype_id itype_test_backpack( "test_backpack" );
@@ -200,7 +201,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         }
 
         GIVEN( "player has a stethoscope" ) {
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
@@ -235,7 +236,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_bionics();
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
@@ -288,7 +289,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         dummy.activity.start_or_resume( dummy, false );
 
         GIVEN( "player cracks one safe" ) {
-            dummy.i_add( item( "stethoscope" ) );
+            dummy.i_add( item( itype_stethoscope ) );
             mp.furn_set( safe, furn_f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
@@ -1701,13 +1702,13 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
-    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().get_location() ) ); },
+    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().pos_abs() ) ); },
     //player_activity( insert_item_activity_actor() ),
-    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().get_location() ) ); },
+    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().pos_abs() ) ); },
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
-    [] { return player_activity( milk_activity_actor( 1, {get_avatar().get_location()}, {std::string()} ) ); },
+    [] { return player_activity( milk_activity_actor( 1, {get_avatar().pos_abs()}, {std::string()} ) ); },
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, tripoint_rel_ms::north ) ); },
@@ -1814,7 +1815,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
+                zombie.set_dest( get_map().get_abs( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );
@@ -1841,7 +1842,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.empty() );
 
             THEN( "interruption by zombie moving towards dummy" ) {
-                zombie.set_dest( get_map().getglobal( dummy.pos_bub() ) );
+                zombie.set_dest( get_map().get_abs( dummy.pos_bub() ) );
                 int turns = 0;
                 do {
                     move_monster_turn( zombie );

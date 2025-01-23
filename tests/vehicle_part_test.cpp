@@ -39,6 +39,7 @@ static const ammotype ammo_water( "water" );
 
 static const damage_type_id damage_bash( "bash" );
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
@@ -129,7 +130,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &character = get_player_character();
     character.toggle_trait( trait_DEBUG_CNF );
-    const item backpack( "backpack" );
+    const item backpack( itype_backpack );
     character.wear_item( backpack );
     for( const item &i : items ) {
         character.i_add( i );
@@ -208,7 +209,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;
     Character &character = get_player_character();
-    const item backpack( "backpack" );
+    const item backpack( itype_backpack );
     character.wear_item( backpack );
     get_map().add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
     const optional_vpart_position ovp = get_map().veh_at( test_origin );
@@ -239,7 +240,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
-        veh.build_interact_menu( menu, faucet->pos_bub().raw(), false );
+        veh.build_interact_menu( menu, faucet->pos_bub(), false );
         const std::vector<veh_menu_item> items = menu.get_items();
         const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),

@@ -143,8 +143,7 @@
     "material": [ "plastic" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "18 L", "max_contains_weight": "22 kg", "moves": 500 } ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bag_durasack_cement",
@@ -181,8 +180,7 @@
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_canvas_small",
@@ -199,8 +197,7 @@
     "material": [ "canvas" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_plastic",
@@ -224,8 +221,7 @@
     ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_plastic_small",
@@ -250,8 +246,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "blister_pack",
@@ -355,8 +350,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bag_paper_powder_bulk",
@@ -373,8 +367,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -401,8 +394,7 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -748,7 +740,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "flags": [ "NO_RELOAD", "NO_UNLOAD", "COLLAPSE_CONTENTS" ],
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -786,8 +778,7 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bottle_plastic_pill_painkiller",
@@ -837,8 +828,7 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_cyan",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_cyan"
   },
   {
     "id": "bottle_plastic_seasoning_small",
@@ -868,8 +858,7 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bottle_glass_seasoning",
@@ -901,7 +890,6 @@
     "symbol": ")",
     "color": "light_cyan",
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -932,7 +920,6 @@
         "moves": 200
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1115,8 +1102,7 @@
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "case_cigar",
@@ -1166,8 +1152,7 @@
     "price_postapoc": "0 cent",
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "box_small",
@@ -1201,8 +1186,7 @@
       "type": "transform",
       "moves": 500,
       "need_empty": true
-    },
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    }
   },
   {
     "id": "box_small_folded",
@@ -1885,8 +1869,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "carton_sealed",
@@ -1941,8 +1924,7 @@
         "max_contains_weight": "5 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "carton_egg",
@@ -1968,8 +1950,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "plastic_bag_vac",
@@ -1994,8 +1975,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "can_food",
@@ -2026,8 +2006,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "can_medium",
@@ -2053,8 +2032,7 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "volume": "525 ml",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -2281,8 +2259,7 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "cup_foil",
@@ -2309,7 +2286,7 @@
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -2338,8 +2315,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ]
   },
   {
     "id": "test_tube",
@@ -2492,7 +2468,6 @@
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "//": "Based on https://www.amazon.com/dp/B074Y6GD2R"
   },
   {
@@ -3775,7 +3750,7 @@
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS", "TINDER" ]
+    "flags": [ "TINDER" ]
   },
   {
     "id": "wrapper_foil",
@@ -3796,7 +3771,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_foil_roll",
@@ -3834,8 +3809,7 @@
     },
     "ascii_picture": "wrapper_pr",
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",
@@ -4061,7 +4035,6 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -4765,7 +4738,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -4796,7 +4769,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -4827,7 +4800,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
     "melee_damage": { "bash": 11 }
   },
   {
@@ -4858,7 +4831,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "flags": [ "GAS_TANK", "NO_SALVAGE" ],
     "melee_damage": { "bash": 15 }
   },
   {
@@ -4988,7 +4961,6 @@
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -5045,7 +5017,6 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 1 }
   },
   {

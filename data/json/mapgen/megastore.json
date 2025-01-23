@@ -172,7 +172,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "megastore_parking_0_4" ], [ "megastore_parking_0_3" ], [ "megastore_parking_0_2" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -272,7 +271,6 @@
       [ "megastore_parking_3_1", "megastore_parking_2_1", "megastore_parking_1_1", "megastore_parking_0_1" ],
       [ "megastore_parking_3_0", "megastore_parking_2_0", "megastore_parking_1_0", "megastore_parking_0_0" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [

@@ -1029,10 +1029,6 @@ struct islot_ammo : common_ranged_data {
      */
     int count = 1;
     /**
-     * Whether this multi-projectile shot has its effects applied to all projectiles
-     */
-    bool multi_projectile_effects = false;
-    /**
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;
@@ -1379,6 +1375,9 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // list of traits.
+        string_id<Trait_group> trait_group;
+
         // used for corpses placed by mapgen
         mtype_id source_monster = mtype_id::NULL_ID();
     private:
@@ -1582,10 +1581,10 @@ struct itype {
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         std::optional<int> invoke( Character *p, item &it,
-                                   const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
+                                   const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character *p, item &it, const tripoint &pos ) const;
+        int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 
         virtual ~itype() = default;
 

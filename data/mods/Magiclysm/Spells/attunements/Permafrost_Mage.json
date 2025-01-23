@@ -11,7 +11,7 @@
     "effect_str": "aura_cold_energy",
     "shape": "blast",
     "spell_class": "PERMAFROST_MAGE",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 9,
     "max_level": 35,
     "base_casting_time": 600,
@@ -82,7 +82,7 @@
     "min_duration": 500,
     "max_duration": 18000,
     "duration_increment": 500,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 7,
     "damage_type": "cold"
   }

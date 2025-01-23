@@ -86,7 +86,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     clear_avatar();
     you.setpos( target_location );
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_dest( you.get_location() );
+    test_monster.set_dest( you.pos_abs() );
     reset_caches( a_zlev, t_zlev );
     // Trigger basic attack.
     CAPTURE( attacker_location );
@@ -201,8 +201,8 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     clear_avatar();
     you.set_dodges_left( 1 ) ;
     REQUIRE( Approx( you.get_dodge() ) == 4.0 );
-    you.setpos( target_location.raw() );
-    const tripoint_abs_ms abs_target_location = you.get_location();
+    you.setpos( target_location );
+    const tripoint_abs_ms abs_target_location = you.pos_abs();
     reset_caches( target_location.z(), target_location.z() );
     REQUIRE( g->natural_light_level( 0 ) > 50.0 );
     CHECK( here.ambient_light_at( target_location ) > 50.0 );
@@ -212,7 +212,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         // and you got a monster
         const tripoint_bub_ms attacker_location = target_location + tripoint::east * distance;
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        test_monster.set_dest( you.get_location() );
+        test_monster.set_dest( you.pos_abs() );
         const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
         REQUIRE( test_monster.get_dest() == abs_target_location );
         REQUIRE( test_monster.sees( target_location ) );
@@ -260,7 +260,7 @@ TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
     you.setpos( target_location );
     const std::string monster_type = "mon_test_mattack_dialog";
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_dest( you.get_location() );
+    test_monster.set_dest( you.pos_abs() );
     const mtype_special_attack &attack = test_monster.type->special_attacks.at( "test_conditions_1" );
 
     // Fail at first
@@ -307,8 +307,8 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 
     monster &test_monster_left = spawn_test_monster( grabber_left, attacker_location_e );
     monster &test_monster_right = spawn_test_monster( grabber_right, attacker_location );
-    test_monster_left.set_dest( you.get_location() );
-    test_monster_right.set_dest( you.get_location() );
+    test_monster_left.set_dest( you.pos_abs() );
+    test_monster_right.set_dest( you.pos_abs() );
     const mattack_actor &attack_left = test_monster_left.type->special_attacks.at( "grab" ).operator
                                        * ();
     const mattack_actor &attack_right = test_monster_right.type->special_attacks.at( "grab" ).operator
@@ -349,7 +349,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     SECTION( "Weak puller" ) {
         const std::string monster_type = "mon_debug_puller_weak";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        test_monster.set_dest( you.get_location() );
+        test_monster.set_dest( you.pos_abs() );
         REQUIRE( test_monster.sees( you ) );
         const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
@@ -367,7 +367,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     SECTION( "Strong puller" ) {
         const std::string monster_type = "mon_debug_puller_strong";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        test_monster.set_dest( you.get_location() );
+        test_monster.set_dest( you.pos_abs() );
         REQUIRE( test_monster.sees( you ) );
         const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
@@ -378,7 +378,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     SECTION( "Incompetent puller" ) {
         const std::string monster_type = "mon_debug_puller_incompetent";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        test_monster.set_dest( you.get_location() );
+        test_monster.set_dest( you.pos_abs() );
         REQUIRE( test_monster.sees( you ) );
         const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         // Can't pull, fail silently
@@ -392,8 +392,8 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
         monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint::south );
         const mattack_actor &pull = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         const mattack_actor &grab = test_grabber.type->special_attacks.at( "grab" ).operator * ();
-        test_monster.set_dest( you.get_location() );
-        test_grabber.set_dest( you.get_location() );
+        test_monster.set_dest( you.pos_abs() );
+        test_grabber.set_dest( you.pos_abs() );
         REQUIRE( test_monster.sees( you ) );
         REQUIRE( grab.call( test_grabber ) );
         int counter = 0;
@@ -417,7 +417,7 @@ TEST_CASE( "Grab_drag_tests", "[mattack][grab][drag]" )
 
     const std::string monster_type = "mon_debug_dragger";
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-    test_monster.set_dest( you.get_location() );
+    test_monster.set_dest( you.pos_abs() );
     const mattack_actor &attack_1 = test_monster.type->special_attacks.at( "grab_drag" ).operator * ();
     const mattack_actor &attack_2 = test_monster.type->special_attacks.at( "drag_followup" ).operator
                                     * ();
@@ -429,7 +429,7 @@ TEST_CASE( "Grab_drag_tests", "[mattack][grab][drag]" )
     //But we do get dragged by the normal drag
     REQUIRE( attack_1.call( test_monster ) );
     CHECK( you.pos_bub() == target_location - tripoint{ 3, 0, 0 } );
-    test_monster.set_dest( you.get_location() );
+    test_monster.set_dest( you.pos_abs() );
     // And then we get followup-dragged (also testing movecost mod)
     REQUIRE( !attack_1.call( test_monster ) );
     REQUIRE( attack_2.call( test_monster ) );
@@ -558,7 +558,7 @@ TEST_CASE( "Unified_grab_break_test", "[mattack][grab]" )
 
     if( !multigrab ) {
         monster &test_monster_1 = spawn_test_monster( monster_type, attacker_location );
-        test_monster_1.set_dest( you.get_location() );
+        test_monster_1.set_dest( you.pos_abs() );
         const mattack_actor &attack_1 = test_monster_1.type->special_attacks.at( "grab" ).operator * ();
         REQUIRE( attack_1.call( test_monster_1 ) );
         // Safety check to ensure grab strength is read and applied correctly
@@ -579,9 +579,9 @@ TEST_CASE( "Unified_grab_break_test", "[mattack][grab]" )
         monster &test_monster_1 = spawn_test_monster( monster_type, attacker_location );
         monster &test_monster_2 = spawn_test_monster( monster_type, attacker_location_2 );
         monster &test_monster_3 = spawn_test_monster( monster_type, attacker_location_3 );
-        test_monster_1.set_dest( you.get_location() );
-        test_monster_2.set_dest( you.get_location() );
-        test_monster_3.set_dest( you.get_location() );
+        test_monster_1.set_dest( you.pos_abs() );
+        test_monster_2.set_dest( you.pos_abs() );
+        test_monster_3.set_dest( you.pos_abs() );
         const mattack_actor &attack_1 = test_monster_1.type->special_attacks.at( "grab" ).operator * ();
         const mattack_actor &attack_2 = test_monster_2.type->special_attacks.at( "grab" ).operator * ();
         const mattack_actor &attack_3 = test_monster_3.type->special_attacks.at( "grab" ).operator * ();

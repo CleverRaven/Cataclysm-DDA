@@ -1252,21 +1252,6 @@ public:
 };
 
 /**
- * Reads a volume value from legacy format: JSON contains a integer which represents multiples
- * of `units::legacy_volume_factor` (250 ml).
- */
-inline bool legacy_volume_reader( const JsonObject &jo, const std::string_view member_name,
-                                  units::volume &value, bool )
-{
-    int legacy_value;
-    if( !jo.read( member_name, legacy_value ) ) {
-        return false;
-    }
-    value = legacy_value * units::legacy_volume_factor;
-    return true;
-}
-
-/**
  * Only for external use in legacy code where migrating to `class translation`
  * is impractical. For new code load with `class translation` instead.
  */

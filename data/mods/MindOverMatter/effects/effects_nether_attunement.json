@@ -87,8 +87,8 @@
     "type": "effect_type",
     "id": "effect_nether_attunement_attenuation",
     "name": [ "Nether Attenuation" ],
-    "desc": [ "You feel strangely listless." ],
-    "remove_message": "The listless feeling vanishes.",
+    "desc": [ "You have to work extra hard to draw enough energy to use your powers." ],
+    "remove_message": "Your difficulty in drawing on the Nether fades.",
     "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
   },
   {

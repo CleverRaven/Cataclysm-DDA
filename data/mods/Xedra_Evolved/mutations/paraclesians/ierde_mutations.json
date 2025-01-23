@@ -432,7 +432,20 @@
     "category": [ "IERDE" ],
     "activated_is_setup": false,
     "active": true,
-    "activated_eocs": [ "EOC_IERDE_SINK_INTO_EARTH_activate" ]
+    "activated_eocs": [ "EOC_IERDE_SINK_INTO_EARTH_activate" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DIGGABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle down to rest on the living earth.", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "id": "t_rock" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "Encased within the living earth, you drift off to sleep.", "rating": "good" }
+      }
+    ],
+    "enchantments": [ { "condition": { "u_is_on_terrain": "t_rock" }, "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 300 } ] } ]
   },
   {
     "type": "mutation",
@@ -505,7 +518,7 @@
     "mana": true,
     "cost": 1,
     "time": 10,
-    "activation_msg": "You ",
+    "activation_msg": "You merge with the ground beneath your feet.",
     "activated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_activated" ],
     "deactivated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_deactivated" ]
   },
@@ -672,8 +685,15 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
-    "category": [ "IERDE" ]
+    "description": "The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 5000,
+    "activation_msg": "Your feelings calcify.",
+    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
   },
   {
     "type": "mutation",

@@ -1,5 +1,12 @@
 [
   {
+    "id": "xe_fey_magick",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!"
+  },
+  {
     "id": "cloud_of_steam_sylph",
     "type": "SPELL",
     "name": "Cloud of Steam",
@@ -25,7 +32,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 100,
     "energy_increment": -8,
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "teachable": false,
     "spell_class": "SYLPH",
     "difficulty": 4,
@@ -56,7 +63,7 @@
     "base_energy_cost": 350,
     "final_energy_cost": 100,
     "energy_increment": -8,
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "teachable": false,
     "spell_class": "UNDINE",
     "difficulty": 4,
@@ -79,7 +86,7 @@
     "shape": "blast",
     "teachable": false,
     "spell_class": "SYLPH",
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "difficulty": 2,
     "max_level": 20,
     "base_casting_time": 200,
@@ -104,7 +111,7 @@
     "shape": "blast",
     "teachable": false,
     "spell_class": "SALAMANDER",
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "difficulty": 2,
     "max_level": 20,
     "base_casting_time": 200,
@@ -146,7 +153,7 @@
     "max_duration": {
       "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 4200) + 39000) * (scaling_factor(u_val('perception') ) ) )" ]
     },
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "base_energy_cost": 600,
     "final_energy_cost": 400,
     "energy_increment": -12,
@@ -166,7 +173,7 @@
     "effect_str": "EOC_PARACLESIAN_TURN_COTTON_TO_GOSSAMER",
     "shape": "blast",
     "difficulty": 7,
-    "energy_source": "MANA",
+    "magic_type": "xe_fey_magick",
     "base_energy_cost": 800,
     "base_casting_time": 360000
   },

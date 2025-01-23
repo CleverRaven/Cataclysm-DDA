@@ -1084,7 +1084,7 @@
     "weight": "120 g",
     "volume": "300 ml",
     "time": "10 m",
-    "relative": { "price": -251, "chapters": -26, "fun": 1 }
+    "relative": { "price": "-251 cent", "chapters": -26, "fun": 1 }
   },
   {
     "id": "occult_bobliographon",

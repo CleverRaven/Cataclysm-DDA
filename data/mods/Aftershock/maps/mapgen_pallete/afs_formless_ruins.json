@@ -23,7 +23,7 @@
       "<": "t_stairs_up"
     },
     "furniture": {
-      "$": "f_safe_l",
+      "$": "f_e_safe_l",
       "A": "f_neuralnet_inserter",
       "0": "f_cryo_pod",
       "&": "f_toilet",
