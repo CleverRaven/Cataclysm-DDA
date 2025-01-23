@@ -3060,16 +3060,18 @@ class item : public visitable
         aggregate_t aggregated_contents( int depth = 0, int maxdepth = 2 ) const;
 
         /**
-         * returns a list of pointers to all items inside recursively
+         * returns a list of pointers to *all items in all pockets* inside recursively
          * includes mods.  used for item_location::unpack()
          */
         std::list<const item *> all_items_ptr() const;
+        std::list<item *> all_items_ptr();
         /** returns a list of pointers to all items inside recursively */
         std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( pocket_type pk_type );
 
-        /** returns a list of pointers to all visible or remembered top-level items */
+        /** returns a list of pointers to all visible or remembered
+        * top-level items in standard pockets */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
