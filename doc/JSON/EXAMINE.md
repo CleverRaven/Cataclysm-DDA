@@ -38,6 +38,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```water_source``` Drink or get liquid from a furniture/terrain. Should be used in pair with `liquid_source`
+- ```mortar``` Shoot a projectile.
 
 ## Examine Actors
 
@@ -165,3 +166,88 @@ What message to print when attempting to activate the cardreader after it has al
 Mandatory.
 Array of strings and or effect_on_condition objects.
 Run all of the eocs upon being examined with u as the examiner and npc as null. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)
+
+### `mortar`
+
+#### `ammo`
+Mandatory.
+Array of strings.
+List of ammo types, that can be used in this mortar.
+
+#### `range`
+Mandatory
+Integer
+How far this mortar can shoot, in meters.
+
+#### `booster`
+Optional
+Item id
+Mortars can have a boosters they can give the player after use, if the target close enough; specific amount of boosters given defined in booster_distances.
+
+#### `booster_distances`
+Optional
+Array of objects `amount` and `distance`
+If defined, the game check each `distance`, and if target distance is less than `distance`, the game return you amount of boosters defined in `amount`.
+
+#### `condition`
+Optional, defaults to true.
+Condition
+Can be used to add custom conditions for a turret to be used; character must pass the condition, otherwise they won't be able to use a turret.
+
+#### `condition_fail_msg`
+Optional, defaults to `You cannot use this mortar.`
+String.
+If `condition` is failed, the game print this message
+
+#### `aim_deviation`
+Optional, defaults to 0.
+Integer or variable object
+Percent of the distance between you and aiming point, that you may miss; aim_deviation of `0.02` when you aim 1000 meters afar would mean you can miss for 20 meters, 10 meters in either coordinate.
+
+#### `aim_duration`
+Optional, defaults to 0 seconds.
+Integer or variable object
+How long you gonna aim before actually shooting a projectile.
+
+#### `effect_on_conditions`
+Optional
+JSON Object.
+Effect on condition, that would be fired in the end of shooting. Additional context variables sent: 
+`this`, string, furniture id; 
+`pos`; string, coordinates of the furniture; 
+`target`, string, coordinates of picked tile
+
+#### Example
+```json
+    {
+      "type": "mortar",
+      "ammo": [ "mortar_60mm" ],
+      "condition": { "math": [ "u_skill('launcher') >= 1" ] },
+      "condition_fail_msg": "You have absolutely no idea how to use this mortar.",
+      "range": 3490,
+      "aim_duration": {
+        "math": [
+          "u_effect_duration('aimed_60mm') > 1",
+          " ? max(5, 16 / u_skill('launcher'))",
+          " : max(60, 190 / u_skill('launcher'))"
+        ]
+      },
+      "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
+      "booster": "60mm_propellant",
+      "booster_distances": [
+        { "amount": 4, "distance": 400 },
+        { "amount": 3, "distance": 1340 },
+        { "amount": 2, "distance": 2150 },
+        { "amount": 1, "distance": 2890 }
+      ],
+      "effect_on_conditions": [
+        {
+          "id": "EOC_SHOT",
+          "effect": [
+            { "u_add_effect": "aimed_60mm", "duration": "3 minutes" },
+            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] }
+          ]
+        }
+      ]
+    }
+```

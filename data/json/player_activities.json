@@ -1134,5 +1134,12 @@
     "verb": "infusing saline",
     "based_on": "time",
     "do_turn_eoc": "SALINE_INFUSION_eff"
+  },
+  {
+    "id": "ACT_MORTAR_AIMING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "based_on": "speed",
+    "verb": "aiming the artillery"
   }
 ]

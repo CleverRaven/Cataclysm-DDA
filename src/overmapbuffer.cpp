@@ -47,6 +47,8 @@ class map_extra;
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
 
+static const oter_str_id oter_open_air( "open_air" );
+
 // Moved from obsolete coordinate_conversions.h to its only remaining user.
 static int omt_to_sm_copy( int a )
 {
@@ -840,6 +842,20 @@ std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->predecessors( om_loc.local );
+}
+
+int overmapbuffer::highest_omt_point( tripoint_abs_omt loc )
+{
+    oter_id terrain;
+    for( int i = OVERMAP_HEIGHT; i >= OVERMAP_DEPTH * -1; i-- ) {
+        loc.z() = i;
+        terrain = ter( loc );
+        if( terrain != oter_open_air ) {
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
