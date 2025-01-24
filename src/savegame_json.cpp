@@ -3138,26 +3138,32 @@ void item::deserialize( const JsonObject &data )
     if( data.has_object( "contents" ) ) {
         item_contents read_contents;
         data.read( "contents", read_contents );
-        contents.combine( read_contents, false, true, false, true );
+        contents.read_mods( read_contents );
+        update_modified_pockets();
+        //we don't want to combine containers with multiple pockets
+        if( !contents.has_pocket_type( pocket_type::CONTAINER ) ) {
 
-        //migrate SOFTWARE pocket
-        auto pockets_e_legacy = []( item_pocket const & pocket ) {
-            return pocket.is_type( pocket_type::SOFTWARE );
-        };
-        auto pockets_new_efile = []( item_pocket const & pocket ) {
-            return pocket.is_type( pocket_type::E_FILE_STORAGE );
-        };
-        std::vector<item_pocket *> pockets = contents.get_pockets( pockets_new_efile );
-        item_pocket *new_efile_storage = !pockets.empty() ? pockets.front() : nullptr;
+            contents.combine( read_contents, false, true, false, true );
 
-        for( item_pocket *pocket : contents.get_pockets( pockets_e_legacy ) ) {
-            for( const item *it : pocket->all_items_top() ) {
-                if( new_efile_storage == nullptr ) {
-                    debugmsg( "efile storage pocket needed for item: %s", tname() );
-                } else {
-                    std::optional<item> removed_item = pocket->remove_item( *it );
-                    if( removed_item ) {
-                        new_efile_storage->add( *removed_item );
+            //migrate SOFTWARE pocket
+            auto pockets_e_legacy = []( item_pocket const & pocket ) {
+                return pocket.is_type( pocket_type::SOFTWARE );
+            };
+            auto pockets_new_efile = []( item_pocket const & pocket ) {
+                return pocket.is_type( pocket_type::E_FILE_STORAGE );
+            };
+            std::vector<item_pocket *> pockets = contents.get_pockets( pockets_new_efile );
+            item_pocket *new_efile_storage = !pockets.empty() ? pockets.front() : nullptr;
+
+            for( item_pocket *pocket : contents.get_pockets( pockets_e_legacy ) ) {
+                for( const item *it : pocket->all_items_top() ) {
+                    if( new_efile_storage == nullptr ) {
+                        debugmsg( "efile storage pocket needed for item: %s", tname() );
+                    } else {
+                        std::optional<item> removed_item = pocket->remove_item( *it );
+                        if( removed_item ) {
+                            new_efile_storage->add( *removed_item );
+                        }
                     }
                 }
             }
