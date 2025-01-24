@@ -342,5 +342,26 @@
     "apply_message": "Your extremities become sticky",
     "remove_message": "Your extremities stop being this sticky.",
     "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_amplification_instant",
+    "name": [ "Pressurized amplification" ],
+    "desc": [ "Your muscles are filled with pressurized power." ],
+    "max_intensity": 10,
+    "int_add_val": 10,
+    "int_decay_step": -1,
+    "int_decay_tick": 6,
+    "base_mods": { "str_mod": [ 10 ] },
+    "scaling_mods": { "str_mod": [ -1 ] },
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "goblin_fruit_carry_boost",
+    "name": [ "Lightened load" ],
+    "desc": [ "You find it easier to carry heavy charges." ],
+    "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ],
+    "rating": "good"
   }
 ]

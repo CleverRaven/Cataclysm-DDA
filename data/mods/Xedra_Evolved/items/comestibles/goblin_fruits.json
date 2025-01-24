@@ -704,7 +704,7 @@
     "type": "COMESTIBLE",
     "id": "goblin_fruit_focus_boost",
     "name": { "str": "understandable goblin fruit" },
-    "description": "You understand everything about this pale green fruit.  You know that it will taste like an apple and you know that it will have the inner structure of a kiwi, the texture of a durian, the smell of a dragonfruit and the colors of an orange.  you also know that eating it will help you understand anything you could try to learn for a few hours.",
+    "description": "You understand everything about this pale green fruit.  You know that it will taste like an apple and you know that it will have the inner structure of a kiwi, the texture of a durian, the smell of a dragon fruit and the colors of an orange.  you also know that eating it will help you understand anything you could try to learn for a few hours.",
     "copy-from": "goblin_fruit_abstract",
     "comestible_type": "FOOD",
     "color": "green_white",
@@ -891,7 +891,7 @@
     "type": "COMESTIBLE",
     "id": "goblin_fruit_climb",
     "name": { "str": "sticky goblin fruit" },
-    "description": "This disk-shaped fruit sticks to anything it touches.  .",
+    "description": "Reeking of glass cleaner, this disk-shaped fruit sticks to anything it touches.  Despite this, you have no issue removing any dust sticking to it.",
     "copy-from": "goblin_fruit_abstract",
     "comestible_type": "FOOD",
     "color": "light_blue",
@@ -903,5 +903,73 @@
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_CLIMB",
     "effect": [ { "u_add_effect": "effect_goblin_fruit_climb", "duration": { "math": [ "3000 + rand(1000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_amplification_instant",
+    "name": { "str": "pressurized goblin fruit" },
+    "description": "This capsule-shaped goblin fruit behaves as a pressurized tank when you press its surface with your finger.  Fortunately, it doesn't appear to be able to explode if pierced or bitten.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "weight": "359 g",
+    "volume": "327 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_AMPLIFICATION_INSTANT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_AMPLIFICATION_INSTANT",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_amplification_instant", "duration": "60 seconds", "intensity": 10 } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_carry_boost",
+    "name": { "str": "balloon goblin fruit" },
+    "description": "This fruit is nothing more than a thin layer of fruit filled with air.  It has a heady aroma that makes you a little lightheaded.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "yellow",
+    "calories": 5,
+    "weight": "25 g",
+    "volume": "227 ml",
+    "material": [ "fruit_light" ],
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CARRY_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_CARRY_BOOST",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_climb", "duration": { "math": [ "8000 + rand(8000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_mood_clear",
+    "name": { "str": "boring goblin fruit" },
+    "description": "This fruit is the most boring thing you've ever seen.  Everything about it is boring: its drab dark brown color, its smell, its lack of feature, even its taste is boring.  It's not a good fruit.  It's not a bad fruit.  It's just boring.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "fun": 0,
+    "weight": "255 g",
+    "volume": "232 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MOOD_CLEAR" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MOOD_CLEAR",
+    "effect": [
+      {
+        "switch": { "math": [ "u_val('morale')" ] },
+        "cases": [
+          { "case": -100, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 100, "max_bonus": 100 } },
+          { "case": -75, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 75, "max_bonus": 75 } },
+          { "case": -50, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 50, "max_bonus": 50 } },
+          { "case": -25, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 25, "max_bonus": 25 } },
+          { "case": 25, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": -25, "max_bonus": -25 } },
+          { "case": 50, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": -50, "max_bonus": -50 } },
+          { "case": 75, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": -75, "max_bonus": -75 } },
+          { "case": 100, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": -100, "max_bonus": -100 } }
+        ]
+      }
+    ]
   }
 ]

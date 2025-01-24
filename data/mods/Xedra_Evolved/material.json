@@ -297,5 +297,13 @@
     "copy-from": "fruit",
     "//": "Identical to regular fruit matter but 10 times as heavy.",
     "density": 11
+  },
+  {
+    "type": "material",
+    "id": "fruit_light",
+    "name": "Fruit Matter",
+    "copy-from": "fruit",
+    "//": "Identical to regular fruit matter but 10 times as light.",
+    "density": 0.11
   }
 ]
