@@ -1715,5 +1715,33 @@
       },
       { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_START_MINING",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
+        { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+        { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_trow_no_eating_or_sleep", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_END_MINING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
+        { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+        { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_trow_no_eating_or_sleep" } ]
   }
 ]

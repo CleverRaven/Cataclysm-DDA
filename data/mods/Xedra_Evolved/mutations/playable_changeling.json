@@ -1133,7 +1133,7 @@
     "description": "Your sight is keen whether in or out of the water.  +2 Perception.",
     "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -1279,6 +1279,52 @@
     "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_STONE_FISTS",
+    "name": { "str": "Fists of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your tough skin and thick nails allow you to use yours hands to replace some simple tools.  Your punches hit harder as well.",
+    "types": [ "CLAWS" ],
+    "prereqs": [ "IERDE_SKIN_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "integrated_armor": [ "integrated_trow_fists" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_LESS_METABOLISM_UNDERGROUND",
+    "name": { "str": "Stone-Eater" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The trow don't literally eat stones, but merely being underground fills you with strength and vigor.  You need half as much food and water while you're underground, and cold underground does not affect you.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "PAINRESIST_TROW", "PAINRESIST_TROW2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "THIRST", "multiply": -0.5 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP",
+    "name": { "str": "Deep-Delver" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Once you begin mining, you can do it for hours without rest or sleep.  You do not get sleepy, hungry, or thirst for as long as you continue mining.  This does not remove the need to eat to recover the energy you spend mining.",
+    "prereqs": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
   },
   {
     "type": "mutation",

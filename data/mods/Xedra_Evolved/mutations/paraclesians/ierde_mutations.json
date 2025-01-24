@@ -9,7 +9,7 @@
     "description": "Your skin has turned the color of manganese stained soil.  Your skin is now a purplish black.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "IERDE_SKIN_2" ],
-    "category": [ "IERDE" ]
+    "category": [ "IERDE", "FAIR_FOLK_COMMONER_TROW" ]
   },
   {
     "type": "mutation",
@@ -20,7 +20,7 @@
     "ugliness": 3,
     "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
-    "category": [ "IERDE" ],
+    "category": [ "IERDE", "FAIR_FOLK_COMMONER_TROW" ],
     "prereqs": [ "IERDE_SKIN_1" ],
     "changes_to": [ "IERDE_SKIN_3" ],
     "wet_protection": [
