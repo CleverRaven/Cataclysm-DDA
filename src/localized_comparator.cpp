@@ -7,6 +7,7 @@
 
 #include "catacharset.h"
 #include "localized_comparator.h"
+#include "translation.h"
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {

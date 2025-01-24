@@ -1,6 +1,4 @@
 #include <functional>
-#include <iosfwd>
-#include <map>
 #include <memory>
 #include <set>
 #include <string>
@@ -8,8 +6,11 @@
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

@@ -4,42 +4,53 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
+#include <list>
+#include <map>
 #include <memory>
-#include <type_traits>
+#include <ostream>
+#include <ratio>
+#include <set>
+#include <system_error>
 #include <unordered_map>
 
-#include "activity_type.h"
 #include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "music.h"
 #include "npc.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h" // IWYU pragma: keep
 #include "vehicle.h"
 #include "vpart_position.h"

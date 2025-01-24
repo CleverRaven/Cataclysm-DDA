@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_TRAIT_GROUP_H
 #define CATA_SRC_TRAIT_GROUP_H
 
-#include <iosfwd>
 #include <memory>
+#include <string>
 #include <vector>
 
+#include "mutation.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonValue;
 class Trait_group;
-
-struct trait_and_var;
 
 namespace trait_group
 {

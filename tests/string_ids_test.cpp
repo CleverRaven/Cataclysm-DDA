@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -9,9 +8,8 @@
 #include "cata_catch.h"
 #include "field_type.h"
 #include "string_id_utils.h"
+#include "to_string_id.h"
 #include "type_id.h"
-
-class json_flag;
 
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {

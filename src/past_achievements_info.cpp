@@ -1,10 +1,17 @@
+#include <utility>
 #include <vector>
 
+#include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
+#include "json_error.h"
+#include "json_loader.h"
 #include "past_achievements_info.h"
 #include "past_games_info.h"
-#include "achievement.h"
-#include "json.h"
-#include "json_loader.h"
+#include "path_info.h"
+#include "string_formatter.h"
+
+class cata_path;
 
 void past_achievements_info::clear()
 {

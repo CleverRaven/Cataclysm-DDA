@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 
+#include "color.h"
 #include "coordinates.h"
-#include "map.h"
+#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
-class nc_color;
-struct tripoint;
+class map;
 
 struct shrapnel_data {
     int casing_mass = 0;

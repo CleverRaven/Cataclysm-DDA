@@ -1,6 +1,7 @@
 #include "bodypart.h"
 
 #include <algorithm>
+#include <list>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
@@ -11,12 +12,10 @@
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "json.h"
-#include "json_error.h"
 #include "localized_comparator.h"
 #include "rng.h"
 #include "subbodypart.h"

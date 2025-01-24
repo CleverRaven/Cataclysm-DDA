@@ -4,10 +4,10 @@
 #include <array>
 #include <climits>
 #include <cmath>
-#include <iterator>
 #include <memory>
 #include <numeric>
 #include <ostream>
+#include <type_traits>
 
 #include "avatar_action.h"
 #include "bodygraph.h"
@@ -24,18 +24,15 @@
 #include "event_bus.h"
 #include "fire.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
-#include "json_error.h"
 #include "line.h"
-#include "magic_enchantment.h"
 #include "make_static.h"
 #include "melee.h"
 #include "messages.h"

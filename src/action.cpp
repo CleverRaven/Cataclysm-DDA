@@ -4,6 +4,7 @@
 #include <climits>
 #include <istream>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <optional>
 #include <string>
@@ -13,6 +14,7 @@
 #include "cached_options.h" // IWYU pragma: keep
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -26,6 +28,7 @@
 #include "item_location.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"

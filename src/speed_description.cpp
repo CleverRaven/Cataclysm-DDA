@@ -1,8 +1,10 @@
 #include "speed_description.h"
 
+#include <algorithm>
+
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "make_static.h"
 
 namespace
 {

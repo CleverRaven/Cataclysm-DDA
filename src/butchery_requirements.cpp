@@ -1,18 +1,16 @@
 #include "butchery_requirements.h"
 
 #include <cstddef>
-#include <iterator>
-#include <set>
+#include <functional>
 #include <string>
 
 #include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "requirements.h"
 

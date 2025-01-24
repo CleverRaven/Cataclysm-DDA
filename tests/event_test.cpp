@@ -1,9 +1,8 @@
-#include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "cata_variant.h"
 #include "cata_catch.h"
+#include "cata_variant.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"

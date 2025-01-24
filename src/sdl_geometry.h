@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_SDL_GEOMETRY_H
 #define CATA_SRC_SDL_GEOMETRY_H
 
+struct point;
 #if defined(TILES)
 #include <memory>
 
 #include "sdl_wrappers.h"
-#include "point.h"
 
 /// Interface to render geometry with SDL_Renderer.
 class GeometryRenderer

@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <iosfwd>
 #include <limits>
 #include <utility>
 

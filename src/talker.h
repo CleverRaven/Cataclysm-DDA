@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
+#include <list>
+
 #include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
 #include "messages.h"
 #include "type_id.h"
+#include "translations.h"
 #include "units.h"
 #include "units_fwd.h"
-#include <list>
 
 class computer;
 class faction;

@@ -1,10 +1,13 @@
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "effect.h"
+#include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"
@@ -15,8 +18,9 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
-#include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_test_rash( "test_rash" );
 

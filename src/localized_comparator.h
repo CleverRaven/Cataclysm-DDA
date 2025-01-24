@@ -2,7 +2,12 @@
 #ifndef CATA_SRC_LOCALIZED_COMPARATOR_H
 #define CATA_SRC_LOCALIZED_COMPARATOR_H
 
-#include "translation.h"
+#include <cstddef>
+#include <string>
+#include <tuple>
+#include <utility>
+
+class translation;
 
 // Localized comparison operator, intended for sorting strings when they should
 // be sorted according to the user's locale.

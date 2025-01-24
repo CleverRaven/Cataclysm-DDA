@@ -3,19 +3,21 @@
 #include <algorithm>
 #include <cstddef>
 #include <filesystem>
-#include <iterator>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
-#include <memory>
 #include <utility>
 #include <vector>
 
+#include "cata_imgui.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "json.h"
@@ -27,7 +29,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "cata_imgui.h"
 
 nc_color::operator ImVec4()
 {

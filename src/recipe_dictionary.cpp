@@ -22,6 +22,7 @@
 #include "mapgen.h"
 #include "math_parser.h"
 #include "mod_manager.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"

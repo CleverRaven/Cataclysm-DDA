@@ -3,19 +3,25 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "panels.h"
 #include "point.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 #include "viewer.h"
 
@@ -23,10 +29,13 @@
 #include <SDL_keyboard.h>
 #endif
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <deque>
 #include <iterator>
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 #include "options.h"
 

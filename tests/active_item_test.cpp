@@ -1,15 +1,24 @@
 #include <list>
-#include <new>
+#include <memory>
 #include <optional>
+#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_debug_backpack( "debug_backpack" );

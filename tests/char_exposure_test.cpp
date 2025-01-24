@@ -1,7 +1,7 @@
-#include <list>
 #include <map>
 #include <utility>
 
+#include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"

@@ -1,7 +1,7 @@
 #include "achievement.h"
 
 #include <cstdlib>
-#include <set>
+#include <list>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -14,18 +14,14 @@
 #include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "json.h"
-#include "json_error.h"
 #include "past_achievements_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-template <typename E> struct enum_traits;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 

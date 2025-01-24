@@ -1,8 +1,9 @@
-#include "cata_catch.h"
-
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
+#include "npc.h"
 #include "options.h"
 #include "player_helpers.h"
 #include "type_id.h"

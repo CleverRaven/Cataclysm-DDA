@@ -1,6 +1,10 @@
 #include "cata_catch.h"
+#include "item.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "shop_cons_rate.h"
+#include "type_id.h"
+#include "units.h"
 
 static const itype_id itype_FMCNote( "FMCNote" );
 static const itype_id itype_bow_saw( "bow_saw" );

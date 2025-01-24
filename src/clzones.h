@@ -3,13 +3,13 @@
 #define CATA_SRC_CLZONES_H
 
 #include <cstddef>
-#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -17,6 +17,7 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
@@ -25,12 +26,10 @@
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class faction;
 class item;
 class map;
 struct construction;
 
-using faction_id = string_id<faction>;
 inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 

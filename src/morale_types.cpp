@@ -1,14 +1,9 @@
 #include "morale_types.h"
 
-#include <cstddef>
-#include <set>
-#include <vector>
-
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "string_formatter.h"
-#include "debug.h"
 
 namespace
 {

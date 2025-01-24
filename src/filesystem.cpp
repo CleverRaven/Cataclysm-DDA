@@ -1,16 +1,18 @@
 #include "filesystem.h"
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include <deque>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <iterator>
 #include <string>
-#include <type_traits>
+#include <string_view>
+#include <system_error>
+#include <utility>
 #include <vector>
 
 #if defined(EMSCRIPTEN)
@@ -21,7 +23,6 @@
 #include "debug.h"
 
 #if defined(_WIN32)
-#   include "platform_win.h"
 
 static const std::array invalid_names = {
     std::string_view( "CON" ),

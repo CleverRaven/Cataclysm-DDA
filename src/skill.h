@@ -2,8 +2,9 @@
 #ifndef CATA_SRC_SKILL_H
 #define CATA_SRC_SKILL_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
+#include <list>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +13,7 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;

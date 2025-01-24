@@ -1,5 +1,14 @@
+#include <functional>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+
 #include "cata_catch.h"
 #include "options.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "type_id.h"
 
 static const option_slider_id option_slider_test_world_difficulty( "test_world_difficulty" );
 

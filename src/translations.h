@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
+#include <cstddef>
 // on some systems <locale> pulls in libintl.h anyway,
 // so preemptively include it before the gettext overrides.
 #include <locale> // IWYU pragma: keep
+#include <string>
 
-#include "translation.h"
+#include "translation.h"  // IWYU pragma: keep
+#include "translation_manager.h"
 
 #if !defined(translate_marker)
 /**

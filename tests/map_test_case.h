@@ -2,15 +2,16 @@
 #define CATA_TESTS_MAP_TEST_CASE_H
 
 #include <functional>
-#include <new>
 #include <optional>
 #include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "map.h"
-#include "mapdata.h"
+#include "type_id.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
 
 /**

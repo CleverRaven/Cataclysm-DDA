@@ -3,33 +3,34 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "build_reqs.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -37,12 +38,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
-#include "json_error.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -50,7 +50,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "panels.h"
 #include "player_activity.h"
 #include "point.h"
@@ -73,7 +72,9 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-class read_only_visitable;
+#if defined( TILES )
+#include "cata_tiles.h"
+#endif
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -2517,9 +2518,9 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
-    ter_id const &base_ter )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    ter_id const &base_ter = ter_t_dirt.id();
     build_reqs total_reqs;
 
     if( !finalized ) {

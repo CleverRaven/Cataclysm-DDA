@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_STOMACH_H
 #define CATA_SRC_STOMACH_H
 
+#include <cstdint>
 #include <map>
+#include <string>
+#include <utility>
 #include <variant>
+#include <vector>
 
 #include "calendar.h"
 #include "type_id.h"

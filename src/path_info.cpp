@@ -1,6 +1,8 @@
 #include "path_info.h"
 
 #include <cstdlib>
+#include <filesystem>
+#include <optional>
 #include <string>
 
 #include "debug.h"
@@ -10,10 +12,7 @@
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
-
-#if defined(_WIN32)
-#include <windows.h>
-#endif
+#include "translations.h"
 
 /**
  * Return a locale specific path, or if there is no path for the current

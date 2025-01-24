@@ -3,14 +3,16 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <cstddef>
 #include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
+#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -18,35 +20,45 @@
 
 #include "activity_actor_definitions.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "basecamp.h"
+#include "cached_options.h"
 #include "calendar.h"
-#include "enum_conversions.h"
-#ifdef TILES
-#include "cata_tiles.h"
-#endif // TILES
+#include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
 #include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "display.h"
+#include "debug.h"
 #include "debug_menu.h"
+#include "display.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapdata.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -57,9 +69,11 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -72,7 +86,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class character_id;
+enum class cube_direction : int;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 

@@ -1,13 +1,15 @@
 #if defined(LOCALIZE)
 
 #include <cstring>
+#include <list>
+#include <ostream>
 
 #include "cached_options.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "path_info.h"
-#include "translations.h"
 #include "translation_manager_impl.h"
+#include "translations.h"
 
 std::uint32_t TranslationManager::Impl::Hash( const char *str )
 {

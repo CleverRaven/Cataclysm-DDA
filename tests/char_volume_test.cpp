@@ -1,16 +1,17 @@
-#include <memory>
-#include <utility>
+#include <vector>
 
-#include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "game.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "mutation.h"
 #include "player_helpers.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
+#include "vpart_position.h"
 
 static const itype_id itype_backpack_giant( "backpack_giant" );
 static const itype_id itype_rock_volume_test( "rock_volume_test" );

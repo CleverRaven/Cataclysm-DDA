@@ -1,5 +1,5 @@
-#include <functional>
 #include <optional>
+#include <type_traits>
 #include <vector>
 
 #include "cata_catch.h"

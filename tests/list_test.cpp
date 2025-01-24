@@ -1,9 +1,7 @@
 #include <algorithm> // std::find
 #include <cstdio> // log redirection
-#include <functional> // std::greater
 #include <initializer_list>
-#include <iterator>
-#include <type_traits>
+#include <utility>
 #include <vector> // range-insert testing
 
 #include "cata_catch.h"

@@ -1,10 +1,14 @@
+#include <sstream>
+#include <string>
+
 #include "activity_actor_definitions.h"
 #include "activity_scheduling_helper.h"
+#include "activity_tracker.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "player_helpers.h"
-#include "point.h"
 #include "type_id.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );

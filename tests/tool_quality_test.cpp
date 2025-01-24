@@ -1,7 +1,17 @@
-#include "avatar.h"
+#include <climits>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );

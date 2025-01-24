@@ -4,18 +4,24 @@
 
 #include <functional>
 #include <list>
+#include <optional>
+#include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "cata_imgui.h"
+#include "coords_fwd.h"
+#include "input_context.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
+#include "point.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
-struct tripoint;
-
 class repair_item_actor;
 class salvage_actor;
 

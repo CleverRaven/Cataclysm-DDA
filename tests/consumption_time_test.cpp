@@ -1,6 +1,10 @@
+#include <unordered_map>
+
 #include "avatar.h"
-#include "item.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "item.h"
+#include "type_id.h"
 
 static const itype_id itype_mustard( "mustard" );
 

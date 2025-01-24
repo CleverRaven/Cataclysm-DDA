@@ -1,13 +1,17 @@
 #include <functional>
-#include <iosfwd>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
@@ -20,6 +24,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );

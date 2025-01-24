@@ -1,11 +1,13 @@
 #include "point.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <locale>
 #include <sstream>
 #include <string>
-#include <type_traits>
+#include <utility>
 
+#include "cata_assert.h"
 #include "debug.h"
 
 point point::from_string( const std::string &s )

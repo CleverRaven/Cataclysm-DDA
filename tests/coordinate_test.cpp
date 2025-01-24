@@ -1,11 +1,14 @@
 #include <functional>
-#include <iosfwd>
 #include <string>
 #include <tuple>
+#include <type_traits>
+#include <utility>
 
-#include "cata_generators.h"
 #include "cata_catch.h"
+#include "cata_generators.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
+#include "map_scale_constants.h"
 #include "point.h"
 
 static constexpr int num_trials = 5;

@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_MMAP_FILE_H
 #define CATA_SRC_MMAP_FILE_H
 
+#include <cstddef>
+#include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <string>
-
-#include <filesystem>
 
 class mmap_file
 {
@@ -23,6 +24,7 @@ class mmap_file
 
         // Opaque type to platform specific mmap implementation which can clean up the view when destructed.
         struct handle;
+
         std::shared_ptr<handle> mmap_handle;
 };
 

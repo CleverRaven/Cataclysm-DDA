@@ -3,14 +3,10 @@
 #define CATA_SRC_FILESYSTEM_H
 
 #include <filesystem>
-#include <fstream>
 #include <string> // IWYU pragma: keep
 #include <vector>
 
 #include "cata_path.h"
-#include "catacharset.h"
-#include "compatibility.h"
-#include "path_info.h"
 
 bool assure_dir_exist( const std::string &path );
 bool dir_exist( const std::string &path );

@@ -1,13 +1,21 @@
 #include <algorithm>
 #include <cmath>
-#include <iosfwd>
+#include <memory>
+#include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "itype.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"

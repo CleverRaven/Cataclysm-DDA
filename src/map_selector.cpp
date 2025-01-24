@@ -5,12 +5,13 @@
 #include <optional>
 #include <vector>
 
-#include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "rng.h"
 
 class game;
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern std::unique_ptr<game> g;
 

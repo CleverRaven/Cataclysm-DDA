@@ -1,9 +1,6 @@
 #include "anatomy.h"
 
-#include <algorithm>
 #include <cmath>
-#include <map>
-#include <set>
 #include <string>
 #include <unordered_set>
 
@@ -13,10 +10,7 @@
 #include "debug.h"
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"

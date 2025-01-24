@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
-#include <iosfwd>
 #include <list>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "int_id.h"
 #include "omdata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 struct overmap_location;

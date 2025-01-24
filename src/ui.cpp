@@ -1,33 +1,33 @@
 #include "ui.h"
 
-#include <cctype>
 #include <algorithm>
 #include <climits>
-#include <cstdlib>
-#include <iterator>
+#include <cmath>
 #include <memory>
+#include <numeric>
 #include <set>
+#include <string_view>
 
 #include "avatar.h"
 #include "cached_options.h" // IWYU pragma: keep
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "coordinates.h"
 #include "game.h"
-#include "input.h"
-#include "memory_fast.h"
-#include "output.h"
-#include "sdltiles.h"
-#include "input_popup.h"
-#include "translations.h"
-#include "ui_manager.h"
-#include "cata_imgui.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "input.h"
+#include "input_popup.h"
+#include "memory_fast.h"
+#include "output.h"
+#include "point.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
-#include <jni.h>
 #include <SDL_keyboard.h>
+#include <jni.h>
 
 #include "options.h"
 #endif

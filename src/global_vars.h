@@ -5,6 +5,8 @@
 
 #include "json.h"
 
+class JsonObject;
+
 enum class var_type : int {
     u,
     npc,

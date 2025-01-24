@@ -1,10 +1,9 @@
-#include "cata_catch.h"
-
 #include <initializer_list>
-#include <iterator>
-#include <vector>
 #include <string>
+#include <utility>
+#include <vector>
 
+#include "cata_catch.h"
 #include "output.h"
 
 template<class IterResult, class IterExpect>

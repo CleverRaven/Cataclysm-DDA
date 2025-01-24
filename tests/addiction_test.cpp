@@ -1,6 +1,13 @@
 #include "addiction.h"
+
+#include <map>
+#include <memory>
+#include <utility>
+
 #include "cata_catch.h"
 #include "character.h"
+#include "enums.h"
+#include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
 

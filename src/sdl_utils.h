@@ -2,13 +2,11 @@
 #ifndef CATA_SRC_SDL_UTILS_H
 #define CATA_SRC_SDL_UTILS_H
 
-#include <algorithm>
-#include <cmath>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include "color.h"
+#include "color.h"  // IWYU pragma: keep
 #include "options.h"
 #include "sdl_wrappers.h"
 

@@ -4,26 +4,45 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <imgui/imgui_stdlib.h>
-#undef IMGUI_DEFINE_MATH_OPERATORS
-#include <imgui/imgui_freetype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <functional>
+#include <list>
+#include <optional>
+#include <string_view>
+#include <utility>
 
+#undef IMGUI_DEFINE_MATH_OPERATORS
+#include "cata_path.h"
+#include "catacharset.h"
 #include "color.h"
+#include "debug.h"
+#include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "input.h"
+#include "input_context.h"
+#include "input_enums.h"
+#include "json_error.h"
+#include "json_loader.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "system_locale.h"
+#include "translations.h"
 #include "ui_manager.h"
-#include "input_context.h"
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #ifdef TUI
-#include "wcwidth.h"
 #include <curses.h>
 #include <imtui/imtui-impl-ncurses.h>
 #include <imtui/imtui-impl-text.h>
 
 #include "color_loader.h"
+#include "wcwidth.h"
 
 struct RGBTuple {
     uint8_t Blue;
@@ -229,13 +248,14 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
     return result;
 }
 #else
-#include "sdl_utils.h"
-#include "sdl_font.h"
-#include "sdltiles.h"
-#include "font_loader.h"
-#include "wcwidth.h"
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+
+#include "font_loader.h"
+#include "sdl_font.h"
+#include "sdl_utils.h"
+#include "sdltiles.h"
+#include "wcwidth.h"
 
 ImVec4 cataimgui::imvec4_from_color( nc_color &color )
 {

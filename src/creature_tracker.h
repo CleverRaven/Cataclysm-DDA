@@ -8,17 +8,18 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
-#include "type_id.h"
+#include "memory_fast.h"
+#include "npc.h"
 
 class JsonArray;
 class JsonOut;
 class game;
 class monster;
-class npc;
 struct tripoint;
 
 class creature_tracker

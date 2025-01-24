@@ -6,8 +6,8 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <initializer_list>
-#include <iterator>
 #include <list>
 #include <memory>
 #include <optional>
@@ -18,7 +18,6 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
@@ -35,10 +34,8 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
-#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -54,7 +51,6 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
-#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"

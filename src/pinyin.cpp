@@ -1,11 +1,14 @@
 #include "pinyin.h"
-#include "third-party/pinyin/pinyin_data.hpp"
 
 #include <algorithm>
+#include <list>
 #include <map>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
+
+#include "third-party/pinyin/pinyin_data.hpp"
 
 namespace pinyin
 {

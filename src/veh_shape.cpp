@@ -1,15 +1,33 @@
 #include "veh_shape.h"
 
-#include "animation.h"
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <utility>
+
 #include "avatar.h"
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
+#include "color.h"
+#include "debug.h"
 #include "game.h"
+#include "input_enums.h"
+#include "map.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
 #include "options.h"
 #include "output.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "veh_type.h"
 #include "veh_utils.h"
-#include "ui_manager.h"
+#include "vehicle.h"
+#include "vpart_range.h"
 
 veh_shape::veh_shape( vehicle &vehicle ): veh( vehicle ) { }
 

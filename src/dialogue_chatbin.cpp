@@ -1,7 +1,8 @@
 #include "dialogue_chatbin.h"
 
-#include <algorithm>
 #include <iterator>
+#include <memory>
+#include <utility>
 
 #include "mission.h"
 

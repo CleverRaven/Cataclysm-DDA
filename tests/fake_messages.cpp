@@ -1,23 +1,15 @@
 #include <cstddef>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
+#include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "json.h"
 #include "messages.h"
-
-class Creature;
-class JsonObject;
-class JsonOut;
-struct tripoint;
-
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
-
 /**
  * For unit testing we just store all messages so they can be dumped in the
  * event of a test failure.

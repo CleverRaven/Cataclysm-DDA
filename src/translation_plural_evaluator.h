@@ -2,6 +2,10 @@
 #ifndef CATA_SRC_TRANSLATION_PLURAL_EVALUATOR_H
 #define CATA_SRC_TRANSLATION_PLURAL_EVALUATOR_H
 
+#include <cstddef>
+#include <exception>
+#include <string>
+#include <string_view>
 #if defined(LOCALIZE)
 
 #include <array>

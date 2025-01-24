@@ -17,6 +17,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "display.h"
 #include "effect.h"
@@ -49,7 +50,6 @@
 #include "weather_gen.h"
 
 class item;
-struct mutation_branch;
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 

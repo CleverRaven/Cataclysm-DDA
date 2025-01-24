@@ -7,13 +7,15 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <type_traits>
 
 #include "coordinates.h"
+#include "line.h"
+#include "point.h"
 
 class Character;
 class Creature;
 struct mongroup;
-
 template <typename E> struct enum_traits;
 
 namespace debug_menu

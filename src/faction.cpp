@@ -2,8 +2,7 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cstdlib>
-#include <limits>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -21,14 +20,14 @@
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input_context.h"
-#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
@@ -43,6 +42,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "vitamin.h"
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );

@@ -1,7 +1,38 @@
 [
+    { "ref": "cpp.generic.imp" },
+
     { symbol: ["M_PI", "private", "\"math_defines.h\"", "public"] },
     { symbol: ["M_PI_2", "private", "\"math_defines.h\"", "public"] },
     { symbol: ["M_SQRT2", "private", "\"math_defines.h\"", "public"] },
     { symbol: ["nanosleep", "private", "\"posix_time.h\"", "public"] },
     { symbol: ["timespec", "private", "\"posix_time.h\"", "public"] },
+    
+    { include: ["<__msvc_string_view.hpp>", "private", "<string_view>", "public"] },
+    { include: ["<__msvc_chrono.hpp>", "private", "<chrono>", "public"] },
+    { include: ["<__msvc_iter_core.hpp>", "private", "<iterator>", "public"] },
+    { include: ["<xutility>", "private", "<utility>", "public"] },
+    { include: ["<xstring>", "private", "<string>", "public"] },
+    { include: ["<xlocale>", "private", "<locale>", "public"] },
+    { include: ["<xmemory>", "private", "<memory>", "public"] },
+
+    { include: ["<xtr1common>", "private", "<xstddef>", "private"] },
+    { include: ["<xstddef>", "private", "<type_traits>", "public"] },
+    { include: ["<xtree>", "private", "<map>", "public"] },
+    
+    { include: ["<corecrt_math.h>", "private", "<cmath>", "public"] },
+    
+    { include: ["<vcruntime_exception.h>", "private", "<exception>", "public"] },
+    { include: ["<corecrt_terminate.h>", "private", "<exception>", "public"] },
+    { include: ["<corecrt_wctype.h>", "private", "<cwctype>", "public"] },
+    { include: ["<corecrt_wstdio.h>", "private", "<cstdio>", "public"] },
+    { include: ["<vcruntime_string.h>", "private", "<cstring>", "public"] },
+    
+    { include: ["<corecrt_math_defines.h>", "private", "<cmath>", "public"] },
+    { include: ["<xfilesystem_abi.h>", "private", "<filesystem>", "public"] },
+    
+    { include: ["<vcruntime_typeinfo.h>", "private", "<typeinfo>", "public"] },
+    { include: ["<xiosbase>", "private", "<ios>", "public"] },
+
+    { include: ["<corecrt.h>", "private", "<cerrno>", "public"] },
+
 ]

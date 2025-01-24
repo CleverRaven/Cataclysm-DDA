@@ -4,14 +4,14 @@
 
 #include <array>
 #include <climits>
-#include <cstddef>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <ostream>
+#include <string>
+#include <tuple>
 #include <vector>
-
-#include "cata_assert.h"
 
 class JsonArray;
 class JsonOut;

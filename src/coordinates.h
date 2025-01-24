@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <iterator>
@@ -10,24 +12,22 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "cata_inline.h"
-#include "coords_fwd.h"
+#include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "map_scale_constants.h"
 #include "line.h"  // IWYU pragma: keep
+#include "map_scale_constants.h"
 #include "point.h"
 
 class JsonOut;
 class JsonValue;
 
-enum class direction : unsigned;
-
 namespace coords
 {
+template <typename Point, origin Origin, scale Scale> class coord_point_ob;
 
 constexpr int map_squares_per( scale s )
 {

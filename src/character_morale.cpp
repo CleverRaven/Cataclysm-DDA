@@ -18,6 +18,7 @@
 #include "messages.h"
 #include "morale.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 

@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
-#include <iterator>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"

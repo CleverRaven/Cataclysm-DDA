@@ -1,9 +1,10 @@
-#include <iosfwd>
+#include <map>
 #include <set>
 #include <string>
 
 #include "cata_catch.h"
-#include "enum_traits.h"
+#include "cata_path.h"
+#include "path_info.h"
 #include "text_snippets.h"
 
 class IsOneOf : public Catch::MatcherBase<std::string>

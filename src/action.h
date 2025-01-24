@@ -7,9 +7,11 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
+#include "point.h"
 
 class input_context;
 struct input_event;

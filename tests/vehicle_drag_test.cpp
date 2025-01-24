@@ -1,11 +1,13 @@
 #include <cstdio>
-#include <iosfwd>
-#include <string>
+#include <map>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"

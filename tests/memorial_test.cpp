@@ -1,15 +1,15 @@
-#include <algorithm>
-#include <chrono>
-#include <iterator>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -19,7 +19,6 @@
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "npc.h"
-#include "output.h"
 #include "player_helpers.h"
 #include "profession.h"
 #include "stats_tracker.h"

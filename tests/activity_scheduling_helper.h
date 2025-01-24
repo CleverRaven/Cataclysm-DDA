@@ -2,11 +2,12 @@
 #define CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 
 #include <cstddef>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_type.h"
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "type_id.h"

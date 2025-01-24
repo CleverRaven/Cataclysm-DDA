@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <array>
+#include <utility>
 #include <vector>
 
+#include "cata_utility.h"
 #include "debug.h"
-#include "output.h"
 #include "translation_gendered.h"
 #include "translations.h"
 

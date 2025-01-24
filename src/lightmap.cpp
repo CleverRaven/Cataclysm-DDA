@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -17,16 +18,20 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
+#include "field_type.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "level_cache.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -40,7 +45,6 @@
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

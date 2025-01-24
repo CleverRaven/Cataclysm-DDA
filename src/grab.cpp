@@ -1,21 +1,24 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <veh_type.h>
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 
 #include "avatar.h"
 #include "debug.h"
 #include "map.h"
 #include "messages.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "tileray.h"
 #include "translations.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include <veh_type.h>
 
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {

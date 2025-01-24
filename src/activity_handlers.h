@@ -8,7 +8,6 @@
 #include <map>
 #include <optional>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "coords_fwd.h"

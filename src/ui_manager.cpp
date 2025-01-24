@@ -1,19 +1,22 @@
 #include "ui_manager.h"
 
 #include <functional>
-#include <iterator>
 #include <optional>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
-#include "cata_utility.h"
 #include "cursesdef.h"
-#include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
-#include "cata_imgui.h"
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>

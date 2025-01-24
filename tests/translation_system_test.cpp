@@ -1,10 +1,18 @@
 #include <cstring>
 #include <filesystem>
+#include <functional>
+#include <list>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
 #include "cata_catch.h"
 #include "filesystem.h"
 #include "string_formatter.h"
 #include "translation_document.h"
+#include "translation_manager.h"
 #include "translation_manager_impl.h"
+#include "translation_plural_evaluator.h"
 
 #if defined(LOCALIZE)
 

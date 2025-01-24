@@ -3,14 +3,15 @@
 #include <algorithm>
 #include <cmath>
 #include <iterator>
+#include <optional>
 #include <string>
 
-#include "assign.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "text_snippets.h"

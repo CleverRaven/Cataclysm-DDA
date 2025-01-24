@@ -1,5 +1,4 @@
 #include <functional>
-#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>

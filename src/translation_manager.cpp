@@ -1,5 +1,13 @@
 #if defined(LOCALIZE)
 
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include "pimpl.h"
+#include "translation_manager.h"
 #include "translation_manager_impl.h"
 
 TranslationManager &TranslationManager::GetInstance()

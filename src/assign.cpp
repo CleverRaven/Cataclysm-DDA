@@ -1,6 +1,5 @@
 #include "assign.h"
 
-#include <algorithm>
 #include <cstdint>
 #include <vector>
 

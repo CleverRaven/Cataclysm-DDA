@@ -1,5 +1,6 @@
 #include "tileray.h"
 
+#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <string>

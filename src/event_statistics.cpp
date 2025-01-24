@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -17,11 +16,10 @@
 #include "enums.h"
 #include "event.h"
 #include "event_field_transformations.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
+#include "hash_utils.h"
 #include "output.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"

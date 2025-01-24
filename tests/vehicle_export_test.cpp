@@ -1,12 +1,24 @@
-#include <optional>
+#include <set>
+#include <sstream>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
+#include "json.h"
 #include "json_loader.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 static const vproto_id vehicle_prototype_veh_export_test( "veh_export_test" );
 

@@ -1,6 +1,9 @@
 #include "test_data.h"
 
+#include <list>
+
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 
 std::set<itype_id> test_data::legacy_to_hit;

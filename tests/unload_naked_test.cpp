@@ -1,13 +1,13 @@
-#include <list>
-#include <memory>
-#include <optional>
+#include <functional>
+#include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
-#include "map.h"
+#include "item_location.h"
 #include "map_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "type_id.h"
 

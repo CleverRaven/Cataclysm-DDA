@@ -5,11 +5,8 @@
 // Some Catch2 Generators for generating our data types
 
 #include "cata_catch.h"
-#include "game_constants.h"
 #include "map_scale_constants.h"
-
-struct point;
-struct tripoint;
+#include "point.h"
 
 Catch::Generators::GeneratorWrapper<point> random_points( int low = -1000, int high = 1000 );
 

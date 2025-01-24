@@ -3,11 +3,13 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <memory>
 #include <numeric>
 #include <set>
 #include <string>
 #include <utility>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
