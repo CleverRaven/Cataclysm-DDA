@@ -66,7 +66,7 @@
   {
     "id": [ "TALK_ALLY_SOCIAL" ],
     "type": "talk_topic",
-    "condition": { "not": "u_has_trait": "PSYCHOPATH" },
+    "condition": { "not": { "u_has_trait": "PSYCHOPATH" } },
     "dynamic_line": {
       "is_by_radio": " *tshk* Are you serious?  This isn't a cell phone.  Can it wait until we're in the same place?",
       "no": "Sure, what did you want to say?"
