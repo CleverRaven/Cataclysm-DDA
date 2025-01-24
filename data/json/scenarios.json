@@ -24,8 +24,8 @@
     "id": "exodiicastle",
     "name": "Strange Castle",
     "points": 0,
-    "description": "You have survived the initial wave of panic, and made your way to the wilderness. You happened upon a strange castle guarded by robots in an area you were expecting to be uninhabited.",
-    "allowed_locs": [ "exodii_base_x0y3z0" ],
+    "description": "You have survived the initial wave of panic, and made your way to the wilderness. You were expecting to be uninhabited, but instead you see a large castle guarded by strange robots. At the entrance stands a sign, it reads \"Traders Come Well Avaunt\"",
+    "allowed_locs": [ "sloc_exodii_castle" ],
     "start_name": "Strange Castle",
     "flags": [ "LONE_START" ]
   },
