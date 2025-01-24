@@ -2864,13 +2864,6 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
-         to_translation( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
-
     add_option_group( "debug", Group( "chargen_point_opts",
                                       to_translation( "Character generation points options" ),
                                       to_translation( "Options regarding character generation points." ) ),
