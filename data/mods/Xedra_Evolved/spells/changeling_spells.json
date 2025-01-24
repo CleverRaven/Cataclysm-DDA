@@ -555,5 +555,33 @@
         "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
       ]
     }
+  },
+  {
+    "id": "trow_make_noise_spell",
+    "type": "SPELL",
+    "name": "The One Who Knocks",
+    "description": "Make a distant knocking sound, leading others astray.",
+    "message": "A loud thump resounds.",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground", "self", "ally", "hostile" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 2,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": 25,
+    "max_damage": 35,
+    "min_range": 30,
+    "max_range": 30,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": {
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 2) - (u_skill('deduction') * 5)), 35)" ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 3) - (u_skill('deduction') * 6)), 50)" ]
+    }
   }
 ]

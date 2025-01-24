@@ -1313,6 +1313,15 @@
   },
   {
     "type": "mutation",
+    "id": "TROW_MAKE_NOISE",
+    "name": { "str": "The One Who Knocks" },
+    "points": 3,
+    "description": "Create a loud knocking sound within the glamour's range, to distract or lure your enemies away.",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "spells_learned": [ [ "trow_make_noise_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "TROW_STONE_FISTS",
     "name": { "str": "Fists of Stone" },
     "points": 4,
@@ -1384,7 +1393,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "While on rock or underground, you seem to subtlely blend into your surroundings.  You are harder to spot on rocks or underground.",
+    "description": "While on rock or underground, you seem to subtly blend into your surroundings.  You are harder to spot on rocks or underground.",
     "prereqs": [ "IERDE_SKIN_2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ]
   },
