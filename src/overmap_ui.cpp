@@ -1335,7 +1335,6 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
         act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
     };
-    
     add_action_desc( "HISTORY_UP", pgettext( "string input", "History" ) );
     add_action_desc( "TEXT.CLEAR", pgettext( "string input", "Clear text" ) );
     add_action_desc( "TEXT.QUIT", pgettext( "string input", "Abort" ) );
