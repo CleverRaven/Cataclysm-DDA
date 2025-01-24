@@ -767,7 +767,7 @@
     "id": "MISSION_GODCO_CORRIE_MACHINE1",
     "type": "mission_definition",
     "name": { "str": "Renewable Energy" },
-    "description": "Find a solar panel for Corrie.",
+    "description": "Find a solar panel array or 4 solar panels of either regular or advanced variant for Corrie.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "u_has_items_sum": [
