@@ -267,6 +267,9 @@ void monmove()
     avatar &u = get_avatar();
 
     for( monster &critter : g->all_monsters() ) {
+        if( !m.inbounds( critter.pos_abs() ) ) {
+            continue;
+        }
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
                                     !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
