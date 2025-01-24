@@ -1116,6 +1116,37 @@
   },
   {
     "type": "mutation",
+    "id": "DEX_UP_SELKIE",
+    "name": { "str": "Bending Like the River" },
+    "points": 3,
+    "description": "Your movements are graceful whether on land or in the water.  +3 Dexterity.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "prereqs2": [ "SELKIE_WATERMOVE" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_SELKIE",
+    "name": { "str": "Eyes On the Waterline" },
+    "points": 3,
+    "description": "Your sight is keen whether in or out of the water.  +2 Perception.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_SELKIE",
+    "name": { "str": "Thoughts like Clear Water" },
+    "points": 2,
+    "description": "Your mind flows easily from topic to topic while remembering the important details.  +2 Intelligence.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "SELKIE_FOG_CLOAK",
     "name": { "str": "Cloak of Fog" },
     "points": 2,
@@ -1207,7 +1238,7 @@
     "name": { "str": "The Waves my Bed" },
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.",
-    "prereqs": [ "SELKIE_BREATHING_WATER2" ],
+    "prereqs2": [ "DEX_UP_SELKIE" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "comfort": [
       {
@@ -1297,7 +1328,7 @@
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       },
-      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
+      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -1 } ] }
     ]
   },
   {
