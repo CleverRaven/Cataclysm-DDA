@@ -616,5 +616,28 @@
     "max_duration": 600,
     "min_range": 1,
     "max_range": 1
+  },
+  {
+    "id": "goblin_fruit_blind_flash",
+    "type": "SPELL",
+    "name": { "str": "Flashbang fruit" },
+    "description": {
+      "str": "Produces the fruit's flashbang effect when eaten.  You're not supposed to see this, the same way your foes aren't supposed to see after you ate that fruit near them.",
+      "//~": "NO_I18N"
+    },
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "affected_body_parts": [ "eyes" ],
+    "valid_targets": [ "self", "ground" ],
+    "min_aoe": 7,
+    "max_aoe": 7,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 2000,
+    "max_duration": 2500,
+    "spell_class": "NONE",
+    "flags": [ "SILENT", "NO_FAIL", "NO_LEGS", "NO_PROJECTILE" ],
+    "difficulty": 0
   }
 ]

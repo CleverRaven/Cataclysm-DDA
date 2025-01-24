@@ -242,5 +242,47 @@
     "rating": "good",
     "show_intensity": false,
     "flags": [ "WALK_UNDERWATER", "GILLS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_stealth",
+    "name": [ "Unnoticed" ],
+    "desc": [ "You're beneath notice, unless they get too close of you." ],
+    "apply_message": "You find it hard to notice your own presence.",
+    "remove_message": "You become noticeable again.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_immovable",
+    "name": [ "Immovable" ],
+    "desc": [ "You cannot be moved against your will by mundane means." ],
+    "apply_message": "You feel fixed in place!",
+    "remove_message": "You stumble a little as your immovability ceases.",
+    "rating": "good",
+    "removes_effects": [ "stunned", "dazed", "downed" ],
+    "enchantments": [ { "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_dodge_instant",
+    "name": [ "Untouchable" ],
+    "desc": [ "For an instant, nothing can touch you." ],
+    "apply_message": "You start dodging everything that could touch you!",
+    "remove_message": "Your dodging abilities return to normal.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ 100 ] },
+    "flags": [ "UNCANNY_DODGE" ],
+    "removes_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "DODGE_CHANCE", "add": 100 },
+          { "value": "RANGE_DODGE", "add": 100 },
+          { "value": "BONUS_DODGE", "add": 15 }
+        ]
+      }
+    ]
   }
 ]

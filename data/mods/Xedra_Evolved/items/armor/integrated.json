@@ -919,5 +919,14 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "internal_mp3_fruit",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "The fruit's song" },
+    "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "tick_action": [ "RADIO_TICK" ]
   }
 ]

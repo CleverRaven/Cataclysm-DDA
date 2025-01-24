@@ -429,5 +429,275 @@
       },
       { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" }
     ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_mana_restore",
+    "name": { "str": "fizzy goblin fruit" },
+    "description": "This small brown goblin fruit constantly forms bubbles that erupt from its skin.  Despite that, its surface remains smooth at all times.  It has a subtle, sugary smell.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "weight": "134 g",
+    "volume": "122 ml",
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 5 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_stealth",
+    "name": { "str": "unnoticeable goblin fruit" },
+    "description": "This goblin fruit is hard to perceive. You think it's black, you believe it's small and you're certain it's near you, but all its other details slip from your memory the instant you stop looking at this fruit.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "black",
+    "weight": "61 g",
+    "volume": "56 ml",
+    "fun": 0,
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_STEALTH" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_STEALTH",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_stealth", "duration": { "math": [ "100 + rand(50)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_food",
+    "name": { "str": "heavy goblin fruit" },
+    "description": "This green goblin fruit is much heavier than it should be.  Its scent is heavy, pressing down your nose and throat as you smell it.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_green",
+    "weight": "2816 g",
+    "volume": "256 ml",
+    "calories": 1050,
+    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ],
+    "material": [ "fruit_heavy" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_soothing",
+    "name": { "str": "soothing goblin fruit" },
+    "description": "This sky blue fruit slows the thoughts racing in your mind a little as you stare at it, making you feel sightly more calm until you put it away.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_blue",
+    "weight": "202 g",
+    "volume": "184 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SOOTHING" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SOOTHING",
+    "effect": [
+      { "math": [ "goblin_fruit_soothe_duration = (10000 + rand(5000))" ] },
+      { "u_add_effect": "took_xanax", "duration": { "math": [ "goblin_fruit_soothe_duration" ] } },
+      { "u_add_effect": "took_prozac", "duration": { "math": [ "goblin_fruit_soothe_duration" ] } },
+      { "u_add_effect": "took_thorazine", "duration": { "math": [ "goblin_fruit_soothe_duration" ] } }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_music",
+    "name": { "str": "melodious goblin fruit" },
+    "description": "This sinewy, beak-shaped fruit produces a faint melody.  This melody grows a little louder when you bring the fruit next to your mouth.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "magenta",
+    "weight": "260 g",
+    "volume": "237 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MUSIC" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MUSIC",
+    "condition": { "not": { "u_has_trait": "GOBLIN_FRUIT_MUSIC" } },
+    "effect": [
+      { "u_message": "The fruit's melody fills your head.", "type": "good" },
+      { "u_add_trait": "GOBLIN_FRUIT_MUSIC" },
+      { "run_eocs": "EOC_GOBLIN_FRUIT_MUSIC_REMOVE", "time_in_future": { "math": [ "10000 + rand(10000)" ] } }
+    ],
+    "false_effect": [ { "u_message": "Another song is already struck in your head and won't share its space with another." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MUSIC_REMOVE",
+    "effect": [ { "u_message": "The song in your head fades.", "type": "info" }, { "u_lose_trait": "GOBLIN_FRUIT_MUSIC" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_combat_skill_boost",
+    "name": { "str": "mirror goblin fruit" },
+    "description": "You can see your reflection in the mirror-like surface of this fruit.  This reflection of you seems angrier, closer to a feral human than to your own image.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "white",
+    "weight": "331 g",
+    "volume": "301 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST",
+    "condition": { "not": { "u_has_trait": "GOBLIN_FRUIT_COMBAT_BOOST" } },
+    "effect": [
+      { "u_message": "Violence fills your heart, and with it comes the knowledge of how to do violence.", "type": "good" },
+      { "u_add_trait": "GOBLIN_FRUIT_COMBAT_SKILL_BOOST" },
+      {
+        "run_eocs": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST_REMOVE",
+        "time_in_future": { "math": [ "2000 + rand(3000)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Your heart is already as filled with violence as it can be." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST_REMOVE",
+    "effect": [
+      { "u_message": "Violence leaves your heart, as does its knowledge.", "type": "info" },
+      { "u_lose_trait": "GOBLIN_FRUIT_COMBAT_SKILL_BOOST" }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_craft_skill_boost",
+    "name": { "str": "camouflaged goblin fruit" },
+    "description": "The many colors of this oblong fruit shift to mimic what's behind it, trying to imitate other things with the best of its ability.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "red",
+    "weight": "244 g",
+    "volume": "222 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST",
+    "condition": { "not": { "u_has_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" } },
+    "effect": [
+      { "u_message": "Imitation fills your heart, and with it comes the knowledge of how to create things.", "type": "good" },
+      { "u_add_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" },
+      {
+        "run_eocs": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST_REMOVE",
+        "time_in_future": { "math": [ "15000 + rand(5000)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "Your heart is already as filled with imitation as it can be." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST_REMOVE",
+    "effect": [
+      { "u_message": "Imitation leaves your heart, as does its knowledge.", "type": "info" },
+      { "u_lose_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_immovable",
+    "name": { "str": "bitter goblin fruit" },
+    "description": "This fruit wrapped in barbed vines fills you with bitterness as you hold it.  It slightly resists inertia as you move it, as if it moved through molasses.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_gray",
+    "weight": "202 g",
+    "volume": "184 ml",
+    "fun": -10,
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_IMMOVABLE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_IMMOVABLE",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_immovable", "duration": { "math": [ "90 + rand(45)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_dodge_instant",
+    "name": { "str": "struggling goblin fruit" },
+    "description": "This yellow half-liquid fruit is hard to hold, as it actively tries to escape your grasp.  You hope it won't try to escape your innards after you eat it.",
+    "copy-from": "goblin_fruit_abstract",
+    "//": "When possible, this fruit should take longer to eat, as it literally opposes your attempts to eat it.",
+    "comestible_type": "FOOD",
+    "color": "yellow_cyan",
+    "weight": "169 g",
+    "volume": "154 ml",
+    "fun": -1,
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_DODGE_INSTANT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_DODGE_INSTANT",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_dodge_instant", "duration": { "math": [ "10 + rand(5)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_blood_gain",
+    "name": { "str": "vein-filled goblin fruit" },
+    "description": "This transluscent fruit is filled with a network of tubes not unlike veins and arteries.  Judging by the way its brown surface turns blue when bruised, it probably contains a fluid similar to blood.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "weight": "279 g",
+    "volume": "254 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_BLOOD_GAIN" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_BLOOD_GAIN",
+    "condition": { "u_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER" ] },
+    "//": "If the regular and the stolen bloods of vampires ever become one and the same, remove the below blood gain for vampires.",
+    "//2": "This fruit cannot and will not allow vampires to survive without blood.  It will only fill their reserves of mundane blood, as currently vampires can't lose stolen blood from blood loss.",
+    "effect": [
+      { "u_message": "This isn't the blood you need." },
+      { "math": [ "u_vitamin('blood')", "+=", "5000" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "5000" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel a pressure in your veins, then it passes." },
+      { "math": [ "u_vitamin('blood')", "+=", "5000" ] },
+      { "math": [ "u_vitamin('redcells')", "+=", "5000" ] }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_blind_flash",
+    "name": { "str": "dazzling goblin fruit" },
+    "description": "This fruit shines a light bright enough to be painful to look at.  From the little you can see, it appears to be a purple ovoid fruit.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "magenta",
+    "weight": "279 g",
+    "volume": "254 ml",
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_650" ],
+    "use_action": { "type": "cast_spell", "spell_id": "goblin_fruit_blind_flash", "no_fail": true, "level": 0 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_map",
+    "name": { "str": "rotating goblin fruit" },
+    "description": "This spiraled fruit ceaselessly spins on itself.  No matter how tight your grasp, you cannot stop its spinning.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "blue",
+    "weight": "224 g",
+    "volume": "204 ml",
+    "use_action": { "type": "reveal_map", "radius": 15, "message": "You suddenly learn what locations are near you." }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_adrenaline",
+    "name": { "str": "pulsating goblin fruit" },
+    "description": "This fruit pulses at regular intervals like a beating heart.  As you hold it its rhythm changes, mimicking your own heart.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "green",
+    "weight": "324 g",
+    "volume": "295 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOLBIN_FRUIT_ADRENALINE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOLBIN_FRUIT_ADRENALINE",
+    "effect": [ { "u_add_effect": "adrenaline", "duration": "20 minutes" } ]
   }
 ]
