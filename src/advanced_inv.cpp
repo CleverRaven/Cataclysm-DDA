@@ -1818,17 +1818,14 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 {
     avatar &u = get_avatar();
     item_location loc;
+    item it = *sitem->items.front();
+
     if( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) {
         loc = spane.container;
-    } else if( sitem && sitem->items.front()->can_unload() ) {
-        if( sitem -> contents_count > 0 ) {
-            loc = sitem->items.front();
-        } else {
-            popup_getkey( _( "%1$s is already empty." ), sitem->items.front()->display_name() );
-        }
-
+    } else if( sitem && it.can_unload() && !it.empty() ) {
+        loc = sitem->items.front();
     } else {
-        popup_getkey( _( "%1$s can't be unloaded." ), sitem->items.front()->display_name() );
+        popup_getkey( _( "%1$s can't be unloaded." ), it.display_name() );
         return false;
     }
 
