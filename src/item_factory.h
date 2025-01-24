@@ -259,6 +259,14 @@ class Item_factory
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
+        /**
+         * Find all holsters for itype. Uses type_contained_in_holsters cache, so it's much faster
+         * than constructing the result on the fly.
+         *
+         * This internally constructs an empty item from the itype. It should not be used as replacement
+         * for item::can_holster (for non-empty items). Ignores blacklist too.
+         */
+        const std::vector<const itype *> &find_holster_for( const itype & );
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
@@ -277,6 +285,9 @@ class Item_factory
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
         std::unordered_map<itype_id, itype_id> migrated_magazines;
+
+        // cache for holsters
+        std::unordered_map<itype_id, std::vector<const itype *>> type_contained_in_holsters;
 
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
