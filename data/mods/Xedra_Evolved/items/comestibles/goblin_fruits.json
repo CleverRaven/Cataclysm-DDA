@@ -440,7 +440,12 @@
     "color": "brown",
     "weight": "134 g",
     "volume": "122 ml",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 5 }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MANA" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MANA",
+    "effect": [ { "u_cast_spell": "potion_recover_mana_xe", "no_fail": true, "level": 5 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -669,7 +674,12 @@
     "weight": "279 g",
     "volume": "254 ml",
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_650" ],
-    "use_action": { "type": "cast_spell", "spell_id": "goblin_fruit_blind_flash", "no_fail": true, "level": 0 }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_BLUND_FLASH" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MANA",
+    "effect": [ { "u_cast_spell": "EOC_GOBLIN_FRUIT_BLUND_FLASH", "no_fail": true, "level": 5 } ]
   },
   {
     "type": "COMESTIBLE",
@@ -971,5 +981,90 @@
         ]
       }
     ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_wild_travel_boost",
+    "name": { "str": "mud-covered goblin fruit" },
+    "description": "This fruit is always covered in fresh mud.  You try to wipe it away, but it always come back.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "weight": "304 g",
+    "volume": "277 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WILD_TRAVEL_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_WILD_TRAVEL_BOOST",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_wild_travel_boost", "duration": { "math": [ "3000 + rand(4000)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_slowing_armor",
+    "name": { "str": "cavernous goblin fruit" },
+    "description": "This fruit has the shape of a hollow cylinder.  It has a notable smell of freshly-upturned earth.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "brown",
+    "weight": "304 g",
+    "volume": "277 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SLOWING_ARMOR" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SLOWING_ARMOR",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_slowing_armor", "duration": { "math": [ "400 + rand(200)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_social_boost",
+    "name": { "str": "arguing goblin fruit" },
+    "description": "This fruit reminds you of a small bowling ball.  You can hear it as it tries to convince you to not eat it.  It won't succeed, right?",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "blue_red",
+    "weight": "221 g",
+    "volume": "201 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SOCIAL_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SOCIAL_BOOST",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_social_boost", "duration": { "math": [ "1200 + rand(1200)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_heat_blast",
+    "name": { "str": "urchin goblin fruit" },
+    "description": "This spherical fruit bears many spines, yet all of of them are dulled.  It smells faintly of cinnamon and aftershave.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "red",
+    "weight": "331 g",
+    "volume": "301 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_HEAT_BLAST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_HEAT_BLAST",
+    "effect": [ { "u_cast_spell": "goblin_fruit_heat_blasts", "no_fail": true, "level": 0 } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_altitude_speed",
+    "name": { "str": "rushing goblin fruit" },
+    "description": "This pale fruit is surrounded by small lines of wind revolving around it.  The lines grow thicker the further the fruit is from the ground.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "white",
+    "weight": "188 g",
+    "volume": "171 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ALTITUDE_SPEED" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_ALTITUDE_SPEED",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_altitude_speed", "duration": { "math": [ "3000 + rand(2000)" ] } } ]
   }
 ]

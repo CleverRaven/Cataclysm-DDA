@@ -339,7 +339,7 @@
     "id": "effect_goblin_fruit_climb",
     "name": [ "Sticky climb" ],
     "desc": [ "You can climb walls without trouble." ],
-    "apply_message": "Your extremities become sticky",
+    "apply_message": "Your extremities become sticky.",
     "remove_message": "Your extremities stop being this sticky.",
     "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
   },
@@ -347,7 +347,10 @@
     "type": "effect_type",
     "id": "effect_goblin_fruit_amplification_instant",
     "name": [ "Pressurized amplification" ],
-    "desc": [ "Your muscles are filled with pressurized power." ],
+    "desc": [ "Your muscles are filled with pressurized power!" ],
+    "apply_message": "Your muscles are filled with pressurized power!",
+    "decay_message": "The pressure inside your muscles grows!",
+    "remove_message": "The power leaves your muscles in an instant.",
     "max_intensity": 10,
     "int_add_val": 10,
     "int_decay_step": -1,
@@ -361,7 +364,84 @@
     "id": "goblin_fruit_carry_boost",
     "name": [ "Lightened load" ],
     "desc": [ "You find it easier to carry heavy charges." ],
+    "apply_message": "You feel ligher, as does everything you're carrying.",
+    "remove_message": "The weight of your belongings return to normal.",
     "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ],
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_wild_travel_boost",
+    "name": [ "A path through the forest" ],
+    "desc": [ "You move a bit quicker through the wilds." ],
+    "apply_message": "Nearby vegetation becomes a little less daunting.",
+    "remove_message": "Traversing vegetation stops being easier.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_mega_fern" },
+            { "u_is_on_terrain": "t_fungus_colony" },
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_bamboo_long" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_bamboo" },
+            { "u_is_on_terrain": "t_bamboo_harvested" },
+            { "u_is_on_terrain": "t_underbrush_harvested_winter" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_white" },
+            { "u_is_on_terrain": "t_moss" },
+            { "u_is_on_terrain": "t_forestfloor" }
+          ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_slowing_armor",
+    "name": [ "The stone's endurance" ],
+    "desc": [ "You are more resistant to damage but move more slowly." ],
+    "apply_message": "You stiffen, becoming slower but more resistant to anything.",
+    "remove_message": "The stiffness quits your body.",
+    "rating": "mixed",
+    "show_in_info": true,
+    "base_mods": { "speed_mod": [ -10 ] },
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": -10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_social_boost",
+    "name": [ "Silver tongue" ],
+    "desc": [ "You are better at convincing others to do what you want." ],
+    "apply_message": "You feel more persuasive.",
+    "remove_message": "Your charisma returns to normal.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": 15 },
+          { "value": "SOCIAL_PERSUADE", "add": 15 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 15 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_social_boost",
+    "name": [ "Gust of wind" ],
+    "desc": [ "The winds are assisting your movements." ],
+    "apply_message": "You long for the skies as winds start blowing at you.",
+    "remove_message": "The skies lose their heightened luster.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "max( (u_val('pos_z') + 1) * 3, 0 )" ] } } ] } ]
   }
 ]
