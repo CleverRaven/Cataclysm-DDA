@@ -428,7 +428,7 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
         AddGlyphRangesFromCLDR( &b, lang );
         AddGlyphRangesMisc( &b );
-        if ( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
+        if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
             b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
         }
         ImVector<ImWchar> ranges;
