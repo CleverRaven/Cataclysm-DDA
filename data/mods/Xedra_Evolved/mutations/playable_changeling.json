@@ -306,6 +306,7 @@
     "points": 8,
     "description": "The Fair Folk have dealt with many mortal civilizations over the aeons, and have come to mutually beneficial arrangements with some of them.  Activate this trait to make your fae nature obvious, invoking those ancient agreements.  This <color_yellow>may anger</color> some who have especially bad relationships with the fae.",
     "prereqs": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "prereqs2": [ "CHANGELING_NOBLE_COMMAND_COMMMONERS" ],
     "category": [ "FAIR_FOLK_NOBLE" ],
     "active": true,
     "activated_is_setup": true,
@@ -322,6 +323,26 @@
     "player_display": false,
     "ignored_by": [ "PLANT", "MIGO", "CHANGELING", "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "anger_relations": [ [ "CYBORG", 50 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_COMMAND_COMMMONERS",
+    "name": { "str": "Sovereign's Command" },
+    "points": 3,
+    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_command_commoners_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_BEGUILMENT",
+    "name": { "str": "Beguilement" },
+    "points": 3,
+    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "prereqs2": [ "CHANGELING_NOBLE_COMMAND_COMMMONERS" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_beguilement_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -1147,6 +1168,16 @@
   },
   {
     "type": "mutation",
+    "id": "SELKIE_BEGUILMENT",
+    "name": { "str": "Beguilement" },
+    "points": 3,
+    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_beguilement_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SELKIE_FOG_CLOAK",
     "name": { "str": "Cloak of Fog" },
     "points": 2,
@@ -1324,6 +1355,37 @@
     "ugliness": 0,
     "description": "Once you begin mining, you can do it for hours without rest or sleep.  You do not get sleepy, hungry, or thirst for as long as you continue mining.  This does not remove the need to eat to recover the energy you spend mining.",
     "prereqs": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            {
+              "or": [
+                { "u_is_on_terrain": "t_stone_masonry_floor_balcony" },
+                { "u_is_on_terrain": "t_stone_masonry_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_marble_floor" },
+                { "u_is_on_terrain": "t_railroad_rubble" }
+              ]
+            },
+            { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] }
+          ]
+        },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_STEALTH_UNDERGROUND_ON_ROCK",
+    "name": { "str": "Amongst the Stones" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While on rock or underground, you seem to subtlely blend into your surroundings.  You are harder to spot on rocks or underground.",
+    "prereqs": [ "IERDE_SKIN_2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ]
   },
   {
