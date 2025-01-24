@@ -830,6 +830,30 @@
   },
   {
     "type": "ammunition_type",
+    "id": "khuunaofaai_payload",
+    "name": "Khuunäöfaai firework payload",
+    "default": "khuunaofaai_ammo_firework"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_fire",
+    "name": "Khuunäöfaai incendiary payload",
+    "default": "khuunaofaai_ammo_incendiary"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_acid",
+    "name": "Khuunäöfaai corrosive payload",
+    "default": "khuunaofaai_ammo_corrosive"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "khuunaofaai_payload_glue",
+    "name": "Khuunäöfaai adhesive payload",
+    "default": "khuunaofaai_ammo_foam"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glowstick_juice",
     "name": "glowstick juice",
     "default": "glowstick_juice"

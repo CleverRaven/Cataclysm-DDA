@@ -617,7 +617,15 @@
     "replace": "gg_plasma_cell"
   },
   {
-    "id": [ "84x246mm_hedp", "m235_tpa", "RPG-7_pg7vr", "RPG-7_tbg7v", "RPG-7_og7v" ],
+    "id": [
+      "84x246mm_hedp",
+      "m235_tpa",
+      "RPG-7_pg7vr",
+      "RPG-7_tbg7v",
+      "RPG-7_og7v",
+      "khuunaofaai_ammo_incendiary",
+      "khuunaofaai_ammo_corrosive"
+    ],
     "type": "MIGRATION",
     "replace": "rocket_hedp"
   },
@@ -632,7 +640,7 @@
     "replace": "rifle_pellet_hunting"
   },
   {
-    "id": [ "84x246mm_smoke" ],
+    "id": [ "84x246mm_smoke", "khuunaofaai_ammo_firework", "khuunaofaai_ammo_foam" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"
   },
