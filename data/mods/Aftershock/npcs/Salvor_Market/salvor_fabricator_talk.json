@@ -1,0 +1,63 @@
+[
+  {
+    "id": [ "TALK_SALVOR_FABRICATOR" ],
+    "type": "talk_topic",
+    "dynamic_line": "&As you approach the counter, you can't help but notice the chaotic scene before you: Juxtaposed to the makeshift structure, an awkward marriage of ship hulls and foamcrete walls, stands neatly arranged shelving, and near-pristine furniture.  The tools and parts lining the shelves have each been meticulously arranged.  A Salvor sits behind the counter with her arm perched on the surface, supporting her head in her hand.  In her other hand, she idly waves a cigarette, making small circles in the air.  Gray hairs peek out from the edges of her Cryo suit, and her wrinkle-creased face wears a permanent scowl.",
+    "responses": [
+      {
+        "//": "If you have met her already, skip the introduction and go to the normal menu.",
+        "text": "[Approach the counter]",
+        "topic": "TALK_SALVOR_FABRICATOR_MAIN",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] }
+      },
+      {
+        "//": "If you haven't met her, go to her non-earthborn introduction.",
+        "text": "[Approach the counter]",
+        "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION",
+        "condition": { 
+          "and": [
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } },
+            { "not": { "u_has_trait": "BKGR_EARTH" }
+          ]
+        }
+      },
+      {
+        "//": "If you haven't met her and your Earthborn she chastizes you harder. Her exerpiences with Artemis makes her assume you're a panzy.",
+        "text": "[Approach the counter]",
+        "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_EARTH",
+        "condition": { 
+          "and": [
+            { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } },
+            { "u_has_trait": "BKGR_EARTH" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION_EARTH" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Great, another Earther descends from the heavens.  Did you come all the way here to grace us with your presence?  If you've any brains in that thick skull: you take whatever money you have left and get your sorry ass off this rock.  Salus ain't for you.",
+    "responses": [
+      { "text": "I can't do that.", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_2" },
+      { "text": "You got some kind of problem with Earthers?", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_EARTH_BIAS_EXPLAIN" }
+    ]
+  },
+  {
+    "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION_EARTH_BIAS_EXPLAIN" ],
+    "type": "talk_topic",
+    "dynamic_line": "&Your kind are all the same.  Born on the ol' celestial throne Sol, silver spoon in your mouth.  Everywhere you go, you're walk'n and talk'n like you own the place.  Bumbling through the stars without a clue.  Spit'n out the Corpo bullshit they been feeding you till you die for the glory of ol' Earth.  I've seen enough Earth kids come through here to know you type.  Here to bite it just like they did?",
+    "responses": [
+      { "text": "I didn't come here to die.", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_2" }
+    ]
+  },
+  {
+    "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION" ],
+    "type": "talk_topic",
+    "dynamic_line": "Another new face.  So what'll it be this time?  Corpo Business?  Treasure Hunting?  Bounty Hunt?  Or maybe you just heard about the lovely weather here and just had to experience it yourself?  Save yourself the trouble.  There ain't nothing for you on Salus.  Want my advice?  Get off world 'fore some bot plasters your brains all over the snow.",
+    "responses": [
+      { "text": "I can't do that.", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_2" },
+    ]
+  }
+  
+]
