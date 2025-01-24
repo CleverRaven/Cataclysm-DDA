@@ -83,6 +83,9 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
+static const field_type_str_id field_fd_blood( "fd_blood" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
+
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
@@ -225,6 +228,69 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z,
                           int rotate );
+
+static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
+{
+    if( p.z() < 0 ) {
+        // for the moment make sure we don't apply this to labs or other places
+        debugmsg( "Riot damage mapgen generator called on underground structure.  This is likely a bug." );
+        return;
+    }
+    std::list<tripoint_bub_ms> all_points_in_map;
+    // Placeholder / FIXME
+    // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int n = 0; n < SEEY * 2; n++ ) {
+            tripoint_bub_ms current_tile( i, n, p.z() );
+            all_points_in_map.push_back( current_tile );
+        }
+    }
+    for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
+        // Pick a tile at random!
+        tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+        // Do nothing at random!;
+        if( x_in_y( 10, 100 ) ) {
+            continue;
+        }
+        // Bash stuff at random!
+        if( x_in_y( 20, 100 ) ) {
+            md.bash( current_tile, rng( 6, 60 ) );
+        }
+        // Move stuff at random!
+        auto item_iterator = md.i_at( current_tile.xy() ).begin();
+        while( item_iterator != md.i_at( current_tile.xy() ).end() ) {
+            if( x_in_y( 30, 100 ) ) {
+                // pick a new spot...
+                tripoint_bub_ms destination_tile( current_tile.x() + rng( -3, 3 ),
+                                                  current_tile.y() + rng( -3, 3 ),
+                                                  current_tile.z() );
+                // oops, don't place out of bounds. just skip moving
+                const bool outbounds_X = destination_tile.x() < 0 || destination_tile.x() >= SEEX * 2;
+                const bool outbounds_Y = destination_tile.y() < 0 || destination_tile.y() >= SEEY * 2;
+                const bool would_be_destroyed = md.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, destination_tile );
+                if( outbounds_X || outbounds_Y || would_be_destroyed ) {
+                    item_iterator++;
+                    continue;
+                } else {
+                    item copy( *item_iterator );
+                    // add a copy of our item to the destination...
+                    md.add_item( destination_tile, copy );
+                    // and erase the one at our source.
+                    item_iterator = md.i_at( current_tile.xy() ).erase( item_iterator );
+                }
+            } else {
+                item_iterator++;
+            }
+        }
+        // Set some fields at random!
+        if( x_in_y( 3, 100 ) ) {
+            md.add_field( current_tile, field_fd_blood );
+        }
+        if( x_in_y( 1, 2000 ) ) {
+            md.add_field( current_tile, field_fd_fire );
+        }
+    }
+}
 
 // Assumptions:
 // - The map supplied is empty, i.e. no grid entries are in use
@@ -411,6 +477,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 }
             }
         }
+    }
+
+    // Apply post-process generators
+    if( overmap_buffer.ter( p )->has_flag( oter_flags::pp_generate_riot_damage ) ) {
+        GENERATOR_riot_damage( *this, p );
     }
 
     set_abs_sub( p_sm_base );

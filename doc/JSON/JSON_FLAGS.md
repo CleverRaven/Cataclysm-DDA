@@ -1316,6 +1316,7 @@ See [Character](#character)
 - ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it will update the mapgen from the terrain it replaced.  This allows the corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
+- ```PP_GENERATE_RIOT_DAMAGE``` Applies randomized riot damage to the local map as a last stage in generating it. Furniture and terrain will be bashed, items moved around, blood spatters are placed, and rarely spawns fires.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
 - ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
 - ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.

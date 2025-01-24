@@ -729,6 +729,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::ocean_shore: return "OCEAN_SHORE";
         case oter_flags::ravine: return "RAVINE";
         case oter_flags::ravine_edge: return "RAVINE_EDGE";
+        case oter_flags::pp_generate_riot_damage: return "PP_GENERATE_RIOT_DAMAGE";
         case oter_flags::generic_loot: return "GENERIC_LOOT";
         case oter_flags::risk_extreme: return "RISK_EXTREME";
         case oter_flags::risk_high: return "RISK_HIGH";
