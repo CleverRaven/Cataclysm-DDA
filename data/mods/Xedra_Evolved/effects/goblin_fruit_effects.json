@@ -284,5 +284,63 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_focus_boost",
+    "name": [ "Understanding" ],
+    "desc": [ "As long as it lasts, you will have an easier time learning new things." ],
+    "apply_message": "Everything feels a little easier to understand now.",
+    "remove_message": "Your mind returns to its regular level of understanding.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 20 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_heal_after_sleep",
+    "name": [ "Eventual restful sleep" ],
+    "desc": [ "" ],
+    "max_intensity": 9999,
+    "rating": "good"
+  },
+  {
+    "id": "effect_goblin_fruit_teleport",
+    "type": "effect_type",
+    "name": [ "Fractal teleportation" ],
+    "desc": [ "Your position constantly changes." ],
+    "apply_message": "You feel your position grow uncertain.",
+    "remove_message": "You stop teleporting all over the place.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "goblin_fruit_teleport_spell" } ] } ] }
+      }
+    ]
+  },
+  {
+    "id": "goblin_fruit_teleport_spell",
+    "type": "SPELL",
+    "name": { "str": "fractal fruit teleport", "//~": "NO_I18N" },
+    "description": { "str": "Makes the fractal goblin fruit.", "//~": "NO_I18N" },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "valid_targets": [ "none" ],
+    "flags": [ "NO_FAIL", "SILENT", "NO_LEGS" ],
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "min_range": 2,
+    "max_range": 15,
+    "difficulty": 0,
+    "spell_class": "NONE"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_climb",
+    "name": [ "Sticky climb" ],
+    "desc": [ "You can climb walls without trouble." ],
+    "apply_message": "Your extremities become sticky",
+    "remove_message": "Your extremities stop being this sticky.",
+    "flags": [ "CLIMB_NO_LADDER", "WALL_CLING" ]
   }
 ]

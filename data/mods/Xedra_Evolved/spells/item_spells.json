@@ -620,9 +620,9 @@
   {
     "id": "goblin_fruit_blind_flash",
     "type": "SPELL",
-    "name": { "str": "Flashbang fruit" },
+    "name": { "str": "Flash fruit" },
     "description": {
-      "str": "Produces the fruit's flashbang effect when eaten.  You're not supposed to see this, the same way your foes aren't supposed to see after you ate that fruit near them.",
+      "str": "Produces the fruit's flash effect when eaten.  You're not supposed to see this, the same way your foes aren't supposed to see after you ate that fruit near them.",
       "//~": "NO_I18N"
     },
     "effect": "attack",

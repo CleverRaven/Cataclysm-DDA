@@ -613,7 +613,7 @@
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_dodge_instant",
-    "name": { "str": "struggling goblin fruit" },
+    "name": { "str": "Evasive goblin fruit" },
     "description": "This yellow half-liquid fruit is hard to hold, as it actively tries to escape your grasp.  You hope it won't try to escape your innards after you eat it.",
     "copy-from": "goblin_fruit_abstract",
     "//": "When possible, this fruit should take longer to eat, as it literally opposes your attempts to eat it.",
@@ -633,7 +633,7 @@
     "type": "COMESTIBLE",
     "id": "goblin_fruit_blood_gain",
     "name": { "str": "vein-filled goblin fruit" },
-    "description": "This transluscent fruit is filled with a network of tubes not unlike veins and arteries.  Judging by the way its brown surface turns blue when bruised, it probably contains a fluid similar to blood.",
+    "description": "This translucent fruit is filled with a network of tubes not unlike veins and arteries.  Judging by the way its brown surface turns blue when bruised, it probably contains a fluid similar to blood.",
     "copy-from": "goblin_fruit_abstract",
     "comestible_type": "FOOD",
     "color": "brown",
@@ -699,5 +699,209 @@
     "type": "effect_on_condition",
     "id": "EOC_GOLBIN_FRUIT_ADRENALINE",
     "effect": [ { "u_add_effect": "adrenaline", "duration": "20 minutes" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_focus_boost",
+    "name": { "str": "understandable goblin fruit" },
+    "description": "You understand everything about this pale green fruit.  You know that it will taste like an apple and you know that it will have the inner structure of a kiwi, the texture of a durian, the smell of a dragonfruit and the colors of an orange.  you also know that eating it will help you understand anything you could try to learn for a few hours.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "green_white",
+    "weight": "255 g",
+    "volume": "231 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOLBIN_FRUIT_FOCUS_BOOST" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOLBIN_FRUIT_FOCUS_BOOST",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_focus_boost", "duration": "15000 + rand(5000)" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_spawn_more_fruits",
+    "name": { "str": "pupating goblin fruit" },
+    "description": "This dark red half-liquid fruit fills you with dread and sadness as it endlessly tries to split but fails to do so.  You sense that it wants you to eat it, but you're not sure if it would be worth it.",
+    "copy-from": "goblin_fruit_abstract",
+    "//": "The idea is that this fruit needs to feed on happiness to create other goblin fruits and it can't do that unless you eat it, with predictable results on your own happiness.",
+    "comestible_type": "FOOD",
+    "color": "dark_gray_red",
+    "weight": "381 g",
+    "volume": "350 ml",
+    "fun": "-30",
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ], [ "fruit_allergen", 1 ], [ "bad_food", 25 ] ],
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SPAWN_MORE_FRUITS" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SPAWN_MORE_FRUITS",
+    "effect": [
+      {
+        "u_spawn_item": "spell_spawned_goblin_fruit",
+        "count": { "math": [ "rng(2,3)" ] },
+        "use_item_group": true,
+        "suppress_message": true
+      },
+      {
+        "u_message": "Some hard chunks of that horrible fruit jump from your mouth and turn into fresh goblin fruits.",
+        "type": "info"
+      }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_fun",
+    "name": { "str": "patchwork goblin fruit" },
+    "description": "This fruit is closer to an art project than to a fruit.  Numerous stitches hold together red-tinted parts of many different fruits so tightly it acts as a single, consistent whole.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_red",
+    "weight": "379 g",
+    "volume": "345 ml",
+    "fun": "30"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_no_spoil",
+    "name": { "str": "pristine goblin fruit" },
+    "description": "This fruit has a perfectly unblemished surface that cannot be tarnished or dirtied, no matter what happens to it.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "yellow_cyan",
+    "weight": "222 g",
+    "volume": "202 ml",
+    "spoils_in": "0"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_numbing",
+    "name": { "str": "numbing goblin fruit" },
+    "description": "This gray dented fruit numbs your fingers as you hold it and its smell numbs your nose the same way.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_gray",
+    "weight": "244 g",
+    "volume": "222 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NUMB" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_NUMB",
+    "condition": { "not": { "u_has_trait": "NUMB" } },
+    "effect": [
+      { "u_message": "Everything goes numb.", "type": "good" },
+      { "u_add_trait": "NUMB" },
+      { "run_eocs": "EOC_GOBLIN_FRUIT_NUMB_REMOVE", "time_in_future": { "math": [ "2000 + rand(3000)" ] } }
+    ],
+    "false_effect": [ { "u_message": "You don't feel more numb than you currently are." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_NUMB_REMOVE",
+    "effect": [ { "u_message": "The numbness goes away.", "type": "info" }, { "u_lose_trait": "NUMB" } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_spawn_shadows",
+    "name": { "str": "whispering goblin fruit" },
+    "description": "This fruit is similar to a sphere of smoke.  Faint sounds come from this fruit.  They almost sound like whispers.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "dark_gray",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SPAWN_SHADOWS" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_SPAWN_SHADOWS",
+    "effect": [
+      {
+        "u_spawn_monster": "mon_dream_shadow_player",
+        "real_count": { "math": [ "4 + rand(5)" ] },
+        "min_radius": 0,
+        "max_radius": 3,
+        "lifespan": { "math": [ "2500 + rand(2500)" ] },
+        "suppress_message": true
+      },
+      { "u_message": "A few shadows emerge from the ground near you.", "type": "info" }
+    ]
+  },
+  {
+    "id": "mon_dream_shadow_player",
+    "copy-from": "mon_dream_shadow",
+    "type": "MONSTER",
+    "name": "shadow",
+    "default_faction": "player"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_heal_after_sleep",
+    "name": { "str": "recoloring goblin fruit" },
+    "description": "This rectangle fruit smells of lavender and has a mushy texture.  Its colors grow more vibrant for a second when you blink.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "green_white",
+    "weight": "238 g",
+    "volume": "217 ml",
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "MUSHY" ],
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_HEAL_AFTER_SLEEP" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_HEAL_AFTER_SLEEP",
+    "effect": [
+      {
+        "u_add_effect": "effect_goblin_fruit_heal_after_sleep",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('effect_goblin_fruit_heal_after_sleep') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_HEAL_AFTER_SLEEP_HEALING",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "effect_goblin_fruit_heal_after_sleep" },
+    "effect": [
+      { "math": [ "u_hp('ALL') + u_effect_intensity('effect_goblin_fruit_heal_after_sleep') * (10 + rand(5))" ] },
+      { "u_message": "Some of the aches of yesterday are gone." },
+      { "u_lose_effect": "effect_goblin_fruit_heal_after_sleep" }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_teleport",
+    "name": { "str": "fractal goblin fruit" },
+    "description": "This spherical fruit is made of smaller versions of itself, which are also made of smaller versions of themselves.  Should you have a microscope, you could look at the fractal as it becomes smaller and smaller.",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "blue",
+    "weight": "458 g",
+    "volume": "417 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_TELEPORT" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_TELEPORT",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_teleport", "duration": { "math": [ "2 + rand(5)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_climb",
+    "name": { "str": "sticky goblin fruit" },
+    "description": "This disk-shaped fruit sticks to anything it touches.  .",
+    "copy-from": "goblin_fruit_abstract",
+    "comestible_type": "FOOD",
+    "color": "light_blue",
+    "weight": "359 g",
+    "volume": "327 ml",
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_CLIMB" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_CLIMB",
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_climb", "duration": { "math": [ "3000 + rand(1000)" ] } } ]
   }
 ]
