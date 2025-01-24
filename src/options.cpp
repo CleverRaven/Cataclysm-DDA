@@ -2726,6 +2726,13 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
+    add( "WORLD_COMPRESSION", "world_default", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         false
+       );
+
+    add_empty_line();
+
     add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game world options" ),
                       to_translation( "Options regarding game world." ) ),
     [&]( const std::string & page_id ) {
