@@ -499,14 +499,14 @@ static VisitResponse visit_items_internal( map *here,
 VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    if( get_map().inbounds( pos() ) ) {
-        return visit_items_internal( &get_map(), pos(), func );
+    if( get_map().inbounds( pos_bub() ) ) {
+        return visit_items_internal( &get_map(), pos_bub(), func );
     } else {
         tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
         // pos returns the pos_bub location of the target relative to the reality bubble
         // even though the location isn't actually inside of it. Thus, we're loading a map
         // around that location to do our work.
-        tripoint_abs_ms abs_pos = get_map().get_abs( pos() );
+        const tripoint_abs_ms abs_pos = pos_abs();
         here.load( project_to<coords::omt>( abs_pos ), false );
         tripoint_omt_ms p = here.get_omt( abs_pos );
         return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
@@ -709,14 +709,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( pos() ) ) {
+    if( !here.inbounds( pos_bub() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point_sm_ms offset;
-    submap *sub = here.get_submap_at( pos(), offset );
+    submap *sub = here.get_submap_at( pos_bub(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {

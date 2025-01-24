@@ -223,7 +223,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint_bub_ms pos_bub() const override {
-            return cur.pos();
+            return cur.pos_bub();
         }
 
         Character *carrier() const override {
@@ -231,9 +231,9 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = get_map().name( cur.pos() );
+            std::string res = get_map().name( cur.pos_bub() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos() );
+                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos_bub() );
             }
             return res;
         }
@@ -266,7 +266,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos_bub(), cur.pos() );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.pos_bub() );
 
             // TODO: handle unpacking costs
 
@@ -283,7 +283,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            map_stack stack = get_map().i_at( cur.pos() );
+            map_stack stack = get_map().i_at( cur.pos_bub() );
             return stack.free_volume();
         }
 
