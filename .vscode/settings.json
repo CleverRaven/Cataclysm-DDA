@@ -85,6 +85,10 @@
     "C_Cpp.formatting": "disabled",
     "astyle.astylerc": "${workspaceRoot}/.astylerc",
     "files.associations": {
-        "vector": "cpp"
+        "vector": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "span": "cpp",
+        "regex": "cpp"
     }
 }

@@ -1830,7 +1830,7 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
     do_return_entry();
     // always exit to proc do_return_entry even when no activity was assigned
     exit = true;
-    return u.unload( loc );;
+    return u.unload( loc );
 }
 
 void advanced_inventory::display()
