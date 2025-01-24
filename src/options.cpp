@@ -2392,8 +2392,8 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 
-        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in Imgui" ),
-             to_translation( "If true, Imgui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs." ),
+        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in ImGui" ),
+             to_translation( "If true, ImGui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs." ),
              false, COPT_CURSES_HIDE
            );
     } );
