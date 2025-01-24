@@ -1818,22 +1818,19 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 {
     avatar &u = get_avatar();
     item_location loc;
-    item it = *sitem->items.front();
 
-    if( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) {
+    if( spane.get_area() == AIM_CONTAINER ) {
         loc = spane.container;
-    } else if( sitem && it.can_unload() && !it.empty() ) {
+    } else if( sitem ) {
         loc = sitem->items.front();
     } else {
-        popup_getkey( _( "%1$s can't be unloaded." ), it.display_name() );
         return false;
     }
 
-    if( loc != item_location::nowhere && !loc->is_container_empty() ) {
-        do_return_entry();
-        return u.unload( loc );;
-    }
-    return false;
+    do_return_entry();
+    // always exit to proc do_return_entry even when no activity was assigned
+    exit = true;
+    return u.unload( loc );;
 }
 
 void advanced_inventory::display()
@@ -2046,8 +2043,7 @@ void advanced_inventory::display()
                 action_examine( sitem, spane );
             }
         } else if( action == "UNLOAD_CONTAINER" ) {
-            recalc = exit = action_unload( sitem, spane );
-
+            recalc = action_unload( sitem, spane );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
