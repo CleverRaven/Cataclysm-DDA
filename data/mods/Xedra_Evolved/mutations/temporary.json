@@ -502,6 +502,7 @@
     "description": { "str": "What makes the furry fruit work.  You should never see this.", "//~": "NO_I18N" },
     "valid": false,
     "player_display": false,
+    "points": 0,
     "ignored_by": [ "MAMMAL", "AMPHIBIAN", "BIRD", "REPTILE", "FISH", "KRAKEN", "INSECT", "CENTIPEDE", "INSECT_FLYING", "SPIDER" ]
   }
 ]

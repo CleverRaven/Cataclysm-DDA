@@ -435,7 +435,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_goblin_fruit_social_boost",
+    "id": "effect_goblin_fruit_altitude_speed",
     "name": [ "Gust of wind" ],
     "desc": [ "The winds are assisting your movements." ],
     "apply_message": "You long for the skies as winds start blowing at you.",
@@ -454,9 +454,8 @@
     "rating": "good",
     "show_in_info": true,
     "enchantments": [
-      {
-        "values": [ { "incoming_damage_mod": [ { "type": "cold", "multiply": -0.33 } ] }, { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ]
-      }
+      { "incoming_damage_mod": [ { "type": "cold", "multiply": -0.33 } ] },
+      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ] }
     ]
   },
   {

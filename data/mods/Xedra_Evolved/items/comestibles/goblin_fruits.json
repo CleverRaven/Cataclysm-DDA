@@ -445,7 +445,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_MANA",
-    "effect": [ { "u_cast_spell": "potion_recover_mana_xe", "no_fail": true, "level": 5 } ]
+    "effect": [ { "u_cast_spell": { "id": "potion_recover_mana_xe", "min_level": 4, "max_level": 6 } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -679,7 +679,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_BLIND_FLASH",
-    "effect": [ { "u_cast_spell": "goblin_fruit_blind_flash", "no_fail": true, "level": 0 } ]
+    "effect": [ { "u_cast_spell": { "id": "goblin_fruit_blind_flash", "min_level": 0, "max_level": 0 } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -725,7 +725,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOLBIN_FRUIT_FOCUS_BOOST",
-    "effect": [ { "u_add_effect": "effect_goblin_fruit_focus_boost", "duration": "15000 + rand(5000)" } ]
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_focus_boost", "duration": { "math": [ "15000 + rand(5000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -738,7 +738,7 @@
     "color": "dark_gray_red",
     "weight": "381 g",
     "volume": "350 ml",
-    "fun": "-30",
+    "fun": -30,
     "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ], [ "fruit_allergen", 1 ], [ "bad_food", 25 ] ],
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SPAWN_MORE_FRUITS" ]
   },
@@ -768,7 +768,7 @@
     "color": "light_red",
     "weight": "379 g",
     "volume": "345 ml",
-    "fun": "30"
+    "fun": 30
   },
   {
     "type": "COMESTIBLE",
@@ -780,7 +780,7 @@
     "color": "yellow_cyan",
     "weight": "222 g",
     "volume": "202 ml",
-    "spoils_in": "0"
+    "spoils_in": 0
   },
   {
     "type": "COMESTIBLE",
@@ -792,6 +792,7 @@
     "color": "light_gray",
     "weight": "244 g",
     "volume": "222 ml",
+    "fun": 0,
     "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NUMB" ]
   },
   {
@@ -831,8 +832,7 @@
         "real_count": { "math": [ "4 + rand(5)" ] },
         "min_radius": 0,
         "max_radius": 3,
-        "lifespan": { "math": [ "2500 + rand(2500)" ] },
-        "suppress_message": true
+        "lifespan": { "math": [ "2500 + rand(2500)" ] }
       },
       { "u_message": "A few shadows emerge from the ground near you.", "type": "info" }
     ]
@@ -875,7 +875,7 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_goblin_fruit_heal_after_sleep" },
     "effect": [
-      { "math": [ "u_hp('ALL') + u_effect_intensity('effect_goblin_fruit_heal_after_sleep') * (10 + rand(5))" ] },
+      { "math": [ "u_hp('ALL') += u_effect_intensity('effect_goblin_fruit_heal_after_sleep') * (10 + rand(5))" ] },
       { "u_message": "Some of the aches of yesterday are gone." },
       { "u_lose_effect": "effect_goblin_fruit_heal_after_sleep" }
     ]
@@ -1048,7 +1048,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_HEAT_BLAST",
-    "effect": [ { "u_cast_spell": "goblin_fruit_heat_blasts", "no_fail": true, "level": 0 } ]
+    "effect": [ { "u_cast_spell": { "id": "goblin_fruit_heat_blasts", "min_level": 0, "max_level": 0 } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -1192,26 +1192,26 @@
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_MEND_BONE",
     "//": "Unbreaks the first broken limb it finds, then heals it.  No effect if you don't have broken limbs.",
-    "condition": { "math": [ "u_hp('arm_l') = 0" ] },
+    "condition": { "math": [ "u_hp('arm_l') == 0" ] },
     "effect": [
       { "math": [ "u_hp('arm_l')", "+=", "30" ] },
       { "u_message": "The bones of your left arm mend together in an instant!", "type": "good" }
     ],
     "false_effect": [
       {
-        "if": { "math": [ "u_hp('arm_r') = 0" ] },
+        "if": { "math": [ "u_hp('arm_r') == 0" ] },
         "then": [
           { "math": [ "u_hp('arm_r')", "+=", "30" ] },
           { "u_message": "The bones of your right arm mend together in an instant!", "type": "good" }
         ],
         "else": {
-          "if": { "math": [ "u_hp('leg_l') = 0" ] },
+          "if": { "math": [ "u_hp('leg_l') == 0" ] },
           "then": [
             { "math": [ "u_hp('leg_l')", "+=", "30" ] },
             { "u_message": "The bones of your left leg mend together in an instant!", "type": "good" }
           ],
           "else": {
-            "if": { "math": [ "u_hp('leg_r') > 0" ] },
+            "if": { "math": [ "u_hp('leg_r') == 0" ] },
             "then": [
               { "math": [ "u_hp('leg_r')", "+=", "30" ] },
               { "u_message": "The bones of your right leg mend together in an instant!", "type": "good" }
@@ -1256,11 +1256,11 @@
     "effect": [ { "u_message": "Not even the power of this fruit could grant you access to dream magic.", "type": "bad" } ],
     "false_effect": [
       {
-        "if": { "u_has_trait": [ "DREAMLESS" ] },
+        "if": { "u_has_trait": "DREAMLESS" },
         "then": [
-          { "u_lose_trait": [ "DREAMLESS" ] },
+          { "u_lose_trait": "DREAMLESS" },
           { "u_message": "Your mind fills with dreams of an intensity you have never seen before!", "type": "good" },
-          { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "3 months" }
+          { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
         ],
         "else": {
           "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
@@ -1268,7 +1268,7 @@
             { "math": [ "eater_dreamer_sequence = 5" ] },
             { "math": [ "magic_potential = 1" ] },
             { "u_message": "Your mind fills with oddly real dreams!", "type": "good" },
-            { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "3 months" }
+            { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
           ],
           "else": {
             "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
@@ -1276,19 +1276,19 @@
               { "math": [ "inventor_dreamsmith_sequence = 7" ] },
               { "math": [ "magic_potential = 1" ] },
               { "u_message": "Your mind fills with dreams you could make real!", "type": "good" },
-              { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "3 months" }
+              { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
             ],
             "else": {
               "if": { "u_has_trait": "EATER" },
               "then": [
                 { "math": [ "xe_eater_leveling++" ] },
                 { "u_message": "You feel your Eater potential grow!", "type": "good" },
-                { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "3 months" }
+                { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
               ],
               "else": [
                 { "math": [ "xe_dreamer_leveling++" ] },
                 { "u_message": "You feel your Dreamer potential grow!", "type": "good" },
-                { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "3 months" }
+                { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
               ]
             }
           }

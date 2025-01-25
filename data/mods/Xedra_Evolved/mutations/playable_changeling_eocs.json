@@ -1836,29 +1836,29 @@
     "id": "EOC_BROWNIE_GOBLIN_FRUIT",
     "condition": {
       "and": [
-        { "not": [ "u_is_outside" ] },
+        { "not": "u_is_outside" },
         { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
         { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
       ]
     },
     "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_brownie", "use_item_group": true, "suppress_message": true },
-    "false_effect": [ { "u_message": "You must be inside and unboserved to call forth a goblin fruit.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You must be inside and unobserved to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_GOBLIN_FRUIT",
     "condition": {
       "or": [
-        { "math": [ "u_mon_species_nearby('MAMMAL', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('AMPHIBIAN', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('BIRD', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('REPTILE', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('FISH', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('KRAKEN', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('INSECT', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('CENTIPEDE', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('INSECT_FLYING', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('SPIDER', 'radius': 30, 'attitude': 'both')) >= 1" ] }
+        { "math": [ "u_mon_species_nearby('MAMMAL', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('AMPHIBIAN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('BIRD', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('REPTILE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('FISH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('KRAKEN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('CENTIPEDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT_FLYING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SPIDER', 'radius': 30, 'attitude': 'both') >= 1" ] }
       ]
     },
     "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_pooka", "use_item_group": true, "suppress_message": true },
@@ -1867,7 +1867,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TROW_GOBLIN_FRUIT",
-    "condition": { "or": [ { "not": [ "is_day" ] }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+    "condition": { "or": [ { "not": "is_day" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
     "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_trow", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be under the ground or at night to call forth a goblin fruit.", "type": "bad" } ]
   },
@@ -1876,13 +1876,13 @@
     "id": "EOC_NOBLE_GOBLIN_FRUIT",
     "condition": {
       "or": [
-        { "math": [ "u_mon_species_nearby('CHANGELING', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('ARVORE', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('IERDE', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('HOMULLUS', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('SALAMANDER', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('SYLPH', 'radius': 30, 'attitude': 'both')) >= 1" ] },
-        { "math": [ "u_mon_species_nearby('UNDINE', 'radius': 30, 'attitude': 'both')) >= 1" ] },
+        { "math": [ "u_mon_species_nearby('CHANGELING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('ARVORE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('IERDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('HOMULLUS', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SALAMANDER', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SYLPH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('UNDINE', 'radius': 30, 'attitude': 'both') >= 1" ] },
         { "math": [ "u_characters_nearby('radius': 30) >= 1" ] }
       ]
     },
