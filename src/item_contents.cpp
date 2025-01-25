@@ -689,8 +689,6 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                     pocket.is_type( pocket_type::CORPSE ) ||
                     pocket.is_type( pocket_type::MAGAZINE ) ||
                     pocket.is_type( pocket_type::MAGAZINE_WELL ) ||
-                    pocket.is_type( pocket_type::SOFTWARE ) ||
-                    pocket.is_type( pocket_type::EBOOK ) ||
                     pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
                     ++pocket_index;
                     for( const item *it : pocket.all_items_top() ) {
@@ -1055,22 +1053,20 @@ ret_val<void> item_contents::is_compatible( const item &it ) const
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it,
-        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
+        const bool ignore_pkt_settings, const bool ignore_non_container_pocket ) const
 {
     int copies = 1;
-    return can_contain_rigid( it, copies, ignore_pkt_settings, is_pick_up_inv );
+    return can_contain_rigid( it, copies, ignore_pkt_settings, ignore_non_container_pocket );
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
+        const bool ignore_pkt_settings, const bool ignore_non_container_pocket ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         // Only count container in pickup_inventory_preset.
-        if( is_pick_up_inv ) {
-            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
-                continue;
-            }
+        if( ignore_non_container_pocket && !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
         }
         if( pocket.is_type( pocket_type::MOD ) ||
             pocket.is_type( pocket_type::CORPSE ) ||
@@ -1096,14 +1092,15 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
 }
 
 ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
-        const bool is_pick_up_inv, units::volume remaining_parent_volume ) const
+        const bool ignore_non_container_pocket, units::volume remaining_parent_volume ) const
 {
     int copies = 1;
-    return can_contain( it, copies, ignore_pkt_settings, is_pick_up_inv, remaining_parent_volume );
+    return can_contain( it, copies, ignore_pkt_settings, ignore_non_container_pocket,
+                        remaining_parent_volume );
 }
 
 ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings, const bool is_pick_up_inv,
+        const bool ignore_pkt_settings, const bool ignore_non_container_pocket,
         units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
@@ -1117,10 +1114,8 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
             continue;
         }
         // Only count container in pickup_inventory_preset.
-        if( is_pick_up_inv ) {
-            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
-                continue;
-            }
+        if( ignore_non_container_pocket && !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
         }
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
@@ -1637,8 +1632,7 @@ item &item_contents::only_item()
 const item &item_contents::first_item() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.empty() || !( pocket.is_type( pocket_type::CONTAINER ) ||
-                                 pocket.is_type( pocket_type::SOFTWARE ) ) ) {
+        if( pocket.empty() || !pocket.is_type( pocket_type::CONTAINER ) ) {
             continue;
         }
         // the first item we come to is the only one.
@@ -1877,9 +1871,11 @@ std::vector<const item *> item_contents::softwares() const
 {
     std::vector<const item *> softwares;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::SOFTWARE ) ) {
+        if( pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
             for( const item *it : pocket.all_items_top() ) {
-                softwares.insert( softwares.end(), it );
+                if( it->is_software() ) {
+                    softwares.insert( softwares.end(), it );
+                }
             }
         }
     }
@@ -1890,9 +1886,11 @@ std::vector<item *> item_contents::ebooks()
 {
     std::vector<item *> ebooks;
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::EBOOK ) ) {
+        if( pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
             for( item *it : pocket.all_items_top() ) {
-                ebooks.emplace_back( it );
+                if( it->is_book() ) {
+                    ebooks.emplace_back( it );
+                }
             }
         }
     }
@@ -1903,9 +1901,11 @@ std::vector<const item *> item_contents::ebooks() const
 {
     std::vector<const item *> ebooks;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::EBOOK ) ) {
+        if( pocket.is_type( pocket_type::E_FILE_STORAGE ) ) {
             for( const item *it : pocket.all_items_top() ) {
-                ebooks.emplace_back( it );
+                if( it->is_book() ) {
+                    ebooks.emplace_back( it );
+                }
             }
         }
     }

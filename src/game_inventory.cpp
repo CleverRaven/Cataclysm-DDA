@@ -1355,7 +1355,7 @@ class ereader_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_ebook_storage();
+            return loc->is_estorage();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1463,7 +1463,7 @@ class read_inventory_preset: public pickup_inventory_preset
             const item_location p_loc = loc.parent_item();
 
             return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
-                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
+                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_estorage() ||
                      !p_loc->uses_energy() ||
                      p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }
@@ -1678,7 +1678,8 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
             bool has_use_check = !unusable_only || !efile_activity_actor::edevice_has_use( loc.get_item() );
             bool browsed_equal_check = browse_equals == loc->is_browsed();
             bool fast_transfer = compat == efile_activity_actor::edevice_compatible::ECOMPAT_FAST;
-            bool compatible_check = browse_equals || //if browsing, no compatibility check
+            bool compatible_check = ( action == EF_BROWSE && browse_equals ) ||
+                                    //if browsing, no compatibility check
                                     ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
                                     compat != efile_activity_actor::edevice_compatible::ECOMPAT_NONE; //otherwise, any compatible edevice
             bool preset_bool = is_tool_has_charge &&

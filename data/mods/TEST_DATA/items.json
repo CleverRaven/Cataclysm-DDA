@@ -954,18 +954,7 @@
     "id": "test_ebook_reader",
     "name": { "str": "eBook reader" },
     "description": "Test book reader.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "longest_side": "25 cm",
-    "price": "200 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": -1,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "use_action": [ "EBOOKSAVE", "EBOOKREAD" ],
+    "copy-from": "eink_tablet_pc",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -976,7 +965,7 @@
         "item_restriction": [ "test_battery_disposable" ]
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",

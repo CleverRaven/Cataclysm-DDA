@@ -3110,7 +3110,7 @@ void item::migrate_content_item( const item &contained )
         put_in( contained, pocket_type::MOD );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
-        put_in( contained, pocket_type::SOFTWARE );
+        put_in( contained, pocket_type::E_FILE_STORAGE );
     } else if( contents.insert_item( contained, pocket_type::MAGAZINE ).success() ||
                contents.insert_item( contained, pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank

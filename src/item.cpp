@@ -162,6 +162,7 @@ static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_software( "software" );
 static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
@@ -1289,10 +1290,6 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
             return *this;
         }
         container.add_automatic_whitelist();
-        return container;
-    } else if( is_software() && container.is_software_storage() ) {
-        container.put_in( *this, pocket_type::SOFTWARE );
-        container.invlet = invlet;
         return container;
     }
     return *this;
@@ -4995,7 +4992,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_ebook_storage() && !is_broken_on_active() ) {
+    if( is_estorage() && !is_broken_on_active() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -6065,9 +6062,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                        ? string_format( "<good>%s</good>", e->nname( 1 ) )
                                        : e->nname( 1 ) );
         }
-        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) );
-        info.back().sName += ".";
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
+                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
@@ -8829,24 +8825,6 @@ bool item::is_cash_card() const
     return typeId() == itype_cash_card;
 }
 
-bool item::is_software() const
-{
-    if( const std::optional<itype_id> &cont = type->default_container ) {
-        return item( *cont ).is_software_storage();
-    }
-    return false;
-}
-
-bool item::is_software_storage() const
-{
-    return contents.has_pocket_type( pocket_type::SOFTWARE );
-}
-
-bool item::is_ebook_storage() const
-{
-    return contents.has_pocket_type( pocket_type::EBOOK );
-}
-
 bool item::is_estorage() const
 {
     return contents.has_pocket_type( pocket_type::E_FILE_STORAGE );
@@ -8873,7 +8851,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( type->book && type->book->chapters == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
 }
 
 bool item::efiles_all_browsed() const
@@ -8989,6 +8967,11 @@ int item::total_photos() const
     read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
     read_extended_photos( extended_photos, "CAMERA_MONSTER_PHOTOS", true );
     return extended_photos.size();
+}
+
+bool item::is_software() const
+{
+    return type->category_force == item_category_software;
 }
 
 bool item::is_maybe_melee_weapon() const
@@ -10599,19 +10582,19 @@ ret_val<void> item::can_contain_directly( const item &it ) const
 }
 
 ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
-                                 const bool ignore_pkt_settings, const bool is_pick_up_inv,
+                                 const bool ignore_pkt_settings, const bool ignore_non_container_pocket,
                                  const item_location &parent_it,
                                  units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     int copies = 1;
     return can_contain( it, copies, nested, ignore_rigidity,
-                        ignore_pkt_settings, is_pick_up_inv, parent_it,
+                        ignore_pkt_settings, ignore_non_container_pocket, parent_it,
                         remaining_parent_volume, allow_nested );
 }
 
 ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const bool is_pick_up_inv, const item_location &parent_it,
+                                 const bool ignore_non_container_pocket, const item_location &parent_it,
                                  units::volume remaining_parent_volume,
                                  const bool allow_nested ) const
 {
@@ -10657,7 +10640,7 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                     continue;
                 }
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
-                                                     ignore_pkt_settings, is_pick_up_inv, parent_it,
+                                                     ignore_pkt_settings, ignore_non_container_pocket, parent_it,
                                                      pkt->remaining_volume() );
                 if( copies_remaining <= 0 ) {
                     return ret;
@@ -10666,10 +10649,11 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
         }
     }
 
-    return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv ) :
-           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv,
-                                 remaining_parent_volume );
+    return nested && !ignore_rigidity
+           ? contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings,
+                                         ignore_non_container_pocket )
+           : contents.can_contain( it, copies_remaining, ignore_pkt_settings, ignore_non_container_pocket,
+                                   remaining_parent_volume );
 }
 
 ret_val<void> item::can_contain( const itype &tp ) const
@@ -10752,7 +10736,7 @@ book_proficiency_bonuses item::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
 
-    if( is_ebook_storage() ) {
+    if( is_estorage() ) {
         for( const item *book : ebooks() ) {
             ret += book->get_book_proficiency_bonuses();
         }
@@ -13244,7 +13228,7 @@ void item::mark_as_used_by_player( const Character &p )
     used_by_ids += string_format( "%d;", p.getID().get_value() );
 }
 
-bool item::can_holster( const item &obj, bool ) const
+bool item::can_holster( const item &obj ) const
 {
     if( !type->can_use( "holster" ) ) {
         return false; // item is not a holster
@@ -15728,8 +15712,7 @@ item const *item::this_or_single_content() const
 bool item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
-        return pkt.is_type( pocket_type::CONTAINER ) ||
-               pkt.is_type( pocket_type::SOFTWARE );
+        return pkt.is_type( pocket_type::CONTAINER );
     } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
@@ -15775,8 +15758,7 @@ item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
     aggregate_t *running_max{};
     aggregate_t *max_type{};
     auto const cont_and_soft = []( item_pocket const & pkt ) {
-        return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::SOFTWARE ) ||
-               pkt.is_type( pocket_type::E_FILE_STORAGE );
+        return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::E_FILE_STORAGE );
     };
 
 
