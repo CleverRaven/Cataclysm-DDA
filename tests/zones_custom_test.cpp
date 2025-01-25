@@ -53,14 +53,14 @@ TEST_CASE( "zones_custom", "[zones]" )
                            "plastic bag" );
 
         zone_manager &zmgr = zone_manager::get_manager();
-        REQUIRE( zmgr.get_near_zone_type_for_item( hammer, where ) == zone_type_LOOT_CUSTOM );
-        REQUIRE( zmgr.get_near_zone_type_for_item( bow_saw, where ) == zone_type_LOOT_CUSTOM );
-        REQUIRE( !zmgr.get_near_zone_type_for_item( item( itype_test_glaive ), where ).is_valid() );
-        REQUIRE( zmgr.get_near_zone_type_for_item( pants_fur, where ) ==
+        REQUIRE( zmgr.get_best_zone_type_for_item( hammer, where ).id == zone_type_LOOT_CUSTOM );
+        REQUIRE( zmgr.get_best_zone_type_for_item( bow_saw, where ).id == zone_type_LOOT_CUSTOM );
+        REQUIRE( !zmgr.get_best_zone_type_for_item( item( itype_test_glaive ), where ).id.is_valid() );
+        REQUIRE( zmgr.get_best_zone_type_for_item( pants_fur, where ).id ==
                  zone_type_LOOT_ITEM_GROUP );
-        REQUIRE( zmgr.get_near_zone_type_for_item( batt, where ) == zone_type_LOOT_ITEM_GROUP );
+        REQUIRE( zmgr.get_best_zone_type_for_item( batt, where ).id == zone_type_LOOT_ITEM_GROUP );
         // this should match both types but custom zone comes first
-        REQUIRE( zmgr.get_near_zone_type_for_item( bag_plastic, where ) == zone_type_LOOT_CUSTOM );
+        REQUIRE( zmgr.get_best_zone_type_for_item( bag_plastic, where ).id == zone_type_LOOT_CUSTOM );
 
         pset const hammerpoints =
             zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &hammer );

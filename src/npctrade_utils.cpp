@@ -126,10 +126,10 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
     dest_t const fallback = _get_shuffled_point_set(
                                 zmgr.get_near( zone_type_LOOT_UNSORTED, loc_abs, PICKUP_RANGE, nullptr, fac_id ) );
     for( item const &it : items ) {
-        zone_type_id const zid =
-            zmgr.get_near_zone_type_for_item( it, loc_abs, PICKUP_RANGE, fac_id );
+        zone_type_id_and_priority const zid =
+            zmgr.get_best_zone_type_for_item( it, loc_abs, PICKUP_RANGE, fac_id );
 
-        dest_t dest = zid.is_valid() ? _get_shuffled_point_set( zmgr.get_near(
+        dest_t dest = zid.id.is_valid() ? _get_shuffled_point_set( zmgr.get_near(
                           zid, loc_abs, PICKUP_RANGE, &it, fac_id ) )
                       : dest_t();
         std::copy( fallback.begin(), fallback.end(), std::back_inserter( dest ) );

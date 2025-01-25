@@ -2147,21 +2147,20 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             for( const item *it : items ) {
 
-                const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
-                                                  MAX_VIEW_DISTANCE, _fac_id( you ) );
-
-
                 if( has_items_to_work_on ) {
                     break;
                 }
 
+                const zone_type_id_and_priority best_zone = mgr.get_best_zone_type_for_item(
+                            *it, abspos, MAX_VIEW_DISTANCE, _fac_id( you ) );
+
                 // skip items that allready sorted
-                if( zone_type_id != zone_type_LOOT_CUSTOM && mgr.has( zone_type_id, src, _fac_id( you ) ) ) {
+                if( best_zone.id != zone_type_LOOT_CUSTOM && mgr.has( best_zone, src, _fac_id( you ) ) ) {
                     continue;
                 }
 
-                if( zone_type_id == zone_type_LOOT_CUSTOM &&
-                    mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
+                if( best_zone.id == zone_type_LOOT_CUSTOM &&
+                    mgr.custom_loot_has( src, it, best_zone, _fac_id( you ) ) ) {
                     continue;
                 }
 
@@ -2179,7 +2178,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 }
 
                 const std::unordered_set<tripoint_abs_ms> dest_set =
-                    mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, _fac_id( you ) );
+                    mgr.get_near( best_zone, abspos, MAX_VIEW_DISTANCE, it, _fac_id( you ) );
 
                 if( unload_all || ( unload_corpses && it->is_corpse() ) ) {
                     if( dest_set.empty() || unload_always ) {
@@ -2330,23 +2329,24 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             // Only if it's from a vehicle do we use the vehicle source location information.
             const std::optional<vpart_reference> vpr_src = it->second ? vpr : std::nullopt;
-            const zone_type_id id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                    MAX_VIEW_DISTANCE, _fac_id( you ) );
+
+            const zone_type_id_and_priority best_zone =
+                mgr.get_best_zone_type_for_item( thisitem, abspos, MAX_VIEW_DISTANCE, _fac_id( you ) );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( id != zone_type_LOOT_CUSTOM && mgr.has( id, src, _fac_id( you ) ) ) {
+            if( best_zone.id != zone_type_LOOT_CUSTOM && mgr.has( best_zone, src, _fac_id( you ) ) ) {
                 continue;
             }
 
-            if( id == zone_type_LOOT_CUSTOM &&
-                mgr.custom_loot_has( src, &thisitem, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
+            if( best_zone.id == zone_type_LOOT_CUSTOM &&
+                mgr.custom_loot_has( src, &thisitem, best_zone, _fac_id( you ) ) ) {
                 continue;
             }
 
             const std::unordered_set<tripoint_abs_ms> dest_set =
-                mgr.get_near( id, abspos, MAX_VIEW_DISTANCE, &thisitem, _fac_id( you ) );
+                mgr.get_near( best_zone, abspos, MAX_VIEW_DISTANCE, &thisitem, _fac_id( you ) );
 
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
