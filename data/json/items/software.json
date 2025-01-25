@@ -1,16 +1,16 @@
 [
   {
-    "id": "software",
+    "id": "abstract_software",
+    "copy-from": "abstract_efile",
     "type": "GENERIC",
-    "name": { "str_sp": "software" },
-    "symbol": "#",
-    "container": "usb_drive",
-    "description": { "str": "IF YOU ARE SEEING THIS IT IS A BUG.", "//~": "NO_I18N" },
-    "flags": [ "IRREMOVABLE", "NO_DROP" ]
+    "category": "software",
+    "name": { "str_sp": "abstract software" },
+    "description": "Copy from this for any software",
+    "ememory_size": "1 KB"
   },
   {
     "id": "software_useless",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
@@ -20,7 +20,7 @@
   },
   {
     "id": "software_hacking",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
@@ -30,7 +30,7 @@
   },
   {
     "id": "software_medical",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "MediSoft" },
     "description": "A piece of medical software.",
@@ -40,7 +40,7 @@
   },
   {
     "id": "software_math",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "MatheMAX" },
     "description": "A piece of mathematical software.",
@@ -50,7 +50,7 @@
   },
   {
     "id": "software_blood_data",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "infection data" },
     "description": "Medical data on zombie blood.",
@@ -60,7 +60,7 @@
   },
   {
     "id": "software_lab_data",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "lab data" },
     "description": "Research archives from a government laboratory.",
@@ -70,7 +70,7 @@
   },
   {
     "id": "software_encryption_codes",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "encryption codes" },
     "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
@@ -80,7 +80,7 @@
   },
   {
     "id": "software_archived_data",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str_sp": "archive data" },
     "description": "Extremely compressed research data, observation and experiment statistics.  The only pattern you manage to recognize is an increase in the amount of report closer to the Cataclysm, but also a reduction in the number of facilities still submitting reports.",
@@ -90,7 +90,7 @@
   },
   {
     "id": "software_electronics_reference",
-    "copy-from": "abstract_efile",
+    "copy-from": "abstract_software",
     "type": "GENERIC",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
@@ -101,6 +101,7 @@
   {
     "abstract": "abstract_efile",
     "type": "GENERIC",
+    "category": "e_files",
     "symbol": "o",
     "name": "abstract electronic file",
     "description": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium",
@@ -110,13 +111,13 @@
   },
   {
     "abstract": "abstract_efile_copiable",
+    "copy-from": "abstract_efile",
     "type": "GENERIC",
     "symbol": "o",
     "name": "abstract copiable electronic file",
     "description": "abstract copiable electronic file",
     "ememory_size": "1 KB",
-    "flags": [ "E_STORABLE", "ZERO_WEIGHT", "NO_DROP", "IRREMOVABLE", "E_COPIABLE" ],
-    "variables": { "browsed": "false" }
+    "extend": { "flags": [ "E_COPIABLE" ] }
   },
   {
     "abstract": "abstract_efile_read",
