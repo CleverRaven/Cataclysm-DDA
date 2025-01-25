@@ -15816,6 +15816,17 @@ std::list<const item *> item::all_items_ptr() const
     return all_items_internal;
 }
 
+std::list<item *> item::all_items_ptr()
+{
+    std::list<item *> all_items_internal;
+    for( int i = static_cast<int>( pocket_type::CONTAINER );
+         i < static_cast<int>( pocket_type::LAST ); i++ ) {
+        std::list<item *> inserted{ all_items_top_recursive( static_cast<pocket_type>( i ) ) };
+        all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
+    }
+    return all_items_internal;
+}
+
 std::list<const item *> item::all_items_ptr( pocket_type pk_type ) const
 {
     return all_items_top_recursive( pk_type );
