@@ -349,7 +349,7 @@
     "name": [ "Pressurized amplification" ],
     "desc": [ "Your muscles are filled with pressurized power!" ],
     "apply_message": "Your muscles are filled with pressurized power!",
-    "decay_message": "The pressure inside your muscles grows!",
+    "decay_messages": [ [ "The pressure inside your muscles grows!", "good" ] ],
     "remove_message": "The power leaves your muscles in an instant.",
     "max_intensity": 10,
     "int_add_val": 10,
@@ -366,7 +366,7 @@
     "desc": [ "You find it easier to carry heavy charges." ],
     "apply_message": "You feel lighter, as does everything you're carrying.",
     "remove_message": "The weight of your belongings return to normal.",
-    "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ],
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ],
     "rating": "good"
   },
   {
