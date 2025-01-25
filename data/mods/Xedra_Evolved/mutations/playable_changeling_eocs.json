@@ -1713,7 +1713,7 @@
         "then": { "u_learn_recipe": "moon_tear_ingot" },
         "else": { "run_eocs": "EOC_LEARN_MOONS_TEARS_RECIPES" }
       },
-      { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+      { "u_message": "Your dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
     ]
   },
   {
