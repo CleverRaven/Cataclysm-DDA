@@ -126,7 +126,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 22, 23 ], "y": [ 83, 84 ] }
       ],
       "faction_owner": [
         { "id": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },

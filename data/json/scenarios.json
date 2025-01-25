@@ -21,6 +21,17 @@
   },
   {
     "type": "scenario",
+    "id": "exodiicastle",
+    "name": "Strange Castle",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and made your way to the wilderness.  You were expecting this area to be uninhabited, but instead you see a large castle guarded by strange robots.  At the entrance stands a sign, it reads \"Traders Come Well Avaunt\"",
+    "allowed_locs": [ "sloc_exodii_castle" ],
+    "start_name": "Strange Castle",
+    "flags": [ "LONE_START" ],
+    "requirement": "achievement_reach_exodii_base"
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
