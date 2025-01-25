@@ -12860,7 +12860,7 @@ void Character::leak_items()
 
 void Character::process_items( map *here )
 {
-    if( weapon.process( here[0], this, here->get_bub( pos_abs() ) ) ) {
+    if( weapon.process( *here, this, here->get_bub( pos_abs() ) ) ) {
         weapon.spill_contents( here,  here->get_bub( pos_abs() ) );
         remove_weapon();
     }
@@ -12870,7 +12870,7 @@ void Character::process_items( map *here )
         if( !it ) {
             continue;
         }
-        if( it->process( here[0], this, here->get_bub( pos_abs() ) ) ) {
+        if( it->process( *here, this, here->get_bub( pos_abs() ) ) ) {
             it->spill_contents( here, here->get_bub( pos_abs() ) );
             removed_items.push_back( it );
         }
