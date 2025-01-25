@@ -33,5 +33,10 @@
     "id": "morale_ierde_meditation",
     "type": "morale_type",
     "text": "Certainty of stone"
+  },
+  {
+    "id": "morale_boring_fruit",
+    "type": "morale_type",
+    "text": "Boring aftertaste"
   }
 ]
