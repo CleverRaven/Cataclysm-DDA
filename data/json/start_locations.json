@@ -203,7 +203,7 @@
     "type": "start_location",
     "id": "sloc_gun_store",
     "name": "Gun Store",
-    "terrain": [ "s_gun_a", "s_gun_b" ]
+    "terrain": [ "s_gun_a", "s_gun_b_store" ]
   },
   {
     "type": "start_location",
