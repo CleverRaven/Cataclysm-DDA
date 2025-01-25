@@ -503,7 +503,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         item_location ereader = dummy.i_add( item( itype_test_ebook_reader ) );
 
         item book( itype_test_textbook_fabrication );
-        ereader->put_in( book, pocket_type::EBOOK );
+        ereader->put_in( book, pocket_type::E_FILE_STORAGE );
 
         item battery( itype_test_battery_disposable );
         battery.ammo_set( battery.ammo_default(), 100 );

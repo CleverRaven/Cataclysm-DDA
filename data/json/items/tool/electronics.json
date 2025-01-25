@@ -252,6 +252,7 @@
     "revert_to": "eink_tablet_pc",
     "use_action": [
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       {
         "ammo_scale": 0,
         "type": "transform",

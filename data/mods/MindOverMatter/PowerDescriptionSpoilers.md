@@ -1109,6 +1109,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
 *Prerequisites*: Stutterstep 10, Phase 5 <br />
 
+## Reactive Displacement (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 20 seconds to 3 minutes and 20 seconds plus 10 to 40 seconds per power level<br />
+*Stamina Cost*: 3500, minus 100 per level to a minimum of 1500<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
+*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).<br />
+*Prerequisites*: Displacement 5 <br />
+
 ## Spacial Vortex 
 *Difficulty*: 5<br />
 *Target*: An area of 3 squares plus 1 square per 4 power levels, with a range of 5 squares plus 1.2 squares per power level<br />
@@ -1136,6 +1145,24 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
 *Prerequisites*: Phase 10, Extended Stride 5<br />
 
+## Loci Establishment (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 2 minutes and 5 seconds to 4 minutes and 10 seconds, plus 25 to 50 seconds per power level<br />
+*Stamina Cost*: 3000, minus 100 per level to a minimum of 1000<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
+*Effects*: While concentrating, the psion maintains a locus to teleport back to with Loci Technique. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Prerequisites*: Extended Stride 6, Farstep 6<br />
+
+## Loci Technique
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6000, minus 200 per level to a minimum of 3000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Prerequisites*: Extended Stride 6, Farstep 6 (Learned with Loci Establishment)<br />
+
 ## Oubliette 
 *Difficulty*: 7<br />
 *Target*: A single target within 2 squares plus 1.5 squares per power level<br />
@@ -1152,7 +1179,16 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
 *Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
-*Prerequisites*: Farstep 10, Extended Stride 10 <br />
+*Prerequisites*: Farstep 10, Loci Establishment 6 <br />
+
+## Dilated Gateway 
+*Difficulty*: 9<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 12000, minus 200 per level to a minimum of 8000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
+*Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
+*Prerequisites*: Gateway 8, Oubliette 2 <br />
 
 ## Breach 
 *Difficulty*: 9<br />
