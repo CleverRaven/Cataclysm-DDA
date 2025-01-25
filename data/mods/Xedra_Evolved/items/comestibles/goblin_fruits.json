@@ -674,12 +674,12 @@
     "weight": "279 g",
     "volume": "254 ml",
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_650" ],
-    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_BLUND_FLASH" ]
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_BLIND_FLASH" ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_FRUIT_MANA",
-    "effect": [ { "u_cast_spell": "EOC_GOBLIN_FRUIT_BLUND_FLASH", "no_fail": true, "level": 5 } ]
+    "id": "EOC_GOBLIN_FRUIT_BLIND_FLASH",
+    "effect": [ { "u_cast_spell": "goblin_fruit_blind_flash", "no_fail": true, "level": 0 } ]
   },
   {
     "type": "COMESTIBLE",

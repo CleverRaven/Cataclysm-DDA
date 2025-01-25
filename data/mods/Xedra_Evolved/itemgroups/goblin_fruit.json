@@ -2,6 +2,28 @@
   {
     "type": "item_group",
     "id": "spell_spawned_goblin_fruit",
+    "//": "Contains all goblin fruits except for the cloudy fruit, which is noble-exclusive.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "subtype": "distribution",
+    "extend": {
+      "items": [
+        { "item": "goblin_fruit_wild_travel_boost", "prob": 1 },
+        { "item": "goblin_fruit_slowing_armor", "prob": 1 },
+        { "item": "goblin_fruit_social_boost", "prob": 1 },
+        { "item": "goblin_fruit_heat_blast", "prob": 1 },
+        { "item": "goblin_fruit_altitude_speed", "prob": 1 },
+        { "item": "goblin_fruit_cold_resist", "prob": 1 },
+        { "item": "goblin_fruit_craft_speed_boost", "prob": 1 },
+        { "item": "goblin_fruit_call_rain", "prob": 1 },
+        { "item": "goblin_fruit_animal_ignore", "prob": 1 },
+        { "item": "goblin_fruit_mend_bone", "prob": 1 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "spell_spawned_goblin_fruit_general",
+    "//": "Contains all non-exclusive goblin fruits.",
     "subtype": "distribution",
     "entries": [
       { "item": "goblin_fruit_healing", "prob": 1 },
@@ -20,7 +42,154 @@
       { "item": "goblin_fruit_feather_fall", "prob": 1 },
       { "item": "goblin_fruit_super_clairvoyance", "prob": 1 },
       { "item": "goblin_fruit_water_breathing", "prob": 1 },
-      { "item": "goblin_fruit_giant_growth", "prob": 1 }
+      { "item": "goblin_fruit_giant_growth", "prob": 1 },
+      { "item": "goblin_fruit_mana_restore", "prob": 1 },
+      { "item": "goblin_fruit_stealth", "prob": 1 },
+      { "item": "goblin_fruit_food", "prob": 1 },
+      { "item": "goblin_fruit_soothing", "prob": 1 },
+      { "item": "goblin_fruit_music", "prob": 1 },
+      { "item": "goblin_fruit_combat_skill_boost", "prob": 1 },
+      { "item": "goblin_fruit_craft_skill_boost", "prob": 1 },
+      { "item": "goblin_fruit_immovable", "prob": 1 },
+      { "item": "goblin_fruit_dodge_instant", "prob": 1 },
+      { "item": "goblin_fruit_blood_gain", "prob": 1 },
+      { "item": "goblin_fruit_blind_flash", "prob": 1 },
+      { "item": "goblin_fruit_map", "prob": 1 },
+      { "item": "goblin_fruit_adrenaline", "prob": 1 },
+      { "item": "goblin_fruit_focus_boost", "prob": 1 },
+      { "item": "goblin_fruit_spawn_more_fruits", "prob": 1 },
+      { "item": "goblin_fruit_fun", "prob": 1 },
+      { "item": "goblin_fruit_no_spoil", "prob": 1 },
+      { "item": "goblin_fruit_numbing", "prob": 1 },
+      { "item": "goblin_fruit_spawn_shadows", "prob": 1 },
+      { "item": "goblin_fruit_heal_after_sleep", "prob": 1 },
+      { "item": "goblin_fruit_teleport", "prob": 1 },
+      { "item": "goblin_fruit_climb", "prob": 1 },
+      { "item": "goblin_fruit_amplification_instant", "prob": 1 },
+      { "item": "goblin_fruit_carry_boost", "prob": 1 },
+      { "item": "goblin_fruit_mood_clear", "prob": 1 }
+    ]
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_ierde",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Ierde's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_slowing_armor", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_arvore",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Arvore's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_wild_travel_boost", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_homullus",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Homullus' exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_social_boost", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_salamander",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Salamander's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_heat_blast", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_sylph",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Sylph's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_altitude_speed", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_undine",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Undine's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_cold_resist", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_brownie",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Brownie's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_craft_speed_boost", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_selkie",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Selkie's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_call_rain", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_pooka",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Pooka's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_animal_ignore", "prob": 1 } ] }
+  },
+  {
+    "id": "spell_spawned_goblin_fruit_trog",
+    "type": "item_group",
+    "//": "Contains all non-exclusive goblin fruits and the Trog's exlusive fruit.",
+    "copy-from": "spell_spawned_goblin_fruit_general",
+    "extend": { "items": [ { "item": "goblin_fruit_mend_bone", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "spell_spawned_goblin_fruit_noble",
+    "//": "Contains all non-exclusive goblin fruits and the Noble's exlusive fruit.",
+    "//2": "Can't use copy_from as the cloudy fruit needs to be much more rare than the rest.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "goblin_fruit_healing", "prob": 3 },
+      { "item": "goblin_fruit_illness", "prob": 3 },
+      { "item": "goblin_fruit_attack_speed", "prob": 3 },
+      { "item": "goblin_fruit_pain", "prob": 3 },
+      { "item": "goblin_fruit_awake", "prob": 3 },
+      { "item": "goblin_fruit_water", "prob": 3 },
+      { "item": "goblin_fruit_purge_blood", "prob": 3 },
+      { "item": "goblin_fruit_dodge", "prob": 3 },
+      { "item": "goblin_fruit_night_vision", "prob": 3 },
+      { "item": "goblin_fruit_no_bleed", "prob": 3 },
+      { "item": "goblin_fruit_perception", "prob": 3 },
+      { "item": "goblin_fruit_no_drunk", "prob": 3 },
+      { "item": "goblin_fruit_no_rotten_food", "prob": 3 },
+      { "item": "goblin_fruit_feather_fall", "prob": 3 },
+      { "item": "goblin_fruit_super_clairvoyance", "prob": 3 },
+      { "item": "goblin_fruit_water_breathing", "prob": 3 },
+      { "item": "goblin_fruit_giant_growth", "prob": 3 },
+      { "item": "goblin_fruit_mana_restore", "prob": 3 },
+      { "item": "goblin_fruit_stealth", "prob": 3 },
+      { "item": "goblin_fruit_food", "prob": 3 },
+      { "item": "goblin_fruit_soothing", "prob": 3 },
+      { "item": "goblin_fruit_music", "prob": 3 },
+      { "item": "goblin_fruit_combat_skill_boost", "prob": 3 },
+      { "item": "goblin_fruit_craft_skill_boost", "prob": 3 },
+      { "item": "goblin_fruit_immovable", "prob": 3 },
+      { "item": "goblin_fruit_dodge_instant", "prob": 3 },
+      { "item": "goblin_fruit_blood_gain", "prob": 3 },
+      { "item": "goblin_fruit_blind_flash", "prob": 3 },
+      { "item": "goblin_fruit_map", "prob": 3 },
+      { "item": "goblin_fruit_adrenaline", "prob": 3 },
+      { "item": "goblin_fruit_focus_boost", "prob": 3 },
+      { "item": "goblin_fruit_spawn_more_fruits", "prob": 3 },
+      { "item": "goblin_fruit_fun", "prob": 3 },
+      { "item": "goblin_fruit_no_spoil", "prob": 3 },
+      { "item": "goblin_fruit_numbing", "prob": 3 },
+      { "item": "goblin_fruit_spawn_shadows", "prob": 3 },
+      { "item": "goblin_fruit_heal_after_sleep", "prob": 3 },
+      { "item": "goblin_fruit_teleport", "prob": 3 },
+      { "item": "goblin_fruit_climb", "prob": 3 },
+      { "item": "goblin_fruit_amplification_instant", "prob": 3 },
+      { "item": "goblin_fruit_carry_boost", "prob": 3 },
+      { "item": "goblin_fruit_mood_clear", "prob": 3 },
+      { "item": "goblin_fruit_cure_dreamless", "prob": 1 }
     ]
   }
 ]
