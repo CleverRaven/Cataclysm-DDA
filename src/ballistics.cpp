@@ -359,7 +359,10 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
     }
 
     bool first = true;
+    bool print_messages = true;
     bool multishot = false;
+    // If the proj hits a ter/furn at point-blank and is not stopped, rescale shot_impact for all projs.
+    double point_blank_rescale = 1.0;
     tripoint_bub_ms first_p = trajectory[1];
     for( int j = 0; j < proj.count; ++j ) {
         tripoint_bub_ms prev_point = source;
@@ -415,10 +418,16 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
         int projectile_skip_calculation = range * projectile_skip_multiplier;
         int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
         bool has_momentum = true;
-        bool print_messages = true;
 
         for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
             tp = t_copy[i];
+            int distance = rl_dist( source, tp );
+            // no spread at point-blank, skip point-blank calculate
+            if( !first && distance <= 1 ) {
+                prev_point = tp;
+                proj.shot_impact.mult_damage( point_blank_rescale );
+                continue;
+            }
 
             if( tp.z() != prev_point.z() ) {
                 tripoint_bub_ms floor1 = prev_point;
@@ -470,7 +479,6 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             }
 
             monster *mon = dynamic_cast<monster *>( critter );
-            int distance = rl_dist( source, tp );
             // ignore non-point-blank digging targets (since they are underground)
             if( mon != nullptr && mon->digging() &&
                 distance > 1 ) {
@@ -495,6 +503,13 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) /
                                           critter->ranged_target_size(), 0.4 );
             }
+            // If the attack is shot, once we're past point-blank,
+            // don't print normal hit msg.
+            if( first && proj.count > 1 && distance > 1 ) {
+                multishot = true;
+                proj.multishot = true;
+                print_messages = false;
+            }
 
             if( critter != nullptr && cur_missed_by < 1.0 ) {
                 if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
@@ -507,13 +522,6 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
                     origin->check_avoid_friendly_fire() ) {
                     continue;
-                }
-                // If the attack is shot, once we're past point-blank,
-                // don't print normal hit msg.
-                if( proj.count > 1 && distance > 1 ) {
-                    multishot = true;
-                    attack.proj.multishot = true;
-                    print_messages = false;
                 }
                 critter->deal_projectile_attack( null_source ? nullptr : origin, attack, cur_missed_by,
                                                  print_messages, wp_attack );
@@ -543,16 +551,23 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
             } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
                 // Don't do anything, especially don't call map::shoot as this would damage the vehicle
             } else {
-                if( proj.count > 1 && distance > 1 ) {
-                    multishot = true;
-                    proj.multishot = true;
+                double it = here.shoot( tp, proj, !no_item_damage && tp == target_c );
+                if( it > 0 ) {
+                    // even if it's a shot, as we will never use impact after point-blank,
+                    // we should always tweak shot_impact instead of impact.
+                    if( proj.count > 1 ) {
+                        proj.shot_impact.mult_damage( it );
+                        if( first && distance <= 1 ) {
+                            point_blank_rescale = it;
+                        }
+                    } else {
+                        proj.impact.mult_damage( it );
+                    }
+                } else {
+                    has_momentum = false;
                 }
-                here.shoot( tp, proj, !no_item_damage && tp == target_c );
-                has_momentum = multishot ?
-                               proj.shot_impact.total_damage() > 0 :
-                               proj.impact.total_damage() > 0;
             }
-            if( !has_momentum && proj.count > 1 && distance <= 1 ) {
+            if( ( !has_momentum || traj_len == size_t( 2 ) ) && proj.count > 1 && distance <= 1 ) {
                 // Track that we hit an obstacle while wadded up,
                 // to cancel out of applying the other projectiles.
                 proj.count = 1;
