@@ -249,6 +249,32 @@
     "color": "light_gray"
   },
   {
+    "id": "blister_pack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "blister pack" },
+    "looks_like": "bag_plastic",
+    "description": "A blister pack is a sort of packaging that has a thick plastic case attached to a sheet of cardboard, allowing easy viewing of a product while keeping it protected.  Known for being an absolute pain to open.",
+    "weight": "200 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic", "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "100 cm",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
+  },
+  {
     "id": "bag_garbage",
     "type": "GENERIC",
     "category": "container",
@@ -1392,6 +1418,82 @@
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
+  },
+  {
+    "id": "box_longarm",
+    "type": "GENERIC",
+    "category": "container",
+    "//": "Roughly based on https://www.amazon.ca/Boxes-Fast-BF14442FOL-Corrugated-Cardboard/dp/B077BZHDYF",
+    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An elongated cardboard box, meant to contain a longarm such as a shotgun or rifle.",
+    "ascii_picture": "box_oversize",
+    "weight": "600 g",
+    "volume": "40 L",
+    "longest_side": "135 cm",
+    "price": "10 USD",
+    "price_postapoc": "20 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "130 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "box_longarm_rifle",
+        "name": { "str": "rifle box", "str_pl": "rifle boxes" },
+        "description": "Judging by the print on the packaging, this one is meant for a rifle.",
+        "append": true
+      },
+      {
+        "id": "box_longarm_shotgun",
+        "name": { "str": "shotgun box", "str_pl": "shotgun boxes" },
+        "description": "Judging by the print on the packaging, this one is meant for a shotgun.",
+        "append": true
+      },
+      {
+        "id": "box_longarm_handgun",
+        "name": { "str": "large handgun box", "str_pl": "large handgun boxes" },
+        "description": "Despite the size of the box, this one seems to be intended for an oversized handgun.",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "box_pistol",
+    "type": "GENERIC",
+    "name": { "str": "handgun case" },
+    "//": "Based on https://www.pelican.com/ca/en/product/cases/medium-pistol-case/vault/v200/",
+    "description": "A hard plastic case with a foam interior, meant to store handguns along with any extra accessories.",
+    "weight": "2300 g",
+    "volume": "15750 ml",
+    "longest_side": "516 mm",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "13 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "437 mm",
+        "moves": 200
+      }
+    ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "box_compact_wood",

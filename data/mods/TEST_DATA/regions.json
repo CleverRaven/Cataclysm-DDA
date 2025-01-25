@@ -133,7 +133,7 @@
       "shops": {
         "s_gas": 5,
         "s_liquor": 5,
-        "s_gun": 5,
+        "s_gun_a": 5,
         "s_restaurant_deserted_test": 5,
         "abstorefront": 15,
         "station_radio": 5,

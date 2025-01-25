@@ -364,44 +364,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun",
-      "s_gun_looted",
-      "s_gun_1",
-      "s_gun_2",
-      "s_gun_3",
-      "s_gun_3_looted",
-      "s_gun_4",
-      "s_gun_4_looted",
-      "s_gunstore",
-      "s_gunstore_looted"
-    ],
+    "id": [ "s_gun_a", "s_gun_b_range", "s_gun_b_store" ],
     "copy-from": "generic_city_building",
-    "looks_like": "s_gun",
+    "looks_like": "s_gun_a",
     "name": "gun store",
     "color": "red",
     "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun_roof",
-      "s_gun_upper_roof",
-      "s_gun_roof_1",
-      "s_gun_upper_roof_1",
-      "s_gun_roof_3",
-      "s_gun_roof_4",
-      "s_gunstore_roof"
-    ],
+    "id": [ "s_gun_a_roof", "s_gun_b_roof", "s_gun_b_range_roof" ],
     "name": "gun store roof",
-    "looks_like": "s_gun_roof",
-    "copy-from": "generic_city_building",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ],
-    "name": "gun store 2nd floor",
+    "looks_like": "s_gun_roof_a",
     "copy-from": "generic_city_building",
     "color": "red"
   },
