@@ -120,7 +120,7 @@ struct map_furn_deconstruct_info : map_common_deconstruct_info {
 };
 struct map_shoot_info {
     // Base chance to hit the object at all (defaults to 100%)
-    int chance_to_hit = 0;
+    int chance_to_hit = 100;
     // Minimum damage reduction to apply to shot when hit
     int reduce_dmg_min = 0;
     // Maximum damage reduction to apply to shot when hit

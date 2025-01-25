@@ -1128,7 +1128,7 @@ class map
         /** Keeps bashing a square until there is no more vehicle part */
         void destroy_vehicle( const tripoint_bub_ms &, bool silent = false );
         void crush( const tripoint_bub_ms &p );
-        void shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
+        double shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint_bub_ms &p ) const;
         /** Causes a collapse at p, such as from destroying a wall */

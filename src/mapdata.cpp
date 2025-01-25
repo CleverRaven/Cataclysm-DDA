@@ -440,7 +440,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+    optional( j, false, "chance_to_hit", chance_to_hit, 100 );
 
     std::pair<int, int> reduce_damage;
     std::pair<int, int> reduce_damage_laser;
@@ -457,7 +457,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
     destroy_dmg_min = destroy_damage.first;
     destroy_dmg_max = destroy_damage.second;
 
-    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+    optional( j, false, "no_laser_destroy", no_laser_destroy, false );
 
     return true;
 }
