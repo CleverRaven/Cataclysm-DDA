@@ -323,7 +323,7 @@ void Creature::gravity_check()
 {
 }
 
-void Creature::gravity_check( map *here )
+void Creature::gravity_check( map * )
 {
 }
 
