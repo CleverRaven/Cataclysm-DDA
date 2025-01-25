@@ -3275,7 +3275,8 @@ Examples:
 
 #### The following optional fields are specific to ROTORs.
 ```c++
-"rotor_diameter": 15,         // Rotor diameter in meters.  Larger rotors provide more lift.
+"rotor_diameter": 15,         // Rotor diameter in meters.  Larger rotors provide more lift. This also determines the size of the rotor during collisions.
+"bonus": 5,                   // Adds additional rotor diameter during lift calculations. This does not affect rotor collision. This is useful for things like ducted fans or vtol engines that have good lift but smaller danger zones.
 ```
 
 #### The following optional fields are specific to WORKBENCHes.
