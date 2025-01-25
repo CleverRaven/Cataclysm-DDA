@@ -3734,7 +3734,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     // that's not handled for now
 }
 
-void map::smash_items( const tripoint_bub_ms &p, const int power, const std::string &cause_message )
+void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message )
 {
     if( !has_items( p ) || has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, p ) ) {
         return;
@@ -3748,7 +3748,7 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
 
     std::vector<item> contents;
     map_stack items = i_at( p );
-    for( auto i = items.begin(); i != items.end(); ) {
+    for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
@@ -3798,18 +3798,21 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) &&
-                   ( i->damage() < i->max_damage() ) ) {
-                i->inc_damage();
+            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) ) {
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
+                if( i->damage() < i->max_damage() ) {
+                    i->inc_damage();
+                } else {
+                    break;
+                }
             }
         }
+        power -= material_factor;
 
         // If an item was damaged, increment the counter and set it as most recently damaged.
         if( item_was_damaged ) {
-
             // If this is the first item to be damaged, store its name in damaged_item_name.
             if( items_damaged == 0 ) {
                 damaged_item_name = i->tname();
@@ -3817,19 +3820,22 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             // Increment the counter, and reset the flag.
             items_damaged++;
             item_was_damaged = false;
-        }
-
-        // Remove them if they were damaged too much
-        if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
-            // But save the contents, except for irremovable gunmods
-            for( item *elem : i->all_items_top() ) {
-                if( !elem->is_irremovable() ) {
-                    contents.emplace_back( *elem );
+            // Remove them if they were damaged too much
+            // Only call this if we actually damaged something, so a corpse that
+            // was already at max_damage level can be removed correctly.
+            if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
+                // But save the contents, except for irremovable gunmods
+                for( item *elem : i->all_items_top() ) {
+                    if( !elem->is_irremovable() ) {
+                        contents.emplace_back( *elem );
+                    }
                 }
-            }
 
-            i = i_rem( p, i );
-            items_destroyed++;
+                i = i_rem( p, i );
+                items_destroyed++;
+            } else {
+                i++;
+            }
         } else {
             i++;
         }
