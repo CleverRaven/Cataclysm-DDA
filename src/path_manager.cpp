@@ -180,7 +180,7 @@ class path_manager_ui : public cataimgui::window
 
 static std::string avatar_distance_from_tile( const tripoint_abs_ms &tile )
 {
-    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    const tripoint_abs_ms &avatar_pos = get_avatar().pos_abs();
     if( avatar_pos == tile ) {
         return colorize( _( "It's here." ), c_light_green );
     } else {
@@ -253,13 +253,13 @@ void path::set_avatar_path( bool towards_end ) const
     if( towards_end ) {
         add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", from, name_end ) ) );
         for( auto it = std::next( recorded_path.begin() + avatar_at ); it != recorded_path.end(); ++it ) {
-            route.emplace_back( get_map().bub_from_abs( *it ) );
+            route.emplace_back( get_map().get_bub( *it ) );
         }
     } else {
         add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", from, name_start ) ) );
         for( auto it = std::next( recorded_path.rbegin() + recorded_path.size() - avatar_at - 1 );
              it != recorded_path.rend(); ++it ) {
-            route.emplace_back( get_map().bub_from_abs( *it ) );
+            route.emplace_back( get_map().get_bub( *it ) );
         }
     }
     player_character.set_destination( route );
@@ -283,18 +283,18 @@ void path::swap_start_end()
 
 bool path::is_avatar_at_start() const
 {
-    return get_avatar().pos_bub() == get_map().bub_from_abs( recorded_path.front() );
+    return get_avatar().pos_bub() == get_map().get_bub( recorded_path.front() );
 }
 
 bool path::is_avatar_at_end() const
 {
-    return get_avatar().pos_bub() == get_map().bub_from_abs( recorded_path.back() );
+    return get_avatar().pos_bub() == get_map().get_bub( recorded_path.back() );
 }
 
 int path::avatar_closest_i_approximate() const
 {
     cata_assert( !recorded_path.empty() );
-    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    const tripoint_abs_ms &avatar_pos = get_avatar().pos_abs();
     // Check start and end so that the path is not further away than either of those.
     int closest_i = recorded_path.size() - 1;
     int closest_dist = square_dist( recorded_path.back(), avatar_pos );
@@ -343,7 +343,7 @@ void path_manager_impl::start_recording()
 {
     path &p = paths.emplace_back();
     set_recording_path( paths.size() - 1 );
-    p.record_step( get_avatar().get_location() );
+    p.record_step( get_avatar().pos_abs() );
     p.set_name_start();
 }
 
@@ -430,7 +430,7 @@ int path_manager_impl::avatar_at_what_start_or_end() const
 std::vector<int> path_manager_impl::avatar_at_what_paths() const
 {
     std::vector<int> ret;
-    const tripoint_abs_ms &avatar_pos = get_map().getglobal( get_avatar().pos_bub() );
+    const tripoint_abs_ms &avatar_pos = get_avatar().pos_abs();
     for( auto it = paths.begin(); it != paths.end(); ++it ) {
         if( avatar_pos == it->recorded_path[it->avatar_closest_i_approximate()] ) {
             ret.emplace_back( static_cast<int>( it - paths.begin() ) );
