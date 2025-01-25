@@ -1315,11 +1315,11 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Uncaring" },
     "points": 2,
-    "description": "You don't feel any remorse or guilt for harming your fellow man.",
+    "description": "You don't feel any strong feelings for your fellow man.",
     "starting_trait": true,
     "random_at_chargen": false,
     "valid": false,
-    "social_modifiers": { "intimidate": 5 },
+    "social_modifiers": { "lie": -5, "persuade": -5 },
     "types": [ "HUMAN_EMPATHY" ],
     "flags": [ "PSYCHOPATH" ]
   },
