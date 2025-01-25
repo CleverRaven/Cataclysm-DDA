@@ -15,18 +15,19 @@
     "weapon_override": "NC_SALVOR_FABRICATOR_wield",
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
-      { "skill": "pistols", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "fabrication", "bonus": { "rng": [ 6, 8 ] } },
       { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "mechanics", "bonus": { "rng": [ 1, 3 ] } }
     ],
-    "shopkeeper_item_group": [ { "group": "afs_salvor_fabricator_trade", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_item_group": [ { "group": "afs_salvor_fabricator_trade", "rigid": true } ],
     "shopkeeper_price_rules": [
-      { "group": "afs_salvor_fabricator_scraps", "markup": 3 },
-      { "group": "afs_salvor_fabricator_tools", "markup": 3 },
       { "group": "afs_augustmoon_batteries_disposable", "markup": 10 },
-      { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 }
+      { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 },
+      { "group": "afs_salvor_fabricator_tools", "markup": 80 },
+      { "group": "afs_salvor_fabricator_scraps", "markup": 3 },
+      { "group": "afs_salvor_fabricator_tools_aftershock", "markup": 3 }
     ]
   },
   {
