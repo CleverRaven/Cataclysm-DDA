@@ -361,7 +361,7 @@
     "id": "electric_lighter",
     "type": "TOOL",
     "name": { "str": "electric lighter" },
-    "description": "A rechargable electric lighter.",
+    "description": "A rechargeable electric lighter.",
     "//": [ "https://www.amazon.co.uk/gp/product/B07GRNHPST", "Size: 6.88 x 4.75 x 1.73 cm" ],
     "weight": "51 g",
     "volume": "57 ml",
