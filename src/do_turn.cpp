@@ -291,7 +291,7 @@ void monmove()
             }
             if( !okay ) {
                 // die of "natural" cause (overpopulation is natural)
-                critter.die( nullptr );
+                critter.die( &m, nullptr );
             }
         }
 

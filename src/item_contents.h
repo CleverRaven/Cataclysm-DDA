@@ -25,6 +25,7 @@ class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
+class map;
 struct iteminfo;
 struct tripoint;
 
@@ -304,6 +305,7 @@ class item_contents
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
         void overflow( const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();

@@ -1240,8 +1240,9 @@ vehicle *game::place_vehicle_nearby(
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
+    map &here = get_map();
     const int radius = HALF_MAPSIZE - 1;
-    const tripoint_abs_sm abs_sub( get_map().get_abs_sub() );
+    const tripoint_abs_sm abs_sub( here.get_abs_sub() );
     const half_open_rectangle<point_abs_sm> map_bounds( abs_sub.xy(), abs_sub.xy() + point( MAPSIZE,
             MAPSIZE ) );
     // uses submap coordinates
@@ -1272,14 +1273,14 @@ void game::load_npcs()
 
         add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %s %s",
                        abs_sub.to_string_writable(), sm_loc.to_string_writable() );
-        temp->place_on_map();
+        temp->place_on_map( &here );
         if( !m.inbounds( temp->pos_bub() ) ) {
             continue;
         }
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if( temp->marked_for_death ) {
-            temp->die( nullptr );
+            temp->die( &here, nullptr );
         } else {
             critter_tracker->active_npc.push_back( temp );
             just_added.push_back( temp );
@@ -1287,7 +1288,64 @@ void game::load_npcs()
     }
 
     for( const auto &npc : just_added ) {
-        npc->on_load();
+        npc->on_load( &here );
+    }
+
+    npcs_dirty = false;
+}
+
+void game::load_npcs( map *here )
+{
+    const int mapsize = here->getmapsize();
+    const int radius = mapsize / 2 - 1;
+    const tripoint_abs_sm abs_sub( here->get_abs_sub() );
+    const tripoint_abs_sm center = abs_sub + point_rel_sm{radius, radius};
+    const half_open_rectangle<point_abs_sm> map_bounds( abs_sub.xy(), abs_sub.xy() + point( mapsize,
+            mapsize ) );
+    // uses submap coordinates
+    std::vector<shared_ptr_fast<npc>> just_added;
+    for( const auto &temp : overmap_buffer.get_npcs_near( center, radius ) ) {
+        const character_id &id = temp->getID();
+        const auto found = std::find_if( critter_tracker->active_npc.begin(),
+                                         critter_tracker->active_npc.end(),
+        [id]( const shared_ptr_fast<npc> &n ) {
+            return n->getID() == id;
+        } );
+        if( found != critter_tracker->active_npc.end() ) {
+            continue;
+        }
+        if( temp->is_active() ) {
+            continue;
+        }
+        if( temp->has_companion_mission() ) {
+            continue;
+        }
+
+        const tripoint_abs_sm sm_loc = temp->pos_abs_sm();
+        // NPCs who are out of bounds before placement would be pushed into bounds
+        // This can cause NPCs to teleport around, so we don't want that
+        if( !map_bounds.contains( sm_loc.xy() ) ) {
+            continue;
+        }
+
+        add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %s %s",
+                       abs_sub.to_string_writable(), sm_loc.to_string_writable() );
+        temp->place_on_map( here );
+        if( !here->inbounds( temp->pos_abs() ) ) {
+            continue;
+        }
+        // In the rare case the npc was marked for death while
+        // it was on the overmap. Kill it.
+        if( temp->marked_for_death ) {
+            temp->die( here, nullptr );
+        } else {
+            critter_tracker->active_npc.push_back( temp );
+            just_added.push_back( temp );
+        }
+    }
+
+    for( const auto &npc : just_added ) {
+        npc->on_load( here );
     }
 
     npcs_dirty = false;
@@ -1502,6 +1560,8 @@ void game::set_driving_view_offset( const point_rel_ms &p )
 void game::catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character *p,
                             const time_duration &catch_duration ) // catching function
 {
+    map &here = get_map();
+
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
@@ -1510,7 +1570,7 @@ void game::catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character
     }
     //quietly kill the caught
     fish->no_corpse_quiet = true;
-    fish->die( p );
+    fish->die( &here, p );
 }
 
 static bool cancel_auto_move( Character &you, const std::string &text )
@@ -2871,6 +2931,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 
 bool game::is_game_over()
 {
+    map &here = get_map();
+
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
         Creature *player_killer = u.get_killer();
         if( player_killer && player_killer->as_character() ) {
@@ -2893,7 +2955,7 @@ bool game::is_game_over()
         if( u.in_vehicle ) {
             m.unboard_vehicle( u.pos_bub() );
         }
-        u.place_corpse();
+        u.place_corpse( &here );
         return true;
     }
     if( uquit == QUIT_SUICIDE ) {
@@ -4750,6 +4812,8 @@ void game::mon_info_update( )
 
 void game::cleanup_dead()
 {
+    map &here = get_map();
+
     // Dead monsters need to stay in the tracker until everything else that needs to die does so
     // This is because dying monsters can still interact with other dying monsters (@ref Creature::killer)
     bool monster_is_dead = critter_tracker->kill_marked_for_death();
@@ -4758,7 +4822,7 @@ void game::cleanup_dead()
     // can't use all_npcs as that does not include dead ones
     for( const auto &n : critter_tracker->active_npc ) {
         if( n->is_dead() ) {
-            n->die( nullptr ); // make sure this has been called to create corpses etc.
+            n->die( &here, nullptr ); // make sure this has been called to create corpses etc.
             npc_is_dead = true;
         }
     }
@@ -4811,6 +4875,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
     tripoint_bub_ms tp = traj.front();
+    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     if( !creatures.creature_at( tp ) ) {
         debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x(), tp.y(), tp.z() );
@@ -4831,7 +4896,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
                     targ->apply_damage( nullptr, bodypart_id( "torso" ), dam_mult * force_remaining );
-                    targ->check_dead_state();
+                    targ->check_dead_state( &here );
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
@@ -4863,7 +4928,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
             targ->setpos( traj[i] );
             if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos_bub() ) && !targ->can_drown() &&
                 !targ->is_dead() ) {
-                targ->die( nullptr );
+                targ->die( &here, nullptr );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
@@ -4871,7 +4936,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
             if( !m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos_bub() ) &&
                 targ->has_flag( mon_flag_AQUATIC ) &&
                 !targ->is_dead() ) {
-                targ->die( nullptr );
+                targ->die( &here, nullptr );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s flops around and dies!" ), targ->name() );
                 }
@@ -4905,7 +4970,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                             targ->deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
-                    targ->check_dead_state();
+                    targ->check_dead_state( &here );
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
@@ -4978,7 +5043,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                             u.deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
-                    u.check_dead_state();
+                    u.check_dead_state( &here );
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
@@ -5517,6 +5582,13 @@ bool game::swap_critters( Creature &a, Creature &b )
 bool game::is_empty( const tripoint_bub_ms &p )
 {
     return ( m.passable( p ) || m.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) &&
+           get_creature_tracker().creature_at( p ) == nullptr;
+}
+
+bool game::is_empty( map *here, const tripoint_abs_ms &p )
+{
+    const tripoint_bub_ms pos = here->get_bub( p );
+    return ( here->passable( pos ) || here->has_flag( ter_furn_flag::TFLAG_LIQUID, pos ) ) &&
            get_creature_tracker().creature_at( p ) == nullptr;
 }
 
@@ -11966,6 +12038,7 @@ void game::water_affect_items( Character &ch ) const
 bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
                            bool intentional )
 {
+    map &here = get_map();
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
         return false;
@@ -12047,7 +12120,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                                              ( damage - critter.get_armor_type( damage_bash, bodypart_id( "torso" ) ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
-            critter.check_dead_state();
+            critter.check_dead_state( &here );
             if( !critter.is_dead() ) {
                 thru = false;
             }

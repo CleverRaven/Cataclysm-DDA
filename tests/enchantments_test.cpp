@@ -85,7 +85,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     clear_map();
     monster &zombie = spawn_test_monster( "mon_zombie", spot );
 
-    p.on_hit( &zombie, bodypart_id( "torso" ), 0.0, nullptr );
+    p.on_hit( &get_map(),  & zombie, bodypart_id( "torso" ), 0.0, nullptr );
 
     CHECK( zombie.has_effect( effect_blind ) );
 }

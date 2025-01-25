@@ -1872,6 +1872,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /** Spill items that don't fit in the container. */
         void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );

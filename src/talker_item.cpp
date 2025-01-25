@@ -157,7 +157,7 @@ void talker_item::set_degradation( int set )
     me_it->get_item()->set_degradation( set );
 }
 
-void talker_item::die()
+void talker_item::die( map *here )
 {
     me_it->remove_item();
 }

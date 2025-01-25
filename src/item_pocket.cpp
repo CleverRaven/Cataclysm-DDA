@@ -1919,14 +1919,18 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint_bub_ms &pos )
 {
+    return item_pocket::spill_contents( &get_map(), pos );
+}
+
+bool item_pocket::spill_contents( map *here, const tripoint_bub_ms &pos )
+{
     if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::E_FILE_STORAGE ) ||
         is_type( pocket_type::CORPSE ) || is_type( pocket_type::CABLE ) ) {
         return false;
     }
 
-    map &here = get_map();
     for( item &it : contents ) {
-        here.add_item_or_charges( pos, it );
+        here->add_item_or_charges( pos, it );
     }
 
     contents.clear();

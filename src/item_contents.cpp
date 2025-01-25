@@ -1230,6 +1230,17 @@ bool item_contents::spill_contents( const tripoint_bub_ms &pos )
     return spilled;
 }
 
+bool item_contents::spill_contents( map *here, const tripoint_bub_ms &pos )
+{
+    bool spilled = false;
+    for( item_pocket &pocket : contents ) {
+        if( !pocket.get_pocket_data()->_no_unload ) {
+            spilled = pocket.spill_contents( here, pos ) || spilled;
+        }
+    }
+    return spilled;
+}
+
 void item_contents::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
