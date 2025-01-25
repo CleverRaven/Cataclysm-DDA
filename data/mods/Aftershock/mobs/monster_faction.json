@@ -49,6 +49,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "salvor",
+    "base_faction": "UICA_mil"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "whately",
     "base_faction": "human",
     "friendly": [ "human", "whately", "whately_family" ],

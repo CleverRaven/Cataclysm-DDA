@@ -73,6 +73,106 @@
     },
     "description": "A multitude of frontier homesteading groups brought together by their use of the PrepNet communication protocols.  Spread out onto the edges of the frontier, enthusiastically squatting and building tiny kingdoms often consisting of just a couple families or like-minded individuals.  Their mutual aid societies are wildly varied in their laws; influenced by the people who set them up, but they all share in a distrust for those that wish to impose restrictions upon new colonization efforts."
   },
+{
+    "type": "faction",
+    "id": "salvors",
+    "name": "Salus Salvors",
+    "mon_faction": "salvor",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 15,
+    "power": 20,
+    "currency": "money",
+    "price_rules": [
+      { "item": "cash_card", "fixed_adj": 0 },
+      { "item": "UICA_1d", "fixed_adj": 0 },
+      { "item": "UICA_50d", "fixed_adj": 0 },
+      { "item": "UICA_10d", "fixed_adj": 0 },
+      { "item": "UICA_100d", "fixed_adj": 0 },
+      { "item": "UICA_1000d", "fixed_adj": 0 },
+      { "item": "UICA_10000d", "fixed_adj": 0 }
+    ],
+    "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } },
+    "wealth": 75000,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "UICA": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "mercurial": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "wraitheon": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A multitude of frontier homesteading groups brought together by their use of the PrepNet communication protocols.  Spread out onto the edges of the frontier, enthusiastically squatting and building tiny kingdoms often consisting of just a couple families or like-minded individuals.  Their mutual aid societies are wildly varied in their laws; influenced by the people who set them up, but they all share in a distrust for those that wish to impose restrictions upon new colonization efforts."
+  },
   {
     "type": "faction",
     "id": "UICA",
@@ -160,6 +260,15 @@
         "knows your voice": true
       },
       "mercurial": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "salvors": {
         "kill on sight": false,
         "watch your back": true,
         "share my stuff": false,
@@ -259,6 +368,15 @@
         "defends your space": false,
         "knows your voice": true
       },
+      "salvors": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
       "hells_raiders": { "kill on sight": true },
       "Prepnet_Phyle": { "kill on sight": true },
       "marloss": { "kill on sight": true }
@@ -347,6 +465,15 @@
         "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
+        "knows your voice": true
+      },
+      "salvors": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
         "knows your voice": true
       },
       "hells_raiders": { "kill on sight": true },

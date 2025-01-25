@@ -42,7 +42,7 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_SALVOR_FABRICATOR",
-    "faction": "UICA"
+    "faction": "salvors"
   },
   {
     "type": "item_group",
