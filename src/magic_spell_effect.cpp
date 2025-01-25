@@ -1821,7 +1821,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    auto &here = get_map(); // "map" is overridden by a spell_effect operation...
+    class map &here = get_map(); // "map" is overridden by a spell_effect operation...
     int total_dam = sp.damage( caster );
     if( total_dam <= 0 ) {
         debugmsg( "ERROR: Banishment has negative or 0 damage value" );
