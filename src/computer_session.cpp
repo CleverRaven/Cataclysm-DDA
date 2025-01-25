@@ -593,7 +593,7 @@ void computer_session::action_terminate()
               t_south == ter_t_concrete_wall ) ||
             ( t_south == ter_t_reinforced_glass &&
               t_north == ter_t_concrete_wall ) ) {
-            mon->die( &player_character );
+            mon->die( &here, &player_character );
         }
     }
     query_any( _( "Subjects terminated.  Press any key…" ) );

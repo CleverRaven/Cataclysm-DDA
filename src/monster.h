@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+class map;
 struct monster_plan;
 namespace catacurses
 {
@@ -109,6 +110,7 @@ class monster : public Creature
             return faction.id();
         }
         void gravity_check() override;
+        void gravity_check( map *here ) override;
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
@@ -366,7 +368,7 @@ class monster : public Creature
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
-        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+        void deal_projectile_attack( map *here, Creature *source, dealt_projectile_attack &attack,
                                      const double &missed_by = 0, bool print_messages = true,
                                      const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
@@ -439,7 +441,7 @@ class monster : public Creature
         void on_dodge( Creature *source, float difficulty, float training_level = 0.0 ) override;
         void on_try_dodge() override {}
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, bodypart_id bp_hit,
+        void on_hit( map *here, Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Resets a given special to its monster type cooldown value */
@@ -461,8 +463,8 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death( item *corpse );
+        void die( map *here, Creature *killer ) override; //this is the die from Creature, it calls kill_mo
+        void drop_items_on_death( map *here, item *corpse );
         void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );

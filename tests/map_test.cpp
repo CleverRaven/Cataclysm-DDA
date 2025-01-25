@@ -295,7 +295,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
-    zombo.die( nullptr );
+    zombo.die( &here, nullptr );
     REQUIRE( here.i_at( start_loc ).size() == 1 );
     item &dropped_bag = here.i_at( start_loc ).begin()->only_item();
 

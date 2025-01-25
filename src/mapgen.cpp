@@ -5050,7 +5050,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
                                             target_pos ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
-                    tmp_critter->die( nullptr );
+                    tmp_critter->die( &m, nullptr );
                 }
             }
             break;
@@ -5152,7 +5152,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
-                        tmp_critter->die( nullptr );
+                        tmp_critter->die( &m, nullptr );
                     }
                 }
             }
@@ -5235,7 +5235,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
-                            tmp_critter->die( nullptr );
+                            tmp_critter->die( &m, nullptr );
                         }
                     }
                 }

@@ -47,6 +47,8 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 void mdefense::zapback( monster &m, Creature *const source,
                         dealt_projectile_attack const *proj )
 {
+    map &here = get_map();
+
     if( source == nullptr ) {
         return;
     }
@@ -87,7 +89,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
-    source->check_dead_state();
+    source->check_dead_state( &here );
 }
 
 void mdefense::acidsplash( monster &m, Creature *const source,

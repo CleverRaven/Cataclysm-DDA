@@ -42,7 +42,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 
     // Call item processing entry points.
     here.process_items();
-    player_character.process_items();
+    player_character.process_items( &here );
 
     // Each chainsaw was processed and turned off from lack of fuel
     CHECK( inventory_item->typeId().str() == "chainsaw_off" );

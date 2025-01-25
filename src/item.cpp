@@ -10713,6 +10713,15 @@ bool item::spill_contents( const tripoint_bub_ms &pos )
     return contents.spill_contents( pos );
 }
 
+bool item::spill_contents( map *here, const tripoint_bub_ms &pos )
+{
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
+        return true;
+    }
+    return contents.spill_contents( here, pos );
+}
+
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );

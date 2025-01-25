@@ -570,6 +570,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
 {
+    map &here = get_map();
+
     if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
@@ -903,7 +905,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         }
 
-        t.check_dead_state();
+        t.check_dead_state( &here );
 
         if( t.is_dead_state() ) {
             // trigger martial arts on-kill effects
@@ -938,11 +940,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
-    check_dead_state();
+    check_dead_state( &here );
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), 0.0f, &dp );
+        t.as_character()->on_hit( &here, this, bodypart_str_id::NULL_ID().id(), 0.0f, &dp );
     }
     return true;
 }

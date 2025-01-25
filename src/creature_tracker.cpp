@@ -68,6 +68,7 @@ shared_ptr_fast<monster> creature_tracker::from_temporary_id( const int id )
 bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 {
     cata_assert( critter_ptr );
+    map *here = &get_map();
     monster &critter = *critter_ptr;
 
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
@@ -77,7 +78,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
     if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.pos_abs() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
-            existing_mon_ptr->die( nullptr );
+            existing_mon_ptr->die( here, nullptr );
             // But don't remove - that would change the monster order and could segfault
         } else if( critter.is_hallucination() ) {
             return false;
@@ -104,6 +105,8 @@ size_t creature_tracker::size() const
 bool creature_tracker::update_pos( const monster &critter, const tripoint_abs_ms &old_pos,
                                    const tripoint_abs_ms &new_pos )
 {
+    map &here = get_map();
+
     if( critter.is_dead() ) {
         // find ignores dead critters anyway, changing their position in the
         // monsters_by_location map is useless.
@@ -114,7 +117,7 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint_abs_ms
     if( const shared_ptr_fast<monster> new_critter_ptr = find( new_pos ) ) {
         auto &othermon = *new_critter_ptr;
         if( othermon.is_hallucination() ) {
-            othermon.die( nullptr );
+            othermon.die( &here, nullptr );
         } else {
             debugmsg( "update_zombie_pos: wanted to move %s to %s, but new location already has %s",
                       critter.disp_name(), new_pos.to_string_writable(), othermon.disp_name() );
@@ -257,6 +260,7 @@ void creature_tracker::swap_positions( monster &first, monster &second )
 
 bool creature_tracker::kill_marked_for_death()
 {
+    map &here = get_map();
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
     bool monster_is_dead = false;
@@ -272,7 +276,7 @@ bool creature_tracker::kill_marked_for_death()
         dbg( D_INFO ) << string_format( "cleanup_dead: critter at %s hp:%d %s",
                                         critter.pos_abs().to_string_writable(),
                                         critter.get_hp(), critter.name() );
-        critter.die( nullptr );
+        critter.die( &here, nullptr );
         monster_is_dead = true;
     }
 

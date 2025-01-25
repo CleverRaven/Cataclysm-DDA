@@ -3398,7 +3398,7 @@ static void damage_self()
     if( query_int( dbg_damage, _( "Damage self for how much?  HP: %s" ), part.id().c_str() ) ) {
         player_character.apply_damage( nullptr, part, dbg_damage );
         if( player_character.is_dead_state() ) {
-            player_character.die( nullptr );
+            player_character.die( &get_map(), nullptr );
         }
     }
 }
@@ -3492,6 +3492,7 @@ static void import_folower()
 
 static void kill_area()
 {
+    map &here = get_map();
     static_popup popup;
     popup.on_top( true );
     popup.message( "%s", _( "Select first point." ) );
@@ -3521,7 +3522,7 @@ static void kill_area()
     } );
 
     for( Creature *critter : creatures ) {
-        critter->die( nullptr );
+        critter->die( &here, nullptr );
     }
 
     g->cleanup_dead();
@@ -4053,7 +4054,7 @@ void debug()
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
                 if( critter.type->id != mon_generator ) {
-                    critter.die( nullptr );
+                    critter.die( &here, nullptr );
                 }
             }
             g->cleanup_dead();

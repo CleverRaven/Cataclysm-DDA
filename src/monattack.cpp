@@ -765,6 +765,8 @@ bool mattack::acid( monster *z )
 
 bool mattack::acid_barf( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -822,7 +824,7 @@ bool mattack::acid_barf( monster *z )
             body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -1513,7 +1515,7 @@ bool mattack::vine( monster *z )
             d.add_damage( damage_cut, 8 );
             d.add_damage( damage_bash, 8 );
             critter->deal_damage( z, bphit, d );
-            critter->check_dead_state();
+            critter->check_dead_state( &here );
             z->mod_moves( -to_moves<int>( 1_seconds ) );
             return true;
         }
@@ -1762,6 +1764,7 @@ bool mattack::fungus_big_blossom( monster *z )
 
 bool mattack::fungus_inject( monster *z )
 {
+    map &here = get_map();
     // For faster copy+paste
     Creature *target = &get_player_character();
     Character &player_character = get_player_character();
@@ -1818,14 +1821,16 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
-    player_character.check_dead_state();
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
+    player_character.check_dead_state( &here );
 
     return true;
 }
 
 bool mattack::fungus_bristle( monster *z )
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_THRESH_MARLOSS ) ||
         player_character.has_trait( trait_THRESH_MYCUS ) ) {
@@ -1874,7 +1879,7 @@ bool mattack::fungus_bristle( monster *z )
                                    z->name(), body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -2000,7 +2005,7 @@ bool mattack::fungus_fortify( monster *z )
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
                      body_part_name_accusative( hit ) );
             player_character.deal_damage( z,  hit, damage_instance( damage_cut, rng( 5, 11 ) ) );
-            player_character.check_dead_state();
+            player_character.check_dead_state( &here );
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( monster *const tendril = g->place_critter_at( mon_fungal_tendril, hit_pos ) ) {
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth!" ) );
@@ -2040,8 +2045,8 @@ bool mattack::fungus_fortify( monster *z )
                  body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, hit,  z->type->melee_skill );
-    player_character.check_dead_state();
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
+    player_character.check_dead_state( &here );
     return true;
 }
 
@@ -2093,7 +2098,7 @@ bool mattack::depart( monster *z )
     }
     z->no_corpse_quiet = true;
     z->no_extra_death_drops = true;
-    z->die( nullptr );
+    z->die( &here, nullptr );
     return true;
 }
 
@@ -2657,6 +2662,8 @@ bool mattack::check_money_left( monster *z )
 }
 bool mattack::photograph( monster *z )
 {
+    map &here = get_map();
+
     if( !within_visual_range( z, 6 ) ) {
         return false;
     }
@@ -2674,7 +2681,7 @@ bool mattack::photograph( monster *z )
                          z->name() );
                 z->no_corpse_quiet = true;
                 z->no_extra_death_drops = true;
-                z->die( nullptr );
+                z->die( &here, nullptr );
                 return false;
             } else {
                 add_msg( m_info,
@@ -2694,7 +2701,7 @@ bool mattack::photograph( monster *z )
                          z->name() );
                 z->no_corpse_quiet = true;
                 z->no_extra_death_drops = true;
-                z->die( nullptr );
+                z->die( &here, nullptr );
                 return false;
             } else {
                 add_msg( m_info,
@@ -2712,7 +2719,7 @@ bool mattack::photograph( monster *z )
                          z->name() );
                 z->no_corpse_quiet = true;
                 z->no_extra_death_drops = true;
-                z->die( nullptr );
+                z->die( &here, nullptr );
                 return false;
             } else {
                 add_msg( m_info, _( "The %s acknowledges you as SWAT onsite, but hangs around to watch." ),
@@ -2729,7 +2736,7 @@ bool mattack::photograph( monster *z )
             add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
             z->no_corpse_quiet = true;
             z->no_extra_death_drops = true;
-            z->die( nullptr );
+            z->die( &here, nullptr );
             return false;
         }
     }
@@ -2797,6 +2804,8 @@ bool mattack::tazer( monster *z )
 
 void mattack::taze( monster *z, Creature *target )
 {
+    map &here = get_map();
+
     // It takes a while
     z->mod_moves( -to_moves<int>( 2_seconds ) );
     if( target == nullptr ) {
@@ -2837,7 +2846,7 @@ void mattack::taze( monster *z, Creature *target )
                                    _( "The %s shocks you!" ),
                                    _( "The %s shocks <npcname>!" ),
                                    z->name() );
-    target->check_dead_state();
+    target->check_dead_state( &here );
 }
 
 bool mattack::searchlight( monster *z )
@@ -3246,6 +3255,8 @@ bool mattack::brandish( monster *z )
 
 bool mattack::flesh_golem( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -3300,7 +3311,7 @@ bool mattack::flesh_golem( monster *z )
     //~ 1$s is bodypart name, 2$d is damage value.
     target->add_msg_if_player( m_bad, _( "Your %1$s is battered for %2$d damage!" ),
                                body_part_name( hit ), dam );
-    target->on_hit( z, hit,  z->type->melee_skill );
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
 
     return true;
 }
@@ -3362,6 +3373,8 @@ bool mattack::absorb_meat( monster *z )
 
 bool mattack::lunge( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -3430,8 +3443,8 @@ bool mattack::lunge( monster *z )
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3_turns );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
-    target->check_dead_state();
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
+    target->check_dead_state( &here );
     return true;
 }
 
@@ -4072,6 +4085,8 @@ bool mattack::bio_op_random_biojutsu( monster *z )
 
 bool mattack::bio_op_takedown( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -4111,7 +4126,7 @@ bool mattack::bio_op_takedown( monster *z )
         if( seen ) {
             add_msg( _( "%1$s slams %2$s to the ground!" ), z->name(), target->disp_name() );
         }
-        target->check_dead_state();
+        target->check_dead_state( &here );
         return true;
     }
     // Yes, it has the CQC bionic.
@@ -4173,14 +4188,16 @@ bool mattack::bio_op_takedown( monster *z )
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_bash, dam ) );
     }
-    target->on_hit( z, hit,  z->type->melee_skill );
-    foe->check_dead_state();
+    target->on_hit( &here, z, hit,  z->type->melee_skill );
+    foe->check_dead_state( &here );
 
     return true;
 }
 
 bool mattack::bio_op_impale( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -4228,7 +4245,7 @@ bool mattack::bio_op_impale( monster *z )
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
         }
-        target->check_dead_state();
+        target->check_dead_state( &here );
         return true;
     }
 
@@ -4251,8 +4268,8 @@ bool mattack::bio_op_impale( monster *z )
                                        _( "but fails to penetrate <npcname>'s armor!" ) );
     }
 
-    target->on_hit( z, hit, z->type->melee_skill );
-    foe->check_dead_state();
+    target->on_hit( &here, z, hit, z->type->melee_skill );
+    foe->check_dead_state( &here );
 
     return true;
 }
@@ -4325,17 +4342,21 @@ bool mattack::bio_op_disarm( monster *z )
 
 bool mattack::suicide( monster *z )
 {
+    map &here = get_map();
+
     Creature *target = z->attack_target();
     if( !within_target_range( z, target, 2 ) ) {
         return false;
     }
-    z->die( z );
+    z->die( &here, z );
 
     return false;
 }
 
 bool mattack::kamikaze( monster *z )
 {
+    map &here = get_map();
+
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
         debugmsg( "Missing ammo in kamikaze special for %s.", z->name() );
@@ -4376,7 +4397,7 @@ bool mattack::kamikaze( monster *z )
     // HACK: HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing
     if( z->has_effect( effect_countdown ) ) {
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
-            z->die( nullptr );
+            z->die( &here, nullptr );
             // Timer is out, detonate
             item i_explodes( act_bomb_type, calendar::turn );
             i_explodes.active = true;
@@ -4621,9 +4642,11 @@ bool mattack::grenadier_elite( monster *const z )
 
 bool mattack::zombie_fuse( monster *z )
 {
+    map &here = get_map();
+
     monster *critter = nullptr;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint_bub_ms &p : get_map().points_in_radius( z->pos_bub(), 1 ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( z->pos_bub(), 1 ) ) {
         critter = creatures.creature_at<monster>( p );
         if( critter != nullptr && critter->faction == z->faction
             && critter != z && critter->get_size() <= z->get_size() ) {
@@ -4657,7 +4680,7 @@ bool mattack::zombie_fuse( monster *z )
     }
     critter->death_drops = false;
     critter->quiet_death = true;
-    critter->die( z );
+    critter->die( &here, z );
     return true;
 }
 

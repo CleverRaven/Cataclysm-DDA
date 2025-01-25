@@ -12,6 +12,7 @@
 class Character;
 class item;
 class mission;
+class map;
 class talker;
 
 /*
@@ -119,7 +120,7 @@ class talker_npc : virtual public talker_npc_const,
         void add_opinion( const npc_opinion &op ) override;
         bool enslave_mind() override;
         void set_first_topic( const std::string &chat_topic ) override;
-        void die() override;
+        void die( map *here ) override;
         void set_npc_trust( int trust ) override;
         void set_npc_fear( int fear ) override;
         void set_npc_value( int value ) override;

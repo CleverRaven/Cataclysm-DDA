@@ -160,7 +160,7 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
         dealt_projectile_attack atk;
         projectile_attack( atk, proj, badguy_pos, dude_pos, dispersion_sources(),
                            &*badguy );
-        dude->deal_projectile_attack( &*badguy, atk, atk.missed_by, false );
+        dude->deal_projectile_attack( &get_map(),  & *badguy, atk, atk.missed_by, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }

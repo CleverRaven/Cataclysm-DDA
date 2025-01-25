@@ -2856,7 +2856,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
         Creature *critter = creatures.creature_at( rebase_bub( p ) );
         if( critter != nullptr ) {
-            critter->die( nullptr );
+            critter->die( bay.cast_to_map(), nullptr );
         }
         //Hoover up tasty items!
         map_stack items = bay.i_at( p );

@@ -5305,7 +5305,8 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
 talk_effect_fun_t::func f_die( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
-        d.actor( is_npc )->die();
+        map &here = get_map();
+        d.actor( is_npc )->die( &here );
     };
 }
 

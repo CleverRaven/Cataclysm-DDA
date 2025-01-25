@@ -58,7 +58,7 @@ static void on_load_test( npc &who, const time_duration &from, const time_durati
     calendar::turn = calendar::turn_zero + from;
     who.on_unload();
     calendar::turn = calendar::turn_zero + to;
-    who.on_load();
+    who.on_load( &get_map() );
 }
 
 static void test_needs( const npc &who, const numeric_interval<int> &hunger,

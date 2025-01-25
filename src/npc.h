@@ -51,6 +51,7 @@
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class map;
 class mission;
 class monfaction;
 class monster;
@@ -816,7 +817,7 @@ class npc : public Character
          * If the square on the map where the NPC would go is not empty
          * a spiral search for an empty square around it is performed.
          */
-        void place_on_map();
+        void place_on_map( map *here );
         /**
          * See @ref dialogue_chatbin::add_new_mission
          */
@@ -1013,7 +1014,7 @@ class npc : public Character
         int indoor_voice() const;
         void decide_needs();
         void reboot();
-        void die( Creature *killer ) override;
+        void die( map *here, Creature *killer ) override;
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
@@ -1412,7 +1413,7 @@ class npc : public Character
         /**
          * Retroactively update npc.
          */
-        void on_load();
+        void on_load( map *here );
         /**
          * Update body, but throttled.
          */

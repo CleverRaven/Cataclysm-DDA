@@ -293,6 +293,7 @@ TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
 
 TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 {
+    map &here = get_map();
 
     const std::string grabber_left = "mon_debug_grabber_left";
     const std::string grabber_right = "mon_debug_grabber_right";
@@ -325,7 +326,7 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
     REQUIRE( test_monster_left.is_grabbing( body_part_arm_l ) );
 
     // Kill the left grabber
-    test_monster_left.die( nullptr );
+    test_monster_left.die( &here, nullptr );
 
     // Now we only have the one
     REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
