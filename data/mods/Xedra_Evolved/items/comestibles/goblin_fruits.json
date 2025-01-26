@@ -1237,40 +1237,49 @@
     "effect": [ { "u_message": "Not even the power of this fruit could grant you access to dream magic.", "type": "bad" } ],
     "false_effect": [
       {
-        "if": { "u_has_trait": "DREAMLESS" },
+        "if": { "u_has_effect": "effect_goblin_fruit_cure_dreamless_cooldown" },
         "then": [
-          { "u_lose_trait": "DREAMLESS" },
-          { "u_message": "Your mind fills with dreams of an intensity you have never seen before!", "type": "good" },
-          { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
+          {
+            "u_message": "Your dreams are still digesting another cloudy fruit, preventing this one from having any effect.",
+            "type": "bad"
+          }
         ],
         "else": {
-          "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
+          "if": { "u_has_trait": "DREAMLESS" },
           "then": [
-            { "math": [ "eater_dreamer_sequence = 5" ] },
-            { "math": [ "magic_potential = 1" ] },
-            { "u_message": "Your mind fills with oddly real dreams!", "type": "good" },
+            { "u_lose_trait": "DREAMLESS" },
+            { "u_message": "Your mind fills with dreams of an intensity you have never seen before!", "type": "good" },
             { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
           ],
           "else": {
-            "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
+            "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
             "then": [
-              { "math": [ "inventor_dreamsmith_sequence = 7" ] },
+              { "math": [ "eater_dreamer_sequence = 5" ] },
               { "math": [ "magic_potential = 1" ] },
-              { "u_message": "Your mind fills with dreams you could make real!", "type": "good" },
+              { "u_message": "Your mind fills with oddly real dreams!", "type": "good" },
               { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
             ],
             "else": {
-              "if": { "u_has_trait": "EATER" },
+              "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
               "then": [
-                { "math": [ "xe_eater_leveling++" ] },
-                { "u_message": "You feel your Eater potential grow!", "type": "good" },
+                { "math": [ "inventor_dreamsmith_sequence = 7" ] },
+                { "math": [ "magic_potential = 1" ] },
+                { "u_message": "Your mind fills with dreams you could make real!", "type": "good" },
                 { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
               ],
-              "else": [
-                { "math": [ "xe_dreamer_leveling++" ] },
-                { "u_message": "You feel your Dreamer potential grow!", "type": "good" },
-                { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
-              ]
+              "else": {
+                "if": { "u_has_trait": "EATER" },
+                "then": [
+                  { "math": [ "xe_eater_leveling++" ] },
+                  { "u_message": "You feel your Eater potential grow!", "type": "good" },
+                  { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
+                ],
+                "else": [
+                  { "math": [ "xe_dreamer_leveling++" ] },
+                  { "u_message": "You feel your Dreamer potential grow!", "type": "good" },
+                  { "u_add_effect": "effect_goblin_fruit_cure_dreamless_cooldown", "duration": "90 days" }
+                ]
+              }
             }
           }
         }
