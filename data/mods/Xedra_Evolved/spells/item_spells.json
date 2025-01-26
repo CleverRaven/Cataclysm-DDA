@@ -676,7 +676,7 @@
     "id": "goblin_fruit_map_reveal",
     "type": "SPELL",
     "name": { "str": "Goblin fruit map reveal", "//~": "NO_I18N" },
-    "description": { "str": "Reveal map when you eat a goblin fruit. You must not see this.", "//~": "NO_I18N" },
+    "description": { "str": "Reveal map when you eat a goblin fruit.  You must not see this.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "none" ],
     "spell_class": "NONE",
