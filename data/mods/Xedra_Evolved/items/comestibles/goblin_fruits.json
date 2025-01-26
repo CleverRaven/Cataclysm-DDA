@@ -451,7 +451,7 @@
     "type": "COMESTIBLE",
     "id": "goblin_fruit_stealth",
     "name": { "str": "unnoticeable goblin fruit" },
-    "description": "This goblin fruit is hard to perceive. You think it's black, you believe it's small and you're certain it's near you, but all its other details slip from your memory the instant you stop looking at this fruit.",
+    "description": "This goblin fruit is hard to perceive.  You think it's black, you believe it's small and you're certain it's near you, but all its other details slip from your memory the instant you stop looking at this fruit.",
     "copy-from": "goblin_fruit_abstract",
     "comestible_type": "FOOD",
     "color": "black",
