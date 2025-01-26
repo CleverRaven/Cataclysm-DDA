@@ -530,14 +530,6 @@
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
-      },
-      {
-        "pocket_type": "E_FILE_STORAGE",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0,
-        "ememory_max": "1 TB"
       }
     ],
     "flags": [ "WATCH", "SKINTIGHT" ],
@@ -547,6 +539,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]
