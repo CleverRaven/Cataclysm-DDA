@@ -20,7 +20,7 @@
     "name": { "str_sp": "dry dog food" },
     "extend": { "petfood": [ "DINOFOOD_A" ] }
   },
- {
+  {
     "id": "dogfood_raw",
     "copy-from": "dogfood_raw",
     "type": "COMESTIBLE",
