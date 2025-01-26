@@ -1184,29 +1184,33 @@ std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms
     return ret;
 }
 
+static void apply_to_both_vectors( std::vector<zone_data> const &zones_a,
+                                   std::vector<zone_data *> &zones_b,
+                                   std::function<void( zone_data const & )> function )
+{
+    for( const zone_data &zone : zones_a ) {
+        function( zone );
+    }
+    for( const zone_data *zone : zones_b ) {
+        function( *zone );
+    }
+}
+
 std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms &where,
         const zone_type_id_and_priority &type,
         const faction_id &fac ) const
 {
     std::vector<zone_data const *> ret;
-    for( const zone_data &zone : zones ) {
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
+    apply_to_both_vectors( zones, vzones, [&ret, &type, &fac, &where]( zone_data const & zone ) {
         if( zone.get_priority() == type.priority &&
             zone.get_type() == type.id &&
             zone.get_faction() == fac &&
             zone.has_inside( where ) ) {
             ret.emplace_back( &zone );
         }
-    }
-    map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
-    for( const zone_data *zone : vzones ) {
-        if( zone->get_priority() == type.priority &&
-            zone->get_type() == type.id &&
-            zone->get_faction() == fac &&
-            zone->has_inside( where ) ) {
-            ret.emplace_back( zone );
-        }
-    }
+    } );
     return ret;
 }
 
@@ -1313,9 +1317,10 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id_a
     // It might be worth re-writing or extending the caches to store priority too and using them here for speed.
     // But this implementation at least works and is simple.
     item const *const item_or_single_content = it->this_or_single_content();
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     std::unordered_set<tripoint_abs_ms> near_point_set;
-
-    for( const zone_data &zone : zones ) {
+    apply_to_both_vectors( zones, vzones, [&]( zone_data const & zone ) {
         if( zone.get_priority() == type.priority &&
             zone.get_type() == type.id &&
             zone.get_faction() == fac &&
@@ -1327,23 +1332,7 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id_a
                 near_point_set.insert( points_covered.begin(), points_covered.end() );
             }
         }
-    }
-    map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
-    for( const zone_data *zone : vzones ) {
-        if( zone->get_priority() == type.priority &&
-            zone->get_type() == type.id &&
-            zone->get_faction() == fac &&
-            zone->has_within_square_dist( where, range ) ) {
-            if( ( type.id != zone_type_LOOT_CUSTOM && type.id != zone_type_LOOT_ITEM_GROUP ) ||
-                ( it != nullptr &&
-                  item_matches_custom_loot_or_item_group_zone( *zone, *it, *item_or_single_content ) ) ) {
-                tripoint_range<tripoint_abs_ms> points_covered( zone->get_start_point(), zone->get_end_point() );
-                near_point_set.insert( points_covered.begin(), points_covered.end() );
-            }
-        }
-    }
-
+    } );
     return near_point_set;
 }
 
@@ -1528,49 +1517,25 @@ zone_type_id_and_priority zone_manager::get_best_zone_type_for_item( const item 
     std::optional<zone_type_id> zone_cat = cat.zone();
     item const *const check_it = it.this_or_single_content();
     assert( check_it != nullptr );
+    map &here = get_map();
+    std::vector<zone_data *> vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
 
     zone_type_id_and_priority best_result { zone_type_id(), std::numeric_limits<int>::min() };
     int best_zone_rel_prio = -1;
-    for( zone_data const &zone : zones ) {
-        if( zone.get_faction() != fac || !zone.get_enabled() ||
-            zone.get_priority() < best_result.priority ) {
-            continue;
+    apply_to_both_vectors( zones, vzones, [&]( zone_data const & zone ) {
+        if( zone.get_faction() == fac && zone.get_enabled() &&
+            zone.get_priority() >= best_result.priority ) {
+            int this_zone_rel_prio = zone_type_relative_priority_for_item_dest( zone.get_type(),
+                                     priority_zone, zone_cat );
+            if( ( zone.get_priority() != best_result.priority || this_zone_rel_prio > best_zone_rel_prio ) &&
+                zone.has_within_square_dist( where, range ) &&
+                zone_is_destination_for_item( zone, it, *check_it, cat, priority_zone, zone_cat ) ) {
+                best_result.id = zone.get_type();
+                best_result.priority = zone.get_priority();
+                best_zone_rel_prio = this_zone_rel_prio;
+            }
         }
-        int this_zone_rel_prio = zone_type_relative_priority_for_item_dest( zone.get_type(), priority_zone,
-                                 zone_cat );
-        if( zone.get_priority() == best_result.priority && this_zone_rel_prio <= best_zone_rel_prio ) {
-            continue;
-        }
-        if( zone.has_within_square_dist( where, range ) &&
-            zone_is_destination_for_item( zone, it, *check_it, cat, priority_zone, zone_cat ) ) {
-            best_result.id = zone.get_type();
-            best_result.priority = zone.get_priority();
-            best_zone_rel_prio = this_zone_rel_prio;
-        }
-    }
-
-    // Only vehicle zones on the same z-level as the searcher are found. This matches old code behaviour; I don't know if it's correct.
-    map &here = get_map();
-    std::vector<zone_data *> vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
-    for( zone_data *zone : vzones ) {
-        if( zone->get_faction() != fac || !zone->get_enabled() ||
-            zone->get_priority() < best_result.priority ) {
-            continue;
-        }
-        int this_zone_rel_prio = zone_type_relative_priority_for_item_dest( zone->get_type(), priority_zone,
-                                 zone_cat );
-        if( zone->get_priority() == best_result.priority && this_zone_rel_prio <= best_zone_rel_prio ) {
-            continue;
-        }
-        if( where.z() == zone->get_start_point().z() &&
-            zone->has_within_square_dist( where, range ) &&
-            zone_is_destination_for_item( *zone, it, *check_it, cat, priority_zone, zone_cat ) ) {
-            best_result.id = zone->get_type();
-            best_result.priority = zone->get_priority();
-            best_zone_rel_prio = this_zone_rel_prio;
-        }
-    }
-
+    } );
     return best_result;
 }
 
