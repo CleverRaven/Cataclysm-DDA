@@ -1,6 +1,5 @@
 #include "cached_options.h"
 
-int fov_3d_z_range;
 bool keycode_mode;
 bool log_from_top;
 int message_ttl;

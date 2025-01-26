@@ -2912,17 +2912,6 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
-         to_translation(
-             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
-             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
-             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
-             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
-         0, OVERMAP_LAYERS, 4
-       );
-
-    add_empty_line();
-
     add_option_group( "debug", Group( "occlusion_opts", to_translation( "Occlusion options" ),
                                       to_translation( "Options regarding occlusion." ) ),
     [&]( const std::string & page_id ) {
@@ -4090,7 +4079,6 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
