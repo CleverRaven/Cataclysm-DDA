@@ -220,6 +220,7 @@
     "color": "blue",
     "use_action": [
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       {
         "type": "transform",
         "menu_text": "Turn on the screen",
