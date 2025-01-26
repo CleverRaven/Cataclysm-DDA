@@ -97,9 +97,6 @@ static pocket_type guess_pocket_for( const item &container, const item &payload 
             payload.is_toolmod() ) ) {
         return pocket_type::MOD;
     }
-    if( container.is_software_storage() && payload.is_software() ) {
-        return pocket_type::SOFTWARE;
-    }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return pocket_type::MAGAZINE_WELL;
     } else if( container.is_magazine() && payload.is_ammo() ) {

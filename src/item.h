@@ -358,10 +358,7 @@ class item : public visitable
     public:
 
         bool is_cash_card() const;
-        bool is_software() const;
-        bool is_software_storage() const;
 
-        bool is_ebook_storage() const;
         bool is_estorage() const;
         bool is_estorable() const;
         bool is_browsed() const;
@@ -388,6 +385,8 @@ class item : public visitable
         const item *get_photo_gallery() const;
         /** @return total number of photos this item holds */
         int total_photos() const;
+        /** @return does this item have category `software`?*/
+        bool is_software() const;
 
         /**
          * Checks whether the item's components (and sub-components if deep_search) are food items

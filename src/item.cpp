@@ -162,6 +162,7 @@ static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_software( "software" );
 static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
@@ -1289,10 +1290,6 @@ item item::in_container( const itype_id &cont, int qty, bool sealed,
             return *this;
         }
         container.add_automatic_whitelist();
-        return container;
-    } else if( is_software() && container.is_software_storage() ) {
-        container.put_in( *this, pocket_type::SOFTWARE );
-        container.invlet = invlet;
         return container;
     }
     return *this;
@@ -4995,7 +4992,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_ebook_storage() && !is_broken_on_active() ) {
+    if( is_estorage() && !is_broken_on_active() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -8828,24 +8825,6 @@ bool item::is_cash_card() const
     return typeId() == itype_cash_card;
 }
 
-bool item::is_software() const
-{
-    if( const std::optional<itype_id> &cont = type->default_container ) {
-        return item( *cont ).is_software_storage();
-    }
-    return false;
-}
-
-bool item::is_software_storage() const
-{
-    return contents.has_pocket_type( pocket_type::SOFTWARE );
-}
-
-bool item::is_ebook_storage() const
-{
-    return contents.has_pocket_type( pocket_type::EBOOK );
-}
-
 bool item::is_estorage() const
 {
     return contents.has_pocket_type( pocket_type::E_FILE_STORAGE );
@@ -8872,7 +8851,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( type->book && type->book->chapters == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
 }
 
 bool item::efiles_all_browsed() const
@@ -8988,6 +8967,11 @@ int item::total_photos() const
     read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
     read_extended_photos( extended_photos, "CAMERA_MONSTER_PHOTOS", true );
     return extended_photos.size();
+}
+
+bool item::is_software() const
+{
+    return type->category_force == item_category_software;
 }
 
 bool item::is_maybe_melee_weapon() const
@@ -10743,7 +10727,7 @@ book_proficiency_bonuses item::get_book_proficiency_bonuses() const
 {
     book_proficiency_bonuses ret;
 
-    if( is_ebook_storage() ) {
+    if( is_estorage() ) {
         for( const item *book : ebooks() ) {
             ret += book->get_book_proficiency_bonuses();
         }
@@ -15719,8 +15703,7 @@ item const *item::this_or_single_content() const
 bool item::contents_only_one_type() const
 {
     std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
-        return pkt.is_type( pocket_type::CONTAINER ) ||
-               pkt.is_type( pocket_type::SOFTWARE );
+        return pkt.is_type( pocket_type::CONTAINER );
     } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
@@ -15766,8 +15749,7 @@ item::aggregate_t item::aggregated_contents( int depth, int maxdepth ) const
     aggregate_t *running_max{};
     aggregate_t *max_type{};
     auto const cont_and_soft = []( item_pocket const & pkt ) {
-        return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::SOFTWARE ) ||
-               pkt.is_type( pocket_type::E_FILE_STORAGE );
+        return pkt.is_type( pocket_type::CONTAINER ) || pkt.is_type( pocket_type::E_FILE_STORAGE );
     };
 
 
