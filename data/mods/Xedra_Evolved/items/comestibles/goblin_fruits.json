@@ -520,9 +520,19 @@
     "effect": [
       { "u_message": "The fruit's melody fills your head.", "type": "good" },
       { "u_add_trait": "GOBLIN_FRUIT_MUSIC" },
+      { "run_eocs": "EOC_GOBLIN_FRUIT_MUSIC_START" },
       { "run_eocs": "EOC_GOBLIN_FRUIT_MUSIC_REMOVE", "time_in_future": { "math": [ "10000 + rand(10000)" ] } }
     ],
     "false_effect": [ { "u_message": "Another song is already struck in your head and won't share its space with another." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MUSIC_START",
+    "effect": {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "id": "internal_mp3_fruit", "worn_only": true } ],
+      "true_eocs": [ { "id": "EOC_GOBLIN_FRUIT_MUSIC_ACTIVATE", "effect": [ { "u_activate": "transform" } ] } ]
+    }
   },
   {
     "type": "effect_on_condition",
