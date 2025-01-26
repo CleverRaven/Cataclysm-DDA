@@ -3477,6 +3477,9 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             doors::can_unlock_door( here, *this, p ) ) {
             return true;
         }
+        if( here.is_open_air( p ) ) {
+            return true;
+        }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
             ( here.close_door( p, true, true ) ||
               here.move_cost( p ) > 2 ) ) {
