@@ -649,7 +649,7 @@
     "flags": [ "WONDER" ],
     "effect": "attack",
     "shape": "blast",
-    "message": "Fiery needles emerge from your body, seeking your foes.",
+    "message": "Fiery needles emerge from your body and surge towards anything vaguely hostile.",
     "min_damage": 25,
     "max_damage": 25,
     "min_range": 0,
