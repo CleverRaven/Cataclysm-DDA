@@ -691,7 +691,38 @@
     "color": "blue",
     "weight": "224 g",
     "volume": "204 ml",
-    "use_action": { "type": "reveal_map", "radius": 15, "message": "You suddenly learn what locations are near you." }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_MAP" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MAP",
+    "effect": [
+      { "u_spawn_item": "item_goblin_fruit_map_reveal", "suppress_message": true },
+      { "run_eocs": "EOC_GOBLIN_FRUIT_MAP_REAL" },
+      { "u_remove_item_with": "item_goblin_fruit_map_reveal" }
+    ],
+    "false_effect": [ { "u_message": "Something stopped the fruit from working.  Please report this bug on github." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_MAP_REAL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_goblin_fruit_map_reveal" } ],
+        "true_eocs": [ { "id": "EOC_GOBLIN_FRUIT_MAP_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      }
+    ]
+  },
+  {
+    "id": "item_goblin_fruit_map_reveal",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "goblin fruit map", "//~": "NO_I18N" },
+    "description": { "str": "This is a fruit map. You're not supposed to see this.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": { "type": "reveal_map", "radius": 15, "message": "You learn more about the surrounding area." }
   },
   {
     "type": "COMESTIBLE",
@@ -829,7 +860,7 @@
     "effect": [
       {
         "u_spawn_monster": "mon_dream_shadow_player",
-        "real_count": { "math": [ "4 + rand(5)" ] },
+        "real_count": { "math": [ "2 + rand(3)" ] },
         "min_radius": 0,
         "max_radius": 3,
         "lifespan": { "math": [ "2500 + rand(2500)" ] }
@@ -875,7 +906,7 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_goblin_fruit_heal_after_sleep" },
     "effect": [
-      { "math": [ "u_hp('ALL') += u_effect_intensity('effect_goblin_fruit_heal_after_sleep') * (10 + rand(5))" ] },
+      { "math": [ "u_hp('ALL') += u_effect_intensity('effect_goblin_fruit_heal_after_sleep') * (15 + rand(5))" ] },
       { "u_message": "Some of the aches of yesterday are gone." },
       { "u_lose_effect": "effect_goblin_fruit_heal_after_sleep" }
     ]
@@ -948,7 +979,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_CARRY_BOOST",
-    "effect": [ { "u_add_effect": "effect_goblin_fruit_climb", "duration": { "math": [ "8000 + rand(8000)" ] } } ]
+    "effect": [ { "u_add_effect": "goblin_fruit_carry_boost", "duration": { "math": [ "8000 + rand(8000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -1163,7 +1194,7 @@
     "effect": [
       { "u_message": "Nearby animals tolerate your presence a little more.", "type": "good" },
       { "u_add_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
-      { "run_eocs": "GOBLIN_FRUIT_ANIMAL_IGNORE", "time_in_future": { "math": [ "12500 + rand(5000)" ] } }
+      { "run_eocs": "EOC_GOBLIN_FRUIT_ANIMAL_IGNORE_REMOVE", "time_in_future": { "math": [ "12500 + rand(5000)" ] } }
     ],
     "false_effect": [ { "u_message": "Animals can't tolerate your presence more than they are currently doing." } ]
   },

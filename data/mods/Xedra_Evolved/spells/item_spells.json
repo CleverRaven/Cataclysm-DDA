@@ -649,6 +649,7 @@
     "flags": [ "WONDER" ],
     "effect": "attack",
     "shape": "blast",
+    "message": "",
     "min_damage": 25,
     "max_damage": 25,
     "min_range": 0,
