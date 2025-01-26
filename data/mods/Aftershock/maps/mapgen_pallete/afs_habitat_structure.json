@@ -117,7 +117,7 @@
       "o": { "item": "afs_kitchenette", "chance": 60 },
       "U": { "item": "afs_old_food_storage", "chance": 60 },
       "F": { "item": "afs_old_food_storage", "chance": 60 },
-      "l": { "item": "afs_frontier_cryo_g", "chance": 50 }
+      "l": { "item": "afs_wintersuit_generic_basic", "chance": 30 }
     }
   },
   {

@@ -15,6 +15,7 @@
     "id": "afs_earthling",
     "name": "Earth born",
     "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "traits": [ "BKGR_EARTH" ],
     "points": -1
   },
   {

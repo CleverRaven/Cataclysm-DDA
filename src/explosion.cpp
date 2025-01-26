@@ -309,8 +309,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    // Must use the reality bubble pos, because that's what the creature tracker works with.
-    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_bub() );
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_abs() );
     for( const tripoint_bub_ms &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         if( force < 1.0f ) {
@@ -336,9 +335,8 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                   fire ? damage_heat : damage_bash, false );
         }
 
-        // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( pt ) ) );
-        Creature *critter = creatures.creature_at( bubble_pos, true );
+        const tripoint_abs_ms pt_abs = m->get_abs( pt );
+        Creature *critter = creatures.creature_at( pt_abs, true );
         if( critter == nullptr ) {
             continue;
         }
@@ -359,7 +357,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         }
 
         // Print messages for all NPCs
-        if( bubble_map.inbounds( bubble_pos ) ) {
+        if( bubble_map.inbounds( pt_abs ) ) {
             pl->add_msg_player_or_npc( m_bad, _( "You're caught in the explosion!" ),
                                        _( "<npcname> is caught in the explosion!" ) );
         }
@@ -446,9 +444,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
-    // Creature tracker works on reality bubble coordinates, so feeding it with those coordinates from the critter is correct.
-    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_bub() );
-    map &bubble_map = get_map();
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_abs() );
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint_bub_ms &target : area ) {
         fragment_cloud &cloud = visited_cache[target.x()][target.y()];
@@ -458,9 +454,8 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( target ) ) );
-        Creature *critter = creatures.creature_at( bubble_pos );
+        const tripoint_abs_ms abs_target = m->get_abs( target );
+        Creature *critter = creatures.creature_at( abs_target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
@@ -481,8 +476,8 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                 }
             }
             auto it = frag.targets_hit[critter];
-            if( bubble_map.inbounds(
-                    bubble_pos ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
+            if( get_map().inbounds(
+                    abs_target ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
                 multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
                                               "bomb fragments", it.first ) );
             }
@@ -956,6 +951,7 @@ void process_explosions()
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
             m.load( origo, false, false );
+            m.spawn_monsters( true, true );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
         } else {

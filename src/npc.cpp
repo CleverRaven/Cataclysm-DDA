@@ -3474,15 +3474,15 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::avoid_locks ) &&
-            doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
+            doors::can_unlock_door( here, *this, p ) ) {
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
-            ( here.close_door( tripoint_bub_ms( p ), true, true ) ||
+            ( here.close_door( p, true, true ) ||
               here.move_cost( p ) > 2 ) ) {
             return true;
         }
-        if( sees_dangerous_field( tripoint_bub_ms( p ) ) ) {
+        if( sees_dangerous_field( p ) ) {
             return true;
         }
         return false;

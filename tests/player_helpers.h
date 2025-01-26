@@ -18,7 +18,7 @@ bool character_has_item_with_var_val( const Character &they, const std::string &
                                       const std::string &val );
 void clear_character( Character &, bool skip_nutrition = false );
 void clear_avatar();
-void process_activity( Character &dummy );
+void process_activity( Character &dummy, bool pass_time = false );
 
 npc &spawn_npc( const point_bub_ms &, const std::string &npc_class );
 

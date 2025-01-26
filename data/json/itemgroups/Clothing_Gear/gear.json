@@ -256,7 +256,7 @@
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ] },
+      { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],

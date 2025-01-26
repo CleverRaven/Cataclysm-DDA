@@ -161,6 +161,7 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
+      { "group": "afs_wintersuit_generic_combat", "prob": 60 },
       { "item": "afs_military_vest", "prob": 60 },
       { "group": "afs_uica_armor_locker_helmets", "prob": 60 },
       { "item": "afs_military_cloak", "prob": 30 },

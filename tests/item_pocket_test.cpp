@@ -1789,7 +1789,7 @@ TEST_CASE( "usb_drives_and_software", "[pocket][software]" )
     item software( itype_software_math );
     // USB drives aren't containers, and cannot "contain" software, but software can be inserted
     CHECK_FALSE( usb.can_contain( software ).success() );
-    CHECK( usb.put_in( software, pocket_type::SOFTWARE ).success() );
+    CHECK( usb.put_in( software, pocket_type::E_FILE_STORAGE ).success() );
 }
 
 static void test_pickup_autoinsert_results( Character &u, bool wear, const item_location &nested,

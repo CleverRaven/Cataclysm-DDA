@@ -954,18 +954,7 @@
     "id": "test_ebook_reader",
     "name": { "str": "eBook reader" },
     "description": "Test book reader.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "longest_side": "25 cm",
-    "price": "200 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": -1,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "use_action": [ "EBOOKSAVE", "EBOOKREAD" ],
+    "copy-from": "eink_tablet_pc",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -976,7 +965,7 @@
         "item_restriction": [ "test_battery_disposable" ]
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
@@ -5098,5 +5087,47 @@
     "copy-from": "modular_m4_carbine",
     "name": { "str": "debug m4 carbine" },
     "default_mods": [ "retool_ar15_223rem_medium" ]
+  },
+  {
+    "id": "test_laptop",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test laptop" },
+    "copy-from": "laptop"
+  },
+  {
+    "id": "test_eink_tablet_pc",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "test e-ink tablet" },
+    "copy-from": "eink_tablet_pc"
+  },
+  {
+    "id": "test_efile_large",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "large test file" },
+    "ememory_size": "500 GB"
+  },
+  {
+    "id": "test_efile_medium",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "medium test file`" },
+    "ememory_size": "24 GB"
+  },
+  {
+    "id": "test_efile_small",
+    "type": "GENERIC",
+    "copy-from": "abstract_efile",
+    "name": { "str": "small test file" },
+    "ememory_size": "1 KB"
+  },
+  {
+    "id": "test_efile_copiable",
+    "type": "GENERIC",
+    "copy-from": "test_book",
+    "name": { "str": "copiable test file" },
+    "ememory_size": "1 MB"
   }
 ]

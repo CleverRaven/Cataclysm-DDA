@@ -221,10 +221,10 @@ jobs:
         if: runner.os == 'macOS'
         uses: BrettDong/setup-sdl2-frameworks@v2
         with:
-          sdl2: latest
-          sdl2-ttf: latest
-          sdl2-image: latest
-          sdl2-mixer: latest
+          sdl2: 2.30.11
+          sdl2-ttf: 2.24.0
+          sdl2-image: 2.8.4
+          sdl2-mixer: 2.8.0
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |

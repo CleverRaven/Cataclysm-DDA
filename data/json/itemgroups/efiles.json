@@ -1,0 +1,50 @@
+[
+  {
+    "id": "edevice_work",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "textbooks", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "efile_lore", "prob": 30, "count": 1 },
+      { "item": "efile_map", "prob": 10, "count": 1 },
+      { "item": "efile_recipes", "prob": 80, "count": 1 },
+      { "item": "efile_junk", "prob": 100, "count": [ 6, 12 ] }
+    ]
+  },
+  {
+    "id": "civilian_smartphone_efiles",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "efile_map", "prob": 75, "count": 1 },
+      { "item": "efile_lore", "prob": 50, "count": 1 },
+      { "group": "novels", "prob": 50, "count": 1 },
+      { "group": "literature", "prob": 50, "count": 1 },
+      { "item": "efile_recipes", "prob": 25, "count": 1 }
+    ]
+  },
+  {
+    "id": "civilian_laptop_efiles",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "efile_map", "prob": 20, "count": 1 },
+      { "item": "efile_lore", "prob": 60, "count": 1 },
+      { "group": "novels", "prob": 50, "count": 1 },
+      { "group": "literature", "prob": 50, "count": 1 },
+      { "item": "efile_recipes", "prob": 40, "count": 1 }
+    ]
+  },
+  {
+    "id": "civilian_einktablet_efiles",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "efile_map", "prob": 20, "count": 1 },
+      { "item": "efile_lore", "prob": 20, "count": 1 },
+      { "group": "novels", "prob": 50, "count": 1 },
+      { "group": "literature", "prob": 50, "count": 1 },
+      { "item": "efile_recipes", "prob": 15, "count": 1 }
+    ]
+  }
+]

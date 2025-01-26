@@ -994,7 +994,7 @@
       { "level": 3, "name": "cooking" }
     ],
     "traits": [ "PROF_CHURL", "ILLITERATE" ],
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",

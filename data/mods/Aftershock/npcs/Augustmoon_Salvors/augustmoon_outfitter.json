@@ -92,7 +92,8 @@
     "items": [
       { "group": "afs_armor_military_infantry_g", "prob": 85 },
       { "item": "afs_backpack_rockets", "prob": 10 },
-      { "item": "afs_backpack_shieldgen", "prob": 5 }
+      { "item": "afs_backpack_shieldgen", "prob": 5 },
+      { "item": "afs_combat_cryo", "count": [ 1, 2 ], "prob": 60 }
     ]
   },
   {

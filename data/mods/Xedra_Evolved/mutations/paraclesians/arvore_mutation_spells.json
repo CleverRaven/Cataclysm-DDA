@@ -387,8 +387,12 @@
     "flags": [ "SOMATIC", "VERBAL", "IGNORE_WALLS", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
     "difficulty": 7,
-    "min_damage": { "math": [ "( (u_spell_level('arvore_verdant_infusion') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('arvore_verdant_infusion') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('arvore_roots_crack_the_foundation') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('arvore_roots_crack_the_foundation') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
     "min_range": 2,
     "max_range": 8,
     "min_aoe": 30,

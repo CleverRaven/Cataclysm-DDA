@@ -1534,8 +1534,7 @@ diag_eval_dbl_f vision_range_eval( char scope, std::vector<diag_value> const & /
             return chr->unimpaired_range();
         } else if( monster const *const mon = actor->get_const_monster(); mon != nullptr ) {
             map &here = get_map();
-            tripoint_bub_ms tripoint = get_map().get_bub( mon->pos_abs() );
-            return mon->sight_range( here.ambient_light_at( tripoint ) );
+            return mon->sight_range( here.ambient_light_at( mon->pos_bub() ) );
         }
         throw math::runtime_error( "Tried to access vision range of a non-Character talker" );
     };

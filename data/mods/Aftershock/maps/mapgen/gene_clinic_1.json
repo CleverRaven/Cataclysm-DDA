@@ -44,7 +44,7 @@
         "3": { "signage": "Mercurial Gene Clinic: Welcome <city> to the better you.  Genetech: Embrace the next evolution." }
       },
       "items": {
-        "q": { "item": "afs_mutant_colonist_eva_g", "chance": 60, "repeat": [ 1, 2 ] },
+        "q": { "item": "afs_wintersuit_generic_basic", "chance": 60, "repeat": [ 1, 2 ] },
         "k": { "item": "office", "chance": 60 }
       },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 3, 20 ], "y": [ 8, 16 ], "pack_size": [ 2, 5 ], "chance": 60 } ],

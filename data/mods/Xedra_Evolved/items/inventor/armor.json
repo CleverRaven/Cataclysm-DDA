@@ -366,10 +366,8 @@
       "CAMERA",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
-      "EINKTABLETPC",
-      "ELECTRICSTORAGE",
+      "E_FILE_DEVICE",
       "EBOOKSAVE",
-      "EBOOKREAD",
       {
         "target": "vision_halo_on",
         "msg": "Turn on.",
@@ -405,7 +403,7 @@
         "default_magazine": "light_minus_disposable_cell"
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
@@ -451,10 +449,8 @@
     "revert_to": "vision_halo",
     "use_action": [
       "CAMERA",
-      "EINKTABLETPC",
-      "ELECTRICSTORAGE",
+      "E_FILE_DEVICE",
       "EBOOKSAVE",
-      "EBOOKREAD",
       {
         "target": "vision_halo",
         "msg": "Turn off.",

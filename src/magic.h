@@ -643,7 +643,7 @@ class spell
         std::optional<int> max_book_level() const;
         double get_failure_cost_percent( Creature &caster ) const;
         double get_failure_exp_percent( Creature &caster ) const;
-        void consume_spell_cost( Character &caster ) const;
+        void consume_spell_cost( Character &caster, bool cast_success = true ) const;
         std::vector<effect_on_condition_id> get_failure_eoc_ids() const;
 
         // tries to create a field at the location specified

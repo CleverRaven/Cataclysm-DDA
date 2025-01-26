@@ -1078,10 +1078,27 @@
     "type": "MONSTER",
     "copy-from": "mon_wraitheon_irradiant",
     "name": "UICA Irradiant",
-    "description": "An autonomous anti-armor weapons platform, mounting a 5kg plasma railgun over an insectoid chassis.  The Irradiant designation excels at ambush and midrange combat, where it can leverage its superior agility and reduced sensor profile to successfully engage technologically advanced foes.",
     "default_faction": "UICA_mil",
-    "aggression": -20,
-    "morale": 70,
+    "aggression": 0,
+    "aggro_character": false,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+  },
+  {
+    "id": "mon_uica_tankbot",
+    "type": "MONSTER",
+    "copy-from": "mon_tankbot",
+    "name": { "str": "UICA Regulator" },
+    "default_faction": "UICA_mil",
+    "aggression": 0,
+    "aggro_character": false,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+  },
+  {
+    "id": "mon_uica_milbot_556",
+    "type": "MONSTER",
+    "copy-from": "mon_milbot_556",
+    "name": "UICA Imaginifer",
+    "aggression": 0,
     "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
   }
