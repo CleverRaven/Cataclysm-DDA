@@ -64,6 +64,7 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
       "place_zones": [
         { "type": "LOOT_ITEM_GROUP", "filter": "NC_AUGUSTMOON_DOCTOR_stock", "faction": "mercurial", "x": 2, "y": [ 31, 32 ] },
+        { "type": "LOOT_UNSORTED", "faction": "mercurial", "x": 2, "y": [ 31, 32 ] },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "afs_augustmoon_tool_trader",
@@ -71,6 +72,7 @@
           "x": 1,
           "y": [ 22, 23 ]
         },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 1, "y": [ 22, 23 ] },
         { "type": "LOOT_ITEM_GROUP", "filter": "afs_augustmoon_outfitter", "faction": "UICA", "x": 16, "y": 37 },
         {
           "type": "LOOT_ITEM_GROUP",
@@ -79,6 +81,7 @@
           "x": 19,
           "y": 37
         },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 16, "y": 37 },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "afs_augustmoon_guntrader",
@@ -93,13 +96,15 @@
           "x": 22,
           "y": [ 27, 28 ]
         },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 22, "y": [ 24, 28 ] },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "NC_AUGUSTMOON_shipping_stock",
           "faction": "UICA",
           "x": 9,
           "y": [ 26, 27 ]
-        }
+        },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 9, "y": [ 26, 27 ] }
       ],
       "place_nested": [
         { "chunks": [ "augustmoon_concourse_vending1" ], "x": 0, "y": 0 },
