@@ -41,6 +41,7 @@ jobs:
     - name: install LLVM 17
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
+          sudo apt-get update
           sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 libclang-17-dev
           sudo apt install python3-pip ninja-build cmake
           pip3 install --user lit
@@ -83,6 +84,7 @@ jobs:
     - name: install dependencies
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
+          sudo apt-get update
           sudo apt install clang-17 clang-tidy-17 cmake ccache jq
           sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext 
     - name: checkout repository
