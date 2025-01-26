@@ -3734,7 +3734,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     // that's not handled for now
 }
 
-void map::smash_items( const tripoint_bub_ms &p, const int power, const std::string &cause_message )
+void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message )
 {
     if( !has_items( p ) || has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, p ) ) {
         return;
@@ -3748,7 +3748,7 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
 
     std::vector<item> contents;
     map_stack items = i_at( p );
-    for( auto i = items.begin(); i != items.end(); ) {
+    for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
@@ -3798,18 +3798,21 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) &&
-                   ( i->damage() < i->max_damage() ) ) {
-                i->inc_damage();
+            while( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) {
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
+                if( i->damage() < i->max_damage() ) {
+                    i->inc_damage();
+                } else {
+                    break;
+                }
             }
         }
+        power -= material_factor;
 
         // If an item was damaged, increment the counter and set it as most recently damaged.
         if( item_was_damaged ) {
-
             // If this is the first item to be damaged, store its name in damaged_item_name.
             if( items_damaged == 0 ) {
                 damaged_item_name = i->tname();
@@ -3817,19 +3820,22 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             // Increment the counter, and reset the flag.
             items_damaged++;
             item_was_damaged = false;
-        }
-
-        // Remove them if they were damaged too much
-        if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
-            // But save the contents, except for irremovable gunmods
-            for( item *elem : i->all_items_top() ) {
-                if( !elem->is_irremovable() ) {
-                    contents.emplace_back( *elem );
+            // Remove them if they were damaged too much
+            // Only call this if we actually damaged something, so a corpse that
+            // was already at max_damage level can be removed correctly.
+            if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
+                // But save the contents, except for irremovable gunmods
+                for( item *elem : i->all_items_top() ) {
+                    if( !elem->is_irremovable() ) {
+                        contents.emplace_back( *elem );
+                    }
                 }
-            }
 
-            i = i_rem( p, i );
-            items_destroyed++;
+                i = i_rem( p, i );
+                items_destroyed++;
+            } else {
+                i++;
+            }
         } else {
             i++;
         }
@@ -4409,7 +4415,7 @@ void map::crush( const tripoint_bub_ms &p )
         vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_bash, false );
     }
 }
-void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
+double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
@@ -4424,7 +4430,7 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
         return acc + dmg.second;
     } );
     if( initial_damage < 0 ) {
-        return;
+        return 0;
     }
     // TODO: use this for more than just vehicle parts
     const damage_type_id &main_damage_type = std::max_element( dmg_by_type.begin(), dmg_by_type.end(),
@@ -4440,72 +4446,72 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
     const bool incendiary = ammo_effects.count( ammo_effect_INCENDIARY );
     const bool ignite = ammo_effects.count( ammo_effect_IGNITE );
     const bool laser = ammo_effects.count( ammo_effect_LASER );
+    bool hit_something = false;
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
-    }
+    } else {
+        // This lambda is only called if the furniture/terrain has shoot data!
+        const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
+            const map_shoot_info &shoot = *data.shoot;
+            bool destroyed = false;
 
-    // This lambda is only called if the furniture/terrain has shoot data!
-    const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
-        const map_shoot_info &shoot = *data.shoot;
-        bool destroyed = false;
+            // if you are aiming at this tile, you can never miss
+            if( hit_items || x_in_y( shoot.chance_to_hit, 100 ) ) {
+                if( laser ) {
+                    dam -= rng( shoot.reduce_dmg_min_laser, shoot.reduce_dmg_max_laser );
+                } else {
+                    dam -= rng( shoot.reduce_dmg_min, shoot.reduce_dmg_max );
+                }
+                // lasers can't destroy some types of furn/ter you can shoot through
+                if( !laser || !shoot.no_laser_destroy ) {
+                    // important to use initial damage, energy from reduction has gone into the furn/ter
+                    const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
+                    const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
+                    if( x_in_y( min_damage, max_damage ) ) {
+                        // don't need to duplicate all the destruction logic here
+                        bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                        bash_ter_furn( p, bsh );
+                        destroyed = true;
+                    }
+                }
+                if( dam <= 0 && get_player_view().sees( p ) ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), data.name() );
+                }
+                // only very flammable furn/ter can be set alight with incendiary rounds
+                if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
+                    if( incendiary && x_in_y( initial_damage, 100 ) ) {
+                        // 1% chance for 1 damage
+                        add_field( p, fd_fire, 1 );
+                    }
+                    if( ignite ) {
+                        add_field( p, fd_fire, 1 );
+                    }
+                }
+                // bash_ter_furn already triggers the alarm
+                // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
+                if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) ) {
+                    sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                                   false, "environment", "alarm" );
+                }
+                return true;
+            }
+            return false;
+        };
 
-        // if you are aiming at this tile, you can never miss
-        if( hit_items || x_in_y( shoot.chance_to_hit, 100 ) ) {
-            if( laser ) {
-                dam -= rng( shoot.reduce_dmg_min_laser, shoot.reduce_dmg_max_laser );
-            } else {
-                dam -= rng( shoot.reduce_dmg_min, shoot.reduce_dmg_max );
-            }
-            // lasers can't destroy some types of furn/ter you can shoot through
-            if( !laser || !shoot.no_laser_destroy ) {
-                // important to use initial damage, energy from reduction has gone into the furn/ter
-                const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
-                const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
-                if( x_in_y( min_damage, max_damage ) ) {
-                    // don't need to duplicate all the destruction logic here
-                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
-                    bash_ter_furn( p, bsh );
-                    destroyed = true;
-                }
-            }
-            if( dam <= 0 && get_player_view().sees( p ) ) {
-                add_msg( _( "The shot is stopped by the %s!" ), data.name() );
-            }
-            // only very flammable furn/ter can be set alight with incendiary rounds
-            if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-                if( incendiary && x_in_y( initial_damage, 100 ) ) {
-                    // 1% chance for 1 damage
-                    add_field( p, fd_fire, 1 );
-                }
-                if( ignite ) {
-                    add_field( p, fd_fire, 1 );
-                }
-            }
-            // bash_ter_furn already triggers the alarm
-            // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
-            if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) ) {
-                sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
-                               false, "environment", "alarm" );
-            }
-            return true;
+        const furn_id &furniture = furn( p );
+        const ter_id &terrain = ter( p );
+
+        // shoot through furniture or terrain and see if we hit something
+        if( furniture->shoot ) { // Shoot data is optional, most furniture will never trigger this
+            hit_something |= shoot_furn_ter( furniture.obj() );
+        } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
+            hit_something |= shoot_furn_ter( terrain.obj() );
+            // fall back to just bashing when shoot data is not defined
+        } else if( impassable( p ) && !is_transparent( p ) ) {
+            bash( p, dam, false );
+            dam = 0;
         }
-        return false;
-    };
-
-    const furn_id &furniture = furn( p );
-    const ter_id &terrain = ter( p );
-    bool hit_something = false;
-
-    // shoot through furniture or terrain and see if we hit something
-    if( furniture->shoot ) { // Shoot data is optional, most furniture will never trigger this
-        hit_something |= shoot_furn_ter( furniture.obj() );
-    } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
-        hit_something |= shoot_furn_ter( terrain.obj() );
-        // fall back to just bashing when shoot data is not defined
-    } else if( impassable( p ) && !is_transparent( p ) ) {
-        bash( p, dam, false );
-        dam = 0;
     }
     dam = std::max( 0.0f, dam );
 
@@ -4537,33 +4543,33 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
     }
 
     // Rescale the damage
+    double multiplier = 1.0;
     if( dam <= 0 ) {
         impact.clear();
-        return;
+        return 0;
     } else if( dam < initial_damage ) {
-        impact.mult_damage( dam / static_cast<double>( initial_damage ) );
+        multiplier = dam / static_cast<double>( initial_damage );
     }
 
     // for now, shooting furniture or terrain protects any items
-    if( !hit_items || hit_something ) {
-        return;
-    }
+    if( hit_items && !hit_something ) {
+        // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
+        std::string damage_message;
+        if( ammo_effects.count( ammo_effect_LASER ) ) {
+            damage_message = _( "laser beam" );
+        } else if( ammo_effects.count( ammo_effect_LIGHTNING ) ) {
+            damage_message = _( "bolt of electricity" );
+        } else if( ammo_effects.count( ammo_effect_PLASMA ) ) {
+            damage_message = _( "bolt of plasma" );
+        } else {
+            damage_message = _( "flying projectile" );
+        }
 
-    // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
-    std::string damage_message;
-    if( ammo_effects.count( ammo_effect_LASER ) ) {
-        damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( ammo_effect_LIGHTNING ) ) {
-        damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( ammo_effect_PLASMA ) ) {
-        damage_message = _( "bolt of plasma" );
-    } else {
-        damage_message = _( "flying projectile" );
+        // Now, smash items on that tile.
+        // dam / 3, because bullets aren't all that good at destroying items...
+        smash_items( p, dam / 3, damage_message );
     }
-
-    // Now, smash items on that tile.
-    // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, damage_message );
+    return multiplier;
 }
 
 bool map::hit_with_acid( const tripoint_bub_ms &p )
