@@ -5264,16 +5264,14 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
                           coords::project_to<coords::omt>( get_abs( p ) ) );
     }
 
-    if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
-        !new_item.has_var( "spawn_location_omt" ) ) {
-        new_item.set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
-    }
-    for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
+    std::list<item *> all_items = new_item.all_items_ptr();
+    all_items.emplace_back( &new_item );
+    for( item *it : all_items ) {
         if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
             it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
         }
-    }
+    };
 
     if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
         new_item.activate();
