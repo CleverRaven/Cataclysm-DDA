@@ -255,6 +255,56 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_goblin_fruit_combat_skill_boost",
+    "name": [ "Violent reflection" ],
+    "desc": [ "You are mirroring a version of yourself that is more skilled at violence." ],
+    "apply_message": "Your mind fills with violence and the knowledge to use it.",
+    "remove_message": "Your level of violence returns to normal.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "bashing", "add": 2 },
+          { "value": "cutting", "add": 2 },
+          { "value": "melee", "add": 2 },
+          { "value": "throw", "add": 2 },
+          { "value": "dodge", "add": 2 },
+          { "value": "stabbing", "add": 2 },
+          { "value": "unarmed", "add": 2 },
+          { "value": "archery", "add": 2 },
+          { "value": "gun", "add": 2 },
+          { "value": "launcher", "add": 2 },
+          { "value": "rifle", "add": 2 },
+          { "value": "shotgun", "add": 2 },
+          { "value": "smg", "add": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_goblin_fruit_craft_skill_boost",
+    "name": [ "Imitated skill" ],
+    "desc": [ "You're imitating yourself, if you were better at making things." ],
+    "apply_message": "You start imitating a more skilled artisan.",
+    "remove_message": "Your talent to imitate fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "mechanics", "add": 2 },
+          { "value": "tailor", "add": 2 },
+          { "value": "computer", "add": 2 },
+          { "value": "cooking", "add": 2 },
+          { "value": "electronics", "add": 2 },
+          { "value": "fabrication", "add": 2 },
+          { "value": "chemistry", "add": 2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_goblin_fruit_immovable",
     "name": [ "Immovable" ],
     "desc": [ "You cannot be moved against your will by mundane means." ],

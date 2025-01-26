@@ -46,64 +46,6 @@
   },
   {
     "type": "mutation",
-    "id": "GOBLIN_FRUIT_COMBAT_SKILL_BOOST",
-    "name": { "str": "The fruit's combat boost" },
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "player_display": false,
-    "points": 2,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": {
-      "str": "Gives the combat boost of 2 skill levels to all combat-related skills.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
-    "craft_skill_bonus": [
-      [ "bashing", 8 ],
-      [ "cutting", 8 ],
-      [ "melee", 8 ],
-      [ "throw", 8 ],
-      [ "dodge", 8 ],
-      [ "stabbing", 8 ],
-      [ "unarmed", 8 ],
-      [ "archery", 8 ],
-      [ "gun", 8 ],
-      [ "launcher", 8 ],
-      [ "pistol", 8 ],
-      [ "rifle", 8 ],
-      [ "shotgun", 8 ],
-      [ "smg", 8 ]
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST",
-    "name": { "str": "The fruit's craft boost" },
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "player_display": false,
-    "points": 2,
-    "visibility": 0,
-    "ugliness": 0,
-    "//": "Yes, computer can be used for crafting so it's in there.",
-    "description": {
-      "str": "Gives the craft boost of 2 skill levels to all crafting-related skills.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
-    "craft_skill_bonus": [
-      [ "mechanics", 8 ],
-      [ "tailor", 8 ],
-      [ "computer", 8 ],
-      [ "cooking", 8 ],
-      [ "electronics", 8 ],
-      [ "fabrication", 8 ],
-      [ "chemistry", 8 ]
-    ]
-  },
-  {
-    "type": "mutation",
     "id": "ethereal_wings",
     "name": { "str": "Ethereal Wings" },
     "active": true,

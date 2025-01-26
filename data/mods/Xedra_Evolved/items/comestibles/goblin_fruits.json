@@ -544,24 +544,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST",
-    "condition": { "not": { "u_has_trait": "GOBLIN_FRUIT_COMBAT_BOOST" } },
-    "effect": [
-      { "u_message": "Violence fills your heart, and with it comes the knowledge of how to do violence.", "type": "good" },
-      { "u_add_trait": "GOBLIN_FRUIT_COMBAT_SKILL_BOOST" },
-      {
-        "run_eocs": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST_REMOVE",
-        "time_in_future": { "math": [ "2000 + rand(3000)" ] }
-      }
-    ],
-    "false_effect": [ { "u_message": "Your heart is already as filled with violence as it can be." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_FRUIT_COMBAT_SKILL_BOOST_REMOVE",
-    "effect": [
-      { "u_message": "Violence leaves your heart, as does its knowledge.", "type": "info" },
-      { "u_lose_trait": "GOBLIN_FRUIT_COMBAT_SKILL_BOOST" }
-    ]
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_combat_skill_boost", "duration": { "math": [ "2000 + rand(3000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -578,24 +561,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST",
-    "condition": { "not": { "u_has_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" } },
-    "effect": [
-      { "u_message": "Imitation fills your heart, and with it comes the knowledge of how to create things.", "type": "good" },
-      { "u_add_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" },
-      {
-        "run_eocs": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST_REMOVE",
-        "time_in_future": { "math": [ "15000 + rand(5000)" ] }
-      }
-    ],
-    "false_effect": [ { "u_message": "Your heart is already as filled with imitation as it can be." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_FRUIT_CRAFT_SKILL_BOOST_REMOVE",
-    "effect": [
-      { "u_message": "Imitation leaves your heart, as does its knowledge.", "type": "info" },
-      { "u_lose_trait": "GOBLIN_FRUIT_CRAFT_SKILL_BOOST" }
-    ]
+    "effect": [ { "u_add_effect": "effect_goblin_fruit_craft_skill_boost", "duration": { "math": [ "15000 + rand(5000)" ] } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -696,33 +662,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_MAP",
-    "effect": [
-      { "u_spawn_item": "item_goblin_fruit_map_reveal", "suppress_message": true },
-      { "run_eocs": "EOC_GOBLIN_FRUIT_MAP_REAL" },
-      { "u_remove_item_with": "item_goblin_fruit_map_reveal" }
-    ],
-    "false_effect": [ { "u_message": "Something stopped the fruit from working.  Please report this bug on github." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_FRUIT_MAP_REAL",
-    "effect": [
-      {
-        "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "item_goblin_fruit_map_reveal" } ],
-        "true_eocs": [ { "id": "EOC_GOBLIN_FRUIT_MAP_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
-      }
-    ]
-  },
-  {
-    "id": "item_goblin_fruit_map_reveal",
-    "copy-from": "abstractmap",
-    "type": "GENERIC",
-    "category": "maps",
-    "name": { "str": "goblin fruit map", "//~": "NO_I18N" },
-    "description": { "str": "This is a fruit map. You're not supposed to see this.", "//~": "NO_I18N" },
-    "color": "brown",
-    "use_action": { "type": "reveal_map", "radius": 15, "message": "You learn more about the surrounding area." }
+    "effect": [ { "u_cast_spell": { "id": "goblin_fruit_map_reveal" } } ]
   },
   {
     "type": "COMESTIBLE",
