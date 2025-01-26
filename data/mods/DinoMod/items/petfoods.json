@@ -41,7 +41,7 @@
     "name": { "str_sp": "dry cat food" },
     "extend": { "petfood": [ "DINOFOOD_B" ] }
   },
-  
+  {
     "id": "catfood_raw",
     "copy-from": "catfood_raw",
     "type": "COMESTIBLE",
