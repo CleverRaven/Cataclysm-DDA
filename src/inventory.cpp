@@ -1115,7 +1115,7 @@ const itype_bin &inventory::get_binned_items() const
         // list stored ebooks
         if( e->is_estorage() && !e->is_broken_on_active() ) {
             for( const item *book : e->get_contents().ebooks() ) {
-               binned_items[ book->typeId() ].push_back( book );
+                binned_items[ book->typeId() ].push_back( book );
             }
         }
         return VisitResponse::NEXT;
