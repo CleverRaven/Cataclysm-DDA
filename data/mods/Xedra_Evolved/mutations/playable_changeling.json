@@ -1413,7 +1413,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Selkie gains the ability to grow a goblin fruit when near water or under the rain.",
-    "category": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "spells_learned": [ [ "selkie_cultivate_goblin_fruit", 1 ] ]
   },
   {
