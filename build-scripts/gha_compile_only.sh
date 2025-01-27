@@ -64,7 +64,7 @@ then
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 DEBUG_SYMBOLS=1
+    make -j "$num_jobs" CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1 DEBUG_SYMBOLS=1 SPLIT_DEBUG=1
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]

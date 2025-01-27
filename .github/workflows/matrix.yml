@@ -120,7 +120,6 @@ jobs:
             libbacktrace: 1
             native: linux64
             pch: 1
-            cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto

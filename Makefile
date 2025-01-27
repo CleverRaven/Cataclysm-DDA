@@ -92,6 +92,10 @@
 #  make RUNTESTS=1
 # Build source files in order of how often the matching header is included
 #  make HEADERPOPULARITY=1
+# Split debug symbols to seperate files. Can improve linker overheads.
+#  make SPLIT_DEBUG=1
+# Generate debug symbols even in release builds.
+#  make DEBUG_SYMBOLS=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -479,6 +483,15 @@ else
     endif
   endif
   CXXFLAGS += $(OPTLEVEL)
+endif
+
+ifeq ($(SPLIT_DEBUG), 1)
+  # macos already does this by default.
+  ifneq ($(NATIVE), osx)
+    ifneq ($(LTO), 1)
+      CXX_OFLAGS = -gsplit-dwarf -gz=zlib
+    endif
+  endif
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
@@ -1044,6 +1057,13 @@ all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET)
 
 $(TARGET): $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+ifeq ($(SPLIT_DEBUG), 1)
+  ifneq ($(NATIVE), osx)
+    ifneq ($(LTO), 1)
+	+dwp --exec $(TARGET)
+    endif
+  endif
+endif
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
@@ -1094,13 +1114,13 @@ includes: $(OBJS:.o=.inc)
 	+make -C tests includes
 
 $(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(CXX_OFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(CXX_OFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(CXX_OFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1134,7 +1154,7 @@ json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
 clean: clean-tests clean-object_creator clean-pch clean-lang
-	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
+	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME) *$(TARGET_NAME).dwp
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
