@@ -1,5 +1,5 @@
 [
-	{
+  {
     "result": "223_casing",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -255,7 +255,6 @@
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
   },
-  
   {
     "result": "44_casing",
     "type": "recipe",
@@ -613,7 +612,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
   },
-    {
+  {
     "id": "9x21mm_casing",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
