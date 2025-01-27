@@ -1404,5 +1404,37 @@
       "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_SELKIE_SKIN_VITALITY",
+    "points": 99,
+    "name": "selkie vitality",
+    "description": "These are the selkie enhancements.",
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "//": "player display's true during testing, will be replaced once I get a better handle on effects.",
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 2 }, { "value": "CARDIO_MULTIPLIER", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "knownselkieskin",
+    "points": 99,
+    "name": "selkie skin recipe known checker",
+    "description": "This is just for the Selkie Skin EOC to check whether or not you know the recipe. Will be replaced immediately if I find a better way to track this.",
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_SELKIE_SKIN_CRAFTED",
+    "points": 99,
+    "name": "selkie skin crafted crafted.",
+    "description": "this is just to track whether or not you've crafted the selkie skin recipe. will be replaced if I can find a more elegant solution.",
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false
   }
 ]
