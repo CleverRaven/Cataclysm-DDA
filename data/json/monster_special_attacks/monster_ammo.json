@@ -8,39 +8,34 @@
   {
     "id": "boomer_bile",
     "type": "AMMO",
-    "name": { "str_sp": "boomer bile" },
-    "description": "Boomer bile, if you see this it's a bug",
+    "name": { "str": "boomer bile", "//~": "NO_I18N" },
+    "description": { "str": "Boomer bile, if you see this it's a bug.", "//~": "NO_I18N" },
     "weight": "3 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 500,
     "material": [ "water" ],
     "symbol": "=",
     "color": "pink",
-    "container": "bottle_plastic",
-    "sealed": false,
     "phase": "liquid",
     "ammo_type": "bile",
     "range": 4,
-    "count": 100,
-    "effects": [ "NEVER_MISFIRES", "JET", "BILE_GLOW" ]
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_STINK" ]
   },
   {
-    "id": "boomer_stomach",
-    "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
-    "name": { "str": "boomer stomach" },
-    "description": "Boomer stomach, if you see this it's a bug.",
-    "weight": "800 g",
-    "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 50,
-    "material": [ "flesh" ],
-    "symbol": "O",
+    "id": "boomer_bile_adv",
+    "type": "AMMO",
+    "name": { "str": "advanced boomer bile", "//~": "NO_I18N" },
+    "description": { "str": "Boomer bile, if you see this it's a bug.", "//~": "NO_I18N" },
+    "weight": "3 g",
+    "volume": "250 ml",
+    "material": [ "water" ],
+    "symbol": "=",
     "color": "pink",
-    "ammo_type": [ "bile" ],
-    "reload_time": 3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bile": 800 }, "watertight": true } ]
+    "phase": "liquid",
+    "ammo_type": "bile",
+    "range": 4,
+    "count": 1,
+    "effects": [ "NEVER_MISFIRES", "BILE_JET", "BILE_GLOW", "BILE_BOMB", "BILE_STINK", "BILE_IRRITATE" ]
   },
   {
     "id": "BILE_BOMB",
@@ -58,5 +53,15 @@
     "id": "BILE_GLOW",
     "type": "ammo_effect",
     "on_hit_effects": [ { "effect": "glowing", "duration": "5 m", "intensity": 1 } ]
+  },
+  {
+    "id": "BILE_STINK",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "bile_stink", "duration": "5 m", "intensity": 1, "need_touch_skin": true } ]
+  },
+  {
+    "id": "BILE_IRRITATE",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "bile_irritant", "duration": "5 m", "intensity": 1, "need_touch_skin": true } ]
   }
 ]
