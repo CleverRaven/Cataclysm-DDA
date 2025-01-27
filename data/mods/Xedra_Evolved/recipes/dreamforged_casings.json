@@ -629,7 +629,7 @@
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
-  }
+  },
   {
     "result": "380_casing",
     "type": "recipe",
