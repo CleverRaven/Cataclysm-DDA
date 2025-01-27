@@ -1404,5 +1404,60 @@
       "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Selkie gains the ability to grow a goblin fruit when near water or under the rain.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Brownie gains the ability to grow a goblin fruit when indoors and unobserved.",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "brownie_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Pooka gains the ability to grow a goblin fruit when near animals.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "spells_learned": [ [ "pooka_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Trow gains the ability to grow a goblin fruit when underground or at night.",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "spells_learned": [ [ "trow_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOBLE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Noble gains the ability to grow a goblin fruit when near humans or Fae.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "noble_cultivate_goblin_fruit", 1 ] ]
   }
 ]
