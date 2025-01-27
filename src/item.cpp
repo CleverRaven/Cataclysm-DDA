@@ -10713,6 +10713,15 @@ bool item::spill_contents( const tripoint_bub_ms &pos )
     return contents.spill_contents( pos );
 }
 
+bool item::spill_contents( map *here, const tripoint_bub_ms &pos )
+{
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
+        return true;
+    }
+    return contents.spill_contents( here, pos );
+}
+
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
@@ -15793,6 +15802,17 @@ std::list<const item *> item::all_items_ptr() const
     for( int i = static_cast<int>( pocket_type::CONTAINER );
          i < static_cast<int>( pocket_type::LAST ); i++ ) {
         std::list<const item *> inserted{ all_items_top_recursive( static_cast<pocket_type>( i ) ) };
+        all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
+    }
+    return all_items_internal;
+}
+
+std::list<item *> item::all_items_ptr()
+{
+    std::list<item *> all_items_internal;
+    for( int i = static_cast<int>( pocket_type::CONTAINER );
+         i < static_cast<int>( pocket_type::LAST ); i++ ) {
+        std::list<item *> inserted{ all_items_top_recursive( static_cast<pocket_type>( i ) ) };
         all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
     }
     return all_items_internal;

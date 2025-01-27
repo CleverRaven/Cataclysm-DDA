@@ -4563,7 +4563,8 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
 {
     int rotor_area_in_feet = 0;
     for( const int rotor : rotors ) {
-        double rotor_diameter_in_feet = parts[rotor].info().rotor_info->rotor_diameter * 3.28084;
+        double rotor_diameter_in_feet = ( parts[rotor].info().rotor_info->rotor_diameter +
+                                          parts[rotor].info().bonus ) * 3.28084;
         rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     // take off 15 % due to the imaginary tail rotor power.

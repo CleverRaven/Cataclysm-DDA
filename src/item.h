@@ -1872,6 +1872,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /** Spill items that don't fit in the container. */
         void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );
@@ -3059,16 +3060,18 @@ class item : public visitable
         aggregate_t aggregated_contents( int depth = 0, int maxdepth = 2 ) const;
 
         /**
-         * returns a list of pointers to all items inside recursively
+         * returns a list of pointers to *all items in all pockets* inside recursively
          * includes mods.  used for item_location::unpack()
          */
         std::list<const item *> all_items_ptr() const;
+        std::list<item *> all_items_ptr();
         /** returns a list of pointers to all items inside recursively */
         std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( pocket_type pk_type );
 
-        /** returns a list of pointers to all visible or remembered top-level items */
+        /** returns a list of pointers to all visible or remembered
+        * top-level items in standard pockets */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
