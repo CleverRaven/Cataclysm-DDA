@@ -361,13 +361,13 @@
     "description": "The head of a boomer, if you see this item it's a bug.",
     "material": [ "flesh" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
-    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES", "BILE_BOMB", "BILE_JET" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "ammo": [ "bile" ],
     "skill": "rifle",
     "dispersion": 300,
     "durability": 10,
     "range": 10,
-    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "boomer_stomach" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 } } ],
     "melee_damage": { "bash": 9 }
   }
 ]
