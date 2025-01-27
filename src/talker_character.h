@@ -59,7 +59,6 @@ class talker_character_const: virtual public const_talker
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;

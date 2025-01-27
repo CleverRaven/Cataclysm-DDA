@@ -6982,7 +6982,7 @@ void vehicle::do_towing_move()
                                                     clamp( destination_delta.y(), -1, 1 ),
                                                     clamp( destination_delta.z(), -1, 1 ) );
             here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-            towed_veh->move = tileray( destination_delta.xy().raw() );
+            towed_veh->move = tileray( destination_delta.xy() );
     }
 }
 

@@ -102,12 +102,12 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         //check for bad push/pull angle
         if( veh_has_solid && !veh_single_tile && grabbed_vehicle->steering_effectiveness() > 0 ) {
             tileray my_dir;
-            my_dir.init( dp.xy().raw() );
+            my_dir.init( dp.xy() );
             units::angle face_delta = angle_delta( grabbed_vehicle->face.dir(), my_dir.dir() );
 
             tileray my_pos_dir;
             tripoint_rel_ms my_angle = u.pos_bub() - grabbed_vehicle->pos_bub();
-            my_pos_dir.init( my_angle.xy().raw() );
+            my_pos_dir.init( my_angle.xy() );
             back_of_vehicle = ( angle_delta( grabbed_vehicle->face.dir(), my_pos_dir.dir() ) > 90_degrees );
             invalid_veh_face = ( face_delta > vehicles::steer_increment * 2 - 1_degrees &&
                                  face_delta < 180_degrees - vehicles::steer_increment * 2 + 1_degrees );
@@ -185,7 +185,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     const tripoint_rel_ms & md_next_grab ) {
         tileray mdir;
 
-        mdir.init( md_dp_veh.xy().raw() );
+        mdir.init( md_dp_veh.xy() );
         units::angle turn = normalize( mdir.dir() - grabbed_vehicle->face.dir() );
         if( grabbed_vehicle->is_on_ramp && turn == 180_degrees ) {
             add_msg( m_bad, _( "The %s can't be turned around while on a ramp." ), grabbed_vehicle->name );

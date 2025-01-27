@@ -507,7 +507,7 @@ void vehicle::turrets_set_targeting()
         }
 
         // clear the turret's current targets to prevent unwanted auto-firing
-        tripoint_bub_ms pos = tripoint_bub_ms( locations[ sel ] );
+        tripoint_bub_ms pos = locations[ sel ];
         turrets[ sel ]->reset_target( pos );
     }
 }

@@ -302,7 +302,7 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
     const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
             std::make_pair( tripoint_om_omt::invalid, omt_types_parameters() ) );
     const tripoint_om_omt omtstart = random_valid.first;
-    if( omtstart.raw() != tripoint::min ) {
+    if( omtstart != tripoint_om_omt::min ) {
         return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
