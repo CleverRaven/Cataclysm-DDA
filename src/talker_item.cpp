@@ -23,22 +23,22 @@ std::string talker_item_const::get_name() const
 
 int talker_item_const::posx() const
 {
-    return me_it_const->position().x;
+    return me_it_const->pos_bub().x();
 }
 
 int talker_item_const::posy() const
 {
-    return me_it_const->position().y;
+    return me_it_const->pos_bub().y();
 }
 
 int talker_item_const::posz() const
 {
-    return me_it_const->position().z;
+    return me_it_const->pos_bub().z();
 }
 
 tripoint talker_item_const::pos() const
 {
-    return me_it_const->position();
+    return me_it_const->pos_bub().raw();
 }
 
 tripoint_bub_ms talker_item_const::pos_bub() const
@@ -46,14 +46,14 @@ tripoint_bub_ms talker_item_const::pos_bub() const
     return me_it_const->pos_bub();
 }
 
-tripoint_abs_ms talker_item_const::global_pos() const
+tripoint_abs_ms talker_item_const::pos_abs() const
 {
-    return get_map().getglobal( me_it_const->pos_bub() );
+    return get_map().get_abs( me_it_const->pos_bub() );
 }
 
-tripoint_abs_omt talker_item_const::global_omt_location() const
+tripoint_abs_omt talker_item_const::pos_abs_omt() const
 {
-    return get_player_character().global_omt_location();
+    return get_player_character().pos_abs_omt();
 }
 
 std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const

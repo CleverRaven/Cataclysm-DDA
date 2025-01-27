@@ -472,7 +472,7 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point_abs_ms abs_ms = get_map().getglobal( source ).xy();
+            const point_abs_ms abs_ms = get_map().get_abs( source ).xy();
             const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z() );
             overmap_buffer.signal_hordes( target, sig_power );
@@ -1426,7 +1426,7 @@ sfx::sound_thread::sound_thread( const tripoint_bub_ms &source, const tripoint_b
     const item_location weapon = you.get_wielded_item();
     ang_targ = get_heard_angle( target );
     weapon_skill = weapon ? weapon->melee_skill() : skill_id::NULL_ID();
-    weapon_volume = weapon ? weapon->volume() / units::legacy_volume_factor : 0;
+    weapon_volume = weapon ? weapon->volume() / 250_ml : 0;
 }
 
 // Operator overload required for thread API.

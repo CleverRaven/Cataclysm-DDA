@@ -109,15 +109,13 @@
       ]
     },
     "om_terrain": [ [ "urban_25_1", "urban_25_2" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "om_terrain": [ [ "urban_25_3" ] ],
     "//": "diner side",
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -159,7 +157,6 @@
     "om_terrain": [ [ "urban_25_4" ] ],
     "type": "mapgen",
     "//": "apartment side",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "//": "apartment side",
@@ -226,7 +223,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_25_5", "urban_25_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -342,14 +338,12 @@
       ]
     },
     "om_terrain": [ [ "urban_25_7", "urban_25_8" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "om_terrain": [ [ "urban_25_9", "urban_25_10" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -390,7 +384,6 @@
     "method": "json",
     "om_terrain": "urban_25_12",
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

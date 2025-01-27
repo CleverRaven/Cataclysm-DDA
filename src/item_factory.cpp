@@ -1712,22 +1712,6 @@ void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
     iuse_function_list[ type ] = use_function( std::move( ptr ) );
 }
 
-void Item_factory::add_item_type( const itype &def )
-{
-    if( m_runtimes.count( def.id ) > 0 ) {
-        // Do NOT allow overwriting it, it's undefined behavior
-        debugmsg( "Tried to add runtime type %s, but it exists already", def.id.c_str() );
-        return;
-    }
-
-    auto &new_item_ptr = m_runtimes[ def.id ];
-    new_item_ptr = std::make_unique<itype>( def );
-    if( frozen ) {
-        finalize_pre( *new_item_ptr );
-        finalize_post( *new_item_ptr );
-    }
-}
-
 void Item_factory::init()
 {
     add_iuse( "ACIDBOMB_ACT", &iuse::acidbomb_act );
@@ -1770,14 +1754,12 @@ void Item_factory::init()
     add_iuse( "CRAFT", &iuse::craft );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
+    add_iuse( "E_FILE_DEVICE", &iuse::efiledevice );
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
     add_iuse( "EPIC_MUSIC", &iuse::epic_music );
-    add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
-    add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
-    add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
@@ -1893,6 +1875,8 @@ void Item_factory::init()
     add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "VIEW_PHOTOS", &iuse::view_photos );
+    add_iuse( "VIEW_RECIPES", &iuse::view_recipes );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
@@ -2670,13 +2654,13 @@ void islot_milling::deserialize( const JsonObject &jo )
 static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
 {
     mcd.data_chance = jo.get_float( "data_chance", 1.0f );
-    mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
+    //mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
 
-    mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
-    mcd.photos_amount = jo.get_int( "photos_amount", 0 );
+    //mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
+    //mcd.photos_amount = jo.get_int( "photos_amount", 0 );
 
-    mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
-    mcd.songs_amount = jo.get_int( "songs_amount", 0 );
+    //mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
+    //mcd.songs_amount = jo.get_int( "songs_amount", 0 );
 
     mcd.recipes_chance = jo.get_float( "recipes_chance", 0.0f );
     mcd.recipes_amount = jo.get_int( "recipes_amount", 0 );
@@ -2705,7 +2689,6 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
-    optional( jo, was_loaded, "multi_projectile_effects", multi_projectile_effects, false );
     optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
     assign( jo, "shot_damage", shot_damage, strict );
     // Damage instance assign reader handles pierce and prop_damage
@@ -3154,6 +3137,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "power_draw", slot.power_draw, strict, 0_W );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "etransfer_rate", slot.etransfer_rate, strict );
+    assign( jo, "e_port", slot.e_port, strict );
 
     if( slot.def_charges > slot.max_charges ) {
         jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
@@ -3174,6 +3159,12 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
                 "rand_charges",
                 "a rand_charges array with only one entry will be ignored, it needs at least 2 "
                 "entries!" );
+        }
+    }
+
+    if( jo.has_array( "e_ports_banned" ) ) {
+        for( std::string port : jo.get_array( "e_ports_banned" ) ) {
+            slot.e_ports_banned.push_back( port );
         }
     }
 }
@@ -3299,6 +3290,18 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
         def.book->load( jo );
         load_basic_info( jo, def, src );
     }
+}
+
+void Item_factory::load_ememory_size( const JsonObject &jo, itype &def )
+{
+    if( def.book ) {
+        if( def.ememory_size == 0_KB ) {
+            //PDF size varies wildly depending on page:image ratio
+            def.ememory_size = 20_KB * item::pages_in_book( def );
+            return;
+        }
+    }
+    assign( jo, "ememory_size", def.ememory_size );
 }
 
 void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
@@ -4255,6 +4258,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     optional( jo, false, "fall_damage_reduction", def.fall_damage_reduction, 0 );
     assign( jo, "ascii_picture", def.picture_id );
     assign( jo, "repairs_with", def.repairs_with );
+    load_ememory_size( jo, def );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -4359,6 +4363,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_string( "nanofab_template_group" ) ) {
         def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
+    }
+
+    if( jo.has_string( "trait_group" ) ) {
+        def.trait_group = string_id<Trait_group>( jo.get_string( "trait_group" ) );
     }
 
     if( jo.has_string( "template_requirements" ) ) {
@@ -5382,43 +5390,6 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
         rval.push_back( group_pair.first );
     }
     return rval;
-}
-
-void item_group::debug_spawn()
-{
-    std::vector<item_group_id> groups = item_controller->get_all_group_names();
-    uilist menu;
-    menu.text = _( "Test which group?" );
-    for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
-    }
-    while( true ) {
-        menu.query();
-        const int index = menu.ret;
-        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
-            break;
-        }
-        // Spawn items from the group 100 times
-        std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
-            const ItemList items = items_from( groups[index], calendar::turn );
-            for( const item &it : items ) {
-                itemnames[it.display_name()]++;
-            }
-        }
-        // Invert the map to get sorting!
-        std::multimap<int, std::string> itemnames2;
-        for( const auto &e : itemnames ) {
-            itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
-        }
-        uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
-        for( const auto &e : itemnames2 ) {
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
-                                        string_format( _( "%d x %s" ), e.first, e.second ) );
-        }
-        menu2.query();
-    }
 }
 
 bool Item_factory::has_template( const itype_id &id ) const

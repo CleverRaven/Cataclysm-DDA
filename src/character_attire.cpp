@@ -60,8 +60,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
-static const itype_id itype_shoulder_strap( "shoulder_strap" );
-
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
 static const material_id material_chitin( "chitin" );
@@ -1808,14 +1806,27 @@ void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
 }
 
 bool outfit::can_pickVolume( const item &it, const bool ignore_pkt_settings,
-                             const bool is_pick_up_inv ) const
+                             const bool ignore_non_container_pocket ) const
 {
     for( const item &w : worn ) {
-        if( w.can_contain( it, false, false, ignore_pkt_settings, is_pick_up_inv ).success() ) {
+        if( w.can_contain( it, false, false, ignore_pkt_settings, ignore_non_container_pocket
+                         ).success() ) {
             return true;
         }
     }
     return false;
+}
+
+static void add_overlay_id_or_override( const item &item,
+                                        std::vector<std::pair<std::string, std::string>> &overlay_ids )
+{
+    if( item.has_var( "sprite_override" ) ) {
+        overlay_ids.emplace_back( "worn_" + item.get_var( "sprite_override" ),
+                                  item.get_var( "sprite_override_variant", "" ) );
+    } else {
+        const std::string variant = item.has_itype_variant() ? item.itype_variant().id : "";
+        overlay_ids.emplace_back( "worn_" + item.typeId().str(), variant );
+    }
 }
 
 void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &overlay_ids ) const
@@ -1825,12 +1836,9 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
         if( worn_item.has_flag( json_flag_HIDDEN ) ) {
             continue;
         }
-        if( worn_item.has_var( "sprite_override" ) ) {
-            overlay_ids.emplace_back( "worn_" + worn_item.get_var( "sprite_override" ),
-                                      worn_item.get_var( "sprite_override_variant", "" ) );
-        } else {
-            const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
-            overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        add_overlay_id_or_override( worn_item, overlay_ids );
+        for( const item *ablative : worn_item.all_ablative_armor() ) {
+            add_overlay_id_or_override( *ablative, overlay_ids );
         }
     }
 }
@@ -2052,7 +2060,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 
-        } else if( clothing.is_gun() && clothing.gunmod_find( itype_shoulder_strap ) ) {
+        } else if( clothing.is_gun() && clothing.gunmod_find_by_flag( flag_BELTED ) ) {
             // wield item currently worn using shoulder strap
             options.push_back( clothing.display_name() );
             actions.emplace_back( [&] { guy.wield( clothing ); } );

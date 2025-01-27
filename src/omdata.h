@@ -18,7 +18,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
@@ -88,7 +88,7 @@ uint32_t rotate_symbol( uint32_t sym, type dir );
  * @param dir Direction of displacement
  * @param dist Distance of displacement
  */
-point displace( type dir, int dist = 1 );
+point_rel_omt displace( type dir, int dist = 1 );
 
 /** Returns a sum of two numbers
  *  @param dir1 first number
@@ -334,6 +334,7 @@ struct oter_type_t {
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+        std::optional<ter_str_id> uniform_terrain;
 
         oter_vision_id vision_levels;
 
@@ -533,6 +534,14 @@ struct oter_t {
             return type->has_flag( oter_flags::ravine_edge );
         }
 
+        bool has_uniform_terrain() const {
+            return !!type->uniform_terrain;
+        }
+
+        std::optional<ter_str_id> get_uniform_terrain() const {
+            return type->uniform_terrain;
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -570,7 +579,7 @@ struct overmap_special_spawns : public overmap_spawns {
 // This is the information needed to know whether you can place a particular
 // piece of an overmap_special at a particular location
 struct overmap_special_locations {
-    tripoint p;
+    tripoint_rel_omt p;
     cata::flat_set<string_id<overmap_location>> locations;
 
     /**
@@ -583,7 +592,7 @@ struct overmap_special_locations {
 
 struct overmap_special_terrain : overmap_special_locations {
     overmap_special_terrain() = default;
-    overmap_special_terrain( const tripoint &, const oter_str_id &,
+    overmap_special_terrain( const tripoint_rel_omt &, const oter_str_id &,
                              const cata::flat_set<string_id<overmap_location>> &,
                              const std::set<std::string> & );
     oter_str_id terrain;
@@ -595,8 +604,8 @@ struct overmap_special_terrain : overmap_special_locations {
 };
 
 struct overmap_special_connection {
-    tripoint p;
-    std::optional<tripoint> from;
+    tripoint_rel_omt p;
+    std::optional<tripoint_rel_omt> from;
     cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
@@ -655,7 +664,7 @@ class overmap_special
         }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
-        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */

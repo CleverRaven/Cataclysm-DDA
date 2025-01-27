@@ -74,6 +74,7 @@ static const furn_str_id furn_f_counter( "f_counter" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const itype_id itype_black_box( "black_box" );
+static const itype_id itype_black_box_transcript( "black_box_transcript" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4( "c4" );
@@ -83,6 +84,7 @@ static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_radio_repeater_mod( "radio_repeater_mod" );
 static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
 static const itype_id itype_sewage( "sewage" );
+static const itype_id itype_software_blood_data( "software_blood_data" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
@@ -296,14 +298,14 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     return successful_attempt;
 }
 
-static item *pick_usb()
+static item *pick_estorage( units::ememory can_hold_ememory )
 {
-    auto filter = []( const item & it ) {
-        return it.typeId() == itype_usb_drive;
+    auto filter = [&can_hold_ememory]( const item & it ) {
+        return it.is_estorage() && it.remaining_ememory() >= can_hold_ememory;
     };
 
     item_location loc = game_menus::inv::titled_filter_menu( filter, get_avatar(),
-                        _( "Choose drive:" ) );
+                        _( "Choose device:" ) );
     if( loc ) {
         return &*loc;
     }
@@ -316,8 +318,8 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
-            coords::project_to<coords::omt>( here.getglobal(
+        if( coords::project_to<coords::omt>( here.get_abs( critter.pos_bub() ) ) ==
+            coords::project_to<coords::omt>( here.get_abs(
                     player_character.pos_bub() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
@@ -682,7 +684,7 @@ void computer_session::action_maps()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
@@ -694,7 +696,7 @@ void computer_session::action_map_sewer()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -713,7 +715,7 @@ void computer_session::action_map_subway()
 {
     Character &player_character = get_player_character();
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-    const tripoint_abs_omt center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.pos_abs_omt();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -1023,20 +1025,22 @@ void computer_session::action_repeater_mod()
 
 void computer_session::action_download_software()
 {
-    if( item *const usb = pick_usb() ) {
-        mission *miss = mission::find( comp.mission_id );
-        if( miss == nullptr ) {
-            debugmsg( _( "Computer couldn't find its mission!" ) );
-            return;
-        }
+    mission *miss = mission::find( comp.mission_id );
+    if( miss == nullptr ) {
+        debugmsg( _( "Computer couldn't find its mission!" ) );
+        return;
+    }
+    item software( miss->get_item_id(), calendar::turn_zero );
+    units::ememory downloaded_size = software.ememory_size();
+
+    if( item *const estorage = pick_estorage( downloaded_size ) ) {
         get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-        item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
-        usb->clear_items();
-        usb->put_in( software, pocket_type::SOFTWARE );
-        print_line( _( "Software downloaded." ) );
+        estorage->put_in( software, pocket_type::E_FILE_STORAGE );
+        print_line( string_format( _( "%s downloaded." ), software.tname() ) );
     } else {
-        print_error( _( "USB drive required!" ) );
+        print_error( string_format( _( "Electronic storage device with %s free required!" ),
+                                    units::display( downloaded_size ) ) );
     }
     query_any();
 }
@@ -1072,14 +1076,16 @@ void computer_session::action_blood_anal()
                         print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
                     }
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
+                    item software( itype_software_blood_data, calendar::turn_zero );
+                    units::ememory downloaded_size = software.ememory_size();
                     if( query_bool( _( "Download data?" ) ) ) {
-                        if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", calendar::turn_zero );
-                            usb->clear_items();
-                            usb->put_in( software, pocket_type::SOFTWARE );
-                            print_line( _( "Software downloaded." ) );
+                        if( item *const estorage = pick_estorage( downloaded_size ) ) {
+                            item software( itype_software_blood_data, calendar::turn_zero );
+                            estorage->put_in( software, pocket_type::E_FILE_STORAGE );
+                            print_line( string_format( _( "%s downloaded." ), software.tname() ) );
                         } else {
-                            print_error( _( "USB drive required!" ) );
+                            print_error( string_format( _( "Electronic storage device with %s free required!" ),
+                                                        units::display( downloaded_size ) ) );
                         }
                     }
                 } else {
@@ -1113,7 +1119,7 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    item transcript( "black_box_transcript", calendar::turn );
+                    item transcript( itype_black_box_transcript, calendar::turn );
                     here.add_item_or_charges( player_character.pos_bub(), transcript );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
@@ -1804,9 +1810,9 @@ void computer_session::action_emerg_ref_center()
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
                    "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ),
-                rl_dist( player_character.global_omt_location(), mission_target ),
+                rl_dist( player_character.pos_abs_omt(), mission_target ),
                 direction_name_short(
-                    direction_from( player_character.global_omt_location(), mission_target ) ) );
+                    direction_from( player_character.pos_abs_omt(), mission_target ) ) );
 
     query_any( _( "Press any key to continue…" ) );
     reset_terminal();

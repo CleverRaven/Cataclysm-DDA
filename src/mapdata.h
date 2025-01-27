@@ -62,6 +62,7 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         std::vector<furn_str_id> tent_centers;
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
+        std::string potential_bash_items( const std::string &ter_furn_name ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -103,6 +104,7 @@ struct map_common_deconstruct_info {
         virtual void check( const std::string &id ) const;
     public:
         virtual ~map_common_deconstruct_info() = default;
+        std::string potential_deconstruct_items( const std::string &ter_furn_name ) const;
 };
 struct map_ter_deconstruct_info : map_common_deconstruct_info {
     ter_str_id ter_set = ter_str_id::NULL_ID();
@@ -118,7 +120,7 @@ struct map_furn_deconstruct_info : map_common_deconstruct_info {
 };
 struct map_shoot_info {
     // Base chance to hit the object at all (defaults to 100%)
-    int chance_to_hit = 0;
+    int chance_to_hit = 100;
     // Minimum damage reduction to apply to shot when hit
     int reduce_dmg_min = 0;
     // Maximum damage reduction to apply to shot when hit
@@ -539,7 +541,7 @@ struct map_data_common_t {
         // Maximal volume of items that can be stored in/on this furniture/terrain
         units::volume max_volume = DEFAULT_TILE_VOLUME;
 
-        std::string liquid_source_item_id; // id of a liquid this tile provides
+        itype_id liquid_source_item_id = itype_id::NULL_ID(); // id of a liquid this tile provides
         double liquid_source_min_temp = 4; // in centigrades, cold water as default value
         std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
 

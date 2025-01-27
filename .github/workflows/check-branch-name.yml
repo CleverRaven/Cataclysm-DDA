@@ -19,6 +19,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "You are creating a pull request with the master branch as the head branch. This is likely a mistake unless you really know what you are doing. You may read https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on for a typical workflow of contributing to a project on GitHub."
+              body: "You are creating a pull request with the master branch as the head branch. This is completely fine if you plan to make contribution once or do not plan to do it often, but if you are interested in making multiple pull requests within a short span of time, this would prevent you from doing it comfortably. You may read https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on for a typical workflow of contributing to a project on GitHub."
             });
 

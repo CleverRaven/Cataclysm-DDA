@@ -81,6 +81,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_gates_boom_barrier",
+    "copy-from": "t_gates_control_concrete",
+    "name": "boom barrier controls",
+    "description": "Controls for a boom barrier.  If they were functioning, it could have been used to raise or lower a nearby boom barrier."
+  },
+  {
+    "type": "terrain",
     "id": "t_gates_control_brick",
     "name": "mechanical winch",
     "description": "A gate control winch.  If it's functioning, it can be used to open or close a nearby gate.",

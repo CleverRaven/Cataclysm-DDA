@@ -1241,7 +1241,13 @@
     "furniture": {
       "@": "f_machinery_heavy",
       "B": "f_bandsaw",
-      "G": "f_generator_broken",
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "J": "f_jointer",
       "M": "f_mitresaw",
       "P": "f_planer",

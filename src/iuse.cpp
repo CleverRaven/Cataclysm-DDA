@@ -252,25 +252,31 @@ static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_blood( "blood" );
+static const itype_id itype_blood_acid( "blood_acid" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_cig( "cig" );
+static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar( "cigar" );
+static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
+static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
+static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
-static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mp3( "mp3" );
@@ -279,9 +285,11 @@ static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_pot( "pot" );
 static const itype_id itype_pur_tablets( "pur_tablets" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
+static const itype_id itype_radio_mod( "radio_mod" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
@@ -292,6 +300,12 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_tazer( "tazer" );
+static const itype_id itype_tongs( "tongs" );
+static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
@@ -312,7 +326,6 @@ static const morale_type morale_game( "morale_game" );
 static const morale_type morale_game_found_kitten( "morale_game_found_kitten" );
 static const morale_type morale_marloss( "morale_marloss" );
 static const morale_type morale_music( "morale_music" );
-static const morale_type morale_photos( "morale_photos" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 static const morale_type morale_wet( "morale_wet" );
@@ -379,7 +392,6 @@ static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -456,7 +468,7 @@ void remove_radio_mod( item &it, Character &p )
         return;
     }
     p.add_msg_if_player( _( "You remove the radio modification from your %s." ), it.tname() );
-    item mod( "radio_mod" );
+    item mod( itype_radio_mod );
     p.i_add_or_drop( mod, 1 );
     it.unset_flag( flag_RADIO_ACTIVATION );
     it.unset_flag( flag_RADIO_MOD );
@@ -570,17 +582,17 @@ std::optional<int> iuse::smoking( Character *p, item *it, const tripoint_bub_ms 
 
     item cig;
     if( it->typeId() == itype_cig || it->typeId() == itype_handrolled_cig ) {
-        cig = item( "cig_lit", calendar::turn );
+        cig = item( itype_cig_lit, calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == itype_cigar ) {
-        cig = item( "cigar_lit", calendar::turn );
+        cig = item( itype_cigar_lit, calendar::turn );
         cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == itype_joint ) {
-        cig = item( "joint_lit", calendar::turn );
+        cig = item( itype_joint_lit, calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( 4 );
         p->mod_thirst( 6 );
@@ -623,7 +635,7 @@ std::optional<int> iuse::ecig( Character *p, item *it, const tripoint_bub_ms & )
             p->add_msg_if_player( m_neutral,
                                   _( "You inhale some vapor from your advanced electronic cigarette." ) );
             p->use_charges( itype_nicotine_liquid, 1 );
-            item dummy_ecig = item( "ecig", calendar::turn );
+            item dummy_ecig = item( itype_ecig, calendar::turn );
             p->consume_effects( dummy_ecig );
         } else {
             p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
@@ -889,7 +901,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
         map &here = get_map();
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            point_rel_ms offset( rng( -2, 2 ), rng( -2, 2 ) );
             here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
@@ -925,7 +937,7 @@ std::optional<int> iuse::flu_vaccine( Character *p, item *it, const tripoint_bub
                               _( "You notice the date on the packaging is pretty old.  It may no longer be effective." ) );
     }
     p->mod_pain( 3 );
-    item syringe( "syringe", it->birthday() );
+    item syringe( itype_syringe, it->birthday() );
     p->i_add_or_drop( syringe );
     return 1;
 }
@@ -1233,7 +1245,7 @@ std::optional<int> iuse::purify_smart( Character *p, item *it, const tripoint_bu
 
     p->mod_pain( 3 );
 
-    item syringe( "syringe", it->birthday() );
+    item syringe( itype_syringe, it->birthday() );
     p->i_add( syringe );
     p->vitamins_mod( default_character_compute_effective_nutrients( *it ).vitamins() );
     get_event_bus().send<event_type::administers_mutagen>( p->getID(),
@@ -1560,7 +1572,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( string_format(
+    const std::optional<tripoint_bub_ms> pnt = choose_adjacent( string_format(
                 _( "Tame which animal with %s?" ),
                 it->tname() ) );
     if( !pnt ) {
@@ -1747,7 +1759,7 @@ static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
     map &here = get_map();
     // isolated little body of water with no definite fish population
     const oter_id &cur_omt =
-        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.get_abs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -1785,7 +1797,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, *found );
+    p->activity.coord_set = g->get_fishable_locations_abs( 60, *found );
     return 0;
 }
 
@@ -1810,7 +1822,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Put fish trap where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -1930,7 +1942,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bu
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -2307,7 +2319,7 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -2579,7 +2591,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *, const tripoi
         return std::nullopt;
     }
     // Report direction.
-    const tripoint_abs_sm player_pos = p->global_sm_location();
+    const tripoint_abs_sm player_pos = p->pos_abs_sm();
     direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return 1;
@@ -2881,7 +2893,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Till soil where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Till soil where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -2898,7 +2910,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, const tripoint_bub_m
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
-        p->activity.placement = here.getglobal( pnt );
+        p->activity.placement = here.get_abs( pnt );
         return 1;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3075,7 +3087,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
     tripoint_bub_ms pnt( pos );
     if( pos == p->pos_bub() ) {
-        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( prompt );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3118,7 +3130,7 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint_bub_m
 
     p->assign_activity( activity, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3185,7 +3197,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getglobal( *target ) ) );
+                         item_location( you, it ), get_map().get_abs( *target ) ) );
     return 1;
 }
 
@@ -3668,7 +3680,7 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
 
     tripoint_bub_ms pnt = pos;
     if( pos == p->pos_bub() ) {
-        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Shock where?" ) );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Shock where?" ) );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3738,7 +3750,7 @@ std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &
     if( it->ammo_remaining( p, true ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
-        item fake( "tazer", calendar::turn_zero );
+        item fake( itype_tazer, calendar::turn_zero );
         fake.charges = 2;
         return tazer( p, &fake, pos );
     } else {
@@ -4503,7 +4515,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
         return std::nullopt;
     }
 
-    item blood( "blood", calendar::turn );
+    item blood( itype_blood, calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
     bool vampire = false;
@@ -4552,7 +4564,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     }
 
     if( acid_blood ) {
-        item acid( "blood_acid", calendar::turn );
+        item acid( itype_blood_acid, calendar::turn );
         acid.set_item_temperature( blood_temp );
         it->put_in( acid, pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
@@ -4590,7 +4602,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos_bub() );
+    p.activity.placement = get_map().get_abs( p.pos_bub() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint_bub_ms & )
@@ -4687,7 +4699,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -4732,7 +4744,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_m
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
-    p->activity.placement = here.getglobal( pnt );
+    p->activity.placement = here.get_abs( pnt );
 
     return 1;
 }
@@ -4913,7 +4925,7 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_ms & )
 {
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Spray where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -5143,7 +5155,7 @@ std::optional<int> iuse::adrenaline_injector( Character *p, item *it, const trip
     p->add_msg_player_or_npc( _( "You inject yourself with adrenaline." ),
                               _( "<npcname> injects themselves with adrenaline." ) );
 
-    item syringe( "syringe", it->birthday() );
+    item syringe( itype_syringe, it->birthday() );
     p->i_add( syringe );
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
@@ -5607,222 +5619,157 @@ std::optional<int> iuse::epic_music( Character *p, item *it, const tripoint_bub_
     return std::nullopt;
 }
 
-std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub_ms & )
 {
-
+    //restrictions
+    if( p->is_npc() ) {
+        return std::nullopt;
+    }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
-    } else if( !p->is_npc() ) {
+    }
+    if( p->cant_do_underwater() ) {
+        return std::nullopt;
+    }
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You can't read a computer screen." ) );
+        return std::nullopt;
+    }
+    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
+        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return std::nullopt;
+    }
 
-        enum {
-            ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download,
-        };
-
-        if( p->cant_do_underwater() ) {
-            return std::nullopt;
-        }
-        if( p->has_trait( trait_ILLITERATE ) ) {
-            p->add_msg_if_player( m_info, _( "You can't read a computer screen." ) );
-            return std::nullopt;
-        }
-        if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
-            !p->has_flag( json_flag_ENHANCED_VISION ) ) {
-            p->add_msg_if_player( m_info,
-                                  _( "You'll need to put on reading glasses before you can see the screen." ) );
-            return std::nullopt;
-        }
-
-        if( !it->active ) {
-            it->erase_var( "EIPC_MUSIC_ON" );
-        }
-        uilist amenu;
-
-        amenu.text = _( "Choose menu option:" );
-
-        const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-        if( photos > 0 ) {
-            amenu.addentry( ei_photo, true, 'p', _( "Unsorted photos [%d]" ), photos );
-        } else {
-            amenu.addentry( ei_photo, false, 'p', _( "No photos on device" ) );
-        }
-
-        const int songs = it->get_var( "EIPC_MUSIC", 0 );
-        if( songs > 0 ) {
-            if( it->has_var( "EIPC_MUSIC_ON" ) ) {
-                amenu.addentry( ei_music, true, 'm', _( "Turn music off" ) );
+    item_location used_edevice( *p, it );
+    auto read_edevice = [&p, &used_edevice]( bool edevice_selection ) {
+        avatar *a = p->as_avatar();
+        item_location edevice = used_edevice;
+        if( a ) {
+            if( edevice_selection ) {
+                drop_locations edevices = game_menus::inv::edevice_select( *p, used_edevice, true, false, true,
+                                          efile_action::EF_READ );
+                if( edevices.empty() ) {
+                    return;
+                }
+                edevice = edevices.front().first;
+            }
+            const drop_locations &efiles = game_menus::inv::efile_select( *p, edevice, {},
+                                           efile_action::EF_READ, false );
+            if( !efiles.empty() ) {
+                item_location current_efile = efiles.back().first;
+                a->use( current_efile );
             } else {
-                amenu.addentry( ei_music, true, 'm', _( "Turn music on [%d]" ), songs );
+                popup( _( "This device has no files!" ) );
             }
         } else {
-            amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
+            debugmsg( "NPC attempted to read e-file; not yet supported" );
         }
+    };
 
-        if( !it->get_saved_recipes().empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "List stored recipes" ) );
-        }
+    uilist amenu;
 
-        if( !it->get_var( "EIPC_EXTENDED_PHOTOS" ).empty() ) {
-            amenu.addentry( ei_uploaded_photos, true, 'l', _( "Your photos" ) );
-        }
+    enum {
+        efd_invalid, efd_browse, efd_read_this, efd_read_external, efd_move_off_this, efd_move_onto_this, efd_combo_bm, efd_copy_onto_this, efd_copy_from_this, efd_wipe
+    };
 
-        if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
-            amenu.addentry( ei_monsters, true, 'y', _( "Your collection of monsters" ) );
-        } else {
-            amenu.addentry( ei_monsters, false, 'y', _( "Collection of monsters is empty" ) );
-        }
+    amenu.text = _( "Select operation:" );
+    amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
+    amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
+    if( used_edevice->is_browsed() ) {
+        amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
+        amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
+        amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
+        amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
+        amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
+        amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
+    }
 
-        amenu.addentry( ei_download, true, 'w', _( "Download data from memory cards" ) );
-        amenu.query();
+    amenu.query();
+    const int choice = amenu.ret;
 
-        const int choice = amenu.ret;
+    efile_action new_action = efile_action::EF_INVALID;
+    efile_combo new_combo = efile_combo::COMBO_NONE;
 
-        if( ei_photo == choice ) {
+    switch( choice ) {
+        case efd_combo_bm:
+            new_action = efile_action::EF_BROWSE;
+            new_combo = efile_combo::COMBO_MOVE_ONTO_BROWSE;
+            break;
+        case efd_browse:
+            new_action = efile_action::EF_BROWSE;
+            break;
+        case efd_read_this:
+            read_edevice( false );
+            return std::nullopt;
+            break;
+        case efd_read_external:
+            read_edevice( true );
+            return std::nullopt;
+            break;
+        case efd_move_onto_this:
+            new_action = efile_action::EF_MOVE_ONTO_THIS;
+            break;
+        case efd_move_off_this:
+            new_action = efile_action::EF_MOVE_FROM_THIS;
+            break;
+        case efd_copy_onto_this:
+            new_action = efile_action::EF_COPY_ONTO_THIS;
+            break;
+        case efd_copy_from_this:
+            new_action = efile_action::EF_COPY_FROM_THIS;
+            break;
+        case efd_wipe:
+            new_action = efile_action::EF_WIPE;
+            break;
+        default:
+            return std::nullopt;
+            break;
+    }
+    bool auto_include_used_device = !efile_activity_actor::efile_action_exclude_used( new_action );
+    bool not_browsing = new_action != efile_action::EF_BROWSE;
 
-            const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-            const int viewed = std::min( photos, static_cast<int>( rng( 10, 30 ) ) );
-            const int count = photos - viewed;
-            if( count == 0 ) {
-                it->erase_var( "EIPC_PHOTOS" );
-            } else {
-                it->set_var( "EIPC_PHOTOS", count );
-            }
+    //gets nearby storage devices
+    const drop_locations &processed_devices = game_menus::inv::edevice_select( *p, used_edevice,
+            not_browsing, auto_include_used_device, false, new_action );
+    if( processed_devices.empty() ) {
+        return std::nullopt;
+    }
 
-            p->mod_moves( -to_moves<int>( rng( 3_seconds, 7_seconds ) ) );
-
-            if( p->has_trait( trait_PSYCHOPATH ) ) {
-                p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
-            } else {
-                p->add_morale( morale_photos, rng( 15, 30 ), 100 );
-                p->add_msg_if_player( m_good, "%s",
-                                      SNIPPET.random_from_category( "examine_photo_msg" ).value_or( translation() ) );
-            }
-
-            return 1;
-        }
-
-        if( ei_music == choice ) {
-
-            p->mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
-            // Turn on the screen before playing musics
-            if( !it->active ) {
-                if( it->is_transformable() ) {
-                    const use_function *readinglight = it->type->get_use( "transform" );
-                    if( readinglight ) {
-                        readinglight->call( p, *it, p->pos_bub() );
-                    }
-                }
-                it->activate();
-            }
-            // If transformable we use transform action to turn off the device
-            else if( !it->is_transformable() ) {
-                it->deactivate();
-            }
-
-            if( it->has_var( "EIPC_MUSIC_ON" ) ) {
-                it->erase_var( "EIPC_MUSIC_ON" );
-
-                p->add_msg_if_player( m_info, _( "You turned off the music on your %s." ), it->tname() );
-            } else {
-                it->set_var( "EIPC_MUSIC_ON", "1" );
-                p->add_msg_if_player( m_info, _( "You turned on the music on your %s." ), it->tname() );
-            }
-
-            return 1;
-        }
-
-        if( ei_recipe == choice ) {
-            p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
-
-            uilist rmenu;
-            for( const recipe_id &rid : it->get_saved_recipes() ) {
-                rmenu.addentry( 0, true, 0, rid->result_name( /* decorated = */ true ) );
-            }
-
-            rmenu.text = _( "List recipes:" );
-            rmenu.query();
-
-            return 1;
-        }
-
-        if( ei_uploaded_photos == choice ) {
-            show_photo_selection( *p, *it, "EIPC_EXTENDED_PHOTOS" );
-            return 1;
-        }
-
-        if( ei_monsters == choice ) {
-
-            uilist pmenu;
-
-            pmenu.text = _( "Your collection of monsters:" );
-
-            std::vector<mtype_id> monster_photos;
-
-            std::istringstream f( it->get_var( "EINK_MONSTER_PHOTOS" ) );
-            std::string s;
-            int k = 0;
-            while( getline( f, s, ',' ) ) {
-                if( s.empty() ) {
-                    continue;
-                }
-                monster_photos.emplace_back( s );
-                std::string menu_str;
-                const monster dummy( monster_photos.back() );
-                menu_str = dummy.name();
-                getline( f, s, ',' );
-                const int quality = get_quality_from_string( s );
-                menu_str += " [" + photo_quality_name( quality ) + "]";
-                pmenu.addentry( k++, true, -1, menu_str.c_str() );
-            }
-
-            int choice;
-            do {
-                pmenu.query();
-                choice = pmenu.ret;
-
-                if( choice < 0 ) {
-                    break;
-                }
-
-                const monster dummy( monster_photos[choice] );
-                popup( dummy.type->get_description() );
-            } while( true );
-            return 1;
-        }
-
-        if( ei_download == choice ) {
-            if( !p->has_item( *it ) ) {
-                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return std::nullopt; // need posession of reader item for item_location to work right
-            }
-            if( !p->is_avatar() ) {
-                return std::nullopt; // npc triggered iuse?
-            }
-            inventory_filter_preset preset( []( const item_location & it ) {
-                return it->has_flag( flag_MC_HAS_DATA ) || it->type->memory_card_data;
-            } );
-            inventory_multiselector inv_s( *p, preset );
-
-            inv_s.set_title( _( "Choose memory cards to download data from:" ) );
-            inv_s.set_display_stats( true );
-            inv_s.add_character_items( *p );
-            inv_s.add_nearby_items( 1 );
-
-            const std::list<std::pair<item_location, int>> locs = inv_s.execute();
-            if( locs.empty() ) {
-                p->add_msg_if_player( m_info, _( "Nevermind." ) );
-                return std::nullopt;
-            }
-            std::vector<item_location> targets;
-            targets.reserve( locs.size() );
-            for( const auto& [item_loc, count] : locs ) {
-                targets.emplace_back( item_loc );
-            }
-            const item_location reader( *p, it );
-            const data_handling_activity_actor actor( reader, targets );
-            p->assign_activity( player_activity( actor ) );
+    //convert drop_locations to item_location
+    std::vector<item_location> processed_edevices_locs;
+    for( const drop_location &drop : processed_devices ) {
+        for( int i = 0; i < drop.second; i++ ) {
+            processed_edevices_locs.emplace_back( drop.first );
         }
     }
+    //build selected files list
+    std::vector<item_location> selected_efiles;
+    item_location external_transfer_edevice;
+    if( not_browsing ) {
+        drop_locations efiles = game_menus::inv::efile_select( *p, used_edevice, processed_edevices_locs,
+                                new_action, efile_activity_actor::efile_action_is_from( new_action ) );
+        if( efiles.empty() ) {
+            return std::nullopt;
+        }
+        for( const drop_location &drop : efiles ) {
+            selected_efiles.emplace_back( drop.first );
+        }
+    } else {
+        for( item_location edevice : processed_edevices_locs ) {
+            std::vector<item *> efile_ptrs = edevice->efiles();
+            for( item *efile : efile_ptrs ) {
+                selected_efiles.emplace_back( edevice, efile );
+            }
+        }
+    }
+
+    const efile_activity_actor actor( used_edevice, processed_edevices_locs, selected_efiles,
+                                      new_action, new_combo );
+    p->assign_activity( player_activity( actor ) );
     return std::nullopt;
 }
 
@@ -6444,7 +6391,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint_bub_m
                                               obj_list );
     }
 
-    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.get_abs( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
@@ -6629,7 +6576,7 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
 
 std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms & )
 {
-    enum {c_shot, c_photos, c_monsters, c_upload};
+    enum {c_shot, c_view};
 
     // From item processing
     if( !p ) {
@@ -6638,24 +6585,18 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
         return std::nullopt;
     }
 
-    // CAMERA_NPC_PHOTOS is old save variable
-    bool found_extended_photos = !it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ||
-                                 !it->get_var( "CAMERA_EXTENDED_PHOTOS" ).empty();
-    bool found_monster_photos = !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty();
+    bool room_for_photo = it->remaining_ememory() >= itype_efile_photos->ememory_size;
+
+    //find photo gallery file, add if doesn't exist
+    item *edevice_photos = it->get_photo_gallery();
 
     uilist amenu;
     amenu.text = _( "What to do with camera?" );
     amenu.addentry( c_shot, true, 't', _( "Take a photo" ) );
-    if( !found_extended_photos && !found_monster_photos ) {
-        amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
+    if( edevice_photos == nullptr ) {
+        amenu.addentry( c_view, false, 'v', _( "No photos in memory" ) );
     } else {
-        if( found_extended_photos ) {
-            amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
-        }
-        if( found_monster_photos ) {
-            amenu.addentry( c_monsters, true, 'm', _( "Your collection of monsters" ) );
-        }
-        amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
+        amenu.addentry( c_view, true, 'v', _( "View photos" ) );
     }
 
     amenu.query();
@@ -6668,6 +6609,17 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     if( c_shot == choice ) {
+        if( edevice_photos == nullptr ) {
+            if( room_for_photo ) {
+                item new_photos( itype_efile_photos );
+                it->get_contents().insert_item( new_photos, pocket_type::E_FILE_STORAGE );
+                edevice_photos = it->get_photo_gallery();
+            } else {
+                p->add_msg_if_player( _( "Your camera cannot hold any more photos." ) );
+                return std::nullopt;
+            }
+        }
+
         const std::optional<tripoint_bub_ms> aim_point_ = g->look_around();
 
         if( !aim_point_ ) {
@@ -6761,9 +6713,9 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
                 photo.quality = photo_quality;
 
                 try {
-                    it->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
+                    edevice_photos->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
                     extended_photos.push_back( photo );
-                    it->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    edevice_photos->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                 } catch( const JsonError &e ) {
                     debugmsg( "Error when adding new photo (loaded photos = %i): %s", extended_photos.size(),
                               e.c_str() );
@@ -6802,20 +6754,35 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
                     }
                 }
                 if( !monster_vec.empty() ) {
-                    item_save_monsters( *p, *it, monster_vec, photo_quality );
+                    item_save_monsters( *p, *edevice_photos, monster_vec, photo_quality );
                 }
                 return 1;
             }
         }
         return 1;
     }
+    if( c_view == choice ) {
+        view_photos( p, edevice_photos, p->pos_bub() );
+        return 1;
+    }
+    return 1;
+}
+
+std::optional<int> iuse::view_photos( Character *p, item *it, const tripoint_bub_ms & )
+{
+    enum { c_photos, c_monsters };
+
+    uilist amenu;
+    amenu.text = _( "View which photos?" );
+    amenu.addentry( c_photos, true, 'g', _( "General" ) );
+    amenu.addentry( c_monsters, true, 'm', _( "Monsters" ) );
+    amenu.query();
+    const int choice = amenu.ret;
 
     if( c_photos == choice ) {
         show_photo_selection( *p, *it, "CAMERA_EXTENDED_PHOTOS" );
-        return 1;
-    }
-
-    if( c_monsters == choice ) {
+        return std::nullopt;
+    } else if( c_monsters == choice ) {
         if( p->is_blind() ) {
             p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
             return 0;
@@ -6864,52 +6831,23 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
             popup( "%s", descriptions[choice].c_str() );
 
         } while( true );
+        return std::nullopt;
+    }
+    return std::nullopt;
+}
 
-        return 1;
+std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bub_ms & )
+{
+    p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
+
+    uilist rmenu;
+    for( const recipe_id &rid : it->get_saved_recipes() ) {
+        rmenu.addentry( 0, true, 0, rid->result_name( /* decorated = */ true ) );
     }
 
-    if( c_upload == choice ) {
-
-        if( p->is_blind() ) {
-            p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
-            return std::nullopt;
-        }
-
-        p->mod_moves( -to_moves<int>( 2_seconds ) );
-
-        avatar *you = p->as_avatar();
-        item_location loc;
-        if( you != nullptr ) {
-            loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                return it.has_flag( flag_MC_MOBILE );
-            }, *you, _( "Insert memory card" ) );
-        }
-        if( !loc ) {
-            p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-            return 1;
-        }
-        item &mc = *loc;
-
-        if( mc.has_flag( flag_MC_HAS_DATA ) ) {
-            if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
-                return 1;
-            }
-        }
-
-        mc.convert( itype_memory_card );
-        mc.clear_vars();
-        mc.unset_flags();
-        mc.set_flag( flag_MC_HAS_DATA );
-
-        mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
-        mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
-        p->add_msg_if_player( m_info,
-                              _( "You upload your photos and monster collection to the memory card." ) );
-
-        return 1;
-    }
-
-    return 1;
+    rmenu.text = _( "Recipe list:" );
+    rmenu.query();
+    return std::nullopt;
 }
 
 std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint_bub_ms &pos )
@@ -7012,7 +6950,7 @@ std::optional<int> iuse::afs_translocator( Character *p, item *it, const tripoin
         return std::nullopt;
     }
 
-    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent_bub( _( "Create buoy where?" ) );
+    const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Create buoy where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
@@ -7165,7 +7103,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint_bub_
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), 60 ) ) {
+    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), MAX_VIEW_DISTANCE ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
@@ -7192,7 +7130,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( &p, *itm, loc.raw() );
+                        itm->type->invoke( &p, *itm, loc );
                         item_location itm_loc = item_location( map_cursor( loc ), itm );
                         here.update_lum( itm_loc, true );
                     }
@@ -7681,13 +7619,13 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         // add some tools and qualities. we can't add this qualities to
         // json, because multicook must be used only by activating, not as
         // component other crafts.
-        crafting_inv.push_back( item( "hotplate", calendar::turn_zero ) ); //hotplate inside
+        crafting_inv.push_back( item( itype_hotplate, calendar::turn_zero ) ); //hotplate inside
         // some recipes requires tongs
-        crafting_inv.push_back( item( "tongs", calendar::turn_zero ) );
+        crafting_inv.push_back( item( itype_tongs, calendar::turn_zero ) );
         // toolset with CUT and other qualities inside
-        crafting_inv.push_back( item( "toolset", calendar::turn_zero ) );
+        crafting_inv.push_back( item( itype_toolset, calendar::turn_zero ) );
         // good COOK, BOIL, CONTAIN qualities inside
-        crafting_inv.push_back( item( "pot", calendar::turn_zero ) );
+        crafting_inv.push_back( item( itype_pot, calendar::turn_zero ) );
 
         int counter = 0;
         static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
@@ -7859,7 +7797,8 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     }
 
     if( cooktime <= 0 ) {
-        item meal( it->get_var( "DISH" ), time_point( calendar::turn ), 1 );
+        //TODO: Allow variables to be cata_variant ids
+        item meal( itype_id( it->get_var( "DISH" ) ), time_point( calendar::turn ), 1 );
         if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
             meal.heat_up();
         } else {
@@ -7942,9 +7881,9 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
         if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
+        const oter_id &cur_om_ter = overmap_buffer.ter( p->pos_abs_omt() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
+                              p->pos_abs(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -7990,12 +7929,12 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, const tripoint_bub_ms &pos )
 {
     map &here = get_map();
-    const float incident_light = incident_sunlight( current_weather( here.getglobal( pos ) ),
+    const float incident_light = incident_sunlight( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     const float nat_light = g->natural_light_level( pos.z() );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
-    const float incident_irrad = incident_sun_irradiance( current_weather( here.getglobal( pos ) ),
+    const float incident_irrad = incident_sun_irradiance( current_weather( here.get_abs( pos ) ),
                                  calendar::turn );
     p->add_msg_if_player( m_neutral,
                           _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
@@ -8032,7 +7971,7 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, const tri
                               it->tname() );
         return std::nullopt;
     }
-    const std::optional<tripoint_bub_ms> posp = choose_adjacent_bub(
+    const std::optional<tripoint_bub_ms> posp = choose_adjacent(
                 _( "Choose hologram direction." ) );
     if( !posp ) {
         return std::nullopt;
@@ -8044,7 +7983,7 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, const tri
         p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
         return std::nullopt;
     }
-    tripoint_abs_ms target = p->get_location() + delta * ( 4 * SEEX );
+    tripoint_abs_ms target = p->pos_abs() + delta * ( 4 * SEEX );
     hologram->friendly = -1;
     hologram->add_effect( effect_docile, 1_hours );
     hologram->wandf = -30;
@@ -8130,7 +8069,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
             return std::nullopt;
         } else {
             const std::string query = string_format( _( "Place the %s where?" ), contained_name );
-            const std::optional<tripoint_bub_ms> pos_ = choose_adjacent_bub( query );
+            const std::optional<tripoint_bub_ms> pos_ = choose_adjacent( query );
             if( !pos_ ) {
                 return std::nullopt;
             }
@@ -8216,7 +8155,7 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
     return {volume, ammo, time};
 }
 
-static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
+static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_selector( Character *p )
 {
     const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
             _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
@@ -8251,7 +8190,7 @@ static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( C
                     p->add_msg_if_player( m_info, _( "You haven't selected any heater." ) );
                     return std::nullopt;
                 } else {
-                    return std::make_pair( pt.value().raw(), pseudo_tools[app_menu.ret] );
+                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
                 }
 
             }
@@ -8309,7 +8248,7 @@ heater find_heater( Character *p, item *it )
                                  1,
                                  _( "You don't have a proper heating tool.  Try selecting an appliance with a heater." ) );
         if( !loc ) {
-            std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
+            std::optional<std::pair<tripoint_bub_ms, itype_id>> app = appliance_heater_selector( p );
             if( !app ) {
                 return {loc, true, -1, 0, vpt, pseudo_flag};
             } else {
@@ -8317,7 +8256,7 @@ heater find_heater( Character *p, item *it )
                 optional_vpart_position vp = get_map().veh_at( app.value().first );
                 available_heater = vp->vehicle().connected_battery_power_level().first;
                 heating_effect = app.value().second->charges_to_use();
-                vpt = get_map().getglobal( app.value().first );
+                vpt = get_map().get_abs( app.value().first );
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
@@ -8704,16 +8643,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos_bub(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), itype_stick, 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos_bub(), "stick", 1 );
-        here.spawn_item( p->pos_bub(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), itype_stick, 1 );
+        here.spawn_item( p->pos_bub(), itype_splinter, 1 );
         return 1;
     }
     return 0;
@@ -9006,134 +8945,6 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint_b
     return std::nullopt;
 }
 
-std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint_bub_ms & )
-{
-    // From item processing
-    if( !p ) {
-        debugmsg( "%s called action electricstorage that requires character but no character is present",
-                  it->typeId().str() );
-        return std::nullopt;
-    }
-
-    if( p->is_npc() ) {
-        return std::nullopt;
-    }
-
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
-        return std::nullopt;
-    }
-
-    if( !it->is_ebook_storage() ) {
-        debugmsg( "ELECTRICSTORAGE iuse called on item without ebook type pocket" );
-        return std::nullopt;
-    }
-
-    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
-        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
-        p->add_msg_if_player( m_info,
-                              _( "You'll need to put on reading glasses before you can see the screen." ) );
-        return std::nullopt;
-    }
-
-    auto filter = [it]( const item & itm ) {
-        return !itm.is_broken() &&
-               &itm != it &&
-               itm.has_pocket_type( pocket_type::EBOOK );
-    };
-
-    item_location storage_card = game_menus::inv::titled_filter_menu(
-                                     filter, *p->as_avatar(), _( "Use what storage device?" ),
-                                     -1, _( "You don't have any empty book storage devices." ) );
-
-    if( !storage_card ) {
-        return std::nullopt;
-    }
-
-    // list of books of from_it that are not in to_it
-    auto book_difference = []( const item & from_it, const item & to_it ) -> std::vector<const item *> {
-        std::set<itype_id> existing_ebooks;
-        for( const item *ebook : to_it.ebooks() )
-        {
-            if( !ebook->is_book() ) {
-                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-                continue;
-            }
-
-            existing_ebooks.insert( ebook->typeId() );
-        }
-
-        std::vector<const item *> ebooks;
-        for( const item *ebook : from_it.ebooks() )
-        {
-            if( !ebook->is_book() ) {
-                debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
-                continue;
-            }
-
-            if( existing_ebooks.count( ebook->typeId() ) ) {
-                continue;
-            }
-
-            ebooks.emplace_back( ebook );
-        }
-        return ebooks;
-    };
-
-    std::vector<const item *> to_storage = book_difference( *it, *storage_card );
-    std::vector<const item *> to_device = book_difference( *storage_card, *it );
-
-    uilist smenu;
-    smenu.text = _( "What to do with your storage devices:" );
-
-    smenu.addentry( 1, !to_device.empty(), 't', _( "Copy to device from the card" ) );
-    smenu.addentry( 2, !to_storage.empty(), 'f', _( "Copy from device to the card" ) );
-    smenu.addentry( 3, !storage_card->ebooks().empty(), 'v', _( "View books in the card" ) );
-    smenu.query();
-
-    // were any books moved to or from the device
-    int books_moved = 0;
-
-    auto move_books = [&books_moved]( const std::vector<const item *> &fromset, item & toit ) -> void {
-        books_moved = fromset.size();
-        for( const item *ebook : fromset )
-        {
-            toit.put_in( *ebook, pocket_type::EBOOK );
-        }
-    };
-
-    if( smenu.ret == 1 ) {
-        // to device
-        move_books( to_device, *it );
-    } else if( smenu.ret == 2 ) {
-        // from device
-        move_books( to_storage, *storage_card );
-    } else if( smenu.ret == 3 ) {
-        game_menus::inv::ebookread( *p, storage_card );
-        return std::nullopt;
-    } else {
-        return std::nullopt;
-    }
-
-    if( books_moved > 0 ) {
-        p->mod_moves( -to_moves<int>( 2_seconds ) );
-        if( smenu.ret == 1 ) {
-            p->add_msg_if_player( m_info,
-                                  n_gettext( "Copied one book to the device.",
-                                             "Copied %1$s books to the device.", books_moved ),
-                                  books_moved );
-        } else if( smenu.ret == 2 ) {
-            p->add_msg_if_player( m_info,
-                                  n_gettext( "Copied one book to the %2$s.",
-                                             "Copied %1$s books to the %2$s.", books_moved ),
-                                  books_moved, storage_card->tname() );
-        }
-    }
-
-    return std::nullopt;
-}
-
 std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( !p ) {
@@ -9141,8 +8952,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
                   it->typeId().str() );
         return std::nullopt;
     }
-    if( !it->is_ebook_storage() ) {
-        debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
+    if( !it->is_estorage() ) {
+        debugmsg( "EBOOKSAVE iuse called on item without ESTORAGE pocket_type" );
         return std::nullopt;
     }
 
@@ -9162,6 +8973,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return std::nullopt;
     }
+
 
     if( p->fine_detail_vision_mod() > 4 ) {
         p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
@@ -9178,55 +8990,6 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
         books.push_back( pair.first );
     }
     p->assign_activity( ebooksave_activity_actor( books, ereader ) );
-    return std::nullopt;
-}
-
-std::optional<int> iuse::ebookread( Character *p, item *it, const tripoint_bub_ms & )
-{
-    if( !p ) {
-        debugmsg( "%s called action ebookread that requires character but no character is present",
-                  it->typeId().str() );
-        return std::nullopt;
-    }
-    if( !it->is_ebook_storage() ) {
-        debugmsg( "EBOOKREAD iuse called on item without ebook type pocket" );
-        return std::nullopt;
-    }
-
-    if( p->is_npc() ) {
-        return std::nullopt;
-    }
-
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
-        return std::nullopt;
-    }
-
-    if( p->has_flag( json_flag_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_effect( effect_transition_contacts ) &&
-        !p->has_flag( json_flag_ENHANCED_VISION ) ) {
-        p->add_msg_if_player( m_info,
-                              _( "You'll need to put on reading glasses before you can see the screen." ) );
-        return std::nullopt;
-    }
-
-    // Only turn on the eBook light, if it's too dark to read
-    if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
-        const use_function *readinglight = it->type->get_use( "transform" );
-        if( readinglight ) {
-            readinglight->call( p, *it, p->pos_bub() );
-        }
-    }
-
-    item_location ereader = item_location( *p, it );
-    item_location book = game_menus::inv::ebookread( *p, ereader );
-
-    if( !book ) {
-        return std::nullopt;
-    }
-
-    p->as_avatar()->read( book, ereader );
-
     return std::nullopt;
 }
 
@@ -9355,7 +9118,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
 
 std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
 {
-    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Check voltage where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }

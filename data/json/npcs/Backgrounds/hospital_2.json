@@ -12,7 +12,7 @@
           "relevant_genders": [ "npc" ]
         },
         "no": {
-          "gendered_line": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.  I'd seen such horrible injuries, and then I… <swear!>, I can't even talk about it.",
+          "gendered_line": "I was at work at the hospital, when it all went down.  It's a bit of a blur.  For a while there were weird reports, stuff that sounded unbelievable about patients getting back up after dying, but mostly things were business as usual.  Then, towards the end, stuff just skyrocketed.  We thought it was a Chinese attack, and that's what we were being told.  People coming in crazed, covered in wounds from bullets and bites.  About halfway through my shift I… well, I broke.  I'd seen such horrible injuries, and then I…  <swear!>  I can't even talk about it.",
           "relevant_genders": [ "npc" ]
         }
       }
@@ -187,7 +187,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3 },
       "effect": { "u_add_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

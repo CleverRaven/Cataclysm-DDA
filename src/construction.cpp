@@ -103,6 +103,7 @@ static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
@@ -423,7 +424,6 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
     return make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         // Draw construction result preview on valid squares
-        // TODO: fix point types
         for( const auto &elem : valid ) {
             const tripoint_bub_ms &loc = elem.first;
             const construction &con = *elem.second;
@@ -1315,7 +1315,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     player_character.invalidate_crafting_inventory();
     player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getglobal( pnt );
+    player_character.activity.placement = here.get_abs( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1325,7 +1325,7 @@ void complete_construction( Character *you )
         return;
     }
     map &here = get_map();
-    const tripoint_bub_ms terp = here.bub_from_abs( you->activity.placement );
+    const tripoint_bub_ms terp = here.get_bub( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -1836,7 +1836,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
 static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
-    item rope( "rope_30" );
+    item rope( itype_rope_30 );
     map &here = get_map();
     tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );
@@ -2058,58 +2058,20 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
         get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
         bool cancel_construction = false;
 
-        auto deconstruct_items = []( const item_group_id & drop_group ) {
-            std::string ret;
-            const Item_spawn_data *spawn_data = item_group::spawn_data_from_group( drop_group );
-            if( spawn_data == nullptr ) {
-                return ret;
-            }
-            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
-                        spawn_data->every_item_min_max();
-            for( const auto &deconstruct_item : deconstruct_items ) {
-                const int &min = deconstruct_item.second.first;
-                const int &max = deconstruct_item.second.second;
-                if( min != max ) {
-                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
-                } else {
-                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
-                }
-            }
-            return ret;
-        };
-        auto deconstruction_will_practice_skill = [&who]( auto & skill ) {
-            return who.get_skill_level( skill.id ) >= skill.min &&
-                   who.get_skill_level( skill.id ) < skill.max;
-        };
-
-        auto deconstruct_query = [&who, &cancel_construction, &deconstruction_will_practice_skill,
-              &deconstruct_items]( map_common_deconstruct_info & deconstruct, std::string & name ) {
-            if( !!deconstruct.skill &&
-                deconstruction_will_practice_skill( deconstruct.skill.value() ) ) {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ), deconstruct.skill->id.obj().name() );
-            } else {
-                cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
-                                          name, deconstruct_items( deconstruct.drop_group ) );
-            }
+        auto deconstruct_query = [&]( const std::string & info ) {
+            cancel_construction = !who.query_yn( string_format( _( "%s\nConfirm deconstruct?" ), info ) );
         };
 
         std::string tname;
         if( here.has_furn( p ) ) {
             const furn_t &f = here.furn( p ).obj();
             if( f.deconstruct ) {
-                map_furn_deconstruct_info deconstruct = f.deconstruct.value();
-                tname = f.name();
-                deconstruct_query( deconstruct, tname );
+                deconstruct_query( f.deconstruct->potential_deconstruct_items( f.name() ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
             if( t.deconstruct ) {
-                map_ter_deconstruct_info deconstruct = t.deconstruct.value();
-                tname = t.name();
-                deconstruct_query( deconstruct, tname );
+                deconstruct_query( t.deconstruct->potential_deconstruct_items( t.name() ) );
             }
         }
         if( cancel_construction ) {
@@ -2121,10 +2083,8 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
-    // TODO: fix point types
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
     if( calendar::once_every( 1_minutes ) ) {
-        // TODO: fix point types
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }

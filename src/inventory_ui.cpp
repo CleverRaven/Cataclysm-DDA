@@ -1308,7 +1308,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             return !e.is_collated() &&
                    e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
-                   entry_item.position() == found_entry_item.position() &&
+                   entry_item.pos_bub() == found_entry_item.pos_bub() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->link_length() == found_entry_item->link_length() &&
@@ -1873,7 +1873,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 const item_category *inventory_selector::naturalize_category( const item_category &category,
-        const tripoint &pos )
+        const tripoint_bub_ms &pos )
 {
     const auto find_cat_by_id = [ this ]( const item_category_id & id ) {
         const auto iter = std::find_if( categories.begin(),
@@ -1883,10 +1883,10 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         return iter != categories.end() ? &*iter : nullptr;
     };
 
-    const int dist = rl_dist( u.pos_bub().raw(), pos );
+    const int dist = rl_dist( u.pos_bub(), pos );
 
     if( dist != 0 ) {
-        const std::string suffix = direction_suffix( u.pos_bub().raw(), pos );
+        const std::string suffix = direction_suffix( u.pos_bub(), pos );
         const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
                                     suffix.c_str() ) );
 
@@ -2073,11 +2073,23 @@ void inventory_selector::add_contained_gunmods( Character &you, item &gun )
 
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
-    if( !container->is_ebook_storage() ) {
+    if( !container->is_estorage() ) {
         return;
     }
 
     for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
+void inventory_selector::add_contained_efiles( item_location &container )
+{
+    if( !container->is_estorage() ) {
+        return;
+    }
+
+    for( item *it : container->efiles() ) {
         item_location child( container, it );
         add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }
@@ -2109,7 +2121,7 @@ void inventory_selector::add_character_ebooks( Character &character )
     }
 }
 
-void inventory_selector::add_map_items( const tripoint &target )
+void inventory_selector::add_map_items( const tripoint_bub_ms &target )
 {
     map &here = get_map();
     if( here.accessible_items( target ) ) {
@@ -2122,7 +2134,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     }
 }
 
-void inventory_selector::add_vehicle_items( const tripoint &target )
+void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target )
 {
     const std::optional<vpart_reference> ovp = get_map().veh_at( target ).cargo();
     if( !ovp ) {
@@ -2138,7 +2150,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     } );
 }
 
-void inventory_selector::_add_map_items( tripoint const &target, item_category const &cat,
+void inventory_selector::_add_map_items( tripoint_bub_ms const &target, item_category const &cat,
         item_stack &items, std::function<item_location( item & )> const &floc )
 {
     bool const hierarchy = _uimode == uimode::hierarchy;
@@ -2170,19 +2182,19 @@ void inventory_selector::add_nearby_items( int radius )
                 !here.clear_path( u.pos_bub(), pos, rl_dist( u.pos_bub(), pos ), 1, 100 ) ) {
                 continue;
             }
-            add_map_items( pos.raw() );
-            add_vehicle_items( pos.raw() );
+            add_map_items( pos );
+            add_vehicle_items( pos );
         }
     }
 }
 
-void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
+void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
+    const std::string name = to_upper_case( remote_map->name( target ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
-    _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
+    _add_map_items( rebase_bub( target ), map_cat, items, [target]( item & it ) {
+        return item_location( map_cursor( rebase_bub( target ) ), &it );
     } );
 }
 
@@ -2191,7 +2203,7 @@ void inventory_selector::add_basecamp_items( const basecamp &camp )
     std::unordered_set<tripoint_abs_ms> tiles = camp.get_storage_tiles();
     map &here = get_map();
     for( tripoint_abs_ms tile : tiles ) {
-        add_map_items( here.bub_from_abs( tile ).raw() );
+        add_map_items( here.get_bub( tile ) );
     }
 }
 
@@ -3176,7 +3188,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
         if( ancestor.where() != item_location::type::character ) {
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
             const item_category map_cat( name, no_translation( name ), translation(), 100 );
-            custom_category = naturalize_category( map_cat, ancestor.position() );
+            custom_category = naturalize_category( map_cat, ancestor.pos_bub() );
         } else {
             custom_category = wielded_worn_category( ancestor, u );
         }
@@ -4170,7 +4182,7 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const std::optional<tripoint> &where ) :
+                                  const std::string &selection_column_title, const std::optional<tripoint_bub_ms> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );
@@ -4293,7 +4305,11 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+        std::optional<tripoint_bub_ms> temp;
+        if( where.has_value() ) {
+            temp = tripoint_bub_ms( where.value() );
+        }
+        get_player_character().pick_up( game_menus::inv::pickup( temp, to_use ) );
     };
 }
 

@@ -612,7 +612,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
 static std::optional<basecamp *> get_basecamp( npc &p,
         const std::string_view camp_type = "default" )
 {
-    tripoint_abs_omt omt_pos = p.global_omt_location();
+    tripoint_abs_omt omt_pos = p.pos_abs_omt();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
@@ -692,7 +692,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 
 void talk_function::start_camp( npc &p )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
     const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ref,
@@ -740,7 +740,7 @@ void talk_function::start_camp( npc &p )
 void talk_function::basecamp_mission( npc &p )
 {
     const std::string title = _( "Base Missions" );
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     mission_data mission_key;
 
     std::optional<basecamp *> temp_camp = get_basecamp( p );
@@ -754,7 +754,7 @@ void talk_function::basecamp_mission( npc &p )
     }
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
     map &here = bcp->get_camp_map();
-    bcp->form_storage_zones( here, p.get_location() );
+    bcp->form_storage_zones( here, p.pos_abs() );
     bcp->get_available_missions( mission_key, here );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id );
@@ -1986,7 +1986,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration total_
             std::vector<tripoint_bub_ms> src_set_pt;
             src_set_pt.resize( src_set.size() );
             for( const tripoint_abs_ms &p : src_set ) {
-                src_set_pt.emplace_back( target_map.bub_from_abs( p ) );
+                src_set_pt.emplace_back( target_map.get_bub( p ) );
             }
             for( item *i : equipment ) {
                 int count = i->count();
@@ -2161,7 +2161,7 @@ void basecamp::remove_camp( const tripoint_abs_omt &omt_pos ) const
     const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
-    here.remove_submap_camp( here.bub_from_abs( ms_pos ) );
+    here.remove_submap_camp( here.get_bub( ms_pos ) );
 }
 
 void basecamp::abandon_camp()
@@ -4470,12 +4470,12 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    recruit->spawn_at_precise( player_character.pos_abs() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
     recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
-                              recruit->global_omt_location(),
+                              recruit->pos_abs_omt(),
                               recruit->getID() ) );
     talk_function::follow( *recruit );
     g->load_npcs();
@@ -4532,7 +4532,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     }
 
 
-    tripoint_abs_omt where( get_player_character().global_omt_location() );
+    tripoint_abs_omt where( get_player_character().pos_abs_omt() );
 
     while( true ) {
         where = ui::omap::choose_point( string_format(
@@ -4614,7 +4614,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
 
 
-    tripoint_abs_omt where( get_player_character().global_omt_location() );
+    tripoint_abs_omt where( get_player_character().pos_abs_omt() );
 
     while( true ) {
         where = ui::omap::choose_point( string_format(
@@ -4871,7 +4871,7 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
 void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
 {
     for( const MonsterGroupResult &monster : group ) {
-        const mtype_id target = monster.name;
+        const mtype_id target = monster.id;
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
             int num_to_spawn = monster.pack_size;
@@ -5415,7 +5415,7 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint_omt_
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
 
-    inv_s.add_remote_map_items( target_bay, target.raw() );
+    inv_s.add_remote_map_items( target_bay, target );
     inv_s.set_title( title );
     inv_s.set_hint( _( "To select items, type a number before selecting." ) );
 
@@ -5431,9 +5431,9 @@ bool basecamp::validate_sort_points()
 {
     zone_manager &mgr = zone_manager::get_manager();
     map *here = &get_map();
-    const tripoint_abs_ms abspos = get_player_character().get_location();
-    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60, get_owner() ) ||
-        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60, get_owner() ) ) {
+    const tripoint_abs_ms abspos = get_player_character().pos_abs();
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, MAX_VIEW_DISTANCE, get_owner() ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, MAX_VIEW_DISTANCE, get_owner() ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
@@ -5837,7 +5837,7 @@ bool basecamp::distribute_food( bool player_command )
     }
     const tripoint_abs_ms &abspos = get_dumping_spot();
     const std::unordered_set<tripoint_abs_ms> &z_food =
-        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60, nullptr, get_owner() );
+        mgr.get_near( zone_type_CAMP_FOOD, abspos, MAX_VIEW_DISTANCE, nullptr, get_owner() );
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
@@ -5923,7 +5923,7 @@ bool basecamp::distribute_food( bool player_command )
     // @FIXME: items under a vehicle cargo part will get taken even if there's no non-vehicle zone there
     // @FIXME: items in a vehicle cargo part will get taken even if the zone is on the ground underneath
     for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
-        const tripoint_bub_ms p_food_stock = here.bub_from_abs( p_food_stock_abs );
+        const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
             if( consume( *iter, nullptr ) ) {
@@ -6137,7 +6137,7 @@ void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
     form_storage_zones( target_bay, bb_pos );
-    tripoint_bub_ms new_spot = target_bay.bub_from_abs( get_dumping_spot() );
+    tripoint_bub_ms new_spot = target_bay.get_bub( get_dumping_spot() );
     // Special handling for liquids
     // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead
     if( result.made_of( phase_id::LIQUID ) ) {
@@ -6145,8 +6145,8 @@ void basecamp::place_results( const item &result )
             // No items at a potential spot? Set the destination there and stop checking.
             // We could check if the item at the tile are the same as the item we're placing, but liquids of the same typeid
             // don't always mix depending on their components...
-            if( target_bay.i_at( target_bay.bub_from_abs( potential_spot ) ).empty() ) {
-                new_spot = target_bay.bub_from_abs( potential_spot );
+            if( target_bay.i_at( target_bay.get_bub( potential_spot ) ).empty() ) {
+                new_spot = target_bay.get_bub( potential_spot );
                 break;
             }
             // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.

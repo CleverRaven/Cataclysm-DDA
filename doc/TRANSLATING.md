@@ -111,7 +111,7 @@ have alternate translations depending on the gender of the conversation
 participants.  This two pieces of initial configuration.
 
 1. The dialogue must have the relevant genders listed in the json file defining
-   it.  See [the NPC docs](NPCs.md).
+   it.  See [the NPC docs](./JSON/NPCs.md).
 2. Each language must specify the genders it wishes to use via the translation
    of `grammatical gender list`.  This should be a space-separated list of
    genders used in this language for such translations.  Don't add genders here
@@ -313,7 +313,7 @@ to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
 If a string doesn't need to be translated, you can write `"NO_I18N"` in the
-`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON_INFO.md#translatable-strings)):
+`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON/JSON_INFO.md#translatable-strings)):
 
 ```JSON
 "name": {

@@ -56,6 +56,8 @@ struct abstract_str_or_var {
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
     std::string evaluate( const_dialogue const & ) const;
+    abstract_str_or_var() = default;
+    explicit abstract_str_or_var( T str ) : str_val( str ) {};
 };
 
 using str_or_var = abstract_str_or_var<std::string>;

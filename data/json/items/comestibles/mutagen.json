@@ -484,7 +484,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You choke down the congealed blood.",
-      "vitamins": [ [ "mutagen_beast", 60 ] ]
+      "vitamins": [ [ "mutagen_beast", 160 ], [ "mutagen", 160 ] ]
     }
   },
   {

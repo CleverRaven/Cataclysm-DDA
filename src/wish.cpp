@@ -25,7 +25,9 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "localized_comparator.h"
@@ -801,7 +803,7 @@ void debug_menu::wishmonstergroup_mon_selection( mongroup &group )
     }
 }
 
-void debug_menu::wishmonster( const std::optional<tripoint> &p )
+void debug_menu::wishmonster( const std::optional<tripoint_bub_ms> &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -814,7 +816,7 @@ void debug_menu::wishmonster( const std::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( std::optional<tripoint_bub_ms> spawn = p ? tripoint_bub_ms( p.value() ) : g->look_around() ) {
+            if( std::optional<tripoint_bub_ms> spawn = p ? p.value() : g->look_around() ) {
                 int num_spawned = 0;
                 for( const tripoint_bub_ms &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
@@ -1059,12 +1061,12 @@ class wish_item_callback: public uilist_callback
 
 void debug_menu::wishitem( Character *you )
 {
-    wishitem( you, tripoint( -1, -1, -1 ) );
+    wishitem( you, tripoint_bub_ms( -1, -1, -1 ) );
 }
 
-void debug_menu::wishitem( Character *you, const tripoint &pos )
+void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
 {
-    if( you == nullptr && pos.x <= 0 ) {
+    if( you == nullptr && pos.x() <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -1136,7 +1138,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted = wishitem_produce( *std::get<1>( opts[wmenu.ret] ), cb.flags, cb.incontainer ) ;
+            item granted = wishitem_produce( *std::get<1>( opts[wmenu.ret] ), cb.flags, cb.incontainer );
             const itype_variant_data *variant = std::get<2>( opts[wmenu.ret] );
             if( variant != nullptr && granted.has_itype_variant( false ) ) {
                 std::string variant_id = variant->id;
@@ -1166,7 +1168,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                         you->i_add( granted, stashable_copy_num, true, nullptr, nullptr, true, false );
                     }
                     you->invalidate_crafting_inventory();
-                } else if( pos.x >= 0 && pos.y >= 0 ) {
+                } else if( pos.x() >= 0 && pos.y() >= 0 ) {
                     get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
@@ -1189,9 +1191,58 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     } while( wmenu.ret >= 0 );
 }
 
-void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
+void debug_menu::wishitemgroup( bool test )
 {
-    debug_menu::wishitem( you, pos.raw() );
+    std::vector<item_group_id> groups = item_controller->get_all_group_names();
+    uilist menu;
+    for( size_t i = 0; i < groups.size(); i++ ) {
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
+    }
+    while( true ) {
+        menu.query();
+        const int index = menu.ret;
+        if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
+            break;
+        }
+        size_t amount = 0;
+        number_input_popup<int> popup( 0, test ? 100 : 1, _( "Spawn group how many times?" ) );
+        const int &ret = popup.query();
+        if( popup.cancelled() || ret < 1 ) {
+            return;
+        }
+        amount = static_cast<size_t>( ret );
+        if( !test ) {
+            const std::optional<tripoint_bub_ms> p = g->look_around();
+            if( !p ) {
+                return;
+            }
+            for( size_t a = 0; a < amount; a++ ) {
+                for( const item &it : item_group::items_from( groups[index], calendar::turn ) ) {
+                    get_map().add_item_or_charges( *p, it );
+                }
+            }
+        } else {
+            std::map<std::string, int> itemnames;
+            for( size_t a = 0; a < amount; a++ ) {
+                for( const item &it : item_group::items_from( groups[index], calendar::turn ) ) {
+                    itemnames[it.display_name()]++;
+                }
+            }
+            // Flip the map keys/values and use reverse sorting so common items are first
+            std::multimap <int, std::string, std::greater<>> itemnames_by_popularity;
+            for( const auto &e : itemnames ) {
+                itemnames_by_popularity.insert( std::pair<int, std::string>( e.second, e.first ) );
+            }
+            uilist results_menu;
+            results_menu.text = string_format( _( "Potential result of spawning %s %d %s:" ),
+                                               groups[index].c_str(), amount, amount == 1 ? _( "time" ) : _( "times" ) );
+            for( const auto &e : itemnames_by_popularity ) {
+                results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
+                                                   string_format( _( "%d x %s" ), e.first, e.second ) );
+            }
+            results_menu.query();
+        }
+    }
 }
 
 void debug_menu::wishskill( Character *you, bool change_theory )

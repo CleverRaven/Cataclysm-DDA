@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -25,7 +26,6 @@
         "( (u_spell_level('biokin_physical_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_physical') > -1 ? 0 : max((3500 - (u_spell_level('biokin_physical_enhance') * 175)), 1250)"
@@ -46,6 +46,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -63,7 +64,6 @@
         "( (u_spell_level('biokin_overcome_pain') * 7500) + 130000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_overcome_pain') > 0 ? 0 : max((1750 - (u_spell_level('biokin_overcome_pain') * 75)), 850)"
@@ -84,6 +84,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -101,7 +102,6 @@
         "( (u_spell_level('biokin_breathe_skin') * 7200) + 54000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_breathe_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_breathe_skin') * 85)), 1200)"
@@ -122,6 +122,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -129,7 +130,6 @@
     "effect": "attack",
     "effect_str": "effect_biokin_flexibility",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 1250,
     "energy_increment": -175,
@@ -148,6 +148,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -155,7 +156,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_DASH_CHECKER",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 3000,
     "final_energy_cost": 1500,
     "energy_increment": -190,
@@ -172,6 +172,7 @@
     "teachable": false,
     "valid_targets": [ "ground", "ally", "hostile" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "dash",
@@ -194,6 +195,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -201,7 +203,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_CHANGE_APPEARANCE",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 5000,
     "final_energy_cost": 2000,
     "energy_increment": -115,
@@ -218,6 +219,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -235,7 +237,6 @@
         "( (u_spell_level('biokin_armor_skin') * 24400) + 69300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_armor_skin') * 125)), 750)"
@@ -256,6 +257,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -263,7 +265,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ADRENALINE_TRIGGER",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1800,
     "energy_increment": -165,
@@ -280,6 +281,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -297,7 +299,6 @@
         "( (u_spell_level('biokin_climate_control') * 36000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_climate_control') > 0 ? 0 : max((3500 - (u_spell_level('biokin_climate_control') * 175)), 1250)"
@@ -318,6 +319,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
@@ -336,7 +338,6 @@
         "( ( (u_spell_level('biokin_enhance_mobility') * 12000 ) + 90000) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_enhance_mobility') > 0 ? 0 : max((4500 - (u_spell_level('biokin_enhance_mobility') * 150)), 2500)"
@@ -357,6 +358,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -374,7 +376,6 @@
         "( (u_spell_level('biokin_hammerhand') * 75000) + 540000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_hammerhand') > 0 ? 0 : max((4500 - (u_spell_level('biokin_hammerhand') * 225)), 2250)"
@@ -395,6 +396,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -412,7 +414,6 @@
         "( (u_spell_level('biokin_reflex_enhance') * 9000) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_reflex') > -1 ? 0 : max((5500 - (u_spell_level('biokin_reflex_enhance') * 205)), 2250)"
@@ -433,6 +434,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -454,7 +456,6 @@
         "( (u_spell_level('biokin_sealed_system') * 2500) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2750,
     "energy_increment": -175,
@@ -473,6 +474,7 @@
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
@@ -487,6 +489,7 @@
     "message": "",
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "flags": [ "PSIONIC", "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
@@ -502,6 +505,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -519,7 +523,6 @@
         "( (u_spell_level('biokin_metabolism_enhance') * 50000) + 675000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_biokin_metabolism_enhance') > -1 ? 0 : max((8000 - (u_spell_level('biokin_metabolism_enhance') * 250)), 4000)"
@@ -540,6 +543,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
@@ -557,7 +561,6 @@
         "( (u_spell_level('biokin_combat_dance') * 1100) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 5500,
     "final_energy_cost": 2250,
     "energy_increment": -125,
@@ -574,6 +577,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
@@ -591,7 +595,6 @@
         "( (u_spell_level('biokin_perfected_motion') * 110) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "final_energy_cost": 3500,
     "energy_increment": -175,
@@ -608,6 +611,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 10,
@@ -618,7 +622,6 @@
     "shape": "blast",
     "min_duration": 100,
     "max_duration": 100,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 2500,
     "energy_increment": -75,

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -124,7 +123,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee_roof" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -170,7 +168,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee_1" ],
-    "weight": 250,
     "object": {
       "//": "Default fill is floor but some tables are outside",
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
@@ -264,7 +261,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_restaurant_coffee_roof_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -305,7 +301,6 @@
     "method": "json",
     "om_terrain": "s_restaurant_coffee_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "rows": [
         "              sss       ",
@@ -393,7 +388,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_restaurant_coffee_roof_2",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

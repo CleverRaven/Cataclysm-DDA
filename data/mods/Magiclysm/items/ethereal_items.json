@@ -224,7 +224,8 @@
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
-    "melee_damage": { "cut": 30 }
+    "melee_damage": { "cut": 30 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
   },
   {
     "id": "flarewhip",
@@ -284,7 +285,8 @@
       "ZERO_WEIGHT",
       "UNRESTRICTED"
     ],
-    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 5 } ] } ] }
   },
   {
     "id": "bonespear",
@@ -309,7 +311,8 @@
     "weight": "2175 g",
     "volume": "2500 ml",
     "longest_side": "183 cm",
-    "melee_damage": { "bash": 16, "stab": 36 }
+    "melee_damage": { "bash": 16, "stab": 36 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 3 } ] } ] }
   },
   {
     "id": "druid_recurve",
@@ -733,7 +736,9 @@
     "relic_data": {
       "passive_effects": [
         {
-          "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+          "intermittent_activation": {
+            "effects": [ { "frequency": "2 minutes", "spell_effects": [ { "id": "pfruit_regeneration_spell", "hit_self": true } ] } ]
+          }
         },
         {
           "has": "WORN",

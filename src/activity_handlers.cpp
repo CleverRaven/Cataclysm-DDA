@@ -204,6 +204,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
+static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
@@ -235,7 +236,6 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_tree( "t_tree" );
@@ -621,9 +621,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     // TODO: Extract this bool into a function
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL ) ) &&
-                          !corpse.in_species( species_ZOMBIE ) );
+    const bool is_human = corpse.id == mtype_id::NULL_ID() ||
+                          corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL );
 
     // applies to all butchery actions except for dissections
     if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
@@ -1604,8 +1604,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     try {
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
-        const tripoint_bub_ms source_pos = tripoint_bub_ms( act_ref.coords.at( 0 ) );
         map &here = get_map();
+        const tripoint_bub_ms source_pos = here.get_bub( act_ref.coords.at( 0 ) );
         map_stack source_stack = here.i_at( source_pos );
         map_stack::iterator on_ground;
         monster *source_mon = nullptr;
@@ -1661,7 +1661,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         size_t part;
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case liquid_target_type::VEHICLE: {
-                const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) );
+                const optional_vpart_position vp = here.veh_at( here.get_bub( act_ref.coords.at( 1 ) ) );
                 if( act_ref.values.size() > 4 && vp ) {
                     const vpart_reference vpr( vp->vehicle(), act_ref.values[4] );
                     veh = &vp->vehicle();
@@ -1686,10 +1686,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 you->pour_into( act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
-                if( iexamine::has_keg( tripoint_bub_ms( act_ref.coords.at( 1 ) ) ) ) {
-                    iexamine::pour_into_keg( tripoint_bub_ms( act_ref.coords.at( 1 ) ), liquid );
+                if( iexamine::has_keg( here.get_bub( act_ref.coords.at( 1 ) ) ) ) {
+                    iexamine::pour_into_keg( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
                 } else {
-                    here.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
+                    here.add_item_or_charges( here.get_bub( act_ref.coords.at( 1 ) ), liquid );
                     you->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
                     liquid.charges = 0;
                 }
@@ -1856,7 +1856,7 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
-    const tripoint_bub_ms &pos = get_map().bub_from_abs( act->placement );
+    const tripoint_bub_ms &pos = get_map().get_bub( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
@@ -1868,7 +1868,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
-    const tripoint_bub_ms pos( here.bub_from_abs( act->placement ) );
+    const tripoint_bub_ms pos( here.get_bub( act->placement ) );
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( you->is_avatar() ) {
@@ -1928,14 +1928,14 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, get_map().bub_from_abs( act->placement ) );
+    firestarter_actor::resolve_firestarter_use( you, get_map().get_bub( act->placement ) );
     act->set_to_null();
 }
 
 void activity_handlers::start_fire_do_turn( player_activity *act, Character *you )
 {
     map &here = get_map();
-    tripoint_bub_ms where = here.bub_from_abs( act->placement );
+    tripoint_bub_ms where = here.get_bub( act->placement );
     if( !here.is_flammable( where ) ) {
         try_fuel_fire( *act, *you, true );
         if( !here.is_flammable( where ) ) {
@@ -2142,7 +2142,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
     veh_interact::complete_vehicle( *you );
@@ -2396,7 +2396,8 @@ struct weldrig_hack {
             return false;
         }
 
-        const optional_vpart_position vp = get_map().veh_at( act.coords[0] );
+        const map &here = get_map();
+        const optional_vpart_position vp = here.veh_at( here.get_bub( act.coords[0] ) );
         if( !vp ) {
             return false;
         }
@@ -2413,7 +2414,7 @@ struct weldrig_hack {
             return null_item_reference();
         }
         pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
-        item mag_mod( "pseudo_magazine_mod" );
+        item mag_mod( itype_pseudo_magazine_mod );
         mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
         if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
             debugmsg( "tool %s has no space for a %s, this is likely a bug",
@@ -2881,11 +2882,11 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
         } else {
             // otherwise target the middle of the edge nearest to our current location
             const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
-                                                ( you->global_omt_location() ) );
+                                                ( you->pos_abs_omt() ) );
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
         map &here = get_map();
-        tripoint_bub_ms centre_sub = here.bub_from_abs( waypoint );
+        tripoint_bub_ms centre_sub = here.get_bub( waypoint );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint_bub_ms> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint_bub_ms &elem : candidates ) {
@@ -3299,7 +3300,7 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
 void activity_handlers::plant_seed_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
-    tripoint_bub_ms examp = here.bub_from_abs( act->placement );
+    tripoint_bub_ms examp = here.get_bub( act->placement );
     const itype_id seed_id( act->str_values[0] );
     std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
@@ -3333,7 +3334,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
 void activity_handlers::build_do_turn( player_activity *act, Character *you )
 {
     map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.bub_from_abs( act->placement ) );
+    partial_con *pc = here.partial_con_at( here.get_bub( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( you->is_npc() ) {
@@ -3374,7 +3375,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     you->set_moves( 0 );
-    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
+    pc->id->do_turn_special( here.get_bub( act->placement ), *you );
     // Current progress as a percent of base_total_moves to 2 decimal places
     pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
     pc->counter = std::min( pc->counter, 10000000 );
@@ -3484,9 +3485,9 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.bub_from_abs( act->placement ) ) );
+                              sfx::get_heard_volume( here.get_bub( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.bub_from_abs( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( here.get_bub( act->placement ), 15, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
@@ -3495,7 +3496,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 void activity_handlers::jackhammer_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
-    const tripoint_bub_ms &pos = here.bub_from_abs( act->placement );
+    const tripoint_bub_ms &pos = here.get_bub( act->placement );
 
     here.destroy( pos, true );
 
@@ -3524,7 +3525,7 @@ static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &clean
     while( it != tiles.end() ) {
         auto current = it++;
 
-        const tripoint_bub_ms &tile_loc = here.bub_from_abs( *current );
+        const tripoint_bub_ms &tile_loc = here.get_bub( *current );
 
         if( cleanup( tile_loc ) ) {
             tiles.erase( current );
@@ -3540,7 +3541,7 @@ static void perform_zone_activity_turn(
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
-    const tripoint_abs_ms abspos = you->get_location();
+    const tripoint_abs_ms abspos = you->pos_abs();
     std::unordered_set<tripoint_abs_ms> unsorted_tiles = mgr.get_near( ztype, abspos );
 
     cleanup_tiles( unsorted_tiles, tile_filter );
@@ -3550,7 +3551,7 @@ static void perform_zone_activity_turn(
         get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
     for( const tripoint_abs_ms &tile : tiles ) {
-        const tripoint_bub_ms &tile_loc = here.bub_from_abs( tile );
+        const tripoint_bub_ms &tile_loc = here.get_bub( tile );
 
         std::vector<tripoint_bub_ms> route =
             here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings(),
@@ -3577,6 +3578,11 @@ static void perform_zone_activity_turn(
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character *you )
 {
     itype_id fertilizer;
+
+    auto have_fertilizer = [&]() {
+        return !fertilizer.is_empty() && you->has_amount( fertilizer, 1 );
+    };
+
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
@@ -3585,7 +3591,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         fertilizer = itype_id( act->str_values[0] );
 
         /* If unspecified, or if we're out of what we used before, ask */
-        if( ask_user && ( fertilizer.is_empty() || !you->has_charges( fertilizer, 1 ) ) )
+        if( ask_user && !have_fertilizer() )
         {
             fertilizer = iexamine::choose_fertilizer( *you, "plant",
                     false /* Don't confirm action with player */ );
@@ -3593,13 +3599,9 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         }
     };
 
-    auto have_fertilizer = [&]() {
-        return !fertilizer.is_empty() && you->has_charges( fertilizer, 1 );
-    };
 
     const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();
-        // TODO: fix point types
         ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
         return !can_fert.success();
     };
@@ -3607,7 +3609,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
     const auto fertilize = [&]( Character & you, const tripoint_bub_ms & tile ) {
         check_fertilizer();
         if( have_fertilizer() ) {
-            // TODO: fix point types
             iexamine::fertilize_plant( you, tile, fertilizer );
             if( !have_fertilizer() ) {
                 add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
@@ -3713,8 +3714,7 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
     if( you->is_avatar() ) {
         you->as_avatar()->longpull( act->name );
     } else {
-        // TODO: fix point types
-        you->longpull( act->name, get_map().bub_from_abs( act->placement ) );
+        you->longpull( act->name, get_map().get_bub( act->placement ) );
     }
     act->set_to_null();
 }
@@ -3740,7 +3740,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     // Breadth-first search forest tiles until one reveals new overmap tiles.
     std::queue<tripoint_abs_omt> q;
     std::unordered_set<tripoint_abs_omt> seen;
-    tripoint_abs_omt loc = you->global_omt_location();
+    tripoint_abs_omt loc = you->pos_abs_omt();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
@@ -3790,29 +3790,6 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     act->set_to_null();
 }
 
-static void blood_magic( Character *you, int cost )
-{
-    std::vector<uilist_entry> uile;
-    std::vector<bodypart_id> parts;
-    int i = 0;
-    for( const bodypart_id &bp : you->get_all_body_parts( get_body_part_flags::only_main ) ) {
-        const int hp_cur = you->get_part_hp_cur( bp );
-        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
-
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, you->get_part_hp_max( bp ) );
-        entry.ctxt = colorize( hp.first, hp.second );
-        uile.emplace_back( entry );
-        parts.push_back( bp );
-        i++;
-    }
-    int action = -1;
-    while( action < 0 ) {
-        action = uilist( _( "Choose part\nto draw blood from." ), uile );
-    }
-    you->mod_part_hp_cur( parts[action], - cost );
-    you->mod_pain( std::max( 1, cost / 3 ) );
-}
-
 void activity_handlers::spellcasting_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -3830,7 +3807,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // choose target for spell before continuing
     const std::optional<tripoint_bub_ms> target = act->coords.empty() ? spell_being_cast.select_target(
-                you ) : get_map().bub_from_abs( tripoint_abs_ms( act->coords.front() ) );
+                you ) : get_map().get_bub( act->coords.front() );
     if( target ) {
         // npcs check for target viability
         if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
@@ -3843,9 +3820,18 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                                         _( "You lose your concentration!" ) );
                 if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
                     // still get some experience for trying
-                    spell_being_cast.gain_exp( *you, exp_gained / 5 );
-                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                    exp_gained *= spell_being_cast.get_failure_exp_percent( *you );
+                    spell_being_cast.gain_exp( *you, exp_gained );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                             spell_being_cast.xp() );
+                }
+                if( act->get_value( 2 ) != 0 ) {
+                    spell_being_cast.consume_spell_cost( *you, false );
+                }
+                dialogue d( get_talker_for( you ), nullptr );
+                std::vector<effect_on_condition_id> failure_eocs = spell_being_cast.get_failure_eoc_ids();
+                for( effect_on_condition_id failure_eoc : failure_eocs ) {
+                    failure_eoc->activate( d );
                 }
                 get_event_bus().send<event_type::spellcasting_finish>( you->getID(), false, sp,
                         spell_being_cast.spell_class(), spell_being_cast.get_difficulty( *you ),
@@ -3866,30 +3852,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
-            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
-            int cost = spell_being_cast.energy_cost( *you );
-
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                switch( spell_being_cast.energy_source() ) {
-                    case magic_energy_type::mana:
-                        you->magic->mod_mana( *you, -cost );
-                        break;
-                    case magic_energy_type::stamina:
-                        you->mod_stamina( -cost );
-                        break;
-                    case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
-                        break;
-                    case magic_energy_type::hp:
-                        blood_magic( you, cost );
-                        break;
-                    case magic_energy_type::none:
-                    default:
-                        break;
-                }
-
+                spell_being_cast.consume_spell_cost( *you, true );
             }
             if( level_override == -1 ) {
                 if( !spell_being_cast.is_max_level( *you ) ) {

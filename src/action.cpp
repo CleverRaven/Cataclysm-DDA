@@ -256,6 +256,8 @@ std::string action_ident( action_id act )
             return "fire_burst";
         case ACTION_CAST_SPELL:
             return "cast_spell";
+        case ACTION_RECAST_SPELL:
+            return "recast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_SELECT_DEFAULT_AMMO:
@@ -588,12 +590,7 @@ action_id get_movement_action_from_delta( const tripoint_rel_ms &d, const iso_ro
     return ACTION_NULL;
 }
 
-point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
-{
-    return get_delta_from_movement_action_rel_ms( act, rot ).raw();
-}
-
-point_rel_ms get_delta_from_movement_action_rel_ms( const action_id act, const iso_rotate rot )
+point_rel_ms get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
     const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     switch( act ) {
@@ -784,7 +781,7 @@ action_id handle_action_menu()
 
     Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !player_character.get_hostile_creatures( 60 ).empty() ) {
+    if( !player_character.get_hostile_creatures( MAX_VIEW_DISTANCE ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
@@ -979,6 +976,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
             REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
+            REGISTER_ACTION( ACTION_RECAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
@@ -1109,17 +1107,7 @@ action_id handle_main_menu()
     }
 }
 
-std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
-{
-    std::optional<tripoint_rel_ms> ret = choose_direction_rel_ms( message, allow_vertical );
-    if( ret.has_value() ) {
-        return ret->raw();
-    } else {
-        return std::nullopt;
-    }
-}
-
-std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
+std::optional<tripoint_rel_ms> choose_direction( const std::string &message,
         const bool allow_vertical, const bool allow_mouse, const int timeout,
         const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb )
@@ -1190,33 +1178,10 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
     return std::nullopt;
 }
 
-std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
-{
-    const std::optional<tripoint_bub_ms> temp = choose_adjacent( get_player_character().pos_bub(),
-            message, allow_vertical );
-    std::optional<tripoint> result;
-    if( temp.has_value() ) {
-        result = temp.value().raw();
-    }
-    return result;
-}
-
-std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent( const std::string &message,
         const bool allow_vertical )
 {
     return choose_adjacent( get_player_character().pos_bub(), message, allow_vertical );
-}
-
-std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
-        bool allow_vertical )
-{
-    const std::optional<tripoint_bub_ms> dir = choose_adjacent(
-                tripoint_bub_ms( pos ), message, allow_vertical );
-    if( dir.has_value() ) {
-        return dir->raw();
-    } else {
-        return std::nullopt;
-    }
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
@@ -1224,7 +1189,7 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
         const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb )
 {
-    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+    const std::optional<tripoint_rel_ms> dir = choose_direction(
                 message, allow_vertical, /*allow_mouse=*/true, timeout,
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "SELECT" ) {

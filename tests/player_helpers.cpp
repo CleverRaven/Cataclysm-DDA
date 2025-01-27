@@ -30,15 +30,16 @@
 #include "type_id.h"
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_debug_nutrition( "debug_nutrition" );
 
 static const move_mode_id move_mode_walk( "walk" );
 
-int get_remaining_charges( const std::string &tool_id )
+int get_remaining_charges( const itype_id &tool_id )
 {
     const inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
-        return i.typeId() == itype_id( tool_id );
+        return i.typeId() == tool_id;
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
@@ -47,11 +48,11 @@ int get_remaining_charges( const std::string &tool_id )
     return remaining_charges;
 }
 
-bool player_has_item_of_type( const std::string &type )
+bool player_has_item_of_type( const itype_id &id )
 {
     std::vector<item *> matching_items = get_player_character().inv->items_with(
     [&]( const item & i ) {
-        return i.type->get_id() == itype_id( type );
+        return i.typeId() == id;
     } );
 
     return !matching_items.empty();
@@ -89,7 +90,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.health_tally = 0;
     dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
-        item food( "debug_nutrition" );
+        item food( itype_debug_nutrition );
         dummy.consume( food );
     }
 
@@ -144,7 +145,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
@@ -152,29 +153,29 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
-void arm_shooter( Character &shooter, const std::string &gun_type,
-                  const std::vector<std::string> &mods,
-                  const std::string &ammo_type )
+void arm_shooter( Character &shooter, const itype_id &gun_type,
+                  const std::vector<itype_id> &mods,
+                  const itype_id &ammo_type )
 {
     shooter.remove_weapon();
     // XL so arrows can fit.
     if( !shooter.is_wearing( itype_debug_backpack ) ) {
-        shooter.worn.wear_item( shooter, item( "debug_backpack" ), false, false );
+        shooter.worn.wear_item( shooter, item( itype_debug_backpack ), false, false );
     }
 
-    const itype_id &gun_id{ itype_id( gun_type ) };
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item_location gun = shooter.i_add( item( gun_id ) );
-    itype_id ammo_id;
+    itype_id ammo_id = ammo_type;
     // if ammo is not supplied we want the default
-    if( ammo_type.empty() ) {
+    if( ammo_type.is_null() ) {
         if( gun->ammo_default().is_null() ) {
             ammo_id = item( gun->magazine_default() ).ammo_default();
         } else {
             ammo_id = gun->ammo_default();
         }
     } else {
-        ammo_id = itype_id( ammo_type );
+        ammo_id = ammo_type;
     }
     const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
     if( gun->magazine_integral() ) {
@@ -193,8 +194,8 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
-    for( const std::string &mod : mods ) {
-        gun->put_in( item( itype_id( mod ) ), pocket_type::MOD );
+    for( const itype_id &mod : mods ) {
+        gun->put_in( item( mod ), pocket_type::MOD );
     }
     shooter.wield( *gun );
 }
@@ -208,22 +209,25 @@ void clear_avatar()
     avatar.reset_all_missions();
 }
 
-void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
+void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.clear_worn();
     shooter.inv->clear();
-    for( const std::string &article : apparel ) {
+    for( const itype_id &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
 
-void process_activity( Character &dummy )
+void process_activity( Character &dummy, bool pass_time )
 {
     do {
         dummy.mod_moves( dummy.get_speed() );
         while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
+            if( pass_time ) {
+                calendar::turn += 1_seconds;
+            }
         }
     } while( dummy.activity );
 }
@@ -285,7 +289,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     }
 }
 
-item tool_with_ammo( const std::string &tool, const int qty )
+item tool_with_ammo( const itype_id &tool, const int qty )
 {
     item tool_it( tool );
     if( !tool_it.ammo_default().is_null() ) {

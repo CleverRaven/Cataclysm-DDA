@@ -815,7 +815,7 @@ void safemode::load( const bool is_character_in )
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

@@ -23,13 +23,13 @@ class ofstream_wrapper
 {
     private:
         std::ofstream file_stream;
-        fs::path path;
-        fs::path temp_path;
+        std::filesystem::path path;
+        std::filesystem::path temp_path;
 
         void open( std::ios::openmode mode );
 
     public:
-        ofstream_wrapper( const fs::path &path, std::ios::openmode mode );
+        ofstream_wrapper( const std::filesystem::path &path, std::ios::openmode mode );
         ~ofstream_wrapper();
 
         std::ostream &stream() {

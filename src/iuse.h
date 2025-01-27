@@ -12,7 +12,7 @@
 #include "coords_fwd.h"
 #include "item_location.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class Character;
 class JsonObject;
@@ -80,6 +80,7 @@ std::optional<int> call_of_tindalos( Character *, item *, const tripoint_bub_ms 
 std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> capture_monster_act( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> efiledevice( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> heat_solid_items( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> heat_all_items( Character *p, item *it, const tripoint_bub_ms & );
@@ -103,7 +104,6 @@ std::optional<int> dog_whistle( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ehandcuffs( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> epic_music( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> einktabletpc( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> emf_passive_on( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> extinguisher( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> fill_pit( Character *, item *, const tripoint_bub_ms & );
@@ -138,9 +138,7 @@ std::optional<int> ma_manual( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> magic_8_ball( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> measure_resonance( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> change_outfit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> electricstorage( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> ebooksave( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ebookread( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> makemound( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> mace( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> manage_exosuit( Character *, item *, const tripoint_bub_ms & );
@@ -190,6 +188,8 @@ std::optional<int> towel( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> unfold_generic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> unpack_item( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> vibe( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> view_photos( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> view_recipes( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> voltmeter( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> vortex( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> wash_all_items( Character *, item *, const tripoint_bub_ms & );

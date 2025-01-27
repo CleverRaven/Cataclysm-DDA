@@ -114,6 +114,8 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const itype_id itype_molotov( "molotov" );
+
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
@@ -268,11 +270,11 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
-                            const std::vector<std::string> &clothing,
+                            const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    set_pos_only( pos );
+    set_pos_bub_only( pos );
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
@@ -293,7 +295,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    for( const std::string &e : clothing ) {
+    for( const itype_id &e : clothing ) {
         wear_item( item( e ), false );
     }
 
@@ -575,7 +577,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
-    set_wielded_item( item( "null", calendar::turn_zero ) );
+    set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
     moves = 100;
@@ -930,7 +932,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     starting_inv_ammo( who, res, multiplier );
 
     if( type == NC_ARSONIST ) {
-        res.emplace_back( "molotov" );
+        res.emplace_back( itype_molotov );
     }
 
     int qty = ( type == NC_EVAC_SHOPKEEP ) ? 5 : 2;
@@ -1117,7 +1119,7 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 {
     Character::on_move( old_pos );
     const point_abs_om pos_om_old = project_to<coords::om>( old_pos.xy() );
-    const point_abs_om pos_om_new = project_to<coords::om>( get_location().xy() );
+    const point_abs_om pos_om_new = project_to<coords::om>( pos_abs().xy() );
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
@@ -1136,10 +1138,10 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 
 void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
-    const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
+    const point_abs_om pos_om_old = project_to<coords::om>( pos_abs_omt().xy() );
     spawn_at_omt( pos );
-    const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
-    if( global_omt_location() == goal ) {
+    const point_abs_om pos_om_new = project_to<coords::om>( pos_abs_omt().xy() );
+    if( pos_abs_omt() == goal ) {
         reach_omt_destination();
     }
     if( !is_fake() && pos_om_old != pos_om_new ) {
@@ -1164,7 +1166,7 @@ void npc::spawn_at_omt( const tripoint_abs_omt &p )
 
 void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    set_location( p );
+    set_pos_abs_only( p );
 }
 
 void npc::place_on_map()
@@ -1653,18 +1655,8 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         npc_values.fear += 6;
     }
 
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_functioning_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
-    }
+    int u_ugly = you.ugliness();
+
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
 
@@ -1766,7 +1758,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point_abs_ms p( get_map().getglobal( pos_bub() ).xy() );
+            point_abs_ms p( get_map().get_abs( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }
@@ -2499,7 +2491,7 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const point_abs_omt p( global_omt_location().xy() );
+    const point_abs_omt p( pos_abs_omt().xy() );
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
@@ -3482,15 +3474,18 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::avoid_locks ) &&
-            doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
+            doors::can_unlock_door( here, *this, p ) ) {
+            return true;
+        }
+        if( here.is_open_air( p ) ) {
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
-            ( here.close_door( tripoint_bub_ms( p ), true, true ) ||
+            ( here.close_door( p, true, true ) ||
               here.move_cost( p ) > 2 ) ) {
             return true;
         }
-        if( sees_dangerous_field( tripoint_bub_ms( p ) ) ) {
+        if( sees_dangerous_field( p ) ) {
             return true;
         }
         return false;
@@ -3556,7 +3551,7 @@ std::string npc::get_epilogue() const
 
 void npc::set_companion_mission( npc &p, const mission_id &miss_id )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     set_companion_mission( omt_pos, p.companion_mission_role_id, miss_id );
 }
 
@@ -3664,7 +3659,7 @@ void npc::set_unique_id( const std::string &id )
         debugmsg( "Tried to set unique_id of npc with one already of value: ", unique_id );
     } else {
         unique_id = id;
-        g->update_unique_npc_location( id, project_to<coords::om>( get_location().xy() ) );
+        g->update_unique_npc_location( id, project_to<coords::om>( pos_abs().xy() ) );
     }
 }
 

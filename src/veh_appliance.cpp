@@ -25,6 +25,7 @@
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const quality_id qual_HOSE( "HOSE" );
@@ -345,7 +346,7 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
             std::string vname = vpr->name();
             if( !vpr->ammo_current().is_null() && vpr->ammo_current() != fuel_type_battery &&
                 !vpr->get_base().empty() ) {
-                units::volume mult = units::legacy_volume_factor / item::find_type(
+                units::volume mult = 250_ml / item::find_type(
                                          vpr->ammo_current() )->stack_size;
                 double vcur = to_liter( vpr->ammo_remaining() * mult );
                 double vmax = to_liter( vpr->ammo_capacity( vpr->get_base().only_item().ammo_type() ) * mult );
@@ -407,10 +408,10 @@ void veh_app_interact::refill()
         const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.get_abs( p ) );
         }
-        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
-        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
+        act.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );
         act.values.push_back( a_point.x() );
         act.values.push_back( a_point.y() );
         act.values.push_back( -a_point.x() );
@@ -496,9 +497,9 @@ void veh_app_interact::remove()
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getglobal( p ).raw() );
+            act.coord_set.insert( here.get_abs( p ) );
         }
-        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
+        const tripoint a_point_abs( here.get_abs( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
         act.values.push_back( a_point.x() );
@@ -530,7 +531,7 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
     const tripoint_bub_ms pos = veh->bub_part_pos( part );
-    item cord( "power_cord" );
+    item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
         cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
@@ -616,7 +617,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ).raw(), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

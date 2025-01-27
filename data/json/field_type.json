@@ -583,11 +583,23 @@
         "effects": [
           {
             "effect_id": "poison",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "message": "Your eyes itching from hazy cloud.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "poison",
             "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
             "message": "You feel sick from inhaling the hazy cloud.",
             "message_type": "bad"
           }
@@ -602,11 +614,23 @@
         "effects": [
           {
             "effect_id": "poison",
+            "body_part": "eyes",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "message": "Your eyes burn from toxic gas.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "poison",
             "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
             "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
             "message": "You feel sick from inhaling the toxic gas.",
             "message_type": "bad"
           }
@@ -620,12 +644,37 @@
         "effects": [
           {
             "effect_id": "poison",
+            "body_part": "eyes",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "message": "You eyes burn from the thick toxic gas.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "eyes",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "message": "You eyes burn from the thick toxic gas.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "poison",
             "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
             "//": "won't be applied outside of vehicles, so it could apply harsher effect",
             "immune_outside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
             "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           },
@@ -637,6 +686,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied inside of vehicles, so it could apply lesser effect",
             "immune_inside_vehicle": true,
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
             "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           }
@@ -649,7 +699,6 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -720,16 +769,100 @@
     "type": "field_type",
     "legacy_enum_id": 14,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1, "concentration": 1 },
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "teargas",
+            "body_part": "eyes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "5 minutes",
+            "immune_inside_vehicle": true,
+            "message": "Hazy cloud got into your eyes.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "teargas",
+            "body_part": "mouth",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "5 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the hazy cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
       {
         "name": "tear gas",
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
         "concentration": 2,
-        "scent_neutralization": 1
+        "scent_neutralization": 1,
+        "effects": [
+          {
+            "effect_id": "teargas",
+            "body_part": "eyes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "5 minutes",
+            "max_duration": "15 minutes",
+            "immune_inside_vehicle": true,
+            "message": "Tear gas got into your eyes.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "teargas",
+            "body_part": "mouth",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "5 minutes",
+            "max_duration": "15 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the tear gas.",
+            "message_type": "bad"
+          }
+        ]
       },
-      { "name": "thick tear gas", "color": "green", "translucency": 0, "concentration": 4, "scent_neutralization": 5 }
+      {
+        "name": "thick tear gas",
+        "color": "green",
+        "translucency": 0,
+        "concentration": 4,
+        "scent_neutralization": 5,
+        "effects": [
+          {
+            "effect_id": "teargas",
+            "body_part": "eyes",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "15 minutes",
+            "max_duration": "20 minutes",
+            "immune_inside_vehicle": true,
+            "message": "Thick tear gas got into your eyes.",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "teargas",
+            "body_part": "mouth",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+            "intensity": 1,
+            "min_duration": "15 minutes",
+            "max_duration": "20 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick tear gas.",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": "80m",
@@ -737,7 +870,6 @@
     "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",

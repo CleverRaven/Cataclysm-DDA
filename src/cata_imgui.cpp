@@ -345,9 +345,9 @@ static void AddGlyphRangesFromCLDR( ImFontGlyphRangesBuilder *b, const std::stri
     } else if( lang == "uk_UA" ) {
         AddGlyphRangesFromCLDRForUK_UA( b );
     } else if( lang == "zh_CN" ) {
-        AddGlyphRangesFromCLDRForZH_HANT( b );
-    } else if( lang == "zh_TW" ) {
         AddGlyphRangesFromCLDRForZH_HANS( b );
+    } else if( lang == "zh_TW" ) {
+        AddGlyphRangesFromCLDRForZH_HANT( b );
     }
     // NOLINTEND(bugprone-branch-clone)
 }
@@ -365,27 +365,32 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
     b->AddRanges( &superscripts[0] );
 }
 
-static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces,
+
+// Load all fonts that exist in typefaces list
+// - typefaces is a list of paths.
+static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
                        const ImWchar *ranges )
 {
-    std::vector<std::string> io_typefaces{ typefaces };
+    std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
 
-    auto it = std::find_if( io_typefaces.begin(),
-                            io_typefaces.end(),
-    []( const std::string & io_typeface ) {
-        return file_exist( io_typeface );
-    } );
-    std::string existing_typeface = *it;
     ImFontConfig config = ImFontConfig();
-#ifdef IMGUI_ENABLE_FREETYPE
-    if( existing_typeface.find( "Terminus.ttf" ) != std::string::npos ||
-        existing_typeface.find( "unifont.ttf" ) != std::string::npos ) {
-        config.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint;
-    }
-#endif
 
-    io.Fonts->AddFontFromFileTTF( existing_typeface.c_str(), fontheight, &config, ranges );
+    bool first = true;
+    auto it = std::begin( io_typefaces );
+    for( ; it != std::end( io_typefaces ); ++it ) {
+        if( !file_exist( it->path ) ) {
+            printf( "Font file '%s' does not exist.\n", it->path.c_str() );
+        } else {
+            config.MergeMode = !first;
+            config.FontBuilderFlags = it->imgui_config();
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            first = false;
+        }
+    }
+    if( first ) {
+        debugmsg( "No fonts were found in the fontdata file." );
+    }
 }
 
 static void check_font( const ImFont *font )
@@ -405,7 +410,7 @@ static void check_font( const ImFont *font )
 void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
                                     const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                                    const std::vector<std::string> &gui_typefaces, const std::vector<std::string> &mono_typefaces )
+                                    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
@@ -1082,7 +1087,7 @@ static void inherit_base_colors()
     ImGuiStyle &style = ImGui::GetStyle();
 
     style.Colors[ImGuiCol_Text] = c_white;
-    style.Colors[ImGuiCol_TextDisabled] = c_dark_gray;
+    style.Colors[ImGuiCol_TextDisabled] = c_unset;
     style.Colors[ImGuiCol_WindowBg] = c_black;
     style.Colors[ImGuiCol_ChildBg] = c_black;
     style.Colors[ImGuiCol_PopupBg] = c_black;
@@ -1092,7 +1097,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_FrameBgHovered] = c_black;
     style.Colors[ImGuiCol_FrameBgActive] = c_dark_gray;
     style.Colors[ImGuiCol_TitleBg] = c_dark_gray;
-    style.Colors[ImGuiCol_TitleBgActive] = c_light_blue;
+    style.Colors[ImGuiCol_TitleBgActive] = c_black;
     style.Colors[ImGuiCol_TitleBgCollapsed] = c_dark_gray;
     style.Colors[ImGuiCol_MenuBarBg] = c_black;
     style.Colors[ImGuiCol_ScrollbarBg] = c_black;
@@ -1105,7 +1110,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_Button] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonHovered] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonActive] = c_blue;
-    style.Colors[ImGuiCol_Header] = c_blue;
+    style.Colors[ImGuiCol_Header] = h_blue;
     style.Colors[ImGuiCol_HeaderHovered] = c_black;
     style.Colors[ImGuiCol_HeaderActive] = c_dark_gray;
     style.Colors[ImGuiCol_Separator] = c_dark_gray;

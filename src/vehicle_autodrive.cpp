@@ -353,7 +353,7 @@ struct auto_navigation_data {
     }
     // transforms a point from map bub coords into view map coords
     point to_view( const tripoint_bub_ms &p ) const {
-        return to_view( get_map().getglobal( p ) );
+        return to_view( get_map().get_abs( p ) );
     }
     // returns `p` adjusted so that the z-level is placed on the ground
     template<typename Tripoint>
@@ -711,7 +711,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs = here.getglobal( pt );
+    const tripoint_abs_ms pt_abs = here.get_abs( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -799,7 +799,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
             const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
-            const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
+            const tripoint_bub_ms p = here.get_bub( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;
             enqueue_if_ramp( ramp_points, here, p );
@@ -917,7 +917,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
 
 void vehicle::autodrive_controller::precompute_data()
 {
-    const tripoint_abs_omt current_omt = driven_veh.global_omt_location();
+    const tripoint_abs_omt current_omt = driven_veh.pos_abs_omt();
     const tripoint_abs_omt next_omt = driver.omt_path.back();
     const tripoint_abs_omt next_next_omt = driver.omt_path.size() >= 2 ?
                                            driver.omt_path[driver.omt_path.size() - 2] : next_omt;
@@ -1080,7 +1080,7 @@ std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compu
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
     std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>>
             open_set;
-    const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
+    const tripoint_abs_ms veh_pos = driven_veh.pos_abs();
     const node_address start = data.nav_to_map.inverse().transform(
                                    veh_pos.raw().xy(), to_orientation( driven_veh.face.dir() ) );
     known_nodes.emplace( start, make_start_node( start, driven_veh ) );
@@ -1224,7 +1224,7 @@ void vehicle::autodrive_controller::reduce_speed()
 std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
-    const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
+    const tripoint_abs_ms veh_pos = driven_veh.pos_abs();
     const bool had_cached_path = !data.path.empty();
     const bool two_steps = data.path.size() > 2;
     const navigation_step first_step = two_steps ? data.path.back() : navigation_step();
@@ -1275,7 +1275,7 @@ std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overl
     std::vector<std::tuple<point_rel_ms, int, std::string>> ret;
     ret.reserve( collision_check_points.size() );
 
-    const tripoint_abs_ms veh_pos = global_square_location();
+    const tripoint_abs_ms veh_pos = pos_abs();
     if( autodrive_local_target != tripoint_abs_ms::zero ) {
         ret.emplace_back( ( autodrive_local_target - veh_pos ).xy(), catacurses::red, "T" );
     }
@@ -1363,7 +1363,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::abort;
     }
-    const tripoint_abs_ms veh_pos = global_square_location();
+    const tripoint_abs_ms veh_pos = pos_abs();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
     while( !omt_path.empty() && veh_omt.xy() == omt_path.back().xy() ) {

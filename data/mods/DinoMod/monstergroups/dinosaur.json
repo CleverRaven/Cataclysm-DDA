@@ -2,7 +2,7 @@
   {
     "//": "These groups are called by the exhibit, zoo, and science basements, and NPC missions",
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR",
+    "id": "GROUP_DINOSAUR",
     "monsters": [
       { "group": "GROUP_WILDERNESS_FOREST_DINO", "weight": 250 },
       { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 150 },
@@ -14,7 +14,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_SOUTH_AMERICA",
+    "id": "GROUP_DINOSAUR_SOUTH_AMERICA",
     "monsters": [
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_giganotosaurus", "weight": 10, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
@@ -23,7 +23,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ASIA",
+    "id": "GROUP_DINOSAUR_ASIA",
     "monsters": [
       { "monster": "mon_qianzhousaurus", "weight": 200, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_therizinosaurus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -32,7 +32,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_EUROPE",
+    "id": "GROUP_DINOSAUR_EUROPE",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_iguanodon", "weight": 100, "pack_size": [ 1, 2 ] }
@@ -40,7 +40,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_HARMLESS",
+    "id": "GROUP_DINOSAUR_HARMLESS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nedcolbertia", "weight": 50, "pack_size": [ 1, 2 ] },
@@ -71,7 +71,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_DANGEROUS",
+    "id": "GROUP_DINOSAUR_DANGEROUS",
     "monsters": [
       { "monster": "mon_tawa", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_coelophysis", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
@@ -90,7 +90,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
+    "id": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nedcolbertia_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -104,6 +104,7 @@
       { "monster": "mon_sarahsaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anchisaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_issi_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_moabosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_haplocanthosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_amargasaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
@@ -166,7 +167,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
+    "id": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
     "monsters": [
       { "monster": "mon_tawa_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_coelophysis_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
@@ -195,7 +196,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
+    "id": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
       { "monster": "mon_nedcolbertia_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -237,7 +238,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
+    "id": "GROUP_DINOSAUR_DANGEROUS_JUVENILE",
     "monsters": [
       { "monster": "mon_dilophosaurus_juvenile", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_juvenile", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -252,9 +253,10 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
+    "id": "GROUP_DINOSAUR_MEGA_HERBIVORE",
     "monsters": [
       { "monster": "mon_issi", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_moabosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_haplocanthosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
@@ -300,7 +302,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
+    "id": "GROUP_DINOSAUR_MEGA_CARNIVORE",
     "monsters": [
       { "monster": "mon_spinosaurus", "weight": 50, "cost_multiplier": 40 },
       { "monster": "mon_torvosaurus", "weight": 50, "cost_multiplier": 40 },
@@ -316,7 +318,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_FLY",
+    "id": "GROUP_DINOSAUR_FLY",
     "monsters": [
       { "monster": "mon_dimorphodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_pteranodon", "weight": 935, "cost_multiplier": 0 },
@@ -326,7 +328,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_SWIM",
+    "id": "GROUP_DINOSAUR_SWIM",
     "monsters": [
       { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60 },
       { "monster": "mon_spinosaurus", "weight": 4, "cost_multiplier": 40 }
@@ -334,7 +336,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_PREDATOR_STREAM",
+    "id": "GROUP_DINOSAUR_PREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_tawa", "pack_size": [ 4, 8 ] },
       { "monster": "mon_coelophysis", "pack_size": [ 4, 8 ] },
@@ -347,7 +349,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_PREDATOR_SWAMP",
+    "id": "GROUP_DINOSAUR_PREDATOR_SWAMP",
     "monsters": [
       { "monster": "mon_dryptosaurus", "cost_multiplier": 35 },
       { "monster": "mon_appalachiosaurus", "cost_multiplier": 35 },
@@ -367,7 +369,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZREDATOR_STREAM",
+    "id": "GROUP_DINOSAUR_ZREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_zeratosaurus", "cost_multiplier": 35 },
       { "monster": "mon_zorvosaurus", "cost_multiplier": 35 },
@@ -378,7 +380,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZREDATOR_SWAMP",
+    "id": "GROUP_DINOSAUR_ZREDATOR_SWAMP",
     "monsters": [
       { "monster": "mon_zryptosaurus", "cost_multiplier": 35 },
       { "monster": "mon_zappalachiosaurus", "cost_multiplier": 35 },
@@ -396,11 +398,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
+    "id": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
     "monsters": [
       { "monster": "mon_sarahsaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
       { "monster": "mon_anchisaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
       { "monster": "mon_issi", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_moabosaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
       { "monster": "mon_haplocanthosaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
       { "monster": "mon_apatosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brontosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
@@ -414,7 +417,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS",
+    "id": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS",
     "monsters": [
       { "monster": "mon_zarahsaurus", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zanchisaurus", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ] },
@@ -431,7 +434,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS",
+    "id": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS",
     "monsters": [
       { "monster": "mon_tenontosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_dryosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
@@ -451,7 +454,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS",
+    "id": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS",
     "monsters": [
       { "monster": "mon_zamptosaurus", "weight": 5, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zeolambia", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
@@ -469,7 +472,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_CAVE",
+    "id": "GROUP_DINOSAUR_CAVE",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 400, "pack_size": [ 4, 12 ] },

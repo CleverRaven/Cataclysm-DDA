@@ -111,7 +111,14 @@ struct islot_tool {
 
     float fuel_efficiency = -1.0f;
 
+    //ememory transferred per second
+    units::ememory etransfer_rate = 0_KB;
+
     std::vector<int> rand_charges;
+    //type of edevice connection
+    std::string e_port;
+    //list of edevice types NOT supported for high speed file transfer
+    std::vector<std::string> e_ports_banned;
 };
 
 constexpr float base_metabolic_rate =
@@ -1029,10 +1036,6 @@ struct islot_ammo : common_ranged_data {
      */
     int count = 1;
     /**
-     * Whether this multi-projectile shot has its effects applied to all projectiles
-     */
-    bool multi_projectile_effects = false;
-    /**
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;
@@ -1273,6 +1276,8 @@ struct itype {
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods (defaults to weight) */
         units::mass integral_weight = -1_gram;
+        /** Electronic memory size of item */
+        units::ememory ememory_size = 0_KB;
 
         std::vector<std::pair<itype_id, mod_id>> src;
 
@@ -1378,6 +1383,9 @@ struct itype {
 
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
+
+        // list of traits.
+        string_id<Trait_group> trait_group;
 
         // used for corpses placed by mapgen
         mtype_id source_monster = mtype_id::NULL_ID();
@@ -1582,10 +1590,10 @@ struct itype {
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         std::optional<int> invoke( Character *p, item &it,
-                                   const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
+                                   const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character *p, item &it, const tripoint &pos ) const;
+        int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 
         virtual ~itype() = default;
 

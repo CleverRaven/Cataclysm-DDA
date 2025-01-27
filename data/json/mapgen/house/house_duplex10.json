@@ -59,8 +59,7 @@
       ]
     },
     "om_terrain": "house_duplex10",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",

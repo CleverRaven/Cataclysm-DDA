@@ -26,7 +26,7 @@ static std::set<tripoint_abs_ms> count_fields_near(
     map &m = get_map();
     std::set<tripoint_abs_ms> live_fields;
     for( const tripoint_abs_ms &cursor : closest_points_first( p, 10 ) ) {
-        field_entry *entry = m.get_field( m.bub_from_abs( cursor ), field_type );
+        field_entry *entry = m.get_field( m.get_bub( cursor ), field_type );
         if( entry && entry->is_field_alive() ) {
             live_fields.insert( cursor );
         }
@@ -93,21 +93,21 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 
     avatar &dummy = get_avatar();
     clear_avatar();
-    tripoint_abs_ms player_initial_pos = dummy.get_location();
+    tripoint_abs_ms player_initial_pos = dummy.pos_abs();
 
     const auto setup_and_remove_fields = [&]( const bool & with_light ) {
         CAPTURE( with_light );
-        CHECK( dummy.get_location() == player_initial_pos );
+        CHECK( dummy.pos_abs() == player_initial_pos );
 
         // create fd_fatigue of each intensity near player
         tripoint_abs_ms p1 = player_initial_pos + tripoint::east * 10;
         tripoint_abs_ms p2 = player_initial_pos + tripoint::east * 11;
         tripoint_abs_ms p3 = player_initial_pos + tripoint::east * 12;
         tripoint_abs_ms p4 = player_initial_pos + tripoint::east * 13;
-        m.add_field( m.bub_from_abs( p1 ), fd_fatigue, 1, 1_hours );
-        m.add_field( m.bub_from_abs( p2 ), fd_fatigue, 2, 1_hours );
-        m.add_field( m.bub_from_abs( p3 ), fd_fatigue, 3, 1_hours );
-        m.add_field( m.bub_from_abs( p4 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.get_bub( p1 ), fd_fatigue, 1, 1_hours );
+        m.add_field( m.get_bub( p2 ), fd_fatigue, 2, 1_hours );
+        m.add_field( m.get_bub( p3 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.get_bub( p4 ), fd_fatigue, 3, 1_hours );
 
         if( with_light ) {
             player_add_headlamp();
@@ -119,28 +119,28 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.build_map_cache( 0 );
         dummy.recalc_sight_limits();
 
-        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
+        CHECK( m.get_abs( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.get_bub( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
+        CHECK( m.get_abs( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.get_bub( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
+        CHECK( m.get_abs( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.get_bub( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
@@ -186,14 +186,14 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
            "The tear in reality pulls you in as it closes and ejects you violently!" );
 
     // check that the player got teleported
-    CHECK( dummy.get_location() != player_initial_pos );
+    CHECK( dummy.pos_abs() != player_initial_pos );
 
     // remove 3 fields again but without lighting this time
     clear_avatar();
     clear_map();
     Messages::clear_messages();
 
-    player_initial_pos = dummy.get_location();
+    player_initial_pos = dummy.pos_abs();
     setup_and_remove_fields( false );
     capture_removal_messages();
 

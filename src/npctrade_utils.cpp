@@ -79,7 +79,7 @@ bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 void add_fallback_zone( npc &guy )
 {
     zone_manager &zmgr = zone_manager::get_manager();
-    tripoint_abs_ms const loc = guy.get_location();
+    tripoint_abs_ms const loc = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
     map &here = get_map();
 
@@ -89,7 +89,7 @@ void add_fallback_zone( npc &guy )
 
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
-        tripoint_bub_ms const t_here = here.bub_from_abs( t );
+        tripoint_bub_ms const t_here = here.get_bub( t );
         const furn_id &f = here.furn( t_here );
         if( f != furn_str_id::NULL_ID() &&
             ( f->max_volume > ter_t_floor->max_volume ||
@@ -119,7 +119,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 {
     zone_manager &zmgr = zone_manager::get_manager();
     map &here = get_map();
-    tripoint_abs_ms const loc_abs = guy.get_location();
+    tripoint_abs_ms const loc_abs = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
 
     std::list<item> leftovers;
@@ -136,7 +136,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
+            tripoint_bub_ms const dpoint_here = here.get_bub( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
@@ -158,7 +158,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 void consume_items_in_zones( npc &guy, time_duration const &elapsed )
 {
     std::unordered_set<tripoint_bub_ms> const src = zone_manager::get_manager().get_point_set_loot(
-                guy.get_location(), PICKUP_RANGE, guy.get_fac_id() );
+                guy.pos_abs(), PICKUP_RANGE, guy.get_fac_id() );
 
     consume_cache cache;
     map &here = get_map();

@@ -1452,9 +1452,9 @@ class vehicle
 
         bool enclosed_at( const tripoint_bub_ms &pos ); // not const because it calls refresh_insides
         // Returns the location of the vehicle in global map square coordinates.
-        tripoint_abs_ms global_square_location() const;
+        tripoint_abs_ms pos_abs() const;
         // Returns the location of the vehicle in global overmap terrain coordinates.
-        tripoint_abs_omt global_omt_location() const;
+        tripoint_abs_omt pos_abs_omt() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         // Warning: Don't assume this position contains a vehicle part
         tripoint_bub_ms pos_bub() const;
@@ -2151,7 +2151,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const tripoint_sm_ms &p );
+        void set_submap_moved( const tripoint_bub_sm &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -2160,8 +2160,7 @@ class vehicle
 
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
-        // TODO: Make it typed. One call uses bubble coordinates, the other untyped veh_app_interact::a_point
-        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup );
         void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
@@ -2338,7 +2337,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos = tripoint::zero; // NOLINT(cata-serialize)
+        tripoint_bub_sm sm_pos = tripoint_bub_sm::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)

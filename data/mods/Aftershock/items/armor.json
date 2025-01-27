@@ -110,13 +110,7 @@
     "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [
-      "EINKTABLETPC",
-      "EBOOKREAD",
-      "ELECTRICSTORAGE",
-      "PORTABLE_GAME",
-      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
-    ],
+    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "PORTABLE_GAME", { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -125,11 +119,12 @@
         "default_magazine": "medium_battery_cell"
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ]
   },

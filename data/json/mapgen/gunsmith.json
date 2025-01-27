@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_gun_4" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -126,7 +125,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_gun_4_looted" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

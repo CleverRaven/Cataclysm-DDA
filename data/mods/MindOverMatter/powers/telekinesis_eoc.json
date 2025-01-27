@@ -111,14 +111,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_WAVE_FORCE",
-    "effect": [
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
-      { "u_cast_spell": { "id": "telekinetic_wave_wonder", "hit_self": true } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
     "effect": [
       {

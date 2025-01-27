@@ -110,7 +110,7 @@ jobs:
             ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -141,7 +141,7 @@ jobs:
             ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -154,7 +154,7 @@ jobs:
             ccache_key: linux-gcc-11-asan
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 1
             tiles: 1
             sound: 1
@@ -244,10 +244,10 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       uses: BrettDong/setup-sdl2-frameworks@v1
       with:
-        sdl2: latest
-        sdl2-ttf: latest
-        sdl2-image: latest
-        sdl2-mixer: latest
+        sdl2: 2.30.11
+        sdl2-ttf: 2.24.0
+        sdl2-image: 2.8.4
+        sdl2-mixer: 2.8.0
     - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |

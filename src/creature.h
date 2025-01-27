@@ -306,8 +306,6 @@ class Creature : public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
-        // TODO: fix point types (remove pos() and rename pos_bub() to be the new pos())
-        tripoint pos() const;
         tripoint_bub_ms pos_bub() const;
         inline int posx() const {
             return pos_bub().x();
@@ -316,11 +314,9 @@ class Creature : public viewer
             return pos_bub().y();
         }
         inline int posz() const {
-            return get_location().z();
+            return pos_abs().z();
         }
         virtual void gravity_check();
-        // TODO: Get rid of untyped overload
-        void setpos( const tripoint &p, bool check_gravity = true );
         void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
@@ -395,8 +391,6 @@ class Creature : public viewer
          */
         /*@{*/
         bool sees( const Creature &critter ) const override;
-        // TODO: Get rid of untyped overload.
-        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
@@ -437,7 +431,7 @@ class Creature : public viewer
         // handles armor absorption (including clothing damage etc)
         // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
         virtual const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                             damage_instance &dam ) = 0;
+                                             damage_instance &dam, const weakpoint &wp = weakpoint() ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint_bub_ms &p );
@@ -476,6 +470,7 @@ class Creature : public viewer
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                             const double &missed_by = 0,
                                              bool print_messages = true, const weakpoint_attack &wp_attack = weakpoint_attack() );
 
         /**
@@ -491,7 +486,8 @@ class Creature : public viewer
          * @param dam The damage dealt
          */
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack() );
+                const damage_instance &dam, const weakpoint_attack &attack = weakpoint_attack(),
+                const weakpoint &wp = weakpoint() );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
@@ -794,9 +790,9 @@ class Creature : public viewer
         tripoint_abs_ms location;
     protected:
         // Sets the creature's position without any side-effects.
-        void set_pos_only( const tripoint_bub_ms &p );
+        void set_pos_bub_only( const tripoint_bub_ms &p );
         // Sets the creature's position without any side-effects.
-        void set_location( const tripoint_abs_ms &loc );
+        void set_pos_abs_only( const tripoint_abs_ms &loc );
         // Invoked when the creature's position changes.
         virtual void on_move( const tripoint_abs_ms &old_pos );
         /**anatomy is the plan of the creature's body*/
@@ -1299,15 +1295,15 @@ class Creature : public viewer
          * Returns the location of the creature in map square coordinates (the most detailed
          * coordinate system), relative to a fixed global point of origin.
          */
-        tripoint_abs_ms get_location() const;
+        tripoint_abs_ms pos_abs() const;
         /**
          * Returns the location of the creature in global submap coordinates.
          */
-        tripoint_abs_sm global_sm_location() const;
+        tripoint_abs_sm pos_abs_sm() const;
         /**
          * Returns the location of the creature in global overmap terrain coordinates.
          */
-        tripoint_abs_omt global_omt_location() const;
+        tripoint_abs_omt pos_abs_omt() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1342,10 +1338,11 @@ class Creature : public viewer
     private:
         int pain;
         // calculate how well the projectile hits
-        double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
+        double accuracy_projectile_attack( const int &speed, const double &missed_by ) const;
         // what bodypart does the projectile hit
         projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
-                double goodhit, double missed_by ) const;
+                double goodhit, bool magic, double missed_by,
+                const weakpoint_attack &attack ) const;
         // do messaging and SCT for projectile hit
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;

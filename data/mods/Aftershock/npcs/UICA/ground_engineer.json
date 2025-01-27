@@ -1,0 +1,19 @@
+[
+  {
+    "type": "npc",
+    "id": "uica_ground_engineer",
+    "//": "A generic commanding officer for UICA ground installations.",
+    "name_suffix": "UICA Engineer",
+    "class": "NC_UICA_GROUND_ENGINEER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_UICA_GROUND_ENGINEER",
+    "faction": "UICA"
+  },
+  {
+    "id": "TALK_UICA_GROUND_ENGINEER",
+    "type": "talk_topic",
+    "dynamic_line": [ "Keep it civil, salvor.", "No time to talk now.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

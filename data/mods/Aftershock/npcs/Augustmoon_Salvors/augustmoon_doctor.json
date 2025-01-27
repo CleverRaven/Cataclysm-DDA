@@ -8,7 +8,7 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_MERCURIAL_DOCTOR",
-    "faction": "UICA"
+    "faction": "mercurial"
   },
   {
     "type": "npc_class",

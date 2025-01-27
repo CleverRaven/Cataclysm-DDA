@@ -44,6 +44,24 @@
   },
   {
     "type": "jmath_function",
+    "id": "xedra_dream_formula_get_level",
+    "num_args": 1,
+    "return": "_0 / 300"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_dream_formula_exp_for_level",
+    "num_args": 1,
+    "return": "_0 * 300"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_dream_casting_xp_formula",
+    "num_args": 0,
+    "return": "100"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_train_factor",
     "num_args": 1,
     "//": "accept the spell _cost, return how much spellcasts required to level the spell",

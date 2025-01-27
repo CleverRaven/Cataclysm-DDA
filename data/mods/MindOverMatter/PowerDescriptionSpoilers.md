@@ -88,7 +88,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 5 minutes to 15 minutes, plus 45 seconds to 120 seconds per level<br />
 *Stamina Cost*: 4500, minus 150 per level to a minimum of 2500<br />
 *Channeling Time*: 275 moves, minus 15 moves per level to a minimum of 50.<br />
-*Effects*: Reduces encumbrance on every body part, improving every 4 levels.  Other than -2 at level 0 through 3, encumbrance reduction is equal to power threshold level: -4 from levels 4 to 7, -8 from levels 8 to 11, and so on.<br />
+*Effects*: Reduces encumbrance on every body part, starting at -2 and improving by -2 every 2 levels, to a maximum of -32 at level 30.<br />
 *Prerequisites*: Overcome Pain 4,  Heightened Reflexes 6 *or* Flexibility 9, Burst of Speed 10 *or* Combat Dance 4 *or* Physical Enhancement 10.<br />
 
 ## Hammerhand (C) 
@@ -820,6 +820,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
 *Prerequisites*: Force Shove 7, Knockdown 4 <br />
 
+## Water Walking (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5000, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 150 moves, minus 6.5 moves per level to a minimum of 50<br />
+*Effects*: Lift yourself up just enough to allow surface tension to support your weight, allowing you to walk on water.  You can also walk across sludge without being slowed by it.<br />
+*Prerequisites*: Slowfall 6, Momentum Alteration 6<br />
+
 ## Lifting Field (C)
 *Difficulty*: 4<br />
 *Target*: Self<br />
@@ -881,7 +890,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
 *Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
 *Effects*: The psion can lift themselves with telekinesis and fly, traveling in the air in any direction they wish. This power requires more intense concentration and cannot be sustained in combat.<br />
-*Prerequisites*: Slowfall 9, Force Shove 12 *or* Lift Vehicle 5<br />
+*Prerequisites*: Slowfall 9, Force Shove 12 *or* Water Walking 8<br />
 
 # Megakinesis
 *Difficulty*: 8<br />
@@ -1100,6 +1109,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
 *Prerequisites*: Stutterstep 10, Phase 5 <br />
 
+## Reactive Displacement (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 20 seconds to 3 minutes and 20 seconds plus 10 to 40 seconds per power level<br />
+*Stamina Cost*: 3500, minus 100 per level to a minimum of 1500<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
+*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).<br />
+*Prerequisites*: Displacement 5 <br />
+
 ## Spacial Vortex 
 *Difficulty*: 5<br />
 *Target*: An area of 3 squares plus 1 square per 4 power levels, with a range of 5 squares plus 1.2 squares per power level<br />
@@ -1127,6 +1145,24 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
 *Prerequisites*: Phase 10, Extended Stride 5<br />
 
+## Loci Establishment (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: 2 minutes and 5 seconds to 4 minutes and 10 seconds, plus 25 to 50 seconds per power level<br />
+*Stamina Cost*: 3000, minus 100 per level to a minimum of 1000<br />
+*Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
+*Effects*: While concentrating, the psion maintains a locus to teleport back to with Loci Technique. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Prerequisites*: Extended Stride 6, Farstep 6<br />
+
+## Loci Technique
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6000, minus 200 per level to a minimum of 3000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Prerequisites*: Extended Stride 6, Farstep 6 (Learned with Loci Establishment)<br />
+
 ## Oubliette 
 *Difficulty*: 7<br />
 *Target*: A single target within 2 squares plus 1.5 squares per power level<br />
@@ -1143,7 +1179,16 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
 *Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
-*Prerequisites*: Farstep 10, Extended Stride 10 <br />
+*Prerequisites*: Farstep 10, Loci Establishment 6 <br />
+
+## Dilated Gateway 
+*Difficulty*: 9<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 12000, minus 200 per level to a minimum of 8000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
+*Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
+*Prerequisites*: Gateway 8, Oubliette 2 <br />
 
 ## Breach 
 *Difficulty*: 9<br />
@@ -1215,10 +1260,10 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Enervating Touch 
 *Difficulty*: 3<br />
 *Target*: One enemy within range 1<br />
-*Duration*: 4 seconds to 30 seconds, plus 0.5 seconds to 1.5 seconds per power level<br />
+*Duration*: 18 seconds to 1 minute and 1 second, plus 29 seconds to 1 minute and 18 seconds per power level<br />
 *Stamina Cost*: 2000, minus 65 per level to a minimum of 950<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
-*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 5% chance per second to cause 1 biological damage, +1% chance per power level to a maximum of a 33% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
+*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 3% chance per second to cause 1 biological damage, +0.2% chance per power level to a maximum of a 10% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
 ## Detoxification

@@ -670,6 +670,11 @@
     "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
+    "id": "HINT_THE_LOCATION",
+    "type": "json_flag",
+    "//": "Same as PRESERVE_SPAWN_OMT, but aslo shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
+  },
+  {
     "id": "PROVIDES_TECHNIQUES",
     "type": "json_flag",
     "//": "This item provides martial arts techniques in addition to the character's weapon"
@@ -1050,6 +1055,11 @@
     "id": "WONT_TRAIN_MARKSMANSHIP",
     "type": "json_flag",
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
+    "id": "GENE_TECH",
+    "type": "json_flag",
+    "//": "Used in Aftershock gene editing."
   },
   {
     "id": "NANOFAB_REPAIR",
@@ -2346,6 +2356,41 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "E_FILE_DEVICE",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files"
+  },
+  {
+    "id": "E_STORABLE",
+    "type": "json_flag",
+    "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_COPIABLE",
+    "type": "json_flag",
+    "//": "Any item that can be electronically copied and scanned"
+  },
+  {
+    "id": "E_FILE_COLLECTION",
+    "type": "json_flag",
+    "//": "Any item that represents a collection of electronic files; this is to avoid making a file system for electronic devices"
+  },
+  {
+    "id": "E_FILE_DEVICE_UNREAD",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files but hasn't been read yet"
+  },
+  {
+    "id": "VIEW_RECIPES",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained recipes"
+  },
+  {
+    "id": "VIEW_PHOTOS",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained photos"
   },
   {
     "id": "AFS_CS_LOCKER_CARD",

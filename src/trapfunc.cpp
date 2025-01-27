@@ -62,10 +62,19 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
+static const itype_id itype_beartrap( "beartrap" );
+static const itype_id itype_bolt_steel( "bolt_steel" );
 static const itype_id itype_bullwhip( "bullwhip" );
+static const itype_id itype_crossbow( "crossbow" );
+static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_light_snare_kit( "light_snare_kit" );
+static const itype_id itype_pointy_stick( "pointy_stick" );
 static const itype_id itype_rope_30( "rope_30" );
+static const itype_id itype_shotgun_d( "shotgun_d" );
+static const itype_id itype_shotgun_s( "shotgun_s" );
+static const itype_id itype_string_36( "string_36" );
 
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 
@@ -210,7 +219,7 @@ bool trapfunc::beartrap( const tripoint_bub_ms &p, Creature *c, item * )
         }
         c->check_dead_state();
     } else {
-        here.spawn_item( p, "beartrap" );
+        here.spawn_item( p, itype_beartrap );
     }
 
     return true;
@@ -373,7 +382,7 @@ bool trapfunc::eocs( const tripoint_bub_ms &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const tripoint_abs_ms trap_location = get_map().getglobal( p );
+    const tripoint_abs_ms trap_location = get_map().get_abs( p );
     for( const effect_on_condition_id &eoc : tr.eocs ) {
         dialogue d( get_talker_for( critter ), nullptr );
         write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
@@ -465,7 +474,7 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
         if( you != nullptr ) {
             ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > you->get_dodge() ) {
-                bodypart_id hit( "bp_null" );
+                bodypart_id hit = bodypart_str_id::NULL_ID();
                 switch( rng( 1, 10 ) ) {
                     case  1:
                         if( one_in( 2 ) ) {
@@ -541,10 +550,10 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
     }
     map &here = get_map();
     here.remove_trap( p );
-    here.spawn_item( p, "crossbow" );
-    here.spawn_item( p, "string_36" );
+    here.spawn_item( p, itype_crossbow );
+    here.spawn_item( p, itype_string_36 );
     if( add_bolt ) {
-        here.spawn_item( p, "bolt_steel", 1, 1 );
+        here.spawn_item( p, itype_bolt_steel, 1, 1 );
     }
     return true;
 }
@@ -552,7 +561,7 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
 bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
 {
     map &here = get_map();
-    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
+    sounds::sound( p, MAX_VIEW_DISTANCE, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
                    here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     int shots = 1;
     if( c != nullptr ) {
@@ -571,7 +580,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
             }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > you->get_dodge() ) {
-                bodypart_id hit = bodypart_id( "bp_null" );
+                bodypart_id hit = bodypart_str_id::NULL_ID();
                 switch( rng( 1, 10 ) ) {
                     case  1:
                         if( one_in( 2 ) ) {
@@ -645,8 +654,8 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
         c->check_dead_state();
     }
 
-    here.spawn_item( p, here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
-    here.spawn_item( p, "string_36" );
+    here.spawn_item( p, here.tr_at( p ) == tr_shotgun_1 ? itype_shotgun_s : itype_shotgun_d );
+    here.spawn_item( p, itype_string_36 );
     here.remove_trap( p );
     return true;
 }
@@ -691,7 +700,7 @@ bool trapfunc::snare_light( const tripoint_bub_ms &p, Creature *c, item * )
     }
 
     // Always get trap components back on triggering tile
-    here.spawn_item( p, "light_snare_kit" );
+    here.spawn_item( p, itype_light_snare_kit );
     return true;
 }
 
@@ -1013,7 +1022,7 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the spikes within." ) );
         } else {
-            bodypart_id hit( "bp_null" );
+            bodypart_id hit = bodypart_str_id::NULL_ID();
             switch( rng( 1, 10 ) ) {
                 case  1:
                     hit = bodypart_id( "leg_l" );
@@ -1063,7 +1072,7 @@ bool trapfunc::pit_spikes( const tripoint_bub_ms &p, Creature *c, item * )
         // 4 spears to a pit
         for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
-                here.spawn_item( p, "pointy_stick" );
+                here.spawn_item( p, itype_pointy_stick );
             }
         }
     }
@@ -1098,7 +1107,7 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
-            bodypart_id hit( "bp_null" );
+            bodypart_id hit = bodypart_str_id::NULL_ID();
             switch( rng( 1, 10 ) ) {
                 case  1:
                     hit = bodypart_id( "leg_l" );
@@ -1153,7 +1162,7 @@ bool trapfunc::pit_glass( const tripoint_bub_ms &p, Creature *c, item * )
         // 20 shards in a pit.
         for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
-                here.spawn_item( p, "glass_shard" );
+                here.spawn_item( p, itype_glass_shard );
             }
         }
     }
@@ -1495,7 +1504,7 @@ bool trapfunc::map_regen( const tripoint_bub_ms &p, Creature *c, item * )
         if( you ) {
             map &here = get_map();
             you->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
-            tripoint_abs_omt omt_pos = you->global_omt_location();
+            tripoint_abs_omt omt_pos = you->pos_abs_omt();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( regen_mapgen, omt_pos, {},

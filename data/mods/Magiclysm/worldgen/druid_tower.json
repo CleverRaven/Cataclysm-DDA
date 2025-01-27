@@ -99,7 +99,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DRUID_TOWER_DRUID_HEAD",
+    "id": "GROUP_DRUID_TOWER_DRUID_HEAD",
     "monsters": [ { "monster": "mon_feral_druid", "weight": 150 }, { "monster": "mon_feral_druid_enhanced", "weight": 850 } ]
   },
   {
@@ -374,7 +374,6 @@
       [ "druid_ritual_home_crown_w", "druid_ritual_home_crown", "druid_ritual_home_crown_e" ],
       [ "druid_ritual_home_crown_sw", "druid_ritual_home_crown_s", "druid_ritual_home_crown_se" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [
