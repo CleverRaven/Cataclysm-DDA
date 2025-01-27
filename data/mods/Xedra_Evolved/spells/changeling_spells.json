@@ -234,7 +234,7 @@
     "ignored_monster_species": [ "CHANGELING_NOBLE" ]
   },
   {
-    "id": "changeling_noble_beguilement_spell",
+    "id": "changeling_noble_charm_humans_spell",
     "type": "SPELL",
     "name": "Beguilement",
     "description": "With a stern word of command, you can glamour a human into defending you from your enemies.",

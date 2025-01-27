@@ -326,6 +326,64 @@
   },
   {
     "type": "mutation",
+    "id": "STR_UP_NOBLE",
+    "name": { "str": "Murmurs the Mighty One", "//~": "A reference to the A.E. poem 'A Call of the Sidhe' " },
+    "points": 3,
+    "description": "You are strong enough to defend a crossroads at twilight against all comers.  +3 Strength.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_NOBLE",
+    "name": { "str": "All Dancing with Delight", "//~": "A reference to the Rose Fyleman poem 'Alms in Autumn' " },
+    "points": 3,
+    "description": "You are graceful enough to dance the night away beneath a crystal dome on a floor of mirror-bright silver.  +3 Dexterity.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SPEED_UP_NOBLE",
+    "name": { "str": "At Speed Unthought Of", "//~": "A reference to the Lord Dunsany poem 'The Fairy Child' " },
+    "points": 3,
+    "description": "Your reactions are inhumanly quick.  +15 Speed.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "threshreq": [ "DEX_UP_NOBLE" ],
+    "prereqs2": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_NOBLE",
+    "name": { "str": "Wisdom from the Well" },
+    "points": 3,
+    "description": "Like the legendary salmon who ate the nine acorns, you have gained a plethora of wisdom.  +3 Intelligence.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_NOBLE",
+    "name": { "str": "Hear the Whole World Whispering", "//~": "A reference to the Charlotte Mew poem 'The Changeling' " },
+    "points": 3,
+    "description": "You senses are far more attuned to your surroundings than previously.  +3 Perception.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_DREAMWALKER",
+    "name": { "str": "Dreamwalker" },
+    "points": 2,
+    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1", "PARACLESIAN_FAE_SIGHT_2" ],
+    "prereqs2": [ "PER_UP_NOBLE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
     "id": "CHANGELING_NOBLE_COMMAND_COMMMONERS",
     "name": { "str": "Sovereign's Command" },
     "points": 3,
@@ -335,14 +393,36 @@
   },
   {
     "type": "mutation",
-    "id": "CHANGELING_NOBLE_BEGUILMENT",
-    "name": { "str": "Beguilement" },
+    "id": "CHANGELING_NOBLE_CHARM_HUMANS",
+    "name": { "str": "Come Away, O Human Child", "//~": "A reference to the Yeats poem 'The Stolen Child' " },
     "points": 3,
     "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
     "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs2": [ "CHANGELING_NOBLE_COMMAND_COMMMONERS" ],
     "category": [ "FAIR_FOLK_NOBLE" ],
-    "spells_learned": [ [ "changeling_noble_beguilement_spell", 1 ] ]
+    "spells_learned": [ [ "changeling_noble_charm_humans_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_INHUMAN_MINDSET",
+    "name": { "str": "Empty Your Heart of its Mortal Dream", "//~": "A reference to the Yeats poem 'The Hosting of the Sidhe' " },
+    "points": 8,
+    "description": "Your mindset is shifting to the alien morality of those from Under the Hill.  You can control this to some extent, though it may also overtake you in times of pain or stress.",
+    "prereqs": [ "CHANGELING_NOBLE_DREAMWALKER" ],
+    "prereqs2": [ "CHANGELING_NOBLE_CHARM_HUMANS" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_NOBLE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "enchantments": [
+      { "condition": "ACTIVE", "mutations": [ "PSYCHOPATH" ] },
+      { "condition": { "math": [ "u_pain('type': 'perceived')", ">=", "50" ] }, "mutations": [ "PSYCHOPATH" ] },
+      { "condition": { "math": [ "u_val('sleepiness')", ">=", "200" ] }, "mutations": [ "PSYCHOPATH" ] },
+      {
+        "condition": { "u_has_any_effect": [ "formication", "visuals", "hallu", "bite", "infected" ] },
+        "mutations": [ "PSYCHOPATH" ]
+      }
+    ]
   },
   {
     "type": "mutation",
