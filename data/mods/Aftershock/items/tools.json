@@ -33,7 +33,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -211,7 +212,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -457,6 +459,7 @@
     "use_action": [
       "ROBOTCONTROL",
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       "PORTABLE_GAME",
       {
         "target": "control_laptop_screen_lit",
@@ -475,6 +478,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -509,6 +520,7 @@
     "charges_per_use": 2,
     "use_action": [
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       "PORTABLE_GAME",
       {
         "target": "vr_laptop_holosuite",
@@ -527,6 +539,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]

@@ -1330,11 +1330,20 @@ static bool create_note( const tripoint_abs_omt &curs, std::optional<std::string
 // if false, search yielded no results
 static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripoint_abs_omt &orig )
 {
+    input_context ctxt( "STRING_INPUT" );
+    std::vector<std::string> act_descs;
+    const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
+        act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
+    };
+    add_action_desc( "HISTORY_UP", pgettext( "string input", "History" ) );
+    add_action_desc( "TEXT.CLEAR", pgettext( "string input", "Clear text" ) );
+    add_action_desc( "TEXT.QUIT", pgettext( "string input", "Abort" ) );
+    add_action_desc( "TEXT.CONFIRM", pgettext( "string input", "Save" ) );
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
                        .description( string_format( "%s\n%s",
                                      _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ),
-                                     colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green ) ) )
+                                     colorize( enumerate_as_string( act_descs, enumeration_conjunction::none ), c_green ) ) )
                        .desc_color( c_white )
                        .identifier( "overmap_search" )
                        .query_string();
@@ -1395,7 +1404,6 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     } );
     ui.mark_resize();
 
-    input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_action( "NEXT_TAB", to_translation( "Next result" ) );
     ctxt.register_action( "PREV_TAB", to_translation( "Previous result" ) );
     ctxt.register_action( "CONFIRM" );
