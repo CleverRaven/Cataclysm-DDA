@@ -17,7 +17,11 @@
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
-    "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "intensity_levels": [
+      { "name": "bile splatter", "color": "pink" },
+      { "name": "bile stain", "light_emitted": 1 },
+      { "name": "puddle of bile", "light_emitted": 3 }
+    ],
     "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
