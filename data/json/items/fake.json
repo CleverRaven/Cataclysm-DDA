@@ -119,14 +119,17 @@
     "name": { "str": "Integrated AR System" },
     "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
+    "etransfer_rate": "140 MB",
+    "e_port": "phone",
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0.0,
+        "ememory_max": "2 TB"
       }
     ],
     "flags": [

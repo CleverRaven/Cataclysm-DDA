@@ -1,15 +1,5 @@
 [
   {
-    "id": "laptop_files_work",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "item": "book_nonf_hard_homemk_anythingcan", "prob": 100, "count": 1 },
-      { "item": "book_nonf_hard_homemk_grtrms", "prob": 100, "count": 1 },
-      { "item": "book_nonf_hard_homemk_handshome", "prob": 100, "count": 1 }
-    ]
-  },
-  {
     "id": "edevice_work",
     "type": "item_group",
     "subtype": "collection",

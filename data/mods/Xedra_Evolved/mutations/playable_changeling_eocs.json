@@ -1713,7 +1713,180 @@
         "then": { "u_learn_recipe": "moon_tear_ingot" },
         "else": { "run_eocs": "EOC_LEARN_MOONS_TEARS_RECIPES" }
       },
-      { "u_message": "You dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
+      { "u_message": "Your dreams have revealed to you a secret of forging moon's tears.", "type": "good" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        {
+          "or": [
+            { "npc_has_species": "MAMMAL" },
+            { "npc_has_species": "AMPHIBIAN" },
+            { "npc_has_species": "BIRD" },
+            { "npc_has_species": "REPTILE" },
+            { "npc_has_species": "FISH" },
+            { "npc_has_species": "KRAKEN" },
+            { "npc_has_species": "INSECT" },
+            { "npc_has_species": "CENTIPEDE" },
+            { "npc_has_species": "INSECT_FLYING" },
+            { "npc_has_species": "SPIDER" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        {
+          "or": [
+            { "npc_has_species": "MAMMAL" },
+            { "npc_has_species": "AMPHIBIAN" },
+            { "npc_has_species": "BIRD" },
+            { "npc_has_species": "REPTILE" },
+            { "npc_has_species": "FISH" },
+            { "npc_has_species": "KRAKEN" },
+            { "npc_has_species": "INSECT" },
+            { "npc_has_species": "CENTIPEDE" },
+            { "npc_has_species": "INSECT_FLYING" },
+            { "npc_has_species": "SPIDER" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            "u_is_outside",
+            {
+              "or": [
+                { "is_weather": "magic_weather_light_drizzle" },
+                { "is_weather": "magic_weather_drizzle" },
+                { "is_weather": "magic_weather_rain" },
+                { "is_weather": "magic_weather_rainstorm" },
+                { "is_weather": "magic_weather_thunder" },
+                { "is_weather": "magic_weather_lightning" },
+                { "is_weather": "weather_light_drizzle" },
+                { "is_weather": "weather_drizzle" },
+                { "is_weather": "weather_rain" },
+                { "is_weather": "weather_rainstorm" },
+                { "is_weather": "weather_thunder" },
+                { "is_weather": "weather_lightning" }
+              ]
+            }
+          ]
+        },
+        { "u_near_om_location": "generic_river_bank", "range": 1 },
+        { "u_near_om_location": "generic_river", "range": 1 },
+        { "u_near_om_location": "river_center", "range": 1 },
+        { "u_near_om_location": "river", "range": 1 },
+        { "u_near_om_location": "river_c_not_ne", "range": 1 },
+        { "u_near_om_location": "river_c_not_nw", "range": 1 },
+        { "u_near_om_location": "river_c_not_se", "range": 1 },
+        { "u_near_om_location": "river_c_not_sw", "range": 1 },
+        { "u_near_om_location": "lake_shore", "range": 1 },
+        { "u_near_om_location": "lake_surface", "range": 1 },
+        { "u_near_om_location": "ocean", "range": 1 },
+        { "u_near_om_location": "ocean_shore", "range": 1 },
+        { "u_near_om_location": "ocean_surface", "range": 1 },
+        { "u_near_om_location": "ocean_bed", "range": 1 },
+        { "u_near_om_location": "ocean_water_cube", "range": 1 },
+        { "u_near_om_location": "ocean_surface", "range": 1 },
+        { "u_near_om_location": "pond_field", "range": 1 },
+        { "u_at_om_location": "fishing_pond_0_0" },
+        { "u_at_om_location": "fishing_pond_1_0" },
+        { "u_at_om_location": "fishing_pond_0_1" },
+        { "u_at_om_location": "fishing_pond_1_1" },
+        { "u_at_om_location": "forest_water" },
+        { "u_at_om_location": "undine_genius_loci_NW" },
+        { "u_at_om_location": "undine_genius_loci_NE" },
+        { "u_at_om_location": "undine_genius_loci_SW" },
+        { "u_at_om_location": "undine_genius_loci_SE" }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_selkie", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near water or under the rain to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_GOBLIN_FRUIT",
+    "condition": {
+      "and": [
+        { "not": "u_is_outside" },
+        { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both') == 0" ] },
+        { "math": [ "u_characters_nearby('radius': 8) == 0" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_brownie", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be inside and unobserved to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "math": [ "u_mon_species_nearby('MAMMAL', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('AMPHIBIAN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('BIRD', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('REPTILE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('FISH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('KRAKEN', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('CENTIPEDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('INSECT_FLYING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SPIDER', 'radius': 30, 'attitude': 'both') >= 1" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_pooka", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near an animal to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_GOBLIN_FRUIT",
+    "condition": { "or": [ { "not": "is_day" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_trow", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be under the ground or at night to call forth a goblin fruit.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_GOBLIN_FRUIT",
+    "condition": {
+      "or": [
+        { "math": [ "u_mon_species_nearby('CHANGELING', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('ARVORE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('IERDE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('HOMULLUS', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SALAMANDER', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('SYLPH', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_mon_species_nearby('UNDINE', 'radius': 30, 'attitude': 'both') >= 1" ] },
+        { "math": [ "u_characters_nearby('radius': 30) >= 1" ] }
+      ]
+    },
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_noble", "use_item_group": true, "suppress_message": true },
+    "false_effect": [ { "u_message": "You must be near humans or Fae to call forth a goblin fruit.", "type": "bad" } ]
   }
 ]

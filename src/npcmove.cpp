@@ -2421,6 +2421,8 @@ healing_options npc::patient_assessment( const Character &c )
 
 npc_action npc::address_needs( float danger )
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
     // and swing into action with alarming alacrity.
@@ -2500,7 +2502,7 @@ npc_action npc::address_needs( float danger )
     }
     //Hallucinations have a chance of disappearing each turn
     if( is_hallucination() && one_in( 25 ) ) {
-        die( nullptr );
+        die( &here, nullptr );
     }
 
     if( danger > NPC_DANGER_VERY_LOW ) {

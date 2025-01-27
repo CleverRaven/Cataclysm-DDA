@@ -142,7 +142,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
     "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_homullus", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
   },
   {

@@ -54,7 +54,7 @@ static npc &respawn_main_npc()
 {
     npc *guy = get_creature_tracker().creature_at<npc>( main_npc_start_tripoint );
     if( guy ) {
-        guy->die( nullptr );
+        guy->die( &get_map(), nullptr );
     }
     return spawn_main_npc();
 }

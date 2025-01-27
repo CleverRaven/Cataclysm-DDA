@@ -5050,7 +5050,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
                                             target_pos ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
-                    tmp_critter->die( nullptr );
+                    tmp_critter->die( &m, nullptr );
                 }
             }
             break;
@@ -5152,7 +5152,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
-                        tmp_critter->die( nullptr );
+                        tmp_critter->die( &m, nullptr );
                     }
                 }
             }
@@ -5235,7 +5235,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
-                            tmp_critter->die( nullptr );
+                            tmp_critter->die( &m, nullptr );
                         }
                     }
                 }
@@ -7017,10 +7017,10 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                                   "new vehicle %s (%s; origin %s; rot %g) "
                                   "out of map bounds at %s",
                                   first_veh->name, first_veh->type.str(),
-                                  first_veh->global_square_location().to_string(),
+                                  first_veh->pos_abs().to_string(),
                                   to_degrees( first_veh->turn_dir ),
                                   veh_to_add->name, veh_to_add->type.str(),
-                                  veh_to_add->global_square_location().to_string(),
+                                  veh_to_add->pos_abs().to_string(),
                                   to_degrees( veh_to_add->turn_dir ),
                                   map_pos.to_string() );
                     }
