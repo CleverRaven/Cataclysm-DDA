@@ -427,8 +427,6 @@ Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
 adds three new lore log snippets for the player to find in smartphones or laptops
-Expand story line for Exodii mission 1
-Add Exodii castle starting scenario
 
 
 ## Interface:
@@ -979,24 +977,16 @@ Add a new mutation system for aftershock based on gene templates controllably gr
 [Xedra Evolved] Paraclesians passively gain traits (if they spend time in their native environment)
 Aftershock: Allow direct trade of cash cards
 Aftershock: Add military infolink and high voltage battery charger bionics
-[MoM] Add focus to magic_type calculation
 [DinoMod] moabosaurus
 [Aftershock] Add an Encampment around the Port Augustmoon landing pad
-[Aftershock] Labbits Eat Lichen and aren't born into adulthood
-Make experience formulas take into account focus enchants
-Requirement and spell fixes
-[Xedra Evolved] If you habitually murder the Fair Folk they all hate you
-[Xedra Evolved] Update Iron Allergy EoCs
-[Aftershock] Combat Suits can now be obtained and update wintersuit itemgroups.
+[Xedra Evolved] If you ritually murder the Fair Folk they all hate you
 Add missing missions to sky island clear missions EOC
 [Xedra Evolved] Arvore with enough power have neutrality from the triffids
 [Xedra Evolved] Boann island updates
-Correct loci establishment power success message
 [Aftershock] Add a Vehicle Merchant to the Salvor Camp Garage.
 [MoM] Add some more nether attunement consequences
 [Aftershock] You need a combat License to buy a combat suit from the outfitter
 [MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
-Update the Power Spoilers document with recently added teleportation powers
 Aftershock: Add ETC firmware gunmods to Caseless military weapons.
 
 
