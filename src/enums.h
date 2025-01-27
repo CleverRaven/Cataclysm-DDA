@@ -74,6 +74,19 @@ struct enum_traits<bionic_ui_sort_mode> {
     static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
+enum class list_item_sort_mode : int {
+    DISTANCE,
+    NAME,
+    CATEGORY_DISTANCE,
+    CATEGORY_NAME,
+    count
+};
+
+template<>
+struct enum_traits<list_item_sort_mode> {
+    static constexpr list_item_sort_mode last = list_item_sort_mode::count;
+};
+
 // When bool is not enough. NONE, SOME or ALL
 enum class trinary : int {
     NONE = 0,
