@@ -167,12 +167,7 @@
     "type": "effect_on_condition",
     "id": "DREAMSMITH_CASINGS_LOW_CALIBER_RECIPE",
     "recurrence": [ "140 hours", "192 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "DREAMSMITH" },
-        { "math": [ "u_skill('pistols') >= 2"] }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('pistols') >= 2" ] } ] },
     "effect": [
       {
         "u_roll_remainder": [
@@ -192,12 +187,7 @@
         "type": "recipe",
         "true_eocs": {
           "id": "EOC_DREAMSMITH_CASINGS_LC_MESSAGE_POSITIVE",
-          "effect": [
-            {
-              "u_message": "You realize you know suddenly how to make a low caliber bullet casing.",
-              "type": "good"
-            }
-          ]
+          "effect": [ { "u_message": "You realize you know suddenly how to make a low caliber bullet casing.", "type": "good" } ]
         }
       }
     ]
@@ -206,12 +196,7 @@
     "type": "effect_on_condition",
     "id": "DREAMSMITH_CASINGS_LARGE_CALIBER_RECIPE",
     "recurrence": [ "140 hours", "192 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "DREAMSMITH" },
-        { "math": [ "u_skill('rifles') >= 3"] }
-      ]
-    },
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('rifles') >= 3" ] } ] },
     "effect": [
       {
         "u_roll_remainder": [
@@ -243,12 +228,7 @@
         "type": "recipe",
         "true_eocs": {
           "id": "EOC_DREAMSMITH_CASINGS_LC_MESSAGE_POSITIVE",
-          "effect": [
-            {
-              "u_message": "You realize you know suddenly how to make a larger caliber bullet casing.",
-              "type": "good"
-            }
-          ]
+          "effect": [ { "u_message": "You realize you know suddenly how to make a larger caliber bullet casing.", "type": "good" } ]
         }
       }
     ]
