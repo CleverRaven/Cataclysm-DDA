@@ -1,4 +1,4 @@
-a# JSON INFO
+# JSON INFO
 
 Use the `Home` key to return to the top.
 
