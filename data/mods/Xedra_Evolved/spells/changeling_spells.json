@@ -236,8 +236,8 @@
   {
     "id": "changeling_noble_charm_humans_spell",
     "type": "SPELL",
-    "name": "Beguilement",
-    "description": "With a stern word of command, you can glamour a human into defending you from your enemies.",
+    "name": "Come Away, O Human Child",
+    "description": "With a stern word of command or a whispered entreaty, you can glamour a human into defending you from your enemies.",
     "message": "You cast your glamour over your target.",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
@@ -582,9 +582,10 @@
     },
     "base_casting_time": {
       "math": [ "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 3) - (u_skill('deduction') * 6)), 50)" ]
-    }
-},
-{
+    },
+    "sound_description": "a loud thump"
+  },
+  {
     "id": "selkie_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",

@@ -414,6 +414,7 @@
     "threshreq": [ "THRESH_FAIR_FOLK_NOBLE" ],
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "The mortal sentiments in your thoughts fade away.",
     "enchantments": [
       { "condition": "ACTIVE", "mutations": [ "PSYCHOPATH" ] },
       { "condition": { "math": [ "u_pain('type': 'perceived')", ">=", "50" ] }, "mutations": [ "PSYCHOPATH" ] },
@@ -1444,6 +1445,17 @@
     "ugliness": 0,
     "description": "Once you begin mining, you can do it for hours without rest or sleep.  You do not get sleepy, hungry, or thirst for as long as you continue mining.  This does not remove the need to eat to recover the energy you spend mining.",
     "prereqs": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_STEALTH_UNDERGROUND_ON_ROCK",
+    "name": { "str": "Amongst the Stones" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While on rock or underground, you seem to subtly blend into your surroundings.  You are harder to spot on rocks or underground.",
+    "prereqs": [ "IERDE_SKIN_2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
@@ -1465,17 +1477,6 @@
         "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
       }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "TROW_STEALTH_UNDERGROUND_ON_ROCK",
-    "name": { "str": "Amongst the Stones" },
-    "points": 4,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "While on rock or underground, you seem to subtly blend into your surroundings.  You are harder to spot on rocks or underground.",
-    "prereqs": [ "IERDE_SKIN_2" ],
-    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
   },
   {
     "type": "mutation",
