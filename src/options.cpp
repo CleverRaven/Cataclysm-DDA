@@ -2779,39 +2779,13 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
-    { { "default", to_translation( "default" ) } }, "default"
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day/night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
-
-    add_empty_line();
-
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World time options" ),
-                      to_translation( "Options regarding the passage of time in the world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
-             to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-             14, 127, 91
-           );
-
-        add( "CONSTRUCTION_SCALING", page_id, to_translation( "Construction scaling" ),
-             to_translation( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-             0, 1000, 100
-           );
-
-        add( "ETERNAL_SEASON", page_id, to_translation( "Eternal season" ),
-             to_translation( "If true, keep the initial season for ever." ),
-             false
-           );
-
-        add( "ETERNAL_TIME_OF_DAY", page_id, to_translation( "Day/night cycle" ),
-        to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
-            { "normal", to_translation( "Normal" ) },
-            { "day", to_translation( "Eternal Day" ) },
-            { "night", to_translation( "Eternal Night" ) },
-        }, "normal"
-           );
-    } );
 
     add_empty_line();
 
