@@ -689,9 +689,9 @@ bool zone_data::set_type()
 
 bool zone_data::set_priority()
 {
-    const auto maybe_priority = zone_manager::get_manager().query_priority( priority );
+    const std::optional<int> maybe_priority = zone_manager::get_manager().query_priority( priority );
     if( maybe_priority.has_value() ) {
-        auto new_priority = maybe_priority.value();
+        int new_priority = maybe_priority.value();
         if( priority != new_priority ) {
             zone_manager::get_manager().zone_edited( *this );
             priority = new_priority;
@@ -1186,7 +1186,7 @@ std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms
 
 static void apply_to_both_vectors( std::vector<zone_data> const &zones_a,
                                    std::vector<zone_data *> &zones_b,
-                                   std::function<void( zone_data const & )> function )
+                                   std::function<void( zone_data const & )> const &function )
 {
     for( const zone_data &zone : zones_a ) {
         function( zone );
@@ -1516,7 +1516,7 @@ zone_type_id_and_priority zone_manager::get_best_zone_type_for_item( const item 
     std::optional<zone_type_id> priority_zone = cat.priority_zone( it );
     std::optional<zone_type_id> zone_cat = cat.zone();
     item const *const check_it = it.this_or_single_content();
-    assert( check_it != nullptr );
+    cata_assert( check_it != nullptr );
     map &here = get_map();
     std::vector<zone_data *> vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
 

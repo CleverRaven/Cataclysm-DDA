@@ -623,14 +623,14 @@ class zone_manager
                   bool invert, bool enabled,
                   const tripoint_abs_ms &start, const tripoint_abs_ms &end,
                   const shared_ptr_fast<zone_options> &options = nullptr,
-                  bool silent = false, map *pmap = nullptr, const int priority = 0 );
+                  bool silent = false, map *pmap = nullptr, int priority = 0 );
 
         // For addition of personal zones
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint_rel_ms &start, const tripoint_rel_ms &end,
                   const shared_ptr_fast<zone_options> &options = nullptr,
-                  const int priority = 0 );
+                  int priority = 0 );
 
         // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
