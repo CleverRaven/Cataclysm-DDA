@@ -1218,7 +1218,7 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-static double calculate_aim_cap_without_target( const Character &you,
+double calculate_aim_cap_without_target( const Character &you,
         const tripoint_bub_ms &target )
 {
     const int range = rl_dist( you.pos_bub(), target );
