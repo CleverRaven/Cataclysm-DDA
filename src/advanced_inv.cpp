@@ -1817,11 +1817,11 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
                                         advanced_inventory_pane &spane, advanced_inventory_pane &dpane )
 {
     avatar &u = get_avatar();
-    item_location loc = spane.container;
+    item_location src = spane.container;
     item_location dest = dpane.container;
 
-    if( !loc && sitem ) {
-        loc = sitem->items.front();
+    if( !src && sitem ) {
+        src = sitem->items.front();
     } else {
         return false;
     }
@@ -1829,7 +1829,7 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
     do_return_entry();
     // always exit to proc do_return_entry, even when no activity was assigned
     exit = true;
-    return u.unload( loc, false, dest );
+    return u.unload( src, false, dest );
 }
 
 void advanced_inventory::display()
