@@ -523,7 +523,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                     origin->check_avoid_friendly_fire() ) {
                     continue;
                 }
-                critter->deal_projectile_attack( null_source ? nullptr : origin, attack, cur_missed_by,
+                critter->deal_projectile_attack( &here, null_source ? nullptr : origin, attack, cur_missed_by,
                                                  print_messages, wp_attack );
 
                 if( critter->is_npc() ) {

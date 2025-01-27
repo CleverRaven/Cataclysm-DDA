@@ -14,6 +14,7 @@
 class computer;
 class faction;
 class item_location;
+class map;
 class mission;
 class monster;
 class npc;
@@ -788,7 +789,7 @@ class talker: virtual public const_talker
         virtual void set_npc_anger( int ) {}
         virtual void set_all_parts_hp_cur( int ) {}
         virtual void set_degradation( int ) {}
-        virtual void die() {}
+        virtual void die( map * ) {}
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
         virtual void mod_livestyle( int ) {}

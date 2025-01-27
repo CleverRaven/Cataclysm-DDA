@@ -1802,6 +1802,8 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
+    map &here = get_map();
+
     remove_effect( effect_riding );
     remove_effect( effect_mech_recon_vision );
     bool mech = false;
@@ -1879,7 +1881,7 @@ void Character::forced_dismount()
                     pgettext( "memorial_male", "Fell off a mount." ),
                     pgettext( "memorial_female", "Fell off a mount." ) );
             }
-            check_dead_state();
+            check_dead_state( &here );
         }
         add_effect( effect_downed, 5_turns, true );
     } else {
@@ -2378,6 +2380,7 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
 
 void Character::process_turn()
 {
+    map &here = get_map();
     // Has to happen before reset_stats
     clear_miss_reasons();
     migrate_items_to_storage( false );
@@ -2405,7 +2408,7 @@ void Character::process_turn()
     if( leak_level_dirty ) {
         calculate_leak_level();
     }
-    process_items();
+    process_items( &here );
     leak_items();
     // Didn't just pick something up
     last_item = itype_id::NULL_ID();
@@ -3666,7 +3669,7 @@ void Character::normalize()
 }
 
 // Actual player death is mostly handled in game::is_game_over
-void Character::die( Creature *nkiller )
+void Character::die( map *, Creature *nkiller )
 {
     g->set_critter_died();
     set_all_parts_hp_cur( 0 );
@@ -8091,10 +8094,10 @@ std::string Character::weapname_ammo() const
     }
 }
 
-void Character::on_hit( Creature *source, bodypart_id bp_hit,
+void Character::on_hit( map *here, Creature *source, bodypart_id bp_hit,
                         float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
-    check_dead_state();
+    check_dead_state( here );
     if( source == nullptr || proj != nullptr ) {
         return;
     }
@@ -8179,8 +8182,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
     }
 
-    map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
+    const optional_vpart_position veh_part = here->veh_at( pos_abs() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
@@ -10438,7 +10440,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     return effects;
 }
 
-void Character::place_corpse()
+void Character::place_corpse( map *here )
 {
     //If the character/NPC is on a distant mission, don't drop their their gear when they die since they still have a local pos
     if( !death_drops ) {
@@ -10447,7 +10449,6 @@ void Character::place_corpse()
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     body.set_item_temperature( units::from_celsius( 37 ) );
-    map &here = get_map();
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
@@ -10465,7 +10466,7 @@ void Character::place_corpse()
         }
     }
 
-    here.add_item_or_charges( pos_bub(), body );
+    here->add_item_or_charges( here->get_bub( pos_abs() ), body );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
@@ -11157,6 +11158,15 @@ void Character::gravity_check()
     if( here.is_open_air( pos_bub() ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here.try_fall( pos_bub(), this ) ) {
         here.update_visibility_cache( pos_bub().z() );
+    }
+}
+
+void Character::gravity_check( map *here )
+{
+    const tripoint_bub_ms pos = here->get_bub( pos_abs() );
+    if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
+        here->try_fall( pos, this ) ) {
+        here->update_visibility_cache( pos.z() );
     }
 }
 
@@ -12739,6 +12749,7 @@ bool Character::can_fly()
 // FIXME: Relies on hardcoded bash damage type
 void Character::knock_back_to( const tripoint_bub_ms &to )
 {
+    map &here = get_map();
     if( to == pos_bub() ) {
         return;
     }
@@ -12758,7 +12769,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
             critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
-        critter->check_dead_state();
+        critter->check_dead_state( &here );
 
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                critter->name() );
@@ -12772,11 +12783,10 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_bash, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->get_name() );
-        np->check_dead_state();
+        np->check_dead_state( &here );
         return;
     }
 
-    map &here = get_map();
     // If we're still in the function at this point, we're actually moving a tile!
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
@@ -12849,10 +12859,10 @@ void Character::leak_items()
     }
 }
 
-void Character::process_items()
+void Character::process_items( map *here )
 {
-    if( weapon.process( get_map(), this, pos_bub() ) ) {
-        weapon.spill_contents( pos_bub() );
+    if( weapon.process( *here, this, here->get_bub( pos_abs() ) ) ) {
+        weapon.spill_contents( here,  here->get_bub( pos_abs() ) );
         remove_weapon();
     }
 
@@ -12861,8 +12871,8 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->process( get_map(), this, pos_bub() ) ) {
-            it->spill_contents( pos_bub() );
+        if( it->process( *here, this, here->get_bub( pos_abs() ) ) ) {
+            it->spill_contents( here, here->get_bub( pos_abs() ) );
             removed_items.push_back( it );
         }
     }

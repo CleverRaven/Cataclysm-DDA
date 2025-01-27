@@ -1124,7 +1124,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( { -1, -2, -3 } );
+    player_character.setpos( tripoint_bub_ms{ -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
