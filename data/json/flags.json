@@ -103,7 +103,7 @@
   {
     "id": "ALLOWS_BODY_BLOCK",
     "type": "json_flag",
-    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+    "info": "This item <info>won't prevent you from blocking with your body, such as arms or legs</info> when wielded as a weapon."
   },
   {
     "id": "ALLOWS_NATURAL_ATTACKS",

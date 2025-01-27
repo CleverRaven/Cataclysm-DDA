@@ -1759,10 +1759,7 @@ void Item_factory::init()
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
     add_iuse( "EPIC_MUSIC", &iuse::epic_music );
-    add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
-    add_iuse( "ELECTRICSTORAGE", &iuse::electricstorage );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
-    add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );

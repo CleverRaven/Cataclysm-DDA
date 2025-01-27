@@ -1,5 +1,15 @@
 [
   {
+    "id": "nether_attunement_vomit",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Vomit", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "description": { "str": "Vomits when you use your powers.", "//~": "NO_I18N" },
+    "flags": [ "SILENT" ],
+    "effect": "vomit",
+    "shape": "blast"
+  },
+  {
     "id": "nether_attunement_cold_chill",
     "type": "SPELL",
     "name": { "str": "Nether Attunement Cold Chill", "//~": "NO_I18N" },

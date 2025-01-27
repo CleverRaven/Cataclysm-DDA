@@ -589,7 +589,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = roll_remainder( val.amount / multishot );
                     }
                     for( int i = 0; i < multishot; ++i ) {
-                        cr->deal_projectile_attack( cr, atk, atk.missed_by, true );
+                        cr->deal_projectile_attack( &here, cr, atk, atk.missed_by, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     int amount_of_bp = target_bdpts.size();
@@ -607,7 +607,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         }
                     }
                 } else {
-                    cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                    cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
                 }
             }
 
@@ -617,7 +617,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
                     }
                 }
-                cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
@@ -1821,6 +1821,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
+    class map &here = get_map(); // "map" is overridden by a spell_effect operation...
     int total_dam = sp.damage( caster );
     if( total_dam <= 0 ) {
         debugmsg( "ERROR: Banishment has negative or 0 damage value" );
@@ -1888,7 +1889,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
-        mon->die( &caster );
+        mon->die( &here, &caster );
     }
 }
 

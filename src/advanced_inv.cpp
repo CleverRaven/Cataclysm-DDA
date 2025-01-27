@@ -1818,25 +1818,19 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
 {
     avatar &u = get_avatar();
     item_location loc;
-    if( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) {
-        loc = spane.container;
-    } else if( sitem && sitem->items.front()->can_unload() ) {
-        if( sitem -> contents_count > 0 ) {
-            loc = sitem->items.front();
-        } else {
-            popup_getkey( _( "%1$s is already empty." ), sitem->items.front()->display_name() );
-        }
 
+    if( spane.get_area() == AIM_CONTAINER ) {
+        loc = spane.container;
+    } else if( sitem ) {
+        loc = sitem->items.front();
     } else {
-        popup_getkey( _( "%1$s can't be unloaded." ), sitem->items.front()->display_name() );
         return false;
     }
 
-    if( loc != item_location::nowhere && !loc->is_container_empty() ) {
-        do_return_entry();
-        return u.unload( loc );;
-    }
-    return false;
+    do_return_entry();
+    // always exit to proc do_return_entry even when no activity was assigned
+    exit = true;
+    return u.unload( loc );
 }
 
 void advanced_inventory::display()
@@ -2049,8 +2043,7 @@ void advanced_inventory::display()
                 action_examine( sitem, spane );
             }
         } else if( action == "UNLOAD_CONTAINER" ) {
-            recalc = exit = action_unload( sitem, spane );
-
+            recalc = action_unload( sitem, spane );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {

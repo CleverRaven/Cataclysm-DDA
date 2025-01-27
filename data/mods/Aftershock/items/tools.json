@@ -23,19 +23,18 @@
       "MP3",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
-      "EINKTABLETPC",
-      "ELECTRICSTORAGE",
-      "EBOOKSAVE",
-      "EBOOKREAD"
+      "E_FILE_DEVICE",
+      "EBOOKSAVE"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ],
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -160,7 +159,7 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -172,9 +171,8 @@
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
-      "EINKTABLETPC",
+      "E_FILE_DEVICE",
       "EBOOKSAVE",
-      "EBOOKREAD",
       {
         "target": "afs_atomic_smartphone",
         "msg": "You deactivate the flashlight app.",
@@ -205,18 +203,17 @@
       "ROBOTCONTROL",
       "CALORIES_INTAKE_TRACKER",
       "PORTABLE_GAME",
-      "EINKTABLETPC",
-      "ELECTRICSTORAGE",
-      "EBOOKSAVE",
-      "EBOOKREAD"
+      "E_FILE_DEVICE",
+      "EBOOKSAVE"
     ],
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -227,7 +224,7 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": [ "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD", "MP3_DEACTIVATE" ],
+    "use_action": [ "PORTABLE_GAME", "E_FILE_DEVICE", "EBOOKSAVE", "MP3_DEACTIVATE" ],
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "tick_action": [ "MP3_ON" ]
   },
@@ -239,9 +236,8 @@
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
-      "EINKTABLETPC",
+      "E_FILE_DEVICE",
       "EBOOKSAVE",
-      "EBOOKREAD",
       {
         "target": "afs_wraitheon_smartphone",
         "msg": "You deactivate the flashlight app.",
@@ -462,7 +458,8 @@
     "charges_per_use": 2,
     "use_action": [
       "ROBOTCONTROL",
-      "EINKTABLETPC",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
       "PORTABLE_GAME",
       {
         "target": "control_laptop_screen_lit",
@@ -481,6 +478,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ]
   },
@@ -514,7 +519,8 @@
     "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": [
-      "EINKTABLETPC",
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
       "PORTABLE_GAME",
       {
         "target": "vr_laptop_holosuite",
@@ -533,6 +539,14 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "covers": [ "eyes", "torso" ] } ]

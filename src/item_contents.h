@@ -25,6 +25,7 @@ class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
+class map;
 struct iteminfo;
 struct tripoint;
 
@@ -69,20 +70,21 @@ class item_contents
          * physical pockets.
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param ignore_non_container_pocket ignore magazine pockets, such as weapon magazines
          * @param remaining_parent_volume if we are nesting things without concern for rigidity we need to be careful about overfilling pockets
          * this tracks the remaining volume of any parent pockets
          */
         ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool ignore_pkt_settings = true,
-                                   bool is_pick_up_inv = false,
+                                   bool ignore_non_container_pocket = false,
                                    units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true,
-                                         bool is_pick_up_inv = false ) const;
+                                         bool ignore_non_container_pocket = false ) const;
         ret_val<void> can_contain_rigid( const item &it, int &copies_remaining,
                                          bool ignore_pkt_settings = true,
-                                         bool is_pick_up_inv = false ) const;
+                                         bool ignore_non_container_pocket = false ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         bool contains_no_solids() const;
@@ -304,6 +306,7 @@ class item_contents
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
         void overflow( const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();

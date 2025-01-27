@@ -350,7 +350,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                          bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
-            critter->check_dead_state();
+            critter->check_dead_state( m );
             add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
                            actual_dmg );
             continue;
@@ -466,7 +466,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             frag.proj.impact = damage_instance( damage_bullet, damage );
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( mutable_source, frag, frag.missed_by, false );
+                critter->deal_projectile_attack( m, mutable_source, frag, frag.missed_by, false );
                 add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
@@ -754,7 +754,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 int dam = dice( 10, 10 );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -774,7 +774,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 critter.add_effect( effect_emp, 1_minutes );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
             }
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
@@ -952,6 +952,7 @@ void process_explosions()
             process_explosions_in_progress = true;
             m.load( origo, false, false );
             m.spawn_monsters( true, true );
+            g->load_npcs( &m );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
         } else {
