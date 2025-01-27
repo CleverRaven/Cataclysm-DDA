@@ -8830,6 +8830,12 @@ bool item::is_estorage() const
     return contents.has_pocket_type( pocket_type::E_FILE_STORAGE );
 }
 
+bool item::is_estorage_usable( const Character &who ) const
+{
+    return is_estorage() && is_browsed() && efile_activity_actor::edevice_has_use( this ) &&
+           ammo_sufficient( &who );
+}
+
 bool item::is_estorable() const
 {
     return has_flag( flag_E_STORABLE ) || is_book();

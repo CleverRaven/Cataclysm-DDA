@@ -1714,7 +1714,9 @@ static void read()
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
-                player_character.read( loc );
+                item_location parent_loc = loc.parent_item();
+                ( parent_loc && parent_loc->is_estorage() ) ?
+                player_character.read( loc, parent_loc ) : player_character.read( loc );
             }
         }
     } else {
