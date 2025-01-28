@@ -3845,8 +3845,8 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
     if( items_destroyed > 1 ) {
         add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
                                 _( "The %s destroys several items!" ), cause_message );
-    } else if( items_destroyed == 1 && items_damaged == 1 ) {
         //~ %1$s: the cause of destruction, %2$s: destroyed item name
+    } else if( items_destroyed == 1 && items_damaged == 1 ) {
         add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
                                 _( "The %1$s destroys the %2$s!" ), cause_message,
                                 damaged_item_name );
