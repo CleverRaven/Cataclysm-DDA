@@ -3,7 +3,16 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST",
     "condition": {
-      "and": [ { "u_has_trait": "ESPER" }, { "or": [ { "compare_string": [ "AFS_TELEPATH", { "context_val": "school" } ] } ] } ]
+      "and": [
+        { "u_has_trait": "ESPER" },
+        {
+          "or": [
+            { "compare_string": [ "AFS_ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "AFS_TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "AFS_TELEPATH", { "context_val": "school" } ] }
+          ]
+        }
+      ]
     },
     "effect": [  ]
   },
@@ -12,9 +21,13 @@
     "id": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST",
     "condition": {
       "or": [
-        { "u_has_effect": "effect_telepath_sense_minds" },
-        { "u_has_effect": "effect_telepathic_suggestion" },
-        { "u_has_effect": "effect_telepathic_psi_armor" }
+        { "u_has_effect": "effect_afs_electrokin_see_electricity" },
+        { "u_has_effect": "effect_afs_electrokin_hacking_interface" },
+        { "u_has_effect": "effect_afs_electrokin_personal_battery" },
+        { "u_has_effect": "effect_afs_telekinetic_momentum" },
+        { "u_has_effect": "effect_afs_telepath_sense_minds" },
+        { "u_has_effect": "effect_afs_telepathic_suggestion" },
+        { "u_has_effect": "effect_afs_telepathic_psi_armor" }
       ]
     },
     "effect": [  ]
