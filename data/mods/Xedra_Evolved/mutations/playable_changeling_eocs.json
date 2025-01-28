@@ -1734,18 +1734,16 @@
     },
     "effect": [
       { "math": [ "u_calories_pre_mining = u_calories()" ] },
-      { "u_add_effect": "effect_trow_no_eating_or_sleep", "duration": "PERMANENT" },
-      { "run_eocs": "EOC_TROW_WHILE_MINING", "time_in_future": "5 minutes" }
+      { "u_add_effect": "effect_trow_no_eating_or_sleep", "duration": "PERMANENT" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_TROW_WHILE_MINING",
+    "recurrence": "5 minutes",
     "condition": { "u_has_effect": "effect_trow_no_eating_or_sleep" },
-    "effect": [
-      { "math": [ "u_calories('dont_affect_weariness': true) = u_calories_pre_mining" ] },
-      { "run_eocs": "EOC_TROW_WHILE_MINING", "time_in_future": "5 minutes" }
-    ]
+    "deactivate_condition": { "not": { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" } },
+    "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) = u_calories_pre_mining" ] } ]
   },
   {
     "type": "effect_on_condition",
