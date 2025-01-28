@@ -1008,6 +1008,7 @@ by the frequency assigned to the city building within the `region_settings`. Con
 | `locations` | As in `overmap_special`.                                                         |
 | `flags`     | As in `overmap_special`.                                                         |
 | `rotate`    | As in `overmap_special`.                                                         |
+| `city_sizes`| As in `overmap_special`.                                                         |
 
 ### Example
 

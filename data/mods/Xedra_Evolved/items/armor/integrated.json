@@ -919,5 +919,37 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "internal_mp3_fruit",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "The fruit's song" },
+    "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
+    "use_action": [
+      {
+        "target": "internal_mp3_fruit_on",
+        "menu_text": "Hear the song",
+        "msg": "The fruit's melody fills your mind.",
+        "type": "transform",
+        "active": true,
+        "need_charges": 0,
+        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on github."
+      }
+    ],
+    "charges_per_use": 0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "internal_mp3_fruit_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "The fruit's song" },
+    "description": "The song contained in the fruit is now struck in your head until it goes away.  Fortunately this song is enjoyable, increasing your mood while it lasts.",
+    "charges_per_use": 0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "power_draw": "0 W",
+    "revert_to": "internal_mp3",
+    "tick_action": [ "MP3_ON" ]
   }
 ]

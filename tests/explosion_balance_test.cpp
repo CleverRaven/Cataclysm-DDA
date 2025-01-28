@@ -59,7 +59,7 @@ static float get_damage_vs_target( const std::string &target_id )
         //REQUIRE( target_monster.type->armor_bullet == 0 );
         // This mirrors code in explosion::shrapnel() that scales hit rate with size and avoids crits.
         frag.missed_by = rng_float( 0.05, 1.0 / target_monster.ranged_target_size() );
-        target_monster.deal_projectile_attack( nullptr, frag, frag.missed_by, false );
+        target_monster.deal_projectile_attack( &get_map(), nullptr, frag, frag.missed_by, false );
         if( frag.dealt_dam.total_damage() > 0 ) {
             damaging_hits++;
             damage_taken += frag.dealt_dam.total_damage();

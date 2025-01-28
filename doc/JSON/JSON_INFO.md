@@ -3275,7 +3275,8 @@ Examples:
 
 #### The following optional fields are specific to ROTORs.
 ```c++
-"rotor_diameter": 15,         // Rotor diameter in meters.  Larger rotors provide more lift.
+"rotor_diameter": 15,         // Rotor diameter in meters.  Larger rotors provide more lift. This also determines the size of the rotor during collisions.
+"bonus": 5,                   // Adds additional rotor diameter during lift calculations. This does not affect rotor collision. This is useful for things like ducted fans or vtol engines that have good lift but smaller danger zones.
 ```
 
 #### The following optional fields are specific to WORKBENCHes.
@@ -5055,7 +5056,7 @@ Examples from the actual definitions:
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
-    "keg_capacity": 240,
+    "keg_capacity": "60 L",
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
@@ -5117,7 +5118,7 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 #### `keg_capacity`
 
-(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions.
 
 #### `deployed_item`
 

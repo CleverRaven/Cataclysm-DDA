@@ -22,7 +22,6 @@
     "//": "All guns are more expensive here.",
     "shopkeeper_item_group": [
       { "group": "afs_augustmoon_guntrader", "rigid": true },
-      { "group": "augustmoon_shop_money", "rigid": true },
       {
         "group": "afs_augustmoon_guntrader_military",
         "rigid": true,
@@ -36,7 +35,7 @@
     "type": "item_group",
     "id": "afs_augustmoon_guntrader",
     "subtype": "collection",
-    "items": [ { "group": "afs_civilian_armory", "count": [ 14, 28 ] } ]
+    "items": [ { "group": "afs_civilian_armory", "count": [ 14, 28 ] }, { "group": "augustmoon_shop_money" } ]
   },
   {
     "type": "item_group",

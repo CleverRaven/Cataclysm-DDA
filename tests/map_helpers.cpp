@@ -85,10 +85,11 @@ void clear_creatures()
 
 void clear_npcs()
 {
+    map &here = get_map();
     // Reload to ensure that all active NPCs are in the overmap_buffer.
     g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
-        n.die( nullptr );
+        n.die( & here, nullptr );
     }
     g->cleanup_dead();
 }
