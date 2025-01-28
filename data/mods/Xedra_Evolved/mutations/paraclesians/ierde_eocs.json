@@ -307,6 +307,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_deactivated",
+    "condition": { "u_has_effect": "effect_ierde_rooted_in_place" },
+    "effect": { "u_lose_effect": "effect_ierde_rooted_in_place" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
