@@ -1158,6 +1158,64 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        {
+          "or": [
+            { "npc_has_species": "MAMMAL" },
+            { "npc_has_species": "AMPHIBIAN" },
+            { "npc_has_species": "BIRD" },
+            { "npc_has_species": "REPTILE" },
+            { "npc_has_species": "FISH" },
+            { "npc_has_species": "KRAKEN" },
+            { "npc_has_species": "INSECT" },
+            { "npc_has_species": "CENTIPEDE" },
+            { "npc_has_species": "INSECT_FLYING" },
+            { "npc_has_species": "SPIDER" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        {
+          "or": [
+            { "npc_has_species": "MAMMAL" },
+            { "npc_has_species": "AMPHIBIAN" },
+            { "npc_has_species": "BIRD" },
+            { "npc_has_species": "REPTILE" },
+            { "npc_has_species": "FISH" },
+            { "npc_has_species": "KRAKEN" },
+            { "npc_has_species": "INSECT" },
+            { "npc_has_species": "CENTIPEDE" },
+            { "npc_has_species": "INSECT_FLYING" },
+            { "npc_has_species": "SPIDER" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
+    ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_mend_bone",
     "name": { "str": "remolding goblin fruit" },

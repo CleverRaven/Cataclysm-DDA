@@ -1718,61 +1718,50 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_RANGED",
+    "id": "EOC_TROW_START_MINING",
     "eoc_type": "EVENT",
-    "required_event": "character_ranged_attacks_monster",
+    "required_event": "character_starts_activity",
     "condition": {
       "and": [
-        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
         {
           "or": [
-            { "npc_has_species": "MAMMAL" },
-            { "npc_has_species": "AMPHIBIAN" },
-            { "npc_has_species": "BIRD" },
-            { "npc_has_species": "REPTILE" },
-            { "npc_has_species": "FISH" },
-            { "npc_has_species": "KRAKEN" },
-            { "npc_has_species": "INSECT" },
-            { "npc_has_species": "CENTIPEDE" },
-            { "npc_has_species": "INSECT_FLYING" },
-            { "npc_has_species": "SPIDER" }
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
           ]
         }
       ]
     },
     "effect": [
-      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
-      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
+      { "math": [ "u_calories_pre_mining = u_calories()" ] },
+      { "u_add_effect": "effect_trow_no_eating_or_sleep", "duration": "PERMANENT" }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE_ATTACK_MELEE",
+    "id": "EOC_TROW_WHILE_MINING",
+    "recurrence": "5 minutes",
+    "condition": { "u_has_effect": "effect_trow_no_eating_or_sleep" },
+    "deactivate_condition": { "not": { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" } },
+    "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) = u_calories_pre_mining" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TROW_END_MINING",
     "eoc_type": "EVENT",
-    "required_event": "character_melee_attacks_monster",
+    "required_event": "character_finished_activity",
     "condition": {
       "and": [
-        { "u_has_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
+        { "u_has_trait": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP" },
         {
           "or": [
-            { "npc_has_species": "MAMMAL" },
-            { "npc_has_species": "AMPHIBIAN" },
-            { "npc_has_species": "BIRD" },
-            { "npc_has_species": "REPTILE" },
-            { "npc_has_species": "FISH" },
-            { "npc_has_species": "KRAKEN" },
-            { "npc_has_species": "INSECT" },
-            { "npc_has_species": "CENTIPEDE" },
-            { "npc_has_species": "INSECT_FLYING" },
-            { "npc_has_species": "SPIDER" }
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] }
           ]
         }
       ]
     },
-    "effect": [
-      { "u_lose_trait": "GOBLIN_FRUIT_ANIMAL_IGNORE" },
-      { "u_message": "Nearby animals stop ignoring your presence.", "type": "info" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_trow_no_eating_or_sleep" } ]
   },
   {
     "type": "effect_on_condition",
