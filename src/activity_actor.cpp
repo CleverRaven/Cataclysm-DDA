@@ -3529,7 +3529,7 @@ std::string efile_activity_actor::efile_action_name( efile_action action_type, b
 {
     static const std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
     static const std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
-    static const std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
+    static const std::vector<std::string> extensions = { "", "", _( " files off of" ), _( " files onto" ), _( " files off of" ), _( " files onto" ), "" };
     return string_format( _( "%s%s" ), past_tense ? past_names[action_type] : base_names[action_type],
                           extended ? "" : extensions[action_type] );
 }
