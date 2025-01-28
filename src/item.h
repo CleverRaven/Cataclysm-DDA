@@ -3360,8 +3360,6 @@ inline bool is_crafting_component( const item &component )
  */
 bool is_preferred_component( const item &component );
 
-#endif // CATA_SRC_ITEM_H
-
 struct disp_mod_by_barrel {
     units::length barrel_length;
     int dispersion_modifier;
@@ -3380,3 +3378,5 @@ struct disp_mod_by_barrel {
  */
 std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
         const std::list<const item *> &items );
+
+#endif // CATA_SRC_ITEM_H
