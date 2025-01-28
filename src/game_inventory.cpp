@@ -1810,12 +1810,10 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
             } };
     };
 
-    std::string action_name = efile_activity_actor::efile_action_name( action );
-
     if( action == EF_READ ) {
         inventory_pick_selector select_one_file( who, preset );
         select_one_file.add_contained_efiles( used_edevice );
-        select_one_file.set_title( action_name + _( " which files?" ) );
+        select_one_file.set_title( _( "Read which files?" ) );
         if( select_one_file.empty() ) {
             return drop_locations();
         }
@@ -1830,11 +1828,14 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
     for( item_location loc : from_edevices ) {
         select_multiple_efiles.add_contained_efiles( loc );
     }
+
+    const std::string action_name = efile_activity_actor::efile_action_name( action );
+
     if( select_multiple_efiles.empty() ) {
-        popup( std::string( _( "You have no files to " + action_name + "." ) ), PF_GET_KEY );
+        popup( string_format( _( "You have no files to %s." ), action_name ), PF_GET_KEY );
         return drop_locations();
     }
-    select_multiple_efiles.set_title( _( "Select files to " + action_name ) );
+    select_multiple_efiles.set_title( string_format( _( "Select files to %s" ), action_name ) );
     bool done = false;
     drop_locations selected_efiles;
     while( !done ) {
@@ -1846,7 +1847,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         if( wiping || ( total_ememory < to_edevice->remaining_ememory() || selected_efiles.empty() ) ) {
             done = true;
         } else {
-            popup( std::string( _( "Selected file size exceeds available storage size." ) ), PF_GET_KEY );
+            popup( _( "Selected file size exceeds available storage size." ), PF_GET_KEY );
         }
     }
     return selected_efiles;
