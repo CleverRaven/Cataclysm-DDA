@@ -387,7 +387,7 @@
     "id": "CHANGELING_NOBLE_COMMAND_COMMMONERS",
     "name": { "str": "Sovereign's Command" },
     "points": 3,
-    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "description": "Invoke your rights as one of noble birth and exert your authority over the commoner fae, forcing them to obey your commands.  The glamour will only last a short time, and the target is under no obligation to look on your favorably afterwards.",
     "category": [ "FAIR_FOLK_NOBLE" ],
     "spells_learned": [ [ "changeling_noble_command_commoners_spell", 1 ] ]
   },
@@ -1443,7 +1443,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Once you begin mining, you can do it for hours without rest or sleep.  You do not get sleepy, hungry, or thirst for as long as you continue mining.  This does not remove the need to eat to recover the energy you spend mining.",
+    "description": "Once you begin mining, you can do it for hours without rest or sleep.  You need neither food nor drink nor rest for as long as you continue mining.",
     "prereqs": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ]
   },
