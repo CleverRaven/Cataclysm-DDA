@@ -81,8 +81,7 @@
     "weight": "15 kg",
     "volume": "43793 ml",
     "price": "130 USD",
-    "price_postapoc": "12 USD 50 cent",
-    "faults": [ "fault_engine_starter" ]
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "engine_1cyl_diesel_large",
@@ -146,11 +145,15 @@
   },
   {
     "id": "i1_diesel",
-    "copy-from": "i4_diesel",
+    "copy-from": "engine_diesel",
     "//": "KS 520HD-V",
     "type": "ENGINE",
-    "name": { "str": "1.6 L I1 diesel engine" },
-    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine."
+    "name": { "str": "0.5 L I1 diesel engine" },
+    "description": "A small, diesel powered one-cylinder, four-stroke air-cooled engine.",
+    "weight": "57 kg",
+    "volume": "66 L",
+    "price": "160 USD",
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "i6_diesel",

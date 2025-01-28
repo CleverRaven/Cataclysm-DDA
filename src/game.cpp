@@ -7009,7 +7009,12 @@ void game::zones_manager()
     const int zone_ui_height = 14;
     const int zone_options_height = debug_mode ? 6 : 7;
 
-    const int width = 45;
+    const bool sidebar_on_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
+    const int sidebar_width = sidebar_on_right ?
+                              panel_manager::get_manager().get_width_right() :
+                              panel_manager::get_manager().get_width_left();
+    const int minimum_zone_ui_width = 45;
+    const int zone_ui_width = std::max( sidebar_width, minimum_zone_ui_width );
 
     int offsetX = 0;
     int max_rows = 0;
@@ -7029,21 +7034,21 @@ void game::zones_manager()
             return;
         }
         offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) != "left" ?
-                  TERMX - width : 0;
+                  TERMX - zone_ui_width : 0;
         const int w_zone_height = TERMY - zone_ui_height;
         max_rows = w_zone_height - 2;
-        w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
+        w_zones = catacurses::newwin( w_zone_height - 2, zone_ui_width - 2,
                                       point( offsetX + 1, 1 ) );
-        w_zones_border = catacurses::newwin( w_zone_height, width,
+        w_zones_border = catacurses::newwin( w_zone_height, zone_ui_width,
                                              point( offsetX, 0 ) );
         w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                           width - 2, point( offsetX + 1, w_zone_height ) );
-        w_zones_info_border = catacurses::newwin( zone_ui_height, width,
+                                           zone_ui_width - 2, point( offsetX + 1, w_zone_height ) );
+        w_zones_info_border = catacurses::newwin( zone_ui_height, zone_ui_width,
                               point( offsetX, w_zone_height ) );
-        w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
+        w_zones_options = catacurses::newwin( zone_options_height - 1, zone_ui_width - 2,
                                               point( offsetX + 1, TERMY - zone_options_height ) );
 
-        ui.position( point( offsetX, 0 ), point( width, TERMY ) );
+        ui.position( point( offsetX, 0 ), point( zone_ui_width, TERMY ) );
     } );
     ui.mark_resize();
 
@@ -7250,8 +7255,8 @@ void game::zones_manager()
         if( !show ) {
             return;
         }
-        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones, ctxt, width );
+        zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, zone_ui_width );
+        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones, ctxt, zone_ui_width );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -7285,18 +7290,19 @@ void game::zones_manager()
                     //Draw Zone name
                     mvwprintz( w_zones, point( 3, iNum - start_index ), colorLine,
                                //~ "P: <Zone Name>" represents a personal zone
-                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(), 28 ) );
+                               trim_by_length( ( zone.get_is_personal() ? _( "P: " ) : "" ) + zone.get_name(),
+                                               zone_ui_width - 17 ) );
 
                     tripoint_abs_ms center = zone.get_center_point();
 
                     //Draw direction + distance
-                    mvwprintz( w_zones, point( 32, iNum - start_index ), colorLine, "%*d %s",
+                    mvwprintz( w_zones, point( zone_ui_width - 13, iNum - start_index ), colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
                                direction_name_short( direction_from( player_absolute_pos,
                                                      center ) ) );
 
                     //Draw Vehicle Indicator
-                    mvwprintz( w_zones, point( 41, iNum - start_index ), colorLine,
+                    mvwprintz( w_zones, point( zone_ui_width - 4, iNum - start_index ), colorLine,
                                zone.get_is_vehicle() ? "*" : "" );
                 }
                 iNum++;

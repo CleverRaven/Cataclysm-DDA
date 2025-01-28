@@ -358,7 +358,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored && !np.can_wear( *it.first, false ).success() ) {
+        if( !item_stored ) {
             return false;
         }
     }

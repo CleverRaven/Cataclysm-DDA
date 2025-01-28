@@ -52,7 +52,11 @@
       },
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
-      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "topic": "TALK_ALLY_SOCIAL"
+      },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
       {
         "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
