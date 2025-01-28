@@ -8,6 +8,7 @@
 #include "item_category.h"
 #include "item_search.h"
 #include "line.h"
+#include "localized_comparator.h"
 
 map_item_stack::item_group::item_group() : count( 0 ), it( nullptr )
 {
@@ -43,6 +44,16 @@ void map_item_stack::add_at_pos( const item *const it, const tripoint_rel_ms &po
     totalcount += amount;
 }
 
+bool map_item_stack::compare_item_names( const map_item_stack &lhs, const map_item_stack &rhs )
+{
+    std::string left = lhs.example->tname( 1, tname::unprefixed_tname );
+    std::string right = rhs.example->tname( 1, tname::unprefixed_tname );
+    transform( left.begin(), left.end(), left.begin(), ::tolower );
+    transform( right.begin(), right.end(), right.begin(), ::tolower );
+
+    return localized_compare( left, right );
+}
+
 bool map_item_stack::map_item_stack_sort_category_distance( const map_item_stack &lhs,
         const map_item_stack &rhs )
 {
@@ -64,11 +75,7 @@ bool map_item_stack::map_item_stack_sort_category_name( const map_item_stack &lh
     const item_category &rhs_cat = rhs.example->get_category_of_contents();
 
     if( lhs_cat == rhs_cat ) {
-        std::string left = lhs.example->tname( 1, tname::unprefixed_tname );
-        std::string right = rhs.example->tname( 1, tname::unprefixed_tname );
-        transform( left.begin(), left.end(), left.begin(), ::tolower );
-        transform( right.begin(), right.end(), right.begin(), ::tolower );
-        return left < right;
+        return compare_item_names( lhs, rhs );
     }
 
     return lhs_cat < rhs_cat;
@@ -77,11 +84,7 @@ bool map_item_stack::map_item_stack_sort_category_name( const map_item_stack &lh
 bool map_item_stack::map_item_stack_sort_name( const map_item_stack &lhs,
         const map_item_stack &rhs )
 {
-    std::string left = lhs.example->tname( 1, tname::unprefixed_tname );
-    std::string right = rhs.example->tname( 1, tname::unprefixed_tname );
-    transform( left.begin(), left.end(), left.begin(), ::tolower );
-    transform( right.begin(), right.end(), right.begin(), ::tolower );
-    return left < right;
+    return compare_item_names( lhs, rhs );
 }
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,

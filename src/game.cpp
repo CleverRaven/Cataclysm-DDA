@@ -8392,7 +8392,7 @@ bool game::take_screenshot() const
 
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height,
-                                  list_item_sort_mode sortMode )
+                                  const list_item_sort_mode sortMode )
 {
     const int width = getmaxx( window );
     wattron( window, c_light_gray );
@@ -8416,6 +8416,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height,
 
     std::string sSort;
     switch( sortMode ) {
+        case list_item_sort_mode::count:
         case list_item_sort_mode::DISTANCE:
             sSort = _( "<s>ort: dist" );
             break;
@@ -8468,6 +8469,7 @@ template<>
 std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
 {
     switch( data ) {
+        case list_item_sort_mode::count:
         case list_item_sort_mode::DISTANCE:
             return "Sort by distance only";
         case list_item_sort_mode::NAME:
@@ -8898,6 +8900,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
             switch( uistate.list_item_sort ) {
+                case list_item_sort_mode::count:
                 case list_item_sort_mode::DISTANCE:
                     uistate.list_item_sort = list_item_sort_mode::NAME;
                     break;
@@ -8933,6 +8936,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
         if( refilter ) {
             switch( uistate.list_item_sort ) {
+                case list_item_sort_mode::count:
                 case list_item_sort_mode::DISTANCE:
                     ground_items = item_list;
                     break;
