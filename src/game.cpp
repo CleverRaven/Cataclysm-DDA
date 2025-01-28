@@ -8385,7 +8385,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, list_item_sort_mode sortMode )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  list_item_sort_mode sortMode )
 {
     const int width = getmaxx( window );
     wattron( window, c_light_gray );
@@ -8408,8 +8409,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     wprintz( window, c_white, _( "Items" ) );
 
     std::string sSort;
-    switch (sortMode)
-    {
+    switch( sortMode ) {
         case list_item_sort_mode::DISTANCE:
             sSort = _( "<s>ort: dist" );
             break;
@@ -8459,9 +8459,9 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 }
 
 template<>
-std::string io::enum_to_string<list_item_sort_mode>(list_item_sort_mode data)
+std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
 {
-    switch (data) {
+    switch( data ) {
         case list_item_sort_mode::DISTANCE:
             return "Sort by distance only";
         case list_item_sort_mode::NAME:
@@ -8471,7 +8471,7 @@ std::string io::enum_to_string<list_item_sort_mode>(list_item_sort_mode data)
         case list_item_sort_mode::CATEGORY_NAME:
             return "Group by category, sort by item name";
     }
-    cata_fatal("Invalid list item sort mode");
+    cata_fatal( "Invalid list item sort mode" );
 }
 
 void game::list_items_monsters()
@@ -8799,33 +8799,34 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             trail_end_x );
     add_draw_callback( trail_cb );
 
-    bool addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE || uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
+    bool addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE ||
+                       uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
     bool refilter = true;
 
     std::string action;
-    input_context ctxt("LIST_ITEMS");
-    ctxt.register_action("UP", to_translation("Move cursor up"));
-    ctxt.register_action("DOWN", to_translation("Move cursor down"));
-    ctxt.register_action("LEFT", to_translation("Previous item"));
-    ctxt.register_action("RIGHT", to_translation("Next item"));
-    ctxt.register_action("PAGE_UP", to_translation("Fast scroll up"));
-    ctxt.register_action("PAGE_DOWN", to_translation("Fast scroll down"));
-    ctxt.register_action("SCROLL_ITEM_INFO_DOWN");
-    ctxt.register_action("SCROLL_ITEM_INFO_UP");
-    ctxt.register_action("zoom_in");
-    ctxt.register_action("zoom_out");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("PREV_TAB");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("FILTER");
-    ctxt.register_action("RESET_FILTER");
-    ctxt.register_action("EXAMINE");
-    ctxt.register_action("COMPARE");
-    ctxt.register_action("PRIORITY_INCREASE");
-    ctxt.register_action("PRIORITY_DECREASE");
-    ctxt.register_action("SORT");
-    ctxt.register_action("TRAVEL_TO");
+    input_context ctxt( "LIST_ITEMS" );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "EXAMINE" );
+    ctxt.register_action( "COMPARE" );
+    ctxt.register_action( "PRIORITY_INCREASE" );
+    ctxt.register_action( "PRIORITY_DECREASE" );
+    ctxt.register_action( "SORT" );
+    ctxt.register_action( "TRAVEL_TO" );
 
     do {
         bool recalc_unread = false;
@@ -8890,8 +8891,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
-            switch (uistate.list_item_sort)
-            {
+            switch( uistate.list_item_sort ) {
                 case list_item_sort_mode::DISTANCE:
                     uistate.list_item_sort = list_item_sort_mode::NAME;
                     break;
@@ -8926,8 +8926,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         if( refilter ) {
-            switch (uistate.list_item_sort)
-            {
+            switch( uistate.list_item_sort ) {
                 case list_item_sort_mode::DISTANCE:
                     ground_items = item_list;
                     break;
@@ -8935,15 +8934,18 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_name );
                     break;
                 case list_item_sort_mode::CATEGORY_DISTANCE:
-                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_distance );
+                    std::sort( ground_items.begin(), ground_items.end(),
+                               map_item_stack::map_item_stack_sort_category_distance );
                     break;
                 case list_item_sort_mode::CATEGORY_NAME:
-                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_name );
+                    std::sort( ground_items.begin(), ground_items.end(),
+                               map_item_stack::map_item_stack_sort_category_name );
                     break;
             }
 
             refilter = false;
-            addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE || uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
+            addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE ||
+                          uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
             filtered_items = filter_item_stacks( ground_items, sFilter );
             highPEnd = list_filter_high_priority( filtered_items, list_item_upvote );
             lowPStart = list_filter_low_priority( filtered_items, highPEnd, list_item_downvote );
