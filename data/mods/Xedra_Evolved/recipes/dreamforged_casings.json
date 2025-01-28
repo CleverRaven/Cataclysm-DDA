@@ -613,7 +613,7 @@
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
   },
   {
-    "id": "9x21mm_casing",
+    "result": "9x21mm_casing",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_XEDRA",
