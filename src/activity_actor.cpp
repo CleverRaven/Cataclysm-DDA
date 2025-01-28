@@ -3525,7 +3525,7 @@ units::ememory efile_activity_actor::current_etransfer_rate( Character &who,
 }
 
 static std::string efile_action_name_lookup( const
-        std::map<efile_action, std::pair<std::string, std::string>> &names, efile_action action_type,
+        std::map<efile_action, std::pair<translation, translation >> &names, efile_action action_type,
         bool past_tense )
 {
     const auto it = names.find( action_type );
@@ -3533,43 +3533,43 @@ static std::string efile_action_name_lookup( const
         debugmsg( "Invalid efile_action passed to efile_activity_actor::efile_action_name" );
         return "";
     }
-    return past_tense ? it->second.second : it->second.first;
+    return past_tense ? it->second.second.translated() : it->second.first.translated();
 }
 
 std::string efile_activity_actor::efile_action_name( efile_action action_type, bool past_tense,
         bool extended )
 {
-    static const std::map<efile_action, std::pair<std::string, std::string>> efile_action_names_short{
+    static const std::map<efile_action, std::pair<translation, translation>> efile_action_names_short{
         {
             EF_BROWSE, {
                 //~ Electronic file short action names, first present tense then past tense
-                _( "browse" ),
-                _( "browsed" )
+                to_translation( "browse" ),
+                to_translation( "browsed" )
             }
         },
-        { EF_READ, { _( "read" ), _( "read" ) } },
-        { EF_MOVE_FROM_THIS, { _( "move" ), _( "moved" ) } },
-        { EF_MOVE_ONTO_THIS, { _( "move" ), _( "moved" ) } },
-        { EF_COPY_FROM_THIS, { _( "copy" ), _( "copied" ) } },
-        { EF_COPY_ONTO_THIS, { _( "copy" ), _( "copied" ) } },
-        { EF_WIPE, { _( "wipe" ), _( "wiped" ) } }
+        { EF_READ, { to_translation( "read" ), to_translation( "read" ) } },
+        { EF_MOVE_FROM_THIS, { to_translation( "move" ), to_translation( "moved" ) } },
+        { EF_MOVE_ONTO_THIS, { to_translation( "move" ), to_translation( "moved" ) } },
+        { EF_COPY_FROM_THIS, { to_translation( "copy" ), to_translation( "copied" ) } },
+        { EF_COPY_ONTO_THIS, { to_translation( "copy" ), to_translation( "copied" ) } },
+        { EF_WIPE, { to_translation( "wipe" ), to_translation( "wiped" ) } }
     };
-    static const std::map<efile_action, std::pair<std::string, std::string>>
+    static const std::map<efile_action, std::pair<translation, translation>>
     efile_action_names_extended{
 
         {
             EF_BROWSE, {
                 //~ Electronic file extended action names, first present tense then past tense
-                _( "browse" ),
-                _( "browsed" )
+                to_translation( "browse" ),
+                to_translation( "browsed" )
             }
         },
-        { EF_READ, { _( "read" ), _( "read" ) } },
-        { EF_MOVE_FROM_THIS, { _( "move files off of" ), _( "moved files off of" ) } },
-        { EF_MOVE_ONTO_THIS, { _( "move files onto" ), _( "moved files onto" ) } },
-        { EF_COPY_FROM_THIS, { _( "copy files off of" ), _( "copied files off of" ) } },
-        { EF_COPY_ONTO_THIS, { _( "copy files onto" ), _( "copied files onto" ) } },
-        { EF_WIPE, { _( "wipe" ), _( "wiped" ) } }
+        { EF_READ, { to_translation( "read" ), to_translation( "read" ) } },
+        { EF_MOVE_FROM_THIS, { to_translation( "move files off of" ), to_translation( "moved files off of" ) } },
+        { EF_MOVE_ONTO_THIS, { to_translation( "move files onto" ), to_translation( "moved files onto" ) } },
+        { EF_COPY_FROM_THIS, { to_translation( "copy files off of" ), to_translation( "copied files off of" ) } },
+        { EF_COPY_ONTO_THIS, { to_translation( "copy files onto" ), to_translation( "copied files onto" ) } },
+        { EF_WIPE, { to_translation( "wipe" ), to_translation( "wiped" ) } }
     };
     return efile_action_name_lookup( extended ? efile_action_names_extended : efile_action_names_short,
                                      action_type, past_tense );
