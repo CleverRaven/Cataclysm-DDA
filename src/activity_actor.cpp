@@ -3524,14 +3524,55 @@ units::ememory efile_activity_actor::current_etransfer_rate( Character &who,
     return final_rate;
 }
 
+static std::string efile_action_name_lookup( const
+        std::map<efile_action, std::pair<std::string, std::string>> &names, efile_action action_type,
+        bool past_tense )
+{
+    const auto it = names.find( action_type );
+    if( it == names.end() ) {
+        debugmsg( "Invalid efile_action passed to efile_activity_actor::efile_action_name" );
+        return "";
+    }
+    return past_tense ? it->second.second : it->second.first;
+}
+
 std::string efile_activity_actor::efile_action_name( efile_action action_type, bool past_tense,
         bool extended )
 {
-    static const std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
-    static const std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
-    static const std::vector<std::string> extensions = { "", "", _( " files off of" ), _( " files onto" ), _( " files off of" ), _( " files onto" ), "" };
-    return string_format( _( "%s%s" ), past_tense ? past_names[action_type] : base_names[action_type],
-                          extended ? "" : extensions[action_type] );
+    static const std::map<efile_action, std::pair<std::string, std::string>> efile_action_names_short{
+        {
+            EF_BROWSE, {
+                //~ Electronic file short action names, first present tense then past tense
+                _( "browse" ),
+                _( "browsed" )
+            }
+        },
+        { EF_READ, { _( "read" ), _( "read" ) } },
+        { EF_MOVE_FROM_THIS, { _( "move" ), _( "moved" ) } },
+        { EF_MOVE_ONTO_THIS, { _( "move" ), _( "moved" ) } },
+        { EF_COPY_FROM_THIS, { _( "copy" ), _( "copied" ) } },
+        { EF_COPY_ONTO_THIS, { _( "copy" ), _( "copied" ) } },
+        { EF_WIPE, { _( "wipe" ), _( "wiped" ) } }
+    };
+    static const std::map<efile_action, std::pair<std::string, std::string>>
+    efile_action_names_extended{
+
+        {
+            EF_BROWSE, {
+                //~ Electronic file extended action names, first present tense then past tense
+                _( "browse" ),
+                _( "browsed" )
+            }
+        },
+        { EF_READ, { _( "read" ), _( "read" ) } },
+        { EF_MOVE_FROM_THIS, { _( "move files off of" ), _( "moved files off of" ) } },
+        { EF_MOVE_ONTO_THIS, { _( "move files onto" ), _( "moved files onto" ) } },
+        { EF_COPY_FROM_THIS, { _( "copy files off of" ), _( "copied files off of" ) } },
+        { EF_COPY_ONTO_THIS, { _( "copy files onto" ), _( "copied files onto" ) } },
+        { EF_WIPE, { _( "wipe" ), _( "wiped" ) } }
+    };
+    return efile_action_name_lookup( extended ? efile_action_names_extended : efile_action_names_short,
+                                     action_type, past_tense );
 }
 
 bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
