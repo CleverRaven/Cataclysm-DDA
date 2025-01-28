@@ -43,7 +43,7 @@ void map_item_stack::add_at_pos( const item *const it, const tripoint_rel_ms &po
     totalcount += amount;
 }
 
-bool map_item_stack::map_item_stack_sort_category_distance(const map_item_stack& lhs, const map_item_stack& rhs)
+bool map_item_stack::map_item_stack_sort_category_distance(const map_item_stack &lhs, const map_item_stack &rhs)
 {
     const item_category &lhs_cat = lhs.example->get_category_of_contents();
     const item_category &rhs_cat = rhs.example->get_category_of_contents();
@@ -56,13 +56,17 @@ bool map_item_stack::map_item_stack_sort_category_distance(const map_item_stack&
     return lhs_cat < rhs_cat;
 }
 
-bool map_item_stack::map_item_stack_sort_category_name(const map_item_stack& lhs, const map_item_stack& rhs)
+bool map_item_stack::map_item_stack_sort_category_name(const map_item_stack &lhs, const map_item_stack &rhs)
 {
     const item_category &lhs_cat = lhs.example->get_category_of_contents();
     const item_category &rhs_cat = rhs.example->get_category_of_contents();
 
     if( lhs_cat == rhs_cat ) {
-        return lhs.example->tname() < rhs.example->tname();
+        std::string left = lhs.example->tname(1, tname::unprefixed_tname);
+        std::string right = rhs.example->tname(1, tname::unprefixed_tname);
+        transform(left.begin(), left.end(), left.begin(), ::tolower);
+        transform(right.begin(), right.end(), right.begin(), ::tolower);
+        return left < right;
     }
 
     return lhs_cat < rhs_cat;
@@ -70,7 +74,11 @@ bool map_item_stack::map_item_stack_sort_category_name(const map_item_stack& lhs
 
 bool map_item_stack::map_item_stack_sort_name( const map_item_stack &lhs, const map_item_stack &rhs )
 {
-    return lhs.example->tname() < rhs.example->tname();
+    std::string left = lhs.example->tname(1, tname::unprefixed_tname);
+    std::string right = rhs.example->tname(1, tname::unprefixed_tname);
+    transform(left.begin(), left.end(), left.begin(), ::tolower);
+    transform(right.begin(), right.end(), right.begin(), ::tolower);
+    return left < right;
 }
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,

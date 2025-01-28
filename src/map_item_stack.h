@@ -41,7 +41,7 @@ class map_item_stack
 
         static bool map_item_stack_sort_category_distance(const map_item_stack &lhs, const map_item_stack &rhs );
         static bool map_item_stack_sort_category_name(const map_item_stack &lhs, const map_item_stack &rhs );
-        static bool map_item_stack_sort_name(const map_item_stack& lhs, const map_item_stack& rhs);
+        static bool map_item_stack_sort_name(const map_item_stack &lhs, const map_item_stack &rhs);
 };
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,
