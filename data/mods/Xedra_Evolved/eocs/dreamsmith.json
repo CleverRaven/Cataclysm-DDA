@@ -227,7 +227,7 @@
         ],
         "type": "recipe",
         "true_eocs": {
-          "id": "EOC_DREAMSMITH_CASINGS_LC_MESSAGE_POSITIVE",
+          "id": "EOC_DREAMSMITH_CASINGS_HC_MESSAGE_POSITIVE",
           "effect": [ { "u_message": "You realize you know suddenly how to make a larger caliber bullet casing.", "type": "good" } ]
         }
       }
