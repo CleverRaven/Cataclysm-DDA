@@ -162,7 +162,7 @@
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "mut_wood" ],
+    "material": [ "stone" ],
     "symbol": ",",
     "color": "brown",
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
@@ -919,6 +919,23 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "integrated_trow_fists",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "stone fists" },
+    "description": "Your thick skin and nails means your hands can be used as simple tools.  You also do slightly more damage when punching.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "fae_flesh" ],
+    "symbol": ",",
+    "color": "brown",
+    "flags": [ "INTEGRATED", "SEMITANGIBLE", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED" ],
+    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ], [ "PRY", 2 ] ],
+    "relic_data": { "passive_effects": [ { "id": "ench_trow_stone_fists" } ] }
   },
   {
     "id": "internal_mp3_fruit",

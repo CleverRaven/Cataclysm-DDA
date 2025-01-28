@@ -2430,6 +2430,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_trow_no_eating_or_sleep",
+    "//": "Hidden effect, used to give you no metabolism or sleep gain while mining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
