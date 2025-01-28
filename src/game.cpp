@@ -8928,23 +8928,23 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             }
         }
 
-        switch (uistate.list_item_sort)
-        {
-            case list_item_sort_mode::DISTANCE:
-                ground_items = item_list;
-                break;
-            case list_item_sort_mode::NAME:
-                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_name );
-                break;
-            case list_item_sort_mode::CATEGORY_DISTANCE:
-                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_distance );
-                break;
-            case list_item_sort_mode::CATEGORY_NAME:
-                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_name );
-                break;
-        }
-
         if( refilter ) {
+            switch (uistate.list_item_sort)
+            {
+                case list_item_sort_mode::DISTANCE:
+                    ground_items = item_list;
+                    break;
+                case list_item_sort_mode::NAME:
+                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_name );
+                    break;
+                case list_item_sort_mode::CATEGORY_DISTANCE:
+                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_distance );
+                    break;
+                case list_item_sort_mode::CATEGORY_NAME:
+                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_category_name );
+                    break;
+            }
+
             refilter = false;
             filtered_items = filter_item_stacks( ground_items, sFilter );
             highPEnd = list_filter_high_priority( filtered_items, list_item_upvote );
