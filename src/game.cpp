@@ -8416,16 +8416,20 @@ void game::reset_item_list_state( const catacurses::window &window, int height,
 
     std::string sSort;
     switch( sortMode ) {
+        // Sort by distance only
         case list_item_sort_mode::count:
         case list_item_sort_mode::DISTANCE:
             sSort = _( "<s>ort: dist" );
             break;
+        // Sort by name only
         case list_item_sort_mode::NAME:
             sSort = _( "<s>ort: name" );
             break;
+        // Group by category, sort by distance
         case list_item_sort_mode::CATEGORY_DISTANCE:
             sSort = _( "<s>ort: cat-dist" );
             break;
+        // Group by category, sort by item name
         case list_item_sort_mode::CATEGORY_NAME:
             sSort = _( "<s>ort: cat-name" );
             break;
@@ -8466,18 +8470,18 @@ void game::reset_item_list_state( const catacurses::window &window, int height,
 }
 
 template<>
-std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
+std::string io::enum_to_string<list_item_sort_mode>( const list_item_sort_mode data )
 {
     switch( data ) {
         case list_item_sort_mode::count:
         case list_item_sort_mode::DISTANCE:
-            return "Sort by distance only";
+            return "DISTANCE";
         case list_item_sort_mode::NAME:
-            return "Sort by name only";
+            return "NAME";
         case list_item_sort_mode::CATEGORY_DISTANCE:
-            return "Group by category, sort by distance";
+            return "CATEGORY_DISTANCE";
         case list_item_sort_mode::CATEGORY_NAME:
-            return "Group by category, sort by item name";
+            return "CATEGORY_NAME";
     }
     cata_fatal( "Invalid list item sort mode" );
 }
