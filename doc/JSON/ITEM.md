@@ -1,4 +1,63 @@
-# `data/json/items/` JSONs
+- [Generic Items](#generic-items)
+   * [To hit object](#to-hit-object)
+- [Ammo](#ammo)
+- [Ammo Effects](#ammo-effects)
+- [Magazine](#magazine)
+- [Armor](#armor)
+   * [Armor Portion Data](#armor-portion-data)
+      + [Encumbrance](#encumbrance)
+      + [Encumbrance_modifiers](#encumbrance_modifiers)
+      + [breathability](#breathability)
+      + [Layers](#layers)
+      + [rigid_layer_only](#rigid_layer_only)
+      + [Coverage](#coverage)
+      + [Covers](#covers)
+      + [Specifically Covers](#specifically-covers)
+      + [Part Materials](#part-materials)
+      + [Armor Data](#armor-data)
+   * [Guidelines for thickness: ####](#guidelines-for-thickness-)
+   * [Armor inheritance](#armor-inheritance)
+- [Pet Armor](#pet-armor)
+- [Books](#books)
+   * [Conditional Naming](#conditional-naming)
+   * [Color Key](#color-key)
+   * [CBMs](#cbms)
+- [Comestibles](#comestibles)
+- [Containers](#containers)
+- [Melee](#melee)
+- [Memory Cards](#memory-cards)
+- [Gun](#gun)
+- [Gunmod](#gunmod)
+- [Batteries](#batteries)
+- [Tools](#tools)
+- [Seed Data](#seed-data)
+- [Brewing Data](#brewing-data)
+   * [`Effects_carried`](#effects_carried)
+   * [`effects_worn`](#effects_worn)
+   * [`effects_wielded`](#effects_wielded)
+   * [`effects_activated`](#effects_activated)
+- [Software Data](#software-data)
+- [Use Actions](#use-actions)
+- [Drop Actions](#drop-actions)
+- [Tick Actions](#tick-actions)
+   * [Delayed Item Actions](#delayed-item-actions)
+
+Items are any entity in the game you can pick up; There are multiple `type`s of items, each having it's own unique fields; they are: 
+- GENERIC - any item that is not one of the rest
+- TOOL - can have tool qualities and use energy
+- ARMOR - can define protection against incoming damage
+- TOOL_ARMOR - combination of TOOL and ARMOR, for example for power armor
+- GUN - shoots projectiles of any kind
+- GUNMOD - is installed on a gun, if it has required slot
+- AMMO - consumed by another tools or guns
+- MAGAZINE - stores AMMO to be used in GUN, TOOL, GUNMOD or TOOLMOD; in this case item should have not a pocket of type MAGAZINE, but pocket of type MAGAZINE_WELL
+- COMESTIBLE - can be eaten and can rot
+- BOOK - can be read
+- PET_ARMOR - defines pet armor
+- BIONIC_ITEM - item is a CBM, if installed, you get the bionic effect with the same id as the item name
+- TOOLMOD - this is a toolmod, and can be installed to modify tool in some way (mainly battery slot changes)
+- ENGINE - defines the properties of a vehicle engine if installed in a transport
+- WHEEL - defines the properties of a vehicle wheel if installed in a transport
 
 ### Generic Items
 
@@ -114,7 +173,7 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
-```json
+```c++
 {
   "id": "223",            // ID of the ammo
   "type": "AMMO",         // Defines this as ammo. It can use the same entries as a GENERIC item
@@ -151,7 +210,7 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
 
 Additionally, non-`"type": "AMMO"` items can be considered as ammo (capable of being shot, capable of being loaded into a `MAGAZINE` pocket), by adding the `ammo_data` field, which supports the same fields as the `AMMO` type. Do note that a proper `ammunition_type` is also required:
 
-```json
+```c++
   {
     "id": "water_clean",
     "type": "COMESTIBLE",
@@ -261,7 +320,7 @@ Armor can be defined like this:
 #### Armor Portion Data
 Encumbrance and coverage can be defined on a piece of armor as such:
 
-```json
+```c++
 "armor": [
   {
     "encumbrance": [ 2, 8 ],
@@ -348,7 +407,7 @@ The portion coverage and thickness determine how much the material contributes t
 
 `covered_by_mat` should not be confused with `coverage`. When specifying `covered_by_mat`, treat it like the `portion` field using percentage instead of a ratio value. For example:
 
-```json
+```c++
 "armor": [
   {
     "covers" : [ "arm_r", "arm_l" ],
@@ -427,7 +486,7 @@ For turnout gear, see <https://web.archive.org/web/20220331215535/http://bolivar
 #### Armor inheritance
 
 Inheritance of one armor using another allows to copy all its values, including layers, thicknesses, and another. Additionally, the `replace_materials` could be used to replace one material in parent armor to another material in child node, in format `"replace_materials": { "material_1": "material_2" }`. For example: 
-```json
+```c++
 {
   "id": "skeleton_plate",
   "type": "TOOL_ARMOR",
@@ -531,7 +590,7 @@ the plural forms. The following is the game's convention on plural names of book
 
 The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
 
-```json
+```c++
 {
   "name": "sausage",
   "conditional_names": [
@@ -802,7 +861,7 @@ Guns can be defined like this:
 "loudness": 10             // Amount of noise produced by this gun when firing. If no value is defined, then it's calculated based on loudness value from loaded ammo. Final loudness is calculated as gun loudness + gunmod loudness + ammo loudness. If final loudness is 0, then the gun is completely silent.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
-```json
+```c++
 "type": "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "gun_data" : {        // additionally the same gun data like above
@@ -867,7 +926,7 @@ Gun mods can be defined like this:
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
-```json
+```c++
 "type": "TOOL",       // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "gunmod_data" : {
@@ -1086,7 +1145,7 @@ Every item type can have software data, it does not have any behavior:
 
 The contents of `use_action` fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
 
-```json
+```c++
 "use_action": {
   "type": "transform",                      // The type of method, in this case one that transforms the item
   "target": "gasoline_lantern_on",          // The item to transform to
@@ -1450,3 +1509,54 @@ Once the duration of the timer has passed the `"countdown_action"` is executed. 
 ```
 
 Additionally `"revert_to"` can be defined in item definitions (not in use action). The item is deactivated and turned to this type after the `"countdown_action"`. If no revert_to is specified the item is destroyed.
+
+
+### Item Properties
+
+Properties are bound to item's type definition and code checks for them for special behaviour,
+for example the property below makes a container burst open when filled over 75% and it's thrown.
+
+```json
+  {
+    "properties": { "burst_when_filled": "75" }
+  }
+```
+
+### Item Variables
+
+Item variables are plain strings of data stored within item and used to serialize special behaviour,
+for example folding a vehicle serializes the folded vehicle's name and list of parts
+(part type ids, part damage, degradation etc) into json string for use when unfolding.
+
+Alternatively item variables may also originate from the item's prototype. Specifying them
+can be done in the item's definition, add the `variables` key and inside write a key-value
+map.
+
+all values of variable are written as string
+Example:
+```json
+    "variables": { "variable_name": "value" }
+```
+```json
+    "variables": { "browsed": "false" }
+```
+```json
+    "variables": { "water_per_tablet": "4" }
+```
+
+This will make any item instantiated from that prototype get assigned this variable, once
+the item is spawned the variables set on the prototype no longer affect the item's variables,
+a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
+flag is set.
+
+Also item variables can be assigned and read by effect_on_conditions
+```c++
+{ "math": [ "n_variablename = rand(5, 100)" ] } // assuming beta talker, aka n_, is item
+
+{ "math": [ "n_variablename > 50 ? u_pain()++ : u_pain()--" ] }
+```
+
+{
+  "set_string_var": [ "foo", "bar", "xyz", "qwe", "rty" ],
+  "target_var": { "npc_val": "variablename" }
+}
