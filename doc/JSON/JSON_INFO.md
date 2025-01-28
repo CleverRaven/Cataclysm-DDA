@@ -5056,7 +5056,7 @@ Examples from the actual definitions:
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
-    "keg_capacity": 240,
+    "keg_capacity": "60 L",
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
@@ -5118,7 +5118,7 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 #### `keg_capacity`
 
-(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions.
 
 #### `deployed_item`
 
