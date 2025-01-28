@@ -12,7 +12,7 @@
     "bonus_per": { "rng": [ 1, 3 ] },
     "worn_override": "NC_SALVOR_FABRICATOR_worn",
     "carry_override": "EMPTY_GROUP",
-    "weapon_override": "NC_SALVOR_FABRICATOR_wield",
+    "weapon_override": "EMPTY_GROUP",
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
@@ -64,11 +64,5 @@
       { "item": "under_armor_shorts" },
       { "item": "holster" }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_SALVOR_FABRICATOR_wield",
-    "subtype": "collection",
-    "items": [ { "item": "afs_marsec_4", "charges": 14, "ammo-item": "afs_10mm_caseless_JHP" } ]
   }
 ]

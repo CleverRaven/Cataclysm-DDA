@@ -52,14 +52,14 @@
       { "group": "afs_salvor_fabricator_makeshift_ammo" },
       { "group": "afs_salvor_fabricator_makeshift_grenades" }
     ]
-  }
+  },
   {
     "type": "item_group",
     "id": "afs_salvor_fabricator_makeshift_armor",
     "subtype": "collection",
     "items": [
       { "item": "xl_helmet_scrap", "prob": 20 },
-      { "item": "xs_helmet_scrap", "prob": 20 },
+      { "item": "helmet_scrap_xs", "prob": 20 },
       { "item": "helmet_scrap", "prob": 40 },
       { "item": "xl_cuirass_scrap", "prob": 20 },
       { "item": "xs_cuirass_scrap", "prob": 20 },
