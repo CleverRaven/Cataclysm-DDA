@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PLAYER_DIFFICULTY_H
 #define CATA_SRC_PLAYER_DIFFICULTY_H
 
-#include <npc.h>
+#include "npc.h"
 
 // The point after which stats cost double
 constexpr int HIGH_STAT = 12;
