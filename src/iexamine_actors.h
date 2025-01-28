@@ -88,8 +88,6 @@ class mortar_examine_actor : public iexamine_actor
     private:
         std::vector<ammotype> ammo_type;
         int range;
-        itype_id booster;
-        std::map<int, int> booster_ranges;
         std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
         translation condition_fail_msg;

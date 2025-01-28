@@ -41,19 +41,16 @@
         ]
       },
       "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
-      "booster": "60mm_propellant",
-      "booster_distances": [
-        { "amount": 4, "distance": 400 },
-        { "amount": 3, "distance": 1340 },
-        { "amount": 2, "distance": 2150 },
-        { "amount": 1, "distance": 2890 }
-      ],
       "effect_on_conditions": [
         {
           "id": "EOC_SHOT",
           "effect": [
             { "u_add_effect": "aimed_60mm", "duration": "3 minutes" },
-            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] }
+            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] },
+            { "if": { "math": [ "distance('u', _target) <= 400 " ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 1340" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2150" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2890" ] }, "then": { "u_spawn_item": "60mm_propellant" } }
           ]
         }
       ]

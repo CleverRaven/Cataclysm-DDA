@@ -846,11 +846,9 @@ std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
 
 int overmapbuffer::highest_omt_point( tripoint_abs_omt loc )
 {
-    oter_id terrain;
     for( int i = OVERMAP_HEIGHT; i >= OVERMAP_DEPTH * -1; i-- ) {
         loc.z() = i;
-        terrain = ter( loc );
-        if( terrain != oter_open_air ) {
+        if( !ter( loc )->can_see_down_through() ) {
             return i;
         }
     }

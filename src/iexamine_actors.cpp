@@ -21,6 +21,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "timed_event.h"
 #include "veh_appliance.h"
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
@@ -355,19 +356,6 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
     you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_duration.evaluate( d ) ) );
 
-
-    if( booster ) {
-        int booster_qty = 0;
-        for( std::pair qty_dist_pair : booster_ranges ) {
-            if( rl_dist( you.pos_abs_omt(), target ) * 24 <= qty_dist_pair.second ) {
-                booster_qty = qty_dist_pair.first;
-                break;
-            }
-        }
-        item booster_item = item( booster );
-        you.i_add_or_drop( booster_item, booster_qty );
-    }
-
     tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
 
     const int deviation = ( aim_deviation.evaluate( d ) * rl_dist( you.pos_abs(), target_abs_ms ) / 2 );
@@ -379,8 +367,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
 
     for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
-        explosion_handler::explosion( &you, get_map().get_bub( target_abs_ms ),
-                                      ammo_eff.obj().aoe_explosion_data );
+        get_timed_events().add( timed_event_type::EXPLOSION, calendar::turn + 5_minutes,
+                                target_abs_ms, ammo_eff.obj().aoe_explosion_data );
     }
 
     loc->charges--;
@@ -400,16 +388,6 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, false, "ammo", ammo_type );
     mandatory( jo, false, "range", range );
-    optional( jo, false, "booster", booster, itype_id::NULL_ID() );
-    if( jo.has_array( "booster_distances" ) ) {
-        int amount;
-        int distance;
-        for( const JsonObject jsobj : jo.get_array( "booster_distances" ) ) {
-            mandatory( jsobj, false, "amount", amount );
-            mandatory( jsobj, false, "distance", distance );
-            booster_ranges.emplace( amount, distance );
-        }
-    }
     if( jo.has_member( "condition" ) ) {
         read_condition( jo, "condition", condition, false );
         has_condition = true;
@@ -431,18 +409,6 @@ void mortar_examine_actor::finalize() const
         if( !ammo.is_valid() ) {
             debugmsg( "Invalid ammo type: %s", ammo.str() );
         }
-    }
-
-    if( !booster.is_valid() ) {
-        debugmsg( "Invalid booster: %s", booster.str() );
-    }
-
-    if( booster.is_valid() && booster_ranges.empty() ) {
-        debugmsg( "booster \"%s\" is defined, but booster_distances are not", booster.str() );
-    }
-
-    if( !booster.is_null() && !booster_ranges.empty() ) {
-        debugmsg( "booster_distances are used, but booster is not defined", booster.str() );
     }
 }
 
