@@ -193,26 +193,6 @@
     "damage_type": "electric"
   },
   {
-    "type": "SPELL",
-    "id": "inventor_dark_age",
-    "name": "Dark Age",
-    "description": "Degrade all instances of high technology within an area.",
-    "valid_targets": [ "ally", "self", "hostile", "ground" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_INVENTOR_DARK_AGE_DAMAGE_ITEMS",
-    "shape": "blast",
-    "skill": "deduction",
-    "min_range": 15,
-    "min_aoe": 5,
-    "max_level": 1,
-    "difficulty": 0,
-    "base_casting_time": 100,
-    "base_energy_cost": 100,
-    "spell_class": "INVENTOR",
-    "energy_source": "MANA",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ]
-  },
-  {
     "id": "heat_expl_gun",
     "type": "SPELL",
     "name": "Instant Ignition",

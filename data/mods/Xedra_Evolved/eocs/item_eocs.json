@@ -54,15 +54,5 @@
     "required_event": "character_casts_spell",
     "condition": { "or": [ { "compare_string": [ "rip_ticket", { "context_val": "spell" } ] } ] },
     "effect": [ { "u_consume_item": "rip_ticket" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_DARK_AGE_DAMAGE_ITEMS",
-    "condition" : "u_is_character",
-    "effect": {
-      "u_run_inv_eocs": "all",
-      "search_data": [ { "uses_energy": true } ],
-      "true_eocs": [ { "id": "EOC_INVENTOR_DARK_AGE_DAMAGE_ITEM", "effect": [ { "math": [ "n_hp('ALL')", "-=", "u_skill('deduction') * 400" ] } ] } ]
-    }
   }
 ]
