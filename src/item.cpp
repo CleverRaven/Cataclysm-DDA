@@ -13716,7 +13716,7 @@ void item::overwrite_relic( const relic &nrelic )
 
 bool item::use_relic( Character &guy, const tripoint_bub_ms &pos )
 {
-    return relic_data->activate( guy, pos.raw() );
+    return relic_data->activate( guy, pos );
 }
 
 void item::process_relic( Character *carrier, const tripoint_bub_ms &pos )

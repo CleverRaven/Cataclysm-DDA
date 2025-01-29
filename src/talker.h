@@ -95,9 +95,6 @@ class const_talker
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const {
-            return {};
-        }
         virtual tripoint_bub_ms pos_bub() const {
             return {};
         }

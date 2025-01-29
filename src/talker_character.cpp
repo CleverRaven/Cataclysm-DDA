@@ -62,11 +62,6 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint talker_character_const::pos() const
-{
-    return me_chr_const->pos_bub().raw();
-}
-
 tripoint_bub_ms talker_character_const::pos_bub() const
 {
     return me_chr_const->pos_bub();
