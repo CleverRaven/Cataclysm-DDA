@@ -1791,7 +1791,7 @@ static void teleport_overmap( bool specific_coordinates = false )
                    coord_strings.size() );
             return;
         }
-        std::vector<std::pair<int, int>> coord_ints;
+        std::vector<std::pair<int, int>> coord_ints
         for( const std::string &coord_string : coord_strings ) {
             const std::vector<std::string> coord_parts = string_split( coord_string, '\'' );
             if( coord_parts.size() < 1 || coord_parts.size() > 2 ) {
