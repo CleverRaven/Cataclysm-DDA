@@ -1818,8 +1818,8 @@ static void teleport_overmap( bool specific_coordinates = false )
         }
         cata_assert( coord_ints.size() >= 2 );
         where = tripoint_abs_omt( OMAPX * coord_ints[0].first + coord_ints[0].second,
-                                  OMAPY * coord_ints[1].first + coord_ints[1].second, 
-                                  (coord_ints.size() >= 3 ? coord_ints[2].first : 0) );
+                                  OMAPY * coord_ints[1].first + coord_ints[1].second,
+                                  ( coord_ints.size() >= 3 ? coord_ints[2].first : 0 ) );
     } else {
         const std::optional<tripoint_rel_ms> dir_ = choose_direction(
                     _( "Where is the desired overmap?" ) );
