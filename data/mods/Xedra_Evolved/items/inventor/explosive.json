@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "portable dark age" },
-    "description": "In this device the Mad Genius creates an extremely strong magnetic field.  Then in the next step of it's creation he splits that field in two in such a way it is perpetually trying to reconnect.  When activated the timer counts down til the moment the two fields reconnect.  Upon reconnection energy is released in the form of EMP.",
+    "description": "In this device the Mad Genius creates an extremely strong magnetic field.  Then in the next step of its creation they split that field in two in such a way it is perpetually trying to reconnect.  When activated the timer counts down til the moment the two fields reconnect.  Upon reconnection, energy is released in the form of EMP.",
     "weight": "400 g",
     "volume": "200 ml",
     "price": "600 USD",
