@@ -750,6 +750,7 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
         case DebugOutput::file: {
             this->filename = filename;
             // Continue with the old log file if it's smaller than 1 MiB
+            namespace fs = std::filesystem;
             if( fs::file_size( fs::path( filename ) ) >= 1024 * 1024 ) {
                 std::error_code ec;
                 fs::rename( fs::path( filename ), fs::path( oldfile ), ec );
