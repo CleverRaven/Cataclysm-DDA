@@ -1112,6 +1112,7 @@ void Character::load( const JsonObject &data )
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
+    data.read( "book_chapters", book_chapters );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
@@ -1489,6 +1490,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
+    json.member( "book_chapters", book_chapters );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
