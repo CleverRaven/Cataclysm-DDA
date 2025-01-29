@@ -75,7 +75,7 @@ void query_popup_impl::draw_controls()
             }
             if( keyboard_selected_option != last_keyboard_selected_option &&
                 keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
-                ImGui::SetItemDefaultFocus();
+                ImGui::SetKeyboardFocusHere( -1 );
             }
             current_line = parent->buttons[ind].pos.y;
         }
