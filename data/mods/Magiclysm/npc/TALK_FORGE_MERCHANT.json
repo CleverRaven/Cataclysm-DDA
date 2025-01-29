@@ -23,7 +23,7 @@
     "bonus_int": { "rng": [ 20, 25 ] },
     "bonus_per": { "rng": [ 20, 25 ] },
     "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_SHOP", "rigid": true } ],
-    "price_rules": [ { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS", "price": 2500, "fixed_adj": 0 } ],
+    "shopkeeper_price_rules": [ { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS", "price": 2500, "fixed_adj": 0 } ],
     "worn_override": "NC_FORGE_LORD_clothes",
     "skills": [
       {
