@@ -567,7 +567,7 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "description": "A delicious peanut butter and mashmallow fluff sandwich.  More comonly referred to as a fluffernutter.",
+    "description": "A delicious peanut butter and marshmallow fluff sandwich.  More commonly referred to as a fluffernutter.",
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD 75 cent",
     "material": [ "nut", "junk", "wheat", "egg" ],
