@@ -8392,7 +8392,7 @@ bool game::take_screenshot() const
 
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height,
-                                  const list_item_sort_mode sortMode )
+                                  list_item_sort_mode sortMode )
 {
     const int width = getmaxx( window );
     wattron( window, c_light_gray );
@@ -8470,7 +8470,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height,
 }
 
 template<>
-std::string io::enum_to_string<list_item_sort_mode>( const list_item_sort_mode data )
+std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
 {
     switch( data ) {
         case list_item_sort_mode::count:
