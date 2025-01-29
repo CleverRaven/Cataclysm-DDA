@@ -270,11 +270,11 @@ As of 2024, there have been some very exciting changes to how we handle characte
 
 #### Losing limb in combat: sure, but character gonna die (almost always)
 
-Not the first time I see people asking when the combat will be so dangerous you will be able to lose your beloved arm or leg. Bullet points:
+Often I see people asking when will combat be so dangerous that you will be able to lose your beloved arm or leg. Bullet points:
 
 Main ways to lose a limb are:
 
-You having so badly damaged/infected a limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest in your medicine really well;
+You have so badly damaged/infected a limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest in the medicine skill heavily;
 
 The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
 
