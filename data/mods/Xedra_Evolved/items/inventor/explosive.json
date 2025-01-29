@@ -41,12 +41,7 @@
     "explode_in_fire": false,
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Summon Dark Age" },
-    "countdown_action": {
-      "type": "explosion",
-      "draw_explosion_radius": 60,
-      "draw_explosion_color": "light_blue",
-      "emp_blast_radius": 60
-    },
+    "countdown_action": { "type": "explosion", "draw_explosion_radius": 60, "draw_explosion_color": "light_blue", "emp_blast_radius": 60 },
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "melee_damage": { "bash": 2 }
   }
