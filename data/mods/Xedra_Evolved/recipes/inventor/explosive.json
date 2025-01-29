@@ -17,7 +17,7 @@
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "magnetron", 4 ] ],
-      [ [ "inventor_light_cell", 2 ] ]
+      [ [ "inventor_medium_cell", 1 ] ]
     ],
     "time": "7 h",
     "skill_used": "deduction",
