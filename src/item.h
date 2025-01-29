@@ -360,6 +360,8 @@ class item : public visitable
         bool is_cash_card() const;
 
         bool is_estorage() const;
+        /** Above, along with checks for power, browsed, use action */
+        bool is_estorage_usable( const Character &who ) const;
         bool is_estorable() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
