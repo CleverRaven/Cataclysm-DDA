@@ -1814,7 +1814,7 @@ static void teleport_overmap( bool specific_coordinates = false )
                 }
                 minor_coord = parsed_coord2.value();
             }
-            coord_ints.emplace_back( std::pair<int, int>( major_coord, minor_coord ) );
+            coord_ints.emplace_back( major_coord, minor_coord );
         }
         cata_assert( coord_ints.size() >= 2 );
         where = tripoint_abs_omt( OMAPX * coord_ints[0].first + coord_ints[0].second,
