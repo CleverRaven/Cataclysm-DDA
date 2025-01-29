@@ -18,7 +18,7 @@
       }
     ]
   },
-    {
+  {
     "id": "dissect_combat_cyborg",
     "type": "harvest",
     "message": "You search for any salvageable hardware in what's left of this monstrous ghoul.",
