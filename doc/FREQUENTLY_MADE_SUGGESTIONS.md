@@ -274,7 +274,7 @@ Often I see people asking when will combat be so dangerous that you will be able
 
 Main ways to lose a limb are:
 
-You have so badly damaged/infected a limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest in the medicine skill heavily;
+You have so badly damaged/infected limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest heavily in your own camp having a good surgeon with a tools reqired;
 
 The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
 
