@@ -1386,7 +1386,7 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
     int64_t ret;
-    units::mass my_weight = count_by_charges() ? type->weight: weight();
+    units::mass my_weight = count_by_charges() ? type->weight : weight();
     if( my_weight == 0_gram ) {
         if( !suppress_warning ) {
             debugmsg( "Item '%s' with zero weight", tname() );
