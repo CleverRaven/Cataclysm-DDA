@@ -219,7 +219,7 @@ Important to remember that **reactivated EOCs currently lose all context variabl
 # Condition:
 
 Dialogue conditions is a way to check is some specific statements are true or false. Conditions can be used both in dialogue with NPC, and in Effect on Conditions. 
-The following keys and strings are available:
+The following keys and strings are available:
 
 ## Boolean logic
 Conditions can be combined into blocks using `"and"`, `"or"` and `"not"`
@@ -289,7 +289,7 @@ Checks there is portal storm **and** you have `MAKAYLA_MUTATOR` mutation **and**
 
 ## Possible conditions
 
-### `has_alpha`, `has_beta`
+### `has_alpha`, `has_beta`
 - type: simple string
 - return true if alpha or beta talker exist
 
@@ -305,7 +305,7 @@ return true if beta talker exists
 "condition": "has_beta",
 ```
 
-### `u_male`, `u_female`, `npc_male`, `npc_female`
+### `u_male`, `u_female`, `npc_male`, `npc_female`
 - type: simple string
 - return true if alpha or beta talker is male or female
 
@@ -321,7 +321,7 @@ return true if alpha talker is female
 "condition": "npc_female",
 ```
 
-### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
+### `u_is_avatar`, `u_is_npc`, `u_is_character`, `u_is_monster`, `u_is_item`, `u_is_furniture`, `npc_is_avatar`, `npc_is_npc`, `npc_is_character`, `npc_is_monster`, `npc_is_item`, `npc_is_furniture`
 - type: simple string
 - return true if alpha or beta talker is avatar / NPC / character / monster / item /furniture
 - `avatar` is you, player, that control specific NPC (yes, your character is still NPC, you just can control it, as you can control another NPC using faction succession)
@@ -347,7 +347,7 @@ return true if alpha talker is character (avatar or NPC)
 "condition": "u_is_character",
 ```
 
-### `u_at_om_location`, `npc_at_om_location`
+### `u_at_om_location`, `npc_at_om_location`
 - type: string or [variable object](#variable-object)
 - return true if alpha talker stands on specific overmap tile;
 - `FACTION_CAMP_ANY` can be used, that return true if alpha or beta talker stand on faction camp tile; 
@@ -375,7 +375,7 @@ return true if alpha talker at location that can be transformed to faction camp
 { "npc_at_om_location": "FACTION_CAMP_START" }
 ```
 
-### `u_has_trait`, `npc_has_trait`, `u_has_any_trait`, `npc_has_any_trait`
+### `u_has_trait`, `npc_has_trait`, `u_has_any_trait`, `npc_has_any_trait`
 - type: string or [variable object](#variable-object)
 - check does alpha or beta talker have specific trait/mutation;
 - `_has_trait` checks only 1 trait, when `_has_any_trait` check a range, and return true if at least one trait is presented;
@@ -401,7 +401,7 @@ using `_has_any_trait` with single trait is also possible
 { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] }
 ```
 
-### `u_has_visible_trait`, `npc_has_visible_trait`
+### `u_has_visible_trait`, `npc_has_visible_trait`
 - type: string or [variable object](#variable-object)
 - return true if the alpha or beta talker has a trait/mutation that has any visibility (defined in mutation `visibility` field); probably was designed if alpha or beta talker was able to hide it's mutations, but it's hard to say
 
@@ -435,7 +435,7 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 ```
 
 
-### `u_has_martial_art`, `npc_has_martial_art`
+### `u_has_martial_art`, `npc_has_martial_art`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has some martial art
 
@@ -450,7 +450,7 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 { "u_has_martial_art": "style_aikido" }
 ```
 
-### `u_using_martial_art`, `npc_using_martial_art`
+### `u_using_martial_art`, `npc_using_martial_art`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker using the martial art
 
@@ -465,7 +465,7 @@ Checks if the `FEATHERS` trait is purifiable for the character (returns true as 
 { "u_using_martial_art": "style_aikido" }
 ```
 
-### `u_has_flag`, `npc_has_flag`
+### `u_has_flag`, `npc_has_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has specific flag; special flag `MUTATION_THRESHOLD` can be used to check do alpha talker has any mutant threshold; for monsters both json flags (applied by effects) and monster flags can be checked
 
@@ -483,7 +483,7 @@ Alpha talker has `GRAB` flag, and beta talker has `GRAB_FILTER` flag; monster us
 { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" }
 ```
 
-### `u_has_species`, `npc_has_species`
+### `u_has_species`, `npc_has_species`
 - type: string or [variable object](#variable-object)
 - true if alpha or beta talker has the defined species
 
@@ -499,7 +499,7 @@ alpha talker is `SLIME`
 { "u_has_species": "SLIME" }
 ```
 
-### `u_bodytype`, `npc_bodytype`
+### `u_bodytype`, `npc_bodytype`
 - type: string or [variable object](#variable-object)
 - true if alpha / beta talker monster has the defined bodytype
 - for player / NPC return true if bodytype is `human`
@@ -605,7 +605,7 @@ True if the character has selected Fishing background at the character creation
 { "u_profession": "fishing" }
 ```
 
-### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
+### `u_has_strength`, `npc_has_strength`, `u_has_dexterity`, `npc_has_dexterity`, `u_has_intelligence`, `npc_has_intelligence`, `u_has_perception`, `npc_has_perception`
 - type: int or [variable object](#variable-object)
 - Return true if alpha or beta talker stat is at least the value or higher
 
@@ -621,7 +621,7 @@ True, if alpha talker has str 7 or more
 { "u_has_strength": 7 }
 ```
 
-### `u_has_part_temp`, `npc_has_part_temp`
+### `u_has_part_temp`, `npc_has_part_temp`
 - type: int or [variable object](#variable-object)
 - return true if alpha or beta talker's body part has temperature higher than value; additional parameter `bodypart` specifies the body part
 - temperature is written in arbitrary units, described in `weather.h`: `Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C`
@@ -638,7 +638,7 @@ check is your torso is 37 centigrade
 { "u_has_part_temp": 5000, "bodypart": "torso" }
 ```
 
-### `u_has_item`, `npc_has_item`, `u_has_items`, `npc_has_items`
+### `u_has_item`, `npc_has_item`, `u_has_items`, `npc_has_items`
 - type: string or [variable object](#variable-object)
 - return true if item or items are presented in your or NPC inventory;
 - `_has_items` require `count` or `charges` to define how much copies of items (for `count`) or charges inside item (for `charges`) alpha or beta talker has
@@ -660,7 +660,7 @@ check do you have 6 ropes
 { "u_has_items": { "item": "rope_6", "count": 6 } }
 ```
 
-### `u_has_item_category`, `npc_has_item_category`
+### `u_has_item_category`, `npc_has_item_category`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker have items of specific category;
 - `count` can be used to check amount of items bigger than 1
@@ -684,7 +684,7 @@ check do you have 3 manuals in inventory
 
 
 
-### `u_has_items_sum`, `npc_has_items_sum`
+### `u_has_items_sum`, `npc_has_items_sum`
 - type: array of pairs, pair is string or [variable object](#variable-object) and int or [variable object](#variable-object)
 - return true if alpha or beta talker has enough items from the list
 - `item` is an item that should be checked;
@@ -749,7 +749,7 @@ Variables are also supported
   },
 ```
 
-### `u_has_bionics`, `npc_has_bionics`
+### `u_has_bionics`, `npc_has_bionics`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has specific bionic; `ANY` can be used to return true if any bionic is presented
 
@@ -770,7 +770,7 @@ check do you have any bionic presented
 { "u_has_bionics": "ANY" }
 ```
 
-### `u_has_effect`, `npc_has_effect`, `u_has_any_effect`, `npc_has_any_effect`
+### `u_has_effect`, `npc_has_effect`, `u_has_any_effect`, `npc_has_any_effect`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has specific effect applied. `_has_effect` checks only one effect, when `_has_any_effect` check a range, and return true if at least one effect is applied;
 - `intensity` can be used to check an effect of specific intensity;
@@ -804,7 +804,7 @@ checks are you hot or cold
 { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
-### `u_has_proficiency`, `npc_has_proficiency`
+### `u_has_proficiency`, `npc_has_proficiency`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has mastered a proficiency (to 100%).
 
@@ -820,7 +820,7 @@ check do you have `Principles of Chemistry`
 { "u_has_proficiency": "prof_intro_chemistry" }
 ```
 
-### `u_can_stow_weapon`, `npc_can_stow_weapon`
+### `u_can_stow_weapon`, `npc_can_stow_weapon`
 - type: simple string
 - return true if alpha or beta talker wield an item, and have enough space to put it away
 
@@ -841,7 +841,7 @@ You have equipped an item that you can not stow, either because it's bionic pseu
 { "not": "u_can_stow_weapon" }
 ```
 
-### `u_can_drop_weapon`, `npc_can_drop_weapon`
+### `u_can_drop_weapon`, `npc_can_drop_weapon`
 - type: simple string
 - return true if alpha or beta talker wield an item, and can drop it on the ground (i.e. weapon has no `NO_UNWIELD` flag like retracted bionic claws or monomolecular blade bionics)
 
@@ -868,7 +868,7 @@ You have equipped an item that you can not stow, either because it's bionic pseu
 ```
 
 
-### `u_has_weapon`, `npc_has_weapon`
+### `u_has_weapon`, `npc_has_weapon`
 - type: simple string
 - return true if alpha or beta talker wield any item
 
@@ -889,7 +889,7 @@ You don't wield anything
 { "not": "u_has_weapon" }
 ```
 
-### `u_controlling_vehicle`, `npc_controlling_vehicle`
+### `u_controlling_vehicle`, `npc_controlling_vehicle`
 - type: simple string
 - return true if alpha or beta talker control a vehicle; Nota bene: NPCs cannot currently operate vehicles
 
@@ -910,7 +910,7 @@ true if you do not drive
 { "not": "u_controlling_vehicle" }
 ```
 
-### `u_driving`, `npc_driving`
+### `u_driving`, `npc_driving`
 - type: simple string
 - return true if alpha or beta talker operate a moving vehicle; Nota bene: NPCs cannot currently operate vehicles
 
@@ -948,7 +948,7 @@ check do you memorize `meat_hunk` recipe
 { "u_know_recipe": "meat_hunk" }
 ```
 
-### `u_has_worn_with_flag`, `npc_has_worn_with_flag`
+### `u_has_worn_with_flag`, `npc_has_worn_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wear some item with specific flag
 
@@ -964,7 +964,7 @@ check do you wear something with `RAD_DETECT` flag
 { "u_has_worn_with_flag": "RAD_DETECT" }
 ```
 
-### `u_has_wielded_with_flag`, `npc_has_wielded_with_flag`
+### `u_has_wielded_with_flag`, `npc_has_wielded_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wield something with specific flag
 
@@ -980,7 +980,7 @@ check do you wield something with `WHIP` flag
 { "u_has_wielded_with_flag": "WHIP" }
 ```
 
-### `u_has_wielded_with_weapon_category`, `npc_has_wielded_with_weapon_category`
+### `u_has_wielded_with_weapon_category`, `npc_has_wielded_with_weapon_category`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wield something with specific weapon category
 
@@ -996,7 +996,7 @@ check do you wield something with `LONG_SWORDS` weapon category
 { "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
 ```
 
-### `u_has_wielded_with_skill`, `npc_has_wielded_with_skill`
+### `u_has_wielded_with_skill`, `npc_has_wielded_with_skill`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wield a gun or melee weapon with this skill
 - gun skills are delivered from `skill` field
@@ -1014,7 +1014,7 @@ check do you wield a gun with `pistol` skill
 { "u_has_wielded_with_skill": "pistol" } 
 ```
 
-### `u_has_wielded_with_ammotype`, `npc_has_wielded_with_ammotype`
+### `u_has_wielded_with_ammotype`, `npc_has_wielded_with_ammotype`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wield an item that can have this ammo type
 - works with items that allow multiple ammo types
@@ -1031,7 +1031,7 @@ check do you wield a gun with `22` ammo type (.22 LR)
 { "u_has_wielded_with_ammotype": "22" } 
 ```
 
-### `u_can_see`, `npc_can_see`
+### `u_can_see`, `npc_can_see`
 - type: simple string
 - return true if alpha or beta talker can see (not blind)
 
@@ -1052,7 +1052,7 @@ You can't see
 { "not": "u_can_see" }
 ```
 
-### `u_is_deaf`, `npc_is_deaf`
+### `u_is_deaf`, `npc_is_deaf`
 - type: simple string
 - return true if alpha or beta talker can't hear
 
@@ -1073,7 +1073,7 @@ You can hear
 { "not": "u_is_deaf" }
 ```
 
-### `u_is_alive`, `npc_is_alive`
+### `u_is_alive`, `npc_is_alive`
 - type: simple string
 - return true if alpha or beta talker is not dead
 
@@ -1094,7 +1094,7 @@ NPC is dead
 { "not": "npc_is_alive" }
 ```
 
-### `u_is_warm`, `npc_is_warm`
+### `u_is_warm`, `npc_is_warm`
 - type: simple string
 - return true if alpha or beta talker is warm-blooded (does it have WARM flag)
 
@@ -1110,7 +1110,7 @@ NPC is dead
 "npc_is_warm"
 ```
 
-### `u_exists`, `npc_exists`
+### `u_exists`, `npc_exists`
 - type: simple string
 - return true if alpha or beta talker is not null
 
@@ -1120,7 +1120,7 @@ NPC is dead
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-### `u_is_on_terrain`, `npc_is_on_terrain`
+### `u_is_on_terrain`, `npc_is_on_terrain`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker stand on specific terrain
 
@@ -1136,7 +1136,7 @@ check do you stand on grass
 { "u_is_on_terrain": "t_grass" }
 ```
 
-### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
+### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker stand on terrain with specific flag
 
@@ -1152,7 +1152,7 @@ check do you stand on terrain with `SHRUB` flag
 { "u_is_on_terrain_with_flag": "SHRUB" }
 ```
 
-### `u_is_in_field`, `npc_is_in_field`
+### `u_is_in_field`, `npc_is_in_field`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker stand on specific field
 
@@ -1168,7 +1168,7 @@ check do you stand in a cloud of smoke
 { "u_is_in_field": "fd_smoke" }
 ```
 
-### `u_query`, `npc_query`
+### `u_query`, `npc_query`
 - type: string or [variable object](#variable-object)
 - For avatar (player), create a popup with message, that could be answered as "yes" and "no". if "yes" is picked, true is returned, otherwise false;
 - `default` field should be used to specify default output for NPC, that player do not control;
@@ -1187,7 +1187,7 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 ```
 
 
-### `u_query_tile`, `npc_query_tile`
+### `u_query_tile`, `npc_query_tile`
 - type: string
 - Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
 - `anywhere`, `line_of_sight`, `around` are possible
@@ -1215,7 +1215,7 @@ Display coordinates of selected tile.
 }
 ```
 
-### `map_terrain_with_flag`, `map_furniture_with_flag`
+### `map_terrain_with_flag`, `map_furniture_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if the terrain or furniture has specific flag
 - `loc` will specify location of terrain or furniture (**mandatory**)
@@ -1246,7 +1246,7 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 },
 ```
 
-### `map_terrain_id`, `map_furniture_id`, `map_field_id`
+### `map_terrain_id`, `map_furniture_id`, `map_field_id`
 - type: string or [variable object](#variable-object)
 - return true if the terrain, furniture or field has specific id
 - `loc` will specify location of terrain or furniture (**mandatory**)
@@ -1325,7 +1325,7 @@ return true if player can see NPC.
 "condition": "player_see_npc",
 ```
 
-### `u_can_see_location`, `npc_can_see_location`
+### `u_can_see_location`, `npc_can_see_location`
 - type: location string or [variable object](#variable-object)
 - return true if alpha or beta talker can see the location
 
@@ -1349,7 +1349,7 @@ You can see selected location.
 }
 ```
 
-### `u_see_npc`, `npc_see_you`
+### `u_see_npc`, `npc_see_you`
 - type: simple string
 - return true if alpha talker can see beta talker, or vice versa
 - require both talkers to be presented
@@ -1370,7 +1370,7 @@ You can see selected location.
 { "not": "npc_see_you" }
 ```
 
-### `u_see_npc_loc`, `npc_see_you_loc`
+### `u_see_npc_loc`, `npc_see_you_loc`
 - type: simple string
 - return true if beta talker' position is visible from the alpha talker position, and vice versa
 - doesn't check vision condition, can return true even if one or other is blind or it is a night
@@ -1479,7 +1479,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` }, { "intensity", `int` }</br> | character / NONE |
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
@@ -1810,7 +1810,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCs that would be run |
 | "iterations" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
 | "condition" | optional | int or [variable object](#variable-object)) | if used, eoc would be run as long as this condition will return true. if "condition" is used, "iterations" can be used to limit amount of runs to specific amount (default is 100 runs until terminated) |
-| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Doesn't work with "condition" and "iterations" | 
+| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Doesn't work with "condition" and "iterations" | 
 | "randomize_time_in_future" | optional | bool | used with time_in_future; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
 | "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
@@ -2063,7 +2063,7 @@ runs `EOC_POWER_TOGGLE_REMOVE_EFFECTS`, but current beta talker would be made al
   },
 ```
 
-#### `u_set_talker`, `npc_set_talker`
+#### `u_set_talker`, `npc_set_talker`
 Store the character_id of You or NPC into a variable object
 
 | Syntax | Optionality | Value  | Info |
@@ -2081,7 +2081,7 @@ Store the character_id of You or NPC into a variable object
 }
 ```
 
-#### `u_roll_remainder`, `npc_roll_remainder`
+#### `u_roll_remainder`, `npc_roll_remainder`
 If you or NPC does not have all of the listed bionics, mutations, spells or recipes, gives one randomly
 
 | Syntax | Optionality | Value  | Info |
@@ -2220,7 +2220,7 @@ Resets all of your vitamins.
 ```
 
 
-#### `u_run_npc_eocs`, `npc_run_npc_eocs`
+#### `u_run_npc_eocs`, `npc_run_npc_eocs`
 NPC run EoCs, provided by this effect; can work outside of reality bubble
 
 | Syntax | Optionality | Value  | Info |
@@ -2286,7 +2286,7 @@ Move refugee center guards `GUARD1` - `GUARD7` to the `_First` position - EoC fo
 }
 ```
 
-#### `u_run_monster_eocs`, `npc_run_monster_eocs`
+#### `u_run_monster_eocs`, `npc_run_monster_eocs`
 Monsters run EoCs, provided by this effect; only works inside reality bubble
 
 | Syntax | Optionality | Value  | Info |
@@ -2333,7 +2333,7 @@ Run EOC_KILL_SHADOW on any mon_zombie_dog, mon_dog_zombie_cop or mon_dog_zombie_
   }
 ```
 
-#### `u_run_inv_eocs`, `npc_run_inv_eocs`
+#### `u_run_inv_eocs`, `npc_run_inv_eocs`
 Run EOCs on items in your or NPC's inventory
 
 | Syntax | Optionality | Value  | Info |
@@ -2394,7 +2394,7 @@ Pick all items with `RECHARGE` _or_ `ELECTRONIC` flags, and run `EOC_PRINT_ITEM_
 }
 ```
 
-#### `u_map_run_eocs`, `npc_map_run_eocs`
+#### `u_map_run_eocs`, `npc_map_run_eocs`
 Picks all tiles around you, npc or target_var, stores it's coordinates in `store_coordinates_in`, and then checks EoC conditions for each tile picked
 Used if you need to check if specific furniture or terrain is around
 
@@ -2454,7 +2454,7 @@ Picks all TREEs in 50 tiles range, and burn it
   }
 ```
 
-#### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
+#### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
 Search items around you on the map, and run EoC on them
 
 | Syntax | Optionality | Value  | Info |
@@ -2528,7 +2528,7 @@ Teleport player to `new_map`
   "effect": [
     {
       "u_location_variable": { "context_val": "escape_pod_crate" },
-      "target_params": { "om_terrain": "crashing_ship_4", "search_range": 10, "z": -10 },
+      "target_params": { "om_terrain": "crashing_ship_4", "z": -10 },
       "terrain": "t_escape_pod_floor",
       "target_max_radius": 24
     },
@@ -2590,7 +2590,7 @@ Find overmap tile using `target_params`, store coordinates in `loc`, and reveal 
   "effect": [
     {
       "u_location_variable": { "context_val": "loc" },
-      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+      "target_params": { "om_terrain": "house_02", "z": 0 }
     },
     { "reveal_map": { "context_val": "loc" }, "radius": 20 }
   ]
@@ -2630,7 +2630,7 @@ Reveal the route between you and `house_02`
   "effect": [
     {
       "u_location_variable": { "context_val": "loc" },
-      "target_params": { "om_terrain": "house_02", "search_range": 100, "z": 0 }
+      "target_params": { "om_terrain": "house_02", "z": 0 }
     },
     {
         "reveal_route": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
@@ -2748,7 +2748,7 @@ you can pick one of four options from `Choose your destiny` list;
 
 ## Character effects
 
-#### `u_deal_damage`, `npc_deal_damage`
+#### `u_deal_damage`, `npc_deal_damage`
 
 Deal damage, the same way melee attack deals damage; it can't be dodged, but it can be mitigated by armor
 
@@ -2782,9 +2782,9 @@ Deal 20 biological damage to your torso
   },
 ```
 
-#### `u_mutate`, `npc_mutate`
+#### `u_mutate`, `npc_mutate`
 
-Your character or the NPC will attempt to mutate; used in mutation system, for other purposes it's better to use [`u_add_trait`](#`u_add_trait`, `npc_add_trait`)
+Your character or the NPC will attempt to mutate; used in mutation system, for other purposes it's better to use [`u_add_trait`](#`u_add_trait`, `npc_add_trait`)
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
@@ -2807,7 +2807,7 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 ```
 
 
-#### `u_mutate_category`, `npc_mutate_category`
+#### `u_mutate_category`, `npc_mutate_category`
 
 Similar to `u_mutate` but takes category as a parameter and guarantees mutation.
 
@@ -2863,14 +2863,14 @@ If you have the given trait it will be added to /removed from your list of non-p
 
 ```
 
-#### `u_add_effect`, `npc_add_effect`
+#### `u_add_effect`, `npc_add_effect`
 
 Some effect would be applied on you or NPC
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_effect" / "npc_add_effect" | **mandatory** | string or [variable object](#variable-object) | id of effect to give |
-| "duration" | optional | int, duration or [variable object](#variable-object) | 0 by default; length of the effect; both int (`"duration": 60`), and duration string (`"duration": "1 m"`) works; `PERMANENT` can be used to give a permanent effect | 
+| "duration" | **mandatory** | int, duration or [variable object](#variable-object) | length of the effect; both int (`"duration": 60`), and duration string (`"duration": "1 m"`) works; `PERMANENT` can be used to give a permanent effect | 
 | "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 | "intensity" | optional | int, float or [variable object](#variable-object) | default 0; intensity of the effect | 
 | "force_bool" | optional | boolean | default false; if true, all immunities would be ignored | 
@@ -2904,7 +2904,7 @@ Apply effect `poison`, of [your strength value] intensity, for [random number be
 ```
 
 
-#### `u_add_bionic`, `npc_add_bionic`
+#### `u_add_bionic`, `npc_add_bionic`
 You or NPC would have some bionic installed
 
 | Syntax | Optionality | Value  | Info |
@@ -2929,7 +2929,7 @@ Install 1 bionic, delivered from `bionic_id` context value, onto your character:
 ```
 
 
-#### `u_lose_bionic`, `npc_lose_bionic`
+#### `u_lose_bionic`, `npc_lose_bionic`
 You or NPC would have some bionic uninstalled from your body
 
 | Syntax | Optionality | Value  | Info |
@@ -2954,7 +2954,7 @@ Uninstall 1 bionic, delivered from `bionic_id` context value, onto your characte
 ```
 
 
-#### `u_add_trait`, `npc_add_trait`
+#### `u_add_trait`, `npc_add_trait`
 Give character or NPC some mutation/trait 
 
 | Syntax | Optionality | Value  | Info |
@@ -2984,13 +2984,13 @@ Adds `hair_mohawk` trait with the `purple` variant to the character:
 { "u_add_trait": "hair_mohawk", "variant": "purple" }
 ```
 
-#### `u_lose_effect`, `npc_lose_effect`
+#### `u_lose_effect`, `npc_lose_effect`
 Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](#variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
-| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
+| "u_lose_effect" / "npc_lose_effect" | **mandatory** | string, [variable object](#variable-object), or array of both | id of effect or effects to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `ALL` can be used to remove effect from all bodyparts talker has | 
 
 ##### Valid talkers:
 
@@ -3009,13 +3009,23 @@ Removes `bleed` effect from player's head:
 { "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
+Removes `bleed` effect from all bodyparts:
+```json
+{ "u_lose_effect": "bleed", "target_part": "ALL" }
+```
+
 Removes effect, stored in `effect_id` context value, from the player:
 ```json
 { "u_lose_effect": { "context_val": "effect_id" } }
 ```
 
+Removes `infection`, `downed` and `winded` effects from player:
+```json
+{ "u_lose_effect": [ "infection", "downed", "winded" ] }
+```
 
-#### `u_lose_trait`, `npc_lose_trait`
+
+#### `u_lose_trait`, `npc_lose_trait`
 Character or NPC got trait or mutation removed, if it has one
 
 | Syntax | Optionality | Value  | Info |
@@ -3041,7 +3051,7 @@ mutation, stored in `mutation_id`  context value, is removed from character:
 ```
 
 
-#### `u_activate_trait`, `npc_activate_trait`
+#### `u_activate_trait`, `npc_activate_trait`
 Your character or the NPC will activate the trait.
 
 | Syntax | Optionality | Value  | Info |
@@ -3066,7 +3076,7 @@ Deactivate trait, which contained in `this` context value:
 ```
 
 
-#### `u_deactivate_trait`, `npc_deactivate_trait`
+#### `u_deactivate_trait`, `npc_deactivate_trait`
 Your character or the NPC will deactivate the trait.
 
 | Syntax | Optionality | Value  | Info |
@@ -3091,7 +3101,7 @@ Deactivate trait, which contained in `that` context value:
 ```
 
 
-#### `u_learn_martial_art`, `npc_learn_martial_art`
+#### `u_learn_martial_art`, `npc_learn_martial_art`
 Your character or the NPC will learn the martial art style.
 
 | Syntax | Optionality | Value  | Info |
@@ -3116,7 +3126,7 @@ Character learn martial art, stored in `ma_id` context value
 ```
 
 
-#### `u_forget_martial_art`, `npc_forget_martial_art`
+#### `u_forget_martial_art`, `npc_forget_martial_art`
 Your character or the NPC will forget the martial art style.
 
 | Syntax | Optionality | Value  | Info |
@@ -3141,7 +3151,7 @@ Character forget martial art, stored in `ma_id` context value
 ```
 
 
-#### `u_add_var`, `npc_add_var`
+#### `u_add_var`, `npc_add_var`
 Save a string as personal variable, that you can check later using `compare_string` (see [Player or NPC conditions](#Player_or_NPC_conditions) )
 
 | Syntax | Optionality | Value  | Info |
@@ -3229,7 +3239,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
 ```
 
 
-#### `u_lose_var`, `npc_lose_var`
+#### `u_lose_var`, `npc_lose_var`
 Your character or the NPC will clear any stored variable that has the same name, `type` and `context`
 
 | Syntax | Optionality | Value  | Info |
@@ -3396,7 +3406,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 ```json
 {
   "u_location_variable": { "global_val": "new_map" },
-  "target_params": { "om_terrain": "afs_crashed_escape_pod", "search_range": 500, "z": 0 },
+  "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0 },
   "terrain": "t_metal_floor",
   "target_max_radius": 30,
   "min_radius": 0,
@@ -3411,8 +3421,8 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
   "target_params": {
     "om_terrain": "house",
     "om_terrain_match_type": "CONTAINS",
-    "search_range": 1200,
     "min_distance": 200,
+    "search_range": 1200,
     "random": true
   }
 }
@@ -3528,7 +3538,7 @@ Opens a menu allowing the player to choose a new beard style.
 ```
 
 
-#### `u_learn_recipe`, `npc_learn_recipe`
+#### `u_learn_recipe`, `npc_learn_recipe`
 Your character or the npc will learn and memorize the recipe
 
 | Syntax | Optionality | Value  | Info |
@@ -3553,7 +3563,7 @@ You learn a recipe, that was passes by `recipe_id` context value
 ```
 
 
-#### `u_forget_recipe`, `npc_forget_recipe`
+#### `u_forget_recipe`, `npc_forget_recipe`
 Your character or the npc will forget the recipe
 
 | Syntax | Optionality | Value  | Info |
@@ -3610,13 +3620,13 @@ Override the initial lighthouse girl topic `TALK_lighthouse_girl_start` with `TA
 ```
 
 
-#### `u_add_wet`, `npc_add_wet`
+#### `u_add_wet`, `npc_add_wet`
 Your character or the NPC will be wet as if they were in the rain.
 
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_add_wet" / "npc_add_wet" | **mandatory** | int, float or [variable object](#variable-object) | How much wetness would be added (in percent) |
+| "u_add_wet" / "npc_add_wet" | **mandatory** | int, float or [variable object](#variable-object) | How much wetness would be added (in percent) |
 
 ##### Valid talkers:
 
@@ -3631,12 +3641,12 @@ Makes you 10% wet (whatever that means)
 ```
 
 
-#### `u_make_sound`, `npc_make_sound`
+#### `u_make_sound`, `npc_make_sound`
 Emit a sound
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_make_sound" / "npc_make_sound" | **mandatory** | string or [variable object](#variable-object) | description of the sound |
+| "u_make_sound" / "npc_make_sound" | **mandatory** | string or [variable object](#variable-object) | description of the sound |
 | "volume" | **mandatory** | int, float or [variable object](#variable-object) | how loud the sound is (1 unit = 1 tile around the character) | 
 | "type" | **mandatory** | string or [variable object](#variable-object) | Type of the sound; Could be one of `background`, `weather`, `music`, `movement`, `speech`, `electronic_speech`, `activity`, `destructive_activity`, `alarm`, `combat`, `alert`, or `order` | 
 | "target_var" | optional | [variable object](#variable-object) | if set, the center of the sound would be centered in this variable's coordinates instead of you or NPC | 
@@ -3670,29 +3680,7 @@ Would pick a random swear from `<swear>` snippet, and always would be the same (
 { "u_make_sound": "<swear>", "snippet": true, "same_snippet": true }
 ```
 
-
-#### `u_mod_healthy`, `npc_mod_healthy`
-Increases or decreases your healthiness (respond for disease immunity and regeneration).
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
-| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-Your health is decreased by 1, but not smaller than -200
-```json
-{ "u_mod_healthy": -1, "cap": -200 }
-```
-
-
-#### `u_add_morale`, `npc_add_morale`
+#### `u_add_morale`, `npc_add_morale`
 Your character or the NPC will gain a morale bonus
 
 
@@ -3731,7 +3719,7 @@ gives +20 mood `morale_feeling_good` bonus, that can be stacked up to +50, for 4
 ```
 
 
-#### `u_lose_morale`, `npc_lose_morale`
+#### `u_lose_morale`, `npc_lose_morale`
 Your character or the NPC will lose picked `morale_type`
 
 | Syntax | Optionality | Value  | Info |
@@ -3757,7 +3745,7 @@ removes morale type, delivered by `morale_id`
 
 
 
-#### `u_consume_item_sum`, `npc_consume_item_sum`
+#### `u_consume_item_sum`, `npc_consume_item_sum`
 Consumes all items you have in your inventory, treating count as weight
 Effect does not validate do player actually has enough items to consume, use `_has_items_sum`
 See examples for more info
@@ -3835,12 +3823,12 @@ Variables are also supported
   },
 ```
 
-#### `u_set_fac_relation`, `npc_set_fac_relation`
+#### `u_set_fac_relation`, `npc_set_fac_relation`
 Can be used only in `talk_topic`, as the code relies on the NPC you talk with to obtain info about it's faction.
  
  | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_set_fac_relation" / "npc_set_fac_relation" | **mandatory** | string or [variable object](#variable-object) | Rule to set. See [the factions doc](FACTIONS.md#faction-relations) for a list of rules and what they cover.  |
+| "u_set_fac_relation" / "npc_set_fac_relation" | **mandatory** | string or [variable object](#variable-object) | Rule to set. See [the factions doc](FACTIONS.md#faction-relations) for a list of rules and what they cover.  |
 | "set_value_to" | optional | boolean | default true; Whether to set, or unset, this rule. | 
 
 ##### Valid talkers:
@@ -3888,12 +3876,12 @@ adds [ your strength stat ] amount of faction trust
 #### `u_lose_faction_trust`
 same as `u_add_faction_trust`, not used in favor of `u_add_faction_trust` with negative number
 
-#### `u_message`, `npc_message`, `message`
-Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
+#### `u_message`, `npc_message`, `message`
+Display a text message in the log. `u_message` and `npc_message` display a message only if you or NPC is avatar. `message` always displays a message.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](#variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed |
+| "u_message" / "npc_message" / "message" | **mandatory** | string or [variable object](#variable-object) | message, that would be printed; If `snippet` is true, id of a snippet that would be printed |
 | "type" | optional | string or [variable object](#variable-object) | default neutral; how the message would be displayed in log (usually means the color); could be any of good (green), neutral (white), bad (red), mixed (purple), warning (yellow), info (blue), debug (appear only if debug mode is on), headshot (purple), critical (yellow), grazing (blue) | 
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
@@ -3937,7 +3925,7 @@ Print a text with a context variable
   { "u_message": "Test event with trait_id FIRE! <context_val:trait_id>", "type": "good" } 
 ```
 
-#### `u_cast_spell`, `npc_cast_spell`
+#### `u_cast_spell`, `npc_cast_spell`
 You or NPC cast a spell. The spell uses fake spell data (ignore `energy_cost`, `energy_source`, `cast_time`, `components`, `difficulty` and `spell_class` fields), and uses additional fields 
 
 | Syntax | Optionality | Value  | Info |
@@ -3995,7 +3983,7 @@ You cast a `this_spell_can_target_only_robots` spell; if it success, `EOC_ROBOT_
 ```
 
 
-#### `u_assign_activity`, `npc_assign_activity`
+#### `u_assign_activity`, `npc_assign_activity`
 
 NPC or character will start an activity
 
@@ -4017,7 +4005,7 @@ You assign activity `ACT_GAME` for 45 minutes
 { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" }
 ```
 
-#### `u_cancel_activity`, `npc_cancel_activity`
+#### `u_cancel_activity`, `npc_cancel_activity`
 
 NPC or character will stop their current activity
 
@@ -4035,7 +4023,7 @@ You cancel activity `ACT_GAME` for 45 minutes
 ```
 
 
-#### `u_teleport`, `npc_teleport`
+#### `u_teleport`, `npc_teleport`
 You or NPC is teleported to `target_var` coordinates
 
 | Syntax | Optionality | Value  | Info |
@@ -4044,6 +4032,7 @@ You or NPC is teleported to `target_var` coordinates
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful | 
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) | 
 | "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are.
 
 ##### Valid talkers:
 
@@ -4068,7 +4057,109 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 }
 ```
 
-#### `u_die`, `npc_die`
+#### `u_explosion`, `npc_explosion`
+Creates an explosion at talker position or at passed coordinate
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring |
+| "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+You pick a tile using u_query_omt, then the explosion is caused at this position
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      { "u_query_omt": { "context_val": "pos" }, "message": "Select point to detonate." },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_explosion": { "power": 50000, "max_noise": 35, "distance_factor": 0.5 }, "target_var": { "context_val": "pos" } },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+#### `u_query_omt`, `npc_query_omt`
+Opens a map, and allow you to pick an overmap tile to store in variable 
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_query_omt", / "npc_query_omt" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled or player picks the tile farther than `distance_limit`, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
+| "message" | **mandatory** | string or [variable object](#variable-object) | message, that is printed on upper left corner of overmap UI | 
+| "target_var" | optional | [variable object](#variable-object) | if set, the center is not where the avatar is, but this coordinate | 
+| "distance_limit" | optional | int or [variable object](#variable-object) | default infinite; radius, which player is able to pick, otherwise no variable is stored. The border is highlighted for user | 
+| "spread" | optional | int or [variable object](#variable-object) | default 1; since map allows only precision of OMT level, the player choice is then converted to absolute coordinates, and adjusted to point to the center of overmap; spread respond for additional precision loss, "how far the tile gonna be picked from the center of OMT"; default value would result in you picking roughly the center of the OM |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, print a message with `pos`
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, open another map, centered around the point you just picked
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST_2",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": {
+          "u_query_omt": { "context_val": "pos2" },
+          "target_var": { "context_val": "pos" },
+          "message": "Select point.",
+          "distance_limit": 10
+        },
+        "else": { "u_message": "Canceled" }
+      },
+      {
+        "if": { "math": [ "has_var(_pos2)" ] },
+        "then": { "u_message": "pos2: <context_val:pos2>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+
+#### `u_die`, `npc_die`
 You or an NPC will instantly die.
 If the target is an item, it will be deleted.
 
@@ -4116,7 +4207,7 @@ Removes a corpse around you (corpses are handled as items)
 ```
 
 
-#### `u_prevent_death`, `npc_prevent_death`
+#### `u_prevent_death`, `npc_prevent_death`
 You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
 
 ##### Valid talkers:
@@ -4151,7 +4242,7 @@ NPC is prevented from death.
 }
 ```
 
-#### `u_attack`, `npc_attack`
+#### `u_attack`, `npc_attack`
 Alpha or beta talker forced to use a technique or special attack
 
 | Syntax | Optionality | Value  | Info |
@@ -4212,7 +4303,7 @@ Picks random pankration technique, assign it to `pankration_random_attack`, and 
 
 ## Item effects
 
-#### `u_set_flag`, `npc_set_flag`
+#### `u_set_flag`, `npc_set_flag`
 Give item a flag
 
 | Syntax | Optionality | Value  | Info |
@@ -4231,7 +4322,7 @@ Make item filthy
 { "npc_set_flag": "FILTHY" }
 ```
 
-#### `u_unset_flag`, `npc_unset_flag`
+#### `u_unset_flag`, `npc_unset_flag`
 Remove a flag from item
 
 | Syntax | Optionality | Value  | Info |
@@ -4250,7 +4341,7 @@ Make item clean
 { "npc_unset_flag": "FILTHY" }
 ```
 
-#### `u_activate`, `npc_activate`
+#### `u_activate`, `npc_activate`
 You activate beta talker / NPC activates alpha talker. One must be a Character and the other an item.
 
 | Syntax | Optionality | Value  | Info |
@@ -4406,7 +4497,7 @@ Darken the world for 1 day or until `who_turn_off_the_light` would be triggered
 { "custom_light_level": 0, "length": "1 day", "key": "who_turn_off_the_light" }
 ```
 
-#### `u_transform_radius`, `npc_transform_radius`
+#### `u_transform_radius`, `npc_transform_radius`
 transform the territory around you, npc or target using `ter_furn_transform`
 
 | Syntax | Optionality | Value  | Info |
@@ -4489,7 +4580,7 @@ Set `place_name` to be one of five from a range randomly, then set it for `cell_
 }
 ```
 
-#### `u_spawn_monster`, `npc_spawn_monster`
+#### `u_spawn_monster`, `npc_spawn_monster`
 Spawn some monsters around you, NPC or `target_var`
 
 | Syntax | Optionality | Value  | Info |
@@ -4532,7 +4623,7 @@ Pick a random monster 50 tiles around the player, and spawn it's hallucination c
 }
 ```
 
-#### `u_spawn_npc`, `npc_spawn_npc`
+#### `u_spawn_npc`, `npc_spawn_npc`
 Spawn some NPC near you or another NPC
 
 | Syntax | Optionality | Value  | Info |
@@ -4565,7 +4656,7 @@ Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, fo
 }
 ```
 
-#### `u_set_field`, `npc_set_field`
+#### `u_set_field`, `npc_set_field`
 spawn a field in a square around player. it is recommended to not use it in favor of `u_transform_radius` or `u_emit` if possible
 
 | Syntax | Optionality | Value  | Info |
@@ -4584,7 +4675,7 @@ Spawn blood 10 tiles around the player outdoor
 { "u_set_field": "fd_blood", "radius": 10, "outdoor_only": true, "intensity": 3 }
 ```
 
-#### `u_emit`, `npc_emit`
+#### `u_emit`, `npc_emit`
 Emit a field using `type: emit`
 
 | Syntax | Optionality | Value  | Info |
