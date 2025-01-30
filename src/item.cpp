@@ -1380,13 +1380,13 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
         }
         ret = vol / my_volume;
     }
-    return std::min( ret, static_cast<int64_t>(INFINITE_CHARGES)); 
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
     int64_t ret;
-    units::mass my_weight = count_by_charges() ? type->weight: weight();
+    units::mass my_weight = count_by_charges() ? type->weight : weight();
     if( my_weight == 0_gram ) {
         if( !suppress_warning ) {
             debugmsg( "Item '%s' with zero weight", tname() );
@@ -1395,7 +1395,7 @@ int item::charges_per_weight( const units::mass &m, bool suppress_warning ) cons
     } else {
         ret = m / my_weight;
     }
-    return std::min( ret, static_cast<int64_t>(INFINITE_CHARGES));
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 bool item::display_stacked_with( const item &rhs, bool check_components ) const
