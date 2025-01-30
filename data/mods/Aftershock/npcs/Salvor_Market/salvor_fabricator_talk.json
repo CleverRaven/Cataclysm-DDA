@@ -162,7 +162,7 @@
   {
     "id": [ "TALK_SALVOR_FABRICATOR_BACKSTORY_INTERESTING_COOL_STUFF" ],
     "type": "talk_topic",
-    "dynamic_line": "Drive Core, Cruiser class, mostly intact.  We picked it up on scanners in the stern section of a Titan II class Hauler.  It was partially buried at the bottom of a ravine, old gal must a split in the atmo.  Only ever managed a glimpse of the damn thing though.",
+    "dynamic_line": "Drive Core, Cruiser class, mostly intact.  We picked it up on scanners in the stern section of a Titan II class.  It was partially buried at the bottom of a ravine, old gal must a split in the atmo.  Only ever managed a glimpse of the damn thing though.",
     "responses": [ { "text": "What happened?", "topic": "TALK_SALVOR_FABRICATOR_BACKSTORY_INTERESTING_COOL_STUFF_WHAT_HAPPENED" } ]
   },
   {
