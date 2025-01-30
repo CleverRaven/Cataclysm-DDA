@@ -2003,8 +2003,9 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint_bub_ms> &get_points( bool force_refresh = false,
                 bool no_fake = false ) const;
-        const std::set<tripoint_bub_ms> get_points( map *here, bool force_refresh = false,
-                bool no_fake = false ) const;
+        // Call the operation above when here == get_map(). Otherwise just generate the corresponding points.
+        std::set<tripoint_bub_ms> get_points( const map *here, bool force_refresh = false,
+                                              bool no_fake = false ) const;
 
         // calculate the new projected points for all vehicle parts to move to
         void part_project_points( const tripoint_rel_ms &dp );

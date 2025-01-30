@@ -7931,7 +7931,7 @@ const std::set<tripoint_bub_ms> &vehicle::get_points( const bool force_refresh,
     return occupied_points;
 }
 
-const std::set<tripoint_bub_ms> vehicle::get_points( map *here, const bool force_refresh,
+std::set<tripoint_bub_ms> vehicle::get_points( const map *here, const bool force_refresh,
         const bool no_fake ) const
 {
     if( here == &get_map() ) {

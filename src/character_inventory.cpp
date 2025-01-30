@@ -331,7 +331,8 @@ item_location Character::i_add( item it, bool should_stack, const item *avoid,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
 {
-    return Character::i_add( &get_map(), it, should_stack, avoid, original_inventory_item, allow_drop,
+    return Character::i_add( &get_map(), std::move( it ), should_stack, avoid, original_inventory_item,
+                             allow_drop,
                              allow_wield, ignore_pkt_settings );
 }
 
