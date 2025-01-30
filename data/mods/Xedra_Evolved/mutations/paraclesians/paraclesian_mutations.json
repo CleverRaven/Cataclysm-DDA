@@ -652,15 +652,26 @@
   },
   {
     "type": "mutation",
-    "id": "WIND_BLOWS_WILLOW_BENDS",
+    "id": "WIND_BLOWS_WILLOW_BENDS_ARVORE",
     "name": { "str": "The Wind Blows, the Willow Bends" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
-    "category": [ "ARVORE", "SYLPH" ],
+    "category": [ "ARVORE" ],
     "leads_to": [ "ARVORE_DEX_BONUS" ],
-    "spells_learned": [ [ "paraclesian_spell_dodge_bonus", 1 ] ]
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus_arvore", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "WIND_BLOWS_WILLOW_BENDS_SYLPH",
+    "name": { "str": "The Wind Blows, the Willow Bends" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities.",
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "paraclesian_spell_dodge_bonus_sylph", 1 ] ]
   },
   {
     "type": "mutation",
