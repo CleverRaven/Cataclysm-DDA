@@ -165,7 +165,7 @@ class outfit
         int worn_guns() const;
         int clatter_sound() const;
         bool adjust_worn( npc &guy );
-        float clothing_wetness_mult( const bodypart_id &bp ) const;
+        float clothing_wetness_mult( const bodypart_id &bp, bool permeability_check = false ) const;
         void damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const;
         float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags

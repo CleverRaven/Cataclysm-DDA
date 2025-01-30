@@ -90,6 +90,17 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
         JsonObject joe = jo.get_object( "explosion" );
         aoe_explosion_data = load_explosion_data( joe );
     }
+    if( jo.has_member( "on_hit_effects" ) ) {
+        JsonArray json_arr = jo.get_array( "on_hit_effects" );
+        for( JsonObject joe : json_arr ) {
+            on_hit_effect new_effect;
+            optional( joe, was_loaded, "need_touch_skin", new_effect.need_touch_skin, false );
+            mandatory( joe, was_loaded, "duration", new_effect.duration );
+            mandatory( joe, was_loaded, "effect", new_effect.effect );
+            mandatory( joe, was_loaded, "intensity", new_effect.intensity );
+            on_hit_effects.push_back( new_effect );
+        }
+    }
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
