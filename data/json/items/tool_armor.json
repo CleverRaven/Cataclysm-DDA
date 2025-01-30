@@ -1968,7 +1968,7 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED" ]
+    "flags": [ "SKINTIGHT", "NORMAL", "SLEEP_IGNORE", "VARSIZE", "PADDED" ]
   },
   {
     "id": "mask_gas_xl",

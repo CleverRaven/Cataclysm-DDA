@@ -1791,21 +1791,35 @@ static void teleport_overmap( bool specific_coordinates = false )
                    coord_strings.size() );
             return;
         }
-        std::vector<int> coord_ints;
+        std::vector<std::pair<int, int>> coord_ints;
         for( const std::string &coord_string : coord_strings ) {
-            ret_val<int> parsed_coord = try_parse_integer<int>( coord_string, true );
+            const std::vector<std::string> coord_parts = string_split( coord_string, '\'' );
+            if( coord_parts.empty() || coord_parts.size() > 2 ) {
+                popup( _( "Error interpreting teleport target: "
+                          "expected an integer or two integers separated by \'; got %s" ), coord_string );
+                return;
+            }
+            ret_val<int> parsed_coord = try_parse_integer<int>( coord_parts[0], true );
             if( !parsed_coord.success() ) {
                 popup( _( "Error interpreting teleport target: %s" ), parsed_coord.str() );
                 return;
             }
-            coord_ints.push_back( parsed_coord.value() );
+            int major_coord = parsed_coord.value();
+            int minor_coord = 0;
+            if( coord_parts.size() >= 2 ) {
+                ret_val<int> parsed_coord2 = try_parse_integer<int>( coord_parts[1], true );
+                if( !parsed_coord2.success() ) {
+                    popup( _( "Error interpreting teleport target: %s" ), parsed_coord2.str() );
+                    return;
+                }
+                minor_coord = parsed_coord2.value();
+            }
+            coord_ints.emplace_back( major_coord, minor_coord );
         }
         cata_assert( coord_ints.size() >= 2 );
-        tripoint coord;
-        coord.x = coord_ints[0];
-        coord.y = coord_ints[1];
-        coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
-        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+        where = tripoint_abs_omt( OMAPX * coord_ints[0].first + coord_ints[0].second,
+                                  OMAPY * coord_ints[1].first + coord_ints[1].second,
+                                  ( coord_ints.size() >= 3 ? coord_ints[2].first : 0 ) );
     } else {
         const std::optional<tripoint_rel_ms> dir_ = choose_direction(
                     _( "Where is the desired overmap?" ) );

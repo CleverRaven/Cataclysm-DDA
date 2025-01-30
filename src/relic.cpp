@@ -415,7 +415,7 @@ void relic::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-int relic::activate( Creature &caster, const tripoint &target )
+int relic::activate( Creature &caster, const tripoint_bub_ms &target )
 {
     if( charge.charges_per_use != 0 && charges() - charge.charges_per_use < 0 ) {
         caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
@@ -424,7 +424,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     caster.mod_moves( -moves );
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( caster, sp.level );
-        casting.cast_all_effects( caster, tripoint_bub_ms( target ) );
+        casting.cast_all_effects( caster, target );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;

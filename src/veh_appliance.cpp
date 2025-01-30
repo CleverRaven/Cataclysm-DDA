@@ -499,9 +499,9 @@ void veh_app_interact::remove()
         for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.get_abs( p ) );
         }
-        const tripoint a_point_abs( here.get_abs( a_point_bub ).raw() );
-        act.values.push_back( a_point_abs.x );
-        act.values.push_back( a_point_abs.y );
+        const tripoint_abs_ms a_point_abs( here.get_abs( a_point_bub ) );
+        act.values.push_back( a_point_abs.x() );
+        act.values.push_back( a_point_abs.y() );
         act.values.push_back( a_point.x() );
         act.values.push_back( a_point.y() );
         act.values.push_back( -a_point.x() );

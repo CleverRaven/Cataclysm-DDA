@@ -2313,6 +2313,8 @@ class Character : public Creature, public visitable
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
+        /** The number of chapters remaining for each book itype */
+        std::map<itype_id, int> book_chapters;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
