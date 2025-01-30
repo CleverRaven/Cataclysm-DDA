@@ -522,6 +522,8 @@ class game
         bool revive_corpse( const tripoint_bub_ms &p, item &it );
         // same as above, but with relaxed placement radius.
         bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
+        // evaluate what monster it should be, if necessary
+        void assing_revive_form( item &it, tripoint_bub_ms p );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
