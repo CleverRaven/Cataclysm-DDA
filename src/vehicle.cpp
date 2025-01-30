@@ -148,7 +148,7 @@ static bool is_sm_tile_over_water( const tripoint_abs_ms &real_global_pos );
 
 static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
-void DefaultMapRemovePartHandler::removed( vehicle &veh, const int part )
+void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
     const vehicle_part &vp = veh.part( part );
@@ -952,7 +952,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                     // on the main game map. And assume that we run from some mapgen code if called on
                     // another instance.
                     if( g && &get_map() == &m ) {
-                        handler_ptr = std::make_unique<DefaultMapRemovePartHandler>( m );
+                        handler_ptr = std::make_unique<DefaultRemovePartHandler>( m );
                     } else {
                         handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
                     }
@@ -2002,7 +2002,7 @@ bool vehicle::remove_part( vehicle_part &vp )
 
 bool vehicle::remove_part( map *here, vehicle_part &vp )
 {
-    DefaultMapRemovePartHandler handler( *here );
+    DefaultRemovePartHandler handler( *here );
     return remove_part( vp, handler );
 }
 
@@ -7510,7 +7510,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
     };
     std::unique_ptr<RemovePartHandler> handler_ptr;
     if( g && &get_map() == &here ) {
-        handler_ptr = std::make_unique<DefaultMapRemovePartHandler>( here );
+        handler_ptr = std::make_unique<DefaultRemovePartHandler>( here );
     } else {
         handler_ptr = std::make_unique<MapgenRemovePartHandler>( here );
     }

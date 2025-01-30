@@ -2465,15 +2465,15 @@ class RemovePartHandler
         virtual map &get_map_ref() = 0;
 };
 
-class DefaultMapRemovePartHandler : public RemovePartHandler
+class DefaultRemovePartHandler : public RemovePartHandler
 {
     private:
         map &m;
 
     public:
-        explicit DefaultMapRemovePartHandler( map &m ) : m( m ) {}
+        explicit DefaultRemovePartHandler( map &m ) : m( m ) {}
 
-        ~DefaultMapRemovePartHandler() override = default;
+        ~DefaultRemovePartHandler() override = default;
 
         void unboard( const tripoint_bub_ms &loc ) override {
             m.unboard_vehicle( loc );
