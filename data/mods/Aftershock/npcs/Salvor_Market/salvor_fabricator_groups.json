@@ -77,7 +77,7 @@
     "id": "afs_salvor_fabricator_makeshift_weapons",
     "subtype": "collection",
     "items": [
-      { "item": "laser_rifle_cheap", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "laser_rifle_cheap", "prob": 60, "count": [ 1, 2 ] },
       { "item": "makeshift_scrambler", "prob": 10 },
       { "item": "afs_launcher_salvaged", "prob": 10 },
       { "item": "afs_makeshift_fusion_gun", "prob": 5 }
@@ -108,18 +108,18 @@
     "subtype": "collection",
     "items": [
       { "item": "flashlight", "prob": 80, "count": [ 1, 3 ] },
-      { "item": "heavy_flashlight", "prob": 30, "count": [ 1, 2 ] },
-      { "item": "hammer", "prob": 80, "count": [ 3, 5 ] },
-      { "item": "screwdriver", "prob": 80, "count": [ 3, 7 ] },
+      { "item": "heavy_flashlight", "prob": 30 },
+      { "item": "hammer", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "screwdriver", "prob": 80, "count": [ 1, 3 ] },
       { "item": "screwdriver_set", "prob": 30 },
       { "item": "wrench", "prob": 80, "count": [ 1, 3 ] },
       { "item": "cordless_impact_wrench", "prob": 30 },
-      { "item": "wrench_large", "prob": 60, "count": [ 1, 3 ] },
-      { "item": "wrench_small", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "wrench_large", "prob": 60 },
+      { "item": "wrench_small", "prob": 60 },
       { "item": "socket_wrench_set", "prob": 30 },
-      { "item": "multitool", "prob": 60, "count": [ 1, 5 ] },
+      { "item": "multitool", "prob": 60, "count": [ 1, 3 ] },
       { "item": "xacto", "prob": 60, "count": [ 1, 3 ] },
-      { "item": "utility_knife_folding", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "utility_knife_folding", "prob": 80, "count": [ 1, 2 ] },
       { "item": "pipe_cleaner", "prob": 30 }
     ]
   },
@@ -132,11 +132,11 @@
       { "item": "afs_plasma_torch", "prob": 20, "count": [ 1, 2 ] },
       { "item": "afs_power_cutter", "prob": 10 },
       { "item": "angle_grinder", "prob": 20 },
-      { "item": "crash_axe", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "crowbar", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "geiger_off", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "crash_axe", "prob": 20 },
+      { "item": "crowbar", "prob": 20 },
+      { "item": "geiger_off", "prob": 20 },
       { "item": "small_repairkit", "prob": 10 },
-      { "item": "hacksaw", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "hacksaw", "prob": 10 },
       { "item": "chisel", "prob": 5 },
       { "item": "hammer_sledge", "prob": 20 },
       { "item": "hammer_sledge_short", "prob": 20 },
@@ -150,10 +150,9 @@
     "//": "Some tools to assist in cooking while out and about. She makes a point of keeping these sorts of things available.",
     "subtype": "collection",
     "items": [
-      { "item": "hotplate", "prob": 80, "count": [ 3, 5 ] },
-      { "item": "hotplate_induction", "prob": 80, "count": [ 3, 5 ] },
-      { "item": "pot", "prob": 80, "count": [ 2, 5 ] },
-      { "item": "steel_pan", "prob": 80, "count": [ 2, 5 ] },
+      { "item": "hotplate", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "pot", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "steel_pan", "prob": 80, "count": [ 1, 3 ] },
       { "item": "military_mess_kit", "prob": 30 },
       { "item": "multi_cooker", "prob": 30 }
     ]
@@ -164,10 +163,10 @@
     "//": "Tools for crafting and maintaining electronics. Less available in general since their usefulness in the field is limited.",
     "subtype": "collection",
     "items": [
-      { "item": "soldering_iron", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "multimeter", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "voltmeter", "prob": 20, "count": [ 1, 3 ] }
+      { "item": "soldering_iron", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "multimeter", "prob": 20 },
+      { "item": "voltmeter", "prob": 20 }
     ]
   },
   {
@@ -177,7 +176,7 @@
     "subtype": "collection",
     "items": [
       { "item": "afs_battery_charger", "prob": 60, "count": [ 1, 3 ] },
-      { "item": "afs_survival_heater", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "afs_survival_heater", "prob": 40 },
       { "item": "afs_tripod_light", "prob": 80, "count": [ 3, 8 ] },
       { "item": "afs_survival_battery", "prob": 40, "count": [ 1, 2 ] },
       { "item": "foot_locker_recharge_station", "prob": 30, "count": [ 1, 2 ] },
