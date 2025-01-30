@@ -302,7 +302,7 @@
       { "u_add_effect": "panacea", "duration": 2 },
       { "u_add_effect": "cureall", "duration": 2 },
       {
-        "npc_message": "Boann waves her hands as %2$s strikes her, and %2$s vanishes in a swirl of multicolored lights."
+        "npc_message": "Boann waves her hands as her opponent strikes her, and they vanish in a swirl of multicolored lights."
       }
     ]
   },
