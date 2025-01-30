@@ -990,6 +990,9 @@
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] } ]
+    "enchantments": [
+      { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
+      { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
+    ]
   }
 ]
