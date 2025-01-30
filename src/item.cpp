@@ -1380,7 +1380,7 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
         }
         ret = vol / my_volume;
     }
-    return std::min( ret, static_cast<int64_t>(INFINITE_CHARGES)); 
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
