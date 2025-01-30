@@ -2,6 +2,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_OLD_EFFECTS_REMOVAL",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
     "condition": { "u_has_any_effect": [ "effect_telepath_sense_minds", "effect_telepathic_suggestion", "effect_telepathic_psi_armor" ] },
     "effect": [
       { "u_lose_effect": "effect_telepath_sense_minds" },
