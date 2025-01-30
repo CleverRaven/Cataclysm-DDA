@@ -8013,6 +8013,11 @@ std::optional<int> iuse::capture_monster_veh( Character *p, item *it, const trip
 
 bool item::release_monster( const tripoint_bub_ms &target, const int radius )
 {
+    return item::release_monster( &get_map(), target, radius );
+}
+
+bool item::release_monster( map *here, const tripoint_bub_ms &target, const int radius )
+{
     shared_ptr_fast<monster> new_monster = make_shared_fast<monster>();
     try {
         ::deserialize_from_string( *new_monster, get_var( "contained_json", "" ) );
@@ -8020,7 +8025,7 @@ bool item::release_monster( const tripoint_bub_ms &target, const int radius )
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return false;
     }
-    if( !g->place_critter_around( new_monster, target, radius ) ) {
+    if( !g->place_critter_around( new_monster, here, target, radius ) ) {
         return false;
     }
     erase_var( "contained_name" );

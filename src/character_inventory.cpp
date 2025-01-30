@@ -327,7 +327,15 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
     return first_item_added;
 }
 
-item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
+item_location Character::i_add( item it, bool should_stack, const item *avoid,
+                                const item *original_inventory_item, const bool allow_drop,
+                                const bool allow_wield, bool ignore_pkt_settings )
+{
+    return Character::i_add( &get_map(), it, should_stack, avoid, original_inventory_item, allow_drop,
+                             allow_wield, ignore_pkt_settings );
+}
+
+item_location Character::i_add( map *here, item it, bool /* should_stack */, const item *avoid,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
 {
@@ -338,7 +346,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
+                return item_location( map_cursor( pos_abs() ), &here->add_item_or_charges( pos_bub( here ),
                                       it ) );
             } else {
                 return added;
@@ -466,6 +474,34 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
+            if( !retval ) {
+                // No need to loop now, we already knew that there isn't enough room for the item.
+                break;
+            }
+        } else if( add ) {
+            i_add( it, true, avoid,
+                   original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+        } else {
+            retval = false;
+            break;
+        }
+    }
+
+    return retval;
+}
+
+bool Character::i_add_or_drop( map *here, item &it, int qty, const item *avoid,
+                               const item *original_inventory_item )
+{
+    bool retval = true;
+    bool drop = it.made_of( phase_id::LIQUID );
+    bool add = it.is_gun() || !it.is_irremovable();
+    inv->assign_empty_invlet( it, *this );
+
+    for( int i = 0; i < qty; ++i ) {
+        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
+        if( drop ) {
+            retval &= !here->add_item_or_charges( pos_bub( here ), it ).is_null();
             if( !retval ) {
                 // No need to loop now, we already knew that there isn't enough room for the item.
                 break;

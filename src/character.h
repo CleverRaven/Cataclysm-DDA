@@ -2085,6 +2085,9 @@ class Character : public Creature, public visitable
         item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
                              const item *original_inventory_item = nullptr, bool allow_drop = true,
                              bool allow_wield = true, bool ignore_pkt_settings = false );
+        item_location i_add( map *here, item it, bool should_stack = true, const item *avoid = nullptr,
+                             const item *original_inventory_item = nullptr, bool allow_drop = true,
+                             bool allow_wield = true, bool ignore_pkt_settings = false );
         item_location i_add( item it, int &copies_remaining, bool should_stack = true,
                              const item *avoid = nullptr,
                              const item *original_inventory_item = nullptr, bool allow_drop = true,
@@ -2129,6 +2132,8 @@ class Character : public Creature, public visitable
          *  @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr,
+                            const item *original_inventory_item = nullptr );
+        bool i_add_or_drop( map *here, item &it, int qty = 1, const item *avoid = nullptr,
                             const item *original_inventory_item = nullptr );
 
         /** Drops items at player location

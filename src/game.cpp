@@ -5264,21 +5264,30 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const int radius,
                                      bool forced )
 {
+    return game::place_critter_around( mon, &m, center, radius, forced );
+}
+
+monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
+                                     map *here,
+                                     const tripoint_bub_ms &center,
+                                     const int radius,
+                                     bool forced )
+{
     std::optional<tripoint_bub_ms> where;
-    if( forced || can_place_monster( *mon, center ) ) {
+    if( forced || can_place_monster( *mon, here, center ) ) {
         where = center;
     }
 
     // This loop ensures the monster is placed as close to the center as possible,
     // but all places that equally far from the center have the same probability.
     for( int r = 1; r <= radius && !where; ++r ) {
-        where = choose_where_to_place_monster( *mon, m.points_in_radius( center, r ) );
+        where = choose_where_to_place_monster( *mon, here, here->points_in_radius( center, r ) );
     }
 
     if( !where ) {
         return nullptr;
     }
-    mon->spawn( *where );
+    mon->spawn( here->get_abs( *where ) );
     if( critter_tracker->add( mon ) ) {
         mon->gravity_check();
         return mon.get();

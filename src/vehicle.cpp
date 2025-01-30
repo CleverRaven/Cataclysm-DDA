@@ -148,18 +148,19 @@ static bool is_sm_tile_over_water( const tripoint_abs_ms &real_global_pos );
 
 static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
-void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
+void DefaultMapRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
     const vehicle_part &vp = veh.part( part );
-    const tripoint_bub_ms part_pos = veh.bub_part_pos( vp );
+    const tripoint_abs_ms part_pos = veh.abs_part_pos( vp );
+    const tripoint_bub_ms part_bub_pos = m.get_bub( part_pos );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
-    map &here = get_map();
+
     if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( act.values[0], act.values[1],
-                                              player_character.posz() ) ) ) == &veh ) {
+        if( veh_pointer_or_null( m.veh_at( tripoint_bub_ms( act.values[0], act.values[1],
+                                           player_character.posz() ) ) ) == &veh ) {
             if( act.values[6] >= part ) {
                 player_character.cancel_activity();
                 add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
@@ -168,19 +169,19 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos_bub() + player_character.grab_point == part_pos ) {
+        player_character.pos_abs() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( vp.mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
         }
     }
 
-    here.dirty_vehicle_list.insert( &veh );
-    here.clear_vehicle_point_from_cache( &veh, part_pos );
-    here.add_vehicle_to_cache( &veh );
-    here.memory_cache_dec_set_dirty( part_pos, true );
+    m.dirty_vehicle_list.insert( &veh );
+    m.clear_vehicle_point_from_cache( &veh, part_bub_pos );
+    m.add_vehicle_to_cache( &veh );
+    m.memory_cache_dec_set_dirty( part_bub_pos, true );
     player_character.memorize_clear_decoration(
-        here.get_abs( part_pos ), "vp_" + vp.info().id.str() );
+        part_pos, "vp_" + vp.info().id.str() );
 }
 
 // Vehicle stack methods.
@@ -884,6 +885,8 @@ units::angle vehicle::get_angle_from_targ( const tripoint_abs_ms &targ ) const
 void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
                      float percent_of_parts_to_affect, point_rel_ms damage_origin, float damage_size )
 {
+    // TODO: Review code to ensure map is actually used rather than get_map() and refine
+    // criteria for RemovePartHandler selection to work with non get_map() "m" outside of mapgen.
     for( vehicle_part &part : parts ) {
         //Skip any parts already mashed up or removed.
         if( part.is_broken() || part.removed ) {
@@ -949,7 +952,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                     // on the main game map. And assume that we run from some mapgen code if called on
                     // another instance.
                     if( g && &get_map() == &m ) {
-                        handler_ptr = std::make_unique<DefaultRemovePartHandler>();
+                        handler_ptr = std::make_unique<DefaultMapRemovePartHandler>( m );
                     } else {
                         handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
                     }
@@ -1994,7 +1997,12 @@ bool vehicle::is_powergrid() const
  */
 bool vehicle::remove_part( vehicle_part &vp )
 {
-    DefaultRemovePartHandler handler;
+    return vehicle::remove_part( &get_map(), vp );
+}
+
+bool vehicle::remove_part( map *here, vehicle_part &vp )
+{
+    DefaultMapRemovePartHandler handler( *here );
     return remove_part( vp, handler );
 }
 
@@ -2003,8 +2011,8 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     // NOTE: Don't access g or g->m or anything from it directly here.
     // Forward all access to the handler.
     // There are currently two implementations of it:
-    // - one for normal game play (vehicle is on the main map g->m),
-    // - one for mapgen (vehicle is on a temporary map used only during mapgen).
+    // - one for normal game play. Tyipcally vehicle is on the main map g->m, but doesn't have to,
+    // - one for mapgen (vehicle is on a temporary map used only during mapgen),
     const vpart_info &vpi = vp.info();
     if( vp.removed ) {
         /* This happens only when we had to remove part, because it was depending on
@@ -2014,7 +2022,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         return false;
     }
 
-    const tripoint_bub_ms part_loc = bub_part_pos( vp );
+    const tripoint_bub_ms part_loc = handler.get_map_ref().get_bub( abs_part_pos( vp ) );
 
     if( !handler.get_map_ref().inbounds( part_loc ) ) {
         debugmsg( "vehicle::remove_part part '%s' at mount %s bub pos %s is out of map "
@@ -3390,12 +3398,23 @@ tripoint_bub_ms vehicle::mount_to_tripoint( const point_rel_ms &mount ) const
     return mount_to_tripoint( mount, point_rel_ms::zero );
 }
 
+tripoint_bub_ms vehicle::mount_to_tripoint( map *here, const point_rel_ms &mount ) const
+{
+    return mount_to_tripoint( here, mount, point_rel_ms::zero );
+}
+
 tripoint_bub_ms vehicle::mount_to_tripoint( const point_rel_ms &mount,
+        const point_rel_ms &offset ) const
+{
+    return vehicle::mount_to_tripoint( &get_map(), mount, offset );
+}
+
+tripoint_bub_ms vehicle::mount_to_tripoint( map *here, const point_rel_ms &mount,
         const point_rel_ms &offset ) const
 {
     tripoint_rel_ms mnt_translated;
     coord_translate( pivot_rotation[0], pivot_anchor[0], mount + offset, mnt_translated );
-    return pos_bub() + mnt_translated;
+    return here->get_bub( pos_abs() + mnt_translated );
 }
 
 void vehicle::precalc_mounts( int idir, const units::angle &dir,
@@ -3520,6 +3539,11 @@ tripoint_bub_ms vehicle::bub_part_pos( const int index ) const
 tripoint_bub_ms vehicle::bub_part_pos( const vehicle_part &pt ) const
 {
     return pos_bub() + pt.precalc[ 0 ];
+}
+
+tripoint_abs_ms vehicle::abs_part_pos( const vehicle_part &pt ) const
+{
+    return pos_abs() + pt.precalc[0];
 }
 
 void vehicle::set_submap_moved( const tripoint_bub_sm &p )
@@ -6874,9 +6898,13 @@ void vehicle::do_towing_move()
 
 bool vehicle::is_external_part( const tripoint_bub_ms &part_pt ) const
 {
-    map &here = get_map();
-    for( const tripoint_bub_ms &elem : here.points_in_radius( part_pt, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( elem );
+    return vehicle::is_external_part( &get_map(), part_pt );
+}
+
+bool vehicle::is_external_part( map *here, const tripoint_bub_ms &part_pt ) const
+{
+    for( const tripoint_bub_ms &elem : here->points_in_radius( part_pt, 1 ) ) {
+        const optional_vpart_position vp = here->veh_at( elem );
         if( !vp ) {
             return true;
         }
@@ -6966,6 +6994,11 @@ bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
 
 void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
 {
+    vehicle::invalidate_towing( &get_map(), first_vehicle, remover );
+}
+
+void vehicle::invalidate_towing( map *here, bool first_vehicle, Character *remover )
+{
     if( !is_towing() && !is_towed() ) {
         return;
     }
@@ -6978,17 +7011,17 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
         const point_rel_ms other_tow_cable_mount = other_veh && other_tow_cable_idx > -1 ?
                 other_veh->part( other_tow_cable_idx ).mount : point_rel_ms::zero;
         if( other_veh ) {
-            other_veh->invalidate_towing();
+            other_veh->invalidate_towing( here );
         }
         if( tow_cable_idx > -1 ) {
             vehicle_part &vp = parts[tow_cable_idx];
             item drop = part_to_item( vp );
             drop.set_damage( 0 );
-            tripoint_bub_ms drop_pos = bub_part_pos( vp );
-            remove_part( vp );
+            tripoint_abs_ms drop_pos = abs_part_pos( vp );
+            remove_part( here, vp );
             if( other_tow_cable_idx > -1 ) {
                 drop.reset_link( false );
-                drop.link_to( *other_veh, other_tow_cable_mount, link_state::vehicle_tow );
+                drop.link_to( here, *other_veh, other_tow_cable_mount, link_state::vehicle_tow );
                 if( first_veh_is_towing ) {
                     drop.link().source = link_state::no_link;
                     drop.link().target = link_state::vehicle_tow;
@@ -7002,13 +7035,13 @@ void vehicle::invalidate_towing( bool first_vehicle, Character *remover )
 
             if( remover != nullptr ) {
                 if( !drop.has_flag( flag_NO_DROP ) && remover->can_stash( drop ) ) {
-                    remover->i_add_or_drop( drop );
+                    remover->i_add_or_drop( here, drop ); // "Here" *shouldn't* be required due to stash check
                 } else {
                     std::list<item> drops{ drop };
                     put_into_vehicle_or_drop( *remover, item_drop_reason::deliberate, drops );
                 }
             } else {
-                get_map().add_item_or_charges( drop_pos, drop );
+                here->add_item_or_charges( here->get_bub( drop_pos ), drop );
             }
         }
         tow_data.clear_towing();
@@ -7452,6 +7485,8 @@ bool vehicle::shift_if_needed( map &here )
 
 int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 {
+    // TODO: Review code to ensure map is actually used rather than get_map() and refine
+    // criteria for RemovePartHandler selection to work with non get_map() "m" outside of mapgen.
     const vpart_info &vpi = vp.info();
     /* Already-destroyed part - chance it could be torn off into pieces.
      * Chance increases with damage, and decreases with part max durability
@@ -7475,7 +7510,7 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
     };
     std::unique_ptr<RemovePartHandler> handler_ptr;
     if( g && &get_map() == &here ) {
-        handler_ptr = std::make_unique<DefaultRemovePartHandler>();
+        handler_ptr = std::make_unique<DefaultMapRemovePartHandler>( here );
     } else {
         handler_ptr = std::make_unique<MapgenRemovePartHandler>( here );
     }
@@ -7894,6 +7929,27 @@ const std::set<tripoint_bub_ms> &vehicle::get_points( const bool force_refresh,
     }
 
     return occupied_points;
+}
+
+const std::set<tripoint_bub_ms> vehicle::get_points( map *here, const bool force_refresh,
+        const bool no_fake ) const
+{
+    if( here == &get_map() ) {
+        return vehicle::get_points( force_refresh, no_fake );
+    } else {
+        map &bubble_map = get_map();
+        std::set<tripoint_bub_ms> result;
+
+        for( const std::pair<const point_rel_ms, std::vector<int>> &part_location : relative_parts ) {
+            if( no_fake && part( part_location.second.front() ).is_fake ) {
+                continue;
+            }
+            result.insert( here->get_bub( bubble_map.get_abs( bub_part_pos(
+                                              part_location.second.front() ) ) ) );
+        }
+
+        return result;
+    }
 }
 
 void vehicle::part_project_points( const tripoint_rel_ms &dp )

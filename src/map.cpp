@@ -375,7 +375,7 @@ void map::memory_cache_ter_set_dirty( const tripoint_bub_ms &p, bool value ) con
 void map::memory_clear_vehicle_points( const vehicle &veh ) const
 {
     avatar &player_character = get_avatar();
-    for( const tripoint_bub_ms &p : veh.get_points() ) {
+    for( const tripoint_bub_ms &p : veh.get_points( this ) ) {
         if( !inbounds( p ) ) {
             continue;
         }
@@ -470,7 +470,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         if( vpr.part().removed ) {
             continue;
         }
-        const tripoint_bub_ms p = veh->bub_part_pos( vpr.part() );
+        const tripoint_bub_ms p = get_bub( veh->abs_part_pos( vpr.part() ) );
         level_cache &ch = get_cache( p.z() );
         ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
@@ -591,7 +591,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             unboard_vehicle( part, passenger );
         }
     }
-    veh->invalidate_towing( true );
+    veh->invalidate_towing( this, true );
     submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
@@ -602,7 +602,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     level_cache &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
-            for( const tripoint_bub_ms &pt : veh->get_points() ) {
+            for( const tripoint_bub_ms &pt : veh->get_points( this ) ) {
                 if( inbounds( pt ) ) {
                     memory_cache_dec_set_dirty( pt, true );
                 }
@@ -9322,7 +9322,7 @@ void map::build_obstacle_cache(
     }
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
-        const tripoint_bub_ms loc = get_bub( critter.pos_abs() );
+        const tripoint_bub_ms loc = critter.pos_bub( this );
         if( loc.z() != start.z() || !inbounds( loc ) ) {
             continue;
         }

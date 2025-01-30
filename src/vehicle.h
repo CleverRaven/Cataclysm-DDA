@@ -964,6 +964,7 @@ class vehicle
                                  int &start_at, int &start_limit ) const;
         // towing functions
         void invalidate_towing( bool first_vehicle = false, Character *remover = nullptr );
+        void invalidate_towing( map *here, bool first_vehicle = false, Character *remover = nullptr );
         void do_towing_move();
         bool tow_cable_too_far() const;
         bool no_towing_slack() const;
@@ -971,6 +972,7 @@ class vehicle
         bool has_tow_attached() const;
         int get_tow_part() const;
         bool is_external_part( const tripoint_bub_ms &part_pt ) const;
+        bool is_external_part( map *here, const tripoint_bub_ms &part_pt ) const;
         bool is_towed() const;
         void set_tow_directions();
         /// @return true if vehicle is an appliance
@@ -1095,6 +1097,7 @@ class vehicle
         // Mark a part to be removed from the vehicle.
         // @returns true if the vehicle's 0,0 point shifted.
         bool remove_part( vehicle_part &vp );
+        bool remove_part( map *here, vehicle_part &vp );
         // Mark a part to be removed from the vehicle.
         // @returns true if the vehicle's 0,0 point shifted.
         bool remove_part( vehicle_part &vp, RemovePartHandler &handler );
@@ -1364,7 +1367,10 @@ class vehicle
                               tripoint_rel_ms &q ) const;
 
         tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount ) const;
+        tripoint_bub_ms mount_to_tripoint( map *here, const point_rel_ms &mount ) const;
         tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount, const point_rel_ms &offset ) const;
+        tripoint_bub_ms mount_to_tripoint( map *here, const point_rel_ms &mount,
+                                           const point_rel_ms &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point_rel_ms &dp ) const;
@@ -1439,6 +1445,7 @@ class vehicle
          */
         tripoint_bub_ms bub_part_pos( int index ) const;
         tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
+        tripoint_abs_ms abs_part_pos( const vehicle_part &pt ) const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
@@ -1996,6 +2003,8 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint_bub_ms> &get_points( bool force_refresh = false,
                 bool no_fake = false ) const;
+        const std::set<tripoint_bub_ms> get_points( map *here, bool force_refresh = false,
+                bool no_fake = false ) const;
 
         // calculate the new projected points for all vehicle parts to move to
         void part_project_points( const tripoint_rel_ms &dp );
@@ -2456,31 +2465,35 @@ class RemovePartHandler
         virtual map &get_map_ref() = 0;
 };
 
-class DefaultRemovePartHandler : public RemovePartHandler
+class DefaultMapRemovePartHandler : public RemovePartHandler
 {
+    private:
+        map &m;
+
     public:
-        ~DefaultRemovePartHandler() override = default;
+        explicit DefaultMapRemovePartHandler( map &m ) : m( m ) {}
+
+        ~DefaultMapRemovePartHandler() override = default;
 
         void unboard( const tripoint_bub_ms &loc ) override {
-            get_map().unboard_vehicle( loc );
+            m.unboard_vehicle( loc );
         }
         void add_item_or_charges( const tripoint_bub_ms &loc, item it, bool /*permit_oob*/ ) override {
-            get_map().add_item_or_charges( loc, std::move( it ) );
+            m.add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
-            map &here = get_map();
-            here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
+            m.set_transparency_cache_dirty( z );
+            m.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         void set_floor_cache_dirty( const int z ) override {
-            get_map().set_floor_cache_dirty( z );
+            m.set_floor_cache_dirty( z );
         }
         void removed( vehicle &veh, int part ) override;
         void spawn_animal_from_part( item &base, const tripoint_bub_ms &loc ) override {
-            base.release_monster( loc, 1 );
+            base.release_monster( &m, loc, 1 );
         }
         map &get_map_ref() override {
-            return get_map();
+            return m;
         }
 };
 

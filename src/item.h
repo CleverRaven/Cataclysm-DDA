@@ -1581,6 +1581,8 @@ class item : public visitable
          */
         ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
+        ret_val<void> link_to( map *here, vehicle &veh, const point_rel_ms &mount,
+                               link_state link_type = link_state::no_link );
 
         /**
          * @brief Updates all parts of the item's link_data that don't have to do with its connection. Initializes the link if needed.
@@ -2898,6 +2900,7 @@ class item : public visitable
          * @return Whether the monster has been spawned (may fail if no space available).
          */
         bool release_monster( const tripoint_bub_ms &target, int radius = 0 );
+        bool release_monster( map *here, const tripoint_bub_ms &target, int radius = 0 );
         /** Add the monster at target to this item, despawning it. */
         int contain_monster( const tripoint_bub_ms &target );
 

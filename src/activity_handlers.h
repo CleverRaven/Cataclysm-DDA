@@ -19,6 +19,7 @@
 class Character;
 class item;
 class item_location;
+class map;
 class player_activity;
 
 template<typename Point, typename Container>
@@ -184,6 +185,8 @@ enum class item_drop_reason : int {
 };
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( map *here, Character &you, item_drop_reason,
+                               const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                const tripoint_bub_ms &where, bool force_ground = false );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
