@@ -44,8 +44,6 @@ class zone_data;
 struct MonsterGroupResult;
 enum class farm_ops;
 
-using faction_id = string_id<faction>;
-
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;
 const int work_day_idle_hours = 6;

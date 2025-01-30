@@ -2240,7 +2240,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
-        const int room_for = it.charges_per_volume( free_volume );
+        const units::mass free_mass = panes[dest].free_weight_capacity();
+        const int room_for = std::min( it.charges_per_volume( free_volume ),
+                                       it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
             if( destarea == AIM_INVENTORY ) {
                 popup_getkey( _( "You have no space for the %s." ), it.tname() );

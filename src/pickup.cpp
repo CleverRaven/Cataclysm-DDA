@@ -496,15 +496,3 @@ void Pickup::pick_info::set_dst( const item_location &dst_ )
 {
     dst = dst_;
 }
-
-std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
-
-Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( const point &p )
-{
-    for( pickup_rect &rect : pickup_rect::list ) {
-        if( rect.contains( p ) ) {
-            return &rect;
-        }
-    }
-    return nullptr;
-}

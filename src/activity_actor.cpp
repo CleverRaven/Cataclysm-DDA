@@ -99,6 +99,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
@@ -3304,7 +3305,7 @@ item_location efile_activity_actor::find_external_transfer_estorage( Character &
 
 bool efile_activity_actor::edevice_has_use( const item *edevice )
 {
-    return edevice->type->has_use();
+    return edevice->type->can_use( "E_FILE_DEVICE" );
 }
 
 efile_activity_actor::edevice_compatible efile_activity_actor::edevices_compatible(
@@ -3500,10 +3501,19 @@ units::ememory efile_activity_actor::current_etransfer_rate( Character &who,
     const item_location &external_transfer_edevice =
         find_external_transfer_estorage( who, efile, target_edevice, used_edevice );
 
-    units::ememory used_rate = used_edevice->type->tool->etransfer_rate;
-    units::ememory target_rate = target_edevice->type->tool->etransfer_rate;
+    auto get_etransfer_rate = []( const item_location & loc ) {
+        units::ememory rate = loc->type->tool->etransfer_rate;
+        if( rate == 0_KB ) {
+            debugmsg( "%s is candidate for transferring e-files but has no etransfer_rate", loc->tname() );
+            rate = 1_KB;
+        }
+        return rate;
+    };
+
+    units::ememory used_rate = get_etransfer_rate( used_edevice );
+    units::ememory target_rate = get_etransfer_rate( target_edevice );
     units::ememory external_transfer_rate = external_transfer_edevice ?
-                                            external_transfer_edevice->type->tool->etransfer_rate / 2 : 0_KB;
+                                            get_etransfer_rate( external_transfer_edevice ) / 2 : 0_KB;
     units::ememory slow_transfer_rate = 1_MB; //bluetooth
 
     units::ememory final_rate = std::min( used_rate, target_rate );

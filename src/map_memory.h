@@ -8,13 +8,11 @@
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
-
-struct ter_t;
-using ter_str_id = string_id<ter_t>;
 
 class memorized_tile
 {

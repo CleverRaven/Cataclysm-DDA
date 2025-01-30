@@ -2460,7 +2460,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
                     }
                     here.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta.xy().raw() );
+                veh.move = tileray( destination_delta.xy() );
                 veh.smash( here, shove_damage_min, shove_damage_max, 0.10F );
             }
         }
