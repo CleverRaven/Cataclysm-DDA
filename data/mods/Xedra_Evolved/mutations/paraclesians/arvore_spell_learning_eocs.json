@@ -28,7 +28,9 @@
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
         },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" },
+        {
+          "or": [ { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }, { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" } ]
+        },
         {
           "or": [
             {
@@ -47,7 +49,9 @@
                 { "not": { "u_at_om_location": "field" } }
               ]
             },
-            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }, { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" } ]
+            },
             { "u_is_on_terrain": "t_barkfloor" }
           ]
         }
