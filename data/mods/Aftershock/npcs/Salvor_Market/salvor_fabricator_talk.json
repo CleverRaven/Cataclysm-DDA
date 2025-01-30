@@ -189,7 +189,7 @@
     "dynamic_line": "I pulled myself together and set up this little abode.  Been selling tools and gear to the folk that come through 'ere for a time now.  Buncha upstarts followed suit and set up their own little places.  And now we got our own neighborhood.  If it weren't for the nosey UICA pricks and especially that little shit Atermis I'd almost call it livable.",
     "responses": [
       {
-        "text": "Why stay? You must have enough to leave the planet by now?",
+        "text": "Why stay?  You must have enough to leave the planet by now?",
         "topic": "TALK_SALVOR_FABRICATOR_BACKSTORY_CURRENT_DAY_WHY_STAY"
       }
     ]

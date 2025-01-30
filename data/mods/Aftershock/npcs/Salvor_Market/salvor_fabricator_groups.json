@@ -127,7 +127,8 @@
       { "item": "hammer_sledge", "prob": 20 },
       { "item": "hammer_sledge_short", "prob": 20 },
       { "item": "e_tool", "prob": 10 },
-      { "item": "afs_plasma_torch", "prob": 40 }
+      { "item": "afs_plasma_torch", "prob": 40 },
+      { "item": "goggles_welding", "prob": 40, "count": [ 1, 2 ] }
     ]
   },
   {
