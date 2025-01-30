@@ -21,6 +21,7 @@
 #include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
@@ -614,12 +615,13 @@ class inventory_selector
                                   int indent = 0 );
         void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
+        void add_contained_efiles( item_location &container );
         void add_character_items( Character &character );
         void add_character_ebooks( Character &character );
-        void add_map_items( const tripoint &target );
-        void add_vehicle_items( const tripoint &target );
+        void add_map_items( const tripoint_bub_ms &target );
+        void add_vehicle_items( const tripoint_bub_ms &target );
         void add_nearby_items( int radius = 1 );
-        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
+        void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
@@ -685,7 +687,7 @@ class inventory_selector
         input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
-                const tripoint &pos );
+                const tripoint_bub_ms &pos );
 
         inventory_entry *add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
@@ -797,7 +799,7 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
-        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+        void _add_map_items( tripoint_bub_ms const &target, item_category const &cat, item_stack &items,
                              std::function<item_location( item & )> const &floc );
 
     public:
@@ -1047,7 +1049,7 @@ class pickup_selector : public inventory_multiselector
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const std::optional<tripoint> &where = std::nullopt );
+                                  const std::optional<tripoint_bub_ms> &where = std::nullopt );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
     protected:
@@ -1058,7 +1060,7 @@ class pickup_selector : public inventory_multiselector
         bool wear();
         void remove_from_to_use( item_location &it );
         void reopen_menu();
-        const std::optional<tripoint> where;
+        const std::optional<tripoint_bub_ms> where;
 };
 
 class unload_selector : public inventory_pick_selector

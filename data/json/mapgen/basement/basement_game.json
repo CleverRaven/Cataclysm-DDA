@@ -263,7 +263,7 @@
         "F": { "items": [ { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 3 ] } ] },
         "#": { "items": [ { "item": "fast_food", "chance": 40 } ] },
         "B": { "items": [ { "item": "homebooks", "chance": 30, "repeat": [ 1, 3 ] } ] },
-        "M": { "items": [ { "item": "phones", "chance": 70, "repeat": [ 0, 5 ] } ] },
+        "M": { "items": [ { "item": "civilian_phones", "chance": 70, "repeat": [ 0, 5 ] } ] },
         "z": { "items": [ { "item": "costume_all", "chance": 75, "repeat": [ 1, 3 ] } ] }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 22 ], "y": [ 5, 12 ], "chance": 2 } ],

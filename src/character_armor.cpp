@@ -54,7 +54,7 @@ bool Character::can_interface_armor() const
 resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         res += iter->damage_resistance( bp );
     }
 
@@ -139,7 +139,7 @@ void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 }
 
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
-                                        damage_instance &dam )
+                                        damage_instance &dam, const weakpoint & )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;

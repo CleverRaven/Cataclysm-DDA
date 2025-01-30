@@ -176,8 +176,9 @@ void push( monster &z )
         return;
     }
 
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint_bub_ms( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    // Attempt to double the vector between the player and monster
+    const tripoint_rel_ms delta = z.pos_bub() - player_character.pos_bub();
+    if( z.move_to( z.pos_bub() + delta.xy() ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
@@ -515,7 +516,7 @@ void milk_source( monster &source_mon )
         std::vector<tripoint_abs_ms> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getglobal( source_mon.pos_bub() ) );
+        coords.push_back( get_map().get_abs( source_mon.pos_bub() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {

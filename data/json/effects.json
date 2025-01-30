@@ -302,12 +302,6 @@
   },
   {
     "type": "effect_type",
-    "id": "bounced",
-    "name": [ { "str": "Bounced", "//~": "NO_I18N" } ],
-    "desc": [ { "str": "AI tag used for bouncing ammo targeting.  This is a bug if you have it.", "//~": "NO_I18N" } ]
-  },
-  {
-    "type": "effect_type",
     "id": "npc_value_interaction_timer_short",
     "//2": "This prevents you from building value with NPCs too quickly by just talking to them constantly."
   },
@@ -985,6 +979,28 @@
       "hurt_min": [ 1 ],
       "hurt_chance": [ 450, 2700 ]
     },
+    "max_intensity": 10,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "lift", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "grip", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      { "limb_score": "block", "modifier": 0.85, "resist_modifier": 0.92, "scaling": -0.05, "resist_scaling": -0.016 },
+      {
+        "limb_score": "reaction",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      },
+      {
+        "limb_score": "balance",
+        "modifier": 0.85,
+        "resist_modifier": 0.92,
+        "scaling": -0.05,
+        "resist_scaling": -0.016
+      }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Poison"
   },
@@ -4050,6 +4066,46 @@
   },
   {
     "type": "effect_type",
+    "id": "mutation_internal_damage",
+    "max_intensity": 3,
+    "name": [ "Botched Mutation", "Botched Mutation", "Destroyed Bionic" ],
+    "desc": [ "Your changing body did not cope well with your bionics." ],
+    "apply_message": [
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ],
+      [ "Your twisting flesh strains against the bionics invading your body.", "bad" ]
+    ],
+    "apply_memorial_log": "Had a mutation botched due to their installed bionics.",
+    "int_decay_tick": 25200,
+    "int_decay_remove": true,
+    "show_intensity": false,
+    "main_parts_only": true,
+    "//": "Internal bleeding",
+    "vitamins": [
+      { "vitamin": "redcells", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] },
+      { "vitamin": "blood", "rate": [ [ -2, -5 ], [ -2, -5 ], [ -4, -8 ] ], "tick": [ "30s", "30s", "15s" ] }
+    ],
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 24 ],
+      "pain_tick": [ 36 ],
+      "hurt_max": [ 1 ],
+      "hurt_chance": [ 24 ],
+      "hurt_tick": [ 40 ]
+    },
+    "scaling_mods": {
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_chance": [ -8 ],
+      "pain_tick": [ -15 ],
+      "hurt_max": [ 0 ],
+      "hurt_chance": [ -8 ],
+      "hurt_tick": [ 40 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "anemia",
     "name": [ "Early Iron Deficiency", "Iron Deficiency", "Acute Iron Deficiency" ],
     "desc": [
@@ -4310,7 +4366,7 @@
   {
     "type": "effect_type",
     "id": "sad",
-    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed" ],
+    "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Sad", "Sad", "Sad", "Sad", "Sad", "Depressed", "Depressed" ],
     "desc": [
       "You are not content with your life.",
       "You are not content with your life.",
@@ -4322,12 +4378,13 @@
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
       "This is not what you planned for your life.",
+      "You wonder what's the point of fighting?",
       "When will all your suffering end?"
     ],
     "max_intensity": 1000,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
-    "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
+    "miss_messages": [ [ "You dejectedly consider the pointlessness of it all.", 1 ] ]
   },
   {
     "type": "effect_type",

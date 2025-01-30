@@ -178,10 +178,10 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getglobal( p ).raw() );
+        res.coord_set.insert( here.get_abs( p ) );
     }
-    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
-    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );   // values[1]
+    res.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );   // values[0]
+    res.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );   // values[1]
     res.values.push_back( dd.x() );   // values[2]
     res.values.push_back( dd.y() );   // values[3]
     res.values.push_back( -dd.x() );   // values[4]
@@ -512,8 +512,8 @@ void veh_interact::do_main_loop()
         const int description_scroll_lines = catacurses::getmaxy( w_parts ) - 4;
         const std::string action = main_context.handle_input();
         msg.reset();
-        if( const std::optional<tripoint> vec = main_context.get_direction( action ) ) {
-            move_cursor( point_rel_ms( vec->xy() ) );
+        if( const std::optional<tripoint_rel_ms> vec = main_context.get_direction_rel_ms( action ) ) {
+            move_cursor( vec->xy() );
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
@@ -1479,7 +1479,7 @@ void veh_interact::calc_overview()
             auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    double vol_L = to_liter( pt.ammo_remaining() * units::legacy_volume_factor /
+                    double vol_L = to_liter( pt.ammo_remaining() * 250_ml /
                                              pt_ammo_cur->stack_size );
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
@@ -3053,8 +3053,8 @@ void veh_interact::complete_vehicle( Character &you )
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( pt ) ) );
+        for( const tripoint_abs_ms &pt : you.activity.coord_set ) {
+            ovp = here.veh_at( here.get_bub( pt ) );
             if( ovp ) {
                 break;
             }

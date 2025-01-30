@@ -47,6 +47,8 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 void mdefense::zapback( monster &m, Creature *const source,
                         dealt_projectile_attack const *proj )
 {
+    map &here = get_map();
+
     if( source == nullptr ) {
         return;
     }
@@ -87,7 +89,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
-    source->check_dead_state();
+    source->check_dead_state( &here );
 }
 
 void mdefense::acidsplash( monster &m, Creature *const source,
@@ -134,9 +136,10 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.proj_effects.insert( ammo_effect_DRAW_AS_LINE );
     prj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
+    dealt_projectile_attack atk;
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint_bub_ms &target = random_entry( pts );
-        projectile_attack( prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
+        projectile_attack( atk, prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
     }
 
     if( get_player_view().sees( m.pos_bub() ) ) {

@@ -323,10 +323,6 @@ inline constexpr double to_liter( const volume &v )
     return v.value() / 1000.0;
 }
 
-// Legacy conversions factor for old volume values.
-// Don't use in new code! Use one of the from_* functions instead.
-constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
 
@@ -770,6 +766,27 @@ inline constexpr double to_arcmin( const units::angle v )
     return to_degrees( v ) * 60;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_kilobytes( const value_type v )
+{
+    return quantity<value_type, ememory_in_kilobytes_tag>( v, ememory_in_kilobytes_tag{} );
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_megabytes( const value_type v )
+{
+    return from_kilobytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_gigabytes( const value_type v )
+{
+    return from_megabytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_terabytes( const value_type v )
+{
+    return from_gigabytes<value_type>( v ) * 1000;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -838,7 +855,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
 }
 
 std::string display( const units::energy &v );
-
+std::string display( const units::ememory &v );
 std::string display( units::power v );
 
 } // namespace units
@@ -1095,6 +1112,22 @@ inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }
+inline constexpr units::ememory operator""_KB( const unsigned long long b )
+{
+    return units::from_kilobytes( b );
+}
+inline constexpr units::ememory operator""_MB( const unsigned long long b )
+{
+    return units::from_megabytes( b );
+}
+inline constexpr units::ememory operator""_GB( const unsigned long long b )
+{
+    return units::from_gigabytes( b );
+}
+inline constexpr units::ememory operator""_TB( const unsigned long long b )
+{
+    return units::from_terabytes( b );
+}
 
 namespace units
 {
@@ -1152,8 +1185,14 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "kg", 1_kilogram },
     }
 };
+// NOTE: Due to string matching, any string that is a subset of another must come after the one it partially matches.
+// Because e.g. 'cent' will be read as a valid unit before 'cents', our order-of-iteration must check if the string is actually
+// 'cents' first, otherwise it will assume it is 'cent' and fail when parsing the 's' in 'cents'.
 const std::vector<std::pair<std::string, money>> money_units = { {
+        { "cents", 1_cent },
         { "cent", 1_cent },
+        { "dollars", 1_USD },
+        { "dollar", 1_USD },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
@@ -1178,6 +1217,13 @@ const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 const std::vector<std::pair<std::string, temperature>> temperature_units = { {
         { "K", 1_K }
+    }
+};
+const std::vector<std::pair<std::string, ememory>> ememory_units = { {
+        { "KB", 1_KB },
+        { "MB", 1_MB },
+        { "GB", 1_GB },
+        { "TB", 1_TB }
     }
 };
 
@@ -1232,7 +1278,12 @@ T read_from_json_string_common( const std::string_view s,
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit", i );
+        std::string error_msg = "Invalid quantity string: unknown unit.  Valid units are:";
+        for( const std::pair<std::string, T> &pair : units ) {
+            error_msg += "\n";
+            error_msg += pair.first;
+        }
+        error( error_msg.c_str(), i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };

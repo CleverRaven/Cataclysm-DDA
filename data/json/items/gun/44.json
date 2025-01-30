@@ -319,7 +319,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": ".44 lever-action rifle" },
+    "name": { "str": "long-barreled .44 lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
     "variants": [

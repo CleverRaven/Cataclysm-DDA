@@ -661,7 +661,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
@@ -1283,7 +1283,7 @@ void Character::hardcoded_effects( effect &it )
                          body_part_name_accusative( bp ) );
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
+                add_msg_if_player_sees( pos_bub(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
@@ -1315,7 +1315,7 @@ void Character::hardcoded_effects( effect &it )
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                 for( const MonsterGroupResult &mgr : spawn_details ) {
-                    g->place_critter_at( mgr.name, dest );
+                    g->place_critter_at( mgr.id, dest );
                 }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,

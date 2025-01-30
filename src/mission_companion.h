@@ -103,7 +103,7 @@ struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
     mapgen_arguments mapgen_args;
-    std::optional<point> dir;
+    std::optional<point_rel_omt> dir;
 
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue & );
@@ -224,7 +224,7 @@ npc_ptr temp_npc( const string_id<npc_template> &type );
 //Utility functions
 /// Returns npcs that have the given companion mission.
 comp_list companion_list( const npc &p, const mission_id &miss_id, bool contains = false );
-comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
+comp_list companion_list( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                           const mission_id &miss_id, bool contains = false );
 comp_list companion_sort( comp_list available,
                           const std::map<skill_id, int> &required_skills = {} );

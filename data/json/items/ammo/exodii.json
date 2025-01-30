@@ -210,6 +210,20 @@
     "effects": [ "COOKOFF", "EXPLOSIVE_m433" ]
   },
   {
+    "id": "caotel_cell",
+    "type": "AMMO",
+    "copy-from": "3006",
+    "count": 12,
+    "name": { "str": "Caotel cell" },
+    "description": "This is a small metallic cube of inscrutable construction.  A single groove etched into one side of the object presumably allows it to be mounted into other things, and a small red arrow has been helpfully painted besides it.",
+    "price_postapoc": "12 USD",
+    "ammo_type": "caotel_cell",
+    "range": 0,
+    "material": [ "qt_steel" ],
+    "effects": [ "NEVER_MISFIRES" ],
+    "casing": "caotel_cell_spent"
+  },
+  {
     "id": "33naval_ball",
     "type": "AMMO",
     "name": { "str_sp": "3.3 naval, FMJ" },

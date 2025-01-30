@@ -28,7 +28,7 @@
     "base_casting_time": 1200,
     "final_casting_time": 100,
     "casting_time_increment": -35,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 350
   },
   {
@@ -44,7 +44,7 @@
     "effect": "attack",
     "effect_str": "biomechanic",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "SHAPESHIFTER",
     "difficulty": 8,
     "min_duration": 1440,

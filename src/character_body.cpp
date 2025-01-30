@@ -249,7 +249,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     update_stomach( from, to );
     recalculate_enchantment_cache();
-    update_enchantment_mutations();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -381,31 +380,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
 }
 
-void Character::update_enchantment_mutations()
-{
-    // after recalcing the enchantment cache can properly remove and add mutations
-    const std::vector<trait_id> &current_traits = get_mutations();
-    for( const trait_id &mut : mutations_to_remove ) {
-        // check if the player still has a mutation
-        // since a trait from an item might be provided by another item as well
-        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
-        if( it == current_traits.end() ) {
-            const mutation_branch &mut_b = *mut;
-            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
-                                    cached_mutations.end() );
-            mutation_loss_effect( mut );
-            enchantment_wear_change();
-        }
-    }
-    for( const trait_id &mut : mutations_to_add ) {
-        cached_mutations.push_back( &mut.obj() );
-        mutation_effect( mut, true );
-        enchantment_wear_change();
-    }
-    mutations_to_add.clear();
-    mutations_to_remove.clear();
-}
-
 /* Here lies the intended effects of body temperature
 
 Assumption 1 : a naked person is comfortable at 19C/66.2F (31C/87.8F at rest).
@@ -452,7 +426,7 @@ void Character::update_bodytemp()
     }
     weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const units::temperature player_local_temp = weather_man.get_temperature( pos() );
+    const units::temperature player_local_temp = weather_man.get_temperature( pos_bub() );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -460,10 +434,10 @@ void Character::update_bodytemp()
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
-    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
     bool sheltered = g->is_sheltered( pos_bub() );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                                            get_location(), weather_man.winddirection, sheltered );
+                                            pos_abs(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
@@ -837,7 +811,7 @@ void Character::update_bodytemp()
             add_msg( m_bad,
                      _( "The wind is very strong; you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
-        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_kelvin_delta( -30 ) &&
+        } else if( conv_temp <= BODYTEMP_COLD && windchill < units::from_fahrenheit_delta( -30 ) &&
                    one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
                      body_part_name( bp ) );
@@ -875,7 +849,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     Less than -35F, more than 10 mp
     **/
 
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     const units::temperature temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
@@ -1394,7 +1368,7 @@ void Character::update_heartrate_index()
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
 
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     float temperature_modifier = 0.0f;
     if( has_flag( json_flag_COLDBLOOD ) ) {
         temperature_modifier = 0.002f;

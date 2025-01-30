@@ -74,8 +74,6 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const attack_vector_id attack_vector_vector_null( "vector_null" );
-
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_shock( "bio_shock" );
@@ -299,7 +297,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = *shield;
 
-    shield->get_contents().spill_contents( pos() );
+    shield->get_contents().spill_contents( pos_bub() );
 
     shield.remove_item();
 
@@ -572,6 +570,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
 {
+    map &here = get_map();
+
     if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
@@ -661,7 +661,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos(), t.pos(), false, false );
+        sfx::generate_melee_sound( pos_bub(), t.pos_bub(), false, false );
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
@@ -699,7 +699,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
             !( t.has_flag( json_flag_CANNOT_MOVE ) &&
                t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_id::NULL_ID() );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -733,12 +733,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Pick our attack
         // Unarmed needs a defined technique
         if( has_force_technique ) {
-            attack = std::make_tuple( force_technique, attack_vector_vector_null,
-                                      sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( force_technique, attack_vector_id::NULL_ID(),
+                                      sub_bodypart_str_id::NULL_ID() );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( tec_none, attack_vector_id::NULL_ID(), sub_bodypart_str_id::NULL_ID() );
         }
         // Unpack our data
         matec_id attack_id;
@@ -747,7 +747,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         std::tie( attack_id, vector_id, contact_area ) = attack;
 
         // If no weapon is selected, use highest layer of clothing for attack vector instead.
-        if( contact_area != sub_body_part_sub_limb_debug ) {
+        if( contact_area != sub_bodypart_str_id::NULL_ID() ) {
             // todo: simplify this by using item_location everywhere
             // so only cur_weapon = worn.current_unarmed_weapon remains
             // Check if our vector allows armor-derived damage
@@ -873,7 +873,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
+            sfx::generate_melee_sound( pos_bub(), t.pos_bub(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
@@ -905,7 +905,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         }
 
-        t.check_dead_state();
+        t.check_dead_state( &here );
 
         if( t.is_dead_state() ) {
             // trigger martial arts on-kill effects
@@ -940,11 +940,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
-    check_dead_state();
+    check_dead_state( &here );
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
+        t.as_character()->on_hit( &here, this, bodypart_str_id::NULL_ID().id(), 0.0f, &dp );
     }
     return true;
 }
@@ -1420,9 +1420,8 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
         }
     }
 
-    return random_entry( possible,
-                         std::make_tuple( tec_none, attack_vector_vector_null,
-                                          sub_body_part_sub_limb_debug ) );
+    return random_entry( possible, std::make_tuple( tec_none, attack_vector_id::NULL_ID(),
+                         sub_bodypart_str_id::NULL_ID() ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         Character::evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
@@ -1789,25 +1788,25 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                     t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms b = t.pos_bub();
-        point new_;
+        point_bub_ms new_;
 
         if( b.x() > posx() ) {
-            new_.x = posx() - 1;
+            new_.x() = posx() - 1;
         } else if( b.x() < posx() ) {
-            new_.x = posx() + 1;
+            new_.x() = posx() + 1;
         } else {
-            new_.x = b.x();
+            new_.x() = b.x();
         }
 
         if( b.y() > posy() ) {
-            new_.y = posy() - 1;
+            new_.y() = posy() - 1;
         } else if( b.y() < posy() ) {
-            new_.y = posy() + 1;
+            new_.y() = posy() + 1;
         } else {
-            new_.y = b.y();
+            new_.y() = b.y();
         }
 
-        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z()};
+        const tripoint_bub_ms &dest{ new_, b.z()};
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1816,9 +1815,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                        t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
-        const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
-                               rng( -technique.knockback_spread, technique.knockback_spread ) );
-        tripoint_bub_ms kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
+        const point_rel_ms kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
+                                      rng( -technique.knockback_spread, technique.knockback_spread ) );
+        tripoint_bub_ms kb_point( posx() + kb_offset.x(), posy() + kb_offset.y(), posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
@@ -2221,7 +2220,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     std::string target = t.disp_name();
 
     if( has_active_bionic( bio_shock ) && get_power_level() >= bio_shock->power_trigger &&
-        ( weap.is_null() || weapon.conductive() ) ) {
+        ( weap.is_null() || weap.conductive() || weapon.conductive() ) ) {
         mod_power_level( -bio_shock->power_trigger );
         d.add_damage( STATIC( damage_type_id( "electric" ) ), rng( 2, 10 ) );
 
@@ -2370,7 +2369,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );
 
-    for( const trait_id &pr : get_mutations() ) {
+    for( const trait_id &pr : get_functioning_mutations() ) {
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part

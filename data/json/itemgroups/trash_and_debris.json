@@ -222,7 +222,7 @@
       [ "sheet_kevlar_layered", 1 ],
       [ "ceramic_armor", 1 ],
       [ "leather", 1 ],
-      [ "software_hacking", 10 ],
+      { "item": "usb_drive", "contents-item": "software_hacking", "prob": 10 },
       [ "news_regional", 8 ],
       { "group": "newspaper", "prob": 10 },
       [ "file", 5 ],

@@ -730,6 +730,7 @@ class Character : public Creature, public visitable
     public:
 
         void gravity_check() override;
+        void gravity_check( map *here ) override;
         void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -943,7 +944,7 @@ class Character : public Creature, public visitable
         /** Updates the stomach to give accurate hunger messages */
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
-        void update_enchantment_mutations();
+        void update_cached_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1271,7 +1272,7 @@ class Character : public Creature, public visitable
 
         // any side effects that might happen when the Character is hit
         /** Handles special defenses from melee attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
+        void on_hit( map *here, Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
@@ -1282,7 +1283,8 @@ class Character : public Creature, public visitable
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
-                                           const weakpoint_attack &attack = weakpoint_attack() ) override;
+                                           const weakpoint_attack &attack = weakpoint_attack(),
+                                           const weakpoint &wp = weakpoint() ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
@@ -1296,7 +1298,7 @@ class Character : public Creature, public visitable
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
     protected:
         float generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
                                        limb_score_id limb_score_1, limb_score_id limb_score_2 ) const;
@@ -1374,12 +1376,16 @@ class Character : public Creature, public visitable
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
+        /** Returns true if a conflict has destroyed a bionic */
+        bool handle_bio_mut_conflict( const bionic_id &bio, const trait_id &mut );
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
-        /** Returns true if the player has the entered trait */
+        /** Returns true if the player has the entered trait in cached_mutations */
         bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered trait with the desired variant */
         bool has_trait_variant( const trait_and_var & ) const;
+        /** Returns true if the player has the entered trait in my_mutations */
+        bool has_permanent_trait( const trait_id &b ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -1445,7 +1451,8 @@ class Character : public Creature, public visitable
         void mutation_reflex_trigger( const trait_id &mut );
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const trait_id &mutation );
+        void activate_mutation( const trait_id &mut );
+        void activate_cached_mutation( const trait_id &mut );
         void deactivate_mutation( const trait_id &mut );
 
         bool can_mount( const monster &critter ) const;
@@ -1885,7 +1892,7 @@ class Character : public Creature, public visitable
         virtual item::reload_option select_ammo( const item_location &base, bool prompt = false,
                 bool empty = true ) = 0;
 
-        void process_items();
+        void process_items( map *here );
         void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
@@ -2306,11 +2313,13 @@ class Character : public Creature, public visitable
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
+        /** The number of chapters remaining for each book itype */
+        std::map<itype_id, int> book_chapters;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
-                                     bool ignore_pkt_settings = true, bool is_pick_up_inv = false ) const;
+                                     bool ignore_pkt_settings = true, bool ignore_non_container_pocket = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2563,7 +2572,7 @@ class Character : public Creature, public visitable
          *  Should only be called through player::normalize(), not on it's own!
          */
         void normalize() override;
-        void die( Creature *nkiller ) override;
+        void die( map *here, Creature *nkiller ) override;
         virtual void prevent_death();
 
         std::string get_name() const override;
@@ -2669,6 +2678,11 @@ class Character : public Creature, public visitable
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
         std::vector<trait_id> get_mutations(
+            bool include_hidden = true,
+            bool ignore_enchantment = false,
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
+        /** Get the idents of all traits/mutations with corrupted = 0. */
+        std::vector<trait_id> get_functioning_mutations(
             bool include_hidden = true,
             bool ignore_enchantment = false,
             const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
@@ -2784,6 +2798,7 @@ class Character : public Creature, public visitable
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
+        int get_effective_focus() const;
         void mod_focus( int amount ) {
             focus_pool += amount * 1000;
             focus_pool = std::max( focus_pool, 0 );
@@ -3048,6 +3063,8 @@ class Character : public Creature, public visitable
         // age in years
         int age( time_point when = calendar::turn ) const;
         std::string age_string( time_point when = calendar::turn ) const;
+        // returns ugliness of character
+        int ugliness() const;
         // returns the height in cm
         int base_height() const;
         void set_base_height( int height );
@@ -3183,15 +3200,13 @@ class Character : public Creature, public visitable
         void on_item_wear( const item &it );
         /** Called when an item is taken off */
         void on_item_takeoff( const item &it );
-        // things to call when mutations enchantments change
-        void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
-                                   const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
+                                   const bodypart_id &bp = bodypart_str_id::NULL_ID() ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */
@@ -3267,7 +3282,7 @@ class Character : public Creature, public visitable
         float speed_rating() const override;
 
         // Put corpse+inventory on map at the place where this is.
-        void place_corpse();
+        void place_corpse( map *here );
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 
@@ -3375,6 +3390,8 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
+        /** Would this character be normally willing to consume human flesh? */
+        bool okay_with_eating_humans() const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
@@ -3757,14 +3774,13 @@ class Character : public Creature, public visitable
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        using trap_map = std::map<tripoint, std::string>;
+        using trap_map = std::map<tripoint_abs_ms, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
         bool knows_trap( const tripoint_bub_ms &pos ) const;
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
-        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
@@ -3883,6 +3899,12 @@ class Character : public Creature, public visitable
         void swap_character( Character &other );
     public:
         struct trait_data {
+            /**
+             * Updated in Character::update_cached_mutations(),
+             * corrupted > 0 means that the mutation is not functioning,
+             * because of other conflicting enchantment mutations.
+             */
+            int corrupted = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
             /** Key to select the mutation in the UI. */
@@ -3971,14 +3993,18 @@ class Character : public Creature, public visitable
         // Mutations that have been turned unpurifiable via EoC
         std::unordered_set<trait_id> my_intrinsic_mutations;
         /**
-         * Pointers to mutation branches in @ref my_mutations.
+         * Cache containing my_mutations and enchantment mutations.
          */
-        std::vector<const mutation_branch *> cached_mutations;
+        std::unordered_map<trait_id, trait_data> cached_mutations;
+        /**
+         * Cache newly mutated mutations in my_mutations.
+         */
+        std::unordered_map<trait_id, trait_data> my_mutations_dirty;
 
         // if the player puts on and takes off items these mutations
-        // are added or removed at the beginning of the next
-        std::vector<trait_id> mutations_to_remove;
-        std::vector<trait_id> mutations_to_add;
+        // are added or removed at the beginning of the next turn.
+        std::set<trait_id> mutations_to_remove;
+        std::set<trait_id> mutations_to_add;
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated
@@ -4157,6 +4183,10 @@ class Character : public Creature, public visitable
     public:
         mutable time_point next_climate_control_check;
         mutable bool last_climate_control_ret;
+
+        /* cached enchantment mutations */
+        pimpl<enchant_cache> old_mutation_cache;
+        pimpl<enchant_cache> new_mutation_cache;
 
     private:
         /* cached recipes, which are invalidated if the turn changes */

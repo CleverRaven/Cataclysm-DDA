@@ -60,7 +60,7 @@
     "sym": "v",
     "travel_cost_type": "road",
     "extras": "bridgehead_ground",
-    "flags": [ "REQUIRES_PREDECESSOR" ]
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",

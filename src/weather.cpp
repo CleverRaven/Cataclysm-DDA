@@ -241,7 +241,7 @@ void item::add_rain_to_container( int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( "water", calendar::turn );
+    item ret( itype_water, calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -276,7 +276,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", calendar::turn_zero );
+    static const item water( itype_water, calendar::turn_zero );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -788,7 +788,7 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    const tripoint_bub_ms triblocker( get_map().bub_from_abs( location ) + point( windvec.x,
+    const tripoint_bub_ms triblocker( get_map().get_bub( location ) + point( windvec.x,
                                       windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
@@ -870,7 +870,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -900,7 +900,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.get_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.pos_abs(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
@@ -949,7 +949,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-units::temperature weather_manager::get_temperature( const tripoint &location )
+units::temperature weather_manager::get_temperature( const tripoint_bub_ms &location )
 {
     if( forced_temperature ) {
         return *forced_temperature;
@@ -961,13 +961,13 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    units::temperature temp = location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 
     if( !g->new_game ) {
         units::temperature_delta temp_mod;
-        temp_mod = get_heat_radiation( tripoint_bub_ms( location ) );
-        temp_mod += get_convection_temperature( tripoint_bub_ms( location ) );
-        temp_mod += get_map().get_temperature_mod( tripoint_bub_ms( location ) );
+        temp_mod = get_heat_radiation( location );
+        temp_mod += get_convection_temperature( location );
+        temp_mod += get_map().get_temperature_mod( location );
 
         temp += temp_mod;
     }

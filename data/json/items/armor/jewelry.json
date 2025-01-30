@@ -4661,7 +4661,6 @@
       { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },
-      { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str_sp": "God's Magnum" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
       { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },
       { "type": "COMPONENT_ID", "condition": "9mm_casing", "name": { "str_sp": "Sunrise Parabellum" } },

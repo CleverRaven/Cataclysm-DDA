@@ -189,7 +189,6 @@
     "method": "json",
     "om_terrain": [ "church_1" ],
     "//": "Gothic Church",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -13,7 +13,7 @@
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "LIQUIDCONT" ],
     "deconstruct": { "items": [ { "item": "atomic_butterchurn", "count": 1 } ] },
     "examine_action": "keg",
-    "keg_capacity": 45,
+    "keg_capacity": "11250 ml",
     "bash": {
       "str_min": 12,
       "str_max": 50,

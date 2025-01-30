@@ -421,7 +421,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
-            critter.check_dead_state();
+            critter.check_dead_state( &m );
         }
         if( !critter.is_dead() && critter.get_size() >= creature_size::huge ) {
             // big critters simply prevent the gate from closing
@@ -467,8 +467,8 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
     }
 
-    m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point( x, y ) ) ) {
+    m.ter_set( point_bub_ms( x, y ), door_type );
+    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point_bub_ms( x, y ) ) ) {
         map_stack items = m.i_at( point_bub_ms( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( phase_id::LIQUID ) ) {

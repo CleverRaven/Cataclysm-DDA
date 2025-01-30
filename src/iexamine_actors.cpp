@@ -114,7 +114,7 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
                 continue;
             }
             int dist = rl_dist( cardloc.xy(),
-                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy() );
+                                coords::project_to<coords::omt>( get_map().get_abs( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -132,7 +132,7 @@ bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( here.getglobal( examp ) ) );
+        tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( here.get_abs( examp ) ) );
         const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
                 false );
         if( !has_colliding_vehicle.success() ) {
@@ -180,8 +180,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &exam
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
-                coords::project_to<coords::omt>( here.getglobal( examp ) ) &&
+            if( coords::project_to<coords::omt>( here.get_abs( critter.pos_bub() ) ) ==
+                coords::project_to<coords::omt>( here.get_abs( examp ) ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
@@ -195,7 +195,9 @@ void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &exam
         }
     } else if( allow_hacking && iexamine::can_hack( you ) &&
                query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( you, tripoint_bub_ms( examp ) );
+        iexamine::try_start_hacking( you, examp );
+    } else if( !allow_hacking && iexamine::can_hack( you ) ) {
+        add_msg( _( "This card-reader cannot be hacked." ) );
     }
 }
 
@@ -257,7 +259,7 @@ void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) con
 {
     dialogue d( get_talker_for( you ), nullptr );
     d.set_value( "this", get_map().furn( examp ).id().str() );
-    d.set_value( "pos", get_map().getglobal( examp ).to_string() );
+    d.set_value( "pos", get_map().get_abs( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

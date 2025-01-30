@@ -29,11 +29,16 @@
 
 static const furn_str_id furn_f_rack( "f_rack" );
 
+static const itype_id itype_boxer_shorts( "boxer_shorts" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_longshirt( "longshirt" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_socks( "socks" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const overmap_special_id overmap_special_tutorial( "tutorial" );
@@ -163,11 +168,11 @@ bool tutorial_game::init()
     starting_om.place_special_forced( overmap_special_tutorial, lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
-    player_character.wear_item( item( "boxer_shorts" ), false );
-    player_character.wear_item( item( "jeans" ), false );
-    player_character.wear_item( item( "longshirt" ), false );
-    player_character.wear_item( item( "socks" ), false );
-    player_character.wear_item( item( "sneakers" ), false );
+    player_character.wear_item( item( itype_boxer_shorts ), false );
+    player_character.wear_item( item( itype_jeans ), false );
+    player_character.wear_item( item( itype_longshirt ), false );
+    player_character.wear_item( item( itype_socks ), false );
+    player_character.wear_item( item( itype_sneakers ), false );
 
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );

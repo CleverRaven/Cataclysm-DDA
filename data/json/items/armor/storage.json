@@ -409,6 +409,13 @@
     "color": "brown",
     "pocket_data": [
       {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      },
+      {
         "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
@@ -421,13 +428,6 @@
         "description": "Tucked between your back and the backpack.",
         "ripoff": 3,
         "transparent": true
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "30 kg",
-        "max_item_length": "40 cm",
-        "moves": 300
       }
     ],
     "warmth": 9,

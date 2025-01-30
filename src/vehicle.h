@@ -970,8 +970,6 @@ class vehicle
         bool is_towing() const;
         bool has_tow_attached() const;
         int get_tow_part() const;
-        // TODO: Get rid of untyped overload.
-        bool is_external_part( const tripoint &part_pt ) const;
         bool is_external_part( const tripoint_bub_ms &part_pt ) const;
         bool is_towed() const;
         void set_tow_directions();
@@ -1038,8 +1036,6 @@ class vehicle
          * @param vpi The part type to check
          * @return true if the part can be mounted at specified position.
          */
-        // TODO: Get rid of untyped overload.
-        ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
         ret_val<void> can_mount( const point_rel_ms &dp, const vpart_info &vpi ) const;
 
         // @returns true if part \p vp_to_remove can be uninstalled
@@ -1047,8 +1043,6 @@ class vehicle
 
         // install a part of type \p type at mount \p dp
         // @return installed part index or -1 if can_mount(...) failed
-        // TODO: Get rid of untyped overload.
-        int install_part( const point &dp, const vpart_id &type );
         int install_part( const point_rel_ms &dp, const vpart_id &type );
 
         // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
@@ -1060,8 +1054,6 @@ class vehicle
 
         // install the given part \p vp (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
-        // TODO: Get rid of untyped overload.
-        int install_part( const point &dp, vehicle_part &&vp );
         int install_part( const point_rel_ms &dp, vehicle_part &&vp );
 
         struct rackable_vehicle {
@@ -1089,8 +1081,6 @@ class vehicle
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
         bool merge_appliance_into_grid( vehicle &veh_target );
-        // TODO: Get rid of untyped overload.
-        void separate_from_grid( point mount );
         void separate_from_grid( point_rel_ms mount );
 
         bool is_powergrid() const;
@@ -1197,9 +1187,6 @@ class vehicle
         /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        // TODO: Get rid of untyped overload.
-        std::vector<int> parts_at_relative( const point &dp, bool use_cache,
-                                            bool include_fake = false ) const;
         std::vector<int> parts_at_relative( const point_rel_ms &dp, bool use_cache,
                                             bool include_fake = false ) const;
 
@@ -1212,9 +1199,6 @@ class vehicle
         *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        // TODO: Get rid of untyped overload
-        int part_with_feature( const point &pt, const std::string &f, bool unbroken,
-                               bool include_fake = false ) const;
         int part_with_feature( const point_rel_ms &pt, const std::string &f, bool unbroken,
                                bool include_fake = false ) const;
         /**
@@ -1283,8 +1267,6 @@ class vehicle
          *  @param flag The specified flag
          *  @param enabled if set part must also be enabled to be considered
          */
-        // TODO: Get rid of untyped overload.
-        bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
         bool has_part( const tripoint_bub_ms &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
@@ -1371,8 +1353,6 @@ class vehicle
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag ) const;
 
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
-        // TODO: Get rid of untyped overload.
-        point coord_translate( const point &p ) const;
         point_rel_ms coord_translate( const point_rel_ms &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
@@ -1383,14 +1363,10 @@ class vehicle
         void coord_translate( tileray tdir, const point_rel_ms &pivot, const point_rel_ms &p,
                               tripoint_rel_ms &q ) const;
 
-        // TODO: Get rid of untyped overload.
-        tripoint mount_to_tripoint( const point &mount ) const;
         tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount ) const;
         tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount, const point_rel_ms &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
-        // TODO: Get rid of untyped overload.
-        int part_at( const point &dp ) const;
         int part_at( const point_rel_ms &dp ) const;
         int part_displayed_at( const point_rel_ms &dp, bool include_fake = false,
                                bool below_roof = true, bool roof = true ) const;
@@ -1452,9 +1428,9 @@ class vehicle
 
         bool enclosed_at( const tripoint_bub_ms &pos ); // not const because it calls refresh_insides
         // Returns the location of the vehicle in global map square coordinates.
-        tripoint_abs_ms global_square_location() const;
+        tripoint_abs_ms pos_abs() const;
         // Returns the location of the vehicle in global overmap terrain coordinates.
-        tripoint_abs_omt global_omt_location() const;
+        tripoint_abs_omt pos_abs_omt() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         // Warning: Don't assume this position contains a vehicle part
         tripoint_bub_ms pos_bub() const;
@@ -2151,7 +2127,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const tripoint_sm_ms &p );
+        void set_submap_moved( const tripoint_bub_sm &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -2160,8 +2136,7 @@ class vehicle
 
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
-        // TODO: Make it typed. One call uses bubble coordinates, the other untyped veh_app_interact::a_point
-        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup );
         void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
@@ -2338,7 +2313,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos = tripoint::zero; // NOLINT(cata-serialize)
+        tripoint_bub_sm sm_pos = tripoint_bub_sm::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)

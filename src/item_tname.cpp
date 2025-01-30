@@ -19,6 +19,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "mutation.h"
 #include "options.h"
 #include "point.h"
 #include "recipe.h"
@@ -28,6 +29,7 @@
 #include "type_id.h"
 #include "units.h"
 
+static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -289,9 +291,9 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_var( "spawn_location_omt" ) ) {
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
         tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
-        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
         if( dist < 1 ) {
@@ -433,6 +435,7 @@ std::string vars( item const &it, unsigned int /* quantity */,
         }
         ret += string_format( " (%s)", item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
     }
+
     if( it.already_used_by_player( get_avatar() ) ) {
         ret += _( " (used)" );
     }
@@ -440,6 +443,23 @@ std::string vars( item const &it, unsigned int /* quantity */,
         ret += _( " (plugged in)" );
     }
     return ret;
+}
+
+
+std::string traits( item const &it, unsigned int /* quantity */,
+                    segment_bitset const &/* segments */ )
+{
+    std::string ret;
+    if( it.has_flag( flag_GENE_TECH ) && it.template_traits.size() == 1 ) {
+        if( it.has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
+            ret += string_format( _( " (SINGLE USE %s)" ), it.template_traits.front()->name() );
+        } else {
+            ret += string_format( " (%s)", it.template_traits.front()->name() );
+        }
+    }
+    return ret;
+
 }
 
 std::string segment_broken( item const &it, unsigned int /* quantity */,
@@ -546,6 +566,32 @@ std::string category( item const &it, unsigned int quantity,
     return colorize( it.get_category_of_contents().name_noun( quantity ), color );
 }
 
+std::string ememory( item const &it, unsigned int /* quantity */,
+                     segment_bitset const &/* segments */ )
+{
+    if( it.is_estorage() && !it.is_broken() ) {
+        if( it.is_browsed() ) {
+            units::ememory remain_mem = it.remaining_ememory();
+            units::ememory total_mem = it.total_ememory();
+            double ratio = static_cast<double>( remain_mem.value() ) / static_cast<double>( total_mem.value() );
+            nc_color ememory_color;
+            if( ratio > 0.66f ) {
+                ememory_color = c_light_green;
+            } else if( ratio > 0.33f ) {
+                ememory_color = c_yellow;
+            } else {
+                ememory_color = c_light_red;
+            }
+            std::string out_of = remain_mem == total_mem ? units::display( remain_mem ) :
+                                 string_format( "%s/%s", units::display( remain_mem ), units::display( total_mem ) );
+            return string_format( _( " (%s free)" ), colorize( out_of, ememory_color ) );
+        } else {
+            return colorize( _( " (unbrowsed)" ), c_dark_gray );
+        }
+    }
+    return {};
+}
+
 // function type that prints an element of tname::segments
 using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
                              segment_bitset const &segments );
@@ -581,6 +627,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::BROKEN ) ] = segment_broken;
     arr[static_cast<size_t>( tname::segments::CBM_STATUS ) ] = cbm_status;
     arr[static_cast<size_t>( tname::segments::UPS ) ] = ups;
+    arr[static_cast<size_t>( tname::segments::TRAITS ) ] = traits;
     arr[static_cast<size_t>( tname::segments::TAGS ) ] = tags;
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
@@ -591,6 +638,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::LINK ) ] = noop;
     arr[static_cast<size_t>( tname::segments::TECHNIQUES ) ] = noop;
     arr[static_cast<size_t>( tname::segments::CONTENTS ) ] = contents;
+    arr[static_cast<size_t>( tname::segments::EMEMORY )] = ememory;
 
     return arr;
 }
@@ -662,6 +710,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::CONTENTS_ABREV: return "CONTENTS_ABBREV";
         case tname::segments::CONTENTS_COUNT: return "CONTENTS_COUNT";
         case tname::segments::FOOD_PERISHABLE: return "FOOD_PERISHABLE";
+        case tname::segments::EMEMORY: return "EMEMORY";
         case tname::segments::last: return "last";
         default:
         // *INDENT-ON*

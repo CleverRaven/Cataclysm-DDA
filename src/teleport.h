@@ -14,7 +14,7 @@ namespace teleport
 bool teleport( Creature &critter, int min_distance = 2, int max_distance = 12,
                bool safe = false, bool add_teleglow = true );
 bool teleport_to_point( Creature &critter, tripoint_bub_ms target, bool safe, bool add_teleglow,
-                        bool display_message = true, bool force = false );
+                        bool display_message = true, bool force = false, bool force_safe = false );
 } // namespace teleport
 
 #endif // CATA_SRC_TELEPORT_H

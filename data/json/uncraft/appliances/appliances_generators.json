@@ -1,0 +1,137 @@
+[
+  {
+    "result": "portable_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "90 m",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "1cyl_combustion_med", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "chunk_rubber", 6 ] ],
+      [ [ "scrap", 40 ] ],
+      [ [ "cable", 200 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "nuts_bolts", 25 ] ]
+    ]
+  },
+  {
+    "result": "diesel_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "150 m",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "i1_diesel", 1 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "jerrycan", 1 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "sheet_metal_small", 20 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "chunk_rubber", 16 ] ],
+      [ [ "steel_chunk", 40 ] ],
+      [ [ "steel_lump", 8 ] ],
+      [ [ "scrap", 100 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "scrap_copper", 16 ] ],
+      [ [ "scrap_aluminum", 40 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "battery_motorbike", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "wheel_10", 1 ] ],
+      [ [ "nuts_bolts", 120 ] ]
+    ]
+  },
+  {
+    "result": "military_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "i4_diesel", 1 ] ],
+      [ [ "alternator_car", 1 ] ],
+      [ [ "muffler", 1 ] ],
+      [ [ "hdframe", 1 ] ],
+      [ [ "jerrycan_big", 1 ] ],
+      [ [ "sheet_metal", 10 ] ],
+      [ [ "sheet_metal_small", 80 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "chunk_rubber", 40 ] ],
+      [ [ "steel_chunk", 200 ] ],
+      [ [ "steel_lump", 50 ] ],
+      [ [ "scrap", 300 ] ],
+      [ [ "e_scrap", 20 ] ],
+      [ [ "cable", 300 ] ],
+      [ [ "scrap_copper", 50 ] ],
+      [ [ "bearing", 20 ] ],
+      [ [ "battery_car", 2 ] ],
+      [ [ "motor_tiny", 2 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "hinge", 12 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "voltmeter", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "hose", 5 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "nuts_bolts", 300 ] ]
+    ]
+  },
+  {
+    "result": "12000_gasoline_generator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "v2_combustion", 1 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "jerrycan_big", 1 ] ],
+      [ [ "plastic_chunk", 30 ] ],
+      [ [ "steel_chunk", 50 ] ],
+      [ [ "steel_lump", 10 ] ],
+      [ [ "chunk_rubber", 20 ] ],
+      [ [ "scrap", 160 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "cable", 25 ] ],
+      [ [ "scrap_copper", 28 ] ],
+      [ [ "scrap_aluminum", 60 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "battery_motorbike", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "wheel_10", 1 ] ],
+      [ [ "nuts_bolts", 80 ] ]
+    ]
+  }
+]

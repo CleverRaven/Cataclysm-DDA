@@ -23,6 +23,9 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+class anatomy;
+using anatomy_id = string_id<anatomy>;
+
 struct attack_vector;
 using attack_vector_id = string_id<attack_vector>;
 
@@ -252,6 +255,9 @@ using speed_description_id = string_id<speed_description>;
 class mood_face;
 using mood_face_id = string_id<mood_face>;
 
+class magic_type;
+using magic_type_id = string_id<magic_type>;
+
 class spell_type;
 using spell_id = string_id<spell_type>;
 
@@ -269,6 +275,9 @@ using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;
+
+class relic_procgen_data;
+using relic_procgen_id = string_id<relic_procgen_data>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

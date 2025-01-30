@@ -14,6 +14,7 @@
 
 class faction;
 class item;
+class map;
 class mission;
 class npc;
 class time_duration;
@@ -48,10 +49,9 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
+        tripoint_abs_ms pos_abs() const override;
+        tripoint_abs_omt pos_abs_omt() const override;
 
         int pain_cur() const override;
 
@@ -73,6 +73,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int morale_cur() const override;
         int get_friendly() const override;
         int get_size() const override;
+        int get_speed() const override;
         int get_grab_strength() const override;
         std::vector<std::string> get_topics( bool radio_contact ) const override;
         bool will_talk_to_u( const Character &u, bool force ) const override;
@@ -80,7 +81,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int get_hp_max( const bodypart_id & ) const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
 
-        bool can_see_location( const tripoint &pos ) const override;
+        bool can_see_location( const tripoint_bub_ms &pos ) const override;
         int get_volume() const override;
         int get_weight() const override;
         bool is_warm() const override;
@@ -121,7 +122,7 @@ class talker_monster: public talker_monster_const, public talker_cloner<talker_m
         void set_morale( int ) override;
         void set_friendly( int ) override;
         bool get_is_alive() const override;
-        void die() override;
+        void die( map *here ) override;
 
         void set_all_parts_hp_cur( int ) override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,

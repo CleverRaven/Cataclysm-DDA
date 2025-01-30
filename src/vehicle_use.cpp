@@ -85,8 +85,9 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
-static const itype_id itype_null( "null" );
+static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
+static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -211,24 +212,24 @@ void vehicle::control_doors()
 
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( true, "CURTAIN" ); } );
 
         menu.add( _( "Open all curtains and doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all, &lock_or_unlock_all] {
             lock_or_unlock_all( false, "LOCKABLE_DOOR" );
             open_or_close_all( true, "" );
         } );
         menu.add( _( "Close all doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( false, "DOOR" ); } );
 
         menu.add( _( "Close all curtains and doors" ) )
         .hotkey_auto()
-        .location( get_player_character().pos() )
+        .location( get_player_character().pos_bub().raw() )
         .on_submit( [&open_or_close_all] { open_or_close_all( false, "" ); } );
 
         for( const vpart_reference &vp_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
@@ -486,7 +487,7 @@ void vehicle::smash_security_system()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, pos_abs(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -567,7 +568,7 @@ void vehicle::connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms 
         return ;
     }
 
-    item cord( "power_cord" );
+    item cord( itype_power_cord );
     if( !cord.link_to( prev_vp, sel_vp, link_state::vehicle_port ).success() ) {
         debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cord.tname() );
     }
@@ -580,7 +581,7 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
     }
 
     const tripoint_bub_ms pos = bub_part_pos( vp );
-    double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos.raw() ) );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
     if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
     }
@@ -880,7 +881,7 @@ void vehicle::reload_seeds( const tripoint_bub_ms &pos )
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), itype_null, _( "No seed" ), 0 );
+    seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -906,9 +907,8 @@ void vehicle::reload_seeds( const tripoint_bub_ms &pos )
             }
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
-            // TODO: fix point types
             put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed,
-                                      tripoint_bub_ms( pos ) );
+                                      pos );
         }
     }
 }
@@ -1149,7 +1149,7 @@ void vehicle::operate_scoop()
                 that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
-                                              that_item_there->volume() * 2 / units::legacy_volume_factor + 10 ),
+                                              that_item_there->volume() * 2 / 250_ml + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
@@ -1321,9 +1321,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
-    here.set_transparency_cache_dirty( sm_pos.z );
+    here.set_transparency_cache_dirty( sm_pos.z() );
     const tripoint_bub_ms part_location = mount_to_tripoint( parts[part_index].mount );
-    here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
+    here.set_seen_cache_dirty( part_location );
     const int dist = rl_dist( get_player_character().pos_bub(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -1560,7 +1560,7 @@ void vehicle::use_monster_capture( int part, const tripoint_bub_ms &pos )
         return;
     }
     item base = item( parts[part].get_base() );
-    base.type->invoke( &get_avatar(), base, pos.raw() );
+    base.type->invoke( &get_avatar(), base, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
@@ -1584,7 +1584,8 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
         return;
     }
     creature_tracker &creatures = get_creature_tracker();
-    const std::function<bool( const tripoint & )> f = [&creatures]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint_bub_ms & )> f = [&creatures](
+    const tripoint_bub_ms & pnt ) {
         monster *mon_ptr = creatures.creature_at<monster>( pnt );
         if( mon_ptr == nullptr ) {
             return false;
@@ -1594,14 +1595,14 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
                                     f.has_flag( mon_flag_PET_HARNESSABLE ) );
     };
 
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
-            false );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
+                _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+                false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
     }
-    const tripoint &target = *pnt_;
+    const tripoint_bub_ms &target = *pnt_;
     monster *mon_ptr = creatures.creature_at<monster>( target );
     if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
@@ -1745,7 +1746,7 @@ int vehicle::prepare_tool( item &tool ) const
     if( ammo_itype_id.is_null() ) {
         return 0; // likely tool needs no ammo
     }
-    item mag_mod( "pseudo_magazine_mod" );
+    item mag_mod( itype_pseudo_magazine_mod );
     mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
     if( !tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
         debugmsg( "tool %s has no space for a %s, this is likely a bug",
@@ -1802,13 +1803,13 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
+        act.coords.push_back( get_map().get_abs( vp_pos ) ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
     //Hack for heat_activity_actor.
     if( act.id() == ACT_HEATING ) {
-        act.coords.push_back( vp_pos.raw() );
+        act.coords.push_back( get_map().get_abs( vp_pos ) );
     }
 
     const int used_charges = ammo_in_tool - tool.ammo_remaining();
@@ -1823,7 +1824,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
     return true;
 }
 
-void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup )
+void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup )
 {
     const optional_vpart_position ovp = get_map().veh_at( p );
     if( !ovp ) {
@@ -1890,7 +1891,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
                 const int moves = to_moves<int>( 6000_seconds / skill );
-                const tripoint_abs_ms target = global_square_location() + coord_translate( parts[0].mount );
+                const tripoint_abs_ms target = pos_abs() + coord_translate( parts[0].mount );
                 const hotwire_car_activity_actor hotwire_act( moves, target );
                 get_player_character().assign_activity( hotwire_act );
             } );
@@ -2164,7 +2165,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
         .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
-        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, tripoint_bub_ms( vppos ), tool_type ); } );
+        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
     }
 
     const std::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
@@ -2217,7 +2218,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( tripoint_bub_ms( vppos ) );
+            g->peek( vppos );
         } );
     }
 
@@ -2417,19 +2418,19 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             menu.add( string_format( _( "Lock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCK_DOOR" )
             .on_submit( [p] {
-                doors::lock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
+                doors::lock_door( get_map(), get_player_character(), p );
             } );
         } else if( player_inside && vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Unlock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "UNLOCK_DOOR" )
             .on_submit( [p] {
-                doors::unlock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
+                doors::unlock_door( get_map(), get_player_character(), p );
             } );
         } else if( vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Check the lock on %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCKPICK" )
             .on_submit( [p] {
-                iexamine::locked_object( get_player_character(), tripoint_bub_ms( p ) );
+                iexamine::locked_object( get_player_character(), p );
             } );
         }
     }
@@ -2446,6 +2447,6 @@ void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p.raw(), with_pickup );
+        build_interact_menu( menu, p, with_pickup );
     } while( menu.query() );
 }

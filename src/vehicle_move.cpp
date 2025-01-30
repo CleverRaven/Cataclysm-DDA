@@ -835,7 +835,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
 {
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
-    const bool vert_coll = bash_floor || p.z() != sm_pos.z;
+    const bool vert_coll = bash_floor || p.z() != sm_pos.z();
     Creature *critter = get_creature_tracker().creature_at( p, true );
     Character *ph = dynamic_cast<Character *>( critter );
 
@@ -1404,7 +1404,7 @@ bool vehicle::check_heli_ascend( Character &p ) const
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
-    if( sm_pos.z + 1 >= OVERMAP_HEIGHT ) {
+    if( sm_pos.z() + 1 >= OVERMAP_HEIGHT ) {
         return false; // don't allow trying to ascend to max zlevel
     }
     map &here = get_map();
@@ -1649,13 +1649,13 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
     tileray mdir;
     // calculate direction after turn
     mdir.init( new_turn_dir );
-    tripoint dp;
+    tripoint_rel_ms dp;
     bool is_diagonal_movement = std::lround( to_degrees( new_turn_dir ) ) % 90 == 45;
 
     if( std::abs( velocity ) >= 20 ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
+        dp.x() = mdir.dx();
+        dp.y() = mdir.dy();
     }
 
     // number of wheels that will land on rail
@@ -1850,7 +1850,7 @@ vehicle *vehicle::act_on_map()
             g->setremoteveh( nullptr );
         }
 
-        here.on_vehicle_moved( sm_pos.z );
+        here.on_vehicle_moved( sm_pos.z() );
         // Destroy vehicle (sank to nowhere)
         here.destroy_vehicle( this );
         return nullptr;
@@ -2081,7 +2081,7 @@ void vehicle::check_falling_or_floating()
         if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
-        tripoint_bub_ms below( position.xy(), position.z() - 1 );
+        tripoint_bub_ms below( position + tripoint::below );
         return here.supports_above( below );
     };
     // Check under the wheels, if they're supported nothing else matters.
@@ -2288,7 +2288,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos.raw(), m_bad,
+                add_msg_if_player_sees( part_pos, m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }

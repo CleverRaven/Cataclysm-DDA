@@ -308,8 +308,8 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            const point new_( vec->xy().raw() + point( iPlayerX, iPlayerY ) );
             if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
                 iPlayerX = new_.x;
                 iPlayerY = new_.y;

@@ -17,7 +17,7 @@
     "city_sizes": [ 0, -1 ],
     "occurrences": [ 1, 1 ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "land_pad_outpost_a1_north" },
+      { "point": [ 0, 0, 0 ], "camp": "UICA", "camp_name": "Landing Pad", "overmap": "land_pad_outpost_a1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "land_pad_outpost_a1_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "land_pad_outpost_a2_north" },
       { "point": [ 1, 0, 1 ], "overmap": "land_pad_outpost_a2_roof_north" },
@@ -34,7 +34,23 @@
       { "point": [ 0, 3, 0 ], "overmap": "land_pad_a1_above_north" },
       { "point": [ 1, 3, 0 ], "overmap": "land_pad_a2_above_north" },
       { "point": [ 0, 4, 0 ], "overmap": "land_pad_b1_above_north" },
-      { "point": [ 1, 4, 0 ], "overmap": "land_pad_b2_above_north" }
+      { "point": [ 1, 4, 0 ], "overmap": "land_pad_b2_above_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "afs_shuttlepad_salvors_a1_1_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "afs_shuttlepad_salvors_a2_1_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "afs_shuttlepad_salvors_b1_1_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "afs_shuttlepad_salvors_b2_1_north" },
+      { "point": [ 0, -2, 1 ], "overmap": "afs_shuttlepad_salvors_a1_2_north" },
+      { "point": [ 1, -2, 1 ], "overmap": "afs_shuttlepad_salvors_a2_2_north" },
+      { "point": [ 0, -1, 1 ], "overmap": "afs_shuttlepad_salvors_b1_2_north" },
+      { "point": [ 1, -1, 1 ], "overmap": "afs_shuttlepad_salvors_b2_2_north" },
+      { "point": [ 0, -2, 2 ], "overmap": "afs_shuttlepad_salvors_a1_3_north" },
+      { "point": [ 1, -2, 2 ], "overmap": "afs_shuttlepad_salvors_a2_3_north" },
+      { "point": [ 0, -1, 2 ], "overmap": "afs_shuttlepad_salvors_b1_3_north" },
+      { "point": [ 1, -1, 2 ], "overmap": "afs_shuttlepad_salvors_b2_3_north" },
+      { "point": [ 0, -2, 3 ], "overmap": "afs_shuttlepad_salvors_a1_4_north" },
+      { "point": [ 1, -2, 3 ], "overmap": "afs_shuttlepad_salvors_a2_4_north" },
+      { "point": [ 0, -1, 3 ], "overmap": "afs_shuttlepad_salvors_b1_4_north" },
+      { "point": [ 1, -1, 3 ], "overmap": "afs_shuttlepad_salvors_b2_4_north" }
     ],
     "priority": 1,
     "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "EXOPLANET" ]
@@ -208,7 +224,11 @@
       { "point": [ 2, 0, -9 ], "overmap": "augustmoon_outer_space" },
       { "point": [ -2, 1, -9 ], "overmap": "augustmoon_outer_space" },
       { "point": [ -1, 1, -9 ], "overmap": "augustmoon_outer_space" },
-      { "point": [ 2, 1, -9 ], "overmap": "augustmoon_outer_space" }
+      { "point": [ 2, 1, -9 ], "overmap": "augustmoon_outer_space" },
+      { "point": [ 0, 0, -8 ], "overmap": "augustmoon_corpo_quarter1_north" },
+      { "point": [ 0, 1, -8 ], "overmap": "augustmoon_corpo_quarter3_north" },
+      { "point": [ 1, 0, -8 ], "overmap": "augustmoon_corpo_quarter2_north" },
+      { "point": [ 1, 1, -8 ], "overmap": "augustmoon_corpo_quarter4_north" }
     ],
     "locations": [ "land" ],
     "priority": 1,
@@ -301,5 +321,33 @@
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "EXOPLANET", "URBAN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_uica_shuttle_base",
+    "overmaps": [
+      {
+        "point": [ 0, 0, 0 ],
+        "overmap": "afs_uica_shuttle_base_x0y0z0_north",
+        "camp": "UICA",
+        "camp_name": "UICA Shuttle Base"
+      },
+      { "point": [ 1, 0, 0 ], "overmap": "afs_uica_shuttle_base_x1y0z0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "afs_uica_shuttle_base_x0y1z0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "afs_uica_shuttle_base_x1y1z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_uica_shuttle_base_x0y0z1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_uica_shuttle_base_x1y0z1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "afs_uica_shuttle_base_x0y1z1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "afs_uica_shuttle_base_x1y1z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_uica_shuttle_base_x0y0z2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "afs_uica_shuttle_base_x1y0z2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "afs_uica_shuttle_base_x0y1z2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "afs_uica_shuttle_base_x1y1z2_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 35, -1 ],
+    "city_sizes": [ 1, -1 ],
+    "occurrences": [ 1, 3 ],
+    "flags": [ "MAN_MADE", "EXOPLANET", "OVERMAP_UNIQUE" ]
   }
 ]

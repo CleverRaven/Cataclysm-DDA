@@ -23,13 +23,6 @@ map_selector::map_selector( const tripoint_bub_ms &pos, int radius, bool accessi
     }
 }
 
-tripoint_range<tripoint> points_in_range( const map &m )
-{
-    return tripoint_range<tripoint>(
-               tripoint( 0, 0, -OVERMAP_DEPTH ),
-               tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, OVERMAP_HEIGHT ) );
-}
-
 tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m )
 {
     return tripoint_range<tripoint_bub_ms>(
@@ -44,12 +37,6 @@ tripoint_range<tripoint_bub_ms> points_in_level_range( const map &m, const int z
                tripoint_bub_ms( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, z ) );
 }
 
-std::optional<tripoint> random_point( const map &m,
-                                      const std::function<bool( const tripoint & )> &predicate )
-{
-    return random_point( points_in_range( m ), predicate );
-}
-
 std::optional<tripoint_bub_ms> random_point( const map &m,
         const std::function<bool( const tripoint_bub_ms & )> &predicate )
 {
@@ -60,31 +47,6 @@ std::optional<tripoint_bub_ms> random_point_on_level( const map &m, const int z,
         const std::function<bool( const tripoint_bub_ms & )> &predicate )
 {
     return random_point( points_in_level_range( m, z ), predicate );
-}
-
-std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                      const std::function<bool( const tripoint & )> &predicate )
-{
-    // Optimist approach: just assume there are plenty of suitable places and a randomly
-    // chosen point will have a good chance to hit one of them.
-    // If there are only few suitable places, we have to find them all, otherwise this loop may never finish.
-    for( int tries = 0; tries < 10; ++tries ) {
-        const tripoint p( rng( range.min().x, range.max().x ), rng( range.min().y, range.max().y ),
-                          rng( range.min().z, range.max().z ) );
-        if( predicate( p ) ) {
-            return p;
-        }
-    }
-    std::vector<tripoint> suitable;
-    for( const tripoint &p : range ) {
-        if( predicate( p ) ) {
-            suitable.push_back( p );
-        }
-    }
-    if( suitable.empty() ) {
-        return {};
-    }
-    return random_entry( suitable );
 }
 
 std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_ms> &range,
@@ -113,13 +75,18 @@ std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_m
     return random_entry( suitable );
 }
 
-map_cursor::map_cursor( const tripoint_bub_ms &pos ) : pos_abs_( g ? get_map().getglobal(
+map_cursor::map_cursor( const tripoint_bub_ms &pos ) : pos_abs_( g ? get_map().get_abs(
                 pos ) : tripoint_abs_ms::zero ), pos_bub_( g ? tripoint_bub_ms::zero : pos ) { }
 
 map_cursor::map_cursor( const tripoint_abs_ms &pos ) : pos_abs_( pos ),
     pos_bub_( tripoint_bub_ms::zero ) { }
 
-tripoint_bub_ms map_cursor::pos() const
+tripoint_bub_ms map_cursor::pos_bub() const
 {
-    return g ? get_map().bub_from_abs( pos_abs_ ) : pos_bub_;
+    return g ? get_map().get_bub( pos_abs_ ) : pos_bub_;
+}
+
+tripoint_abs_ms map_cursor::pos_abs() const
+{
+    return g ? pos_abs_ : tripoint_abs_ms::invalid;
 }

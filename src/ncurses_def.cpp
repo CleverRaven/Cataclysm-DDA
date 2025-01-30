@@ -41,6 +41,10 @@
 #include <langinfo.h>
 #endif
 
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
 std::unique_ptr<cataimgui::client> imclient;
 
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
@@ -361,6 +365,14 @@ void catacurses::init_interface()
     // The below line tries to force the mouse pointer events to be turned on anyway. ImTui misbehaves without them.
     printf( "\033[?1003h\n" );
 #endif
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()
@@ -408,6 +420,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         previously_pressed_key = 0;
         // flush any output
         catacurses::doupdate();
+        // could also just do this each time a window is created to ensure every ncurses window has this property,
+        // but this function is virtually free anyway
+        nodelay( stdscr, true );
         key = getch();
         if( key != ERR ) {
             int newch;

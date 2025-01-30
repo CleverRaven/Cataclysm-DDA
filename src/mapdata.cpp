@@ -14,6 +14,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -24,6 +25,7 @@
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
@@ -381,6 +383,13 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
+std::string map_common_bash_info::potential_bash_items( const std::string
+        &ter_furn_name ) const
+{
+    //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
+    return string_format( _( "Bashing the %s would yield:\n%s" ),
+                          ter_furn_name, item_group::potential_items( drop_group ) );
+}
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
                                         const std::string &context )
@@ -411,11 +420,27 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
+std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
+        &ter_furn_name ) const
+{
+    Character &who = get_avatar();
+    bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
+                               who.get_skill_level( skill->id ) < skill->max;
+    if( will_practice_skill ) {
+        return string_format(
+                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
+                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+    } else {
+        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn_name, item_group::potential_items( drop_group ) );
+    }
+}
+
 bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
-    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+    optional( j, false, "chance_to_hit", chance_to_hit, 100 );
 
     std::pair<int, int> reduce_damage;
     std::pair<int, int> reduce_damage_laser;
@@ -432,7 +457,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
     destroy_dmg_min = destroy_damage.first;
     destroy_dmg_max = destroy_damage.second;
 
-    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+    optional( j, false, "no_laser_destroy", no_laser_destroy, false );
 
     return true;
 }
@@ -629,6 +654,16 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
+    if( deconstruct ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+    }
+
+    if( is_smashable() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( bash->potential_bash_items( name() ) );
+    }
+
     return ret;
 }
 
@@ -657,6 +692,16 @@ std::vector<std::string> furn_t::extended_description() const
             ret.emplace_back( quality_string.substr( 0, strpos ) );
             quality_string.erase( 0, strpos + 1 );
         }
+    }
+
+    if( deconstruct ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+    }
+
+    if( is_smashable() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( bash->potential_bash_items( name() ) );
     }
 
     return ret;
@@ -735,7 +780,6 @@ std::vector<std::string> map_data_common_t::extended_description() const
             add( text );
         }
     };
-    add_if( is_smashable(), _( "Smashable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
@@ -745,7 +789,9 @@ std::vector<std::string> map_data_common_t::extended_description() const
     add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
     add_if( is_flammable(), _( "Flammable." ) );
-    tmp.emplace_back( result );
+    if( !result.empty() ) {
+        tmp.emplace_back( result );
+    }
 
     std::vector<std::string> ret;
     ret.reserve( tmp.size() );
@@ -1236,7 +1282,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
-    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, volume_reader(), 0_ml );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
@@ -1320,6 +1366,13 @@ void furn_t::check() const
             debugmsg( "furn %s has invalid emission %s set", id.c_str(),
                       e.str().c_str() );
         }
+    }
+    if( plant && !plant->transform.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant transform in furn %s", plant->transform.c_str(),
+                  id.c_str() );
+    }
+    if( plant && !plant->base.is_valid() ) {
+        debugmsg( "Invalid furniture %s for plant base in furn %s", plant->base.c_str(), id.c_str() );
     }
 }
 

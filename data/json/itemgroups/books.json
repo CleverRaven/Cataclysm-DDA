@@ -343,8 +343,7 @@
       { "item": "novel_crime", "prob": 20 },
       { "item": "novel_crime2", "prob": 20 },
       { "item": "novel_horror", "prob": 18 },
-      { "item": "novel_tragedy", "prob": 8 },
-      { "item": "survnote", "prob": 1 }
+      { "item": "novel_tragedy", "prob": 8 }
     ]
   },
   {
@@ -614,7 +613,6 @@
       { "item": "textbook_armeast", "prob": 3 },
       { "item": "textbook_mesoam", "prob": 2 },
       { "item": "bronze_book", "prob": 3 },
-      { "item": "survnote", "prob": 2 },
       { "item": "book_lockpick", "prob": 2 },
       { "item": "basic_chemistry", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },

@@ -13,6 +13,7 @@
       "v": "t_chainfence",
       "V": "t_chaingate_c",
       "X": "t_chaingate_l",
+      "Z": "t_water_pump",
       "w": "t_window",
       ";": "t_door_metal_locked",
       "6": "t_gates_mech_control_lab",
@@ -27,7 +28,13 @@
     "furniture": {
       "@": "f_machinery_heavy",
       "B": "f_bandsaw",
-      "G": "f_generator_broken",
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "J": "f_jointer",
       "M": "f_mitresaw",
       "P": "f_planer",
@@ -39,6 +46,7 @@
       "L": "f_rack",
       "X": "f_console_broken",
       "i": "f_filing_cabinet",
+      "ϟ": "f_bulletin",
       "&": "f_trashcan",
       "C": "f_counter",
       "S": "f_sink",

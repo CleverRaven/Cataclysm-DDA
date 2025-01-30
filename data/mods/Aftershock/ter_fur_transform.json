@@ -15,6 +15,12 @@
         "valid_furniture": [ "f_reinforced_displaycase" ],
         "message": "A panel of reinforced glass receeds into the case.",
         "message_good": true
+      },
+      {
+        "result": "f_e_safe_c",
+        "valid_furniture": [ "f_e_safe_l" ],
+        "message": "The safe's display chimes happily as the locking mechanism releases.",
+        "message_good": true
       }
     ],
     "terrain": [
@@ -147,5 +153,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_map_lights_on",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "afs_lights_on", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
   }
 ]

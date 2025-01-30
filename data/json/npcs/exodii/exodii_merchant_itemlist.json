@@ -201,6 +201,17 @@
   },
   {
     "type": "item_group",
+    "id": "EXODII_Shop_Guns_caotel",
+    "subtype": "collection",
+    "//": "Ideally this will be moved into possible reward for finding useful stuff within exodii dungeons.",
+    "items": [
+      { "item": "exodii_plasma_projectile", "prob": 100, "count": 1 },
+      { "item": "caotel_plasma_ring", "prob": 100, "count": 1 },
+      { "item": "caotel_cell", "container-item": "box_small", "prob": 100, "count": 2, "sealed": true }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "EXODII_Shop_OldArmour",
     "//": "This stuff should be available in the Exodii store from the start.  Old Thessalonian armor the Exodii brought with them.",
     "//2": "Ideally, the spear should be sold as a spearhead and the player crafts it by getting their own pole.",

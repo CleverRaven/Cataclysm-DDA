@@ -994,7 +994,7 @@
       { "level": 3, "name": "cooking" }
     ],
     "traits": [ "PROF_CHURL", "ILLITERATE" ],
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY", "SKIP_DEFAULT_BACKGROUND" ]
   },
   {
     "type": "profession",
@@ -4636,7 +4636,7 @@
       "prof_shivs_familiar",
       "prof_gross_anatomy"
     ],
-    "traits": [ "PROF_ASSASSIN_CONVICT" ],
+    "effect_on_conditions": [ "scenario_assassin_conv" ],
     "items": {
       "both": {
         "entries": [

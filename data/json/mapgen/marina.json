@@ -8,7 +8,6 @@
       [ "marina_15", "marina_14", "marina_13", "marina_12", "marina_11" ],
       [ "marina_20", "marina_19", "marina_18", "marina_17", "marina_16" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -247,7 +246,6 @@
     "method": "json",
     "om_terrain": [ [ "marina_15_roof", "marina_12_roof", "marina_11_roof" ] ],
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

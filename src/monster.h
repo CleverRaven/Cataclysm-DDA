@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+class map;
 struct monster_plan;
 namespace catacurses
 {
@@ -109,6 +110,7 @@ class monster : public Creature
             return faction.id();
         }
         void gravity_check() override;
+        void gravity_check( map *here ) override;
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
@@ -200,7 +202,7 @@ class monster : public Creature
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point_rel_sm &sm_shift );
-        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
+        void set_patrol_route( const std::vector<point_rel_ms> &patrol_pts_rel_ms );
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.
@@ -212,12 +214,12 @@ class monster : public Creature
          * can_move_to() is a wrapper for both of them.
          * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
-        // TODO: Get rid of untyped overload
-        bool can_move_to( const tripoint &p ) const;
         bool can_move_to( const tripoint_bub_ms &p ) const;
         bool can_reach_to( const tripoint_bub_ms &p ) const;
         bool will_move_to( const tripoint_bub_ms &p ) const;
+        bool will_move_to( map *here, const tripoint_bub_ms &p ) const;
         bool know_danger_at( const tripoint_bub_ms &p ) const;
+        bool know_danger_at( map *here, const tripoint_bub_ms &p ) const;
 
         bool will_reach( const point_bub_ms &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point_bub_ms &p ); // How long will it take?
@@ -358,7 +360,7 @@ class monster : public Creature
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill() const;
 
@@ -366,8 +368,8 @@ class monster : public Creature
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
-        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                     bool print_messages = true,
+        void deal_projectile_attack( map *here, Creature *source, dealt_projectile_attack &attack,
+                                     const double &missed_by = 0, bool print_messages = true,
                                      const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
                                       int &damage, int &pain ) override;
@@ -439,7 +441,7 @@ class monster : public Creature
         void on_dodge( Creature *source, float difficulty, float training_level = 0.0 ) override;
         void on_try_dodge() override {}
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, bodypart_id bp_hit,
+        void on_hit( map *here, Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Resets a given special to its monster type cooldown value */
@@ -461,8 +463,8 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death( item *corpse );
+        void die( map *here, Creature *killer ) override; //this is the die from Creature, it calls kill_mo
+        void drop_items_on_death( map *here, item *corpse );
         void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
@@ -623,6 +625,7 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

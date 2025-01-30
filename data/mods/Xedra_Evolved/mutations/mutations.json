@@ -685,7 +685,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -700,15 +699,6 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "HEARING_MULT", "multiply": 0.75 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 4 }
-        ]
-      },
-      {
         "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -719,9 +709,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -952,6 +941,24 @@
   },
   {
     "type": "mutation",
+    "id": "FAE_ENMITY",
+    "name": { "str": "Fae Enmity" },
+    "points": -10,
+    "description": "The Fair Folk can sense the stolen power within you and their vengeance will be terrible.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [
+      [ "ARVORE", 100 ],
+      [ "CHANGELING", 100 ],
+      [ "HOMULLUS", 100 ],
+      [ "IERDE", 100 ],
+      [ "SALAMANDER", 100 ],
+      [ "SYLPH", 100 ],
+      [ "UNDINE", 100 ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "FALSE_ARVORE_HATRED",
     "name": { "str": "False Arvore" },
     "points": -4,
@@ -969,5 +976,23 @@
     "purifiable": false,
     "valid": false,
     "anger_relations": [ [ "HOMULLUS", 100 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOANN_RETALIATION",
+    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
+      { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
+    ]
   }
 ]

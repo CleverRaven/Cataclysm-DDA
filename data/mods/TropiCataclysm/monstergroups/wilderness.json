@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE",
+    "id": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -70,7 +70,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RIVER",
+    "id": "GROUP_RIVER",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -120,7 +120,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -139,7 +139,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PARK_ANIMAL",
+    "id": "GROUP_PARK_ANIMAL",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
@@ -152,7 +152,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROOF_ANIMAL",
+    "id": "GROUP_ROOF_ANIMAL",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
@@ -173,7 +173,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POND_ANIMAL",
+    "id": "GROUP_POND_ANIMAL",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -190,7 +190,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BIRDFEEDER",
+    "id": "GROUP_BIRDFEEDER",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_parrot", "weight": 35, "cost_multiplier": 0 },

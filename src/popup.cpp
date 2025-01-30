@@ -55,6 +55,7 @@ class query_popup_impl : public cataimgui::window
 
 void query_popup_impl::draw_controls()
 {
+    ImGui::SetNavCursorVisible( true );
     mouse_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {

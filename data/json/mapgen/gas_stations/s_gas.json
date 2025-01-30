@@ -48,7 +48,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_gas_1" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -190,7 +189,6 @@
     "method": "json",
     "om_terrain": [ "s_gas_rural" ],
     "//": "Rural Gas Station",
-    "weight": 333,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

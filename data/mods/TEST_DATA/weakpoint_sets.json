@@ -6,6 +6,7 @@
       {
         "id": "test_head",
         "name": "humanoid head",
+        "is_head": true,
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -30,6 +31,7 @@
       {
         "id": "test_eye",
         "name": "humanoid eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -65,6 +67,7 @@
       {
         "id": "test_head",
         "name": "special head",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.2 },
         "difficulty": { "melee": 2, "ranged": 4 },
@@ -90,6 +93,7 @@
       {
         "id": "test_neck",
         "name": "special neck",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "difficulty": { "melee": 1, "ranged": 2 },
         "coverage": 10
@@ -115,5 +119,10 @@
         "coverage": 20
       }
     ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_test_headshot1",
+    "weakpoints": [ { "id": "test_headshot", "is_head": true, "name": "test weakpoint headshot", "coverage": 100 } ]
   }
 ]

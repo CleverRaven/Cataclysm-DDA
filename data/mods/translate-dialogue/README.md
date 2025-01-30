@@ -26,5 +26,5 @@ vvvvvvvvvvvvvvvvvvvvvvvvv
 Usage:
  * `cd path/to/Cataclysm-DDA/`
  * `python3 tools/json_tools/update-translate-dialogue-mod.py`
- * then lint via `json_formatter.cgi`, check `doc/JSON_STYLE.md`
+ * then lint via `json_formatter.cgi`, check `doc/JSON/JSON_STYLE.md`
  * You can also add `"//": "mod_update_script_compact"` to dynamic lines to make the script concatenate that line more compactly and without newlines, which is useful if the original dialog also uses concatenation.

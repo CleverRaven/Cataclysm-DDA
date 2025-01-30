@@ -9,7 +9,7 @@
     "type": "item_group",
     "id": "religious_books",
     "copy-from": "religious_books",
-    "extend": { "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
+    "extend": { "items": [ [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
   },
   {
     "type": "item_group",
@@ -36,6 +36,7 @@
     "extend": {
       "items": [
         { "group": "spellbook_tier_0", "prob": 80 },
+        { "item": "magazine_augmentative_review", "prob": 10 },
         { "group": "spellbook_loot_0", "prob": 4 },
         { "item": "history_botanical_enchantment", "prob": 2 }
       ]
@@ -52,6 +53,12 @@
         { "group": "dragon_books", "prob": 4 }
       ]
     }
+  },
+  {
+    "id": "book_mag_interests",
+    "type": "item_group",
+    "copy-from": "book_mag_interests",
+    "extend": { "items": [ { "item": "magazine_augmentative_review", "prob": 10 } ] }
   },
   {
     "type": "item_group",
@@ -1264,7 +1271,8 @@
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 },
-          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 }
+          { "item": "spell_scroll_animist_summon_watcher", "prob": 50 },
+          { "item": "spell_scroll_animist_detect_wizards", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1464,7 +1472,6 @@
     "items": [
       {
         "distribution": [
-          { "item": "priest_beginner", "prob": 30 },
           { "item": "spell_scroll_light_healing", "prob": 50 },
           { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
@@ -1478,6 +1485,7 @@
       {
         "distribution": [
           { "item": "wizard_utility", "prob": 20 },
+          { "item": "priest_beginner", "prob": 30 },
           { "item": "spell_scroll_biomancer_slow_bleeding", "prob": 40 },
           { "item": "spell_scroll_biomancer_scalpel_fingers", "prob": 30 },
           { "item": "spell_scroll_pain_split", "prob": 50 },
@@ -1609,7 +1617,6 @@
       },
       {
         "distribution": [
-          { "item": "priest_beginner", "prob": 20 },
           { "item": "wizard_beginner", "prob": 20 },
           { "item": "spell_scroll_create_atomic_light", "prob": 50 },
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },

@@ -994,6 +994,7 @@ Cassidy
 Cassiopeia
 castable
 Castanea
+casted
 Casterbridge
 Casull
 cataphract
@@ -1738,6 +1739,7 @@ electrolyzer
 electrolyzers
 electromagnetics
 electromancy
+electronoetic
 electroreceptors
 elephantry
 Elish
@@ -2062,6 +2064,7 @@ flockshot
 floorplan
 Florida
 Florunner
+fluffernutter
 fluffies
 fluidic
 fluorescents
@@ -2074,6 +2077,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -3961,6 +3965,7 @@ MMA
 mmm
 Mo
 mo
+moabosaurus
 moar
 mobbings
 Mobius
@@ -4650,6 +4655,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -5564,6 +5571,7 @@ shoggoth
 shoggoths
 shogi
 Shoki
+shonisaurus
 shootable
 shopkeep
 shorthair

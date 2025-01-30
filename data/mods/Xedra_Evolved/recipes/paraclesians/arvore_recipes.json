@@ -1043,7 +1043,7 @@
                   "u_message": "As your song fades, you behold a large knife all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
                   "type": "good"
                 },
-                { "u_spawn_item": "treesung_q_staff", "count": 1, "suppress_message": true },
+                { "u_spawn_item": "treesung_baselard", "count": 1, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "200" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
               ],

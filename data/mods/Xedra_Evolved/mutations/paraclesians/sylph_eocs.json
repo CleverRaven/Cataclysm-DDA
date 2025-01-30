@@ -115,8 +115,7 @@
     ],
     "false_effect": [
       { "u_message": "You do not have enough mana to fly!", "type": "bad" },
-      { "u_lose_effect": "effect_sylph_levitation" },
-      { "u_lose_effect": "effect_sylph_climb_flying" }
+      { "u_lose_effect": [ "effect_sylph_levitation", "effect_sylph_climb_flying" ] }
     ]
   },
   {
@@ -136,18 +135,13 @@
     "effect": [ { "math": [ "u_val('mana')", "-=", "10" ] } ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your cloud body!", "type": "bad" },
-      { "u_lose_effect": "incorporeal" },
-      { "u_lose_effect": "effect_sylph_cloud_body" }
+      { "u_lose_effect": [ "incorporeal", "effect_sylph_cloud_body" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_OFF",
-    "effect": [
-      { "u_lose_effect": "effect_sylph_cloud_body" },
-      { "u_lose_effect": "incorporeal" },
-      { "u_lose_trait": "SYLPH_CLOUD_FORM_APPEARANCE" }
-    ]
+    "effect": [ { "u_lose_effect": [ "effect_sylph_cloud_body", "incorporeal" ] }, { "u_lose_trait": "SYLPH_CLOUD_FORM_APPEARANCE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -183,7 +177,7 @@
         { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 1" ] } ] }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_sylph", "use_item_group": true, "suppress_message": true },
     "false_effect": [
       {
         "u_message": "You must have a strong enough wind or be above ground level to call forth a goblin fruit.",

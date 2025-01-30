@@ -555,7 +555,7 @@ void vehicle_part::unset_crew()
 
 void vehicle_part::reset_target( const tripoint_bub_ms &pos )
 {
-    const tripoint_abs_ms tgt = get_map().getglobal( pos );
+    const tripoint_abs_ms tgt = get_map().get_abs( pos );
     target.first = tgt;
     target.second = tgt;
 }

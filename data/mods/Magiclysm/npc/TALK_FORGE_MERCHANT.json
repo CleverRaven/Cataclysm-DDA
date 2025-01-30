@@ -23,6 +23,7 @@
     "bonus_int": { "rng": [ 20, 25 ] },
     "bonus_per": { "rng": [ 20, 25 ] },
     "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_SHOP", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS", "price": 2500, "fixed_adj": 0 } ],
     "worn_override": "NC_FORGE_LORD_clothes",
     "skills": [
       {
@@ -75,7 +76,36 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "NC_FORGE_LORD_SHOP",
-    "items": [ { "group": "NC_FORGE_LORD_STORE", "count": [ 20, 32 ], "prob": 100 } ]
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE", "count": [ 20, 32 ], "prob": 100 },
+      { "item": "denarius", "count": [ 20, 50 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_ACCEPTED_BOOKS",
+    "items": [
+      { "item": "book_fict_soft_pulp_venus", "prob": 100 },
+      { "item": "book_fict_soft_pulp_wtmrw", "prob": 100 },
+      { "item": "book_fict_soft_pulp_nogod", "prob": 100 },
+      { "item": "book_fict_soft_pulp_ddive", "prob": 100 },
+      { "item": "book_fict_soft_pulp_squids", "prob": 100 },
+      { "item": "book_fict_soft_pulp_gcapes", "prob": 100 },
+      { "item": "book_fict_soft_pulp_yesmurd", "prob": 100 },
+      { "item": "book_fict_soft_pulp_flashcc", "prob": 100 },
+      { "item": "novel_scifi", "prob": 100 },
+      { "item": "book_fict_soft_pulp_venus", "prob": 100 },
+      { "item": "book_fict_soft_scifi_dune", "prob": 100 },
+      { "item": "book_fict_hard_scifi_dune", "prob": 100 },
+      { "item": "book_fict_hard_scifi_talnt", "prob": 100 },
+      { "item": "book_fict_hard_scifi_fifth", "prob": 100 },
+      { "item": "book_fict_hard_scifi_zamwe", "prob": 100 },
+      { "item": "book_fict_soft_scifi_zamwe", "prob": 100 },
+      { "item": "book_fict_soft_scifi_cybrd", "prob": 100 },
+      { "item": "book_fict_soft_scifi_brave", "prob": 100 },
+      { "item": "book_fict_soft_scifi_f451", "prob": 100 }
+    ]
   },
   {
     "id": "TALK_FORGE_LORD",
@@ -101,34 +131,7 @@
     "type": "talk_topic",
     "id": "TALK_FORGE_LORD_BOOKS_DELIVER",
     "dynamic_line": "Excellent.  What new stories have you brought me?",
-    "repeat_responses": {
-      "for_item": [
-        "book_fict_soft_pulp_venus",
-        "book_fict_soft_pulp_wtmrw",
-        "book_fict_soft_pulp_nogod",
-        "book_fict_soft_pulp_ddive",
-        "book_fict_soft_pulp_squids",
-        "book_fict_soft_pulp_gcapes",
-        "book_fict_soft_pulp_yesmurd",
-        "book_fict_soft_pulp_flashcc",
-        "novel_scifi",
-        "book_fict_soft_scifi_dune",
-        "book_fict_hard_scifi_dune",
-        "book_fict_hard_scifi_talnt",
-        "book_fict_hard_scifi_fifth",
-        "book_fict_hard_scifi_zamwe",
-        "book_fict_soft_scifi_zamwe",
-        "book_fict_soft_scifi_cybrd",
-        "book_fict_soft_scifi_brave",
-        "book_fict_soft_scifi_roadp",
-        "book_fict_soft_scifi_f451"
-      ],
-      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
-    },
-    "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_FORGE_LORD" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Well, let's see.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DOING",
