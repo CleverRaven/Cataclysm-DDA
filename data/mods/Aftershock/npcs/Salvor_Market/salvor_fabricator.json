@@ -60,8 +60,7 @@
       { "item": "afs_herc_rig" },
       { "item": "boots_combat" },
       { "item": "gloves_tactical" },
-      { "item": "under_armor" },
-      { "item": "under_armor_shorts" },
+      { "item": "spacer_jumpsuit" },
       { "item": "holster" }
     ]
   }

@@ -9,9 +9,6 @@
       { "group": "afs_salvor_fabricator_scraps" },
       { "group": "afs_salvor_fabricator_tools" },
       { "group": "afs_salvor_fabricator_combat_gear" },
-      { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
-      { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
-      { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
       { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
       { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
       { "group": "augustmoon_shop_money" }
@@ -36,7 +33,6 @@
     "subtype": "collection",
     "items": [
       { "group": "afs_salvor_fabricator_tools_general" },
-      { "group": "afs_salvor_fabricator_tools_premium" },
       { "group": "afs_salvor_fabricator_tools_cooking" },
       { "group": "afs_salvor_fabricator_tools_electronics" },
       { "group": "afs_salvor_fabricator_tools_appliances" }
@@ -58,17 +54,17 @@
     "id": "afs_salvor_fabricator_makeshift_armor",
     "subtype": "collection",
     "items": [
-      { "item": "xl_helmet_scrap", "prob": 20 },
-      { "item": "helmet_scrap_xs", "prob": 20 },
-      { "item": "helmet_scrap", "prob": 40 },
-      { "item": "xl_cuirass_scrap", "prob": 20 },
-      { "item": "xs_cuirass_scrap", "prob": 20 },
-      { "item": "cuirass_scrap", "prob": 40 },
-      { "item": "armguard_scrap", "prob": 40 },
-      { "item": "legguard_scrap", "prob": 40 },
-      { "item": "xl_boots_scrap", "prob": 20 },
-      { "item": "xs_boots_scrap", "prob": 20 },
-      { "item": "boots_scrap", "prob": 40 },
+      { "item": "xl_helmet_scrap", "prob": 40 },
+      { "item": "helmet_scrap_xs", "prob": 40 },
+      { "item": "helmet_scrap", "prob": 70 },
+      { "item": "xl_cuirass_scrap", "prob": 40 },
+      { "item": "xs_cuirass_scrap", "prob": 40 },
+      { "item": "cuirass_scrap", "prob": 70 },
+      { "item": "armguard_scrap", "prob": 70 },
+      { "item": "legguard_scrap", "prob": 70 },
+      { "item": "xl_boots_scrap", "prob": 40 },
+      { "item": "xs_boots_scrap", "prob": 40 },
+      { "item": "boots_scrap", "prob": 70 },
       { "item": "afs_titanium_vest", "prob": 30 }
     ]
   },
@@ -96,9 +92,9 @@
     "id": "afs_salvor_fabricator_makeshift_grenades",
     "subtype": "collection",
     "items": [
-      { "item": "afs_electroshock_grenade_1", "prob": 30, "count": [ 1, 3 ] },
-      { "item": "grenade_cryo", "prob": 30, "count": [ 1, 2 ] },
-      { "item": "afs_oxygen_bomb", "prob": 20, "count": [ 1, 2 ] }
+      { "item": "afs_electroshock_grenade_1", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "grenade_cryo", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "afs_oxygen_bomb", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -120,17 +116,7 @@
       { "item": "multitool", "prob": 60, "count": [ 1, 3 ] },
       { "item": "xacto", "prob": 60, "count": [ 1, 3 ] },
       { "item": "utility_knife_folding", "prob": 80, "count": [ 1, 2 ] },
-      { "item": "pipe_cleaner", "prob": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "afs_salvor_fabricator_tools_premium",
-    "//": "Really useful and good tools. The kind of stuff that makes a noticable improvement in the options open to you. But not anything too fancy or high tech. Save that for the station.",
-    "subtype": "collection",
-    "items": [
-      { "item": "afs_plasma_torch", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "afs_power_cutter", "prob": 10 },
+      { "item": "pipe_cleaner", "prob": 30 },
       { "item": "angle_grinder", "prob": 20 },
       { "item": "crash_axe", "prob": 20 },
       { "item": "crowbar", "prob": 20 },
@@ -140,8 +126,7 @@
       { "item": "chisel", "prob": 5 },
       { "item": "hammer_sledge", "prob": 20 },
       { "item": "hammer_sledge_short", "prob": 20 },
-      { "item": "e_tool", "prob": 10 },
-      { "item": "goggles_welding", "prob": 20, "count": [ 1, 2 ] }
+      { "item": "e_tool", "prob": 10 }
     ]
   },
   {
@@ -154,7 +139,7 @@
       { "item": "pot", "prob": 80, "count": [ 1, 3 ] },
       { "item": "steel_pan", "prob": 80, "count": [ 1, 3 ] },
       { "item": "military_mess_kit", "prob": 30 },
-      { "item": "multi_cooker", "prob": 30 }
+      { "item": "multi_cooker", "prob": 40 }
     ]
   },
   {
@@ -166,7 +151,8 @@
       { "item": "soldering_iron", "prob": 20, "count": [ 1, 2 ] },
       { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 2 ] },
       { "item": "multimeter", "prob": 20 },
-      { "item": "voltmeter", "prob": 20 }
+      { "item": "voltmeter", "prob": 20 },
+      { "item": "solder_wire", "prob": 50, "count": [ 20, 60 ] }
     ]
   },
   {
@@ -193,10 +179,7 @@
       { "item": "afs_survival_heater" },
       { "item": "afs_tripod_light" },
       { "item": "afs_survival_battery" },
-      { "item": "multi_cooker" },
-      { "item": "afs_plasma_torch" },
-      { "item": "afs_power_cutter" },
-      { "item": "afs_40g_plasma_civ" }
+      { "item": "multi_cooker" }
     ]
   }
 ]
