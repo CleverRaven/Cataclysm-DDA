@@ -757,7 +757,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     vehicle &veh = *veh_ptr;
     if( !extra_part.is_null() ) {
         vehicle_part vp( extra_part, item( extra_part->base_item ) );
-        const int part_index = veh.install_part( point::zero, std::move( vp ) );
+        const int part_index = veh.install_part( point_rel_ms::zero, std::move( vp ) );
         REQUIRE( part_index >= 0 );
     }
 
