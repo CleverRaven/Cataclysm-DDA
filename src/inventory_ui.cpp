@@ -502,7 +502,7 @@ void uistatedata::deserialize( const JsonObject &jo )
             v.push_back( line );
         }
     }
-    // fetch list_item settings from input_history
+    // fetch surroundings menu settings from input_history
     if( !gethistory( "item_filter" ).empty() ) {
         list_item_filter = gethistory( "item_filter" ).back();
     }
@@ -511,6 +511,12 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
     if( !gethistory( "list_item_priority" ).empty() ) {
         list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+    if( !gethistory( "monster_filter" ).empty() ) {
+        monster_filter = gethistory( "monster_filter" ).back();
+    }
+    if( !gethistory( "terfurn_filter" ).empty() ) {
+        terfurn_filter = gethistory( "terfurn_filter" ).back();
     }
 
     jo.read( "lastreload", lastreload );
