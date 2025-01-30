@@ -9,6 +9,8 @@
       { "group": "afs_salvor_fabricator_scraps" },
       { "group": "afs_salvor_fabricator_tools" },
       { "group": "afs_salvor_fabricator_combat_gear" },
+      { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
+      { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
       { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
       { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 },
       { "group": "augustmoon_shop_money" }
@@ -126,7 +128,8 @@
       { "item": "chisel", "prob": 5 },
       { "item": "hammer_sledge", "prob": 20 },
       { "item": "hammer_sledge_short", "prob": 20 },
-      { "item": "e_tool", "prob": 10 }
+      { "item": "e_tool", "prob": 10 },
+      { "item": "afs_plasma_torch", "prob": 40 }
     ]
   },
   {
@@ -179,7 +182,9 @@
       { "item": "afs_survival_heater" },
       { "item": "afs_tripod_light" },
       { "item": "afs_survival_battery" },
-      { "item": "multi_cooker" }
+      { "item": "multi_cooker" },
+      { "item": "afs_40g_plasma_civ" },
+      { "item": "afs_plasma_torch" }
     ]
   }
 ]
