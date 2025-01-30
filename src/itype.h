@@ -564,6 +564,11 @@ struct islot_book {
      */
     time_duration time = 0_turns;
     /**
+     * This book counts chapters by item instance instead of by type
+     * (i.e. this book represents a generic variety of books, like "book of essays")
+     */
+    bool generic = false;
+    /**
      * Fun books have chapters; after all are read, the book is less fun.
      */
     int chapters = 0;
