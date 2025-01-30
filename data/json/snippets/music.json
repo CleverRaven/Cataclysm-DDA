@@ -153,7 +153,12 @@
       "clown ",
       "murder ",
       "narco ",
-      "gangster "
+      "gangster ",
+      "nu-",
+      "post-apocalyptic",
+      "k-",
+      "mumble",
+      "chiptune"
     ]
   },
   {
@@ -191,12 +196,21 @@
       "gospel",
       "opera",
       "shanties",
-      "filk"
+      "filk",
+      "bard",
+      "witch",
+      "dub",
+      "emo",
+      "bachata",
+      "musique concrète",
+      "vapor",
+      "glitch",
+      "rap"
     ]
   },
   {
     "type": "snippet",
     "category": "<musicgenre_postfix>",
-    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant" ]
+    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant", "-house", "-step" ]
   }
 ]
