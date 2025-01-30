@@ -86,7 +86,7 @@
     "proficiencies": [ { "proficiency": "prof_psionic_ritual", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 } ],
-    "tools": [ [ [ "matrix_shard", 1 ], [ "matrix_crystal_drained", 1 ] ] ],
+    "tools": [ [ [ "matrix_shard", -1 ], [ "matrix_crystal_drained", -1 ] ] ],
     "book_learn": [ [ "manual_psionic_ritual", 4 ] ],
     "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
   },
