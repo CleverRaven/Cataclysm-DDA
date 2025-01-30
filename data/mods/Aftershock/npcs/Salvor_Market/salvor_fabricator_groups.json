@@ -85,9 +85,7 @@
     "type": "item_group",
     "id": "afs_salvor_fabricator_makeshift_ammo",
     "subtype": "collection",
-    "items": [
-      { "item": "afs_bootleg_cartridge", "prob": 60, "count": [ 1, 3 ] }
-    ]
+    "items": [ { "item": "afs_bootleg_cartridge", "prob": 60, "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",

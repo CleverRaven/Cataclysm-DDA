@@ -64,7 +64,13 @@
         { "type": "LOOT_ITEM_GROUP", "filter": "afs_vehicle_merchant", "faction": "UICA", "x": 3, "y": 11 },
         { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 3, "y": 11 },
         { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 29, "y": 8 },
-        { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 30, "y": [ 5, 6 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_salvor_fabricator_trade",
+          "faction": "UICA",
+          "x": 30,
+          "y": [ 5, 6 ]
+        },
         { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 31, "y": 6 },
         { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 31, "y": 6 }
       ],
