@@ -8391,7 +8391,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  list_item_sort_mode sortMode )
 {
     const int width = getmaxx( window );
     wattron( window, c_light_gray );
@@ -8414,12 +8415,24 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     wprintz( window, c_white, _( "Items" ) );
 
     std::string sSort;
-    if( bRadiusSort ) {
-        //~ Sort type: distance.
-        sSort = _( "<s>ort: dist" );
-    } else {
-        //~ Sort type: category.
-        sSort = _( "<s>ort: cat" );
+    switch( sortMode ) {
+        // Sort by distance only
+        case list_item_sort_mode::count:
+        case list_item_sort_mode::DISTANCE:
+            sSort = _( "<s>ort: dist" );
+            break;
+        // Sort by name only
+        case list_item_sort_mode::NAME:
+            sSort = _( "<s>ort: name" );
+            break;
+        // Group by category, sort by distance
+        case list_item_sort_mode::CATEGORY_DISTANCE:
+            sSort = _( "<s>ort: cat-dist" );
+            break;
+        // Group by category, sort by item name
+        case list_item_sort_mode::CATEGORY_NAME:
+            sSort = _( "<s>ort: cat-name" );
+            break;
     }
 
     int letters = utf8_width( sSort );
@@ -8454,6 +8467,23 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
         pos.x += shortcut_print( window, pos, c_white, c_light_green,
                                  tokens[i] ) + gap_spaces;
     }
+}
+
+template<>
+std::string io::enum_to_string<list_item_sort_mode>( list_item_sort_mode data )
+{
+    switch( data ) {
+        case list_item_sort_mode::count:
+        case list_item_sort_mode::DISTANCE:
+            return "DISTANCE";
+        case list_item_sort_mode::NAME:
+            return "NAME";
+        case list_item_sort_mode::CATEGORY_DISTANCE:
+            return "CATEGORY_DISTANCE";
+        case list_item_sort_mode::CATEGORY_NAME:
+            return "CATEGORY_NAME";
+    }
+    cata_fatal( "Invalid list item sort mode" );
 }
 
 void game::list_items_monsters()
@@ -8604,10 +8634,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     } );
     ui.mark_resize();
 
-    // use previously selected sorting method
-    bool sort_radius = uistate.list_item_sort != 2;
-    bool addcategory = !sort_radius;
-
     // reload filter/priority settings on the first invocation, if they were active
     if( !uistate.list_item_init ) {
         if( uistate.list_item_filter_active ) {
@@ -8634,39 +8660,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     u.view_offset = tripoint_rel_ms::zero;
 
     int iActive = 0; // Item index that we're looking at
-    bool refilter = true;
     int page_num = 0;
     int iCatSortNum = 0;
     int iScrollPos = 0;
     std::map<int, std::string> mSortCategory;
 
-    std::string action;
-    input_context ctxt( "LIST_ITEMS" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
-    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
-    ctxt.register_action( "zoom_in" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "EXAMINE" );
-    ctxt.register_action( "COMPARE" );
-    ctxt.register_action( "PRIORITY_INCREASE" );
-    ctxt.register_action( "PRIORITY_DECREASE" );
-    ctxt.register_action( "SORT" );
-    ctxt.register_action( "TRAVEL_TO" );
-
     ui.on_redraw( [&]( ui_adaptor & ui ) {
-        reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+        reset_item_list_state( w_items_border, iInfoHeight, uistate.list_item_sort );
 
         int iStartPos = 0;
         if( ground_items.empty() ) {
@@ -8811,6 +8811,35 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             trail_end_x );
     add_draw_callback( trail_cb );
 
+    bool addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE ||
+                       uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
+    bool refilter = true;
+
+    std::string action;
+    input_context ctxt( "LIST_ITEMS" );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "EXAMINE" );
+    ctxt.register_action( "COMPARE" );
+    ctxt.register_action( "PRIORITY_INCREASE" );
+    ctxt.register_action( "PRIORITY_DECREASE" );
+    ctxt.register_action( "SORT" );
+    ctxt.register_action( "TRAVEL_TO" );
+
     do {
         bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
@@ -8825,14 +8854,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             imgui_popup.set_identifier( "item_filter" );
             sFilter = imgui_popup.query();
             refilter = true;
-            addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();
         } else if( action == "RESET_FILTER" ) {
             sFilter.clear();
             filtered_items = ground_items;
             refilter = true;
             uistate.list_item_filter_active = false;
-            addcategory = !sort_radius;
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
@@ -8860,7 +8887,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .max_length( 256 )
                                .query_string();
             refilter = true;
-            addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
             ui.invalidate_ui();
@@ -8875,17 +8901,24 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .max_length( 256 )
                                  .query_string();
             refilter = true;
-            addcategory = !sort_radius;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
-            if( sort_radius ) {
-                sort_radius = false;
-                addcategory = true;
-                uistate.list_item_sort = 2; // list is sorted by category
-            } else {
-                sort_radius = true;
-                uistate.list_item_sort = 1; // list is sorted by distance
+            switch( uistate.list_item_sort ) {
+                case list_item_sort_mode::count:
+                case list_item_sort_mode::DISTANCE:
+                    uistate.list_item_sort = list_item_sort_mode::NAME;
+                    break;
+                case list_item_sort_mode::NAME:
+                    uistate.list_item_sort = list_item_sort_mode::CATEGORY_DISTANCE;
+                    break;
+                case list_item_sort_mode::CATEGORY_DISTANCE:
+                    uistate.list_item_sort = list_item_sort_mode::CATEGORY_NAME;
+                    break;
+                case list_item_sort_mode::CATEGORY_NAME:
+                    uistate.list_item_sort = list_item_sort_mode::DISTANCE;
+                    break;
             }
+
             highPEnd = -1;
             lowPStart = -1;
             iCatSortNum = 0;
@@ -8904,14 +8937,29 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 break;
             }
         }
-        if( uistate.list_item_sort == 1 ) {
-            ground_items = item_list;
-        } else if( uistate.list_item_sort == 2 ) {
-            std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-        }
 
         if( refilter ) {
+            switch( uistate.list_item_sort ) {
+                case list_item_sort_mode::count:
+                case list_item_sort_mode::DISTANCE:
+                    ground_items = item_list;
+                    break;
+                case list_item_sort_mode::NAME:
+                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort_name );
+                    break;
+                case list_item_sort_mode::CATEGORY_DISTANCE:
+                    std::sort( ground_items.begin(), ground_items.end(),
+                               map_item_stack::map_item_stack_sort_category_distance );
+                    break;
+                case list_item_sort_mode::CATEGORY_NAME:
+                    std::sort( ground_items.begin(), ground_items.end(),
+                               map_item_stack::map_item_stack_sort_category_name );
+                    break;
+            }
+
             refilter = false;
+            addCategory = uistate.list_item_sort == list_item_sort_mode::CATEGORY_DISTANCE ||
+                          uistate.list_item_sort == list_item_sort_mode::CATEGORY_NAME;
             filtered_items = filter_item_stacks( ground_items, sFilter );
             highPEnd = list_filter_high_priority( filtered_items, list_item_upvote );
             lowPStart = list_filter_low_priority( filtered_items, highPEnd, list_item_downvote );
@@ -8920,8 +8968,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = filtered_items.size();
         }
 
-        if( addcategory ) {
-            addcategory = false;
+        if( addCategory ) {
+            addCategory = false;
             iCatSortNum = 0;
             mSortCategory.clear();
             if( highPEnd > 0 ) {
