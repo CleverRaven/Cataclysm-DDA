@@ -20,11 +20,11 @@
     "subtype": "collection",
     "items": [
       { "group": "afs_common_biomaterial_scrapgroup", "prob": 30, "count": [ 3, 5 ] },
-      { "group": "afs_common_energy_storage_scrapgroup", "prob": 60, "count": [ 5, 8 ] },
-      { "group": "afs_common_heat_scrapgroup", "prob": 60, "count": [ 5, 8 ] },
-      { "group": "afs_common_magnet_scrapgroup", "prob": 60, "count": [ 5, 8 ] },
-      { "group": "afs_common_circuitry_scrapgroup", "prob": 80, "count": [ 6, 15 ] },
-      { "group": "afs_common_material_scrapgroup", "prob": 80, "count": [ 8, 15 ] }
+      { "group": "afs_common_energy_storage_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_heat_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_magnet_scrapgroup", "prob": 70, "count": [ 5, 8 ] },
+      { "group": "afs_common_circuitry_scrapgroup", "prob": 90, "count": [ 6, 15 ] },
+      { "group": "afs_common_material_scrapgroup", "prob": 90, "count": [ 8, 15 ] }
     ]
   },
   {
@@ -74,7 +74,7 @@
     "subtype": "collection",
     "items": [
       { "item": "laser_rifle_cheap", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "makeshift_scrambler", "prob": 10 },
+      { "item": "makeshift_scrambler", "prob": 30 },
       { "item": "afs_launcher_salvaged", "prob": 10 },
       { "item": "afs_makeshift_fusion_gun", "prob": 5 }
     ]
@@ -152,7 +152,7 @@
       { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 2 ] },
       { "item": "multimeter", "prob": 20 },
       { "item": "voltmeter", "prob": 20 },
-      { "item": "solder_wire", "prob": 50, "count": [ 20, 60 ] }
+      { "item": "solder_wire", "prob": 50, "count": [ 1, 4 ] }
     ]
   },
   {
