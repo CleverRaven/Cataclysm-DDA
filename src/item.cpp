@@ -1395,7 +1395,7 @@ int item::charges_per_weight( const units::mass &m, bool suppress_warning ) cons
     } else {
         ret = m / my_weight;
     }
-    return std::min( ret, static_cast<int64_t>(INFINITE_CHARGES));
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 bool item::display_stacked_with( const item &rhs, bool check_components ) const
