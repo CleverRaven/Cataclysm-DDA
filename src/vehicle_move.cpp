@@ -1649,13 +1649,13 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
     tileray mdir;
     // calculate direction after turn
     mdir.init( new_turn_dir );
-    tripoint dp;
+    tripoint_rel_ms dp;
     bool is_diagonal_movement = std::lround( to_degrees( new_turn_dir ) ) % 90 == 45;
 
     if( std::abs( velocity ) >= 20 ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
+        dp.x() = mdir.dx();
+        dp.y() = mdir.dy();
     }
 
     // number of wheels that will land on rail
@@ -2081,7 +2081,7 @@ void vehicle::check_falling_or_floating()
         if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
-        tripoint_bub_ms below( position.xy(), position.z() - 1 );
+        tripoint_bub_ms below( position + tripoint::below );
         return here.supports_above( below );
     };
     // Check under the wheels, if they're supported nothing else matters.

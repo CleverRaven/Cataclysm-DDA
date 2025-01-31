@@ -104,8 +104,6 @@ struct field_proc_data;
 
 class PathfindingFlags;
 
-using relic_procgen_id = string_id<relic_procgen_data>;
-
 class map_stack : public item_stack
 {
     private:

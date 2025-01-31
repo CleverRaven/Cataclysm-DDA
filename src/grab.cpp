@@ -15,7 +15,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include <veh_type.h>
+#include "veh_type.h"
 
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
