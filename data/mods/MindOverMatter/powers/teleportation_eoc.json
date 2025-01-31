@@ -977,7 +977,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1017,7 +1017,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1057,7 +1057,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1097,7 +1097,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1137,7 +1137,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1177,7 +1177,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1217,7 +1217,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1257,7 +1257,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1297,7 +1297,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
@@ -1337,7 +1337,7 @@
               "and": [
                 {
                   "math": [
-                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10) + 10) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                    "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
                 { "math": [ "n_volume() > 1" ] }
