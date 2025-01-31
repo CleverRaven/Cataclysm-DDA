@@ -3430,7 +3430,16 @@
         "magazine_well": "5 L",
         "moves": 450
       },
-	  {
+      {
+		"//": "Small pocket for ID, etc",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "8 cm",
+		"watertight": true,
+        "moves": 150
+      },
+        {
         "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
@@ -3443,15 +3452,6 @@
         "description": "Tucked between your back and the seabag.",
         "ripoff": 3,
         "transparent": true
-      },
-      {
-		"//": "Small pocket for ID, etc",
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "250 g",
-        "max_item_length": "8 cm",
-		"watertight": true,
-        "moves": 150
       }
     ],
     "warmth": 10,
