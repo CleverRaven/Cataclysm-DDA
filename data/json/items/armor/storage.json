@@ -3411,7 +3411,7 @@
     "type": "ARMOR",
     "//": "based off of USMC seabag",
     "name": { "str": "military seabag" },
-    "description": "A massive, watertight, olive drab duffel bag used to move soft goods like uniforms when being redeployed. While it has straps to be worn like a backpack, it is extremely cumbersome to do so."
+    "description": "A massive, watertight, olive drab duffel bag used to move soft goods like uniforms when being redeployed. While it has straps to be worn like a backpack, it is extremely cumbersome to do so.",
     "weight": "1000 g",
     "volume": "4 l",
     "price": 6500,
