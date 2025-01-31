@@ -3936,7 +3936,7 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
             avatar &you = get_avatar();
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
-                      && veh.get_points().count( ( you.pos_bub() + you.grab_point ) ) )
+                      && veh.get_points().count( ( you.pos_abs() + you.grab_point ) ) )
                 && here.memory_cache_dec_is_dirty( p ) ) {
                 you.memorize_decoration( here.get_abs( p ), vd.get_tileset_id(), subtile, rotation );
             }

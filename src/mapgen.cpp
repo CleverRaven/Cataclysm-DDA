@@ -7002,13 +7002,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              */
             std::unique_ptr<RemovePartHandler> handler_ptr;
             bool did_merge = false;
-            for( const tripoint_bub_ms &map_pos : first_veh->get_points( true ) ) {
-                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
+            for( const tripoint_abs_ms &map_pos : first_veh->get_points( true ) ) {
+                const tripoint_bub_ms map_bub_pos = get_bub( map_pos ); // TODO: Make usages use this map.
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_bub_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_pos, "",
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_bub_pos, "",
                             part_status_flag:: any );
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
@@ -7024,7 +7025,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                                   veh_to_add->name, veh_to_add->type.str(),
                                   veh_to_add->pos_abs().to_string(),
                                   to_degrees( veh_to_add->turn_dir ),
-                                  map_pos.to_string() );
+                                  map_bub_pos.to_string() );
                     }
                     did_merge = true;
                     const point_rel_ms target_point = first_veh_parts.front()->mount;

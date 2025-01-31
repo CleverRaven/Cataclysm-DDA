@@ -231,8 +231,8 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint_bub_ms &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+        for( const tripoint_abs_ms &pos : veh.get_points() ) {
+            REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.pos_bub() );
