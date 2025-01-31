@@ -1223,7 +1223,7 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     map_stack vend_items = get_map().i_at( examp );
 
     if( get_option<bool>( "CAPITALISM" ) ) {
-        money = you.cash;
+        money = you.cash + you.charges_of( itype_cash_card );
     }
 
     if( vend_items.empty() ) {
@@ -1380,10 +1380,11 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
 
             money -= iprice;
 
-            if( get_option<bool>( "CAPITALISM" ) ) {
-                you.cash -= iprice;
-            } else {
+            if( iprice < you.charges_of( itype_cash_card ) ) {
+                // necessary to check just your cash card charges here because aftershock charges your cards first then your bank
                 you.use_charges( itype_cash_card, iprice );
+            } else if( get_option<bool>( "CAPITALISM" ) ) {
+                you.cash -= iprice;
             }
             you.i_add_or_drop( *cur_item );
 
