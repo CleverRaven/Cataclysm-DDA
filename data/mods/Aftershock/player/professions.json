@@ -104,6 +104,7 @@
     "name": "Captain Schwarz Walder, Cannibal",
     "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends, eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
     "points": 10,
+    "starting_cash": 1120000,
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -168,6 +169,7 @@
     "name": "Cryosleep Survivor",
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
     "points": 2,
+    "starting_cash": 1120000,
     "traits": [ "AFS_CRYOADAPTATION" ],
     "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
   },
@@ -177,6 +179,7 @@
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You now enter the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 3,
+    "starting_cash": 1120000,
     "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
@@ -204,6 +207,7 @@
     "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
     "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
     "points": 4,
+    "starting_cash": 1120000,
     "items": {
       "both": {
         "entries": [
@@ -228,6 +232,7 @@
     "name": "Vatgrown Bodyguard",
     "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
     "points": 3,
+    "starting_cash": 1120000,
     "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
     "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
     "skills": [ { "level": 2, "name": "unarmed" }, { "level": 2, "name": "stabbing" } ],
@@ -374,6 +379,7 @@
     "name": "Uplifted Enforcer",
     "description": "You are an uplifted elephant hybrid, a precisely engineered enforcer creature created by combining human, elephant and mastodon DNA.  Unlike most of your war-minded kin, you sought a peaceful retirement after completing your compulsive service period, and even earned the right to be considered a full citizen.  Now, with the end of the world in the horizon, it seems that your combat skills might come useful once again.",
     "points": 7,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 4, "name": "shotgun" },
@@ -411,6 +417,7 @@
     "name": "Rogue Operator",
     "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
+    "starting_cash": 1120000,
     "CBMs": [
       "bio_carbon",
       "bio_targeting",
@@ -468,6 +475,7 @@
     "name": "Engineered Deep Sea Explorer",
     "description": "Created with the exploration of the deep sea in mind, Cecaelia are hybridized from cephalopod and fish DNA.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occurred and you have no idea if it's safer here or beneath the seas.",
     "points": 7,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 4, "name": "chemistry" },
       { "level": 3, "name": "computer" },
