@@ -70,7 +70,7 @@
                 "false_eocs": [
                   {
                     "id": "EOC_TELEPORT_ITEM_APPORT_ITEM_DOES_NOT_QUALIFY",
-                    "effect": [ { "u_message": "The air wavers, but nothing happens.  The item is too large." } ]
+                    "effect": [ { "u_message": "The air around the item wavers, but nothing happens.  The item is too large." } ]
                   }
                 ]
               }
