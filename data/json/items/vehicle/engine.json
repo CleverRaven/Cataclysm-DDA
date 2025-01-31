@@ -339,10 +339,10 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "25 L 650 HP gas turbine engine" },
-    "description": "A gas turbine engine.  Used in diverse vehicles, from high-powered motorcicles to small helicopters.",
+    "description": "A gas turbine engine.  Used primarily for small helicopters.",
     "//": "Based on Allison 250-C30R.  Doubled the published weight to account for a transmission.",
     "weight": "250 kg",
-    "volume": "250 L",
+    "volume": "260 L",
     "price": "960 USD",
     "price_postapoc": "25 USD"
   },
