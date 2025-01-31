@@ -82,7 +82,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -93,7 +94,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -104,7 +106,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -115,7 +118,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
