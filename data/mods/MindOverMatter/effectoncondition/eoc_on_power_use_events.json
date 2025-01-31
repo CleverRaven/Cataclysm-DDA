@@ -768,7 +768,7 @@
             { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
             { "compare_string": [ "teleport_dilated_gateway", { "context_val": "spell" } ] }
           ]
-        }
+        },
         { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
