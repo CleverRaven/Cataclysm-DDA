@@ -3414,7 +3414,7 @@
     "description": "A massive, watertight, olive drab duffel bag used to move soft goods like uniforms when being redeployed. While it has straps to be worn like a backpack, it is extremely cumbersome to do so.",
     "weight": "1000 g",
     "volume": "4 L",
-    "price": 65 USD,
+    "price": "65 USD",
     "price_postapoc": 1000,
     "material": [ "nylon" ],
     "symbol": "[",
