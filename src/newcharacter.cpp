@@ -2400,7 +2400,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession money
-    auto cash = sorted_profs[cur_id]->starting_cash();
+    int cash = sorted_profs[cur_id]->starting_cash();
 
     if( !( cash == -1 ) ) {
         assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
