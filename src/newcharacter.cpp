@@ -938,7 +938,12 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    if( prof->starting_cash() == -1 ) {
+        cash = rng( -200000, 200000 );
+    } else {
+        cash = prof->starting_cash();
+    }
+
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
@@ -2393,6 +2398,15 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += mission_type::get( mission_id )->tname() + "\n";
         }
     }
+
+    // Profession money
+    auto cash = sorted_profs[cur_id]->starting_cash();
+
+    if( !( cash == -1 ) ) {
+        assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
+        assembled += format_money( cash ) + "\n";
+    }
+
     return assembled;
 }
 

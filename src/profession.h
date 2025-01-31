@@ -54,6 +54,7 @@ class profession
         translation _description_male;
         translation _description_female;
         signed int _point_cost = 0;
+        signed int _starting_cash = -1;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -117,6 +118,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
+        signed int starting_cash() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
