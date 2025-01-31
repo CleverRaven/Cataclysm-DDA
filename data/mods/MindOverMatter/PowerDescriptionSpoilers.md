@@ -926,7 +926,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 <details>
-<summary><h3>AFar Hand</h3></summary>
+<summary><h3>Far Hand</h3></summary>
 
 *Difficulty*: 1<br />
 *Target*: The items in a space up to 3 squares away plus 0.9 squares per power level<br />
@@ -1453,6 +1453,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
 *Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
+</details>
+<details>
+<summary><h3>Item Gateway</h3></summary>
+
+*Difficulty*: 9<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 12000, minus 200 per level to a minimum of 8000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
+*Effects*: Transport all wielded items through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway. Allowed volume of wielded item is 10L plus 10L per power level.<br />
+*Prerequisites*: Gateway 8, Spacial Vortex 6<br />
 </details>
 <details>
 <summary><h3>Breach</h3></summary>
