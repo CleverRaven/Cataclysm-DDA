@@ -1,0 +1,9 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_COMBAT_CHASSIS",
+    "condition": "ALWAYS",
+    "values": [ { "values": [ { "value": "MAX_HP", "add": 50 } ],
+    "modified_bodyparts": [ { "gain": "combat_chassis" } ]
+  }
+]

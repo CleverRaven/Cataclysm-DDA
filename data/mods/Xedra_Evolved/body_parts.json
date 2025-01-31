@@ -220,5 +220,52 @@
     "opposite": "devil_tail_tip",
     "name": "devil's tail tip",
     "name_multiple": "devil's tail tips"
+  },
+  {
+    "id": "combat_chassis",
+    "type": "body_part",
+    "name": "combat chassis",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "combat chassis" },
+    "heading": "combat chassis",
+    "heading_multiple": "combat chassis",
+    "main_part": "combat_chassis",
+    "connected_to": "torso",
+    "opposite_part": "combat_chassis",
+    "hp_bar_ui_text": "C. CHASSIS",
+    "hit_size": 30,
+    "hit_difficulty": 1.2,
+    "side": "both",
+    "base_hp": 50,
+    "drench_capacity": 700,
+    "bionic_slots": 60,
+    "flags": [ "LIMB_UPPER" ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      }
+    ]
   }
 ]
