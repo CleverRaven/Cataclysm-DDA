@@ -905,7 +905,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "wielded_only": true, "condition": { "math": [ "n_volume() > 1" ] } } ],
+        "search_data": [ { "wielded_only": true, "condition": { "math": [ "n_volume() > 0" ] } } ],
         "true_eocs": [ "EOC_TELEPORT_ITEM_GATEWAY_SELECTOR" ],
         "false_eocs": [
           {
@@ -980,7 +980,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1020,7 +1020,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1060,7 +1060,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1100,7 +1100,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1140,7 +1140,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1180,7 +1180,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1220,7 +1220,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1260,7 +1260,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1300,7 +1300,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
@@ -1340,7 +1340,7 @@
                     "n_volume() <= ((u_spell_level('teleport_item_gateway') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
                   ]
                 },
-                { "math": [ "n_volume() > 1" ] }
+                { "math": [ "n_volume() > 0" ] }
               ]
             }
           }
