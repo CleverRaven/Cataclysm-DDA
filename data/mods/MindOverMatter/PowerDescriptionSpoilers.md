@@ -1378,6 +1378,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Prerequisites*: Stutterstep 10 *or* Transposition 6, Extended Stride 4<br />
 </details>
 <details>
+<summary><h3>Relocation</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
+*Effects*: Transport all wielded items through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway. Allowed volume of wielded item is 10L plus 10L per power level.<br />
+*Prerequisites*: Gateway 6, Displacement 5<br />
+</details>
+<details>
 <summary><h3>Farstep</h3></summary>
 
 *Difficulty*: 6<br />
@@ -1430,7 +1441,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 7500, minus 170 per level to a minimum of 4600<br />
 *Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
 *Effects*: Teleports a single target somewhere *else*, removing them and anything they might drop. The target must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  For this purpose, NPC health is calculated as the sum total of their limb health, divided by 3.<br />
-*Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or * Spacial Vortex 8<br />
+*Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or* Spacial Vortex 8<br />
 </details>
 <details>
 <summary><h3>Gateway</h3></summary>
@@ -1453,17 +1464,6 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
 *Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
-</details>
-<details>
-<summary><h3>Item Gateway</h3></summary>
-
-*Difficulty*: 9<br />
-*Target*: One attuned location<br />
-*Duration*: Instant<br />
-*Stamina Cost*: 8000, minus 200 per level to a minimum of 6000<br />
-*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
-*Effects*: Transport all wielded items through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway. Allowed volume of wielded item is 10L plus 10L per power level.<br />
-*Prerequisites*: Gateway 8, Spacial Vortex 6<br />
 </details>
 <details>
 <summary><h3>Breach</h3></summary>
