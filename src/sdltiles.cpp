@@ -413,8 +413,8 @@ static void WinCreate()
         || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
 #if defined(__IPHONEOS__)
-        WindowWidth = WindowWidth * 2;
-        WindowHeight = WindowHeight * 2;
+        WindowWidth = static_cast<int>( WindowWidth * CataclysmExperimental::iosGetDisplayDensity() );
+        WindowHeight = static_cast<int>( WindowHeight * CataclysmExperimental::iosGetDisplayDensity() );
 #endif
         DebugLog( D_INFO, DC_ALL ) << "WindowWidth: " << WindowWidth;
         DebugLog( D_INFO, DC_ALL ) << "WindowHeight: " << WindowHeight;
