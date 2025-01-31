@@ -1222,6 +1222,10 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     int money = you.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
 
+    if( get_option<bool>( "CAPITALISM" ) ) {
+        money = you.cash;
+    }
+
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty." ) );
         return;
@@ -1375,7 +1379,12 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
             }
 
             money -= iprice;
-            you.use_charges( itype_cash_card, iprice );
+
+            if( get_option<bool>( "CAPITALISM" ) ) {
+                you.cash -= iprice;
+            } else {
+                you.use_charges( itype_cash_card, iprice );
+            }
             you.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
