@@ -24,12 +24,12 @@
     "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 0 : max((2500 - (u_spell_level('afs_telepathic_shield') * 125)), 500)"
+        "u_effect_intensity('effect_afs_telepathic_psi_armor') > -1 ? 0 : max((2500 - (u_spell_level('afs_telepathic_shield') * 125)), 500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 10 : max((100 -(u_spell_level('afs_telepathic_shield') * 6.5)), 10)"
+        "u_effect_intensity('effect_afs_telepathic_psi_armor') > -1 ? 10 : max((100 -(u_spell_level('afs_telepathic_shield') * 6.5)), 10)"
       ]
     }
   },
@@ -58,10 +58,10 @@
     "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('afs_telepathic_mind_sense') * 115)), 1500)"
+        "u_effect_intensity('effect_afs_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('afs_telepathic_mind_sense') * 115)), 1500)"
       ]
     },
-    "base_casting_time": { "math": [ "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 10 : 500" ] }
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_afs_telepath_sense_minds') > -1 ? 10 : 500" ] }
   },
   {
     "id": "afs_telepathic_suggestion",
@@ -88,12 +88,12 @@
     "magic_type": "aftershock_psionics",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_telepathic_suggestion') > -1 ? 0 : max((5000 - (u_spell_level('afs_telepathic_suggestion') * 125)), 2000)"
+        "u_effect_intensity('effect_afs_telepathic_suggestion') > -1 ? 0 : max((5000 - (u_spell_level('afs_telepathic_suggestion') * 125)), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_telepathic_suggestion') > -1 ? 10 : max((300 -(u_spell_level('afs_telepathic_suggestion') * 9.5)), 150)"
+        "u_effect_intensity('effect_afs_telepathic_suggestion') > -1 ? 10 : max((300 -(u_spell_level('afs_telepathic_suggestion') * 9.5)), 150)"
       ]
     }
   },
