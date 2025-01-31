@@ -938,11 +938,7 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    if( prof->starting_cash() == -1 ) {
-        cash = rng( -200000, 200000 );
-    } else {
-        cash = prof->starting_cash();
-    }
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
 
     randomize_heartrate();
 
@@ -2400,11 +2396,11 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession money
-    int cash = sorted_profs[cur_id]->starting_cash();
+    std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
 
-    if( !( cash == -1 ) ) {
+    if( cash.has_value() ) {
         assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
-        assembled += format_money( cash ) + "\n";
+        assembled += format_money( cash.value() ) + "\n";
     }
 
     return assembled;
