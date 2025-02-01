@@ -19,9 +19,9 @@
     "type": "item_group",
     "id": "guns_common_boxed",
     "items": [
-      { "group": "guns_pistol_common_boxed", "prob": 50 },
-      { "group": "guns_rifle_common_boxed", "prob": 50 },
-      { "group": "guns_shotgun_common_boxed", "prob": 50 }
+      { "group": "guns_pistol_common_boxed", "prob": 90 },
+      { "group": "guns_rifle_common_boxed", "prob": 30 },
+      { "group": "guns_shotgun_common_boxed", "prob": 3 }
     ]
   },
   {
@@ -800,6 +800,8 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_boxed_22",
+    "on_overflow": "spill",
+    "//": "on_overflow field is here to allow it to pass tests until #79341 is merged.  Please remove once fixed",
     "items": [
       { "group": "boxed_internal_magazine_22", "prob": 60 },
       { "group": "boxed_ruger_1022", "prob": 100 },
