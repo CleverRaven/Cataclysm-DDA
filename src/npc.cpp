@@ -3976,3 +3976,5 @@ std::unique_ptr<talker> get_talker_for( npc *guy )
 {
     return std::make_unique<talker_npc>( guy );
 }
+
+
