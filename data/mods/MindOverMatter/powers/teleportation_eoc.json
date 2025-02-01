@@ -1,6 +1,90 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_ITEM_APPORT",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true, "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_ITEM_APPORT_NEXT",
+            "effect": [
+              {
+                "u_run_inv_eocs": "all",
+                "search_data": [
+                  {
+                    "wielded_only": true,
+                    "condition": {
+                      "and": [
+                        {
+                          "math": [
+                            "n_volume() <= ((u_spell_level('teleport_item_apport') * 2500) + 2000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                          ]
+                        },
+                        { "math": [ "n_volume() > 0" ] }
+                      ]
+                    }
+                  }
+                ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_TELEPORT_ITEM_APPORT_ITEM_QUALIFIES",
+                    "effect": [
+                      {
+                        "if": {
+                          "u_query_tile": "line_of_sight",
+                          "target_var": { "global_val": "teleporter_item_apport_location" },
+                          "range": {
+                            "math": [
+                              "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+                            ]
+                          },
+                          "z_level": true,
+                          "message": "Select apport location."
+                        },
+                        "then": {
+                          "if": {
+                            "or": [
+                              { "map_terrain_with_flag": "WALL", "loc": { "global_val": "teleporter_item_apport_location" } },
+                              {
+                                "map_terrain_with_flag": "DOOR",
+                                "loc": { "global_val": "teleporter_item_apport_location" }
+                              }
+                            ]
+                          },
+                          "then": { "u_message": "You cannot apport an item inside a solid object.", "type": "bad" },
+                          "else": [
+                            { "npc_teleport": { "global_val": "teleporter_item_apport_location" } },
+                            {
+                              "u_message": "The item in your hands grows freezing cold for a moment before vanishing.",
+                              "type": "neutral"
+                            }
+                          ]
+                        },
+                        "else": { "u_message": "Canceled" }
+                      }
+                    ]
+                  }
+                ],
+                "false_eocs": [
+                  {
+                    "id": "EOC_TELEPORT_ITEM_APPORT_ITEM_DOES_NOT_QUALIFY",
+                    "effect": [ { "u_message": "The air around the item wavers, but nothing happens.  The item is too large." } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "false_eocs": [
+          { "id": "EOC_TELEPORT_ITEM_APPORT_FAIL", "effect": [ { "u_message": "You must be holding something to apport it." } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SPACIAL_VORTEX",
     "effect": [
       { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
