@@ -1222,6 +1222,12 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     int money = you.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
 
+    bool use_bank = get_map().has_flag_furn( "BANK_NETWORKED", examp );
+
+    if( use_bank ) {
+        money = you.cash + you.charges_of( itype_cash_card );
+    }
+
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty." ) );
         return;
@@ -1375,7 +1381,13 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
             }
 
             money -= iprice;
-            you.use_charges( itype_cash_card, iprice );
+
+            if( iprice < you.charges_of( itype_cash_card ) ) {
+                // necessary to check just your cash card charges here because aftershock charges your cards first then your bank
+                you.use_charges( itype_cash_card, iprice );
+            } else if( use_bank ) {
+                you.cash -= iprice;
+            }
             you.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
