@@ -3431,7 +3431,7 @@
         "moves": 450
       },
       {
-		    "//": "Small pocket for ID, etc",
+        "//": "Small pocket for ID, etc",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "250 g",
