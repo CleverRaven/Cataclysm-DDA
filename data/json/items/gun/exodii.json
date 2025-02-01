@@ -158,9 +158,9 @@
     "difficulty": 1,
     "min_range": 10,
     "max_range": 10,
-    "field_id": "fd_sludge",
-    "min_field_intensity": 3,
-    "max_field_intensity": 3
+    "field_id": "fd_glue",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1
   },
   {
     "id": "sapra",

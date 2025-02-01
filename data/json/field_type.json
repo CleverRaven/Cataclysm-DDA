@@ -308,6 +308,16 @@
     "looks_like": "fd_sap"
   },
   {
+    "id": "fd_glue",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "hardened resin", "sym": "x", "color": "white" } ],
+    "display_field": true,
+    "display_items": true,
+    "half_life": "1 hour 30 minutes",
+    "phase": "solid",
+    "looks_like": "fd_sap"
+  },
+  {
     "id": "fd_fire",
     "type": "field_type",
     "legacy_enum_id": 10,
