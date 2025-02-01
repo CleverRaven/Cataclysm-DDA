@@ -3436,7 +3436,7 @@
         "max_contains_volume": "400 ml",
         "max_contains_weight": "250 g",
         "max_item_length": "8 cm",
-	      "watertight": true,
+        "watertight": true,
         "moves": 150
       },
       {
