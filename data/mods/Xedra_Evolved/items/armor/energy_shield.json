@@ -1,0 +1,41 @@
+[
+  {
+    "id": "xe_nether_shell",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Nether Shell" },
+    "description": "A thin shell of Netherium energy.  A Nether shell can defend against a wide variety of physical and energy attacks, but can be overwhelmed and forced to collapse into deadly radiation with prolonged assault.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "nether_energy" ],
+    "environmental_protection": 20,
+    "material_thickness": 5.0,
+    "max_energy_shield_hp": 1200,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "SPAWN_ACTIVE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "SEMITANGIBLE",
+      "POWERARMOR_COMPATIBLE",
+      "UNRESTRICTED"
+    ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [ { "id": "_xe_energy_shield", "effect": { "run_eocs": "EOC_xe_do_shield" } } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  }
+]
