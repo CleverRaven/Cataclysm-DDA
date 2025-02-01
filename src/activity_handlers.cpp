@@ -1130,7 +1130,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
             if( entry.type == harvest_drop_flesh ) {
-                roll /= 6;
+                roll == 0;
             } else {
                 continue;
             }
