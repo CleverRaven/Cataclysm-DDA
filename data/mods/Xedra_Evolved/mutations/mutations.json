@@ -941,6 +941,24 @@
   },
   {
     "type": "mutation",
+    "id": "FAE_ENMITY",
+    "name": { "str": "Fae Enmity" },
+    "points": -10,
+    "description": "The Fair Folk can sense the stolen power within you and their vengeance will be terrible.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [
+      [ "ARVORE", 100 ],
+      [ "CHANGELING", 100 ],
+      [ "HOMULLUS", 100 ],
+      [ "IERDE", 100 ],
+      [ "SALAMANDER", 100 ],
+      [ "SYLPH", 100 ],
+      [ "UNDINE", 100 ]
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "FALSE_ARVORE_HATRED",
     "name": { "str": "False Arvore" },
     "points": -4,
@@ -958,5 +976,23 @@
     "purifiable": false,
     "valid": false,
     "anger_relations": [ [ "HOMULLUS", 100 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOANN_RETALIATION",
+    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
+      { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
+    ]
   }
 ]

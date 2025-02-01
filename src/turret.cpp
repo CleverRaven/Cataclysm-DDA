@@ -507,7 +507,7 @@ void vehicle::turrets_set_targeting()
         }
 
         // clear the turret's current targets to prevent unwanted auto-firing
-        tripoint_bub_ms pos = tripoint_bub_ms( locations[ sel ] );
+        tripoint_bub_ms pos = locations[ sel ];
         turrets[ sel ]->reset_target( pos );
     }
 }
@@ -649,7 +649,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             return shots;
         }
 
-        target.second = auto_target->get_location();
+        target.second = auto_target->pos_abs();
 
     } else {
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).

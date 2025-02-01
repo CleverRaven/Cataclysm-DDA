@@ -1,43 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_CASTED_A_SPELL",
-    "eoc_type": "EVENT",
-    "required_event": "character_casts_spell",
-    "condition": {
-      "or": [
-        { "compare_string": [ "EATER", { "context_val": "school" } ] },
-        { "compare_string": [ "DREAMER", { "context_val": "school" } ] }
-      ]
-    },
-    "effect": [
-      {
-        "math": [
-          "debug_xe_spell_exp_diff = spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))"
-        ]
-      },
-      { "math": [ "debug_xe_spell_train_factor = (spell_train_factor(_cost))" ] },
-      {
-        "math": [
-          "debug_xe_spell_xp_give = (spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell)))/spell_train_factor(_cost)"
-        ]
-      },
-      { "u_message": "school: <context_val:school>", "type": "debug" },
-      { "u_message": "spell: <context_val:spell>", "type": "debug" },
-      { "u_message": "spell_exp_diff: <global_val:debug_xe_spell_exp_diff>", "type": "debug" },
-      { "u_message": "spell_train_factor: <global_val:debug_xe_spell_train_factor>", "type": "debug" },
-      { "u_message": "amount of XP added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
-      {
-        "math": [
-          "u_spell_exp(_spell)",
-          "+=",
-          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell)))/spell_train_factor(_cost)"
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_XE_GOT_A_SPELL_LVL",
     "eoc_type": "EVENT",
     "required_event": "player_levels_spell",

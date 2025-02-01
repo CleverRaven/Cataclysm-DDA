@@ -44,7 +44,9 @@ static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_M24( "M24" );
+static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_leather_belt( "leather_belt" );
 
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -58,7 +60,7 @@ static void on_load_test( npc &who, const time_duration &from, const time_durati
     calendar::turn = calendar::turn_zero + from;
     who.on_unload();
     calendar::turn = calendar::turn_zero + to;
-    who.on_load();
+    who.on_load( &get_map() );
 }
 
 static void test_needs( const npc &who, const numeric_interval<int> &hunger,
@@ -591,6 +593,13 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -624,25 +633,33 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     item backpack( itype_debug_backpack );
     hostile.wear_item( backpack );
-    // Give them a TON of junk
-    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
-        hostile.i_add( some_trash );
-    }
-    // But also give them a gun and some magazines
-    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
-        hostile.i_add( some_gun_item );
-    }
+    // Give them a bat and a belt
+    hostile.i_add( item( itype_leather_belt ) );
+    hostile.i_add( item( itype_bat ) );
     // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
     arm_shooter( player_character, itype_M24 );
     hostile.regen_ai_cache();
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
+    hostile.wield_better_weapon();
+    CAPTURE( hostile.get_wielded_item().get_item()->tname() );
     CHECK( !hostile.get_wielded_item().get_item()->is_gun() );
+    // Now give them a gun and some magazines
+    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
+        hostile.i_add( some_gun_item );
+    }
     hostile.wield_better_weapon();
     CHECK( hostile.get_wielded_item().get_item()->is_gun() );
 

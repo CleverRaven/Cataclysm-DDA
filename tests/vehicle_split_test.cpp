@@ -31,7 +31,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_cross_split_test,
                                              vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        std::set<tripoint_bub_ms> original_points = veh_ptr->get_points( true );
+        std::set<tripoint_abs_ms> original_points = veh_ptr->get_points( true );
 
         here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup();
@@ -45,21 +45,21 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
             CHECK( vehs[1].v->part_count() == 12 );
             CHECK( vehs[2].v->part_count() == 2 );
             CHECK( vehs[3].v->part_count() == 3 );
-            std::vector<std::set<tripoint_bub_ms>> all_points;
+            std::vector<std::set<tripoint_abs_ms>> all_points;
             for( int i = 0; i < 4; i++ ) {
-                const std::set<tripoint_bub_ms> &veh_points = vehs[i].v->get_points( true );
+                const std::set<tripoint_abs_ms> &veh_points = vehs[i].v->get_points( true );
                 all_points.push_back( veh_points );
             }
             for( int i = 0; i < 4; i++ ) {
-                std::set<tripoint_bub_ms> &veh_points = all_points[i];
+                std::set<tripoint_abs_ms> &veh_points = all_points[i];
                 // every point in the new vehicle was in the old vehicle
-                for( const tripoint_bub_ms &vpos : veh_points ) {
+                for( const tripoint_abs_ms &vpos : veh_points ) {
                     CHECK( original_points.find( vpos ) != original_points.end() );
                 }
                 // no point in any new vehicle is in any other new vehicle
                 for( int j = i + 1; j < 4; j++ ) {
-                    std::set<tripoint_bub_ms> &other_points = all_points[j];
-                    for( const tripoint_bub_ms &vpos : veh_points ) {
+                    std::set<tripoint_abs_ms> &other_points = all_points[j];
+                    for( const tripoint_abs_ms &vpos : veh_points ) {
                         CHECK( other_points.find( vpos ) == other_points.end() );
                     }
                 }

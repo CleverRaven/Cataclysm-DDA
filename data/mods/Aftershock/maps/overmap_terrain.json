@@ -579,6 +579,33 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "Salvor Encampment",
+    "id": [
+      "afs_shuttlepad_salvors_a1_1",
+      "afs_shuttlepad_salvors_a2_1",
+      "afs_shuttlepad_salvors_b1_1",
+      "afs_shuttlepad_salvors_b2_1",
+      "afs_shuttlepad_salvors_a1_2",
+      "afs_shuttlepad_salvors_a2_2",
+      "afs_shuttlepad_salvors_b1_2",
+      "afs_shuttlepad_salvors_b2_2",
+      "afs_shuttlepad_salvors_a1_3",
+      "afs_shuttlepad_salvors_a2_3",
+      "afs_shuttlepad_salvors_b1_3",
+      "afs_shuttlepad_salvors_b2_3",
+      "afs_shuttlepad_salvors_a1_4",
+      "afs_shuttlepad_salvors_a2_4",
+      "afs_shuttlepad_salvors_b1_4",
+      "afs_shuttlepad_salvors_b2_4"
+    ],
+    "sym": "S",
+    "color": "red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "name": "Mercurial Gene Clinic",
     "id": [ "afs_gene_clinic_1_a1", "afs_gene_clinic_1_a2", "afs_gene_clinic_1_a3", "afs_gene_clinic_1_a4" ],
     "sym": "G",

@@ -1216,7 +1216,7 @@
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "smart_phone", "prob": 5, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
       { "group": "tinware", "prob": 5 },

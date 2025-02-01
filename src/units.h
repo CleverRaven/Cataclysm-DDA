@@ -766,6 +766,27 @@ inline constexpr double to_arcmin( const units::angle v )
     return to_degrees( v ) * 60;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_kilobytes( const value_type v )
+{
+    return quantity<value_type, ememory_in_kilobytes_tag>( v, ememory_in_kilobytes_tag{} );
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_megabytes( const value_type v )
+{
+    return from_kilobytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_gigabytes( const value_type v )
+{
+    return from_megabytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_terabytes( const value_type v )
+{
+    return from_gigabytes<value_type>( v ) * 1000;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -834,7 +855,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
 }
 
 std::string display( const units::energy &v );
-
+std::string display( const units::ememory &v );
 std::string display( units::power v );
 
 } // namespace units
@@ -1091,6 +1112,22 @@ inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }
+inline constexpr units::ememory operator""_KB( const unsigned long long b )
+{
+    return units::from_kilobytes( b );
+}
+inline constexpr units::ememory operator""_MB( const unsigned long long b )
+{
+    return units::from_megabytes( b );
+}
+inline constexpr units::ememory operator""_GB( const unsigned long long b )
+{
+    return units::from_gigabytes( b );
+}
+inline constexpr units::ememory operator""_TB( const unsigned long long b )
+{
+    return units::from_terabytes( b );
+}
 
 namespace units
 {
@@ -1180,6 +1217,13 @@ const std::vector<std::pair<std::string, angle>> angle_units = { {
 };
 const std::vector<std::pair<std::string, temperature>> temperature_units = { {
         { "K", 1_K }
+    }
+};
+const std::vector<std::pair<std::string, ememory>> ememory_units = { {
+        { "KB", 1_KB },
+        { "MB", 1_MB },
+        { "GB", 1_GB },
+        { "TB", 1_TB }
     }
 };
 

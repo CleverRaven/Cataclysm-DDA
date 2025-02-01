@@ -2073,11 +2073,23 @@ void inventory_selector::add_contained_gunmods( Character &you, item &gun )
 
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
-    if( !container->is_ebook_storage() ) {
+    if( !container->is_estorage() ) {
         return;
     }
 
     for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
+void inventory_selector::add_contained_efiles( item_location &container )
+{
+    if( !container->is_estorage() ) {
+        return;
+    }
+
+    for( item *it : container->efiles() ) {
         item_location child( container, it );
         add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }

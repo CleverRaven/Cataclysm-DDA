@@ -11,6 +11,15 @@
   },
   {
     "type": "mutation",
+    "id": "BKGR_EARTH",
+    "name": { "str": "Earthling" },
+    "points": 0,
+    "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "PROF_SYSTEM_SECURITY",
     "name": { "str": "Local System Security" },
     "points": 0,

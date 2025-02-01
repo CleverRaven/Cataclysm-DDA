@@ -650,6 +650,7 @@
       },
       { "item": "jam_fruit", "prob": 80 },
       { "item": "peanutbutter", "prob": 80 },
+      { "item": "marshmallow_fluff", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
         "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ]

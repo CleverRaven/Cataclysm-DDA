@@ -20,8 +20,7 @@
           "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION"
         ]
       },
-      { "u_lose_effect": "telepathic_ignorance_self" },
-      { "u_lose_effect": "effect_clair_perfect_shot" }
+      { "u_lose_effect": [ "telepathic_ignorance_self", "effect_clair_perfect_shot" ] }
     ]
   },
   {
@@ -66,7 +65,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "or": [ { "u_has_effect": "effect_biokin_hurricane_blows" }, { "u_has_effect": "effect_biokin_hurricane_blows_2" } ] },
-    "effect": [ { "u_lose_effect": "effect_biokin_hurricane_blows" }, { "u_lose_effect": "effect_biokin_hurricane_blows_2" } ]
+    "effect": [ { "u_lose_effect": [ "effect_biokin_hurricane_blows", "effect_biokin_hurricane_blows_2" ] } ]
   },
   {
     "type": "effect_on_condition",

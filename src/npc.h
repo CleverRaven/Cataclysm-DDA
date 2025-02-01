@@ -51,6 +51,7 @@
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class map;
 class mission;
 class monfaction;
 class monster;
@@ -77,10 +78,6 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
-using bionic_id = string_id<bionic_data>;
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -816,7 +813,7 @@ class npc : public Character
          * If the square on the map where the NPC would go is not empty
          * a spiral search for an empty square around it is performed.
          */
-        void place_on_map();
+        void place_on_map( map *here );
         /**
          * See @ref dialogue_chatbin::add_new_mission
          */
@@ -1013,7 +1010,7 @@ class npc : public Character
         int indoor_voice() const;
         void decide_needs();
         void reboot();
-        void die( Creature *killer ) override;
+        void die( map *here, Creature *killer ) override;
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
@@ -1412,7 +1409,7 @@ class npc : public Character
         /**
          * Retroactively update npc.
          */
-        void on_load();
+        void on_load( map *here );
         /**
          * Update body, but throttled.
          */

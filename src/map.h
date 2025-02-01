@@ -104,8 +104,6 @@ struct field_proc_data;
 
 class PathfindingFlags;
 
-using relic_procgen_id = string_id<relic_procgen_data>;
-
 class map_stack : public item_stack
 {
     private:
@@ -1128,7 +1126,7 @@ class map
         /** Keeps bashing a square until there is no more vehicle part */
         void destroy_vehicle( const tripoint_bub_ms &, bool silent = false );
         void crush( const tripoint_bub_ms &p );
-        void shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
+        double shoot( const tripoint_bub_ms &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint_bub_ms &p ) const;
         /** Causes a collapse at p, such as from destroying a wall */
@@ -1632,7 +1630,7 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
-        void drop_creature( const tripoint_bub_ms &p ) const;
+        void drop_creature( const tripoint_bub_ms &p );
         /*@}*/
     public:
         /**

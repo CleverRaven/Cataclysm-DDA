@@ -501,6 +501,7 @@ class game
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint_bub_ms &p );
+        bool is_empty( map *here, const tripoint_abs_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint_bub_ms &p );
         bool is_in_sunlight( map *here, const tripoint_bub_ms &p );
@@ -545,6 +546,7 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+        void load_npcs( map *here );
 
         /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
         * will notify the player that thievery was witnessed and make angry at the player. */
@@ -884,7 +886,8 @@ class game
 
         game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
         std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort );
+        void reset_item_list_state( const catacurses::window &window, int height,
+                                    list_item_sort_mode sortMode );
 
         game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
 

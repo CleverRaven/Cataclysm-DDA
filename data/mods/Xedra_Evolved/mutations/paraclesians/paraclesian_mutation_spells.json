@@ -135,29 +135,52 @@
     "max_damage": 1
   },
   {
-    "id": "paraclesian_spell_dodge_bonus",
+    "id": "paraclesian_spell_dodge_bonus_arvore",
     "type": "SPELL",
     "name": "The Wind Blows, the Willow Bends",
-    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.  It has <color_yellow>reduced effects</color> away from your natural environment (indoors for Sylph, non-natural terrain for Arvore).",
+    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.  It has <color_yellow>reduced effects</color> when on artificial terrain.",
     "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "valid_targets": [ "self" ],
     "skill": "deduction",
     "max_level": 25,
     "effect": "effect_on_condition",
     "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
+    "spell_class": "ARVORE",
     "shape": "blast",
     "difficulty": 5,
     "min_duration": {
-      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 1800) + 21000) * (scaling_factor(u_val('perception') ) ) )" ]
+      "math": [
+        "( ( (u_spell_level('paraclesian_spell_dodge_bonus_arvore') * 1800) + 21000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
     },
     "max_duration": {
-      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 4200) + 39000) * (scaling_factor(u_val('perception') ) ) )" ]
+      "math": [
+        "( ( (u_spell_level('paraclesian_spell_dodge_bonus_arvore') * 4200) + 39000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
     },
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 600,
     "final_energy_cost": 400,
     "energy_increment": -12,
     "base_casting_time": 150
+  },
+  {
+    "id": "paraclesian_spell_dodge_bonus_sylph",
+    "type": "SPELL",
+    "copy-from": "paraclesian_spell_dodge_bonus_arvore",
+    "name": "The Wind Blows, the Willow Bends",
+    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.  It has <color_yellow>reduced effects</color> indoors.",
+    "spell_class": "SYLPH",
+    "min_duration": {
+      "math": [
+        "( ( (u_spell_level('paraclesian_spell_dodge_bonus_sylph') * 1800) + 21000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( (u_spell_level('paraclesian_spell_dodge_bonus_sylph') * 4200) + 39000) * (scaling_factor(u_val('perception') ) ) )"
+      ]
+    }
   },
   {
     "id": "paraclesian_spell_make_gossamer",

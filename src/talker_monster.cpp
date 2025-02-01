@@ -36,24 +36,19 @@ int talker_monster_const::posz() const
     return me_mon_const->posz();
 }
 
-tripoint talker_monster_const::pos() const
-{
-    return me_mon_const->pos_bub().raw();
-}
-
 tripoint_bub_ms talker_monster_const::pos_bub() const
 {
     return me_mon_const->pos_bub();
 }
 
-tripoint_abs_ms talker_monster_const::global_pos() const
+tripoint_abs_ms talker_monster_const::pos_abs() const
 {
-    return me_mon_const->get_location();
+    return me_mon_const->pos_abs();
 }
 
-tripoint_abs_omt talker_monster_const::global_omt_location() const
+tripoint_abs_omt talker_monster_const::pos_abs_omt() const
 {
-    return me_mon_const->global_omt_location();
+    return me_mon_const->pos_abs_omt();
 }
 
 int talker_monster_const::pain_cur() const
@@ -220,9 +215,9 @@ bool talker_monster::get_is_alive() const
     return !me_mon->is_dead();
 }
 
-void talker_monster::die()
+void talker_monster::die( map *here )
 {
-    me_mon->die( nullptr );
+    me_mon->die( here, nullptr );
 }
 
 void talker_monster::set_all_parts_hp_cur( int set )

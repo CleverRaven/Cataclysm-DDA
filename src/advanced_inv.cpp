@@ -1289,6 +1289,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
+    ctxt.register_action( "UNLOAD_CONTAINER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1674,7 +1675,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
-        popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
+        popup_getkey( _( "The %s is already in your inventory.  You may want to (U)nload" ),
+                      sitem->items.front()->tname() );
 
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1809,6 +1811,26 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
         spane.scroll_by( -1 );
     }
+}
+
+bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
+                                        advanced_inventory_pane &spane, advanced_inventory_pane &dpane )
+{
+    avatar &u = get_avatar();
+    item_location src = spane.container;
+    item_location dest = dpane.container;
+
+    if( !src && sitem ) {
+        src = sitem->items.front();
+    } else {
+        add_msg( m_info, _( "Nothing to unload." ) );
+        return false;
+    }
+
+    do_return_entry();
+    // always exit to proc do_return_entry, even when no activity was assigned
+    exit = true;
+    return u.unload( src, false, dest );
 }
 
 void advanced_inventory::display()
@@ -2020,6 +2042,8 @@ void advanced_inventory::display()
             if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
                 action_examine( sitem, spane );
             }
+        } else if( action == "UNLOAD_CONTAINER" ) {
+            recalc = action_unload( sitem, spane, dpane );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
@@ -2216,7 +2240,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
-        const int room_for = it.charges_per_volume( free_volume );
+        const units::mass free_mass = panes[dest].free_weight_capacity();
+        const int room_for = std::min( it.charges_per_volume( free_volume ),
+                                       it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
             if( destarea == AIM_INVENTORY ) {
                 popup_getkey( _( "You have no space for the %s." ), it.tname() );

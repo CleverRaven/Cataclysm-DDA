@@ -1241,14 +1241,14 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::pain_text_color( ava );
             break;
         case widget_var::overmap_loc_text:
-            desc.first = display::overmap_position_text( ava.global_omt_location() );
+            desc.first = display::overmap_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::overmap_text:
             desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = display::current_position_text( ava.global_omt_location() );
+            desc.first = display::current_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

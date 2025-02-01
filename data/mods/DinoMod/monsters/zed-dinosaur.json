@@ -737,6 +737,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zoabosaurus",
+    "name": { "str_sp": "moabosaurus zombie" },
+    "copy-from": "mon_zamarasaurus",
+    "looks_like": "mon_zapatosaurus",
+    "//": "When large weights and volumes are fixed this should be similar to camarasaurus unless a better scientific assessment is available",
+    "speed": 60,
+    "attack_cost": 60,
+    "hp": 440,
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zoabosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zaplocanthosaurus",
     "name": { "str_sp": "haplocanthosaurus zombie" },
     "copy-from": "mon_zapatosaurus",
@@ -1984,6 +1998,15 @@
     "hp": 100,
     "speed": 80,
     "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zoabosaurus_juvenile",
+    "name": { "str": "juvenile moabosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zoabosaurus" }
   },
   {
     "type": "MONSTER",

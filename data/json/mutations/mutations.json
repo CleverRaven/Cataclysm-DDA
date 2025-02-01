@@ -1315,11 +1315,11 @@
     "id": "PSYCHOPATH",
     "name": { "str": "Uncaring" },
     "points": 2,
-    "description": "You don't feel any remorse or guilt for harming your fellow man.",
+    "description": "You don't feel any strong feelings for your fellow man.",
     "starting_trait": true,
     "random_at_chargen": false,
     "valid": false,
-    "social_modifiers": { "intimidate": 5 },
+    "social_modifiers": { "lie": -5, "persuade": -5 },
     "types": [ "HUMAN_EMPATHY" ],
     "flags": [ "PSYCHOPATH" ]
   },
@@ -1597,15 +1597,6 @@
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
     "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.333 }, { "value": "SLEEPINESS", "multiply": 0.333 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "PROF_ASSASSIN_CONVICT",
-    "name": { "str": "Assassin Convict" },
-    "points": 0,
-    "description": "You have a target to kill.  Search it, find it, and eliminate whatever it is now.",
-    "valid": false,
-    "purifiable": false
   },
   {
     "type": "mutation",

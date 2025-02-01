@@ -90,12 +90,12 @@ std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
 
 static pocket_type guess_pocket_for( const item &container, const item &payload )
 {
+    if( container.is_estorage() && payload.is_estorable() ) {
+        return pocket_type::E_FILE_STORAGE;
+    }
     if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
             payload.is_toolmod() ) ) {
         return pocket_type::MOD;
-    }
-    if( container.is_software_storage() && payload.is_software() ) {
-        return pocket_type::SOFTWARE;
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return pocket_type::MAGAZINE_WELL;

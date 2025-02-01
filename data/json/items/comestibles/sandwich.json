@@ -556,5 +556,31 @@
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ]
     ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_pbf",
+    "name": { "str": "Fluffernutter sandwich", "str_pl": "Fluffernutter sandwiches" },
+    "weight": "204 g",
+    "color": "white",
+    "spoils_in": "1 day 12 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "description": "A delicious peanut butter and marshmallow fluff sandwich.  More commonly referred to as a fluffernutter.",
+    "price": "1 USD 75 cent",
+    "price_postapoc": "1 USD 75 cent",
+    "material": [ "nut", "junk", "wheat", "egg" ],
+    "primary_material": "wheat",
+    "volume": "250 ml",
+    "fun": 15,
+    "vitamins": [
+      [ "calcium", 6 ],
+      [ "iron", 18 ],
+      [ "wheat_allergen", 1 ],
+      [ "nut_allergen", 1 ],
+      [ "egg_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   }
 ]

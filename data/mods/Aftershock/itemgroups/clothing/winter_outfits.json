@@ -14,11 +14,25 @@
     "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_cryopod_g", "prob": 1 } ]
   },
   {
+    "//": "A group for any generic-flavour basic civillian EVA gear",
+    "id": "afs_wintersuit_generic_basic",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 } ]
+  },
+  {
+    "//": "A group for any generic-flavor combat EVA Gear",
+    "id": "afs_wintersuit_generic_combat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_combat_gryo_g", "prob": 80 } ]
+  },
+  {
     "//": "A group for any police-flavour advanced civilian piece of clothing",
     "id": "afs_wintersuit_police_advanced",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_magellan_g", "prob": 2 } ]
+    "items": [ { "group": "afs_wintersuit_generic_combat", "prob": 2 } ]
   },
   {
     "//": "A group for any science-flavour advanced civilian piece of clothing",
@@ -53,10 +67,14 @@
     "entries": [ { "item": "afs_magellan_suit" }, { "item": "afs_magellan_suit_helmet", "prob": 90 } ]
   },
   {
-    "id": "afs_mutant_colonist_eva_g",
+    "id": "afs_combat_gryo_g",
     "type": "item_group",
-    "//": "Colonist grade EVA gear modified to accomadate mutant anatonmy. Should include suit and mask, and possible future accesories. TODO: this gear does not yet exist so spawn a bodyglove instead, remove this TODO when the group has been filled.",
+    "//": "The matching combat-cryosuit set. Includes suit, mask and possible future accessories",
     "subtype": "collection",
-    "entries": [ { "item": "afs_cryopod_bodyglove" } ]
+    "entries": [
+      { "item": "afs_combat_cryo" },
+      { "item": "afs_frontier_cryomask", "prob": 90 },
+      { "item": "afs_heavy_suit_battery_cell", "count": [ 1, 2 ], "prob": 25, "charges": [ 0, 1000 ] }
+    ]
   }
 ]

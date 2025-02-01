@@ -339,7 +339,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    REQUIRE( !overmap_buffer.find_camp( get_avatar().global_omt_location().xy() ) );
+    REQUIRE( !overmap_buffer.find_camp( get_avatar().pos_abs_omt().xy() ) );
     change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
@@ -1124,7 +1124,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( { -1, -2, -3 } );
+    player_character.setpos( tripoint_bub_ms{ -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );

@@ -38,7 +38,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
 | `false_effect`        | effect     | The effect(s) caused if `condition` returns false upon activation.  See the "Dialogue Effects" section of [NPCs](NPCs.md) for the full syntax.
 | `global`              | bool       | If this is true, this recurring eoc will be run on the player and every npc from a global queue.  Deactivate conditions will work based on the avatar. If it is false the avatar and every character will have their own copy and their own deactivated list. Defaults to false.
 | `run_for_npcs`        | bool       | Can only be true if global is true. If false the EOC will only be run against the avatar. If true the eoc will be run against the avatar and all npcs.  Defaults to false.
-| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `SCENARIO_SPECIFIC`, `AVATAR_DEATH`, `NPC_DEATH`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
+| `EOC_TYPE`            | string     | Can be one of `ACTIVATION`, `RECURRING`, `AVATAR_DEATH`, `NPC_DEATH`, `PREVENT_DEATH`, `EVENT` (see details below). It defaults to `ACTIVATION` unless `recurrence` is provided in which case it defaults to `RECURRING`.
 
  ### EOC types
 
@@ -46,7 +46,6 @@ An effect_on_condition is an object allowing the combination of dialog condition
 
 * `ACTIVATION` - activated manually.
 * `RECURRING` - activated automatically on schedule (see `recurrence`)
-* `SCENARIO_SPECIFIC` - automatically invoked once on scenario start.
 * `AVATAR_DEATH` - automatically invoked whenever the current avatar dies (it will be run with the avatar as `u`), if after it the player is no longer dead they will not die, if there are multiple EOCs they all be run until the player is not dead.
 * `NPC_DEATH` - EOCs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. If after it npc is no longer dead they will not die, if there are multiple they all be run until npc is not dead.
 * `PREVENT_DEATH` - whenever the current avatar dies it will be run with the avatar as `u`, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead.
@@ -2870,7 +2869,7 @@ Some effect would be applied on you or NPC
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_add_effect" / "npc_add_effect" | **mandatory** | string or [variable object](#variable-object) | id of effect to give |
-| "duration" | optional | int, duration or [variable object](#variable-object) | 0 by default; length of the effect; both int (`"duration": 60`), and duration string (`"duration": "1 m"`) works; `PERMANENT` can be used to give a permanent effect | 
+| "duration" | **mandatory** | int, duration or [variable object](#variable-object) | length of the effect; both int (`"duration": 60`), and duration string (`"duration": "1 m"`) works; `PERMANENT` can be used to give a permanent effect | 
 | "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
 | "intensity" | optional | int, float or [variable object](#variable-object) | default 0; intensity of the effect | 
 | "force_bool" | optional | boolean | default false; if true, all immunities would be ignored | 
@@ -2989,8 +2988,8 @@ Remove effect from character or NPC, if it has one
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_lose_effect" / "npc_lose_effect" | **mandatory** | string or [variable object](#variable-object) | id of effect to be removed; if character or NPC has no such effect, nothing happens |
-| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `RANDOM` can be used to pick a random body part | 
+| "u_lose_effect" / "npc_lose_effect" | **mandatory** | string, [variable object](#variable-object), or array of both | id of effect or effects to be removed; if character or NPC has no such effect, nothing happens |
+| "target_part" | optional | string or [variable object](#variable-object) | default is "whole body"; if used, only specified body part would be used. `ALL` can be used to remove effect from all bodyparts talker has | 
 
 ##### Valid talkers:
 
@@ -3009,9 +3008,19 @@ Removes `bleed` effect from player's head:
 { "u_lose_effect": "bleed", "target_part": "head" }
 ```
 
+Removes `bleed` effect from all bodyparts:
+```json
+{ "u_lose_effect": "bleed", "target_part": "ALL" }
+```
+
 Removes effect, stored in `effect_id` context value, from the player:
 ```json
 { "u_lose_effect": { "context_val": "effect_id" } }
+```
+
+Removes `infection`, `downed` and `winded` effects from player:
+```json
+{ "u_lose_effect": [ "infection", "downed", "winded" ] }
 ```
 
 
@@ -4046,6 +4055,108 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
   "force": true
 }
 ```
+
+#### `u_explosion`, `npc_explosion`
+Creates an explosion at talker position or at passed coordinate
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_explosion", / "npc_explosion" | **mandatory** | explosion_data | copies the `explosion` field from `"type": "ammo_effect"`, but allows to use variables; defines what type of explosion is occuring |
+| "target_var" | optional | [variable object](#variable-object) | if used, explosion will occur where the variable point to | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+You pick a tile using u_query_omt, then the explosion is caused at this position
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      { "u_query_omt": { "context_val": "pos" }, "message": "Select point to detonate." },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_explosion": { "power": 50000, "max_noise": 35, "distance_factor": 0.5 }, "target_var": { "context_val": "pos" } },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+#### `u_query_omt`, `npc_query_omt`
+Opens a map, and allow you to pick an overmap tile to store in variable 
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_query_omt", / "npc_query_omt" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled or player picks the tile farther than `distance_limit`, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
+| "message" | **mandatory** | string or [variable object](#variable-object) | message, that is printed on upper left corner of overmap UI | 
+| "target_var" | optional | [variable object](#variable-object) | if set, the center is not where the avatar is, but this coordinate | 
+| "distance_limit" | optional | int or [variable object](#variable-object) | default infinite; radius, which player is able to pick, otherwise no variable is stored. The border is highlighted for user | 
+| "spread" | optional | int or [variable object](#variable-object) | default 1; since map allows only precision of OMT level, the player choice is then converted to absolute coordinates, and adjusted to point to the center of overmap; spread respond for additional precision loss, "how far the tile gonna be picked from the center of OMT"; default value would result in you picking roughly the center of the OM |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, print a message with `pos`
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
+You pick a `distance_limit` using `num_input`, then open map, and if allowed OM is picked, open another map, centered around the point you just picked
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST_2",
+    "effect": [
+      {
+        "u_query_omt": { "context_val": "pos" },
+        "message": "Select point.",
+        "distance_limit": { "math": [ "num_input('distance', 10)" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": {
+          "u_query_omt": { "context_val": "pos2" },
+          "target_var": { "context_val": "pos" },
+          "message": "Select point.",
+          "distance_limit": 10
+        },
+        "else": { "u_message": "Canceled" }
+      },
+      {
+        "if": { "math": [ "has_var(_pos2)" ] },
+        "then": { "u_message": "pos2: <context_val:pos2>" },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  }
+```
+
 
 #### `u_die`, `npc_die`
 You or an NPC will instantly die.

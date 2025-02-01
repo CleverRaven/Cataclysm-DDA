@@ -176,12 +176,11 @@ player_activity veh_interact::serialize_activity()
     // otherwise (e.g. installing a new frame), just use part 0
     const point_rel_ms q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
-    map &here = get_map();
-    for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.get_abs( p ) );
+    for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
+        res.coord_set.insert( p );
     }
-    res.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );   // values[0]
-    res.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );   // values[1]
+    res.values.push_back( veh->pos_abs().x() + q.x() );   // values[0]
+    res.values.push_back( veh->pos_abs().y() + q.y() );   // values[1]
     res.values.push_back( dd.x() );   // values[2]
     res.values.push_back( dd.y() );   // values[3]
     res.values.push_back( -dd.x() );   // values[4]

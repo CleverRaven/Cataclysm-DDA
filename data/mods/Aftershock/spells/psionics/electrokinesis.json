@@ -44,7 +44,7 @@
     "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
-    "difficulty": 1,
+    "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "psi_dazed_zap",

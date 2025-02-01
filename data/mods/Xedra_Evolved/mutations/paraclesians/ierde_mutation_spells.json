@@ -40,10 +40,16 @@
       { "id": "ierde_stomp_ground_smash_spawn_rubble", "hit_self": false }
     ],
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 45) + 200) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_duration": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_duration": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 45) + 200) * (scaling_factor(u_val('strength') ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 75) + 300) * (scaling_factor(u_val('strength') ) )" ]
+    },
     "min_aoe": {
-      "math": [ "min( ( ( (u_spell_level('ierde_stomp_ground_smash') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
+      "math": [
+        "min( ( ( (u_spell_level('ierde_stomp_ground_smash_spell') * 0.8) + 3) * (scaling_factor(u_val('strength') ) ) ), 15)"
+      ]
     },
     "max_aoe": 15,
     "magic_type": "xe_fey_magick",
@@ -337,8 +343,10 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
     "shape": "blast",
-    "min_damage": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 1.5) + 20) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash') * 5) + 50) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 1.5) + 20) * (scaling_factor(u_val('strength') ) )" ]
+    },
+    "max_damage": { "math": [ "( (u_spell_level('ierde_stomp_ground_smash_spell') * 5) + 50) * (scaling_factor(u_val('strength') ) )" ] },
     "min_aoe": {
       "math": [ "min( (( (u_spell_level('ierde_stomp_ground_smash') * 0.7) + 5) * (scaling_factor(u_val('strength') ) )), 15)" ]
     },
@@ -355,7 +363,9 @@
     "effect_str": "ierde_stomp_ground_smash_transform",
     "shape": "blast",
     "min_aoe": {
-      "math": [ "min( (( (u_spell_level('ierde_stomp_ground_smash') * 0.7) + 5) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
+      "math": [
+        "min( (( (u_spell_level('ierde_stomp_ground_smash_spell') * 0.7) + 5) * (scaling_factor(u_val('strength') ) ) ), 15)"
+      ]
     },
     "max_aoe": 15
   },
@@ -505,6 +515,8 @@
     "min_range": 1,
     "max_range": 15,
     "range_increment": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "max_level": 35,
     "difficulty": 3,
     "effect": "summon",

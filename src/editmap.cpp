@@ -499,7 +499,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
                     if( mon != nullptr && mon->has_dest() ) {
-                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                        for( auto &location : line_to( mon->pos_abs(), mon->get_dest() ) ) {
                             hilights["mplan"].points[m->get_bub( location )] = 1;
                         }
                     }
@@ -1929,7 +1929,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = dest_pos.raw();
+                            veh->sm_pos = rebase_bub( dest_pos );
                         }
 
                         if( !destsm->spawns.empty() ) {                             // trigger spawnpoints

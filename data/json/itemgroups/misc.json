@@ -229,7 +229,7 @@
       { "item": "coin_quarter", "prob": 5 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
+      { "item": "memory_card", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {

@@ -23,7 +23,9 @@ class map_cursor : public visitable
         explicit map_cursor( const tripoint_bub_ms &pos );
         // Marginally faster than the previous operation if you have the absolute coordinates at hand.
         explicit map_cursor( const tripoint_abs_ms &pos );
-        tripoint_bub_ms pos() const;
+        tripoint_bub_ms pos_bub() const;
+        // Will return tripoint_abs_ms::invalid if g hasn't been defined.
+        tripoint_abs_ms pos_abs() const;
 
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const

@@ -62,24 +62,19 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint talker_character_const::pos() const
-{
-    return me_chr_const->pos_bub().raw();
-}
-
 tripoint_bub_ms talker_character_const::pos_bub() const
 {
     return me_chr_const->pos_bub();
 }
 
-tripoint_abs_ms talker_character_const::global_pos() const
+tripoint_abs_ms talker_character_const::pos_abs() const
 {
-    return me_chr_const->get_location();
+    return me_chr_const->pos_abs();
 }
 
-tripoint_abs_omt talker_character_const::global_omt_location() const
+tripoint_abs_omt talker_character_const::pos_abs_omt() const
 {
-    return me_chr_const->global_omt_location();
+    return me_chr_const->pos_abs_omt();
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -928,6 +923,11 @@ int talker_character_const::focus_cur() const
     return me_chr_const->get_focus();
 }
 
+int talker_character_const::focus_effective_cur() const
+{
+    return me_chr_const->get_effective_focus();
+}
+
 void talker_character::mod_focus( int amount )
 {
     me_chr->mod_focus( amount );
@@ -1325,9 +1325,9 @@ bool talker_character_const::is_warm() const
     return me_chr_const->is_warm();
 }
 
-void talker_character::die()
+void talker_character::die( map *here )
 {
-    me_chr->die( nullptr );
+    me_chr->die( here, nullptr );
 }
 
 matec_id talker_character_const::get_random_technique( Creature const &t, bool crit,

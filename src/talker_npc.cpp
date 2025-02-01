@@ -57,7 +57,7 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 std::string talker_npc_const::distance_to_goal() const
 {
     // TODO: this ignores the z-component
-    int dist = rl_dist( me_npc->global_omt_location(), me_npc->goal );
+    int dist = rl_dist( me_npc->pos_abs_omt(), me_npc->goal );
     std::string response;
     dist *= 100;
     if( dist >= 1300 ) {
@@ -850,9 +850,9 @@ bool talker_npc_const::is_safe() const
     return me_npc->is_safe();
 }
 
-void talker_npc::die()
+void talker_npc::die( map *here )
 {
-    me_npc->die( nullptr );
+    me_npc->die( here, nullptr );
     const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( me_npc->getID() );
     if( guy && !guy->is_dead() ) {
         guy->marked_for_death = true;

@@ -2,7 +2,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_bad_day",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "flu", "intensity": 1, "duration": "1000 minutes" },
       { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
@@ -18,7 +17,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_infected",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "infected", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" },
       { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIBIOTICS" }
@@ -27,19 +25,16 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_fungal_infection",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT", "target_part": "RANDOM" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_paralyzepoison",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 3, "duration": "10 minutes" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_portal_dependent",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
         "run_eocs": [ "EOC_PORTAL_DEPENDENT_MESSAGES_BAD", "EOC_PORTAL_DEPENDENT_FOCUS_BAD", "EOC_PORTAL_DEPENDENT_DAMAGE_CONSTANT" ]
@@ -49,7 +44,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_mansion_pursuit",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "//": "EOC_BANISH_MANSION_MONSTERS is not triggering/working at the moment.",
     "effect": [
       {
@@ -138,34 +132,28 @@
     "//": "Spawn mansion monsters near the player, either for lore or as weak obstacles.",
     "effect": [
       {
-        "run_eocs": {
-          "id": "EOC_SEX_LAIR_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2) == 0" ] } ] },
-          "effect": [
-            {
-              "u_spawn_monster": "mon_zombie_resort_dancer",
-              "real_count": { "math": [ "1 + rand(1)" ] },
-              "min_radius": 3,
-              "max_radius": 5
-            },
-            { "u_message": "What was that sound?", "type": "warning", "popup": true }
-          ]
-        }
+        "if": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2) == 0" ] } ] },
+        "then": [
+          {
+            "u_spawn_monster": "mon_zombie_resort_dancer",
+            "real_count": { "math": [ "1 + rand(1)" ] },
+            "min_radius": 3,
+            "max_radius": 5
+          },
+          { "u_message": "What was that sound?", "type": "warning", "popup": true }
+        ]
       },
       {
-        "run_eocs": {
-          "id": "EOC_PANICROOM_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1) == 0" ] } ] },
-          "effect": [
-            {
-              "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
-              "group": true,
-              "real_count": { "math": [ "1 + rand(1)" ] },
-              "max_radius": 2
-            },
-            { "u_message": "Is there someone else in here?", "type": "warning", "popup": true }
-          ]
-        }
+        "if": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1) == 0" ] } ] },
+        "then": [
+          {
+            "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
+            "group": true,
+            "real_count": { "math": [ "1 + rand(1)" ] },
+            "max_radius": 2
+          },
+          { "u_message": "Is there someone else in here?", "type": "warning", "popup": true }
+        ]
       },
       {
         "u_spawn_monster": "GROUP_MANSION_PURSUERS",
@@ -179,49 +167,26 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "scenario_assassin_convict",
+    "id": "scenario_assassin_conv",
     "//": "Determines which prison the assassin is in currently to correctly place the target.",
-    "recurrence": 1,
-    "condition": { "u_has_trait": "PROF_ASSASSIN_CONVICT" },
-    "deactivate_condition": { "not": { "u_has_trait": "PROF_ASSASSIN_CONVICT" } },
     "effect": [
+      { "if": { "u_near_om_location": "prison_1_5" }, "then": { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" } },
       {
-        "run_eocs": {
-          "id": "EOC_ASSASSIN_CONVICT_PRISON",
-          "condition": { "u_near_om_location": "prison_1_5" },
-          "effect": [
-            { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" },
-            { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
-          ],
-          "false_effect": {
-            "run_eocs": {
-              "id": "EOC_ASSASSIN_CONVICT_PRISON_ISLAND",
-              "condition": { "u_near_om_location": "prison_alcatraz_3" },
-              "effect": [
-                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
-                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
-              ],
-              "false_effect": [
-                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" },
-                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
-              ]
-            }
-          }
-        }
+        "if": { "u_near_om_location": "prison_alcatraz_3" },
+        "then": { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
+        "else": { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" }
       },
-      { "u_lose_trait": "PROF_ASSASSIN_CONVICT" }
+      { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "faction_camp_start",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "mapgen_update": "faction_start_add" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_liam",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "open_dialogue": { "topic": "TALK_Liam_Introdialogue" } },
       { "mapgen_update": "scenario_spawn_liam", "om_terrain": "cabin_liam" }
@@ -230,19 +195,16 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_surrounded_zombie",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 5, "min_radius": 12, "max_radius": 30 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_surrounded_zombie_heavy",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 10, "min_radius": 14, "max_radius": 30 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_lone_survivor",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
         "u_message": "They are all dead.  The group you were surviving with has been annihilated.  Their bodies are still nearby.  You are the last one left alive and their screams will haunt you.",
@@ -261,7 +223,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_scenario_drunk",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
       {
@@ -276,7 +237,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_scenario_blood",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "mapgen_update": "SCENARIO_BLOOD" } ]
   },
   {
@@ -288,7 +248,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_scenario_fire",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "mapgen_update": "SCENARIO_FIRE" } ]
   },
   {
@@ -300,7 +259,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_scenario_smoke",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "mapgen_update": "SCENARIO_SMOKE" } ]
   },
   {
@@ -326,7 +284,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_scenario_clear_weather",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_message": "The moon shines brightly." },
       { "math": [ "is_moonlit_scenario = 1" ] },

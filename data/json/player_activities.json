@@ -27,6 +27,15 @@
   },
   {
     "type": "activity_type",
+    "id": "ACT_E_FILE",
+    "activity_level": "NO_EXERCISE",
+    "verb": "managing files",
+    "rooted": true,
+    "based_on": "time",
+    "auto_needs": true
+  },
+  {
+    "type": "activity_type",
     "id": "ACT_EBOOKSAVE",
     "activity_level": "NO_EXERCISE",
     "verb": "taking pictures of books",

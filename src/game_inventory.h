@@ -6,6 +6,7 @@
 #include <list>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "cata_imgui.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -139,6 +140,16 @@ item_location ereader_to_use( Character &you );
 item_location ebookread( Character &you, item_location &ereader );
 /** Select books to save to E-Book reader menu. */
 drop_locations ebooksave( Character &who, item_location &ereader );
+/** Select e-devices to use for e-file storage
+* @param browse_equals - e-device is_browsed() = `browse_equals`
+* @param auto_include_used_edevice - if true, includes used_edevice in selection
+* @param unusable_only - if true, only includes e-devices that can't manage files
+*/
+drop_locations edevice_select( Character &who, item_location &used_edevice, bool browse_equals,
+                               bool auto_include_used_edevice, bool unusable_only, efile_action action );
+/** Select e-files for read, write, etc. */
+drop_locations efile_select( Character &who, item_location &used_edevice,
+                             const std::vector<item_location> &target_edevices, efile_action action, bool from_used_edevice );
 /** Menu for stealing stuff. */
 item_location steal( Character &victim );
 /** Item activation menu. */

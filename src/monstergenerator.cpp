@@ -701,6 +701,7 @@ mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
     affect_hit_bp( false ),
+    bp( bodypart_str_id::NULL_ID() ),
     duration( 1, 1 ),
     intensity( 0, 0 ) {}
 
@@ -710,7 +711,7 @@ void mon_effect_data::load( const JsonObject &jo )
     optional( jo, false, "chance", chance, 100.f );
     optional( jo, false, "permanent", permanent, false );
     optional( jo, false, "affect_hit_bp", affect_hit_bp, false );
-    optional( jo, false, "bp", bp );
+    optional( jo, false, "bp", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "message", message );
     // Support shorthand for a single value.
     if( jo.has_int( "duration" ) ) {

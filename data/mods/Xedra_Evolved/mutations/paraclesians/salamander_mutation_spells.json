@@ -358,6 +358,8 @@
     "min_range": 1,
     "max_range": 15,
     "range_increment": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
     "magic_type": "xe_fey_magick",
     "base_energy_cost": 200,
     "base_casting_time": 3000,

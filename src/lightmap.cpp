@@ -855,7 +855,7 @@ bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const
 
     const level_cache &map_cache = get_cache_ref( t.z() );
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( get_abs( t ), player_character.get_location() ) > max_range &&
+    if( max_range >= 0 && square_dist( get_abs( t ), player_character.pos_abs() ) > max_range &&
         map_cache.camera_cache[t.x()][t.y()] == 0 ) {
         return false;    // Out of range!
     }

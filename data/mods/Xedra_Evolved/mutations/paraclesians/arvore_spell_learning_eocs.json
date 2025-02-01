@@ -24,11 +24,13 @@
             "ARVORE_CLIMBING_VINE_SPELL",
             "ARVORE_ANTI_PLANT_SPELL",
             "ARVORE_CULTIVATE_GOBLIN_FRUIT",
-            "WIND_BLOWS_WILLOW_BENDS",
+            "WIND_BLOWS_WILLOW_BENDS_ARVORE",
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
         },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" },
+        {
+          "or": [ { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }, { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" } ]
+        },
         {
           "or": [
             {
@@ -47,7 +49,9 @@
                 { "not": { "u_at_om_location": "field" } }
               ]
             },
-            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+            {
+              "or": [ { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }, { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" } ]
+            },
             { "u_is_on_terrain": "t_barkfloor" }
           ]
         }
@@ -85,7 +89,7 @@
         { "math": [ "u_spell_level('arvore_turn_into_tree') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_tree_singing_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit') < int_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') < 25" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
@@ -538,8 +542,8 @@
     "id": "EOC_LEVELER_ARVORE_WIND_BLOWS_WILLOW_BENDS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') >= 0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 15" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') >= 0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') < 15" ] }
       ]
     },
     "effect": [
@@ -547,7 +551,7 @@
         "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus_arvore')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

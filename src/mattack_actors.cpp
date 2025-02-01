@@ -128,7 +128,7 @@ bool leap_actor::call( monster &z ) const
     std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
-    const float best_float = rl_dist( z.get_location(), target_abs );
+    const float best_float = rl_dist( z.pos_abs(), target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target distance %.1f", best_float );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         add_msg_debug( debugmode::DF_MATTACK, "Best float outside of considered range" );
@@ -675,6 +675,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
 bool melee_actor::call( monster &z ) const
 {
+    map &here = get_map();
+
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;
@@ -854,7 +856,7 @@ bool melee_actor::call( monster &z ) const
     dealt_damage.bp_hit = bp_id;
 
     // On hit effects
-    target->on_hit( &z, bp_id );
+    target->on_hit( &here, &z, bp_id );
 
     // Apply onhit self effects
     for( const mon_effect_data &eff : self_effects_onhit ) {

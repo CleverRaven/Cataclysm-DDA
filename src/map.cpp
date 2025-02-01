@@ -375,12 +375,12 @@ void map::memory_cache_ter_set_dirty( const tripoint_bub_ms &p, bool value ) con
 void map::memory_clear_vehicle_points( const vehicle &veh ) const
 {
     avatar &player_character = get_avatar();
-    for( const tripoint_bub_ms &p : veh.get_points() ) {
+    for( const tripoint_abs_ms &p : veh.get_points() ) {
         if( !inbounds( p ) ) {
             continue;
         }
-        memory_cache_dec_set_dirty( p, true );
-        player_character.memorize_clear_decoration( get_abs( p ), "vp_" );
+        memory_cache_dec_set_dirty( get_bub( p ), true );
+        player_character.memorize_clear_decoration( p, "vp_" );
     }
 }
 
@@ -541,7 +541,7 @@ void map::reset_vehicles_sm_pos()
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
-                        elem->sm_pos = grid.raw();
+                        elem->sm_pos = rebase_bub( grid );
                         add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
@@ -576,12 +576,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         return std::unique_ptr<vehicle>();
     }
 
-    int z = veh->sm_pos.z;
+    int z = veh->sm_pos.z();
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
-                  veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%s",
+                  veh->name, veh->sm_pos.to_string() );
         // Try to fix by moving the vehicle here
-        z = veh->sm_pos.z = abs_sub.z();
+        z = veh->sm_pos.z() = abs_sub.z();
     }
 
     // Unboard all passengers before detaching
@@ -592,21 +592,21 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x,
-                  veh->sm_pos.y, veh->sm_pos.z );
+        debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
+                  veh->sm_pos.to_string() );
         return std::unique_ptr<vehicle>();
     }
 
     level_cache &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
-            for( const tripoint_bub_ms &pt : veh->get_points() ) {
+            for( const tripoint_abs_ms &pt : veh->get_points() ) {
                 if( inbounds( pt ) ) {
-                    memory_cache_dec_set_dirty( pt, true );
+                    memory_cache_dec_set_dirty( get_bub( pt ), true );
                 }
-                get_avatar().memorize_clear_decoration( get_abs( pt ), "vp_" );
+                get_avatar().memorize_clear_decoration( pt, "vp_" );
             }
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
@@ -621,8 +621,8 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
-              veh->sm_pos.y, veh->sm_pos.z );
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%s", veh->name,
+              veh->sm_pos.to_string() );
     return std::unique_ptr<vehicle>();
 }
 
@@ -646,7 +646,7 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
-    const tripoint_abs_ms player_pos = get_player_character().get_location();
+    const tripoint_abs_ms player_pos = get_player_character().pos_abs();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache *cache_lazy = get_cache_lazy( zlev );
         if( !cache_lazy ) {
@@ -744,11 +744,12 @@ bool map::vehproceed( VehicleList &vehicle_list )
     return true;
 }
 
+// TODO: Make reality bubble independent.
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 {
-    const auto &veh_points = veh.get_points( force_recalc );
-    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint_bub_ms & pt ) {
-        return c.sees( pt );
+    const std::set<tripoint_abs_ms> &veh_points = veh.get_points( force_recalc );
+    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint_abs_ms & pt ) {
+        return c.sees( get_map().get_bub( pt ) );
     } );
 }
 
@@ -780,7 +781,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     // Ensured by the splitting above
     cata_assert( vertical == ( dp.xy() == point_rel_ms::zero ) );
 
-    const int target_z = dp.z() + veh.sm_pos.z;
+    const int target_z = dp.z() + veh.sm_pos.z();
     // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
     // and causing `get_cache_ref( zlev + 1 );` call in map::build_sunlight_cache overflowing
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT - 1 ) {
@@ -886,10 +887,11 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     if( !vertical && !veh.valid_wheel_config() && !( veh.is_watercraft() && veh.can_float() ) &&
         !veh.is_flying_in_air() && dp.z() == 0 ) {
         veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
-        for( const tripoint_bub_ms &p : veh.get_points() ) {
-            const ter_id &pter = ter( p );
+        for( const tripoint_abs_ms &p : veh.get_points() ) {
+            const tripoint_bub_ms pos = get_bub( p );
+            const ter_id &pter = ter( pos );
             if( pter == ter_t_dirt || pter == ter_t_grass ) {
-                ter_set( p, ter_t_dirtmound );
+                ter_set( pos, ter_t_dirtmound );
             }
         }
     }
@@ -1007,7 +1009,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    const bool vertical = veh.sm_pos.z != veh2.sm_pos.z;
+    const bool vertical = veh.sm_pos.z() != veh2.sm_pos.z();
 
     if( c.part < 0 || c.part >= static_cast<int>( veh.part_count() ) ) {
         debugmsg( "invalid c.part %d", c.part );
@@ -1090,7 +1092,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-        veh.move.init( final1.as_point() );
+        veh.move.init( point_rel_ms( final1.as_point() ) );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh.velocity = -final1.magnitude();
@@ -1098,7 +1100,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             veh.velocity = final1.magnitude();
         }
 
-        veh2.move.init( final2.as_point() );
+        veh2.move.init( point_rel_ms( final2.as_point() ) );
         if( final2.dot_product( veh2.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh2.velocity = -final2.magnitude();
@@ -1298,7 +1300,7 @@ VehicleList map::get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_
                 }
                 for( const auto &elem : current_submap->vehicles ) {
                     // Ensure the vehicle z-position is correct
-                    elem->sm_pos.z = cz;
+                    elem->sm_pos.z() = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
                     w.pos = w.v->pos_bub();
@@ -2986,18 +2988,18 @@ void map::drop_fields( const tripoint_bub_ms &p )
     }
 }
 
-void map::drop_creature( const tripoint_bub_ms &p ) const
+void map::drop_creature( const tripoint_bub_ms &p )
 {
     monster *mon_at_p = get_creature_tracker().creature_at<monster>( p );
     if( mon_at_p ) {
-        mon_at_p->gravity_check();
+        mon_at_p->gravity_check( this );
         // Handle character potentially standing on monster ("zed walking")
         drop_creature( p + tripoint_rel_ms::above );
         return;
     }
     Character *char_at_p = get_creature_tracker().creature_at<Character>( p );
     if( char_at_p ) {
-        char_at_p->gravity_check();
+        char_at_p->gravity_check( this );
     }
 }
 
@@ -3734,7 +3736,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     // that's not handled for now
 }
 
-void map::smash_items( const tripoint_bub_ms &p, const int power, const std::string &cause_message )
+void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message )
 {
     if( !has_items( p ) || has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, p ) ) {
         return;
@@ -3748,7 +3750,7 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
 
     std::vector<item> contents;
     map_stack items = i_at( p );
-    for( auto i = items.begin(); i != items.end(); ) {
+    for( auto i = items.begin(); i != items.end() && power > 0; ) {
         if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
@@ -3798,18 +3800,21 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) &&
-                   ( i->damage() < i->max_damage() ) ) {
-                i->inc_damage();
+            while( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) {
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
+                if( i->damage() < i->max_damage() ) {
+                    i->inc_damage();
+                } else {
+                    break;
+                }
             }
         }
+        power -= material_factor;
 
         // If an item was damaged, increment the counter and set it as most recently damaged.
         if( item_was_damaged ) {
-
             // If this is the first item to be damaged, store its name in damaged_item_name.
             if( items_damaged == 0 ) {
                 damaged_item_name = i->tname();
@@ -3817,19 +3822,22 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
             // Increment the counter, and reset the flag.
             items_damaged++;
             item_was_damaged = false;
-        }
-
-        // Remove them if they were damaged too much
-        if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
-            // But save the contents, except for irremovable gunmods
-            for( item *elem : i->all_items_top() ) {
-                if( !elem->is_irremovable() ) {
-                    contents.emplace_back( *elem );
+            // Remove them if they were damaged too much
+            // Only call this if we actually damaged something, so a corpse that
+            // was already at max_damage level can be removed correctly.
+            if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
+                // But save the contents, except for irremovable gunmods
+                for( item *elem : i->all_items_top() ) {
+                    if( !elem->is_irremovable() ) {
+                        contents.emplace_back( *elem );
+                    }
                 }
-            }
 
-            i = i_rem( p, i );
-            items_destroyed++;
+                i = i_rem( p, i );
+                items_destroyed++;
+            } else {
+                i++;
+            }
         } else {
             i++;
         }
@@ -3837,16 +3845,20 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
 
     // Let the player know that the item was damaged if they can see it.
     if( items_destroyed > 1 ) {
-        add_msg_if_player_sees( p, m_bad, _( "The %s destroys several items!" ), cause_message );
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                _( "The %s destroys several items!" ), cause_message );
     } else if( items_destroyed == 1 && items_damaged == 1 ) {
-        //~ %1$s: the cause of destruction, %2$s: destroyed item name
-        add_msg_if_player_sees( p, m_bad, _( "The %1$s destroys the %2$s!" ), cause_message,
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                //~ %1$s: the cause of destruction, %2$s: destroyed item name
+                                _( "The %1$s destroys the %2$s!" ), cause_message,
                                 damaged_item_name );
     } else if( items_damaged > 1 ) {
-        add_msg_if_player_sees( p, m_bad, _( "The %s damages several items." ), cause_message );
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 ) {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg_if_player_sees( p, m_bad, _( "The %1$s damages the %2$s." ), cause_message,
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad, _( "The %1$s damages the %2$s." ),
+                                cause_message,
                                 damaged_item_name );
     }
 
@@ -4386,7 +4398,7 @@ void map::crush( const tripoint_bub_ms &p )
 
             // Pin whoever got hit
             crushed_player->add_effect( effect_crushed, 1_turns, true );
-            crushed_player->check_dead_state();
+            crushed_player->check_dead_state( this );
         }
     }
 
@@ -4397,7 +4409,7 @@ void map::crush( const tripoint_bub_ms &p )
 
         // Pin whoever got hit
         monhit->add_effect( effect_crushed, 1_turns, true );
-        monhit->check_dead_state();
+        monhit->check_dead_state( this );
     }
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -4405,11 +4417,12 @@ void map::crush( const tripoint_bub_ms &p )
         vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_bash, false );
     }
 }
-void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
+double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
-    for( const damage_unit &dam : proj.impact ) {
+    damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
+    for( const damage_unit &dam : impact ) {
         dmg_by_type[dam.type] +=
             dam.amount * dam.damage_multiplier * dam.unconditional_damage_mult +
             dam.res_pen * dam.res_mult * dam.unconditional_res_mult;
@@ -4419,7 +4432,7 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
         return acc + dmg.second;
     } );
     if( initial_damage < 0 ) {
-        return;
+        return 0;
     }
     // TODO: use this for more than just vehicle parts
     const damage_type_id &main_damage_type = std::max_element( dmg_by_type.begin(), dmg_by_type.end(),
@@ -4435,71 +4448,72 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
     const bool incendiary = ammo_effects.count( ammo_effect_INCENDIARY );
     const bool ignite = ammo_effects.count( ammo_effect_IGNITE );
     const bool laser = ammo_effects.count( ammo_effect_LASER );
+    bool hit_something = false;
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
-    }
+    } else {
+        // This lambda is only called if the furniture/terrain has shoot data!
+        const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
+            const map_shoot_info &shoot = *data.shoot;
+            bool destroyed = false;
 
-    // This lambda is only called if the furniture/terrain has shoot data!
-    const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
-        const map_shoot_info &shoot = *data.shoot;
-        bool destroyed = false;
+            // if you are aiming at this tile, you can never miss
+            if( hit_items || x_in_y( shoot.chance_to_hit, 100 ) ) {
+                if( laser ) {
+                    dam -= rng( shoot.reduce_dmg_min_laser, shoot.reduce_dmg_max_laser );
+                } else {
+                    dam -= rng( shoot.reduce_dmg_min, shoot.reduce_dmg_max );
+                }
+                // lasers can't destroy some types of furn/ter you can shoot through
+                if( !laser || !shoot.no_laser_destroy ) {
+                    // important to use initial damage, energy from reduction has gone into the furn/ter
+                    const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
+                    const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
+                    if( x_in_y( min_damage, max_damage ) ) {
+                        // don't need to duplicate all the destruction logic here
+                        bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
+                        bash_ter_furn( p, bsh );
+                        destroyed = true;
+                    }
+                }
+                if( dam <= 0 && get_player_view().sees( p ) ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), data.name() );
+                }
+                // only very flammable furn/ter can be set alight with incendiary rounds
+                if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
+                    if( incendiary && x_in_y( initial_damage, 100 ) ) {
+                        // 1% chance for 1 damage
+                        add_field( p, fd_fire, 1 );
+                    }
+                    if( ignite ) {
+                        add_field( p, fd_fire, 1 );
+                    }
+                }
+                // bash_ter_furn already triggers the alarm
+                // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
+                if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) ) {
+                    sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
+                                   false, "environment", "alarm" );
+                }
+                return true;
+            }
+            return false;
+        };
 
-        // if you are aiming at this tile, you can never miss
-        if( hit_items || x_in_y( shoot.chance_to_hit, 100 ) ) {
-            if( laser ) {
-                dam -= rng( shoot.reduce_dmg_min_laser, shoot.reduce_dmg_max_laser );
-            } else {
-                dam -= rng( shoot.reduce_dmg_min, shoot.reduce_dmg_max );
-            }
-            // lasers can't destroy some types of furn/ter you can shoot through
-            if( !laser || !shoot.no_laser_destroy ) {
-                // important to use initial damage, energy from reduction has gone into the furn/ter
-                const int min_damage = int( initial_damage ) - shoot.destroy_dmg_min;
-                const int max_damage = shoot.destroy_dmg_max - shoot.destroy_dmg_min;
-                if( x_in_y( min_damage, max_damage ) ) {
-                    // don't need to duplicate all the destruction logic here
-                    bash_params bsh{ 0, false, true, false, 0.0, false, false, false, false };
-                    bash_ter_furn( p, bsh );
-                    destroyed = true;
-                }
-            }
-            if( dam <= 0 && get_player_view().sees( p ) ) {
-                add_msg( _( "The shot is stopped by the %s!" ), data.name() );
-            }
-            // only very flammable furn/ter can be set alight with incendiary rounds
-            if( data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-                if( incendiary && x_in_y( 1, 10 ) ) { // 10% chance
-                    add_field( p, fd_fire, 1 );
-                }
-                if( ignite ) {
-                    add_field( p, fd_fire, 1 );
-                }
-            }
-            // bash_ter_furn already triggers the alarm
-            // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
-            if( !destroyed && data.has_flag( ter_furn_flag::TFLAG_ALARMED ) ) {
-                sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
-                               false, "environment", "alarm" );
-            }
-            return true;
+        const furn_id &furniture = furn( p );
+        const ter_id &terrain = ter( p );
+
+        // shoot through furniture or terrain and see if we hit something
+        if( furniture->shoot ) { // Shoot data is optional, most furniture will never trigger this
+            hit_something |= shoot_furn_ter( furniture.obj() );
+        } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
+            hit_something |= shoot_furn_ter( terrain.obj() );
+            // fall back to just bashing when shoot data is not defined
+        } else if( impassable( p ) && !is_transparent( p ) ) {
+            bash( p, dam, false );
+            dam = 0;
         }
-        return false;
-    };
-
-    const furn_id &furniture = furn( p );
-    const ter_id &terrain = ter( p );
-    bool hit_something = false;
-
-    // shoot through furniture or terrain and see if we hit something
-    if( furniture->shoot ) { // Shoot data is optional, most furniture will never trigger this
-        hit_something |= shoot_furn_ter( furniture.obj() );
-    } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
-        hit_something |= shoot_furn_ter( terrain.obj() );
-        // fall back to just bashing when shoot data is not defined
-    } else if( impassable( p ) && !is_transparent( p ) ) {
-        bash( p, dam, false );
-        dam = 0;
     }
     dam = std::max( 0.0f, dam );
 
@@ -4531,33 +4545,33 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
     }
 
     // Rescale the damage
+    double multiplier = 1.0;
     if( dam <= 0 ) {
-        proj.impact.damage_units.clear();
-        return;
+        impact.clear();
+        return 0;
     } else if( dam < initial_damage ) {
-        proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
+        multiplier = dam / static_cast<double>( initial_damage );
     }
 
     // for now, shooting furniture or terrain protects any items
-    if( !hit_items || hit_something ) {
-        return;
-    }
+    if( hit_items && !hit_something ) {
+        // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
+        std::string damage_message;
+        if( ammo_effects.count( ammo_effect_LASER ) ) {
+            damage_message = _( "laser beam" );
+        } else if( ammo_effects.count( ammo_effect_LIGHTNING ) ) {
+            damage_message = _( "bolt of electricity" );
+        } else if( ammo_effects.count( ammo_effect_PLASMA ) ) {
+            damage_message = _( "bolt of plasma" );
+        } else {
+            damage_message = _( "flying projectile" );
+        }
 
-    // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
-    std::string damage_message;
-    if( ammo_effects.count( ammo_effect_LASER ) ) {
-        damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( ammo_effect_LIGHTNING ) ) {
-        damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( ammo_effect_PLASMA ) ) {
-        damage_message = _( "bolt of plasma" );
-    } else {
-        damage_message = _( "flying projectile" );
+        // Now, smash items on that tile.
+        // dam / 3, because bullets aren't all that good at destroying items...
+        smash_items( p, dam / 3, damage_message );
     }
-
-    // Now, smash items on that tile.
-    // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, damage_message );
+    return multiplier;
 }
 
 bool map::hit_with_acid( const tripoint_bub_ms &p )
@@ -5054,7 +5068,7 @@ item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool 
     std::pair<item *, tripoint_bub_ms> ret = _add_item_or_charges( pos, std::move( obj ), copies,
             overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
-        return item_location{ map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
+        return item_location{ map_cursor{ get_abs( ret.second ) }, ret.first };
     }
 
     return {};
@@ -5256,16 +5270,14 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
                           coords::project_to<coords::omt>( get_abs( p ) ) );
     }
 
-    if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
-        !new_item.has_var( "spawn_location_omt" ) ) {
-        new_item.set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
-    }
-    for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
+    std::list<item *> all_items = new_item.all_items_ptr();
+    all_items.emplace_back( &new_item );
+    for( item *it : all_items ) {
         if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
             it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
         }
-    }
+    };
 
     if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
         new_item.activate();
@@ -7126,7 +7138,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
 
         if( !veh->forward_velocity() && !veh->player_in_control( player_character )
             && !( player_character.get_grab_type() == object_type::VEHICLE
-                  && veh->get_points().count( ( player_character.pos_bub() +
+                  && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
         }
@@ -8158,7 +8170,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid.raw(), z};
+                veh->sm_pos = { grid, z};
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8686,9 +8698,9 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
                   from.z() );
         return;
     }
-    setsubmap( get_nonant( tripoint_rel_sm( to ) ), smap );
+    setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->sm_pos = to.raw();
+        it->sm_pos = rebase_bub( to );
     }
 }
 
@@ -9312,8 +9324,8 @@ void map::build_obstacle_cache(
     }
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
-        const tripoint_bub_ms loc = critter.pos_bub();
-        if( loc.z() != start.z() ) {
+        const tripoint_bub_ms loc = get_bub( critter.pos_abs() );
+        if( loc.z() != start.z() || !inbounds( loc ) ) {
             continue;
         }
         // TODO: scale this with expected creature "thickness".
@@ -9504,7 +9516,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                                    mcache.end(), std::inserter( diff, diff.end() ) );
     camera_cache_dirty |= !diff.empty();
     // Initial value is illegal player position.
-    const tripoint_abs_ms p = get_player_character().get_location();
+    const tripoint_abs_ms p = get_player_character().pos_abs();
     int const sr = u.unimpaired_range();
     static tripoint_abs_ms player_prev_pos;
     static int player_prev_range( 0 );

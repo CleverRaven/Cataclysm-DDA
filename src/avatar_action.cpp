@@ -406,7 +406,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             }
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
-                critter.die( &you );
+                critter.die( &m, &you );
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;

@@ -125,8 +125,10 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "HOMULLUS_DREAMWALKER" },
-        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
+        { "or": [ { "u_has_trait": "HOMULLUS_DREAMWALKER" }, { "u_has_trait": "CHANGELING_NOBLE_DREAMWALKER" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_FAIR_FOLK_NOBLE')" ] }, "y": 10 }
+        },
         { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any') > 0" ] }
       ]
     },
@@ -142,7 +144,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
     "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_homullus", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
   },
   {

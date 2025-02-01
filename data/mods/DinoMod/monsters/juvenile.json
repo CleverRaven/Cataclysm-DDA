@@ -454,6 +454,14 @@
     "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_moabosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "moabosaurus juvenile",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zoabosaurus_juvenile",
+    "upgrades": { "age_grow": 1460, "into": "mon_moabosaurus" }
+  },
+  {
     "id": "mon_haplocanthosaurus_juvenile",
     "type": "MONSTER",
     "name": "haplocanthosaurus juvenile",

@@ -256,11 +256,11 @@ static void pick_up_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.set_moves( 100 );
-    const std::vector<item_location> target_items = { item_location( map_cursor( you.get_location() ), found ) };
+    const std::vector<item_location> target_items = { item_location( map_cursor( you.pos_abs() ), found ) };
     you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos_bub(), false ) );
     you.activity.do_turn( you );
 
@@ -272,7 +272,7 @@ static void wear_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.wear_item( *found, false );
@@ -286,7 +286,7 @@ static void wield_from_feet( Character &you, const std::string &id )
     map_stack items = get_map().i_at( you.pos_bub() );
     size_t size_before = items.size();
 
-    item *found = retrieve_item( map_cursor( you.get_location() ), id );
+    item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
     you.wield( *found );
@@ -325,7 +325,7 @@ static item &item_at( Character &you, const std::string &id, const inventory_loc
 {
     switch( loc ) {
         case GROUND: {
-            item *found = retrieve_item( map_cursor( you.get_location() ), id );
+            item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
             REQUIRE( found );
             return *found;
         }

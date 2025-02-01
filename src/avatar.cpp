@@ -688,11 +688,11 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_abs_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.get_abs( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( target, /* prefix = */ "vp_" );
                     }
-                    m.memory_cache_dec_set_dirty( target, true );
+                    m.memory_cache_dec_set_dirty( m.get_bub( target ), true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
@@ -1917,9 +1917,9 @@ bool avatar::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-void avatar::set_location( const tripoint_abs_ms &loc )
+void avatar::set_pos_abs_only( const tripoint_abs_ms &loc )
 {
-    Creature::set_location( loc );
+    Creature::set_pos_abs_only( loc );
 }
 
 npc &avatar::get_shadow_npc()

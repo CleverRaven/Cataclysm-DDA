@@ -33,7 +33,7 @@ TEST_CASE( "mapgen_place_vehicles" )
     clear_map();
     clear_avatar();
     REQUIRE( here.get_vehicles().empty() );
-    tripoint_abs_omt const this_test_omt = project_to<coords::omt>( get_avatar().get_location() );
+    tripoint_abs_omt const this_test_omt = project_to<coords::omt>( get_avatar().pos_abs() );
     SECTION( "update mapgen" ) {
         update_test( here, this_test_omt );
         update_test( here, this_test_omt + tripoint::east );

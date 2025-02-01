@@ -199,6 +199,8 @@ Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
 audio now works on curses mode, not just tiles mode
 Render WORN overlays for ablative pockets
+Add unloading hotkey to AIM menu
+Skip Default Backgrounds
 
 
 ## Content:
@@ -424,6 +426,7 @@ Add an new plasma gun for sale by the Exodii
 Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
+adds three new lore log snippets for the player to find in smartphones or laptops
 
 
 ## Interface:
@@ -569,6 +572,11 @@ Fix compact aim window
 Fix NPC rules window scaling for small terminal sizes
 Add history to Construction Search
 load all of the user’s chosen font files as fallbacks for ImGui to use
+Extended description window (x->e) shows potential deconstruction and bash yields
+Focus the default selection in query popups
+Don't hardcode help text: Zones Manager
+Match ImGui `inherit_base_colors`
+Don't hardcode help text: Overmap filter popup
 
 
 ## Mods:
@@ -958,6 +966,28 @@ Xedra Evolved: Salamander Eruption
 Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
 [Aftershock] Add the Geist (telekinetic) esper profession and powers
 [MoM] Autolearn matrix elixir recipes
+[Xedra Evolved] Add `fey_magick` magic type
+[Magiclysm] Biomancy is disturbing
+[MoM] Add null grenades
+Add a new mutation system for aftershock based on gene templates controllably granting traits.
+[Aftershock] Add human++ genemods
+[Aftershock] Add UICA Shuttlebases to the Exo-Planet
+[Aftershock] Add Gene Clinics Mapgen
+[MoM] Psionics `magic_type` edits
+[Xedra Evolved] Paraclesians passively gain traits (if they spend time in their native environment)
+Aftershock: Allow direct trade of cash cards
+Aftershock: Add military infolink and high voltage battery charger bionics
+[DinoMod] moabosaurus
+[Aftershock] Add an Encampment around the Port Augustmoon landing pad
+[Xedra Evolved] If you ritually murder the Fair Folk they all hate you
+Add missing missions to sky island clear missions EOC
+[Xedra Evolved] Arvore with enough power have neutrality from the triffids
+[Xedra Evolved] Boann island updates
+[Aftershock] Add a Vehicle Merchant to the Salvor Camp Garage.
+[MoM] Add some more nether attunement consequences
+[Aftershock] You need a combat License to buy a combat suit from the outfitter
+[MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
+Aftershock: Add ETC firmware gunmods to Caseless military weapons.
 
 
 ## Balance:
@@ -1487,6 +1517,21 @@ Allow commercial fertilizer to be used by zone manager
 Fix infinite bounce
 Prevent segfault when search gives no hits
 Fix mutation spells learned don't lose when mutation lost
+set default_value bodypart_str_id::NULL_ID() correctly
+Loci Establishment not ending properly
+Fix ierde sleep of stone trait / ban interaction
+Sorting loot: stop player running to items that's not going to be moved
+Fixes scaling of some Paraclesian spells
+Fix spell cost from magic type
+Prevent sorting activity from moving items that somebody works on
+Can always repair simple parts on helicopters, inside or outside
+Allow nested recipes to delete the item, if they dont yield any results.
+Update Overmap Documentation to include field missing from the city specials section.
+fix `map::shoot` bashing items
+electronic storage overhaul migration fix
+Require "Dirt Floor" to be built on dirt with a shovel
+Pathfinding: Avoid NPCs falling down to open air
+fix map cache item/EOC
 
 
 ## Performance:
@@ -1658,6 +1703,14 @@ Refactor `ammo_effect_BOUNCE`
 Add magic_type to deduplicate shared spell fields and reduce hardcoding
 Add ability to debug spawn item groups and specify amount of repeats when testing
 Bump minimum supported macOS version to 10.15 (macOS Catalina)
+Make vcpkg manifest versioned
+Reuse built clang-tidy plugin across github action shards
+Remove ghc/filesystem polyfill
+Create user mods dir automatically
+monstergroup name field changed to id
+Shotgun shell dispersion refactor
+electronic storage overhaul
+remove legacy electronic storage code + small e-storage fixes
 
 ## Build:
 Support Mac arm64 build
@@ -1689,6 +1742,7 @@ Add imgui_stdlib to CMake
 Fixes potential artifact poisoning route in CI
 Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
+Fix CMake Linux VCPKG build
 
 
 ## I18N and A11Y:

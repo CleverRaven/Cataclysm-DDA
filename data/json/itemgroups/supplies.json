@@ -757,7 +757,7 @@
       [ "mop_folded", 2 ],
       [ "rubber_band", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ] },
+      { "item": "smart_phone", "prob": 18, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
       { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
       { "group": "superglue", "prob": 5 },
       { "group": "ammo_pocket_batteries", "prob": 5 },

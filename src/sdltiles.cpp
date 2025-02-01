@@ -793,11 +793,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const int max_row = any_tile_range.p_max.y;
     int height_3d = 0;
     avatar &you = get_avatar();
-    const tripoint_abs_omt avatar_pos = you.global_omt_location();
+    const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
     const bool fast_traveling = g->overmap_data.fast_traveling;
     if( fast_traveling ) {
-        center_pos = you.global_omt_location();
+        center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
     const tripoint_abs_omt corner_NW = origin + any_tile_range.p_min;
@@ -976,7 +976,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
     if( uistate.place_special ) {
         for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
-            if( s_ter.p.z == 0 ) {
+            if( s_ter.p.z() == 0 ) {
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
                 oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                 const oter_t &terrain = *rotated_id;
@@ -996,7 +996,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
-        const tripoint_abs_omt &guy_loc = guy->global_omt_location();
+        const tripoint_abs_omt &guy_loc = guy->pos_abs_omt();
         if( guy_loc.z() == center_pos.z() && ( has_debug_vision ||
                                                overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ),
@@ -1106,7 +1106,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision ||
         overmap_buffer.seen_more_than( center_pos, om_vision_level::details ) ) {
         for( const auto &npc : npcs_near_player ) {
-            if( !npc->marked_for_death && npc->global_omt_location() == center_pos ) {
+            if( !npc->marked_for_death && npc->pos_abs_omt() == center_pos ) {
                 notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
@@ -3268,7 +3268,7 @@ static void CheckMessages()
 
 #if defined(__ANDROID__)
             case SDL_FINGERMOTION:
-                if( ev.tfinger.fingerId == 0 ) {
+                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
@@ -3292,16 +3292,16 @@ static void CheckMessages()
                         }
                     }
 
-                } else if( ev.tfinger.fingerId == 1 ) {
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
                     second_finger_curr_x = ev.tfinger.x * WindowWidth;
                     second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                } else if( ev.tfinger.fingerId == 2 ) {
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
                     third_finger_curr_x = ev.tfinger.x * WindowWidth;
                     third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
                 break;
             case SDL_FINGERDOWN:
-                if( ev.tfinger.fingerId == 0 ) {
+                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
@@ -3312,23 +3312,19 @@ static void CheckMessages()
                     }
                     ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                } else if( ev.tfinger.fingerId == 1 ) {
-                    if( !is_quick_shortcut_touch ) {
-                        second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                        second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                        is_two_finger_touch = true;
-                    }
-                } else if( ev.tfinger.fingerId == 2 ) {
-                    if( !is_quick_shortcut_touch ) {
-                        third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
-                        third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
-                        is_three_finger_touch = true;
-                        is_two_finger_touch = false;
-                    }
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 && !is_quick_shortcut_touch ) {
+                    second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                    is_two_finger_touch = true;
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 && !is_quick_shortcut_touch ) {
+                    third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                    is_three_finger_touch = true;
+                    is_two_finger_touch = false;
                 }
                 break;
             case SDL_FINGERUP:
-                if( ev.tfinger.fingerId == 0 ) {
+                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
                     if( is_quick_shortcut_touch ) {
@@ -3497,20 +3493,16 @@ static void CheckMessages()
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
                     ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
-                } else if( ev.tfinger.fingerId == 1 ) {
-                    if( is_two_finger_touch ) {
-                        // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
-                        // is_two_finger_touch will be reset when first finger lifts (see above)
-                        second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                        second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    }
-                } else if( ev.tfinger.fingerId == 2 ) {
-                    if( is_three_finger_touch ) {
-                        // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
-                        // is_three_finger_touch will be reset when first finger lifts (see above)
-                        third_finger_curr_x = ev.tfinger.x * WindowWidth;
-                        third_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    }
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 && is_two_finger_touch ) {
+                    // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
+                    // is_two_finger_touch will be reset when first finger lifts (see above)
+                    second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 && is_three_finger_touch ) {
+                    // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
+                    // is_three_finger_touch will be reset when first finger lifts (see above)
+                    third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
 
                 break;

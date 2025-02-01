@@ -42,7 +42,8 @@
             { "u_at_om_location": "ierde_genius_loci_NW" },
             { "u_at_om_location": "ierde_genius_loci_NE" },
             { "u_at_om_location": "ierde_genius_loci_SW" },
-            { "u_at_om_location": "ierde_genius_loci_SE" }
+            { "u_at_om_location": "ierde_genius_loci_SE" },
+            { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }
           ]
         }
       ]

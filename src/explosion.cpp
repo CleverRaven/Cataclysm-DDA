@@ -309,8 +309,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    // Must use the reality bubble pos, because that's what the creature tracker works with.
-    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_bub() );
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_abs() );
     for( const tripoint_bub_ms &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         if( force < 1.0f ) {
@@ -336,9 +335,8 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                   fire ? damage_heat : damage_bash, false );
         }
 
-        // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( pt ) ) );
-        Creature *critter = creatures.creature_at( bubble_pos, true );
+        const tripoint_abs_ms pt_abs = m->get_abs( pt );
+        Creature *critter = creatures.creature_at( pt_abs, true );
         if( critter == nullptr ) {
             continue;
         }
@@ -352,14 +350,14 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                          bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
-            critter->check_dead_state();
+            critter->check_dead_state( m );
             add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
                            actual_dmg );
             continue;
         }
 
         // Print messages for all NPCs
-        if( bubble_map.inbounds( bubble_pos ) ) {
+        if( bubble_map.inbounds( pt_abs ) ) {
             pl->add_msg_player_or_npc( m_bad, _( "You're caught in the explosion!" ),
                                        _( "<npcname> is caught in the explosion!" ) );
         }
@@ -446,9 +444,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
-    // Creature tracker works on reality bubble coordinates, so feeding it with those coordinates from the critter is correct.
-    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_bub() );
-    map &bubble_map = get_map();
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos_abs() );
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint_bub_ms &target : area ) {
         fragment_cloud &cloud = visited_cache[target.x()][target.y()];
@@ -458,9 +454,8 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        // Translate to reality bubble coordinates to work with the creature tracker.
-        const tripoint_bub_ms bubble_pos( bubble_map.get_bub( m->get_abs( target ) ) );
-        Creature *critter = creatures.creature_at( bubble_pos );
+        const tripoint_abs_ms abs_target = m->get_abs( target );
+        Creature *critter = creatures.creature_at( abs_target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
@@ -469,22 +464,9 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             frag.shrapnel = true;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance( damage_bullet, damage );
-            // dealt_dam.total_damage() == 0 means armor block
-            // dealt_dam.total_damage() > 0 means took damage
-            // Need to differentiate target among player, npc, and monster
-            // Do we even print monster damage?
-            int damage_taken = 0;
-            int damaging_hits = 0;
-            int non_damaging_hits = 0;
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( mutable_source, frag, false );
-                if( frag.dealt_dam.total_damage() > 0 ) {
-                    damaging_hits++;
-                    damage_taken += frag.dealt_dam.total_damage();
-                } else {
-                    non_damaging_hits++;
-                }
+                critter->deal_projectile_attack( m, mutable_source, frag, frag.missed_by, false );
                 add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
@@ -493,11 +475,11 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
                     break;
                 }
             }
-            int total_hits = damaging_hits + non_damaging_hits;
-            if( bubble_map.inbounds(
-                    bubble_pos ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
-                multi_projectile_hit_message( critter, total_hits, damage_taken, n_gettext( "bomb fragment",
-                                              "bomb fragments", total_hits ) );
+            auto it = frag.targets_hit[critter];
+            if( get_map().inbounds(
+                    abs_target ) ) { // Only report on critters in the reality bubble. Should probably be only for visible critters...
+                multi_projectile_hit_message( critter, it.first, it.second, n_gettext( "bomb fragment",
+                                              "bomb fragments", it.first ) );
             }
         }
         if( m->impassable( target ) ) {
@@ -772,7 +754,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 int dam = dice( 10, 10 );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -792,7 +774,7 @@ void emp_blast( const tripoint_bub_ms &p )
                 }
                 critter.add_effect( effect_emp, 1_minutes );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
-                critter.check_dead_state();
+                critter.check_dead_state( &here );
             }
         } else if( sight ) {
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
@@ -969,6 +951,8 @@ void process_explosions()
             // or have a vehicle run into a crater suddenly appearing just in front of it.
             process_explosions_in_progress = true;
             m.load( origo, false, false );
+            m.spawn_monsters( true, true );
+            g->load_npcs( &m );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
         } else {

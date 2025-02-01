@@ -764,8 +764,9 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
-                      const point &total )
+load_mapgen_function( const JsonObject &jio, const std::string &id_base,
+                      const point_rel_omt &offset,
+                      const point_rel_omt &total )
 {
     dbl_or_var weight = get_dbl_or_var( jio, "weight", false,  1000 );
     if( weight.min.is_constant() && ( weight.min.constant() < 0 ||
@@ -802,7 +803,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
 }
 
 void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
-                                   const point &offset, const point &total )
+                                   const point_rel_omt &offset, const point_rel_omt &total )
 {
     std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, id_base, offset, total );
     if( f ) {
@@ -857,20 +858,20 @@ static void load_update_mapgen( const JsonObject &jio, const update_mapgen_id &i
 void load_mapgen( const JsonObject &jo )
 {
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    static constexpr point point_one( 1, 1 );
+    static constexpr point_rel_omt point_one( 1, 1 );
 
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
-            point offset;
-            point total( ja.get_array( 0 ).size(), ja.size() );
+            point_rel_omt offset;
+            point_rel_omt total( ja.get_array( 0 ).size(), ja.size() );
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
                     load_and_add_mapgen_function( jo, mapgenid, offset, total );
-                    offset.x++;
+                    offset.x()++;
                 }
-                offset.y++;
-                offset.x = 0;
+                offset.y()++;
+                offset.x() = 0;
             }
         } else {
             std::vector<std::string> mapgenid_list;
@@ -879,7 +880,7 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point::zero, point_one );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_rel_omt::zero, point_one );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
                         oter_mapgen.add( i, mgfunc );
@@ -888,7 +889,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point::zero, point_one );
+        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_rel_omt::zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, nested_mapgen_id( jo.get_string( "nested_mapgen_id" ) ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -910,15 +911,15 @@ void reset_mapgens()
 ///// 2 - right after init() finishes parsing all game json and terrain info/etc is set..
 /////   ...parse more json! (mapgen_function_json)
 
-size_t mapgen_function_json_base::calc_index( const point &p ) const
+size_t mapgen_function_json_base::calc_index( const point_rel_ms &p ) const
 {
-    if( p.x >= mapgensize.x() ) {
-        debugmsg( "invalid value %zu for x in calc_index", p.x );
+    if( p.x() >= mapgensize.x() ) {
+        debugmsg( "invalid value %zu for x in calc_index", p.x() );
     }
-    if( p.y >= mapgensize.y() ) {
-        debugmsg( "invalid value %zu for y in calc_index", p.y );
+    if( p.y() >= mapgensize.y() ) {
+        debugmsg( "invalid value %zu for y in calc_index", p.y() );
     }
-    return p.y * mapgensize.y() + p.x;
+    return p.y() * mapgensize.y() + p.x();
 }
 
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
@@ -982,17 +983,18 @@ mapgen_function_json_base::mapgen_function_json_base(
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
 mapgen_function_json::mapgen_function_json( const JsonObject &jsobj,
-        dbl_or_var w, const std::string &context, const point &grid_offset, const point &grid_total )
+        dbl_or_var w, const std::string &context, const point_rel_omt &grid_offset,
+        const point_rel_omt &grid_total )
     : mapgen_function( std::move( w ) )
     , mapgen_function_json_base( jsobj, context )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
 {
-    m_offset.x() = grid_offset.x * mapgensize.x();
-    m_offset.y() = grid_offset.y * mapgensize.y();
+    m_offset.x() = grid_offset.x() * mapgensize.x();
+    m_offset.y() = grid_offset.y() * mapgensize.y();
     m_offset.z() = 0;
-    total_size.x() = grid_total.x * mapgensize.x();
-    total_size.y() = grid_total.y * mapgensize.y();
+    total_size.x() = grid_total.x() * mapgensize.x();
+    total_size.y() = grid_total.y() * mapgensize.y();
     objects = jmapgen_objects( m_offset, mapgensize, total_size );
 }
 
@@ -3586,7 +3588,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     if( !unique_id.empty() ) {
                         g->unique_npc_despawn( unique_id );
                     }
-                    if( get_map().inbounds( npc->get_location() ) ) {
+                    if( get_map().inbounds( npc->pos_abs() ) ) {
                         g->remove_npc( npc->getID() );
                         get_avatar().get_mon_visible().remove_npc( npc.get() );
                     }
@@ -5050,7 +5052,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 Creature *tmp_critter = get_creature_tracker().creature_at( m.get_abs(
                                             target_pos ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
-                    tmp_critter->die( nullptr );
+                    tmp_critter->die( &m, nullptr );
                 }
             }
             break;
@@ -5152,7 +5154,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
-                        tmp_critter->die( nullptr );
+                        tmp_critter->die( &m, nullptr );
                     }
                 }
             }
@@ -5235,7 +5237,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                     tripoint_bub_ms( tx,
                                                             ty, z_level ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
-                            tmp_critter->die( nullptr );
+                            tmp_critter->die( &m, nullptr );
                         }
                     }
                 }
@@ -6899,7 +6901,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     tripoint_bub_sm quotient;
     point_sm_ms remainder;
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
-    veh->sm_pos = quotient.raw();
+    veh->sm_pos = quotient;
     veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status, force_status );
     veh->place_spawn_items();
@@ -6914,17 +6916,17 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( tripoint_rel_sm( placed_vehicle->sm_pos ) );
+        submap *place_on_submap = get_submap_at_grid( rebase_rel( placed_vehicle->sm_pos ) );
         if( place_on_submap == nullptr ) {
-            debugmsg( "Tried to add vehicle at (%d,%d,%d) but the submap is not loaded",
-                      placed_vehicle->sm_pos.x, placed_vehicle->sm_pos.y, placed_vehicle->sm_pos.z );
+            debugmsg( "Tried to add vehicle at %s but the submap is not loaded",
+                      placed_vehicle->sm_pos.to_string() );
             return placed_vehicle;
         }
         place_on_submap->ensure_nonuniform();
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         invalidate_max_populated_zlev( p.z() );
 
-        level_cache &ch = get_cache( placed_vehicle->sm_pos.z );
+        level_cache &ch = get_cache( placed_vehicle->sm_pos.z() );
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 
@@ -7000,13 +7002,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              */
             std::unique_ptr<RemovePartHandler> handler_ptr;
             bool did_merge = false;
-            for( const tripoint_bub_ms &map_pos : first_veh->get_points( true ) ) {
-                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
+            for( const tripoint_abs_ms &map_pos : first_veh->get_points( true ) ) {
+                const tripoint_bub_ms map_bub_pos = get_bub( map_pos ); // TODO: Make usages use this map.
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_bub_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_pos, "",
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_bub_pos, "",
                             part_status_flag:: any );
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
@@ -7017,12 +7020,12 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                                   "new vehicle %s (%s; origin %s; rot %g) "
                                   "out of map bounds at %s",
                                   first_veh->name, first_veh->type.str(),
-                                  first_veh->global_square_location().to_string(),
+                                  first_veh->pos_abs().to_string(),
                                   to_degrees( first_veh->turn_dir ),
                                   veh_to_add->name, veh_to_add->type.str(),
-                                  veh_to_add->global_square_location().to_string(),
+                                  veh_to_add->pos_abs().to_string(),
                                   to_degrees( veh_to_add->turn_dir ),
-                                  map_pos.to_string() );
+                                  map_bub_pos.to_string() );
                     }
                     did_merge = true;
                     const point_rel_ms target_point = first_veh_parts.front()->mount;
@@ -7141,7 +7144,7 @@ void map::rotate( int turns )
     const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_omt( abs_omt, 0 );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
-        const tripoint_abs_ms sq( np.get_location() );
+        const tripoint_abs_ms sq( np.pos_abs() );
 
         if( sq.z() != abs_sub.z() && !zlevels ) {
             continue;
@@ -7211,7 +7214,7 @@ void map::rotate( int turns )
                 sm->rotate( turns );
 
                 for( auto &veh : sm->vehicles ) {
-                    veh->sm_pos = tripoint( p.raw(), z_level );
+                    veh->sm_pos = { rebase_bub( p ), z_level };
                 }
 
                 update_vehicle_list( sm, z_level );
@@ -7571,7 +7574,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
         case room_bionics:
             if( rotate % 2 == 0 ) {
                 point_bub_ms bio( p1.x() + 2, static_cast<int>( ( p1.y() + p2.y() ) / 2 ) );
-                mapf::formatted_set_simple( m, bio.raw() + point::north_west,
+                mapf::formatted_set_simple( m, bio + point::north_west,
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
@@ -7590,7 +7593,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 bio.x() = p2.x() - 2;
-                mapf::formatted_set_simple( m, bio.raw() + point::north_west,
+                mapf::formatted_set_simple( m, bio + point::north_west,
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
@@ -7610,7 +7613,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
             } else {
                 int bioy = p1.y() + 2;
                 int biox = static_cast<int>( ( p1.x() + p2.x() ) / 2 );
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                mapf::formatted_set_simple( m, point_bub_ms( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "|c=\n"
                                             "|-|\n",
@@ -7629,7 +7632,7 @@ void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 bioy = p2.y() - 2;
-                mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
+                mapf::formatted_set_simple( m, point_bub_ms( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "=c|\n"
                                             "|-|\n",

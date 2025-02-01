@@ -400,7 +400,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         }
 
         if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it.is_favorite ) {
-            const tripoint_abs_omt your_pos = you.global_omt_location();
+            const tripoint_abs_omt your_pos = you.pos_abs_omt();
             if( !overmap_buffer.has_note( your_pos ) ) {
                 overmap_buffer.add_note( your_pos, it.display_name() );
             } else {
@@ -589,8 +589,8 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
-    for( const tripoint_bub_ms &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.get_abs( pt ) );
+    for( const tripoint_abs_ms &pt : veh->get_points( true ) ) {
+        you.activity.coord_set.insert( pt );
     }
     // values[0]
     you.activity.values.push_back( here.get_abs( src_loc ).x() );
@@ -1512,7 +1512,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
         combined_spots.push_back( elem );
     }
     for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
-             you.get_location(), distance, you.is_npc(), _fac_id( you ) ) ) {
+             you.pos_abs(), distance, you.is_npc(), _fac_id( you ) ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
@@ -2019,8 +2019,22 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     int &num_processed = act.values[ 0 ];
 
     map &here = get_map();
-    const tripoint_abs_ms abspos = you.get_location();
+    const tripoint_abs_ms abspos = you.pos_abs();
     zone_manager &mgr = zone_manager::get_manager();
+
+    std::vector<const item *> crafting_items;
+
+    for( const npc &guy : g->all_npcs() ) {
+        if( !guy.activity.targets.empty() ) {
+            for( const item_location &target : guy.activity.targets ) {
+                crafting_items.push_back( target.get_item() );
+            }
+        }
+    }
+    for( const item_location &target : get_player_character().activity.targets ) {
+        crafting_items.push_back( target.get_item() );
+    }
+
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
@@ -2074,7 +2088,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 return;
             }
 
-            std::vector<zone_data const *> zones;
             bool ignore_contents = false;
 
             // check ignorable zones for ignore_contents enabled
@@ -2104,8 +2117,128 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             }
 
             //nothing to sort?
+            bool unload_mods = false;
+            bool unload_molle = false;
+            // bool unload_sparse_only = false;
+            // int unload_sparse_threshold = 20;
+            bool unload_always = false;
+            bool ignore_favorite = false;
+            bool unload_all = false;
+            bool unload_corpses = false;
+
+            std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_UNLOAD_ALL,
+                    _fac_id( you ) );
+
+            // get most open rules out of all stacked zones
+            for( zone_data const *zone : zones ) {
+                if( !zone->get_enabled() ) {
+                    continue;
+                };
+                unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
+                unload_molle |= options.unload_molle();
+                unload_mods |= options.unload_mods();
+                unload_always |= options.unload_always();
+                ignore_favorite |= zone->get_type() == zone_type_LOOT_IGNORE_FAVORITES;
+
+                unload_all |= zone->get_type() == zone_type_UNLOAD_ALL;
+                unload_corpses |= zone->get_type() == zone_type_STRIP_CORPSES;
+            }
+
             const std::optional<vpart_reference> vp = here.veh_at( src_loc ).cargo();
-            if( ( !vp || vp->items().empty() ) && here.i_at( src_loc ).empty() ) {
+            std::vector<const item *> items;
+            // populate items from the appropriate source
+            if( vp ) {
+                for( const item &it : vp->items() ) {
+                    items.push_back( &it );
+                }
+            } else {
+                for( const item &it : here.i_at( src_loc ) ) {
+                    items.push_back( &it );
+                }
+            }
+            // check if there is valid destination for any item of the tile
+            bool has_items_to_work_on = false;
+
+            for( const item *it : items ) {
+
+                const zone_type_id zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
+                                                  MAX_VIEW_DISTANCE, _fac_id( you ) );
+
+
+                if( has_items_to_work_on ) {
+                    break;
+                }
+
+                // don't steal disassembly in progress
+                if( it->has_var( "activity_var" ) ) {
+                    continue;
+                }
+
+                // don't steal crafts in progress
+                if( std::find( crafting_items.begin(), crafting_items.end(), it ) != crafting_items.end() ) {
+                    continue;
+                }
+
+                // skip items that allready sorted
+                if( zone_type_id != zone_type_LOOT_CUSTOM && mgr.has( zone_type_id, src, _fac_id( you ) ) ) {
+                    continue;
+                }
+
+                if( zone_type_id == zone_type_LOOT_CUSTOM &&
+                    mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, _fac_id( you ) ) ) {
+                    continue;
+                }
+
+                if( !it->is_owned_by( you, true ) ) {
+                    continue;
+                }
+
+                // skip unpickable liquid
+                if( !it->made_of_from_type( phase_id::SOLID ) ) {
+                    continue;
+                }
+
+                if( it->is_favorite && ignore_favorite ) {
+                    continue;
+                }
+
+                const std::unordered_set<tripoint_abs_ms> dest_set =
+                    mgr.get_near( zone_type_id, abspos, MAX_VIEW_DISTANCE, it, _fac_id( you ) );
+
+                if( unload_all || ( unload_corpses && it->is_corpse() ) ) {
+                    if( dest_set.empty() || unload_always ) {
+                        if( you.rate_action_unload( *it ) == hint_rating::good &&
+                            !it->any_pockets_sealed() ) {
+                            has_items_to_work_on = true;
+                            break;
+                        }
+
+                        // if unloading mods
+                        if( unload_mods ) {
+                            // remove each mod, skip irremovable
+                            for( const item *mod : it->gunmods() ) {
+                                if( mod->is_irremovable() ) {
+                                    continue;
+                                }
+                                has_items_to_work_on = true;
+                                break;
+                            }
+                        }
+
+                        // if unloading molle
+                        if( unload_molle && ! it->get_contents().get_added_pockets().empty() ) {
+                            has_items_to_work_on = true;
+                            break;
+                        }
+                    }
+                }
+                // if item has destination
+                if( !dest_set.empty() ) {
+                    has_items_to_work_on = true;
+                    break;
+                }
+            }
+            if( !has_items_to_work_on ) {
                 continue;
             }
 
@@ -2218,6 +2351,16 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, _fac_id( you ) ) ) {
                 continue;
             }
+
+            // don't steal disassembly in progress
+            if( thisitem.has_var( "activity_var" ) ) {
+                continue;
+            }
+            // don't steal crafts in progress
+            if( std::find( crafting_items.begin(), crafting_items.end(), it->first ) != crafting_items.end() ) {
+                continue;
+            }
+
 
             // Only if it's from a vehicle do we use the vehicle source location information.
             const std::optional<vpart_reference> vpr_src = it->second ? vpr : std::nullopt;

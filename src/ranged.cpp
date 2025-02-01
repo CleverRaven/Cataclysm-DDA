@@ -88,7 +88,6 @@ static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_MULTI_EFFECTS( "MULTI_EFFECTS" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
@@ -1056,26 +1055,8 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
 
         dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
-        bool first = true;
-        bool headshot = false;
-        bool multishot = proj.count > 1;
         dealt_projectile_attack shot;
-        for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
-            if( !first && !proj.multi_projectile_effects ) {
-                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
-            }
-            projectile_attack( shot, proj, pos_bub(), aim,
-                               dispersion, this, in_veh, wp_attack, first );
-            first = false;
-            if( shot.headshot ) {
-                headshot = true;
-            }
-            if( proj.count > 1 && shot.proj.count == 1 ) {
-                // Point-blank shots don't act like shot, everything hits the same target.
-                multishot = false;
-                break;
-            }
-        }
+        projectile_attack( shot, proj, pos_bub(), aim, dispersion, this, in_veh, wp_attack );
         if( !shot.targets_hit.empty() ) {
             hits++;
         }
@@ -1092,13 +1073,13 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
-            if( multishot ) {
+            if( shot.proj.multishot ) {
                 // TODO: Pull projectile name from the ammo entry.
                 multi_projectile_hit_message( hit_entry.first, hit_entry.second.first, hit_entry.second.second,
                                               n_gettext( "projectile", "projectiles", hit_entry.second.first ) );
             }
         }
-        if( headshot ) {
+        if( shot.headshot ) {
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
         curshot++;
@@ -1559,12 +1540,12 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     const double missed_by = dealt_attack.missed_by;
 
-    if( critter && dealt_attack.hit_critter != nullptr && dealt_attack.headshot &&
+    if( critter && dealt_attack.last_hit_critter != nullptr && dealt_attack.headshot &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
         !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
-    } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
+    } else if( critter && dealt_attack.last_hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
                !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
@@ -2125,7 +2106,7 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
     Target_attributes attributes( range, target_size,
-                                  get_map().ambient_light_at( tripoint_bub_ms( target_pos ) ),
+                                  get_map().ambient_light_at( target_pos ),
                                   you.sees( target_pos ) );
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
@@ -2206,10 +2187,6 @@ static projectile make_gun_projectile( const item &gun )
 
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
-        proj.multi_projectile_effects = ammo->multi_projectile_effects;
-        if( fx.count( ammo_effect_MULTI_EFFECTS ) ) {
-            proj.multi_projectile_effects = true;
-        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
@@ -2953,7 +2930,7 @@ void target_ui::init_window_and_input()
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
     std::optional<tripoint_bub_ms> mouse_pos;
-    const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
+    const auto shift_view_or_cursor = [this]( const tripoint_rel_ms & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
         } else {
@@ -2978,19 +2955,19 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
         }
     } else if( const std::optional<tripoint_rel_ms> delta = ctxt.get_direction_rel_ms( action ) ) {
         // Shift view/cursor with directional keys
-        shift_view_or_cursor( delta->raw() );
+        shift_view_or_cursor( delta.value() );
     } else if( action == "SELECT" &&
                ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse
         mouse_pos->z() = you->posz() + you->view_offset.z();
-        set_cursor_pos( tripoint_bub_ms( *mouse_pos ) );
+        set_cursor_pos( *mouse_pos );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
-        tripoint delta = tripoint(
-                             0,
-                             0,
-                             action == "LEVEL_UP" ? 1 : -1
-                         );
+        tripoint_rel_ms delta = tripoint_rel_ms(
+                                    0,
+                                    0,
+                                    action == "LEVEL_UP" ? 1 : -1
+                                );
         shift_view_or_cursor( delta );
     } else if( action == "NEXT_TARGET" ) {
         cycle_targets( 1 );

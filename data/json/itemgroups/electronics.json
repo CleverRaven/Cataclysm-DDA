@@ -38,7 +38,7 @@
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
-      [ "memory_card_unread", 20 ],
+      [ "memory_card", 20 ],
       { "item": "camera", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
       [ "cable", 30 ],
@@ -49,7 +49,7 @@
       { "item": "hotplate_induction", "prob": 3 },
       { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
       [ "usb_drive", 5 ],
-      [ "software_useless", 10 ],
+      { "item": "usb_drive", "contents-item": "software_useless", "prob": 10 },
       { "item": "vac_sealer", "prob": 10 },
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
@@ -107,7 +107,7 @@
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 10, "charges": [ 0, 100 ] },
-      [ "memory_card_unread", 40 ],
+      [ "memory_card", 40 ],
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "wristwatch", 15 ],
@@ -127,25 +127,28 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones",
-    "items": [ { "group": "phones_case", "prob": 10 }, { "group": "phones_no_case", "prob": 90 } ]
+    "id": "civilian_phones",
+    "items": [ { "group": "civilian_phones_case", "prob": 10 }, { "group": "civilian_phones_no_case", "prob": 90 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones_case",
+    "id": "civilian_phones_case",
     "container-item": "waterproof_smart_phone_case",
-    "items": [ { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] }, { "item": "smart_phone", "prob": 1, "charges": 130 } ]
+    "items": [
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ], "contents-group": "civilian_smartphone_efiles" },
+      { "item": "smart_phone", "prob": 1, "charges": 130, "contents-group": "civilian_smartphone_efiles" }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "phones_no_case",
+    "id": "civilian_phones_no_case",
     "items": [
       { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
       { "item": "cell_phone", "prob": 1, "charges": 150 },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
-      { "item": "smart_phone", "prob": 1, "charges": 130 }
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ], "contents-group": "civilian_smartphone_efiles" },
+      { "item": "smart_phone", "prob": 1, "charges": 130, "contents-group": "civilian_smartphone_efiles" }
     ]
   },
   {

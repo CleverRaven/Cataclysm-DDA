@@ -20,6 +20,19 @@
     "min_strength": 16,
     "clip_size": 9,
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "ETCfirmware", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -77,6 +90,7 @@
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
+      [ "ETCfirmware", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
@@ -122,6 +136,20 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_UICASTA30" ]
       }
+    ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ],
+      [ "ETCfirmware", 1 ]
     ],
     "melee_damage": { "bash": 12 },
     "weapon_category": [ "AUTOMATIC_RIFLES" ]
@@ -171,8 +199,10 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
+      [ "ETCfirmware", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
+      [ "underbarrel", 1 ],
       [ "stock accessory", 2 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_fail_to_feed", "fault_double_feed" ],

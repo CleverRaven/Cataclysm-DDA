@@ -268,6 +268,24 @@ Some people want to play as a robot, or an android, or a brain in a jar piloting
 
 As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
 
+#### Losing limb in combat: sure, but character gonna die (almost always)
+
+Often I see people asking when will combat be so dangerous that you will be able to lose your beloved arm or leg. Bullet points:
+
+Main ways to lose a limb are:
+
+You have so badly damaged/infected limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest heavily in your own camp having a good surgeon with a tools reqired;
+
+The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
+
+There are sure other ways, more technical, like mutating your arm into a crab claw or replacing it with a bionic drill, but that's another story.
+
+In summary, the main things that stop us from introducing limb loss are, at first, a lack of NPC intelligence so they can help you if you experienced this loss, and second, a lot of our stuff is missing being tied to limb scores (something that you should have decreased because you have no limb). This is the main reason all limb stuff currently exists in a separate mod and is not part of the game.
+
+NB: This talks specifically about average human experience; mutants are less limited to this (though a mouse or bear mutant would lose the limb in pretty similar fashion).
+
+NB2: Please do not try to make it via EoC.
+
 #### Bring back ICBM launch: Mod only
 
 There used to be a partially implemented feature where you could break into an ICBM silo and hack the computer systems, then launch a missile at some target on the overmap. The results were incredibly underwhelming and didn't remotely represent the damage a many-kt warhead would cause, and was a frequent source of bugs, so it was removed.

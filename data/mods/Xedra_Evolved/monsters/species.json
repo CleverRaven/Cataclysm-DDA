@@ -15,6 +15,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "CHANGELING_NOBLE",
+    "description": "one of the leaders of the people under the hill",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "IERDE",
     "description": "an earth elemental spirit",
     "fear_triggers": [ "HURT" ]

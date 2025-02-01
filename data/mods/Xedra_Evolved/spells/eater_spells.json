@@ -122,7 +122,7 @@
     "effect": "attack",
     "shape": "blast",
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_HANDS" ],
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "skill": "deduction",
     "difficulty": 6,
@@ -168,7 +168,7 @@
     "spell_class": "EATER",
     "components": "spell_components_dreamdross2",
     "difficulty": 4,
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "supercoffee",
@@ -191,7 +191,7 @@
     "spell_class": "EATER",
     "components": "spell_components_dreamdross2",
     "difficulty": 4,
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "type": "SPELL",
@@ -217,7 +217,7 @@
     "final_energy_cost": 100,
     "energy_increment": -10,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_rage",
@@ -232,7 +232,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 2,
     "base_casting_time": 300,
     "final_casting_time": 50,
@@ -268,7 +268,7 @@
     "final_energy_cost": 500,
     "energy_increment": -15,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER"
   },
   {
@@ -293,7 +293,7 @@
     "final_energy_cost": 400,
     "energy_increment": -15,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_dodge",
@@ -308,7 +308,7 @@
     "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 4,
     "base_casting_time": 1500,
     "final_casting_time": 500,
@@ -333,7 +333,7 @@
     "shape": "blast",
     "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "difficulty": 5,
     "base_casting_time": 1500,
@@ -369,7 +369,7 @@
     "final_energy_cost": 500,
     "energy_increment": -50,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_clairvoyance",
@@ -380,7 +380,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "IGNORE_WALLS", "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "difficulty": 9,
     "max_level": { "math": [ "eater_level(1)" ] },
@@ -412,7 +412,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 7,
     "base_casting_time": 1500,
     "final_casting_time": 500,
@@ -451,7 +451,7 @@
     "base_energy_cost": 300,
     "final_energy_cost": 90,
     "energy_increment": -7,
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "min_aoe": 3,
     "max_aoe": 3
@@ -478,7 +478,7 @@
     "final_energy_cost": 500,
     "energy_increment": -30,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "magic_type": "xedra_magic_generic"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_weak",
@@ -493,7 +493,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 5,
     "min_aoe": 3,
     "max_aoe": 60,
@@ -522,7 +522,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 4,
     "base_casting_time": 300,
     "final_casting_time": 50,
@@ -548,7 +548,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 8,
     "base_casting_time": 300,
     "final_casting_time": 50,
@@ -574,7 +574,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 10,
     "base_casting_time": 600,
     "final_casting_time": 100,
@@ -614,7 +614,7 @@
     "effect": "attack",
     "shape": "blast",
     "flags": [ "SILENT", "SOMATIC", "NO_EXPLOSION_SFX" ],
-    "magic_type": "xedra_magic_generic",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "skill": "deduction",
     "difficulty": 4,

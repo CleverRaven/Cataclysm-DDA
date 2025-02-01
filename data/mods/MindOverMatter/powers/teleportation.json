@@ -102,41 +102,34 @@
     "casting_time_increment": -3
   },
   {
-    "id": "teleport_ephemeral_walk",
+    "id": "teleport_item_apport",
     "type": "SPELL",
-    "name": "[Ψ]Ephemeral Walk (C)",
-    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "name": "[Ψ]Apportation",
+    "description": "Rather than teleporting yourself, you could teleport an item you're holding somewhere nearby without having to follow it to its destination.\n\nItems that are <color_yellow>too large</color> cannot be apported.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
-    "difficulty": 6,
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "effect_str": "EOC_TELEPORT_ITEM_APPORT",
     "shape": "blast",
-    "min_duration": {
+    "min_range": {
       "math": [
-        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( (( (u_spell_level('teleport_item_appport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "base_energy_cost": {
-      "math": [
-        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
-      ]
-    },
-    "base_casting_time": {
-      "math": [
-        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
-      ]
-    }
+    "max_range": 80,
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1250,
+    "energy_increment": -65,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -7.5
   },
   {
     "id": "teleport_stride",
@@ -590,6 +583,43 @@
     "max_aoe": {
       "math": [
         "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_ephemeral_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Ephemeral Walk (C)",
+    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
       ]
     }
   },

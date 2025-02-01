@@ -53,6 +53,14 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "abstract": "book_fict_soft_collection_tpl",
+    "type": "BOOK",
+    "copy-from": "book_fict_soft_tpl",
+    "name": { "str": "paperback novel", "str_pl": "paperbacks" },
+    "description": "Paperback fiction novel generic collection",
+    "generic": true
+  },
+  {
     "abstract": "book_nonf_hard_tpl",
     "type": "BOOK",
     "name": { "str": "Nonfiction Book" },

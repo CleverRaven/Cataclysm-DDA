@@ -902,10 +902,14 @@
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_REACTIVE_DISPLACEMENT",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_ESTABLISHMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_LOCI_TECHNIQUE",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
@@ -932,6 +936,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
     "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_ITEM_TELEPORT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_item_apport') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_item_apport" } ]
   },
   {
     "type": "effect_on_condition",
