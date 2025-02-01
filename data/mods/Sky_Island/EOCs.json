@@ -424,7 +424,6 @@
     "type": "effect_on_condition",
     "id": "scenario_warp_begins",
     "//": "This EOC is triggered when the Warper scenario begins.  It initializes a few variables, and memorizes your spawn location for resurrection just in case you somehow die before using the warp obelisk.  Also learns your spell for emergencies.",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
         "u_message": "Welcome to Sky Islands.\n\nSpeak to the Heart of the Island to get your bearings, accept missions, manage upgrades, change your difficulty settings, and more.",

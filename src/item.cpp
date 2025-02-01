@@ -1359,6 +1359,7 @@ void item::update_modified_pockets()
 
 int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
+    int64_t ret;
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
             if( !suppress_warning ) {
@@ -1368,7 +1369,7 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
         // dimension
-        return vol * static_cast<int64_t>( type->stack_size ) / type->volume;
+        ret = vol * static_cast<int64_t>( type->stack_size ) / type->volume;
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
@@ -1377,30 +1378,24 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
             }
             return INFINITE_CHARGES;
         }
-        return vol / my_volume;
+        ret = vol / my_volume;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
-    if( count_by_charges() ) {
-        if( type->weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
+    int64_t ret;
+    units::mass my_weight = count_by_charges() ? type->weight : weight();
+    if( my_weight == 0_gram ) {
+        if( !suppress_warning ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
         }
-        return m / type->weight;
+        ret = INFINITE_CHARGES;
     } else {
-        units::mass my_weight = weight();
-        if( my_weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
-        }
-        return m / my_weight;
+        ret = m / my_weight;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 bool item::display_stacked_with( const item &rhs, bool check_components ) const
