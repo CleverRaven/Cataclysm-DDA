@@ -188,7 +188,7 @@
     }
   },
   {
-    "id": "efile_recipes_chemical",
+    "id": "efile_recipes_science",
     "copy-from": "abstract_efile_recipes",
     "type": "GENERIC",
     "symbol": "o",
@@ -199,8 +199,24 @@
       "data_chance": 1,
       "recipes_chance": 1,
       "recipes_amount": 3,
-      "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6
+      "recipes_categories": [ "CC_CHEM", "CC_ELECTRONIC" ],
+      "recipes_level_min": 5
+    }
+  },
+  {
+    "id": "efile_recipes_medical",
+    "copy-from": "abstract_efile_recipes",
+    "type": "GENERIC",
+    "symbol": "o",
+    "name": "medical recipe catalog",
+    "use_action": [ "VIEW_RECIPES" ],
+    "ememory_size": "4 MB",
+    "memory_card": {
+      "data_chance": 1,
+      "recipes_chance": 1,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CSC_CHEM_DRUGS", "CSC_OTHER_MEDICAL" ],
+      "recipes_level_min": 3
     }
   },
   {
