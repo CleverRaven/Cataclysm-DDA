@@ -310,7 +310,7 @@
   {
     "id": "fd_glue",
     "type": "field_type",
-    "intensity_levels": [ { "name": "hardened resin", "sym": "x", "color": "white", "dangerous": true, } ],
+    "intensity_levels": [ { "name": "hardened resin", "sym": "x", "color": "white", "dangerous": true } ],
     "display_field": true,
     "display_items": true,
     "half_life": "1 hour 30 minutes",
