@@ -4,7 +4,7 @@
     "name": "Heavy Combat Chassis",
     "weight": "100 kg",
     "price": "15000 USD",
-    "description": "A pristine chassis for Exodii combat units collaquially referred to on this Earth as Jotunn.  A requirement for many heavy weapons that cannot be mounted on a standard bionic chassis or unaugmented body.  Impossible to salvage from a corpse post installation these units are manufactured sparingly by most Exodii nodes.  Installing this CBM will drastically alter the chakras, meridians, mystical pathways, soul, whatever thing inside of a person that allows them to use magick.  It will remove your magickal abilities or if you are irreversibly supernatural, fail to install.",
+    "description": "A pristine chassis for Exodii combat units collaquially referred to on this Earth as Jotunn.  A requirement for many heavy weapons that cannot be mounted on a standard bionic chassis or unaugmented body.  Impossible to salvage from a corpse post-installation, these units are manufactured sparingly by most Exodii nodes.  Installing this CBM will drastically alter the chakras, meridians, mystical pathways, soul, whatever thing inside of a person that allows them to use magick.  It will remove your magickal abilities or if you are irreversibly supernatural, fail to install.",
     "canceled_mutations": [
       "VAMPIRE",
       "VAMPIRE2",
@@ -58,7 +58,7 @@
       "SHELL2",
       "SHELL3"
     ],
-    "cant_remove_reason": "This CBM has replaced so much of your body that you couldn't survive it's removal.",
+    "cant_remove_reason": "This CBM has replaced so much of your body that you couldn't survive its removal.",
     "enchantments": [ "ENCH_COMBAT_CHASSIS" ]
   },
   {
