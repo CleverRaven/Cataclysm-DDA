@@ -1112,6 +1112,7 @@ void Character::load( const JsonObject &data )
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
+    data.read( "book_chapters", book_chapters );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
@@ -1489,6 +1490,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
+    json.member( "book_chapters", book_chapters );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
@@ -2066,10 +2068,10 @@ void npc::load( const JsonObject &data )
 
     // TEMPORARY Remove if branch after 0.G (keep else branch)
     if( !data.has_member( "location" ) ) {
-        point submap_coords;
+        point_abs_sm submap_coords;
         data.read( "submap_coords", submap_coords );
         const tripoint_bub_ms pos = read_legacy_creature_pos( data );
-        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( submap_coords ),
                                            0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
         std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
@@ -2078,16 +2080,17 @@ void npc::load( const JsonObject &data )
         if( data.read( "pulp_location", opt ) && opt ) {
             pulp_location = pos_abs() + ( *opt - pos );
         }
-        tripoint tmp;
-        if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
-            tmp != tripoint::min ) {
-            guard_pos = tripoint_abs_ms( tmp );
+        tripoint_abs_ms tmp;
+        if( data.read( "guardx", tmp.x() ) && data.read( "guardy", tmp.y() ) &&
+            data.read( "guardz", tmp.z() ) &&
+            tmp != tripoint_abs_ms::min ) {
+            guard_pos = tmp;
         }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint::min ) {
-            chair_pos = tripoint_abs_ms( tmp );
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            chair_pos = tmp;
         }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint::min ) {
-            wander_pos = tripoint_abs_ms( tmp );
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            wander_pos = tmp;
         }
     } else {
         data.read( "last_player_seen_pos", last_player_seen_pos );
@@ -2448,9 +2451,9 @@ void monster::load( const JsonObject &data )
         data.read( "wandy", wand.y() );
         data.read( "wandz", wand.z() );
         wander_pos = get_map().get_abs( wand );
-        tripoint destination;
+        tripoint_rel_ms destination;
         data.read( "destination", destination );
-        if( destination != tripoint::zero ) {
+        if( destination != tripoint_rel_ms::zero ) {
             goal = pos_abs() + destination;
         }
     }
@@ -5143,7 +5146,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, point_sm_ms( p ) );
+                active_items.add( it, p );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5151,15 +5154,16 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray trap_entry : traps_json ) {
             int i = trap_entry.next_int();
             int j = trap_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
-            m->trp[p.x][p.y] = trid.id();
+            m->trp[p.x()][p.y()] = trid.id();
             if( trap_entry.has_more() ) {
                 std::optional<std::string> trap_item_type = std::nullopt;
                 trap_entry.read_next( trap_item_type );
                 if( trap_item_type.has_value() ) {
-                    const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_item_type.value() ) );
+                    const_cast<trap &>( m->trp[p.x()][p.y()].obj() ).set_trap_data( itype_id(
+                                trap_item_type.value() ) );
                 }
             }
             if( trap_entry.size() > 4 ) {
@@ -5241,7 +5245,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int count = spawn_entry.next_int();
             int i = spawn_entry.next_int();
             int j = spawn_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
@@ -5250,7 +5254,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, point_sm_ms( p ), faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {
@@ -5292,7 +5296,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         if( jv.test_array() ) {
             JsonArray computers_json = jv;
             while( computers_json.has_more() ) {
-                point loc;
+                point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
                                                       tripoint_bub_ms::zero ) ).first;

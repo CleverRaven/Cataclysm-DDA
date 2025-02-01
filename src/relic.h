@@ -26,8 +26,6 @@ struct relic_charge_info;
 struct relic_charge_template;
 struct tripoint;
 
-using relic_procgen_id = string_id<relic_procgen_data>;
-
 class relic_procgen_data
 {
     public:
@@ -220,7 +218,7 @@ class relic
 
         std::string name() const;
         // returns number of charges that should be consumed
-        int activate( Creature &caster, const tripoint &target );
+        int activate( Creature &caster, const tripoint_bub_ms &target );
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;

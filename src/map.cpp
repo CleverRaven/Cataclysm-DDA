@@ -1090,7 +1090,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-        veh.move.init( final1.as_point() );
+        veh.move.init( point_rel_ms( final1.as_point() ) );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh.velocity = -final1.magnitude();
@@ -1098,7 +1098,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             veh.velocity = final1.magnitude();
         }
 
-        veh2.move.init( final2.as_point() );
+        veh2.move.init( point_rel_ms( final2.as_point() ) );
         if( final2.dot_product( veh2.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh2.velocity = -final2.magnitude();
@@ -2986,18 +2986,18 @@ void map::drop_fields( const tripoint_bub_ms &p )
     }
 }
 
-void map::drop_creature( const tripoint_bub_ms &p ) const
+void map::drop_creature( const tripoint_bub_ms &p )
 {
     monster *mon_at_p = get_creature_tracker().creature_at<monster>( p );
     if( mon_at_p ) {
-        mon_at_p->gravity_check();
+        mon_at_p->gravity_check( this );
         // Handle character potentially standing on monster ("zed walking")
         drop_creature( p + tripoint_rel_ms::above );
         return;
     }
     Character *char_at_p = get_creature_tracker().creature_at<Character>( p );
     if( char_at_p ) {
-        char_at_p->gravity_check();
+        char_at_p->gravity_check( this );
     }
 }
 
@@ -3843,16 +3843,20 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
 
     // Let the player know that the item was damaged if they can see it.
     if( items_destroyed > 1 ) {
-        add_msg_if_player_sees( p, m_bad, _( "The %s destroys several items!" ), cause_message );
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                _( "The %s destroys several items!" ), cause_message );
     } else if( items_destroyed == 1 && items_damaged == 1 ) {
-        //~ %1$s: the cause of destruction, %2$s: destroyed item name
-        add_msg_if_player_sees( p, m_bad, _( "The %1$s destroys the %2$s!" ), cause_message,
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                //~ %1$s: the cause of destruction, %2$s: destroyed item name
+                                _( "The %1$s destroys the %2$s!" ), cause_message,
                                 damaged_item_name );
     } else if( items_damaged > 1 ) {
-        add_msg_if_player_sees( p, m_bad, _( "The %s damages several items." ), cause_message );
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad,
+                                _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 ) {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg_if_player_sees( p, m_bad, _( "The %1$s damages the %2$s." ), cause_message,
+        add_msg_if_player_sees( get_map().get_bub( get_abs( p ) ), m_bad, _( "The %1$s damages the %2$s." ),
+                                cause_message,
                                 damaged_item_name );
     }
 
@@ -4392,7 +4396,7 @@ void map::crush( const tripoint_bub_ms &p )
 
             // Pin whoever got hit
             crushed_player->add_effect( effect_crushed, 1_turns, true );
-            crushed_player->check_dead_state();
+            crushed_player->check_dead_state( this );
         }
     }
 
@@ -4403,7 +4407,7 @@ void map::crush( const tripoint_bub_ms &p )
 
         // Pin whoever got hit
         monhit->add_effect( effect_crushed, 1_turns, true );
-        monhit->check_dead_state();
+        monhit->check_dead_state( this );
     }
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -5062,7 +5066,7 @@ item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool 
     std::pair<item *, tripoint_bub_ms> ret = _add_item_or_charges( pos, std::move( obj ), copies,
             overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
-        return item_location{ map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
+        return item_location{ map_cursor{ get_abs( ret.second ) }, ret.first };
     }
 
     return {};
@@ -9317,8 +9321,8 @@ void map::build_obstacle_cache(
     }
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
-        const tripoint_bub_ms loc = critter.pos_bub();
-        if( loc.z() != start.z() ) {
+        const tripoint_bub_ms loc = get_bub( critter.pos_abs() );
+        if( loc.z() != start.z() || !inbounds( loc ) ) {
             continue;
         }
         // TODO: scale this with expected creature "thickness".

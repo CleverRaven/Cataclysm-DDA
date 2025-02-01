@@ -38,7 +38,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         u.wield( scalpel );
         monster cow( monid, mon_pos );
         const tripoint_bub_ms cow_loc = cow.pos_bub();
-        cow.die( nullptr );
+        cow.die( &here, nullptr );
         u.move_to( cow.pos_abs() );
         player_activity act( actid, 0, true );
         act.targets.emplace_back( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );

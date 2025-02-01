@@ -31,6 +31,21 @@
   },
   {
     "type": "mutation",
+    "id": "GOBLIN_FRUIT_MUSIC",
+    "name": { "str": "The fruit's song" },
+    "//": "Until the day EOCs can spawn equiped items, the fruit will give a mutation that holds the music player.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": { "str": "Gives the integrated music player.  Should not be player-visible.", "//~": "NO_I18N" },
+    "integrated_armor": [ "internal_mp3_fruit" ]
+  },
+  {
+    "type": "mutation",
     "id": "ethereal_wings",
     "name": { "str": "Ethereal Wings" },
     "active": true,
@@ -421,5 +436,15 @@
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
     "name": { "str": "Changeling Rock disguise", "//~": "NO_I18N" },
     "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
+  },
+  {
+    "type": "mutation",
+    "id": "GOBLIN_FRUIT_ANIMAL_IGNORE",
+    "name": { "str": "Effect of furry fruit", "//~": "NO_I18N" },
+    "description": { "str": "What makes the furry fruit work.  You should never see this.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false,
+    "points": 0,
+    "ignored_by": [ "MAMMAL", "AMPHIBIAN", "BIRD", "REPTILE", "FISH", "KRAKEN", "INSECT", "CENTIPEDE", "INSECT_FLYING", "SPIDER" ]
   }
 ]

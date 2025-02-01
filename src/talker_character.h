@@ -16,6 +16,7 @@
 class character_id;
 class faction;
 class item;
+class map;
 
 class time_duration;
 class vehicle;
@@ -58,7 +59,6 @@ class talker_character_const: virtual public const_talker
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
@@ -324,7 +324,7 @@ class talker_character: virtual public talker
         void remove_bionic( const bionic_id &old_bionic ) override;
         void set_all_parts_hp_cur( int ) override;
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
-        void die() override;
+        void die( map *here ) override;
         void attack_target( Creature &t, bool allow_special, const matec_id &force_technique,
                             bool allow_unarmed, int forced_movecost ) override;
         void learn_martial_art( const matype_id &id ) override;

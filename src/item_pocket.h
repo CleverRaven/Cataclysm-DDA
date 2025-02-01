@@ -28,6 +28,7 @@ class JsonObject;
 class JsonOut;
 class item;
 class item_location;
+class map;
 class pocket_data;
 struct iteminfo;
 struct itype;
@@ -292,6 +293,7 @@ class item_pocket
         // spills any contents that can't fit into the pocket, largest items first
         void overflow( const tripoint_bub_ms &pos, const item_location &loc );
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         void on_pickup( Character &guy, item *avoid = nullptr );
         void on_contents_changed();
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );

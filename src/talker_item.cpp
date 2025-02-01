@@ -36,11 +36,6 @@ int talker_item_const::posz() const
     return me_it_const->pos_bub().z();
 }
 
-tripoint talker_item_const::pos() const
-{
-    return me_it_const->pos_bub().raw();
-}
-
 tripoint_bub_ms talker_item_const::pos_bub() const
 {
     return me_it_const->pos_bub();
@@ -157,7 +152,7 @@ void talker_item::set_degradation( int set )
     me_it->get_item()->set_degradation( set );
 }
 
-void talker_item::die()
+void talker_item::die( map * )
 {
     me_it->remove_item();
 }

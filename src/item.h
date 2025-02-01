@@ -75,7 +75,6 @@ enum class mod : int;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
-using faction_id = string_id<faction>;
 class item_category;
 struct islot_armor;
 struct use_function;
@@ -360,6 +359,8 @@ class item : public visitable
         bool is_cash_card() const;
 
         bool is_estorage() const;
+        /** Above, along with checks for power, browsed, use action */
+        bool is_estorage_usable( const Character &who ) const;
         bool is_estorable() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
@@ -1872,6 +1873,7 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /** Spill items that don't fit in the container. */
         void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );
@@ -2406,7 +2408,7 @@ class item : public visitable
          * Mark one chapter of the book as read by the given player. May do nothing if the book has
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
-        void mark_chapter_as_read( const Character &u );
+        void mark_chapter_as_read( Character &u );
         /**
          * Returns recipes stored on the item (laptops, smartphones, sd cards etc)
          * Filters out !is_valid() recipes
@@ -3410,8 +3412,6 @@ inline bool is_crafting_component( const item &component )
  */
 bool is_preferred_component( const item &component );
 
-#endif // CATA_SRC_ITEM_H
-
 struct disp_mod_by_barrel {
     units::length barrel_length;
     int dispersion_modifier;
@@ -3430,3 +3430,5 @@ struct disp_mod_by_barrel {
  */
 std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
         const std::list<const item *> &items );
+
+#endif // CATA_SRC_ITEM_H

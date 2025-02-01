@@ -1169,9 +1169,9 @@ void npc::spawn_at_precise( const tripoint_abs_ms &p )
     set_pos_abs_only( p );
 }
 
-void npc::place_on_map()
+void npc::place_on_map( map *here )
 {
-    if( g->is_empty( pos_bub() ) || is_mounted() ) {
+    if( g->is_empty( here, pos_abs() ) || is_mounted() ) {
         return;
     }
 
@@ -1803,8 +1803,10 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
+    map &here = get_map();
+
     if( is_hallucination() ) {
-        die( nullptr );
+        die( &here, nullptr );
     }
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
@@ -2940,7 +2942,7 @@ void npc::reboot()
     add_effect( effect_npc_suspend, 24_hours, true, 1 );
 }
 
-void npc::die( Creature *nkiller )
+void npc::die( map *here, Creature *nkiller )
 {
     if( dead ) {
         // We are already dead, don't die again, note that npc::dead is
@@ -2975,7 +2977,7 @@ void npc::die( Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        get_map().unboard_vehicle( pos_bub(), true );
+        here->unboard_vehicle( here->get_bub( pos_abs() ), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -2997,7 +2999,7 @@ void npc::die( Creature *nkiller )
         }
     }
     dead = true;
-    Character::die( nkiller );
+    Character::die( here, nkiller );
 
     if( is_hallucination() || lifespan_end ) {
         add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
@@ -3057,7 +3059,7 @@ void npc::die( Creature *nkiller )
         }
     }
 
-    place_corpse();
+    place_corpse( here );
 }
 
 void npc::prevent_death()
@@ -3220,7 +3222,7 @@ void npc::npc_update_body()
     }
 }
 
-void npc::on_load()
+void npc::on_load( map *here )
 {
     const auto advance_effects = [&]( const time_duration & elapsed_dur ) {
         for( auto &elem : *effects ) {
@@ -3274,7 +3276,7 @@ void npc::on_load()
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
-        process_items();
+        process_items( here );
         // give NPCs that are doing activities a pile of moves
         if( has_destination() || activity ) {
             mod_moves( to_moves<int>( dt ) );
@@ -3284,20 +3286,19 @@ void npc::on_load()
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
 
-    map &here = get_map();
     // for spawned npcs
-    gravity_check();
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
-        !here.has_vehicle_floor( pos_bub() ) ) {
+    gravity_check( here );
+    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, here->get_bub( pos_abs() ) ) &&
+        !here->has_vehicle_floor( here->get_bub( pos_abs() ) ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( here.veh_at( pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        here.board_vehicle( pos_bub(), this );
+    if( here->veh_at( pos_abs() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
+        here->board_vehicle( here->get_bub( pos_abs() ), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_bub() ) ) {
+        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_abs() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
             add_msg_debug( debugmode::DF_NPC,

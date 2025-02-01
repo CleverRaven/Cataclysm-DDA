@@ -1359,6 +1359,7 @@ void item::update_modified_pockets()
 
 int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
+    int64_t ret;
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
             if( !suppress_warning ) {
@@ -1368,7 +1369,7 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
         // dimension
-        return vol * static_cast<int64_t>( type->stack_size ) / type->volume;
+        ret = vol * static_cast<int64_t>( type->stack_size ) / type->volume;
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
@@ -1377,30 +1378,24 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
             }
             return INFINITE_CHARGES;
         }
-        return vol / my_volume;
+        ret = vol / my_volume;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
-    if( count_by_charges() ) {
-        if( type->weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
+    int64_t ret;
+    units::mass my_weight = count_by_charges() ? type->weight : weight();
+    if( my_weight == 0_gram ) {
+        if( !suppress_warning ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
         }
-        return m / type->weight;
+        ret = INFINITE_CHARGES;
     } else {
-        units::mass my_weight = weight();
-        if( my_weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
-        }
-        return m / my_weight;
+        ret = m / my_weight;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 bool item::display_stacked_with( const item &rhs, bool check_components ) const
@@ -8830,6 +8825,12 @@ bool item::is_estorage() const
     return contents.has_pocket_type( pocket_type::E_FILE_STORAGE );
 }
 
+bool item::is_estorage_usable( const Character &who ) const
+{
+    return is_estorage() && is_browsed() && efile_activity_actor::edevice_has_use( this ) &&
+           ammo_sufficient( &who );
+}
+
 bool item::is_estorable() const
 {
     return has_flag( flag_E_STORABLE ) || is_book();
@@ -8851,7 +8852,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && !type->book->generic );
 }
 
 bool item::efiles_all_browsed() const
@@ -10713,6 +10714,15 @@ bool item::spill_contents( const tripoint_bub_ms &pos )
     return contents.spill_contents( pos );
 }
 
+bool item::spill_contents( map *here, const tripoint_bub_ms &pos )
+{
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
+        return true;
+    }
+    return contents.spill_contents( here, pos );
+}
+
 bool item::spill_open_pockets( Character &guy, const item *avoid )
 {
     return contents.spill_open_pockets( guy, avoid );
@@ -10761,22 +10771,34 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const Character &u ) const
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    return get_var( var, get_chapters() );
+    const itype_id &type = typeId();
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        return get_var( var, get_chapters() );
+    }
+    const std::map<itype_id, int> &book_chapters = u.book_chapters;
+    auto find_chapters = book_chapters.find( type );
+    if( find_chapters == book_chapters.end() ) {
+        return get_chapters();
+    }
+    return find_chapters->second;
 }
 
-void item::mark_chapter_as_read( const Character &u )
+void item::mark_chapter_as_read( Character &u )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    if( type->book && type->book->chapters == 0 ) {
-        // books without chapters will always have remaining chapters == 0, so we don't need to store them
-        erase_var( var );
+    // books without chapters will always have remaining chapters == 0, so we don't need to store them
+    if( is_book() && get_chapters() == 0 ) {
         return;
     }
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
-    set_var( var, remain );
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+        set_var( var, remain );
+        return;
+    }
+    u.book_chapters[typeId()] = std::max( 0, get_remaining_chapters( u ) - 1 );
 }
 
 std::set<recipe_id> item::get_saved_recipes() const
@@ -13701,7 +13723,7 @@ void item::overwrite_relic( const relic &nrelic )
 
 bool item::use_relic( Character &guy, const tripoint_bub_ms &pos )
 {
-    return relic_data->activate( guy, pos.raw() );
+    return relic_data->activate( guy, pos );
 }
 
 void item::process_relic( Character *carrier, const tripoint_bub_ms &pos )

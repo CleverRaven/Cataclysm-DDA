@@ -730,6 +730,7 @@ class Character : public Creature, public visitable
     public:
 
         void gravity_check() override;
+        void gravity_check( map *here ) override;
         void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -1271,7 +1272,7 @@ class Character : public Creature, public visitable
 
         // any side effects that might happen when the Character is hit
         /** Handles special defenses from melee attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
+        void on_hit( map *here, Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
@@ -1891,7 +1892,7 @@ class Character : public Creature, public visitable
         virtual item::reload_option select_ammo( const item_location &base, bool prompt = false,
                 bool empty = true ) = 0;
 
-        void process_items();
+        void process_items( map *here );
         void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
@@ -2312,6 +2313,8 @@ class Character : public Creature, public visitable
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
+        /** The number of chapters remaining for each book itype */
+        std::map<itype_id, int> book_chapters;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
@@ -2569,7 +2572,7 @@ class Character : public Creature, public visitable
          *  Should only be called through player::normalize(), not on it's own!
          */
         void normalize() override;
-        void die( Creature *nkiller ) override;
+        void die( map *here, Creature *nkiller ) override;
         virtual void prevent_death();
 
         std::string get_name() const override;
@@ -3279,7 +3282,7 @@ class Character : public Creature, public visitable
         float speed_rating() const override;
 
         // Put corpse+inventory on map at the place where this is.
-        void place_corpse();
+        void place_corpse( map *here );
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 

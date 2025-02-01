@@ -40,7 +40,7 @@
     "to_hit": -3,
     "color": "red",
     "symbol": "$",
-    "flags": [ "COIN_SHAPED", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "COIN_SHAPED", "NO_UNLOAD", "NO_RELOAD", "OLD_CURRENCY" ],
     "material": [ "steel" ]
   },
   {

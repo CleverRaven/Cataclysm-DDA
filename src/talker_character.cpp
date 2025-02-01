@@ -62,11 +62,6 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint talker_character_const::pos() const
-{
-    return me_chr_const->pos_bub().raw();
-}
-
 tripoint_bub_ms talker_character_const::pos_bub() const
 {
     return me_chr_const->pos_bub();
@@ -1330,9 +1325,9 @@ bool talker_character_const::is_warm() const
     return me_chr_const->is_warm();
 }
 
-void talker_character::die()
+void talker_character::die( map *here )
 {
-    me_chr->die( nullptr );
+    me_chr->die( here, nullptr );
 }
 
 matec_id talker_character_const::get_random_technique( Creature const &t, bool crit,

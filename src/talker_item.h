@@ -9,6 +9,7 @@
 #include "type_id.h"
 
 class item;
+class map;
 
 struct tripoint;
 
@@ -36,7 +37,6 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
@@ -86,7 +86,7 @@ class talker_item: public talker_item_const, public talker_cloner<talker_item>
         void set_power_cur( units::energy value ) override;
         void set_all_parts_hp_cur( int ) override;
         void set_degradation( int ) override;
-        void die() override;
+        void die( map *here ) override;
 
     private:
         item_location *me_it{};

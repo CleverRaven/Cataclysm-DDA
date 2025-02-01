@@ -8,6 +8,7 @@
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "e_port": "camera",
+    "etransfer_rate": "20 MB",
     "melee_damage": { "bash": 1 },
     "variables": { "browsed": "true" }
   },
@@ -220,6 +221,7 @@
     "color": "blue",
     "use_action": [
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       {
         "type": "transform",
         "menu_text": "Turn on the screen",

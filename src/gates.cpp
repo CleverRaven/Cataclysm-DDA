@@ -421,7 +421,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
-            critter.check_dead_state();
+            critter.check_dead_state( &m );
         }
         if( !critter.is_dead() && critter.get_size() >= creature_size::huge ) {
             // big critters simply prevent the gate from closing

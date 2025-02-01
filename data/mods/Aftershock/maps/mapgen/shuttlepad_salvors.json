@@ -16,9 +16,9 @@
         "‘-Ω$$$$$$Ω|‘|℗℗║~╡FoU║-℗  ¦¦-·...h..q.║║ ╡╡###╡℗",
         "‘-ΩΩΩΩΩΩΩΩ|‘|ØÙ╡1╡...║║℗℗ ¦ë-·ì--ffύq©║╡╡╡ÂÃÂÂ╡╡",
         " -ΩΩΩΩΩΩΩΩ|‘ω‘‘╡..qq.@# ℗ ¦1-·ìì--║║║║║╡∙Å∙∙Ñ∙Ã╡",
-        "‘-Ω$$$$$$Ω|‘‘‘‘╡kh,..y#℗ Χ¦···ýí4·ýïðð¦╡ÆÇ∙ÂÂ∙∙╡",
+        "‘-Ω$$$$$$Ω|‘‘‘‘╡kh,..y#℗ Χ¦···ýλ4·ýïðð¦╡ÆÇ∙ÂÂ∙∙╡",
         "‘-ΩΩΩΩΩΩΩΩ5‘‘‘Ù╡k±««.h#℗ ¦¦¦¦ñ··ò····ð¦╡∙È∙∙Ñ∙∙╡",
-        " |ΩΩΩΩΩΩΩΩ|‘‘Ø2╡╡╡╡╡1╡║¦¦¦óó-¦1¦¦¦$$$¦¦╡╡╡Ã∙∙∙Ã╡",
+        " |ΩΩΩΩΩΩΩΩ|‘‘Ø2╡╡╡╡╡1╡║¦¦¦óó-¦5¦¦¦$$$¦¦╡╡╡Ã∙∙∙Ã╡",
         " ||=====|5|‘‘‘Ù╡p.j²..#ôõö·ó-y.o-ß‘‘‘àßÙá╡╡$$$╡╡",
         " |ÜÜÝÝÝÞÙΩ|‘‘‘‘$..jj±J#·ý··ó║h.U-ß‘é‘‘‘‘‘‘‘‘é‘ ‘",
         "‘$ΩΩéÚϋéΩΩ1‘‘‘‘$..,...#····÷║.,k║‘╡‘‘Ù╡‘‘â╡‘‘Ù╡‘",
@@ -60,13 +60,25 @@
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing" ],
       "place_zones": [
-        { "type": "LOOT_ITEM_GROUP", "filter": "NC_UICA_VEHICLE_MERCHANT", "faction": "UICA", "x": 9, "y": [ 13, 16 ] },
-        { "type": "LOOT_ITEM_GROUP", "filter": "NC_UICA_VEHICLE_MERCHANT", "faction": "UICA", "x": 3, "y": 11 }
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_vehicle_merchant", "faction": "UICA", "x": 9, "y": [ 13, 16 ] },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_vehicle_merchant", "faction": "UICA", "x": 3, "y": 11 },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 3, "y": 11 },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 29, "y": 8 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_salvor_fabricator_trade",
+          "faction": "UICA",
+          "x": 30,
+          "y": [ 5, 6 ]
+        },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_salvor_fabricator_trade", "faction": "UICA", "x": 31, "y": 6 },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 31, "y": 6 }
       ],
       "npcs": {
         "ω": { "class": "uica_ground_soldier" },
         "χ": { "class": "uica_ground_soldier" },
-        "ϋ": { "class": "uica_vehicle_merchant" }
+        "ϋ": { "class": "uica_vehicle_merchant" },
+        "λ": { "class": "salvor_fabricator" }
       },
       "monster": {
         "ψ": { "monster": "mon_uica_tankbot" },
@@ -174,7 +186,8 @@
         "Ψ": "t_region_groundcover_urban",
         "χ": "t_metal_floor",
         "ϋ": "t_strconc_floor_heated",
-        "υ": "t_strconc_floor_heated"
+        "υ": "t_strconc_floor_heated",
+        "λ": "t_thconc_floor_no_roof"
       },
       "furniture": {
         "4": "f_console",
@@ -252,7 +265,8 @@
         "Ύ": "f_rack",
         "Υ": "f_rack",
         "Ϋ": "f_rack",
-        "υ": "f_sealed_intermodal_crate"
+        "υ": "f_sealed_intermodal_crate",
+        "λ": "f_stool"
       }
     }
   },

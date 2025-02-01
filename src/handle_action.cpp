@@ -1102,7 +1102,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                                      rng( 0, static_cast<int>( vol * .5 ) ) ) );
                     }
                     remove_weapon();
-                    check_dead_state();
+                    check_dead_state( &here );
                 }
             }
         }
@@ -1714,7 +1714,9 @@ static void read()
                 the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
-                player_character.read( loc );
+                item_location parent_loc = loc.parent_item();
+                ( parent_loc && parent_loc->is_estorage() ) ?
+                player_character.read( loc, parent_loc ) : player_character.read( loc );
             }
         }
     } else {
@@ -2235,6 +2237,8 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
 bool game::do_regular_action( action_id &act, avatar &player_character,
                               const std::optional<tripoint_bub_ms> &mouse_target )
 {
+    map &here = get_map();
+
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
                           || player_character.has_active_mutation( trait_SHELL3 );
@@ -2824,7 +2828,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( query_yn( _( "Abandon this character?" ) ) ) {
                 if( query_yn( _( "This will kill your character.  Continue?" ) ) ) {
                     player_character.set_moves( 0 );
-                    player_character.place_corpse();
+                    player_character.place_corpse( &here );
                     uquit = QUIT_SUICIDE;
                 }
             }

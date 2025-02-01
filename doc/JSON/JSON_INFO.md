@@ -3905,6 +3905,7 @@ Books can be defined like this:
 "fun" : -2,           // Morale bonus/penalty for reading
 "skill" : "computer", // Skill raised
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
+"generic": false,     // This book counts chapters by item instance instead of by type (this book represents a generic variety of books, like "book of essays")
 "required_level" : 2,  // Minimum skill level required to learn
 "martial_art": "style_mma", // Martial art learned from this book; incompatible with `skill`
 "proficiencies": [    // Having this book mitigate lack of proficiency, required for crafting 
@@ -5056,7 +5057,7 @@ Examples from the actual definitions:
     "looks_like": "chair",
     "color": "white",
     "move_cost_mod": 2,
-    "keg_capacity": 240,
+    "keg_capacity": "60 L",
     "deployed_item": "plastic_sheet",
     "light_emitted": 5,
     "required_str": 18,
@@ -5118,7 +5119,7 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 #### `keg_capacity`
 
-(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions. Value is per 250mL (e.g. `"keg_capacity": 8,` = 2L)
+(Optional) Determines capacity of some furnitures with liquid storage that have hardcoded interactions.
 
 #### `deployed_item`
 

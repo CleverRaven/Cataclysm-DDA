@@ -316,7 +316,6 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
 bool enchantment::is_active( const monster &mon ) const
 {
-    //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }

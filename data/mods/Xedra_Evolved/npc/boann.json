@@ -31,7 +31,8 @@
       { "trait": "PARACLESIAN_STR_DEX_2" },
       { "trait": "PARACLESIAN_MAKE_GOSSAMER" },
       { "trait": "CHANGELING_NOBLE_MOVEMENT_BUFFS" },
-      { "trait": "CHANGELING_NOBLE_BURNING_WEAPON" }
+      { "trait": "CHANGELING_NOBLE_BURNING_WEAPON" },
+      { "trait": "BOANN_RETALIATION" }
     ],
     "bonus_dex": { "rng": [ 4, 10 ] },
     "bonus_int": { "rng": [ 2, 5 ] },

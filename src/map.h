@@ -104,8 +104,6 @@ struct field_proc_data;
 
 class PathfindingFlags;
 
-using relic_procgen_id = string_id<relic_procgen_data>;
-
 class map_stack : public item_stack
 {
     private:
@@ -1632,7 +1630,7 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
-        void drop_creature( const tripoint_bub_ms &p ) const;
+        void drop_creature( const tripoint_bub_ms &p );
         /*@}*/
     public:
         /**
