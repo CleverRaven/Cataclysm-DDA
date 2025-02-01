@@ -472,6 +472,43 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_RELOCATION",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('teleport_gateway') >= 8" ] },
+                { "math": [ "u_spell_level('teleport_collapse_pull') >= 6" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_relocation') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_relocation" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_relocation') >= 1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_relocation" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Just as you can teleport yourself to memorized locations, you can also teleport held items to those same locations.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_BREACH",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
