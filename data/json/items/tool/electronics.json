@@ -368,7 +368,7 @@
     "copy-from": "memory_card",
     "type": "TOOL",
     "name": { "str": "older memory card" },
-    "description": "A memory card. Maybe a decade out of date, but can still be used to store data.",
+    "description": "A memory card.  Maybe a decade out of date, but can still be used to store data.",
     "pocket_data": [
       {
         "pocket_type": "E_FILE_STORAGE",
