@@ -2,7 +2,7 @@
 
 ## What are variants?
 
-Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON_INFO.md#snippets) may be better. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
+Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON/JSON_INFO.md#snippets) may be better. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
 
 ## What aren't variants?
 
