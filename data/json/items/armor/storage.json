@@ -3458,7 +3458,13 @@
     "material_thickness": 1,
     "flags": [ "FLOTATION", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
-      { "encumbrance": 10, "volume_encumber_modifier": 0.3, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.3,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
     ]
   }
 ]
