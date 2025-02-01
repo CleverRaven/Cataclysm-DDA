@@ -1509,4 +1509,5 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 npc *pick_follower();
 std::unique_ptr<talker> get_talker_for( npc &guy );
 std::unique_ptr<talker> get_talker_for( npc *guy );
+std::unique_ptr<talker> get_talker_for( const Character &guy );
 #endif // CATA_SRC_NPC_H
