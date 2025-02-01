@@ -11,8 +11,7 @@
       "x": "t_railroad_track_on_tie",
       "S": "t_buffer_stop",
       ".": "t_region_soil",
-      "9": "t_region_groundcover_urban",
-      "/": "t_railroad_tie_d"
+      "9": "t_region_groundcover_urban"
     }
   },
   {
