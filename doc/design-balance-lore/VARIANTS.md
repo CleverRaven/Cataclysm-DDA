@@ -22,7 +22,7 @@ What your goals for variants are should be adding in variety, not content for th
 
 ### Foods
 
-Variants for foods generally cover just flavors, as those tend to have little to no calorie difference. You should try to cover a base of flavors without being too specific. Strawberry, banana, raspberry flavours are acceptable as chewing gum flavors, while Crazy Carl's Supreme Strawberry Surprise flavor would not. You also want to avoid overlap, strawberry banana raspberry twist chewing gun doesn't add more variety than the individual variants already do. 
+Variants for foods generally cover just flavors, as those tend to have little to no calorie difference. You should try to cover a base of flavors without being too specific. Strawberry, banana, raspberry flavours are acceptable as chewing gum flavors, while Crazy Carl's Supreme Strawberry Surprise flavor would not. You also want to avoid overlap, strawberry banana raspberry twist chewing gum doesn't add more variety than the individual variants already do. 
 
 ### Clothing
 
@@ -30,7 +30,7 @@ Clothing can benefit greatly from variants, as there's a lot of different clothe
 
 ### Guns 
 
-Guns can have variants as well, such as the Ruger Mk IV having different versions, or the AK having different manufacturers. Gun variants should follow [this](https://github.com/CleverRaven/Cataclysm-DDA/blob/2d2044925173e2e21dc65d3e7592f660e3e01104/doc/GUN_NAMING_AND_INCLUSION.md) doc for inclusion. However, being overly specific such as specifying a Glock 19 with red stippled grips and a dark gray slide is unneeded. You're aiming to cover different guns, not overly specific details. 
+Guns can have variants as well, such as the Ruger Mk IV having different versions, or the AK having different manufacturers. Gun variants should follow [GUN_NAMING_AND_INCLUSION](../GUN_NAMING_AND_INCLUSION.md) doc for inclusion. However, being overly specific such as specifying a Glock 19 with red stippled grips and a dark gray slide is unneeded. You're aiming to cover different guns, not overly specific details. 
 
 ### Religious items 
 
