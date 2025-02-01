@@ -42,7 +42,8 @@
       "1": "t_railroad_crossing_signal",
       "2": [ "t_crossbuck_wood", "t_crossbuck_metal" ],
       "S": "t_buffer_stop",
-      "r": "t_railing"
+      "r": "t_railing",
+      "3": "t_railroad_track_recessed"
     }
   },
   {
