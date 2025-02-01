@@ -27,6 +27,9 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
+#endif
+
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -934,7 +937,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     for( const auto &entry : entries ) {
         if( entry.enabled && entry.hotkey.has_value()
             && entry.hotkey.value() != input_event() ) {

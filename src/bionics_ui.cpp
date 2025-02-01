@@ -757,7 +757,7 @@ void avatar::power_bionics()
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
         cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
         ctxt.get_registered_manual_keys().clear();
         for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
             ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,

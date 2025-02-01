@@ -151,7 +151,6 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
 std::list<input_context *> input_context::input_context_stack;
 
 void input_context::register_manual_key( manual_key mk )
@@ -175,7 +174,6 @@ void input_context::register_manual_key( int key, const std::string text )
 
     registered_manual_keys.push_back( manual_key( key, text ) );
 }
-#endif
 
 void input_context::register_action( const std::string &action_descriptor )
 {

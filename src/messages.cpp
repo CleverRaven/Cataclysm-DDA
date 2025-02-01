@@ -19,7 +19,7 @@
 #include "ui_manager.h"
 #include "viewer.h"
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 #endif
 #include <algorithm>

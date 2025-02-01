@@ -90,7 +90,7 @@ static const event_statistic_id event_statistic_last_words( "last_words" );
 
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -214,7 +214,7 @@ bool cleanup_at_end()
     MAPBUFFER.clear();
     overmap_buffer.clear();
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     quick_shortcuts_map.clear();
 #endif
     return true;
