@@ -315,7 +315,7 @@
     "display_items": true,
     "half_life": "1 hour 30 minutes",
     "phase": "solid",
-    "looks_like": "fd_sap"
+    "looks_like": "fd_sludge"
   },
   {
     "id": "fd_fire",
