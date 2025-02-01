@@ -2686,5 +2686,10 @@
     "id": "CANNOT_GAIN_EFFECTS",
     "type": "json_flag",
     "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
+  },
+  {
+    "id": "BANK_NETWORKED",
+    "type": "json_flag",
+    "//": "Vending machines with this flag will allow purchasing items with your bank balance."
   }
 ]
