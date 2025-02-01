@@ -192,7 +192,6 @@ static int RAS_time( const Character &p, const item_location &loc );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos );
 static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
@@ -2229,11 +2228,6 @@ int RAS_time( const Character &p, const item_location &loc )
         time += opt.moves();
     }
     return time;
-}
-
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint_bub_ms &pos )
-{
-    cycle_action( weap, ammo, &get_map(), pos );
 }
 
 static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos )
