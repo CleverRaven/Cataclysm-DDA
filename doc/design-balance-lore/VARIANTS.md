@@ -18,9 +18,11 @@ As cool as variants are, sometimes issues can arise if there's too much variants
 
 ### Goals
 
-The goal of adding in variants is for variety, and having too many variants can reduce variety due to similarity. Being overly specific in your variants devalues the other variants, while not actually adding any more variety. Variants should be stuff you would reasonably find in the real world. As an example, cigarattes such as Parliments or Newports are commonplace, while Golden Bat cigarettes would be too rare. 
+Variants should add meaningful variety to CDDA. They should be distinct from other variants and also be reasonably attainable in the real world. There isn't any hard number on the amount of variants that are acceptable, as it can vary greatly from item to item. 
 
-Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't. There isn't any hard number on the amount of variants that are acceptable, as it can vary greatly from item to item. While this entry is good for a general grasp of what is acceptable, below are some more specific examples of variants you may want to add.
+Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't.
+
+While this entry is good for a general grasp of what is acceptable, below are some more specific examples of variants you may want to add.
 
 ### Foods
 
