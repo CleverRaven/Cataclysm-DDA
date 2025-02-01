@@ -589,8 +589,8 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
-    for( const tripoint_bub_ms &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.get_abs( pt ) );
+    for( const tripoint_abs_ms &pt : veh->get_points( true ) ) {
+        you.activity.coord_set.insert( pt );
     }
     // values[0]
     you.activity.values.push_back( here.get_abs( src_loc ).x() );

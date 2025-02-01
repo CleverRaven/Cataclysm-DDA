@@ -375,12 +375,12 @@ void map::memory_cache_ter_set_dirty( const tripoint_bub_ms &p, bool value ) con
 void map::memory_clear_vehicle_points( const vehicle &veh ) const
 {
     avatar &player_character = get_avatar();
-    for( const tripoint_bub_ms &p : veh.get_points() ) {
+    for( const tripoint_abs_ms &p : veh.get_points() ) {
         if( !inbounds( p ) ) {
             continue;
         }
-        memory_cache_dec_set_dirty( p, true );
-        player_character.memorize_clear_decoration( get_abs( p ), "vp_" );
+        memory_cache_dec_set_dirty( get_bub( p ), true );
+        player_character.memorize_clear_decoration( p, "vp_" );
     }
 }
 
@@ -602,11 +602,11 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     level_cache &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
-            for( const tripoint_bub_ms &pt : veh->get_points() ) {
+            for( const tripoint_abs_ms &pt : veh->get_points() ) {
                 if( inbounds( pt ) ) {
-                    memory_cache_dec_set_dirty( pt, true );
+                    memory_cache_dec_set_dirty( get_bub( pt ), true );
                 }
-                get_avatar().memorize_clear_decoration( get_abs( pt ), "vp_" );
+                get_avatar().memorize_clear_decoration( pt, "vp_" );
             }
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
@@ -744,11 +744,12 @@ bool map::vehproceed( VehicleList &vehicle_list )
     return true;
 }
 
+// TODO: Make reality bubble independent.
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 {
-    const auto &veh_points = veh.get_points( force_recalc );
-    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint_bub_ms & pt ) {
-        return c.sees( pt );
+    const std::set<tripoint_abs_ms> &veh_points = veh.get_points( force_recalc );
+    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint_abs_ms & pt ) {
+        return c.sees( get_map().get_bub( pt ) );
     } );
 }
 
@@ -886,10 +887,11 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     if( !vertical && !veh.valid_wheel_config() && !( veh.is_watercraft() && veh.can_float() ) &&
         !veh.is_flying_in_air() && dp.z() == 0 ) {
         veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
-        for( const tripoint_bub_ms &p : veh.get_points() ) {
-            const ter_id &pter = ter( p );
+        for( const tripoint_abs_ms &p : veh.get_points() ) {
+            const tripoint_bub_ms pos = get_bub( p );
+            const ter_id &pter = ter( pos );
             if( pter == ter_t_dirt || pter == ter_t_grass ) {
-                ter_set( p, ter_t_dirtmound );
+                ter_set( pos, ter_t_dirtmound );
             }
         }
     }
@@ -7136,7 +7138,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
 
         if( !veh->forward_velocity() && !veh->player_in_control( player_character )
             && !( player_character.get_grab_type() == object_type::VEHICLE
-                  && veh->get_points().count( ( player_character.pos_bub() +
+                  && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {
             memory_sym = sym;
         }

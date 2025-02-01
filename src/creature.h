@@ -319,6 +319,7 @@ class Creature : public viewer
         virtual void gravity_check( map *here );
         void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
         void setpos( map *here, const tripoint_bub_ms &p, bool check_gravity = true );
+        void setpos( const tripoint_abs_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
         bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;
