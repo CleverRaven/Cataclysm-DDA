@@ -304,7 +304,7 @@
     "copy-from": "usb_drive",
     "type": "TOOL",
     "name": { "str": "older USB drive" },
-    "description": "A USB thumb drive. Maybe a decade out of date, but still useful for holding electronic data.",
+    "description": "A USB thumb drive.  Maybe a decade out of date, but still useful for holding electronic data.",
     "pocket_data": [
       {
         "pocket_type": "E_FILE_STORAGE",
