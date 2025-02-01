@@ -1,9 +1,8 @@
 # Variants
 
-
 ## What are variants?
 
-Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. They were added in #51613 and #46814.
+Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
 
 ## What aren't variants?
 
@@ -17,6 +16,10 @@ As cool as variants are, sometimes issues can arise if there's too much variants
 
 ## Criteria 
 
+### Goals
+
+What your goals for variants are should be adding in variety, not content for the sake of it. Being overly specific in your variants devalues the other variants, while not actually adding any more variety. Variants should be stuff you would reasonably find in the real world. As an example, cigarattes such as Parliments or Newports are commonplace, while Golden Bat cigarettes would be too rare. Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't. There isn't any hard number on the amount of variants that are acceptable, as it can vary greatly from item to item. While this entry is good for a general grasp of what is acceptable, below are some more specific examples of variants you may want to add.
+
 ### Foods
 
 Variants for foods generally cover just flavors, as those tend to have little to no calorie difference. You should try to cover a base of flavors without being too specific. Strawberry, banana, raspberry flavours are acceptable as chewing gum flavors, while Crazy Carl's Supreme Strawberry Surprise flavor would not. You also want to avoid overlap, strawberry banana raspberry twist chewing gun doesn't add more variety than the individual variants already do. 
@@ -27,15 +30,12 @@ Clothing can benefit greatly from variants, as there's a lot of different clothe
 
 ### Guns 
 
-Guns can have variants as well, such as the Ruger Mk IV having different versions, or the AK having different manufacturers. Gun variants should [this](https://github.com/CleverRaven/Cataclysm-DDA/blob/2d2044925173e2e21dc65d3e7592f660e3e01104/doc/GUN_NAMING_AND_INCLUSION.md) doc for inclusion. However, being overly specific such as specifying a Glock 19 with red stippled grips and a dark gray slide is unneeded. You're aiming to cover different guns, not overly specific details. 
+Guns can have variants as well, such as the Ruger Mk IV having different versions, or the AK having different manufacturers. Gun variants should follow [this](https://github.com/CleverRaven/Cataclysm-DDA/blob/2d2044925173e2e21dc65d3e7592f660e3e01104/doc/GUN_NAMING_AND_INCLUSION.md) doc for inclusion. However, being overly specific such as specifying a Glock 19 with red stippled grips and a dark gray slide is unneeded. You're aiming to cover different guns, not overly specific details. 
 
 ### Religious items 
 
-Religous item variants should focus mainly on major religions. Stuff like Church of the Flying Spaghetti Monster, Heaven's Gate, Norse Mythology should be excluded or at the very least, very rare. 
+Religous item variants should focus mainly on major religions. Stuff like The Church of the Flying Spaghetti Monster, Heaven's Gate, Norse Mythology should be excluded or at the very least, very rare and not spawn in place of commonplace religons. 
 
-### Misc items 
+### Books and manuals
 
-This is for items that don't fit into those categories, such as plushies, knives, etc. but also as a general guide for what isn't and isn't acceptable. Variants exist for the purpose of adding variety, not content. If you're adding variants and are having to specific what type of variant it is, you're in too deep. As an example, a bear plushie is fine, a panda bear plushie is not. Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't. Item variants should also try to follow what is present in the real world in meaningful numbers. For example, specifying a type of cigarette is a Golden Bat one is too specific, it's a rare collectors item that you have an essentially zero chance of actually finding, especially as a regular cigarette people are smoking and not one that is in a collection somewhere.
-
-
-
+Books, and especially manual variants should aim to be relatively low in count, as a high variant count for what is the same item can confuse people and cause them to either pick up a copy of a book they already have, or have to put in extra effort to examine the book to make sure. 
