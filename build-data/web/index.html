@@ -3,49 +3,54 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Set viewport to cover mobile devices with fixed scale and fit -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, viewport-fit=cover, maximum-scale=1"
     />
     <title>Cataclysm: Dark Days Ahead</title>
+    
+    <!-- Inline CSS styling for the page -->
     <style>
+      /* Define a custom font face */
       @font-face {
         font-family: Terminus;
         src: url("./Terminus.ttf");
       }
 
+      /* Reset margin and padding for html element; ensure full height and no scrollbars */
       html {
         padding: 0;
         margin: 0;
-
         height: 100%;
         overflow: hidden;
       }
 
+      /* Reset for body; grey background, no scrollbars */
       body {
         padding: 0;
         margin: 0;
-
         height: 100%;
         overflow: hidden;
         background-color: grey;
       }
 
+      /* Styling for the canvas: positioned absolutely, full-screen, pixelated rendering */
       canvas {
         margin: 0;
-        padding: none;
-        border: 0px none;
+        padding: 0;
+        border: none;
         background-color: black;
         display: block;
         position: absolute;
-        left: 0px;
-        top: 0px;
+        left: 0;
+        top: 0;
         outline: none;
-
         image-rendering: pixelated;
         z-index: 1;
       }
 
+      /* Loading message centered on screen */
       #loading-message {
         color: white;
         position: absolute;
@@ -58,6 +63,7 @@
         z-index: 4;
       }
 
+      /* Styling for the settings gear icon */
       #settings-gear {
         color: white;
         opacity: 0.5;
@@ -69,10 +75,12 @@
         cursor: pointer;
       }
 
+      /* Increase opacity on hover for better feedback */
       #settings-gear:hover {
         opacity: 1;
       }
 
+      /* Settings menu styling: black background with white text and border */
       #settings-menu {
         color: white;
         background-color: black;
@@ -85,10 +93,10 @@
         border-radius: 5px;
         padding: 15px;
         align-items: stretch;
-        border-color: white;
-        border-style: solid;
+        border: 1px solid white;
       }
 
+      /* Buttons inside the settings menu */
       .menu-button {
         font-family: Terminus, monospace;
         font-size: 20px;
@@ -100,12 +108,14 @@
         opacity: 1;
       }
 
+      /* Link styling: white text without underline */
       a {
         color: white;
         text-decoration: none;
       }
     </style>
 
+    <!-- External stylesheet for Font Awesome icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -114,6 +124,8 @@
       referrerpolicy="no-referrer"
     />
 
+    <!-- External scripts loaded via CDN -->
+    <!-- Screenfull.js for toggling fullscreen mode -->
     <script
       defer
       src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.2.0/screenfull.min.js"
@@ -121,6 +133,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <!-- JSZip for creating ZIP archives (used in exporting saves) -->
     <script
       defer
       src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
@@ -128,6 +141,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <!-- FileSaver.js for saving files locally -->
     <script
       defer
       src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
@@ -136,6 +150,7 @@
       referrerpolicy="no-referrer"
     ></script>
 
+    <!-- Favicon and Open Graph meta tags -->
     <link rel="shortcut icon" href="favicon.ico" />
     <meta property="og:image" content="preview-image.png" />
     <meta property="og:title" content="Cataclysm: Dark Days Ahead" />
@@ -145,18 +160,20 @@
     />
   </head>
   <body>
+    <!-- Settings gear icon to toggle settings menu -->
     <div id="settings-gear"><i class="fa-solid fa-gear"></i></div>
+    <!-- Hidden settings menu; displayed when the gear is clicked -->
     <div id="settings-menu" style="display: none">
       <div style="margin-bottom: 10px">
         <div id="toggle-fullscreen" class="menu-button">
-          <i class="fa-solid fa-expand"></i
-          ><span style="margin-left: 0.7em">Toggle Fullscreen</span>
+          <i class="fa-solid fa-expand"></i>
+          <span style="margin-left: 0.7em">Toggle Fullscreen</span>
         </div>
       </div>
       <div style="margin-bottom: 10px">
         <div id="export-saves" class="menu-button">
-          <i class="fa-solid fa-download"></i
-          ><span style="margin-left: 0.7em">Export Saves</span>
+          <i class="fa-solid fa-download"></i>
+          <span style="margin-left: 0.7em">Export Saves</span>
         </div>
       </div>
       <div>
@@ -165,139 +182,123 @@
           href="https://github.com/CleverRaven/Cataclysm-DDA"
         >
           <div id="browse-code" class="menu-button">
-            <i class="fa-brands fa-github"></i
-            ><span style="margin-left: 0.7em">Browse Code</span>
+            <i class="fa-brands fa-github"></i>
+            <span style="margin-left: 0.7em">Browse Code</span>
           </div>
         </a>
       </div>
     </div>
 
+    <!-- Main canvas element for game rendering -->
     <canvas
       id="canvas"
-      style="
-        width: 100%;
-        height: 100%;
-        min-width: 640px;
-        min-height: 384px;
-      "
+      style="width: 100%; height: 100%; min-width: 640px; min-height: 384px;"
       tabindex="-1"
     ></canvas>
+    <!-- Loading message displayed while assets are being loaded -->
     <div id="loading-message">Loading...</div>
 
+    <!-- Inline JavaScript for handling UI interactions and game initialization -->
     <script type="text/javascript">
+      // Get references to canvas and UI elements.
       const canvas = document.getElementById("canvas");
       const loadingMessage = document.getElementById("loading-message");
       const settingsMenu = document.getElementById("settings-menu");
 
+      // Hide the loading message when the custom "menuready" event is dispatched.
       window.addEventListener("menuready", () => {
         loadingMessage.style.display = "none";
       });
 
+      // Toggle the settings menu when the settings gear is clicked.
       document.getElementById("settings-gear").onclick = () => {
-        if (settingsMenu.style.display === "none") {
-          settingsMenu.style.display = "inherit";
-        } else {
-          settingsMenu.style.display = "none";
-        }
+        settingsMenu.style.display = (settingsMenu.style.display === "none") ? "inherit" : "none";
       };
 
+      // Hide the settings menu if the canvas is clicked.
       canvas.addEventListener("click", () => {
         settingsMenu.style.display = "none";
       });
 
+      // Toggle fullscreen mode using screenfull.js when the fullscreen button is clicked.
       document.getElementById("toggle-fullscreen").onclick = () => {
         screenfull.toggle();
       };
 
+      // Handler for exporting saves using JSZip and FileSaver.js.
       document.getElementById("export-saves").onclick = async () => {
         const zip = new JSZip();
 
+        // Helper function to filter out '.' and '..' entries.
         function isRealDir(p) {
           return p !== "." && p !== "..";
         }
 
+        // Recursive function to traverse the virtual filesystem and add files to the ZIP.
         function recurse(fs_path, zip_path) {
-          const entries =
-            Module.FS.readdir(fs_path).filter(isRealDir);
+          const entries = Module.FS.readdir(fs_path).filter(isRealDir);
           for (const entry of entries) {
             const entry_fs_path = fs_path + "/" + entry;
             const entry_zip_path = zip_path + "/" + entry;
-
             const stat = FS.stat(entry_fs_path);
             if (FS.isDir(stat.mode)) {
               recurse(entry_fs_path, entry_zip_path);
             } else if (FS.isFile(stat.mode)) {
-              zip.file(
-                entry_zip_path,
-                FS.readFile(entry_fs_path, {
-                  encoding: "binary",
-                })
-              );
+              zip.file(entry_zip_path, FS.readFile(entry_fs_path, { encoding: "binary" }));
             }
           }
         }
 
+        // Start recursion from the saves directory.
         recurse("/home/web_user/.cataclysm-dda", "");
-
+        // Generate the ZIP file and trigger a download.
         saveAs(await zip.generateAsync({ type: "blob" }), "saves.zip");
       };
 
+      // Module configuration object for the game.
       var Module = {
         preRun: [],
         postRun: [],
         canvas: (function () {
-          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-          // application robust, you may want to override this behavior before shipping!
-          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-          canvas.addEventListener(
-            "webglcontextlost",
-            function (e) {
-              alert(
-                "WebGL context lost. You will need to reload the page."
-              );
-              e.preventDefault();
-            },
-            false
-          );
-
+          // Add event listener for WebGL context loss to alert the user.
+          canvas.addEventListener("webglcontextlost", function (e) {
+            alert("WebGL context lost. You will need to reload the page.");
+            e.preventDefault();
+          }, false);
           return canvas;
         })(),
+        // Function to update the loading status.
         setStatus: function (text) {
-          if (text) {
-            loadingMessage.innerHTML = text;
-          } else {
-            loadingMessage.innerHTML = "Starting...";
-          }
+          loadingMessage.innerHTML = text ? text : "Starting...";
         },
         totalDependencies: 0,
+        // Monitors run dependencies and updates the loading message.
         monitorRunDependencies: function (left) {
-          this.totalDependencies = Math.max(
-            this.totalDependencies,
-            left
-          );
+          this.totalDependencies = Math.max(this.totalDependencies, left);
           Module.setStatus(
             left
-              ? "Preparing... (" +
-                  (this.totalDependencies - left) +
-                  "/" +
-                  this.totalDependencies +
-                  ")"
+              ? "Preparing... (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")"
               : "All downloads complete."
           );
         },
       };
+
+      // Set initial status message.
       Module.setStatus("Downloading...");
+      // Global error handler to log exceptions.
       window.onerror = function (event, source, lineno, colno, error) {
         if (typeof error === 'number' && Module.getExceptionMessage) {
           console.log(Module.getExceptionMessage(error));
         }
         alert("Exception thrown, see JavaScript console.");
       };
+      // Warn user if there are unsaved changes before unloading the page.
       window.onbeforeunload = (e) => {
         if (window.game_unsaved)
           e.preventDefault();
-      }
+      };
     </script>
+    <!-- Async load game asset scripts -->
     <script async type="text/javascript" src="cataclysm-tiles.data.js"></script>
     <script async type="text/javascript" src="cataclysm-tiles.js"></script>
   </body>
