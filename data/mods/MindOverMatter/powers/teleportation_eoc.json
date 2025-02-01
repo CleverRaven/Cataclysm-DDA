@@ -999,7 +999,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_01",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1043,7 +1043,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_02",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1087,7 +1087,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_03",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1131,7 +1131,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_04",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1175,7 +1175,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_05",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1219,7 +1219,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_06",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1263,7 +1263,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_07",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1307,7 +1307,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_08",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1351,7 +1351,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_09",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
@@ -1395,7 +1395,7 @@
             "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_10",
             "effect": [
               {
-                "u_message": "The items in your hands flicker and appear to shrink before returning to normal. Nothing else happens."
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
               }
             ]
           }
