@@ -2,11 +2,11 @@
 
 ## What are variants?
 
-Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They can be weighted, meaning different variants have a different chance of showing up when the base item is spawned. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON/JSON_INFO.md#snippets) may be better. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
+Variants, added in [#51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [#46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814) are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They can be weighted, meaning different variants have a different chance of showing up when the base item is spawned. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON/JSON_INFO.md#snippets) may be better.
 
 ## What aren't variants?
 
-Variants cannot change any stat of an item, besides the name, description, color, sprite, and symbol. They're nothing more than an aesthetic change and has no impact on gameplay. 
+Variants cannot change any stat of an item, besides the name, description, color, sprite, and symbol. They're nothing more than an aesthetic change and have no impact on gameplay. 
 
 # Inclusion Criteria 
 
@@ -18,7 +18,9 @@ As cool as variants are, sometimes issues can arise if there's too much variants
 
 ### Goals
 
-What your goals for variants are should be adding in variety, not content for the sake of it. Being overly specific in your variants devalues the other variants, while not actually adding any more variety. Variants should be stuff you would reasonably find in the real world. As an example, cigarattes such as Parliments or Newports are commonplace, while Golden Bat cigarettes would be too rare. Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't. There isn't any hard number on the amount of variants that are acceptable, as it can vary greatly from item to item. While this entry is good for a general grasp of what is acceptable, below are some more specific examples of variants you may want to add.
+The goal of adding in variants is for variety, and having too many variants can reduce variety due to similarity. Being overly specific in your variants devalues the other variants, while not actually adding any more variety. Variants should be stuff you would reasonably find in the real world. As an example, cigarattes such as Parliments or Newports are commonplace, while Golden Bat cigarettes would be too rare. 
+
+Don't be overzealous with joke variants, one joke variant alone is not likely to be accepted while multiple surely aren't. There isn't any hard number on the amount of variants that are acceptable, as it can vary greatly from item to item. While this entry is good for a general grasp of what is acceptable, below are some more specific examples of variants you may want to add.
 
 ### Foods
 
