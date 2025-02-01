@@ -2,7 +2,7 @@
 
 ## What are variants?
 
-Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON/JSON_INFO.md#snippets) may be better. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
+Variants are CDDAs solution to allowing the same item have different names. It's used in guns to have generic or specific names changeable with a setting, or in items such as clothing to have lots of different colors without having a bunch of essentially duplicate entries for an item. They can be weighted, meaning different variants have a different chance of showing up when the base item is spawned. They're a great way to add in extra variety to the game at a low cost to both effort, and file sizes. Do note that for some items, such as newspapers where the description changes and not the name, [snippets](../JSON/JSON_INFO.md#snippets) may be better. They were added in [51613](https://github.com/CleverRaven/Cataclysm-DDA/pull/51613) and [46814](https://github.com/CleverRaven/Cataclysm-DDA/pull/46814).
 
 ## What aren't variants?
 
@@ -12,7 +12,7 @@ Variants cannot change any stat of an item, besides the name, description, color
 
 ## Issues
 
-As cool as variants are, sometimes issues can arise if there's too much variants of an item with nothing to reign them in. As an example, condoms had a few joke flavors that didn't make sense, and snowballed into other items having variants that were nothing more than jokes, such as chewing gum having fart, cat hairball, and zombie flavors. This doc aims to provide contributors with a good idea of what is, and isn't acceptable as variants. 
+As cool as variants are, sometimes issues can arise if there's too much variants of an item with nothing to reign them in. As an example, condoms had a few joke flavors that didn't make sense, and snowballed into other items having variants that were nothing more than jokes, such as chewing gum having fart, cat hairball, and zombie flavors. This doc aims to provide contributors with a good idea of what is, and isn't acceptable as variants. Another factor is that more variants complicate translating, making a difficult job more difficult.
 
 ## Criteria 
 
