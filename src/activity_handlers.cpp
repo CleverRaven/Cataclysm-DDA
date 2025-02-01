@@ -1130,7 +1130,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
 
-            roll == 0;
+            roll = 0;
 
         }
         // field dressing ignores skin, flesh, and blood
