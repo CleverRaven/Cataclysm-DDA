@@ -985,6 +985,510 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_PRE_CHECK",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true, "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "true_eocs": [ "EOC_TELEPORT_RELOCATION_SELECTOR" ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_NO_HELD_ITEM_PRE",
+            "effect": [ { "u_message": "Try as you might, you cannot teleport nothing." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_TELEPORT_RELOCATION_SELECT_01",
+          "EOC_TELEPORT_RELOCATION_SELECT_02",
+          "EOC_TELEPORT_RELOCATION_SELECT_03",
+          "EOC_TELEPORT_RELOCATION_SELECT_04",
+          "EOC_TELEPORT_RELOCATION_SELECT_05",
+          "EOC_TELEPORT_RELOCATION_SELECT_06",
+          "EOC_TELEPORT_RELOCATION_SELECT_07",
+          "EOC_TELEPORT_RELOCATION_SELECT_08",
+          "EOC_TELEPORT_RELOCATION_SELECT_09",
+          "EOC_TELEPORT_RELOCATION_SELECT_10"
+        ],
+        "names": [
+          "Item Portal: <u_val:gateway_destination_name_1>",
+          "Item Portal: <u_val:gateway_destination_name_2>",
+          "Item Portal: <u_val:gateway_destination_name_3>",
+          "Item Portal: <u_val:gateway_destination_name_4>",
+          "Item Portal: <u_val:gateway_destination_name_5>",
+          "Item Portal: <u_val:gateway_destination_name_6>",
+          "Item Portal: <u_val:gateway_destination_name_7>",
+          "Item Portal: <u_val:gateway_destination_name_8>",
+          "Item Portal: <u_val:gateway_destination_name_9>",
+          "Item Portal: <u_val:gateway_destination_name_10>"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
+        "descriptions": [
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination.",
+          "Teleport items to a destination."
+        ],
+        "hide_failing": true,
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_01",
+    "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_01",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_1" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_01",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_02",
+    "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_02",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_2" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_02",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_03",
+    "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_03",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_3" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_03",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_04",
+    "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_04",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_4" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_04",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_05",
+    "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_05",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_5" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_05",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_06",
+    "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_06",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_6" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_06",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_07",
+    "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_07",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_7" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_07",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_08",
+    "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_08",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_8" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_08",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_09",
+    "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_09",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_9" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_09",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_RELOCATION_SELECT_10",
+    "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          {
+            "wielded_only": true,
+            "condition": {
+              "and": [
+                {
+                  "math": [
+                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
+                  ]
+                },
+                { "math": [ "n_volume() > 0" ] }
+              ]
+            }
+          }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_10",
+            "effect": [
+              { "npc_teleport": { "u_val": "gateway_destination_10" } },
+              { "u_message": "The items in your hands vanish with a faint pop sound." }
+            ]
+          }
+        ],
+        "false_eocs": [
+          {
+            "id": "EOC_TELEPORT_RELOCATION_TELEPORT_FAIL_10",
+            "effect": [
+              {
+                "u_message": "The items in your hands flicker and appear to shrink before returning to normal.  Nothing else happens."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SUMMON",
     "effect": [
       { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 1, 3 ], "min_radius": 2, "max_radius": 6 }

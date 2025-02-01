@@ -1696,6 +1696,13 @@
   },
   {
     "type": "furniture",
+    "id": "f_vending_reinforced_networked",
+    "name": "reinforced vending machine",
+    "copy-from": "f_vending_reinforced",
+    "extend": { "flags": [ "BANK_NETWORKED" ] }
+  },
+  {
+    "type": "furniture",
     "id": "f_vending_reinforced_off",
     "name": "reinforced vending machine (off)",
     "looks_like": "f_vending_reinforced",
@@ -1748,6 +1755,13 @@
       "furn_set": "f_vending_o",
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_c_networked",
+    "name": "vending machine",
+    "copy-from": "f_vending_c",
+    "extend": { "flags": [ "BANK_NETWORKED" ] }
   },
   {
     "type": "furniture",
