@@ -29,8 +29,6 @@ template <typename T> class generic_factory;
 enum eoc_type {
     ACTIVATION,
     RECURRING,
-    SCENARIO_SPECIFIC,
-    PROFESSION_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
     PREVENT_DEATH,
