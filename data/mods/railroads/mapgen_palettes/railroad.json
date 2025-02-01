@@ -6,6 +6,7 @@
     "terrain": {
       "^": "t_railroad_rubble",
       "-": "t_railroad_tie",
+      "/": "t_railroad_tie_d",
       "D": "t_railroad_track_d",
       "X": "t_railroad_track",
       "x": "t_railroad_track_on_tie",
