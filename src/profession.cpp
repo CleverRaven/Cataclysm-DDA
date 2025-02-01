@@ -258,6 +258,7 @@ void profession::load( const JsonObject &jo, const std::string_view )
               Trait_group_BG_survival_story_UNIVERSAL );
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
@@ -518,6 +519,11 @@ static time_point advanced_spawn_time()
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+std::optional<int> profession::starting_cash() const
+{
+    return _starting_cash;
 }
 
 static void clear_faults( item &it )
