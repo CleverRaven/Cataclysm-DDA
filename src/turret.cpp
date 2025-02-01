@@ -301,13 +301,13 @@ void turret_data::post_fire( map *here, Character &you, int shots )
 
     // handle draining of vehicle tanks or batteries, if applicable
     if( uses_vehicle_tanks_or_batteries() ) {
-        veh->drain( ammo_current(), mode->ammo_required() * shots );
+        veh->drain( here, ammo_current(), mode->ammo_required() * shots );
         mode->ammo_unset();
 
         clear_mag_wells( *base() );
     }
 
-    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_energy_drain() * shots ) );
+    veh->drain( here, fuel_type_battery, units::to_kilojoule( mode->get_gun_energy_drain() * shots ) );
 }
 
 int turret_data::fire( Character &c, map *here, const tripoint_bub_ms &target )
