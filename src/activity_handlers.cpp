@@ -1396,7 +1396,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED && action != butcher_tyoe:: DISMEMBER ) {
+        action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
