@@ -364,6 +364,7 @@
     "spells": [
       { "id": "teleport_blink", "level": 7 },
       { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_item_apport", "level": 7 },
       { "id": "teleport_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 8 },
       { "id": "teleport_phase", "level": 11 },

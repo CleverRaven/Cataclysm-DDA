@@ -1333,6 +1333,16 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Shorten relative distances nearby, allowing the psions to travel faster than their stride would indicate. Reduces move cost by 5% plus 2% per power level to a maximum of 60% reduced move cost.<br />
 *Prerequisites*: Phase 4, Stutterstep 6<br />
 </details>
+<summary><h3>Apportation</h3></summary>
+
+*Difficulty*: 3<br />
+*Target*: One held item of 2L or less volume, plus 2.5L per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2500, minus 65 per level to a minimum of 1250<br />
+*Channeling Time*: 150 moves, minus 7.5 moves per level to a minimum of 75<br />
+*Effects*: Transport an item in your hands to a nearby location, up to 2 squares plus 1.25 square per power level away.  The item cannot be teleported into a solid object.<br />
+*Prerequisites*: Blink 4, Stutterstep 4<br />
+</details>
 <details>
 <summary><h3>Transposition</h3></summary>
 
@@ -1353,7 +1363,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
 *Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
 *Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
-*Prerequisites*: Stutterstep 10, Phase 5 <br />
+*Prerequisites*: Stutterstep 10, Apportation 5 <br />
 </details>
 <details>
 <summary><h3>Reactive Displacement (C)</h3></summary>
