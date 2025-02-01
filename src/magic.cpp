@@ -1344,7 +1344,7 @@ float spell::spell_fail( const Character &guy ) const
         return 0.0f;
     }
     if( type->magic_type.has_value() && type->magic_type.value()->failure_chance_formula_id.has_value() ) {
-        dialogue d( get_talker_for( guy ), nullptr );
+        const_dialogue d( get_const_talker_for( guy ), nullptr );
         return type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
     }
 
