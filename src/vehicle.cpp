@@ -3697,6 +3697,13 @@ int vehicle::drain( const itype_id &ftype, int amount,
                     const std::function<bool( vehicle_part & )> &filter,
                     bool apply_loss )
 {
+    return vehicle::drain( &get_map(), ftype, amount, filter, apply_loss );
+}
+
+int vehicle::drain( map *here, const itype_id &ftype, int amount,
+                    const std::function<bool( vehicle_part & )> &filter,
+                    bool apply_loss )
+{
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
@@ -3718,7 +3725,7 @@ int vehicle::drain( const itype_id &ftype, int amount,
             break;
         }
         if( p.ammo_current() == ftype ) {
-            int qty = p.ammo_consume( amount, bub_part_pos( p ) );
+            int qty = p.ammo_consume( amount, here, here->get_bub( abs_part_pos( p ) ) );
             drained += qty;
             amount -= qty;
         }
@@ -3730,6 +3737,8 @@ int vehicle::drain( const itype_id &ftype, int amount,
 
 int vehicle::drain( const int index, int amount, bool apply_loss )
 {
+    map &here = get_map();
+
     if( index < 0 || index >= static_cast<int>( parts.size() ) ) {
         debugmsg( "Tried to drain an invalid part index: %d", index );
         return 0;
@@ -3748,7 +3757,7 @@ int vehicle::drain( const int index, int amount, bool apply_loss )
         return 0;
     }
 
-    const int drained = pt.ammo_consume( amount, bub_part_pos( pt ) );
+    const int drained = pt.ammo_consume( amount, &here, bub_part_pos( pt ) );
     invalidate_mass();
     return drained;
 }
@@ -5336,6 +5345,8 @@ void vehicle::update_alternator_load()
 
 void vehicle::power_parts()
 {
+    map &here = get_map();
+
     update_alternator_load();
     // Things that drain energy: engines and accessories.
     units::power engine_epower = total_engine_epower();
@@ -5383,7 +5394,7 @@ void vehicle::power_parts()
                     int fuel_consumed = reactors_output_bat / efficiency;
                     // Remainder has a chance of resulting in more fuel consumption
                     fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
-                    vp.ammo_consume( fuel_consumed, bub_part_pos( vp ) );
+                    vp.ammo_consume( fuel_consumed, &here, bub_part_pos( vp ) );
                     reactor_working = true;
                     delta_energy_bat += reactors_output_bat;
                 }
@@ -5917,17 +5928,17 @@ void vehicle::slow_leak()
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
             item leak( fuel, calendar::turn, qty );
             here.add_item_or_charges( dest, leak );
-            p.ammo_consume( qty, bub_part_pos( p ) );
+            p.ammo_consume( qty, &here, bub_part_pos( p ) );
         } else if( fuel == fuel_type_plutonium_cell ) {
             if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
                 item leak( itype_plut_slurry_dense, calendar::turn, qty );
                 here.add_item_or_charges( dest, leak );
-                p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, bub_part_pos( p ) );
+                p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, &here, bub_part_pos( p ) );
             } else {
-                p.ammo_consume( p.ammo_remaining(), bub_part_pos( p ) );
+                p.ammo_consume( p.ammo_remaining(), &here, bub_part_pos( p ) );
             }
         } else {
-            p.ammo_consume( qty, bub_part_pos( p ) );
+            p.ammo_consume( qty, &here, bub_part_pos( p ) );
         }
     }
 }
@@ -7723,7 +7734,7 @@ void vehicle::leak_fuel( vehicle_part &pt ) const
     const itype *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1 ) ),
-                                   bub_part_pos( pt ) );
+                                   &here, bub_part_pos( pt ) );
         if( qty > 0 ) {
             here.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ) );
         }

@@ -165,6 +165,10 @@ class inventory : public visitable
         void form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
+        void form_from_map( map *here, const tripoint_bub_ms &origin, int range,
+                            const Character *pl = nullptr,
+                            bool assign_invlet = true,
+                            bool clear_path = true );
         void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                             bool assign_invlet = true );
         /**

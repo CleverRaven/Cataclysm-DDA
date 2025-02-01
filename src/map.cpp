@@ -9324,7 +9324,7 @@ void map::build_obstacle_cache(
     }
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
-        const tripoint_bub_ms loc = get_bub( critter.pos_abs() );
+        const tripoint_bub_ms loc = critter.pos_bub( this );
         if( loc.z() != start.z() || !inbounds( loc ) ) {
             continue;
         }

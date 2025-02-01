@@ -2581,6 +2581,7 @@ class item : public visitable
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2592,6 +2593,9 @@ class item : public visitable
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
          */
         units::energy energy_consume( units::energy qty, const tripoint_bub_ms &pos, Character *carrier,
+                                      float fuel_efficiency = -1.0 );
+        units::energy energy_consume( units::energy qty, map *here, const tripoint_bub_ms &pos,
+                                      Character *carrier,
                                       float fuel_efficiency = -1.0 );
 
         /**

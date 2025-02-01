@@ -84,6 +84,8 @@ void explosion(
 // until triggered normally.
 bool explosion_processing_active();
 void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex );
+void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
+                const explosion_data &ex );
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex );
 

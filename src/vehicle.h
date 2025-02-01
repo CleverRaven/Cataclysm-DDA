@@ -337,7 +337,7 @@ struct vehicle_part {
          * @param pos current reality bubble location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        int ammo_consume( int qty, const tripoint_bub_ms &pos );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos );
 
         /**
          * Consume fuel by energy content.
@@ -394,7 +394,7 @@ struct vehicle_part {
         void unset_crew();
 
         /** Reset the target for this part. */
-        void reset_target( const tripoint_bub_ms &pos );
+        void reset_target( const tripoint_abs_ms &pos );
 
         /**
          * @name Part capabilities
@@ -641,7 +641,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint_bub_ms &target ) const;
+        bool in_range( const tripoint_abs_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -656,7 +656,7 @@ class turret_data
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( Character &you, int shots );
+        void post_fire( map *here, Character &you, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -664,7 +664,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint_bub_ms &target );
+        int fire( Character &c, map *here, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -1465,6 +1465,9 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
+                   bool apply_loss = true );
+        int drain( map *here, const itype_id &ftype, int amount,
                    const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
                    bool apply_loss = true );
         int drain( int index, int amount, bool apply_loss = true );
