@@ -184,7 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "radish_taproot",
-    "name": { "str": "radish taproot" },
+    "name": { "str": "handful of radish taproots", "str_pl": "handfuls of radish taproots" },
     "weight": "100 g",
     "color": "red",
     "comestible_type": "FOOD",
@@ -192,7 +192,7 @@
     "looks_like": "carrot",
     "quench": 2,
     "calories": 15,
-    "description": "Crunchy red radish taproots",
+    "description": "A handful of crunchy red radish taproots.",
     "price": "104 cent",
     "price_postapoc": "104 cent",
     "material": [ "veggy" ],
