@@ -196,7 +196,7 @@
     "price": "104 cent",
     "price_postapoc": "104 cent",
     "material": [ "veggy" ],
-    "volume": "80 ml",
+    "volume": "325 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "vitamins": [ [ "veggy_allergen", 1 ], [ "vitC", "15 mg" ], [ "iron", "3 mg" ], [ "calcium", "25 mg" ] ]
   },
