@@ -165,7 +165,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "khuunaofaai_payload_glue": 6 },
+        "ammo_restriction": { "khuunaofaai_payload_glue": 4 },
         "watertight": true
       }
     ]

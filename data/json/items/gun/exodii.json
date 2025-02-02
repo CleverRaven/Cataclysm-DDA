@@ -147,20 +147,20 @@
     "type": "SPELL",
     "name": { "str": "adhesive spray", "//~": "NO_I18N" },
     "description": { "str": "Your weapon coats its target in quickly hardening resin", "//~": "NO_I18N" },
-    "effect": "attack",
+    "effect": "ter_transform",
+    "effect_str": "exodii_foam",
     "shape": "blast",
-    "valid_targets": [ "hostile", "ally", "ground" ],
-    "effect_str": "glued",
-    "min_duration": 60000,
-    "max_duration": 60000,
+    "valid_targets": [ "ground" ],
     "min_aoe": 6,
     "max_aoe": 7,
     "difficulty": 1,
     "min_range": 10,
-    "max_range": 10,
-    "field_id": "fd_glue",
-    "min_field_intensity": 1,
-    "max_field_intensity": 1
+    "max_range": 10
+  },
+  {
+    "type": "ter_fur_transform",
+    "id": "exodii_foam",
+    "terrain": [ { "result": "t_foam_wall", "valid_flags": [ "FLAT" ] } ]
   },
   {
     "id": "sapra",
