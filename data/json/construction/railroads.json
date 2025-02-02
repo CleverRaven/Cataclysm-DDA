@@ -47,5 +47,29 @@
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt",
     "strict": true
+  },
+  {
+    "type": "construction",
+    "id": "cover_rail",
+    "group": "constr_cover_rail",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "3 m",
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "pre_terrain": "t_railroad_track",
+    "post_terrain": "t_railroad_track_covered",
+    "strict": true
+  },
+  {
+    "type": "construction",
+    "id": "cover_rail_on_tie",
+    "group": "constr_cover_rail",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "3 m",
+    "components": [ [ [ "2x4", 1 ] ]],
+    "pre_terrain": "t_railroad_track_on_tie",
+    "post_terrain": "t_railroad_track_on_tie_covered",
+    "strict": true
   }
 ]

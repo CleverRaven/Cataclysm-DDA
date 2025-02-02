@@ -2084,5 +2084,10 @@
     "type": "construction_group",
     "id": "cover_windowframe_with_sheet",
     "name": "Cover Empty Window With Sheet"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_cover_rail",
+    "name": "Cover Rail With Plank"
   }
 ]

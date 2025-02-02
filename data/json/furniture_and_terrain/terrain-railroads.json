@@ -670,5 +670,47 @@
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT", "NOCOLLIDE" ]
+  },
+  {
+    "id": "t_railroad_track_covered",
+    "type": "terrain",
+    "name": "covered railroad track",
+    "description": "Trains used to chug along on these.  Now a board embedded in the gravel offers you a ramp to drive over instead.",
+    "symbol": "X",
+    "color": "cyan",
+    "looks_like": "t_railroad_tie",
+    "move_cost": 3,
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "ter_set": "t_railroad_track",
+      "items": [
+        { "item": "splinter", "count": [ 5, 15 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ]
+  },
+  {
+    "id": "t_railroad_track_on_tie_covered",
+    "type": "terrain",
+    "name": "covered railroad track",
+    "description": "Trains used to chug along on these.  Now a board embedded in the gravel offers you a ramp to drive over instead.",
+    "symbol": "X",
+    "color": "cyan",
+    "looks_like": "t_railroad_tie",
+    "move_cost": 3,
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "ter_set": "t_railroad_track_on_tie",
+      "items": [
+        { "item": "splinter", "count": [ 5, 15 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ]
   }
 ]
