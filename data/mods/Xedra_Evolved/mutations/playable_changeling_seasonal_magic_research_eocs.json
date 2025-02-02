@@ -352,7 +352,7 @@
         "false_eocs": {
           "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_DONE",
           "effect": [
-            { "u_message": "You are a mighty sorcery, and the power of spring has no more secrets to uncover.", "type": "mixed" }
+            { "u_message": "You are a mighty sorcerer, and the power of spring has no more secrets to uncover.", "type": "mixed" }
           ]
         }
       }
