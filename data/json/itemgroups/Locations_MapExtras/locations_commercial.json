@@ -228,10 +228,10 @@
       [ "silver_watch", 20 ],
       [ "sf_watch", 7 ],
       [ "platinum_watch", 1 ],
-      { "item": "smart_phone", "prob": 31, "charges": [ 0, -1 ] },
+      { "group": "civilian_phones", "prob": 31 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
-      { "item": "eink_tablet_pc", "prob": 12, "charges": [ 0, 100 ] },
+      { "group": "civilian_eink_tablet_pcs", "prob": 12 },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       [ "knife_rm42", 1 ],
@@ -453,7 +453,7 @@
       [ "elec_jackhammer", 1 ],
       [ "pickaxe", 1 ],
       [ "bracelet_friendship", 1 ],
-      [ "usb_drive", 5 ],
+      { "group": "civilian_usb_drives", "prob": 5 },
       [ "cot", 40 ],
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
@@ -738,7 +738,7 @@
       [ "radio", 20 ],
       [ "geiger_off", 8 ],
       [ "rad_monitor", 2 ],
-      [ "usb_drive", 5 ],
+      { "group": "civilian_usb_drives", "prob": 5 },
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
@@ -1288,8 +1288,7 @@
       [ "pie_maple", 70 ],
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
-      { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 3, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
+      { "group": "civilian_phones", "prob": 4 },
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
@@ -1723,7 +1722,7 @@
     "//": "For s_electronics shops",
     "ammo": 75,
     "magazine": 100,
-    "items": [ [ "eink_tablet_pc", 60 ], [ "laptop", 75 ] ]
+    "items": [ { "group": "new_laptops", "prob": 75 }, { "group": "new_eink_tablet_pcs", "prob": 60 } ]
   },
   {
     "id": "elecsto_entapl",
@@ -1741,8 +1740,7 @@
     "magazine": 100,
     "items": [
       { "item": "portable_game", "prob": 65, "charges": 100 },
-      { "item": "cell_phone", "prob": 11, "charges": 150 },
-      { "item": "smart_phone", "prob": 85, "charges": 120 },
+      { "group": "new_phones", "prob": 11 },
       { "item": "waterproof_smart_phone_case", "prob": 40 },
       { "item": "mp3", "prob": 45, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
@@ -1810,7 +1808,7 @@
     "//": "For s_electronics shops",
     "ammo": 75,
     "magazine": 100,
-    "items": [ [ "television", 50 ], [ "eink_tablet_pc", 50 ], [ "stereo", 30 ], [ "microwave", 40 ] ]
+    "items": [ [ "television", 50 ], { "group": "new_eink_tablet_pcs", "prob": 50 }, [ "stereo", 30 ], [ "microwave", 40 ] ]
   },
   {
     "id": "elecsto_books",
@@ -1830,12 +1828,9 @@
     "type": "item_group",
     "//": "For s_electronics shops",
     "items": [
-      [ "usb_drive", 65 ],
-      [ "memory_card", 95 ],
-      { "item": "usb_drive", "contents-item": "software_useless", "prob": 25 },
-      { "item": "usb_drive", "contents-item": "software_math", "prob": 15 },
-      { "item": "usb_drive", "contents-item": "software_medical", "prob": 5 },
-      { "item": "usb_drive", "contents-item": "software_hacking", "prob": 1 }
+      { "group": "new_usb_drives", "prob": 65 },
+      { "group": "new_memory_cards", "prob": 95 },
+      { "group": "new_usb_drives", "prob": 25, "contents-group": "efiles_software" }
     ]
   },
   {
@@ -1903,7 +1898,7 @@
       [ "eyedrops", 20 ],
       [ "mag_electronics", 20 ],
       [ "ecig", 20 ],
-      [ "usb_drive", 20 ]
+      { "group": "new_usb_drives", "prob": 20 }
     ]
   },
   {
