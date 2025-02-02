@@ -184,7 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "radish_taproot",
-    "name": { "str_sp": "radish taproot" },
+    "name": { "str": "radish taproot" },
     "weight": "100 g",
     "color": "red",
     "comestible_type": "FOOD",
