@@ -380,14 +380,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": {
-                "furn_pos": { "context_val": "pos" },
-                "t_delay": { "context_val": "t_delay" },
-                "difficulty": "9",
-                "t_radius": "0",
-                "hack_minor_failure_eoc": "EOC_afs_generic_hack_minor_failures",
-                "hack_critical_fail_eoc": "EOC_afs_generic_hack_critical_fail"
-              },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
               "alpha_talker": "avatar"
             }
           ]

@@ -51,14 +51,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_start_lock_hack",
-    "condition": {
-      "and": [
-        {
-          "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius", "hack_minor_failure_eoc", "hack_critical_fail_eoc" ]
-        },
-        "u_can_see"
-      ]
-    },
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, "u_can_see" ] },
     "effect": [
       { "math": [ "_t_delay = afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
       { "math": [ "_hack_cost = 5 * (_t_delay / time('10m') )" ] },
@@ -104,7 +97,6 @@
           "EOC_hack_bonus_tier_6"
         ]
       },
-      { "u_message": { "u_val": "hack_bonus" } },
       { "run_eocs": [ "EOC_hack_item_power_consume", "EOC_hack_bionic_power_consume" ] },
       {
         "run_eocs": "EOC_afs_hack_unlock",
@@ -226,15 +218,25 @@
     "id": "EOC_afs_hack_failure",
     "effect": [
       { "u_message": "You fail to override the device.", "type": "bad" },
-      { "math": [ "_failure_roll = rand(10)" ] },
+      { "math": [ "_failure_roll = rand(9)" ] },
       {
-        "if": { "math": [ "_failure_roll < 5" ] },
-        "then": [ { "run_eocs": [ { "context_val": "hack_minor_failure_eoc" } ] } ]
+        "if": { "compare_string": [ { "u_val": "hack_minor_failure_eoc" }, "" ] },
+        "then": [ { "u_add_var": "hack_minor_failure_eoc", "value": "EOC_afs_generic_hack_minor_failures" } ]
+      },
+      {
+        "if": { "compare_string": [ { "u_val": "hack_critical_fail_eoc" }, "" ] },
+        "then": [ { "u_add_var": "hack_critical_fail_eoc", "value": "EOC_afs_generic_hack_critical_fail" } ]
       },
       {
         "if": { "math": [ "_failure_roll <= clamp(_difficulty - afs_hack_skill(1), 1, 10)" ] },
-        "then": [ { "run_eocs": [ { "context_val": "hack_critical_fail_eoc" } ] } ]
-      }
+        "then": [ { "run_eocs": [ { "u_val": "hack_critical_fail_eoc" } ] }, { "math": [ "_failure_roll = 10" ] } ]
+      },
+      {
+        "if": { "math": [ "_failure_roll < 4" ] },
+        "then": [ { "run_eocs": [ { "u_val": "hack_minor_failure_eoc" } ] } ]
+      },
+      { "u_add_var": "hack_minor_failure_eoc", "value": "" },
+      { "u_add_var": "hack_critical_fail_eoc", "value": "" }
     ]
   },
   {
