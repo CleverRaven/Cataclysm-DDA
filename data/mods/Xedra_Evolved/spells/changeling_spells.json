@@ -1,5 +1,24 @@
 [
   {
+    "id": "changeling_research_new_seasonal_spells",
+    "type": "SPELL",
+    "name": "Develop New Glamours",
+    "description": "Using the power of human dreams, unlock the secrets of new seasonal magicks.  It requires a large amount of dreamdross and time to perform this research.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 1000,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_disguise_as_nature_spell",
     "type": "SPELL",
     "name": "None Here But the Stones",
