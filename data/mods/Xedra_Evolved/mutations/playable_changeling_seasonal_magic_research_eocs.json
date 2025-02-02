@@ -260,33 +260,17 @@
     "effect": [
       {
         "if": { "math": [ "rand(9)", "<", "9" ] },
-        "then": {
-          "u_roll_remainder": [ "SPELLS GO HERE" ],
-          "type": "spell",
-          "true_eocs": {
-            "id": "EOC_DREAMSMITH_MESSAGE_POSITIVE",
-            "effect": [
-              {
-                "u_message": "A brilliant idea about the properties of dreamdross hits your head, and you think you know how to utilize it now.",
-                "type": "good"
-              }
-            ]
-          }
-        },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_1" },
         "else": {
           "if": { "math": [ "rand(9)", "<", "9" ] },
-          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_1" },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2" },
           "else": {
             "if": { "math": [ "rand(9)", "<", "9" ] },
-            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2" },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3" },
             "else": {
               "if": { "math": [ "rand(9)", "<", "9" ] },
-              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3" },
-              "else": {
-                "if": { "math": [ "rand(9)", "<", "9" ] },
-                "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4" },
-                "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5" }
-              }
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5" }
             }
           }
         }
