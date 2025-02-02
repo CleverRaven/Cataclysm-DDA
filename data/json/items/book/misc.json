@@ -1475,5 +1475,22 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "120 g",
     "volume": "200 ml"
+  },
+  {
+    "id": "gun_manual",
+    "type": "BOOK",
+    "name": { "str_sp": "firearm safety and instruction manual" },
+    "description": "A booklet full of a bunch of information about a firearm, including how one is operated, how to take apart and clean the gun, and myriad of safety precautions.",
+    "weight": "72 g",
+    "volume": "60 ml",
+    "price": "0 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "mag_guns",
+    "color": "light_gray",
+    "intelligence": 4,
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   }
 ]

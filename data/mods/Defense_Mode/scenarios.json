@@ -68,12 +68,6 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_gun_store",
-    "name": "Gun Store",
-    "terrain": [ "s_gunstore_looted" ]
-  },
-  {
-    "type": "start_location",
     "id": "survivor_camp",
     "name": "Survivor Camp",
     "terrain": [ "dm_survivor_forest_camp" ]

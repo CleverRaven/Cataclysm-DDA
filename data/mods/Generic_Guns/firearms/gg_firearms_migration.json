@@ -64,7 +64,8 @@
       "modular_deagle_50",
       "draco",
       "draco_mini",
-      "draco_micro"
+      "draco_micro",
+      "modular_ar_pistol"
     ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
@@ -150,25 +151,16 @@
       "m18",
       "p226_9mm",
       "sp2022",
-      "ruger_charger"
+      "ruger_charger",
+      "hk_mp5_semi_pistol",
+      "TDI_10",
+      "draco_9mm"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
   },
   {
-    "id": [
-      "hk_mp5_semi_pistol",
-      "ksub2000",
-      "calico",
-      "hk_mp5_10_semi",
-      "TDI_10",
-      "mp40semi",
-      "hpt3895",
-      "draco_9mm",
-      "uberti_1873",
-      "rossi_r92_357_16",
-      "rossi_r92_357_20"
-    ],
+    "id": [ "ksub2000", "calico", "hk_mp5_10_semi", "mp40semi", "hpt3895", "uberti_1873", "rossi_r92_357_16", "rossi_r92_357_20" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -360,7 +352,6 @@
       "ar15_450medium",
       "ar15_450short",
       "ar15_762",
-      "modular_ar_pistol",
       "rifle_223",
       "ruger_mini",
       "sig_assault_rifle",
