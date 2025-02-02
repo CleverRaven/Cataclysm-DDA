@@ -300,7 +300,7 @@
       {
         "u_roll_remainder": [ "SPELLS GO HERE" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2" ]
       }
     ]
@@ -312,7 +312,7 @@
       {
         "u_roll_remainder": [ "SPELLS GO HERE" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3" ]
       }
     ]
@@ -324,7 +324,7 @@
       {
         "u_roll_remainder": [ "SPELLS GO HERE" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4" ]
       }
     ]
@@ -336,7 +336,7 @@
       {
         "u_roll_remainder": [ "SPELLS GO HERE" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5" ]
       }
     ]
