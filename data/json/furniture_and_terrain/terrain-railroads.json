@@ -707,9 +707,7 @@
       "sound": "whack!",
       "sound_fail": "whump!",
       "ter_set": "t_railroad_track_on_tie",
-      "items": [
-        { "item": "splinter", "count": [ 5, 15 ] }
-      ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
     },
     "flags": [ "TRANSPARENT", "NOCOLLIDE" ]
   }
