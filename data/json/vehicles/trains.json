@@ -224,13 +224,9 @@
       { "x": 1, "y": 2, "parts": [ "xlframe", "xlhalfboard" ] },
       { "x": 1, "y": 3, "parts": [ "xlframe#ne", "rail_wheel_steerable" ] }
     ],
-    "items": [
-      
-    ],
-    "zones": [
-      
-    ]
-  },  
+    "items": [  ],
+    "zones": [  ]
+  },
   {
     "id": "motorcycle_rail",
     "type": "vehicle",
@@ -565,7 +561,11 @@
       { "x": 2, "y": -2, "parts": [ "hdframe#cross", "reinforced_windshield#full_left", "omnicam" ] },
       { "x": 2, "y": -1, "parts": [ "hdframe#cross", "reinforced_windshield" ] },
       { "x": 2, "y": 0, "parts": [ "hdframe#cross", "seat_back", "roof", "controls" ] },
-      { "x": 2, "y": 1, "parts": [ "hdframe#cross", "box", "roof", "dashboard", "controls_electronic", "cam_control" ] },
+      {
+        "x": 2,
+        "y": 1,
+        "parts": [ "hdframe#cross", "box", "roof", "dashboard", "controls_electronic", "cam_control" ]
+      },
       { "x": 2, "y": 2, "parts": [ "hdframe#cross", "seat_back", "roof", "controls" ] },
       { "x": 2, "y": 3, "parts": [ "hdframe#cross", "reinforced_windshield" ] },
       { "x": 2, "y": 4, "parts": [ "hdframe#cross", "reinforced_windshield#vertical_right", "omnicam" ] },
@@ -581,12 +581,8 @@
       { "x": 3, "y": 3, "parts": [ "hdframe#horizontal_2", "reinforced_windshield", "plating_steel" ] },
       { "x": 3, "y": 4, "parts": [ "hdframe#ne", "plating_steel" ] }
     ],
-    "items": [
-      
-    ],
-    "zones": [
-      
-    ]
+    "items": [  ],
+    "zones": [  ]
   },
   {
     "id": "train_car_passenger_small",
@@ -692,13 +688,10 @@
       { "x": 3, "y": 3, "parts": [ "hdframe#horizontal_2", "board#horizontal_front" ] },
       { "x": 3, "y": 4, "parts": [ "hdframe#ne", "board#ne" ] }
     ],
-    "items": [
-      
-    ],
-    "zones": [
-      
-    ]
-  },{
+    "items": [  ],
+    "zones": [  ]
+  },
+  {
     "id": "train_chassis",
     "type": "vehicle",
     "name": "Train Chassis",
@@ -802,11 +795,7 @@
       { "x": 3, "y": 3, "parts": [ "hdframe#horizontal_2" ] },
       { "x": 3, "y": 4, "parts": [ "hdframe#ne" ] }
     ],
-    "items": [
-      
-    ],
-    "zones": [
-      
-    ]
-  }  
+    "items": [  ],
+    "zones": [  ]
+  }
 ]
