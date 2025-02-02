@@ -67,7 +67,7 @@
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "3 m",
-    "components": [ [ [ "2x4", 1 ] ]],
+    "components": [ [ [ "2x4", 1 ] ] ],
     "pre_terrain": "t_railroad_track_on_tie",
     "post_terrain": "t_railroad_track_on_tie_covered",
     "strict": true
