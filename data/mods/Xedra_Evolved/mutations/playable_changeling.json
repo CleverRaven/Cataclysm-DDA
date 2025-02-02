@@ -75,7 +75,7 @@
   },
   {
     "type": "mutation",
-    "id": "SEASONAL_MAGIC_SPRING",
+    "id": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "name": { "str": "Spring" },
     "points": 1,
     "description": "This provides the school trait for Spring seasonal magic.  It should not be visible.",
@@ -87,7 +87,7 @@
   },
   {
     "type": "mutation",
-    "id": "SEASONAL_MAGIC_SUMMER",
+    "id": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "name": { "str": "Summer" },
     "points": 1,
     "description": "This provides the school trait for Summer seasonal magic.  It should not be visible.",
@@ -99,7 +99,7 @@
   },
   {
     "type": "mutation",
-    "id": "SEASONAL_MAGIC_AUTUMN",
+    "id": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
     "name": { "str": "Autumn" },
     "points": 1,
     "description": "This provides the school trait for Autumn seasonal magic.  It should not be visible.",
@@ -111,7 +111,7 @@
   },
   {
     "type": "mutation",
-    "id": "SEASONAL_MAGIC_WINTER",
+    "id": "CHANGELING_SEASONAL_MAGIC_WINTER",
     "name": { "str": "Winter" },
     "points": 1,
     "description": "This provides the school trait for Winter seasonal magic.  It should not be visible.",

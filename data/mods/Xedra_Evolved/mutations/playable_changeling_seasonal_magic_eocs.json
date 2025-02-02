@@ -1,11 +1,12 @@
 [
   {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELINPG_GRANT_INITIAL_SEASONAL_MAGIC",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= (rand(7) + 3)" ] },
         { "u_has_trait": "CHANGELING_MAGIC" },
         {
           "not": {
@@ -21,11 +22,128 @@
       },
       {
         "run_eoc_selector": [ "EOC_PICK_COURT_SUMMER", "EOC_PICK_COURT_WINTER" ],
-        "title": "Choose your court",
+        "title": "Choose your court.",
         "names": [ "The Summer Court", "The Winter Court" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "The Summer Court, sometimes called the Seelie Court.", "The Winter Court, sometimes called the Seelie Court" ]
+        "descriptions": [
+          "The Summer Court, sometimes called the Seelie Court, the Fair Folk that are considered more benevolent (or at least, less malevolent) by mortals.",
+          "The Winter Court, sometimes called the Unseelie Court, the Fair Folk who lurk under bridges and in the darkness of the wild places."
+        ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_COURT_SUMMER",
+    "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_COURT_SUMMER" },
+      {
+        "run_eoc_selector": [ "EOC_PICK_CHANGELING_SPRING_MAGIC", "EOC_PICK_CHANGELING_SUMMER_MAGIC" ],
+        "title": "Choose the path of your magick.",
+        "names": [ "Magicks of Spring", "Magicks of Summer" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+          "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty."
+        ]
+      },
+      {
+        "if": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_PICK_CHANGELING_SPRING_MAGIC",
+            "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+            "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+          ],
+          "title": "As one of the nobility of the Fair Folk, you are heir to a deeper understanding of their magicks.  Choose a second path.",
+          "names": [ "Magicks of Spring", "Magicks of Summer", "Magicks of Autumn", "Magicks of Winter" ],
+          "keys": [ "1", "2", "3", "4" ],
+          "hide_failing": true,
+          "descriptions": [
+            "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+            "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty.",
+            "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+            "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_COURT_WINTER",
+    "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_COURT_WINTER" },
+      {
+        "run_eoc_selector": [ "EOC_PICK_CHANGELING_AUTUMN_MAGIC", "EOC_PICK_CHANGELING_WINTER_MAGIC" ],
+        "title": "Choose the path of your magick.",
+        "names": [ "Magicks of Autumn", "Magicks of Winter" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+          "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+        ]
+      },
+      {
+        "if": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_PICK_CHANGELING_SPRING_MAGIC",
+            "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+            "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+          ],
+          "title": "As one of the nobility of the Fair Folk, you are heir to a deeper understanding of their magicks.  Choose a second path.",
+          "names": [ "Magicks of Spring", "Magicks of Summer", "Magicks of Autumn", "Magicks of Winter" ],
+          "keys": [ "1", "2", "3", "4" ],
+          "hide_failing": true,
+          "descriptions": [
+            "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+            "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty.",
+            "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+            "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_SPRING_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+      { "math": [ "u_spell_level('changeling_spend_dreamdross_for_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
+      { "math": [ "u_spell_level('changeling_spend_dreamdross_for_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
+      { "math": [ "u_spell_level('changeling_spend_dreamdross_for_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_WINTER_MAGIC",
+    "condition": { "not": { "u_has_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" } },
+    "effect": [
+      { "u_add_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" },
+      { "math": [ "u_spell_level('changeling_spend_dreamdross_for_seasonal_spells') = 1" ] }
     ]
   }
 ]
