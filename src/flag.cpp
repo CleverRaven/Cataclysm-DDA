@@ -299,7 +299,6 @@ const flag_id flag_REMOVED_STOCK( "REMOVED_STOCK" );
 const flag_id flag_REQUIRES_BALANCE( "REQUIRES_BALANCE" );
 const flag_id flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
 const flag_id flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
-const flag_id flag_RETTABLE( "RETTABLE" );
 const flag_id flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
 const flag_id flag_ROLLER_INLINE( "ROLLER_INLINE" );
 const flag_id flag_ROLLER_ONE( "ROLLER_ONE" );

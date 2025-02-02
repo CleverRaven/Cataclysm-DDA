@@ -159,8 +159,6 @@ static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
-static const furn_str_id furn_f_retting_empty( "f_retting_empty" );
-static const furn_str_id furn_f_retting_full( "f_retting_full" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
@@ -7641,8 +7639,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "kiln_full", &iexamine::kiln_full },
             { "stook_empty", &iexamine::stook_empty },
             { "stook_full", &iexamine::stook_full },
-            { "retting_empty", &iexamine::retting_empty },
-            { "retting_full", &iexamine::retting_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },
             { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },
