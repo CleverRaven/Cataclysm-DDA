@@ -1902,15 +1902,15 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
 
     bounding_box vehicle_box = get_bounding_box( false, true );
     bounding_box target_vehicle_box = veh_target.get_bounding_box( false, true );
-
-    bounding_box combined_box;
-    combined_box.p1 = point_rel_ms( std::min( vehicle_box.p1.x(), target_vehicle_box.p1.x() ),
-                                    std::min( vehicle_box.p1.y(), target_vehicle_box.p1.y() ) );
-    combined_box.p2 = point_rel_ms( std::max( vehicle_box.p2.x(), target_vehicle_box.p2.x() ),
-                                    std::max( vehicle_box.p2.y(), target_vehicle_box.p2.y() ) );
+    const point_bub_ms min = { std::min( pos_bub().x() + vehicle_box.p1.x(), veh_target.pos_bub().x() + target_vehicle_box.p1.x() ),
+                               std::min( pos_bub().y() + vehicle_box.p1.y(), veh_target.pos_bub().y() + target_vehicle_box.p1.y() )
+                             };
+    const point_bub_ms max = { std::max( pos_bub().x() + vehicle_box.p1.x(), veh_target.pos_bub().x() + target_vehicle_box.p1.x() ),
+                               std::max( pos_bub().y() + vehicle_box.p1.y(), veh_target.pos_bub().y() + target_vehicle_box.p1.y() )
+                             };
     point_rel_ms size;
-    size.x() = std::abs( ( combined_box.p2 - combined_box.p1 ).x() ) + 1;
-    size.y() = std::abs( ( combined_box.p2 - combined_box.p1 ).y() ) + 1;
+    size.x() = std::abs( ( max - min ).x() ) + 1;
+    size.y() = std::abs( ( max - min ).y() ) + 1;
 
     //Make sure the resulting vehicle would not be too large
     if( size.x() <= MAX_WIRE_VEHICLE_SIZE && size.y() <= MAX_WIRE_VEHICLE_SIZE ) {
@@ -8256,17 +8256,13 @@ bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
         point_rel_ms pt;
         if( use_precalc ) {
             const int i_use = 0;
-            // TODO: Check if this is correct. part_at takes a vehicle relative position, not a bub one...
-            // int part_idx = part_at((p - pos_abs()).xy()); // Suggested correction.
-            int part_idx = part_at( rebase_rel( get_map().get_bub( p ).xy() ) );
+            int part_idx = part_at( ( p - pos_abs() ).xy() );
             if( part_idx < 0 ) {
                 continue;
             }
             pt = parts[part_idx].precalc[i_use].xy();
         } else {
-            // TODO: Check if this is correct. part_at takes a vehicle relative position, not a bub one...
-            // pt = (p - pos_abs()).xy(); // Suggested correction.
-            pt = rebase_rel( get_map().get_bub( p ).xy() );
+            pt = ( p - pos_abs() ).xy();
         }
         if( pt.x() < min_x ) {
             min_x = pt.x();
