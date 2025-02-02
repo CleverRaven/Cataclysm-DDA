@@ -380,13 +380,45 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
+              "variables": {
+                "furn_pos": { "context_val": "pos" },
+                "t_delay": { "context_val": "t_delay" },
+                "difficulty": "9",
+                "t_radius": "0",
+                "hack_minor_failure_eoc": "EOC_afs_generic_hack_minor_failures",
+                "hack_critical_fail_eoc": "EOC_afs_generic_hack_critical_fail"
+              },
               "alpha_talker": "avatar"
             }
           ]
         }
       ]
     },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate_locked",
+    "name": "powered down intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock that has shut down.",
+    "looks_like": "f_sealed_intermodal_crate",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
     "bash": {
       "str_min": 40,
       "str_max": 200,
