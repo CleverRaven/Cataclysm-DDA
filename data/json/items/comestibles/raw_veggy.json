@@ -189,7 +189,6 @@
     "color": "red",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "//": "No idea what else to suggest here",
     "looks_like": "carrot",
     "quench": 2,
     "calories": 15,
