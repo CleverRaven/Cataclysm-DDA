@@ -42,5 +42,10 @@
     "id": "HIVE_MIND",
     "type": "monster_flag",
     "//": "This monster is part of a hive mind"
+  },
+  {
+    "id": "ACTIVE_HACK_TOOL",
+    "type": "json_flag",
+    "//": "This tool is being used to perform hacking operations."
   }
 ]

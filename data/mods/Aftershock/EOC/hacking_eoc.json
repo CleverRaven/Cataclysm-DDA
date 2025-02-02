@@ -42,7 +42,11 @@
                 "target_var": { "context_val": "furn_pos" }
               }
             ],
-            "false_effect": { "u_message": "You fail to override the device." }
+            "false_effect": [
+              { "u_message": "You fail to override the device." },
+              { "math": [ "_failure_roll = rand(10)" ] },
+              { "run_eocs": [ "EOC_afs_hack_failure" ] }
+            ]
           }
         ]
       }
@@ -51,13 +55,54 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_start_lock_hack",
-    "condition": {
-      "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, { "test_eoc": "EOC_CONDITION_can_hack" } ]
-    },
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, "u_can_see" ] },
     "effect": [
       { "math": [ "_t_delay = afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
+      { "math": [ "_hack_cost = 5 * (_t_delay / time('10m') )" ] },
+      {
+        "u_run_inv_eocs": "manual",
+        "title": "Select a Hacking tool",
+        "search_data": [
+          { "id": "electrohack", "condition": { "math": [ "_hack_cost < n_val('power')" ] } },
+          { "id": "afs_wrist_computer", "condition": { "math": [ "_hack_cost < n_val('power')" ] } },
+          { "id": "afs_bio_deck_jack", "condition": { "math": [ "_hack_cost < u_val('power')" ] } },
+          { "id": "electrokinetic_electrohack_1" },
+          { "id": "electrokinetic_electrohack_2" },
+          { "id": "electrokinetic_electrohack_3" },
+          { "id": "electrokinetic_electrohack_4" },
+          { "id": "electrokinetic_electrohack_5" },
+          { "id": "electrokinetic_electrohack_6" }
+        ],
+        "true_eocs": [ "EOC_hack_with_tool" ],
+        "false_eocs": [
+          {
+            "id": "EOC_afs_no_hack_tool",
+            "effect": [ { "u_message": "You need a working hacking tool with enough charges to do this!", "popup": true } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_with_tool",
+    "effect": [
+      { "npc_set_flag": "ACTIVE_HACK_TOOL" },
       { "u_message": "You connect to the lock controller." },
       { "u_assign_activity": "ACT_afs_hack", "duration": { "context_val": "t_delay" } },
+      { "math": [ "u_hack_bonus = 0" ] },
+      {
+        "run_eocs": [
+          "EOC_hack_bonus_tier_1",
+          "EOC_hack_bonus_tier_2",
+          "EOC_hack_bonus_tier_3",
+          "EOC_hack_bonus_tier_4",
+          "EOC_hack_bonus_tier_5",
+          "EOC_hack_bonus_tier_6"
+        ]
+      },
+      { "u_message": {"u_val": "hack_bonus"} },
+      { "run_eocs": [ "EOC_hack_item_power_consume", "EOC_hack_bionic_power_consume" ] },
       {
         "run_eocs": "EOC_afs_hack_unlock",
         "time_in_future": { "context_val": "t_delay" },
@@ -67,7 +112,145 @@
           "t_radius": { "context_val": "t_radius" }
         }
       }
-    ],
-    "false_effect": { "u_message": "You need either an electrohack or working computer to attempt a hack.", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_1",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "flags": "ACTIVE_HACK_TOOL", "id": "electrohack" },
+          { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_1" }
+        ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_1_set_var", "effect": [ { "math": [ "u_hack_bonus = 1" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_2",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "flags": "ACTIVE_HACK_TOOL", "id": "afs_bio_deck_jack" },
+          { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_2" }
+        ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_2_set_var", "effect": [ { "math": [ "u_hack_bonus = 2" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_3",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_3" } ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_3_set_var", "effect": [ { "math": [ "u_hack_bonus = 3" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_4",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_4" } ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_4_set_var", "effect": [ { "math": [ "u_hack_bonus = 4" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_5",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_5" } ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_5_set_var", "effect": [ { "math": [ "u_hack_bonus = 5" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bonus_tier_6",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_6" } ],
+        "true_eocs": [ { "id": "EOC_hack_bonus_tier_6_set_var", "effect": [ { "math": [ "u_hack_bonus = 6" ] } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_item_power_consume",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrohack" }, { "flags": "ACTIVE_HACK_TOOL", "id": "afs_wrist_computer" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_hack_item_power_consume_found_item",
+            "effect": [ { "math": [ "n_val('power') -= _hack_cost" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_bionic_power_consume",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "afs_bio_deck_jack" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_hack_bionic_power_consume_found_item",
+            "effect": [ { "math": [ "u_val('power') -= _hack_cost" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_hack_failure",
+    "condition": { "math": [ "_failure_roll < 5" ] },
+    "effect": [ { "run_eocs": [ "EOC_afs_generic_hack_minor_failures" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_generic_hack_minor_failures",
+    "effect": [
+      {
+        "set_string_var": [ "EOC_afs_generic_hack_minor_failure_alarm", "EOC_afs_generic_hack_minor_failure_hurt" ],
+        "target_var": { "context_val": "failure_eoc" }
+      },
+      { "run_eocs": [ { "context_val": "failure_eoc" } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_generic_hack_minor_failure_alarm",
+    "effect": [
+      { "u_message": "You set off the devices alarm!", "type": "bad" },
+      { "custom_light_level": 80, "length": [ "1 seconds", "10 seconds" ] },
+      { "u_make_sound": "Alarm Bleeping", "volume": 15, "type": "alarm" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_generic_hack_minor_failure_hurt",
+    "effect": [
+      { "u_message": "The device shocks you!", "type": "bad" },
+      { "u_add_effect": "dazed", "duration": "1m", "intensity": 2 },
+      { "u_deal_damage": "electric", "amount": 10 }
+    ]
   }
 ]
