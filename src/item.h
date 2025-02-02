@@ -3029,14 +3029,18 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items */
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<const item *> all_items_container_top() const;
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<item *> all_items_container_top();
+        /** returns a list of pointers to all top-level items in pk_type pockets only */
         std::list<const item *> all_items_top( pocket_type pk_type ) const;
         /**
-         * Return a list of pointers to all top-level items.
+         * Return a list of pointers to all top-level items in pk_type pockets only
          * If unloading is true ignore items in pockets flagged not to be unloaded.
          */
         std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );

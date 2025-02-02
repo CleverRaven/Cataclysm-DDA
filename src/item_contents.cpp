@@ -1774,6 +1774,20 @@ std::list<const item *> item_contents::all_items_top() const
     } );
 }
 
+std::list<const item *> item_contents::all_items_container_top() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
+    } );
+}
+
+std::list<item *> item_contents::all_items_container_top()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
+    } );
+}
+
 std::list<item *> item_contents::all_known_contents()
 {
     return all_items_top( []( const item_pocket & pocket ) {
