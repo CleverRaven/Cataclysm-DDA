@@ -10,7 +10,7 @@ Variants cannot change any stat of an item, besides the name, description, color
 
 ## Issues
 
-As cool as variants are, sometimes issues can arise if there's too much variants of an item with nothing to reign them in. As an example, condoms had a few joke flavors that didn't make sense, and snowballed into other items having variants that were nothing more than jokes, such as chewing gum having fart, cat hairball, and zombie flavors. This doc aims to provide contributors with a good idea of what is, and isn't acceptable as variants. Another factor is that more variants complicate translating, making a difficult job more difficult.
+As cool as variants are, sometimes issues can arise if there are too many variants of an item with nothing to reign them in. As an example, condoms had a few joke flavors that didn't make sense, and this snowballed into other items having variants that were nothing more than jokes, such as chewing gum having fart, cat hairball, and zombie flavors. This doc aims to provide contributors with a good idea of what is, and isn't acceptable as variants. Another factor is that more variants complicate translating, making an already difficult job more more difficult.
 
 ## Criteria 
 
