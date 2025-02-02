@@ -391,7 +391,7 @@
         "if": { "math": [ "has_var(_homullus_death_door_target)" ] },
         "then": [
           {
-            "run_eocs": { "id": "EOC_HOMULLUS_DEATH_DOOR_KILL_TARGET", "effect": [ "npc_die" ] },
+            "run_eocs": { "id": "EOC_HOMULLUS_DEATH_DOOR_KILL_TARGET", "effect": [ { "npc_cast_spell": { "id": "xedra_self_banish" } } ] },
             "beta_loc": { "context_val": "homullus_death_door_target" }
           },
           { "math": [ "u_vitamin('blood') = 0" ] },
