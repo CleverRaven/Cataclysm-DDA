@@ -800,8 +800,6 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_boxed_22",
-    "on_overflow": "spill",
-    "//": "on_overflow field is here to allow it to pass tests until #79341 is merged.  Please remove once fixed",
     "items": [
       { "group": "boxed_internal_magazine_22", "prob": 60 },
       { "group": "boxed_ruger_1022", "prob": 100 },
@@ -836,6 +834,8 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15_22",
+    "on_overflow": "spill",
+    "//": "on_overflow field is here to allow it to pass tests until #79341 is merged.  Please remove once fixed",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "group": "ar15_22" }, { "group": "firearm_box_extras" }, { "item": "22_ar15mag_10", "count": [ 1, 2 ] } ]
   },
