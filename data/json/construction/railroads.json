@@ -71,5 +71,29 @@
     "pre_terrain": "t_railroad_track_on_tie",
     "post_terrain": "t_railroad_track_on_tie_covered",
     "strict": true
+  },
+  {
+    "type": "construction",
+    "id": "uncover_rail",
+    "group": "uncover_rail",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "byproducts": [ { "item": "2x4", "count": 1 } ],
+    "pre_terrain": "t_railroad_track_covered",
+    "post_terrain": "t_railroad_track",
+    "strict": true
+  },
+  {
+    "type": "construction",
+    "id": "uncover_rail_on_tie",
+    "group": "uncover_rail",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "byproducts": [ { "item": "2x4", "count": 1 } ],
+    "pre_terrain": "t_railroad_track_on_tie_covered",
+    "post_terrain": "t_railroad_track_on_tie",
+    "strict": true
   }
 ]

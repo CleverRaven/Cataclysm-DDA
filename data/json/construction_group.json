@@ -2089,5 +2089,10 @@
     "type": "construction_group",
     "id": "constr_cover_rail",
     "name": "Cover Rail With Plank"
+  },
+  {
+    "type": "construction_group",
+    "id": "uncover_rail",
+    "name": "Uncover Rail"
   }
 ]
