@@ -2943,6 +2943,14 @@
         "append": true
       },
       {
+        "id": "stockings_dots",
+        "name": { "str": "pair of polka dot stockings", "str_pl": "pairs of polka dot stockings" },
+        "description": "This one is covered in polka dots.",
+        "weight": 40,
+        "color": "red",
+        "append": true
+      },
+      {
         "id": "stockings_gray",
         "name": { "str": "pair of gray stockings", "str_pl": "pairs of gray stockings" },
         "description": "This one is colored gray.",
