@@ -1692,18 +1692,15 @@ diag_eval_dbl_f weight_eval( char scope, std::vector<diag_value> const & /* para
 diag_eval_dbl_f quality_eval( char scope, std::vector<diag_value> const &params /* params */,
                               diag_kwargs const &kwargs /* kwargs */ )
 {
-    diag_value boiling_val = kwargs.kwarg_or( "boiling" );
+    diag_value strict_val = kwargs.kwarg_or( "strict" );
 
-    return[quality_param = params[0], boiling_val,
+    return[quality_param = params[0], strict_val,
                   beta = is_beta( scope )]( const_dialogue const & d ) {
         item_location const *it = d.const_actor( beta )->get_const_item();
-        if( it && *it ) {
-            std::string quality = quality_param.str( d );
-            bool boiling = is_true( boiling_val.dbl( d ) );
+        std::string quality = quality_param.str( d );
+        bool strict = is_true( strict_val.dbl( d ) );
 
-            return d.const_actor( beta )->get_quality( quality, boiling );
-        }
-        throw math::runtime_error( "For quality(), talker is not an item" );
+        return d.const_actor( beta )->get_quality( quality, strict );
     };
 }
 
