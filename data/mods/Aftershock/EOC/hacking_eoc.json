@@ -54,7 +54,7 @@
     "condition": { "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, "u_can_see" ] },
     "effect": [
       { "math": [ "_t_delay = afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
-      { "math": [ "_hack_cost = 5 * (_t_delay / time('10m') )" ] },
+      { "math": [ "_hack_cost = (5 * (_t_delay / time('10m') )) * max(1, _power_cost_mult)" ] },
       {
         "u_run_inv_eocs": "manual",
         "title": "Select a Hacking tool",
