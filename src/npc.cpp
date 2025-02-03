@@ -1175,9 +1175,9 @@ void npc::place_on_map( map *here )
         return;
     }
 
-    for( const tripoint_abs_ms &p : closest_points_first( pos_abs(), SEEX + 1 ) ) {
-        if( g->is_empty( here, p ) ) {
-            setpos( here, here->get_bub( p ) );
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 1, SEEX + 1 ) ) {
+        if( g->is_empty( p ) ) {
+            setpos( p );
             return;
         }
     }

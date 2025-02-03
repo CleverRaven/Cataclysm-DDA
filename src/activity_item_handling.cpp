@@ -3809,8 +3809,7 @@ int get_auto_consume_moves( Character &you, const bool food )
 bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fire )
 {
     const tripoint_bub_ms pos = you.pos_bub();
-    std::vector<tripoint_bub_ms> adjacent = closest_points_first( pos, PICKUP_RANGE );
-    adjacent.erase( adjacent.begin() );
+    std::vector<tripoint_bub_ms> adjacent = closest_points_first( pos, 1, PICKUP_RANGE );
 
     map &here = get_map();
     std::optional<tripoint_bub_ms> best_fire =
