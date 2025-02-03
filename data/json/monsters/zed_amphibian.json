@@ -154,7 +154,7 @@
   {
     "id": "mon_zombullfrog",
     "type": "MONSTER",
-    "name": { "str": "zombie bullfrog" },
+    "name": { "str": "giant zombie bullfrog" },
     "description": "The wound covered skin of this large bullfrog appears to be peeling in places, revealing a black goop beneath the surface.  Its vacant stare passes by anything that isn't food, and it will leap to devour anything it can.",
     "copy-from": "mon_proxy_frog_zombie",
     "attack_cost": 50,
