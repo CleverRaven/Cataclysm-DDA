@@ -1047,11 +1047,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_gray" }
-        ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "item": "pants", "variant": "pants_gray" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
