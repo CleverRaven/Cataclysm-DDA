@@ -1020,7 +1020,7 @@
           { "item": "gloves_rubber" },
           { "item": "glasses_safety" },
           { "item": "wristwatch" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1050,7 +1050,7 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" }
+          { "item": "pants", "variant": "pants_gray" }
         ]
       },
       "male": [ "briefs" ],
@@ -2845,7 +2845,7 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "speedloaders_s&w619_magnum" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
@@ -3514,7 +3514,7 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -3962,7 +3962,7 @@
           { "item": "memory_card" },
           { "item": "usb_drive" },
           { "item": "portable_game", "charges": 150 },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_laptop" }
@@ -7303,7 +7303,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
