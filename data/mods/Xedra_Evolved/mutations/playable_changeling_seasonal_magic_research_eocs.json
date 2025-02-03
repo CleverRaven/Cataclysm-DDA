@@ -342,7 +342,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_spring_nurturing_the_green" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -355,7 +355,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_spring_nurturing_the_green" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -368,7 +368,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_spring_nurturing_the_green" ],
         "type": "spell",
         "message": "Your research bears fruit! You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
