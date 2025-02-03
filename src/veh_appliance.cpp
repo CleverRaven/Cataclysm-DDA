@@ -114,7 +114,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect(&here, p, trip );
                 connected_vehicles.insert( &veh_target );
             }
         }

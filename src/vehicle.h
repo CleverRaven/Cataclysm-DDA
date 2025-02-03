@@ -970,7 +970,8 @@ class vehicle
         bool is_towing() const;
         bool has_tow_attached() const;
         int get_tow_part() const;
-        bool is_external_part( const tripoint_bub_ms &part_pt ) const;
+        bool is_external_part( map *here, const tripoint_bub_ms &part_pt ) const;
+        bool is_external_part(const point_rel_ms& mount) const;
         bool is_towed() const;
         void set_tow_directions();
         /// @return true if vehicle is an appliance
@@ -1015,7 +1016,7 @@ class vehicle
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
 
-        void connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos );
+        void connect( map *here, const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos );
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
         // Try select any fuel for engine, returns true if some fuel is available
@@ -2132,7 +2133,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const tripoint_bub_sm &p );
+        void set_submap_moved( map *here, const tripoint_bub_sm &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -2307,18 +2308,11 @@ class vehicle
 
     public:
         /**
-         * Submap coordinates of the currently loaded submap (see game::m)
-         * that contains this vehicle. These values are changed when the map
-         * shifts (but the vehicle is not actually moved than, it also stays on
-         * the same submap, only the relative coordinates in map::grid have changed).
-         * These coordinates must always refer to the submap in map::grid that contains
-         * this vehicle.
+         * Submap coordinates of the currently loaded submap that contains this vehicle.
          * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
-         * is called and updates these values, when the map is only shifted or when a submap
-         * is loaded into the map the values are directly set. The vehicles position does
-         * not change therefore no call to set_submap_moved is required.
+         * is called and updates these values.
          */
-        tripoint_bub_sm sm_pos = tripoint_bub_sm::zero; // NOLINT(cata-serialize)
+        tripoint_abs_sm sm_pos = tripoint_abs_sm::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)

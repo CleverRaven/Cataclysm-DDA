@@ -6914,7 +6914,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     tripoint_bub_sm quotient;
     point_sm_ms remainder;
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
-    veh->sm_pos = quotient;
+    veh->sm_pos = abs_sub.xy() + rebase_rel(quotient);
     veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status, force_status );
     veh->place_spawn_items();
@@ -6929,7 +6929,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( rebase_rel( placed_vehicle->sm_pos ) );
+        submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos -abs_sub.xy() );
         if( place_on_submap == nullptr ) {
             debugmsg( "Tried to add vehicle at %s but the submap is not loaded",
                       placed_vehicle->sm_pos.to_string() );
@@ -7227,7 +7227,7 @@ void map::rotate( int turns )
                 sm->rotate( turns );
 
                 for( auto &veh : sm->vehicles ) {
-                    veh->sm_pos = { rebase_bub( p ), z_level };
+                    veh->sm_pos = { abs_sub.xy()+ p, z_level };
                 }
 
                 update_vehicle_list( sm, z_level );

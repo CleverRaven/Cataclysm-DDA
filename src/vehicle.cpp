@@ -3509,7 +3509,7 @@ tripoint_abs_omt vehicle::pos_abs_omt() const
 
 tripoint_bub_ms vehicle::pos_bub() const
 {
-    return coords::project_to<coords::ms>( sm_pos ) + rebase_rel( pos );
+    return coords::project_to<coords::ms>(rebase_bub(sm_pos - get_map().get_abs_sub().xy()) ) + rebase_rel( pos );
 }
 
 tripoint_bub_ms vehicle::bub_part_pos( const int index ) const
@@ -3532,10 +3532,10 @@ tripoint_abs_ms vehicle::abs_part_pos( const vehicle_part &pt ) const
     return pos_abs() + pt.precalc[0];
 }
 
-void vehicle::set_submap_moved( const tripoint_bub_sm &p )
+void vehicle::set_submap_moved(map*here, const tripoint_bub_sm &p )
 {
     const point_abs_ms old_msp = pos_abs().xy();
-    sm_pos = p;
+    sm_pos = here->get_abs_sub().xy() + rebase_rel(p);
     if( !tracking_on ) {
         return;
     }
@@ -6893,11 +6893,10 @@ void vehicle::do_towing_move()
     }
 }
 
-bool vehicle::is_external_part( const tripoint_bub_ms &part_pt ) const
+bool vehicle::is_external_part( map *here, const tripoint_bub_ms &part_pt ) const
 {
-    map &here = get_map();
-    for( const tripoint_bub_ms &elem : here.points_in_radius( part_pt, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( elem );
+    for( const tripoint_bub_ms &elem : here->points_in_radius( part_pt, 1 ) ) {
+        const optional_vpart_position vp = here->veh_at( elem );
         if( !vp ) {
             return true;
         }
@@ -6905,6 +6904,19 @@ bool vehicle::is_external_part( const tripoint_bub_ms &part_pt ) const
             return true;
         }
     }
+    return false;
+}
+
+bool vehicle::is_external_part(const point_rel_ms& mount) const
+{
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            if (part_at(mount + point_rel_ms(x, y))) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 

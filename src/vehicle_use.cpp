@@ -555,17 +555,16 @@ void vehicle::toggle_tracking()
     }
 }
 
-void vehicle::connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos )
+void vehicle::connect( map *here, const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos )
 {
-    map &here = get_map();
-    const optional_vpart_position sel_vp = here.veh_at( target_pos );
-    const optional_vpart_position prev_vp = here.veh_at( source_pos );
+    const optional_vpart_position sel_vp = here->veh_at( target_pos );
+    const optional_vpart_position prev_vp = here->veh_at( source_pos );
 
     if( !sel_vp ) {
         return;
     }
     if( &sel_vp->vehicle() == &prev_vp->vehicle() ) {
-        return ;
+        return;
     }
 
     item cord( itype_power_cord );

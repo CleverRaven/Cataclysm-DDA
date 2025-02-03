@@ -541,7 +541,8 @@ void map::reset_vehicles_sm_pos()
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
-                        elem->sm_pos = rebase_bub( grid );
+                        // This should be redundant.
+                        elem->sm_pos = abs_sub.xy() + grid;
                         add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
@@ -592,7 +593,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( veh->sm_pos - abs_sub.xy() );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
                   veh->sm_pos.to_string() );
@@ -1582,7 +1583,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
 
     if( src_submap != dst_submap ) {
         dst_submap->ensure_nonuniform();
-        veh.set_submap_moved( { dst.x() / SEEX, dst.y() / SEEY, dst.z() } );
+        veh.set_submap_moved( this, { dst.x() / SEEX, dst.y() / SEEY, dst.z() } );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
@@ -8170,7 +8171,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid, z};
+                veh->sm_pos = abs_sub.xy() + tripoint_rel_sm{ rebase_rel(grid), z};
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8700,7 +8701,7 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
     }
     setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->sm_pos = rebase_bub( to );
+        it->sm_pos = abs_sub.xy() + to;
     }
 }
 
