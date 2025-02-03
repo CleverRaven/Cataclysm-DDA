@@ -5110,6 +5110,20 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
         }
         ret = holster.parents_can_contain_recursive( &it );
         if( !ret.success() ) {
+            if( !carrier->is_npc() && query_yn(
+                    _( "No more items can be added due to the parent container being too small. Would you like to wield %s to fit more items?" ),
+                    holster->tname() )
+                &&
+                // wield the container
+                carrier->wield_contents( *holster.parent_item(), holster.get_item() ) ) {
+                holster = carrier->get_wielded_item();
+
+                // and recheck if parent can hold (there should be no parent)
+                ret = holster.parents_can_contain_recursive( &it );
+
+            }
+        }
+        if( !ret.success() ) {
             return ret;
         }
 
@@ -5123,6 +5137,19 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     ret_val<int> max_parent_charges = holster.max_charges_by_parent_recursive( it );
     if( !max_parent_charges.success() ) {
         return ret_val<void>::make_failure( max_parent_charges.str() );
+    } else if( !carrier->is_npc() && max_parent_charges.value() < holstered_item.second ) {
+        // if you cannot fit all items because parent container is too small
+        if( query_yn(
+                _( "Only %i items fit into %s due tu the parent container being too small. Would you like to wield %s to fit more items?" ),
+                max_parent_charges.value(), holster->tname(), holster->tname() )
+            &&
+            // wield the container
+            carrier->wield_contents( *holster.parent_item(), holster.get_item() ) ) {
+            holster = carrier->get_wielded_item();
+
+            // and recalc max_parent_charges
+            max_parent_charges = holster.max_charges_by_parent_recursive( it );
+        }
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
