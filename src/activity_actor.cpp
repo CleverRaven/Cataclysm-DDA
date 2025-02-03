@@ -5111,7 +5111,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
         ret = holster.parents_can_contain_recursive( &it );
         if( !ret.success() ) {
             if( !carrier->is_npc() && query_yn(
-                    _( "No more items can be added due to the parent container being too small. Would you like to wield %s to fit more items?" ),
+                    _( "No more items can be added due to the parent container being too small.  Would you like to wield %s to fit more items?" ),
                     holster->tname() )
                 &&
                 // wield the container
@@ -5140,7 +5140,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     } else if( !carrier->is_npc() && max_parent_charges.value() < holstered_item.second ) {
         // if you cannot fit all items because parent container is too small
         if( query_yn(
-                _( "Only %i items fit into %s due tu the parent container being too small. Would you like to wield %s to fit more items?" ),
+                _( "Only %i items fit into %s due tu the parent container being too small.  Would you like to wield %s to fit more items?" ),
                 max_parent_charges.value(), holster->tname(), holster->tname() )
             &&
             // wield the container
