@@ -547,7 +547,7 @@
   {
     "id": "sky_island_sunblock",
     "type": "ARMOR",
-    "name": { "str": "Personal sunblock" },
+    "name": { "str": "Personal Sunblock" },
     "description": "The island is protecting you against the sun as long as you are on it.",
     "weight": "1 g",
     "volume": "1 ml",

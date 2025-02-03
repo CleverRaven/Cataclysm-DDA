@@ -40,7 +40,7 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_sunblock",
-    "name": { "str": "Personal sunblock" },
+    "name": { "str": "Personal Sunblock" },
     "points": 0,
     "description": "As long as you are on the island, the sun cannot affect you.",
     "valid": false,
