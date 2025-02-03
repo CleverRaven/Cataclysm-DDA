@@ -5056,7 +5056,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
 
     const auto can_link = [&here]( const tripoint_bub_ms & point ) {
         const optional_vpart_position ovp = here.veh_at( point );
-        return ovp && ovp->vehicle().is_external_part(&here,  point );
+        return ovp && ovp->vehicle().is_external_part( &here,  point );
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(

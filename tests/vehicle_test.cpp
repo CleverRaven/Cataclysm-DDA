@@ -591,7 +591,7 @@ static void rack_check( const rack_preset &preset )
         vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
                                           preset.facings[i], 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->refresh();
+        veh_ptr->refresh( &m );
         vehs.push_back( veh_ptr );
         veh_names.push_back( veh_ptr->name );
     }
@@ -743,13 +743,13 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
 {
     clear_avatar();
     clear_map();
+    map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
     player_character.setpos( tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
 
     REQUIRE( veh_ptr != nullptr );
@@ -765,7 +765,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     veh.is_following = true;
     veh.is_patrolling = false;
     veh.engine_on = true;
-    veh.refresh();
+    veh.refresh( &here );
 
     int turns_left = 10;
     int tiles_travelled = 0;

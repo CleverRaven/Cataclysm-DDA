@@ -911,7 +911,7 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
         //Refresh all caches and re-locate all parts
-        void refresh( bool remove_fakes = true );
+        void refresh( map *here, bool remove_fakes = true );
 
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
@@ -971,7 +971,7 @@ class vehicle
         bool has_tow_attached() const;
         int get_tow_part() const;
         bool is_external_part( map *here, const tripoint_bub_ms &part_pt ) const;
-        bool is_external_part(const point_rel_ms& mount) const;
+        bool is_external_part( const point_rel_ms &mount ) const;
         bool is_towed() const;
         void set_tow_directions();
         /// @return true if vehicle is an appliance
@@ -1289,7 +1289,11 @@ class vehicle
          *  @param flag if set only flags with this part will be considered
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
+        // TODO: Get rid of map less overload.
         std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
+                part_status_flag condition );
+        std::vector<vehicle_part *> get_parts_at( map *here, const tripoint_bub_ms &pos,
+                const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint_bub_ms &pos,
                 const std::string &flag, part_status_flag condition ) const;
@@ -1434,12 +1438,14 @@ class vehicle
         tripoint_abs_omt pos_abs_omt() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         // Warning: Don't assume this position contains a vehicle part
+        // TODO: Replace usage of map less version.
         tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( map *here ) const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
-        tripoint_bub_ms bub_part_pos( int index ) const;
-        tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
+        tripoint_bub_ms bub_part_pos( map *here, int index ) const;
+        tripoint_bub_ms bub_part_pos( map *here, const vehicle_part &pt ) const;
         tripoint_abs_ms abs_part_pos( int index ) const;
         tripoint_abs_ms abs_part_pos( const vehicle_part &pt ) const;
         /**

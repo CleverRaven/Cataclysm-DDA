@@ -483,8 +483,8 @@ bool veh_menu::query()
 
     chosen._on_submit();
 
-    veh.refresh();
     map &m = get_map();
+    veh.refresh( &m );
     m.invalidate_visibility_cache();
     m.invalidate_map_cache( m.get_abs_sub().z() );
 

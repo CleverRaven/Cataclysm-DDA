@@ -1810,7 +1810,7 @@ void npc::execute_action( npc_action action )
                 }
                 // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
-                    tripoint_bub_ms target = veh->bub_part_pos( pt );
+                    tripoint_bub_ms target = veh->bub_part_pos( &here, pt );
                     if( !pt.is_seat() ) {
                         return false;
                     }
@@ -1875,7 +1875,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint_bub_ms pp = veh->bub_part_pos( cur_part );
+                tripoint_bub_ms pp = veh->bub_part_pos( &here, cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine

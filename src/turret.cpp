@@ -50,11 +50,12 @@ std::vector<vehicle_part *> vehicle::turrets()
 
 std::vector<vehicle_part *> vehicle::turrets( const tripoint_bub_ms &target )
 {
+    map &here = get_map();
     std::vector<vehicle_part *> res = turrets();
     // exclude turrets not ready to fire or where target is out of range
     res.erase( std::remove_if( res.begin(), res.end(), [&]( vehicle_part * e ) {
         return turret_query( *e ).query() != turret_data::status::ready ||
-               rl_dist( bub_part_pos( *e ), target ) > e->base.gun_range();
+               rl_dist( bub_part_pos( &here, *e ), target ) > e->base.gun_range();
     } ), res.end() );
     return res;
 }
@@ -473,7 +474,7 @@ void vehicle::turrets_set_targeting()
     for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ) );
+            locations.push_back( bub_part_pos( &here, p ) );
         }
     }
 
@@ -488,9 +489,9 @@ void vehicle::turrets_set_targeting()
         menu.fselected = sel;
 
         for( vehicle_part *&p : turrets ) {
-            menu.addentry( -1, has_part( bub_part_pos( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
+            menu.addentry( -1, has_part( bub_part_pos( &here, *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
                            "%s [%s]", p->name(), p->enabled ?
-                           _( "auto -> manual" ) : has_part( bub_part_pos( *p ), "TURRET_CONTROLS" ) ?
+                           _( "auto -> manual" ) : has_part( bub_part_pos( &here, *p ), "TURRET_CONTROLS" ) ?
                            _( "manual -> auto" ) :
                            _( "manual (turret control unit required for auto mode)" ) );
         }
@@ -522,13 +523,14 @@ void vehicle::turrets_set_targeting()
 
 void vehicle::turrets_set_mode()
 {
+    map &here = get_map();
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint_bub_ms> locations;
 
     for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ) );
+            locations.push_back( bub_part_pos( &here, p ) );
         }
     }
 
@@ -559,6 +561,8 @@ void vehicle::turrets_set_mode()
 
 npc &vehicle_part::get_targeting_npc( vehicle &veh )
 {
+    map &here = get_map();
+
     // Make a fake NPC to represent the targeting system
     if( !cpu.brain ) {
         cpu.brain = std::make_unique<npc>();
@@ -578,7 +582,7 @@ npc &vehicle_part::get_targeting_npc( vehicle &veh )
         brain.name = string_format( _( "The %s turret" ), get_base().tname( 1 ) );
         brain.set_skill_level( get_base().gun_skill(), 8 );
     }
-    cpu.brain->setpos( veh.bub_part_pos( *this ) );
+    cpu.brain->setpos( veh.bub_part_pos( &here, *this ) );
     cpu.brain->recalc_sight_limits();
     return *cpu.brain;
 }
@@ -612,7 +616,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint_bub_ms pos = bub_part_pos( pt );
+    tripoint_bub_ms pos = bub_part_pos( &here, pt );
 
     // Create the targeting computer's npc
     npc &cpu = pt.get_targeting_npc( *this );
