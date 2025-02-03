@@ -1,6 +1,20 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_GLOBAL_SET_SEASON_FOR_JMATH",
+    "//": "This EoC is solely to allow jmath to access what season it is.  Delete if that functionality is ever added.",
+    "recurrence": { "math": [ "time_since('midnight') >= 1" ] },
+    "global": true,
+    "run_for_npcs": false,
+    "effect": [
+      { "if": { "is_season": "spring" }, "then": { "math": [ "global_what_is_the_season = 1" ] } },
+      { "if": { "is_season": "summer" }, "then": { "math": [ "global_what_is_the_season = 2" ] } },
+      { "if": { "is_season": "autumn" }, "then": { "math": [ "global_what_is_the_season = 3" ] } },
+      { "if": { "is_season": "winter" }, "then": { "math": [ "global_what_is_the_season = 4 " ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS",
     "condition": {
       "and": [

@@ -315,7 +315,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_1",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_spring_summon_grass_field_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
