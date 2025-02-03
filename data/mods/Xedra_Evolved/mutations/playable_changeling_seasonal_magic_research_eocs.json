@@ -316,7 +316,7 @@
     "//": "For this and following, make sure to add each spell into the proper tier.",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_summon_grass_field_spell" ],
+        "u_roll_remainder": [ "changeling_spring_summon_grass_field_spell", "changeling_spring_minor_restore_stamina_and_pain" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -329,7 +329,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_growing_plants_spell" ],
+        "u_roll_remainder": [ "changeling_spring_nurturing_the_green" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

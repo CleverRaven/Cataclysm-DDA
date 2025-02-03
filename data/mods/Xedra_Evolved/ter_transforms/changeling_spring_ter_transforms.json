@@ -55,6 +55,14 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_changeling_spring_verdant_vitality",
+    "terrain": [
+      { "result": "t_grass_dead", "valid_flags": [ "PLOWABLE" ], "message": "The grass wilts." },
+      { "result": "t_dirt", "valid_terrain": [ "t_forestfloor" ], "message": "" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_changeling_spring_plant_growth",
     "terrain": [
       {
