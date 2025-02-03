@@ -730,7 +730,7 @@ void avatar::identify( const item &item )
     if( has_identified( item.typeId() ) ) {
         return;
     }
-    if( !item.is_book() ) {
+    if( !item.is_identifiable() ) {
         debugmsg( "tried to identify non-book item" );
         return;
     }

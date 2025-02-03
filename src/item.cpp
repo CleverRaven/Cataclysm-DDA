@@ -10257,6 +10257,11 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+bool item::is_identifiable() const
+{
+    return is_book();
+}
+
 bool item::is_broken() const
 {
     return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );

@@ -1654,6 +1654,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( who );
     inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.remove_duplicate_itypes( true );
     inv_s.set_title( _( "Scan which books?" ) );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have no books to scan." ) ), PF_GET_KEY );

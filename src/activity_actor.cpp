@@ -2878,7 +2878,7 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
     if( scanned_book ) {
         ereader->put_in( *scanned_book, pocket_type::E_FILE_STORAGE );
         if( who.is_avatar() ) {
-            if( !who.has_identified( scanned_book->typeId() ) ) {
+            if( scanned_book->is_identifiable() && !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
             }
         }
