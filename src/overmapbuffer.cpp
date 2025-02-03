@@ -1605,8 +1605,8 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
-        const map &here = get_map();
-        const tripoint_bub_ms local = here.get_bub( this_monster.pos_abs() );
+        map &here = get_map();
+        const tripoint_bub_ms local = this_monster.pos_bub( &here );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );

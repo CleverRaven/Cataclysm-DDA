@@ -32,6 +32,8 @@ static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
                                const itype_id &container, int expected_moves )
 {
+    map &here = get_map();
+
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms spot( 61, 60, 0 );
     clear_map();
@@ -59,7 +61,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
     CAPTURE( shooter.used_weapon()->get_reload_time() );
     aim_activity_actor act = aim_activity_actor::use_wielded();
     int moves_before = shooter.get_moves();
-    REQUIRE( shooter.fire_gun( spot, 1, *shooter.used_weapon(), shooter.ammo_location ) );
+    REQUIRE( shooter.fire_gun( &here, spot, 1, *shooter.used_weapon(), shooter.ammo_location ) );
     int moves_after = shooter.get_moves();
     int spent_moves = moves_before - moves_after;
     int expected_upper = expected_moves * 1.05;

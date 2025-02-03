@@ -2977,7 +2977,7 @@ void npc::die( map *here, Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        here->unboard_vehicle( here->get_bub( pos_abs() ), true );
+        here->unboard_vehicle( pos_bub( here ), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -3288,14 +3288,14 @@ void npc::on_load( map *here )
 
     // for spawned npcs
     gravity_check( here );
-    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, here->get_bub( pos_abs() ) ) &&
-        !here->has_vehicle_floor( here->get_bub( pos_abs() ) ) ) {
+    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub( here ) ) &&
+        !here->has_vehicle_floor( pos_bub( here ) ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
     if( here->veh_at( pos_abs() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        here->board_vehicle( here->get_bub( pos_abs() ), this );
+        here->board_vehicle( pos_bub( here ), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
         if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_abs() ) ) {

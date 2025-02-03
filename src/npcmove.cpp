@@ -1732,7 +1732,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar, mode.qty, *mode );
+                fire_gun( &here, tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
