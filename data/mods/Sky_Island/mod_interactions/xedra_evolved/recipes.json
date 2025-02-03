@@ -27,7 +27,7 @@
     "difficulty": 0,
     "time": "15 m",
     "//": "Yes, this recipe is intended to ask for one red and one black sinister cloak, even if they can turn into each other.",
-    "//2": "This recipe isn't too costly, as it comes with the cost of being struck as a vampire forever.",
+    "//2": "This recipe isn't too costly, as it comes with the cost of being stuck as a vampire forever.",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
