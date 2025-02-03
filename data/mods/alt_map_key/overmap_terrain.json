@@ -577,19 +577,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "s_gun",
-      "s_gun_looted",
-      "s_gun_1",
-      "s_gun_2",
-      "s_gun_3",
-      "s_gun_3_looted",
-      "s_gun_4",
-      "s_gun_4_looted",
-      "s_gunstore",
-      "s_gunstore_looted"
-    ],
-    "copy-from": "s_gun",
+    "id": [ "s_gun_a", "s_gun_b_store" ],
+    "copy-from": "s_gun_a",
     "name": "gun store",
     "sym": "g",
     "color": "red"

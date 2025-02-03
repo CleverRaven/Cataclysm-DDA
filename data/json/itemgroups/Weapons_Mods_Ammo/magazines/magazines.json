@@ -110,7 +110,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "mags_common",
-    "//": "Collections of magazines for guns that are common place, can be found in houses, gunstores, anywhere where you'd expect to find magazines. Weighted by caliber.",
+    "//": "Collections of magazines for guns that ignore magazine limits.  Shouldn't be found in places such as gunstores, and should only be found in private areas like homes.  Weighted by caliber.",
     "items": [
       { "group": "common_magazines_9mm", "prob": 209 },
       { "group": "common_magazines_10mm", "prob": 9 },
@@ -139,6 +139,46 @@
       { "item": "50beowulf_ar15mag", "prob": 2 },
       { "item": "m1911mag_10rd_38super", "prob": 2 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "mags_common_restricted",
+    "//": "Collections of magazines for guns that are common place and follow the magazine limit law, specifically 10 round magazines or under, unless a lower capacity mag is not yet implemented, then just lowest capacity.",
+    "items": [
+      { "group": "common_magazines_restricted_9mm", "prob": 209 },
+      { "group": "common_magazines_restricted_10mm", "prob": 9 },
+      { "group": "common_magazines_restricted_22lr", "prob": 204 },
+      { "item": "m1carbinemag", "prob": 1 },
+      { "group": "common_magazines_32", "prob": 44 },
+      { "group": "common_magazines_38", "prob": 34 },
+      { "group": "common_magazines_restricted_40sw", "prob": 40 },
+      { "group": "common_magazines_44", "prob": 15 },
+      { "group": "common_magazines_restricted_45", "prob": 49 },
+      { "group": "common_magazines_restricted_57", "prob": 4 },
+      { "group": "common_magazines_restricted_223", "prob": 125 },
+      { "item": "enfield_303mag", "prob": 19 },
+      { "group": "common_magazines_restricted_308", "prob": 25 },
+      { "group": "common_magazines_380", "prob": 48 },
+      { "group": "common_magazines_restricted_762", "prob": 34 },
+      { "group": "common_magazines_762R", "prob": 4 },
+      { "group": "common_magazines_3006", "prob": 8 },
+      { "group": "common_magazines_450", "prob": 1 },
+      { "group": "common_magazines_restricted_12", "prob": 8 },
+      { "group": "uncommon_magazines", "prob": 3 },
+      { "item": "ak74mag", "prob": 1 },
+      { "item": "500_speedloader5", "prob": 1 },
+      { "item": "ruger_pr_mag", "prob": 1 },
+      { "item": "454_speedloader5", "prob": 25 },
+      { "item": "50beowulf_ar15mag", "prob": 2 },
+      { "item": "m1911mag_10rd_38super", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_common_restricted_packaged",
+    "//": "Gun magazines in blister packages",
+    "items": [ { "item": "blister_pack", "contents-group": "mags_common_restricted" } ]
   },
   {
     "type": "item_group",

@@ -5,6 +5,7 @@
     "name": "Deck Engineer",
     "description": "A skilled ship technician, turned to independent salvage work.",
     "points": 4,
+    "starting_cash": 1120000,
     "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
@@ -16,7 +17,6 @@
           { "item": "boots" },
           { "item": "afs_herc_rig" },
           { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
-          { "item": "cash_card", "charges": 1120000 },
           { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
         ]
       },
@@ -30,6 +30,7 @@
     "name": "Rating",
     "description": "You were a junior crewmember on a freight spaceship.  Without any exceptionally valuable abilities, you spent your workshifts performing miscellaneous maintenance tasks within the ship.  As such, you are moderately skilled at performing all sorts of minor electrical and mechanical repairs, a skillset you hope remains useful planetside…",
     "points": 0,
+    "starting_cash": 1120000,
     "copy-from": "mechanic",
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 3, "name": "mechanics" } ],
@@ -57,6 +58,7 @@
     "name": "Espatier",
     "description": "You are a well experienced mercenary espatier, a soldier rated for both orbital and planetary combat.  Until the crash, you were part of a minor mercenary outfit that provided on-board and landing-site security for freight corporations, although it seems that your last contractor required more protection than what you could provide.  Unfortunately, most of your more specialized gear was left behind in your hasty evacuation…",
     "points": 6,
+    "starting_cash": 1120000,
     "flags": [ "SCEN_ONLY" ],
     "copy-from": "specops",
     "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
@@ -102,6 +104,7 @@
     "name": "Captain Schwarz Walder, Cannibal",
     "description": "Several years ago, you were newly stationed at a remote corporate facility when it came under a personality rewrite attack that affected all of your human coworkers.  It had seemed likely that the few Uplifted staff would perish and most did.  But you disappeared into the wilderness surrounding the facilities and began hunting the things that had been your friends, eating them to stay alive and to power your bionics.  Recapturing the facility earned you a buyout of the remainder of your contract, but most people are uncomfortable around you once they realize how very different you are.  Now you are here on a mostly abandoned planet hunting a bounty.",
     "points": 10,
+    "starting_cash": 1120000,
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -166,6 +169,7 @@
     "name": "Cryosleep Survivor",
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
     "points": 2,
+    "starting_cash": 1120000,
     "traits": [ "AFS_CRYOADAPTATION" ],
     "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
   },
@@ -175,6 +179,7 @@
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You now enter the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 3,
+    "starting_cash": 1120000,
     "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
@@ -202,6 +207,7 @@
     "name": { "male": "Planar Frontiersman", "female": "Planar Frontierswoman" },
     "description": "When the Cataclysm came, you were getting into your gear, prepared for the first manned entrance through a stabilized portal in the lab - just a quick five-minute scouting trip.  You were the last one left in the room when the portal snapped shut and all hell broke loose.  Now that you know what was on the other end, maybe that was a mercy.",
     "points": 4,
+    "starting_cash": 1120000,
     "items": {
       "both": {
         "entries": [
@@ -226,6 +232,7 @@
     "name": "Vatgrown Bodyguard",
     "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
     "points": 3,
+    "starting_cash": 1120000,
     "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
     "proficiencies": [ "prof_unarmed_familiar", "prof_knives_familiar" ],
     "skills": [ { "level": 2, "name": "unarmed" }, { "level": 2, "name": "stabbing" } ],
@@ -241,6 +248,7 @@
     "name": "CBM Engineer",
     "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  The final evacuation order caught you in the middle of your 16 hour extended shift, and you barely managed to escape the building, tools in hand.",
     "points": 2,
+    "starting_cash": 1120000,
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
       "both": {
@@ -253,7 +261,6 @@
           { "item": "boots" },
           { "item": "backpack" },
           { "item": "jeans" },
-          { "item": "cash_card", "charges": 1120000 },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -267,6 +274,7 @@
     "name": "Wraitheon Executive",
     "description": "The exiled scion of an unfavorable seat within the Wraitheon board of directors, wealthy beyond measure even in their estrangement.  Sent to the frontier in a last-ditch effort to salvage their reputation, or more likely, to find a silent and politically convenient death.",
     "points": 8,
+    "starting_cash": 200000000,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
     "traits": [ "FLIMSY3", "SLOWHEALER3", "AFS_MENTAL_CAPABILITY_GENEMOD", "AFS_RECOVERY_CAPABILITY_GENEMOD" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
@@ -280,8 +288,8 @@
           { "item": "gold_watch" },
           { "item": "undershirt" },
           { "item": "afs_10mm_smart_template" },
-          { "item": "cash_card", "charges": 200000000 },
-          { "item": "cash_card", "charges": 200000000 },
+          { "item": "cash_card", "charges": 100000000 },
+          { "item": "cash_card", "charges": 100000000 },
           {
             "item": "afs_silvergram_pistol",
             "ammo-item": "afs_10mm_smart",
@@ -302,6 +310,7 @@
     "name": "Corporate Infiltrator",
     "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplaceable holographic technology that borders on the miraculous.",
     "points": 8,
+    "starting_cash": 2600000,
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "pistol" },
@@ -333,7 +342,6 @@
           { "item": "afs_holo_flare_caster" },
           { "item": "afs_holo_cloak_mk2" },
           { "item": "kukri", "container-item": "sheath" },
-          { "item": "cash_card", "charges": 2600000 },
           { "item": "afs_cam_spy", "ammo-item": "light_minus_disposable_cell", "charges": 500 },
           { "item": "radiocontrol", "ammo-item": "light_battery_cell", "charges": 1000 },
           { "item": "afs_eidolon_derringer", "ammo-item": "afs_5x50heavy", "charges": 4, "container-item": "holster" },
@@ -348,6 +356,7 @@
     "name": "Assistant Sub-Executive",
     "description": "Through a lifetime of hard work, dedication, boot-licking and immense luck, you achieved the almost impossible, and were promoted from an indentured clerk to a minor managerial position.  Although you were still an expendable peon among the ranks of the corporation, you earned numbers most people could only dream of, and you savored it.",
     "points": 2,
+    "starting_cash": 200000000,
     "items": {
       "both": {
         "entries": [
@@ -357,7 +366,6 @@
           { "item": "gold_watch" },
           { "item": "undershirt" },
           { "item": "gasdiscount_platinum" },
-          { "item": "cash_card", "charges": 200000000 },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -371,6 +379,7 @@
     "name": "Uplifted Enforcer",
     "description": "You are an uplifted elephant hybrid, a precisely engineered enforcer creature created by combining human, elephant and mastodon DNA.  Unlike most of your war-minded kin, you sought a peaceful retirement after completing your compulsive service period, and even earned the right to be considered a full citizen.  Now, with the end of the world in the horizon, it seems that your combat skills might come useful once again.",
     "points": 7,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 4, "name": "shotgun" },
@@ -408,6 +417,7 @@
     "name": "Rogue Operator",
     "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
+    "starting_cash": 1120000,
     "CBMs": [
       "bio_carbon",
       "bio_targeting",
@@ -465,6 +475,7 @@
     "name": "Engineered Deep Sea Explorer",
     "description": "Created with the exploration of the deep sea in mind, Cecaelia are hybridized from cephalopod and fish DNA.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occurred and you have no idea if it's safer here or beneath the seas.",
     "points": 7,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 4, "name": "chemistry" },
       { "level": 3, "name": "computer" },
@@ -482,6 +493,7 @@
     "name": "Roboticist",
     "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
     "points": 4,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
@@ -499,7 +511,6 @@
           { "item": "wristwatch" },
           { "item": "bot_manhack", "count": 2 },
           { "group": "charged_smart_phone" },
-          { "item": "cash_card", "charges": 1120000 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           {
             "item": "afs_cartridge",
@@ -519,6 +530,7 @@
     "name": "Academy Technologist",
     "description": "A senior technologist from the Planetary Academy of Khorat, sent to Salus IV to oversee the procurement of valuable technological artifacts.  Although generously equipped, you are neither a fighter nor a good fit for life in the frontier.  You'd feel far more comfortable and capable commanding this salvage operation from the faraway safety of your office.",
     "points": 4,
+    "starting_cash": 1120000,
     "traits": [ "PACIFIST", "AFS_LEADERSHIP" ],
     "skills": [
       { "level": 1, "name": "gun" },
@@ -537,7 +549,6 @@
           { "item": "dress_shoes" },
           { "item": "dress_shirt" },
           { "item": "wristwatch" },
-          { "item": "cash_card", "charges": 1120000 },
           {
             "item": "afs_voltaic_cartridge",
             "ammo-item": "battery",
@@ -558,6 +569,7 @@
     "name": "Salvor",
     "description": "A scavenger by necessity, born and raised in between ruins and slums.  Some might be lured to your profession by romantic notions of wealth, adventure or scientific discovery.  You know better.",
     "points": 4,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "gun" },
@@ -573,7 +585,6 @@
           { "item": "socks" },
           { "item": "boots_combat" },
           { "item": "wristwatch" },
-          { "item": "cash_card", "charges": 1120000 },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -587,6 +598,7 @@
     "name": "Rocket Jumper",
     "description": "A skilled airborne scout and salvager equipped with a rocket pack, eking out a living on the edge of legality.",
     "points": 4,
+    "starting_cash": 1120000,
     "skills": [
       { "level": 3, "name": "dodge" },
       { "level": 2, "name": "gun" },
@@ -612,7 +624,6 @@
           { "item": "ammonia_liquid" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_v29" },
-          { "item": "cash_card", "charges": 1120000 },
           {
             "item": "afs_40g_plasma_civ",
             "ammo-item": "afs_shydrogen",
@@ -639,6 +650,7 @@
     "name": "Whisper",
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
+    "starting_cash": 1120000,
     "traits": [ "AFS_TELEPATH" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
@@ -675,6 +687,7 @@
     "name": "Spark",
     "description": "You are an electrokinetic, able to control electricity with your mind.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
+    "starting_cash": 1120000,
     "traits": [ "AFS_ELECTROKINETIC" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
@@ -711,6 +724,7 @@
     "name": "Geist",
     "description": "You are a telekinetic, able to move objects without touching them.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
+    "starting_cash": 1120000,
     "traits": [ "AFS_TELEKINETIC" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],

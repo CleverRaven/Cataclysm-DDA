@@ -97,8 +97,10 @@ static const furn_str_id furn_f_sign( "f_sign" );
 static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
+static const furn_str_id furn_f_vending_c_networked( "f_vending_c_networked" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
+static const furn_str_id furn_f_vending_reinforced_networked( "f_vending_reinforced_networked" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
@@ -2205,10 +2207,12 @@ class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
         mapgen_value<item_group_id> group_id;
         bool lootable;
         bool powered;
+        bool networked;
         jmapgen_vending_machine( const JsonObject &jsi, const std::string_view/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
             , lootable( jsi.get_bool( "lootable", false ) )
-            , powered( jsi.get_bool( "powered", false ) ) {
+            , powered( jsi.get_bool( "powered", false ) )
+            , networked( jsi.get_bool( "networked", false ) ) {
             if( jsi.has_member( "item_group" ) ) {
                 group_id = mapgen_value<item_group_id>( jsi.get_member( "item_group" ) );
             } else {
@@ -2223,7 +2227,7 @@ class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.place_vending( r, chosen_id, reinforced, lootable, powered );
+            dat.m.place_vending( r, chosen_id, reinforced, lootable, powered, networked );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -6673,7 +6677,7 @@ void map::place_toilet( const tripoint_bub_ms &p, int charges )
 }
 
 void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced,
-                         bool lootable, bool powered )
+                         bool lootable, bool powered, bool networked )
 {
     if( !powered ) {
         if( reinforced ) {
@@ -6683,9 +6687,18 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         }
     } else {
         if( reinforced ) {
-            furn_set( p, furn_f_vending_reinforced );
+            if( networked ) {
+                furn_set( p, furn_f_vending_reinforced_networked );
+            } else {
+                furn_set( p, furn_f_vending_reinforced );
+            }
         } else {
-            furn_set( p, furn_f_vending_c );
+            if( networked ) {
+                furn_set( p, furn_f_vending_c_networked );
+            } else {
+                furn_set( p, furn_f_vending_c );
+            }
+
         }
     }
     // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
@@ -7002,13 +7015,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              */
             std::unique_ptr<RemovePartHandler> handler_ptr;
             bool did_merge = false;
-            for( const tripoint_bub_ms &map_pos : first_veh->get_points( true ) ) {
-                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
+            for( const tripoint_abs_ms &map_pos : first_veh->get_points( true ) ) {
+                const tripoint_bub_ms map_bub_pos = get_bub( map_pos ); // TODO: Make usages use this map.
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_bub_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_pos, "",
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_bub_pos, "",
                             part_status_flag:: any );
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
@@ -7024,7 +7038,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                                   veh_to_add->name, veh_to_add->type.str(),
                                   veh_to_add->pos_abs().to_string(),
                                   to_degrees( veh_to_add->turn_dir ),
-                                  map_pos.to_string() );
+                                  map_bub_pos.to_string() );
                     }
                     did_merge = true;
                     const point_rel_ms target_point = first_veh_parts.front()->mount;

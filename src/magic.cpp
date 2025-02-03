@@ -1343,6 +1343,12 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+    if( type->magic_type.has_value() &&
+        type->magic_type.value()->failure_chance_formula_id.has_value() ) {
+        const_dialogue d( get_const_talker_for( guy ), nullptr );
+        return type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
+    }
+
     const bool is_psi = has_flag( spell_flag::PSIONIC );
 
     // formula is based on the following:

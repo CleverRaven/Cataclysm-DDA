@@ -337,7 +337,7 @@ struct vehicle_part {
          * @param pos current reality bubble location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        int ammo_consume( int qty, const tripoint_bub_ms &pos );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos );
 
         /**
          * Consume fuel by energy content.
@@ -394,7 +394,7 @@ struct vehicle_part {
         void unset_crew();
 
         /** Reset the target for this part. */
-        void reset_target( const tripoint_bub_ms &pos );
+        void reset_target( const tripoint_abs_ms &pos );
 
         /**
          * @name Part capabilities
@@ -452,7 +452,7 @@ struct vehicle_part {
         std::array<tripoint_rel_ms, 2> precalc = { { tripoint_rel_ms( -1, -1, 0 ), tripoint_rel_ms( -1, -1, 0 ) } };
 
         /** temporarily held projected position */
-        tripoint_bub_ms next_pos = tripoint_bub_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
+        tripoint_abs_ms next_pos = tripoint_abs_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
 
         /** current part health with range [0,durability] */
         int hp() const;
@@ -641,7 +641,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint_bub_ms &target ) const;
+        bool in_range( const tripoint_abs_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -656,7 +656,7 @@ class turret_data
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( Character &you, int shots );
+        void post_fire( map *here, Character &you, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -664,7 +664,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint_bub_ms &target );
+        int fire( Character &c, map *here, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -1439,6 +1439,8 @@ class vehicle
          */
         tripoint_bub_ms bub_part_pos( int index ) const;
         tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
+        tripoint_abs_ms abs_part_pos( int index ) const;
+        tripoint_abs_ms abs_part_pos( const vehicle_part &pt ) const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
@@ -1463,6 +1465,9 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
+                   bool apply_loss = true );
+        int drain( map *here, const itype_id &ftype, int amount,
                    const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
                    bool apply_loss = true );
         int drain( int index, int amount, bool apply_loss = true );
@@ -1794,7 +1799,7 @@ class vehicle
 
         // Handle given part collision with vehicle, monster/NPC/player or terrain obstacle
         // Returns collision, which has type, impulse, part, & target.
-        veh_collision part_collision( int part, const tripoint_bub_ms &p,
+        veh_collision part_collision( int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
 
         // Process the trap beneath
@@ -1994,14 +1999,14 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        const std::set<tripoint_bub_ms> &get_points( bool force_refresh = false,
+        const std::set<tripoint_abs_ms> &get_points( bool force_refresh = false,
                 bool no_fake = false ) const;
 
         // calculate the new projected points for all vehicle parts to move to
         void part_project_points( const tripoint_rel_ms &dp );
 
         // get all vehicle parts' projected points
-        std::set<tripoint_bub_ms> get_projected_part_points() const;
+        std::set<tripoint_abs_ms> get_projected_part_points() const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
@@ -2164,12 +2169,12 @@ class vehicle
         mutable double draft_m = 1; // NOLINT(cata-serialize)
         mutable double hull_height = 0.3; // NOLINT(cata-serialize)
 
-        // Bubble location when cache was last refreshed.
-        mutable tripoint_bub_ms occupied_cache_pos = { -1, -1, -1 }; // NOLINT(cata-serialize)
+        // Absolute location when cache was last refreshed.
+        mutable tripoint_abs_ms occupied_cache_pos = tripoint_abs_ms::invalid; // NOLINT(cata-serialize)
         // Vehicle facing when cache was last refreshed.
         mutable units::angle occupied_cache_direction = 0_degrees; // NOLINT(cata-serialize)
         // Cached points occupied by the vehicle
-        mutable std::set<tripoint_bub_ms> occupied_points; // NOLINT(cata-serialize)
+        mutable std::set<tripoint_abs_ms> occupied_points; // NOLINT(cata-serialize)
 
         // Master list of parts installed in the vehicle.
         std::vector<vehicle_part> parts; // NOLINT(cata-serialize)

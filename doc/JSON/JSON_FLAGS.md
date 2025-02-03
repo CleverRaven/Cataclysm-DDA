@@ -740,6 +740,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
 - ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
 - ```FLOATS_IN_AIR``` If this furniture is placed over open air it won't fall.
+- ```BANK_NETWORKED``` This vending machine allows purchases with your bank balance as well as your cash cards.
 
 
 ## Generic

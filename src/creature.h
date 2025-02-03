@@ -306,6 +306,7 @@ class Creature : public viewer
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
         tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( map *here ) const;
         inline int posx() const {
             return pos_bub().x();
         }
@@ -319,6 +320,7 @@ class Creature : public viewer
         virtual void gravity_check( map *here );
         void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
         void setpos( map *here, const tripoint_bub_ms &p, bool check_gravity = true );
+        void setpos( const tripoint_abs_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
         bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;

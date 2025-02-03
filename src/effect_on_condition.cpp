@@ -40,9 +40,6 @@ namespace io
         switch ( data ) {
         case eoc_type::ACTIVATION: return "ACTIVATION";
         case eoc_type::RECURRING: return "RECURRING";
-            // Why we need SCENARIO_SPECIFIC / PROFESSION_SPECIFIC? they are no different from ACTIVATION
-        case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
-        case eoc_type::PROFESSION_SPECIFIC: return "PROFESSION_SPECIFIC";
         case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
         case eoc_type::PREVENT_DEATH: return "PREVENT_DEATH";
@@ -144,7 +141,7 @@ void effect_on_conditions::load_new_character( Character &you )
     bool is_avatar = you.is_avatar();
     for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
         effect_on_condition eoc = eoc_id.obj();
-        if( eoc.type == eoc_type::SCENARIO_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
+        if( is_avatar || eoc.run_for_npcs ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
             you.queued_effect_on_conditions.push( new_eoc );
         }
@@ -153,7 +150,7 @@ void effect_on_conditions::load_new_character( Character &you )
     if( you.get_profession() ) {
         for( const effect_on_condition_id &eoc_id : you.get_profession()->get_eocs() ) {
             effect_on_condition eoc = eoc_id.obj();
-            if( eoc.type == eoc_type::PROFESSION_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
+            if( is_avatar || eoc.run_for_npcs ) {
                 queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
                 you.queued_effect_on_conditions.push( new_eoc );
             }

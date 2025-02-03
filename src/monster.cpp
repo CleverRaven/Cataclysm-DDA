@@ -2948,7 +2948,7 @@ void monster::die( map *here, Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint_bub_ms &player_pos : here->points_in_radius( here->get_bub( pos_abs() ), 1,
+        for( const tripoint_bub_ms &player_pos : here->points_in_radius( pos_bub( here ), 1,
                 0 ) ) {
             Creature *you = creatures.creature_at( here->get_abs( player_pos ) );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
@@ -3083,14 +3083,14 @@ void monster::die( map *here, Creature *nkiller )
             if( corpse ) {
                 corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
-                here->add_item_or_charges( here->get_bub( pos_abs() ), it );
+                here->add_item_or_charges( pos_bub( here ), it );
             }
         }
         for( const item &it : dissectable_inv ) {
             if( corpse ) {
                 corpse->put_in( it, pocket_type::CORPSE );
             } else {
-                here->add_item( here->get_bub( pos_abs() ), it );
+                here->add_item( pos_bub( here ), it );
             }
         }
     }
@@ -3213,7 +3213,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {
-            here->add_item_or_charges( here->get_bub( pos_abs() ), it );
+            here->add_item_or_charges( pos_bub( here ), it );
         }
         return;
     }
@@ -3814,7 +3814,7 @@ void monster::on_hit( map *here, Creature *source, bodypart_id,
                 continue;
             }
 
-            if( here->sees( here->get_bub( critter.pos_abs() ), here->get_bub( pos_abs() ), light ) ) {
+            if( here->sees( critter.pos_bub( here ), pos_bub( here ), light ) ) {
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;

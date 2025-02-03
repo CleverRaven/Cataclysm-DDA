@@ -132,13 +132,13 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
-    std::set<tripoint_bub_ms> vpts = veh.get_points();
+    std::set<tripoint_abs_ms> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
-        for( const tripoint_bub_ms &checkpt : vpts ) {
+        for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
             CAPTURE( veh_ptr->pos_bub() );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
@@ -149,8 +149,8 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         CHECK( veh.velocity == target_velocity );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint_bub_ms &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+        for( const tripoint_abs_ms &pos : veh.get_points() ) {
+            REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
             if( vp.info().location != "structure" ) {
@@ -266,8 +266,8 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     CHECK( veh.safe_velocity() > 0 );
 
     std::vector<vehicle_part *> all_parts;
-    for( const tripoint_bub_ms &pos : veh.get_points() ) {
-        for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
+    for( const tripoint_abs_ms &pos : veh.get_points() ) {
+        for( vehicle_part *prt : veh.get_parts_at( here.get_bub( pos ), "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
             if( drop_pos && prt->mount.x() < 0 ) {
                 prt->precalc[0].z() = -1;

@@ -406,12 +406,11 @@ void veh_app_interact::refill()
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
         const point_rel_ms q = veh->coord_translate( pt->mount );
-        map &here = get_map();
-        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.get_abs( p ) );
+        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( p );
         }
-        act.values.push_back( here.get_abs( veh->pos_bub() ).x() + q.x() );
-        act.values.push_back( here.get_abs( veh->pos_bub() ).y() + q.y() );
+        act.values.push_back( veh->pos_abs().x() + q.x() );
+        act.values.push_back( veh->pos_abs().y() + q.y() );
         act.values.push_back( a_point.x() );
         act.values.push_back( a_point.y() );
         act.values.push_back( -a_point.x() );
@@ -496,8 +495,8 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.get_abs( p ) );
+        for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( p );
         }
         const tripoint_abs_ms a_point_abs( here.get_abs( a_point_bub ) );
         act.values.push_back( a_point_abs.x() );

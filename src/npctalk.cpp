@@ -4129,6 +4129,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         target_types++;
         search_type = "npc";
     }
+    if( jo.has_member( "species" ) ) {
+        target_types++;
+        search_type = "species";
+    }
     if( jo.has_member( "trap" ) ) {
         target_types++;
         search_type = "trap";
@@ -4140,7 +4144,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
     if( target_types == 1 ) {
         search_target = get_str_or_var( jo.get_member( search_type.value() ), search_type.value(), true );
     } else if( target_types > 1 ) {
-        jo.throw_error( "Can only have one of terrain, furniture, field, monster, trap, zone, or npc." );
+        jo.throw_error( "Can only have one of terrain, furniture, field, monster, species, trap, zone, or npc." );
     }
 
     var_info var = read_var_info( jo.get_object( member ) );
@@ -4217,6 +4221,17 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                     Creature *tmp_critter = get_creature_tracker().creature_at( here.get_abs( search_loc ) );
                     if( tmp_critter != nullptr && tmp_critter->is_monster() &&
                         ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
+                          cur_search_target.empty() ) ) {
+                        target_pos = here.get_abs( search_loc );
+                        found = true;
+                        g->despawn_nonlocal_monsters();
+                        break;
+                    }
+                } else if( search_type.value() == "species" ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( here.get_abs( search_loc ) );
+                    const species_id species_target( cur_search_target );
+                    if( tmp_critter != nullptr && tmp_critter->is_monster() &&
+                        ( tmp_critter->as_monster()->in_species( species_target ) ||
                           cur_search_target.empty() ) ) {
                         target_pos = here.get_abs( search_loc );
                         found = true;

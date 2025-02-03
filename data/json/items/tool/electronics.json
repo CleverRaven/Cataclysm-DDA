@@ -300,6 +300,23 @@
     "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
+    "id": "usb_drive_older",
+    "copy-from": "usb_drive",
+    "type": "TOOL",
+    "name": { "str": "older USB drive" },
+    "description": "A USB thumb drive.  Maybe a decade out of date, but still useful for holding electronic data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "32 GB"
+      }
+    ]
+  },
+  {
     "id": "portable_hard_drive",
     "copy-from": "abstract_usb_drive",
     "type": "TOOL",
@@ -343,6 +360,23 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0,
         "ememory_max": "64 GB"
+      }
+    ]
+  },
+  {
+    "id": "memory_card_older",
+    "copy-from": "memory_card",
+    "type": "TOOL",
+    "name": { "str": "older memory card" },
+    "description": "A memory card.  Maybe a decade out of date, but can still be used to store data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "16 GB"
       }
     ]
   },

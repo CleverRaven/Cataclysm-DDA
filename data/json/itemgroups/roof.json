@@ -60,7 +60,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       [ "syringe", 8 ],
       [ "hairpin", 1 ],
-      { "item": "usb_drive", "contents-item": "software_hacking", "prob": 5 },
+      { "group": "used_usb_drives", "prob": 5, "contents-item": "efiles_contraband" },
       [ "news_regional", 8 ],
       [ "jug_plastic", 10 ],
       { "item": "spray_can", "prob": 50, "charges": [ 0, 4 ] },
