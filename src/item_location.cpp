@@ -1183,7 +1183,7 @@ bool item_location::can_reload_with( const item_location &ammo, bool now ) const
     return reloadable->can_reload_with( *ammo, now );
 }
 
-int item_location::get_quality( const std::string &quality, const bool boiling ) const
+int item_location::get_quality( const std::string &quality, bool boiling ) const
 {
     const item_location tool = *this;
     quality_id qualityid( quality );

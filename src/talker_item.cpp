@@ -126,7 +126,7 @@ int talker_item_const::get_weight() const
     return units::to_milligram( me_it_const->get_item()->weight() );
 }
 
-int talker_item_const::get_quality( const std::string &quality, const bool boiling ) const
+int talker_item_const::get_quality( const std::string &quality, bool boiling ) const
 {
     return me_it_const->get_quality( quality, boiling );
 }
