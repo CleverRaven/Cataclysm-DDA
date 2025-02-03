@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_walk_on_water",
+    "name": [ "Path of Rime" ],
+    "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  }
+]
