@@ -1372,6 +1372,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_prevented_death",
+    "name": [ "Transferred Essence" ],
+    "desc": [
+      "You have transferred your essence into a human, saving yourself at the expense of their being.  It will take some time until you can do this again."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],
