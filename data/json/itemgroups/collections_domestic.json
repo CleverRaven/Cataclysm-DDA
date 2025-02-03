@@ -889,6 +889,7 @@
       { "item": "lettuce", "prob": 11, "count": 5 },
       { "prob": 5, "group": "irradiated_lettuce_bag_plastic_5" },
       { "item": "cabbage", "prob": 10, "count": 8 },
+      { "item": "radish_taproot", "prob": 5, "count": 2 },
       { "prob": 5, "group": "irradiated_cabbage_bag_plastic_8" },
       { "item": "spinach", "prob": 6, "count": 9 },
       { "item": "tomato", "prob": 9 },
