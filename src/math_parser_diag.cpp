@@ -1696,7 +1696,6 @@ diag_eval_dbl_f quality_eval( char scope, std::vector<diag_value> const &params 
 
     return[quality_param = params[0], strict_val,
                   beta = is_beta( scope )]( const_dialogue const & d ) {
-        item_location const *it = d.const_actor( beta )->get_const_item();
         std::string quality = quality_param.str( d );
         bool strict = is_true( strict_val.dbl( d ) );
 
