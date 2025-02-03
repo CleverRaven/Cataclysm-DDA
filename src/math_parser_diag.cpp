@@ -1689,6 +1689,24 @@ diag_eval_dbl_f weight_eval( char scope, std::vector<diag_value> const & /* para
     };
 }
 
+diag_eval_dbl_f quality_eval( char scope, std::vector<diag_value> const &params /* params */,
+                              diag_kwargs const &kwargs /* kwargs */ )
+{
+    diag_value boiling_val = kwargs.kwarg_or( "boiling" );
+
+    return[quality_param = params[0], boiling_val,
+                  beta = is_beta( scope )]( const_dialogue const & d ) {
+        item_location const *it = d.const_actor( beta )->get_const_item();
+        if( it && *it ) {
+            std::string quality = quality_param.str( d );
+            bool boiling = is_true( boiling_val.dbl( d ) );
+
+            return d.const_actor( beta )->get_quality( quality, boiling );
+        }
+        throw math::runtime_error( "For quality(), talker is not an item" );
+    };
+}
+
 diag_eval_dbl_f volume_eval( char scope, std::vector<diag_value> const & /* params */,
                              diag_kwargs const & /* kwargs */ )
 {
@@ -1872,6 +1890,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
     { "spellcasting_adjustment", { "u", 1, nullptr, spellcasting_adjustment_ass } },
     { "get_calories_daily", { "g", 0, get_daily_calories } },
+    { "quality", { "un", 1, quality_eval } },
     { "skill", { "un", 1, skill_eval, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass } },
     { "spell_count", { "un", 0, spell_count_eval}},
