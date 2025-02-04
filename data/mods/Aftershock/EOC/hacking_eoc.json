@@ -48,9 +48,7 @@
         "search_data": [
           { "condition": { "math": [ "n_quality('HACK') > 0" ] }, "flags": "HACK_NO_CHARGE" },
           {
-            "condition": {
-              "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost_bionic < u_val('power')" ] } ]
-            },
+            "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost_bionic < u_val('power')" ] } ] },
             "flags": "USES_BIONIC_POWER"
           },
           {
